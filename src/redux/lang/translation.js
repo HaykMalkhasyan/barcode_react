@@ -18,9 +18,13 @@ export const translations = {
 
 
 
-    addContact:["Ավելացնել Կոնտակտ","Добавить Контакт","Add Contact"],
-    editContact:["Փոփոխել Կոնտակտը","Редактировать Контакт","Edit Contact"],
-    deleteContact:["Ջնջել Կոնտակտը","Удалить Контакт","Delete Contact"],
+    addUser:["Ավելացնել Օգտատեր","Добавить пользователь","Add User"],
+    editUser:["Փոփոխել Օգտատեր","Редактировать пользователь","Edit User"],
+    deleteUser:["Ջնջել Օգտատեր","Удалить пользователь","Delete User"],
+
+    addPosition:["Ավելացնել Հաստիք","Добавить позиция","Add Position"],
+    editPosition:["Փոփոխել Հաստիք","Редактировать позиция","Edit Position"],
+    deletePosition:["Ջնջել Հաստիք","Удалить позиция","Delete Position"],
 
     // pages
     users:['Օգտատերեր','Пользователи','Users'],

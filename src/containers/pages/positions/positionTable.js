@@ -38,11 +38,11 @@ const PositionTable = (props) => {
                 )}
                 </tbody>
                 <Modal isOpen={props.modal.edit} toggle={()=>toggle("edit")}  size="md">
-                    <ModalHeader toggle={()=>toggle("edit")}><Translate name="editContact"/></ModalHeader>
+                    <ModalHeader toggle={()=>toggle("edit")}><Translate name="editPosition"/></ModalHeader>
                     <PositionModal {...props}/>
                 </Modal>
                 <Modal isOpen={props.modal.delete} toggle={()=>toggle("delete")}  size="md">
-                    <ModalHeader toggle={()=>toggle("delete")}><Translate name="deleteContact"/></ModalHeader>
+                    <ModalHeader toggle={()=>toggle("delete")}><Translate name="deletePosition"/></ModalHeader>
                     <ModalBody>Դուք համոզված ե՞ք ջնջել</ModalBody>
                     <ModalFooter>
                         <Button color="primary" type="submit" onClick={handleClick}>

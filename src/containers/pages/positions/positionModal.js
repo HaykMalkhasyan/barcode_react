@@ -7,15 +7,13 @@ const UserModal = (props) => {
     const pages = props.pages;
 
     function handleInputChange(key, value) {
-        let new_value = {}
-        new_value[key] = value
-        props.setModalValues(new_value)
+        props.setModalValues(key,value)
     }
 
    
 
     function handleClick() {
-        props.addUser(props.user)
+        props.addPosition(props.position)
     }
 
     console.log(pages)

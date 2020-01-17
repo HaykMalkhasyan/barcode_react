@@ -26,7 +26,7 @@ class UserContainer extends Component {
                     </CardBody>
                 </Card>
                 <Modal isOpen={this.props.modal.add} toggle={()=>this.toggle()}  size="md">
-                    <ModalHeader toggle={()=>this.toggle()}><Translate name="addContact"/></ModalHeader>
+                    <ModalHeader toggle={()=>this.toggle()}><Translate name="addPosition"/></ModalHeader>
                     <PositionModal {...this.props}/>
                 </Modal>
 

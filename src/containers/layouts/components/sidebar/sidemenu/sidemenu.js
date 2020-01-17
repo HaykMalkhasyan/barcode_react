@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import "../../../../../assets/scss/components/sidebar/sidemenu/sidemenu.scss";
 // import internal(own) modules
 import SideMenu from "../sidemenuHelper";
+import Translate from "../../../../../Translate";
 
 
 class SideMenuContent extends Component {
@@ -18,7 +19,7 @@ class SideMenuContent extends Component {
                    {Object.keys(this.props.pages).map((key) =>
                    <SideMenu.MenuSingleItem badgeColor="danger" key = {key}>
                        <NavLink to={"/"+this.props.pages[key].name} activeclassname="active">
-                           <span className="menu-item-text">{this.props.pages[key].name}</span>
+                           <span className="menu-item-text"><Translate name={this.props.pages[key].name}/></span>
                        </NavLink>
                    </SideMenu.MenuSingleItem>
                    )}

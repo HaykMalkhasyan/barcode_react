@@ -1,6 +1,6 @@
 // import external modules
 import React, { Component } from "react";
-import Localize from "../../../localize/localize"
+import Localize from "../../../localize/localizeContainer"
 // import { Link } from "react-router-dom";
 import {
    Collapse,
