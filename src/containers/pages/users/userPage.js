@@ -14,12 +14,10 @@ class UserContainer extends Component {
         this.props.getPositions()
     }
     toggle() {
-        console.log("dsgfsdg")
         this.props.userModal("add",!this.props.modal.add)
     }
 
     render() {
-        console.log(this.props.perm)
         return(
             <Col sm="12">
                 <Card>

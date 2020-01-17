@@ -7,7 +7,10 @@ import {ADD_MODAL, DELETE_MODAL, EDIT_MODAL, SET_MODAL_VALUES} from "../position
 
 const INIT_STATE = {
     positions: [],
-    pages:[],
+    position: {
+        name:"",
+        perm:{}
+    },
     modal: {},
     loading: false,
     success: false,
@@ -26,6 +29,21 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case GET_POSITIONS_FAIL:
+            // fakeObj{
+            let data1 = [
+               {id:1,name:"admin"}, {id:2,name:"user"},
+            ]
+
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                positions: data1,
+                errors: {},
+            };
+            //}
+
             return {
                 ...state,
                 loading: false,
@@ -82,22 +100,36 @@ export default (state = INIT_STATE, action) => {
 
             };
         case HANDLE:
-            let page = state.pages[action.parent_id];
+            let perm = state.position.perm;
+            if(action.parent){
 
-            if(action.id){
-                let tool = page.tools[action.id];
-                if(tool[action.key] === undefined){
-                    tool[action.key] = true;
+                if(perm[action.parent]){
+                    let index = perm[action.parent].indexOf(action.name);
+                    if (index !== -1) {
+                        perm[action.parent].splice(index, 1);
+                        if(perm[action.parent].length===0){
+                            delete perm[action.parent];
+                        }
+                    }else{
+                        perm[action.parent].push( action.name )
+                    }
+                }else{
+                    perm[action.parent] = [ action.name ]
                 }
-                tool[action.key] = !tool[action.key];
-
             }else{
-                page[action.key] = !page[action.key];
+                if(perm[action.name]){
+                    delete perm[action.name];
+                }else {
+                    perm[action.name] = [];
+                }
             }
-
+            console.log(state.position)
             return {
                 ...state,
-                pages:state.pages
+                position:{
+                    ...state.position.name,
+                    perm:perm
+                }
             }
         default:
             return {...state};

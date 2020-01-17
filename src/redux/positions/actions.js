@@ -15,12 +15,11 @@ export const getPositions = () => {
 
 
 
-export const handle = (key,parent_id,id) => {
+export const handle = (name,parent) => {
     return {
         type: HANDLE,
-        key,
-        parent_id,
-        id
+        name,
+        parent,
     }
 }
 

@@ -11,6 +11,7 @@ import SideMenu from "../sidemenuHelper";
 
 class SideMenuContent extends Component {
    render() {
+
        if(Object.entries(this.props.pages).length>0){
            return (
                <SideMenu className="sidebar-content" toggleSidebarMenu={this.props.toggleSidebarMenu}>

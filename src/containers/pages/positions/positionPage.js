@@ -17,7 +17,6 @@ class UserContainer extends Component {
     }
 
     render() {
-        console.log(this.props)
         return(
             <Col sm="12">
                 <Card>

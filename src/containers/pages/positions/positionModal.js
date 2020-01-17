@@ -1,7 +1,7 @@
 import React from "react";
 import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter} from "reactstrap";
 import Translate from "../../../Translate";
-import Dropdown from "../../../components/dropdown/dropdown";
+import DropDownMenu from "../../../components/dropDownMenu/dropDownMenu";
 
 const UserModal = (props) => {
     const pages = props.pages;
@@ -36,7 +36,7 @@ const UserModal = (props) => {
                         </FormGroup>
                     </Col>
                     <Col md="12">
-                        <Dropdown {...props}/>
+                        <DropDownMenu data = { props.pages } perm={ props.positionPerm } handle = { props.handle }/>
                     </Col>
 
                 </Row>

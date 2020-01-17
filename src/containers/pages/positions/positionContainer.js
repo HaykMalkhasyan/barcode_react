@@ -27,6 +27,7 @@ const mapStateToProps = state => {
         positions: state.positions.positions,
         pages: state.pages.data,
         perm: state.permission.data.positions,
+        positionPerm: state.positions.position.perm,
 
     }
 };

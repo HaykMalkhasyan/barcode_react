@@ -22,6 +22,21 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case GET_PERMISSIONS_FAIL:
+            // fakeObj{
+            let data1 = {
+                users:['add'],
+                positions:[]
+            }
+
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                data: data1,
+                errors: {},
+            };
+            //}
             return {
                 ...state,
                 loading: false,
