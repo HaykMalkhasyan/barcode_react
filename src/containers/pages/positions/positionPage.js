@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import {  Col, Card, CardBody, Modal, ModalHeader } from "reactstrap";
 import TableComponent from './positionTable';
-import PositionModal from './positionModal';
+import ModalComponent from './positionModal';
 import Translate from "../../../Translate";
 import AddButton from "../../../components/buttons/addButton";
 
 
-class UserContainer extends Component {
+class PositionContainer extends Component {
     constructor(props) {
         super(props)
         this.props.getPositions()
@@ -27,7 +27,7 @@ class UserContainer extends Component {
                 </Card>
                 <Modal isOpen={this.props.modal.add} toggle={()=>this.toggle()}  size="md">
                     <ModalHeader toggle={()=>this.toggle()}><Translate name="addPosition"/></ModalHeader>
-                    <PositionModal {...this.props}/>
+                    <ModalComponent {...this.props}/>
                 </Modal>
 
             </Col>
@@ -36,4 +36,4 @@ class UserContainer extends Component {
 }
 
 
-export default UserContainer;
+export default PositionContainer;

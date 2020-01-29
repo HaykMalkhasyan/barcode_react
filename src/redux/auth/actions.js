@@ -15,7 +15,6 @@ export const login = (form, redirectPath) => {
 };
 
 export const logout = () => {
-    // console.log("SDgsdg")
     return {
         types: [LOGOUT_REQUEST,LOGOUT_REQUEST_FAIL,LOGOUT_REQUEST_SUCCESS],
         promise: (apiClient) => apiClient.delete(`Auth/Login`)

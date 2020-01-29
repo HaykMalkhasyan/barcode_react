@@ -10,6 +10,7 @@ import ErrorLayoutRoute from "../containers/layouts/routes/errorRoutes";
 const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
 const LazyPositions = lazy(() => import("../containers/pages/positions/positionContainer"));
+const LazyItems = lazy(() => import("../containers/pages/items/itemContainer"));
 const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
@@ -36,6 +37,12 @@ function Router(props) {
                     path="/positions"
                     auth={props.auth}
                     component={LazyPositions}
+                />
+                <PrivateRoute
+                    exact
+                    path="/items"
+                    auth={props.auth}
+                    component={LazyItems}
                 />
                 <PublicRoute
                     exact

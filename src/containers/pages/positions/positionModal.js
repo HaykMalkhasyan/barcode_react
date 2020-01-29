@@ -1,10 +1,10 @@
 import React from "react";
 import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter} from "reactstrap";
 import Translate from "../../../Translate";
-import DropDownMenu from "../../../components/dropDownMenu/dropDownMenu";
+import PositionDownMenu from "./positionDownMenu";
 
-const UserModal = (props) => {
-    const pages = props.pages;
+const PositionModal = (props) => {
+    // const pages = props.pages;
 
     function handleInputChange(key, value) {
         props.setModalValues(key,value)
@@ -13,10 +13,10 @@ const UserModal = (props) => {
    
 
     function handleClick() {
+    console.log(props.position)
         props.addPosition(props.position)
     }
 
-    console.log(pages)
     return (
         <React.Fragment>
             <ModalBody>
@@ -34,7 +34,7 @@ const UserModal = (props) => {
                         </FormGroup>
                     </Col>
                     <Col md="12">
-                        <DropDownMenu data = { props.pages } perm={ props.positionPerm } handle = { props.handle }/>
+                        <PositionDownMenu data = { props.pages } perm={ props.positionPerm } handle = { props.handle }/>
                     </Col>
 
                 </Row>
@@ -51,4 +51,4 @@ const UserModal = (props) => {
 
 };
 
-export default UserModal;
+export default PositionModal;

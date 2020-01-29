@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import Translate from "../../../Translate";
-import PositionModal from "./positionModal";
+import ModalComponent from "./positionModal";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 
@@ -14,7 +14,7 @@ const PositionTable = (props) => {
         }
     }
     function handleClick() {
-        props.deleteUser(props.user.id)
+        props.deletePosition(props.user.id)
     }
 
     if (props.positions.length) {
@@ -39,7 +39,7 @@ const PositionTable = (props) => {
                 </tbody>
                 <Modal isOpen={props.modal.edit} toggle={()=>toggle("edit")}  size="md">
                     <ModalHeader toggle={()=>toggle("edit")}><Translate name="editPosition"/></ModalHeader>
-                    <PositionModal {...props}/>
+                    <ModalComponent {...props}/>
                 </Modal>
                 <Modal isOpen={props.modal.delete} toggle={()=>toggle("delete")}  size="md">
                     <ModalHeader toggle={()=>toggle("delete")}><Translate name="deletePosition"/></ModalHeader>

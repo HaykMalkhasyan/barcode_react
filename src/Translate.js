@@ -6,9 +6,9 @@ import {connect} from "react-redux";
 
 function Translate(props) {
     return (
-        <div>
+        <span>
             {getTranslate(props.name)}
-        </div>
+        </span>
     );
 }
 

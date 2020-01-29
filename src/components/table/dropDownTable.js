@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Col, Row, Label, CustomInput} from "reactstrap";
 import {ChevronDown, ChevronRight} from 'react-feather';
-import Translate from "../../Translate";
+import Translate from "../../../Translate";
 
 
 function SubMenu (props) {
@@ -52,9 +52,9 @@ function SubMenu (props) {
     }
 
     return (
-        <li className={"list-group-item list-group-item-action no-border  bg-lighten-4"} key={props.id}>
+        <li className={"list-group-item list-group-item-action no-border  bg-lighten-4"} key={props.key}>
             <Row className="todo-list-group-item">
-                <Col sm="1" md="1"><Label onClick={() => handleChecked()}><CustomInput type="checkbox" checked={checked} defaultChecked={props.checked}/></Label></Col>
+                <Col sm="1" md="1"><Label onClick={() => handleChecked()}><CustomInput type="checkbox" key={props.key} checked={checked} defaultChecked={props.checked}/></Label></Col>
                 <Col sm="10" md="10" onClick={() => handleOpen()}><p className="mb-0 font-small-3"><Translate name={props.name}/></p></Col>
                 <Col sm="1" md="1">
                     <Chevron {...props}/>
@@ -65,7 +65,7 @@ function SubMenu (props) {
     );
 };
 
-const DropDownMenu = (props) => {
+const PositionDownMenu = (props) => {
     let data = props.data;
     let perm = props.perm;
     return (
@@ -84,4 +84,4 @@ const DropDownMenu = (props) => {
         </ul>
     );
 };
-export default DropDownMenu;
+export default PositionDownMenu;

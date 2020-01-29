@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import Translate from "../../../Translate";
-import UserModal from "./userModal";
+import ModalComponent from "./userModal";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 
@@ -40,7 +40,7 @@ const UserTable = (props) => {
                 </tbody>
                 <Modal isOpen={props.modal.edit} toggle={()=>toggle("edit")}  size="md">
                     <ModalHeader toggle={()=>toggle("edit")}><Translate name="editUser"/></ModalHeader>
-                    <UserModal {...props}/>
+                    <ModalComponent {...props}/>
                 </Modal>
                 <Modal isOpen={props.modal.delete} toggle={()=>toggle("delete")}  size="md">
                     <ModalHeader toggle={()=>toggle("delete")}><Translate name="deleteUser"/></ModalHeader>

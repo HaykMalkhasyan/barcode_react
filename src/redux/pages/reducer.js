@@ -1,11 +1,11 @@
 import {
-    GET_PAGES_REQUEST,GET_PAGES_FAIL,GET_PAGES_SUCCESS,
+    GET_PAGES_REQUEST, GET_PAGES_FAIL, GET_PAGES_SUCCESS,
 } from "./actionTypes";
 import {saveSession} from "../../utility/session";
 
 
 const INIT_STATE = {
-    data:[],
+    data: [],
     loading: false,
     success: false,
     fail: false,
@@ -25,22 +25,33 @@ export default (state = INIT_STATE, action) => {
         case GET_PAGES_FAIL:
             // fakeObj{
             let data1 = {
-                    1: {
-                        name: 'users',
-                        value: [
-                            {name: 'add'},
-                            {name: 'edit'},
-                            {name: 'delete'}
-                        ],
-                    },
-                    2:{
-                        name:"positions",
-                        value: [
-                            {name: 'add'},
-                            {name: 'edit'},
-                            {name: 'delete'}
-                        ],
-                    },
+                1: {
+                    icon: 'User',
+                    name: 'users',
+                    value: [
+                        {name: 'add'},
+                        {name: 'edit'},
+                        {name: 'delete'}
+                    ],
+                },
+                2: {
+                    icon: 'Position',
+                    name: "positions",
+                    value: [
+                        {name: 'add'},
+                        {name: 'edit'},
+                        {name: 'delete'}
+                    ],
+                },
+                3: {
+                    icon: 'Items',
+                    name: "items",
+                    value: [
+                        {name: 'add'},
+                        {name: 'edit'},
+                        {name: 'delete'}
+                    ],
+                },
             }
 
             return {
@@ -59,7 +70,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_PAGES_SUCCESS:
-            console.log(action.result.data)
             return {
                 ...state,
                 loading: false,
