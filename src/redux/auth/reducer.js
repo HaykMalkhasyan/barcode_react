@@ -30,28 +30,6 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case LOGIN_REQUEST_FAIL:
-            // fakeObj{
-            let data1 = {
-                user:{
-                    id:1,
-                    firstname:"Mariam",
-                    lastname:"kalashyan",
-                    position:"admin"
-                },
-                token:"Dfghdfhzdrhdzhjdrh"
-            }
-
-            saveSession('auth',data1);
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                user: data1.user,
-                token: data1.token,
-                errors: {},
-            };
-            //}
 
             return {
                 ...state,

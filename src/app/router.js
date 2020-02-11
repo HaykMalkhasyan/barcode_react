@@ -11,6 +11,8 @@ const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
 const LazyPositions = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyItems = lazy(() => import("../containers/pages/items/itemContainer"));
+const LazyCategories = lazy(() => import("../containers/pages/categories/categoryContainer"));
+
 const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
@@ -43,6 +45,12 @@ function Router(props) {
                     path="/items"
                     auth={props.auth}
                     component={LazyItems}
+                />
+                <PrivateRoute
+                    exact
+                    path="/category"
+                    auth={props.auth}
+                    component={LazyCategories}
                 />
                 <PublicRoute
                     exact

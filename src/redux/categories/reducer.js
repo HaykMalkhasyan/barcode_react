@@ -1,29 +1,55 @@
 import {
-    GET_POSITIONS_REQUEST,GET_POSITIONS_FAIL,GET_POSITIONS_SUCCESS,
-    GET_POSITION_REQUEST,GET_POSITION_FAIL,GET_POSITION_SUCCESS,
-    ADD_POSITION_REQUEST,ADD_POSITION_FAIL,ADD_POSITION_SUCCESS,
-    EDIT_POSITION_REQUEST,EDIT_POSITION_FAIL,EDIT_POSITION_SUCCESS,
-    DELETE_POSITION_REQUEST,DELETE_POSITION_FAIL,DELETE_POSITION_SUCCESS,
-    ADD_MODAL, DELETE_MODAL, EDIT_MODAL, SET_MODAL_VALUES,
-    HANDLE
+    GET_CATEGORIES_REQUEST,GET_CATEGORIES_FAIL,GET_CATEGORIES_SUCCESS,
+    GET_CATEGORY_REQUEST,GET_CATEGORY_FAIL,GET_CATEGORY_SUCCESS,
+    ADD_CATEGORY_REQUEST,ADD_CATEGORY_FAIL,ADD_CATEGORY_SUCCESS,
+    EDIT_CATEGORY_REQUEST,EDIT_CATEGORY_FAIL,EDIT_CATEGORY_SUCCESS,
+    DELETE_CATEGORY_REQUEST,DELETE_CATEGORY_FAIL,DELETE_CATEGORY_SUCCESS,
+    SET_CATEGORY_MODAL,TOGGLE_CATEGORY_MODAL
 } from "./actionTypes";
+import {IsRequiredField,IsRequiredFields} from "../../utility/utils";
 
 const INIT_STATE = {
-    positions: [],
-    position: {
-        name:"",
-        perm:{}
-    },
+    categories: [],
+    category:{},
     modal: {},
+    required: ["name"],
     loading: false,
     success: false,
     fail: false,
     errors: {}
 };
 
+
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_POSITIONS_REQUEST:
+        case GET_CATEGORIES_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                success: false,
+                fail: false,
+                modal:{},
+                errors: {},
+            };
+        case GET_CATEGORIES_FAIL:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                modal:{},
+                fail: true,
+            };
+        case GET_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                modal:{},
+                categories: JSON.parse(action.result.data),
+                errors: {},
+            };
+        case GET_CATEGORY_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -31,70 +57,81 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 errors: {},
             };
-        case GET_POSITIONS_FAIL:
-            // fakeObj{
-            let data1 = [
-               {id:1,name:"admin"}, {id:2,name:"user"},
-            ]
-
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                positions: data1,
-                errors: {},
-            };
-            //}
-
+        case GET_CATEGORY_FAIL:
             return {
                 ...state,
                 loading: false,
                 success: false,
                 fail: true,
             };
-        case GET_POSITIONS_SUCCESS:
-            
+        case GET_CATEGORY_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                positions: JSON.parse(action.result.data),
+                category: JSON.parse(action.result.data),
                 errors: {},
             };
-        case GET_POSITION_REQUEST:
+        case ADD_CATEGORY_REQUEST:
             return {
                 ...state,
                 loading: true,
                 success: false,
                 fail: false,
-                errors: {},
-            };
-        case GET_POSITION_FAIL:
+                errors:IsRequiredFields(state.required,state.category,state.errors)
+            }
+        case ADD_CATEGORY_FAIL:
             return {
                 ...state,
                 loading: false,
                 success: false,
                 fail: true,
+
             };
-        case GET_POSITION_SUCCESS:
+        case ADD_CATEGORY_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                position: JSON.parse(action.result.data)[0],
-                errors: {},
+                modal: {},
+                categories: JSON.parse(action.result.data)
             };
-        case ADD_POSITION_REQUEST:
+        case EDIT_CATEGORY_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                success: false,
+                fail: false,
+                errors: IsRequiredFields(state.required,state.category,state.errors)
+            }
+        case EDIT_CATEGORY_FAIL:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                fail: true,
+
+            };
+        case EDIT_CATEGORY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                modal: {},
+                category: {},
+                categories: JSON.parse(action.result.data)
+            };
+        case DELETE_CATEGORY_REQUEST:
             return {
                 ...state,
                 loading: true,
                 success: false,
                 fail: false,
             }
-        case ADD_POSITION_FAIL:
+        case DELETE_CATEGORY_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -102,134 +139,39 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
 
             };
-        case ADD_POSITION_SUCCESS:
+        case DELETE_CATEGORY_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
-                positons: [
-                    ...state.positions,
-                    JSON.parse(action.result.data)[0]
+                modal: {},
+                category: {},
+                categories: JSON.parse(action.result.data)
+            };
 
-                ]
+        case SET_CATEGORY_MODAL:
+            state.category[action.key] = action.value;
+            return {
+                ...state,
+                errors:IsRequiredField(state.required,action,state.errors)
             };
-        case EDIT_POSITION_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-            }
-        case EDIT_POSITION_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
+        case TOGGLE_CATEGORY_MODAL:
 
-            };
-        case EDIT_POSITION_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                modal: false,
-                position: {},
-                positions: JSON.parse(action.result.data)
-            };
-        case DELETE_POSITION_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-            }
-        case DELETE_POSITION_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-
-            };
-        case DELETE_POSITION_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                modal: false,
-                position: {},
-                positions: JSON.parse(action.result.data)
-            };
-        case ADD_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: action.modal,
-                    edit: false,
-                    delete: false
-                },
-                // user: {}
-            };
-        case EDIT_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: action.modal,
-                    delete: false
-                },
-            };
-        case DELETE_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: false,
-                    delete: action.modal
-                },
-                // user: {}
-            };
-        case SET_MODAL_VALUES:
-            state.position[action.key]=action.value
-            return {
-                ...state,
-            };
-        case HANDLE:
-            let perm = state.position.perm;
-            if(action.parent){
-
-                if(perm[action.parent]){
-                    let index = perm[action.parent].indexOf(action.name);
-                    if (index !== -1) {
-                        perm[action.parent].splice(index, 1);
-                        if(perm[action.parent].length===0){
-                            delete perm[action.parent];
-                        }
-                    }else{
-                        perm[action.parent].push( action.name )
-                    }
+            state.modal[action.modalType] = !state.modal[action.modalType];
+            if(action.obj){
+                if(action.modalType==="edit"){
+                    state.category[action.obj.key] = action.obj.value
                 }else{
-                    perm[action.parent] = [ action.name ]
-                }
-            }else{
-                if(perm[action.name]){
-                    delete perm[action.name];
-                }else {
-                    perm[action.name] = [];
+                    state.category = action.obj
                 }
             }
+
             return {
                 ...state,
-                position:{
-                    name:state.position.name,
-                    perm:perm
-                }
+                errors: {}
             }
+
         default:
             return {...state};
     }

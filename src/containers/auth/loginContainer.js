@@ -6,7 +6,6 @@ import {
     Form,
     FormGroup,
     Button,
-    Label,
     Card,
     CardBody
 } from "reactstrap";
@@ -32,7 +31,6 @@ class LoginContainer extends Component {
     }
 
     render() {
-        console.log("sdgsdg")
         return (
             <div className="container">
                 <Row className="full-height-vh">
@@ -79,9 +77,9 @@ class LoginContainer extends Component {
                                                         onChange={this.handleChecked}
                                                         id="rememberme"
                                                     />
-                                                    <Label className="custom-control-label float-left white" for="rememberme">
-                                                        Remember Me
-                                                    </Label>
+                                                    {/*<Label className="custom-control-label float-left white" for="rememberme">*/}
+                                                    {/*    Remember Me*/}
+                                                    {/*</Label>*/}
                                                 </div>
                                             </Col>
                                         </Row>
@@ -91,9 +89,9 @@ class LoginContainer extends Component {
                                             <Button  color="danger" block className="btn-pink btn-raised" onClick={this.onSubmit}>
                                                 Submit
                                             </Button>
-                                            <Button type="button" color="secondary" block className="btn-raised">
-                                                Cancel
-                                            </Button>
+                                            {/*<Button type="button" color="secondary" block className="btn-raised">*/}
+                                            {/*    Cancel*/}
+                                            {/*</Button>*/}
                                         </Col>
                                     </FormGroup>
                                 </Form>

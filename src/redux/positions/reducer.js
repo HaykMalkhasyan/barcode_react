@@ -1,19 +1,17 @@
-import {
-    GET_POSITIONS_REQUEST,GET_POSITIONS_FAIL,GET_POSITIONS_SUCCESS,
-    GET_POSITION_REQUEST,GET_POSITION_FAIL,GET_POSITION_SUCCESS,
-    ADD_POSITION_REQUEST,ADD_POSITION_FAIL,ADD_POSITION_SUCCESS,
-    EDIT_POSITION_REQUEST,EDIT_POSITION_FAIL,EDIT_POSITION_SUCCESS,
-    DELETE_POSITION_REQUEST,DELETE_POSITION_FAIL,DELETE_POSITION_SUCCESS,
-    ADD_MODAL, DELETE_MODAL, EDIT_MODAL, SET_MODAL_VALUES,
-    HANDLE
+import  {
+    GET_POSITIONS_REQUEST, GET_POSITIONS_FAIL, GET_POSITIONS_SUCCESS,
+    GET_POSITION_REQUEST, GET_POSITION_FAIL, GET_POSITION_SUCCESS,
+    ADD_POSITION_REQUEST, ADD_POSITION_FAIL, ADD_POSITION_SUCCESS,
+    EDIT_POSITION_REQUEST, EDIT_POSITION_FAIL, EDIT_POSITION_SUCCESS,
+    DELETE_POSITION_REQUEST, DELETE_POSITION_FAIL, DELETE_POSITION_SUCCESS,
+    SET_POSITION_MODAL,HANDLE,TOGGLE_POSITION_MODAL
 } from "./actionTypes";
+import {IsRequiredField, IsRequiredFields} from "../../utility/utils";
 
 const INIT_STATE = {
     positions: [],
-    position: {
-        name:"",
-        perm:{}
-    },
+    position: {},
+    required:["name"],
     modal: {},
     loading: false,
     success: false,
@@ -32,21 +30,6 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case GET_POSITIONS_FAIL:
-            // fakeObj{
-            let data1 = [
-               {id:1,name:"admin"}, {id:2,name:"user"},
-            ]
-
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                positions: data1,
-                errors: {},
-            };
-            //}
-
             return {
                 ...state,
                 loading: false,
@@ -54,7 +37,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_POSITIONS_SUCCESS:
-            
             return {
                 ...state,
                 loading: false,
@@ -84,7 +66,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                position: JSON.parse(action.result.data)[0],
+                position: JSON.parse(action.result.data),
                 errors: {},
             };
         case ADD_POSITION_REQUEST:
@@ -93,6 +75,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
+                errors:IsRequiredFields(state.required,state.position,state.errors)
             }
         case ADD_POSITION_FAIL:
             return {
@@ -108,10 +91,10 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
-                positons: [
+                modal: {},
+                positions: [
                     ...state.positions,
-                    JSON.parse(action.result.data)[0]
+                    JSON.parse(action.result.data)
 
                 ]
             };
@@ -121,6 +104,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
+                errors:IsRequiredFields(state.required,state.position,state.errors)
             }
         case EDIT_POSITION_FAIL:
             return {
@@ -136,7 +120,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
+                modal: {},
                 position: {},
                 positions: JSON.parse(action.result.data)
             };
@@ -161,75 +145,68 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
+                modal: {},
                 position: {},
                 positions: JSON.parse(action.result.data)
             };
-        case ADD_MODAL:
+        case SET_POSITION_MODAL:
+            state.position[action.key] = action.value
             return {
                 ...state,
-                modal:{
-                    add: action.modal,
-                    edit: false,
-                    delete: false
-                },
-                // user: {}
+                errors: IsRequiredField(state.required,action,state.errors)
             };
-        case EDIT_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: action.modal,
-                    delete: false
-                },
-            };
-        case DELETE_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: false,
-                    delete: action.modal
-                },
-                // user: {}
-            };
-        case SET_MODAL_VALUES:
-            state.position[action.key]=action.value
-            return {
-                ...state,
-            };
-        case HANDLE:
-            let perm = state.position.perm;
-            if(action.parent){
+        case TOGGLE_POSITION_MODAL:
+            state.modal[action.modalType] = !state.modal[action.modalType];
 
-                if(perm[action.parent]){
-                    let index = perm[action.parent].indexOf(action.name);
-                    if (index !== -1) {
-                        perm[action.parent].splice(index, 1);
-                        if(perm[action.parent].length===0){
-                            delete perm[action.parent];
-                        }
-                    }else{
-                        perm[action.parent].push( action.name )
-                    }
+            if(action.obj){
+                if(action.modalType==="edit"){
+                    state.position[action.obj.key] = action.obj.value
                 }else{
-                    perm[action.parent] = [ action.name ]
-                }
-            }else{
-                if(perm[action.name]){
-                    delete perm[action.name];
-                }else {
-                    perm[action.name] = [];
+                    state.position = action.obj
                 }
             }
             return {
                 ...state,
-                position:{
-                    name:state.position.name,
-                    perm:perm
+                errors:{}
+            }
+        case HANDLE:
+            if (!state.position.perm) {
+                state.position.perm = {}
+            }
+            let perm = state.position.perm;
+            console.log(perm)
+            console.log(action)
+            if (action.parentId) {
+                if (perm[action.parentId]) {
+                    let index = perm[action.parentId].indexOf(action.id);
+                    if (index !== -1) {
+                        perm[action.parentId].splice(index, 1);
+                        if (perm[action.parentId].length === 0) {
+                            delete perm[action.parentId];
+                        }
+                    } else {
+                        perm[action.parentId].push(action.id)
+                    }
+                } else {
+                    perm[action.parentId] = [action.id]
+                }
+            } else {
+                if (perm[action.id]) {
+                    delete perm[action.id];
+                } else {
+                    perm[action.id] = [];
+                }
+
+            }
+            return {
+                ...state,
+                position: {
+                    id: state.position.id,
+                    name: state.position.name,
+                    perm: perm
                 }
             }
+
         default:
             return {...state};
     }

@@ -4,7 +4,7 @@ import {
     ADD_ITEM_REQUEST, ADD_ITEM_FAIL, ADD_ITEM_SUCCESS,
     EDIT_ITEM_REQUEST,EDIT_ITEM_FAIL,EDIT_ITEM_SUCCESS,
     DELETE_ITEM_REQUEST,DELETE_ITEM_FAIL,DELETE_ITEM_SUCCESS,
-    ADD_MODAL,EDIT_MODAL,DELETE_MODAL,SET_MODAL_VALUES
+    SET_MODAL_VALUES,TOGGLE_MODAL
 } from "./actionTypes";
 
 
@@ -146,46 +146,30 @@ export default (state = INIT_STATE, action) => {
                 item: {},
                 items: JSON.parse(action.result.data)
             };
-        case ADD_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: action.modal,
-                    edit: false,
-                    delete: false
-                },
-                item: {}
-            };
-        case EDIT_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: action.modal,
-                    delete: false
-                },
-            };
-        case DELETE_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: false,
-                    delete: action.modal
-                },
-                item: {}
-            };
         case SET_MODAL_VALUES:
-            if(action.key==="uploadImage"){
-                console.log(action.value)
-
-            }
             return {
                 ...state,
                 item: {
                     ...state.item,
                     ...action.value
                 },
+            }
+        case TOGGLE_MODAL:
+            let newModal = {};
+            newModal[action.modalType] = !state.modal[action.modalType];
+            let item = (action.modalType==="edit")?{
+                ...state.item,
+                ...action.obj
+            }:{
+                ...action.obj
+            }
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    ...newModal
+                },
+                item
             }
         default:
             return {...state};

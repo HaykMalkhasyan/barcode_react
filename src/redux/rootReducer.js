@@ -6,6 +6,7 @@ import positionReducer from "./positions/reducer";
 import permissionReducer from "./permission/reducer";
 import pageReducer from "./pages/reducer";
 import itemReducer from './items/reducer';
+import categoryReducer from './categories/reducer';
 import langReducer from "./lang/reducer";
 
 import localizeReducer from './lang/reducer';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
    positions:positionReducer,
    permission:permissionReducer,
    items:itemReducer,
+   categories:categoryReducer,
    pages:pageReducer,
    lang:langReducer,
    locale:localizeReducer,

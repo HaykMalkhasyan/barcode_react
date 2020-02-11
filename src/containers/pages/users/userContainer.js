@@ -1,15 +1,12 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    addUser,
-    deleteUser,
-    getUser,
-    getUsers,
+    userActions,
+    toggleModal,
     setModalValues,
-    userModal
 } from "../../../redux/users/actions";
 import {
-    getPositions,
+    positionActions,
 } from "../../../redux/positions/actions";
 import UserPage from './userPage';
 
@@ -17,13 +14,10 @@ import UserPage from './userPage';
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getUsers,
-            getUser,
-            addUser,
-            getPositions,
-            userModal,
+            userActions,
+            toggleModal,
             setModalValues,
-            deleteUser
+            positionActions
         },
         dispatch
     );
@@ -35,7 +29,8 @@ const mapStateToProps = state => {
         modal: state.users.modal,
         positions: state.positions.positions,
         perm: state.permission.data.users,
-        user: state.users.user
+        user: state.users.user,
+        errors: state.users.errors
 
     }
 };

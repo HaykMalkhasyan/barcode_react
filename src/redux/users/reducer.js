@@ -2,21 +2,29 @@ import {
     GET_USERS_REQUEST, GET_USERS_FAIL, GET_USERS_SUCCESS,
     GET_USER_REQUEST, GET_USER_FAIL, GET_USER_SUCCESS,
     ADD_USER_REQUEST, ADD_USER_FAIL, ADD_USER_SUCCESS,
-    EDIT_USER_REQUEST,EDIT_USER_FAIL,EDIT_USER_SUCCESS,
-    DELETE_USER_REQUEST,DELETE_USER_FAIL,DELETE_USER_SUCCESS,
-    ADD_MODAL,EDIT_MODAL,DELETE_MODAL,SET_MODAL_VALUES
+    EDIT_USER_REQUEST, EDIT_USER_FAIL, EDIT_USER_SUCCESS,
+    DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
+    SET_USER_MODAL,TOGGLE_USER_MODAL
 } from "./actionTypes";
+import {IsRequiredField, IsRequiredFields} from "../../utility/utils";
 
 
 const INIT_STATE = {
     users: [],
     user: {},
     modal: {},
+    required: [
+        "firstname",
+        "lastname",
+        "username",
+        "password",
+    ],
     loading: false,
     success: false,
     fail: false,
     errors: {}
 };
+
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
@@ -25,6 +33,7 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 loading: true,
                 success: false,
+                modal: {},
                 fail: false,
                 errors: {},
             };
@@ -33,6 +42,7 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 loading: false,
                 success: false,
+                modal: {},
                 fail: true,
             };
         case GET_USERS_SUCCESS:
@@ -42,6 +52,7 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 users: JSON.parse(action.result.data),
+                modal: {},
                 errors: {},
             };
         case GET_USER_REQUEST:
@@ -74,6 +85,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
+                errors:IsRequiredFields(state.required,state.user,state.errors)
             }
         case ADD_USER_FAIL:
             return {
@@ -89,7 +101,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
+                modal: {},
                 users: [
                     ...state.users,
                     JSON.parse(action.result.data)[0]
@@ -102,6 +114,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
+                errors:IsRequiredFields(state.required,state.user,state.errors)
             }
         case EDIT_USER_FAIL:
             return {
@@ -117,7 +130,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
+                modal: {},
                 user: {},
                 users: JSON.parse(action.result.data)
             };
@@ -142,47 +155,32 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal: false,
+                modal: {},
                 user: {},
                 users: JSON.parse(action.result.data)
             };
-        case ADD_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: action.modal,
-                    edit: false,
-                    delete: false
-                },
-                user: {}
-            };
-        case EDIT_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: action.modal,
-                    delete: false
-                },
-            };
-        case DELETE_MODAL:
-            return {
-                ...state,
-                modal:{
-                    add: false,
-                    edit: false,
-                    delete: action.modal
-                },
-                user: {}
-            };
-        case SET_MODAL_VALUES:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    ...action.value
-                },
 
+        case SET_USER_MODAL:
+            state.user.active = (state.user.active)?state.user.active:0;
+            state.user[action.key] = action.value;
+            return {
+                ...state,
+                errors: IsRequiredField(state.required,action,state.errors)
+            };
+        case TOGGLE_USER_MODAL:
+            state.modal[action.modalType] = !state.modal[action.modalType];
+
+            if(action.obj){
+                if(action.modalType==="edit"){
+                    state.user[action.obj.key] = action.obj.value
+                }else{
+                    state.user = action.obj
+                }
+            }
+
+            return {
+                ...state,
+                errors: {}
             }
         default:
             return {...state};

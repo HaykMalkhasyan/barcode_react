@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import {  Col, Card, CardBody, Modal, ModalHeader } from "reactstrap";
+import {  Col, Card, CardBody } from "reactstrap";
 import TableComponent from './itemTable';
 import ModalComponent from './itemModal';
-import Translate from "../../../Translate";
 import AddButton from "../../../components/buttons/addButton";
 
 
 class ItemContainer extends Component {
     constructor(props) {
         super(props)
-        this.props.getItems()
-    }
-    toggle() {
-        
-        this.props.itemModal("add",!this.props.modal.add)
+        this.props.itemActions("getAll")
     }
 
     render() {
@@ -21,14 +16,14 @@ class ItemContainer extends Component {
             <Col sm="12">
                 <Card>
                     <CardBody>
-                        <AddButton perm = {this.props.perm} onClick={() => this.toggle()} />{" "}
+                        <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add",0)} />{" "}
                         <TableComponent {...this.props}/>
                     </CardBody>
                 </Card>
-                <Modal isOpen={this.props.modal.add} toggle={()=>this.toggle()}  size="lg">
-                    <ModalHeader toggle={()=>this.toggle()}><Translate name="addItem"/></ModalHeader>
-                    <ModalComponent {...this.props}/>
-                </Modal>
+                <ModalComponent {...this.props} type={'add'} />
+                <ModalComponent {...this.props} type={'edit'} />
+                <ModalComponent {...this.props} type={'delete'} />
+
 
             </Col>
         )

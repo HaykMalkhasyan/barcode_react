@@ -1,12 +1,10 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    getPositions,
-    addPosition,
-    deletePosition,
+    positionActions,
     handle,
     setModalValues,
-    positionModal
+    toggleModal
 } from "../../../redux/positions/actions";
 import PositionPage from './positionPage';
 
@@ -14,11 +12,9 @@ import PositionPage from './positionPage';
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getPositions,
-            addPosition,
-            deletePosition,
+            positionActions,
             handle,
-            positionModal,
+            toggleModal,
             setModalValues
         },
         dispatch
@@ -32,7 +28,7 @@ const mapStateToProps = state => {
         position: state.positions.position,
         pages: state.pages.data,
         perm: state.permission.data.positions,
-        positionPerm: state.positions.position.perm,
+        errors: state.positions.errors
 
     }
 };

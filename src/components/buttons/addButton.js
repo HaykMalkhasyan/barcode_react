@@ -7,7 +7,7 @@ export default function AddButton(props) {
     return unauthorized ? <div></div> : <Button
         color="primary"
         type="button"
-        className="btn btn-raised btn-danger my-2 shadow-z-2"
+        className="btn btn-raised my-2 shadow-z-2"
         onClick={props.onClick}
     >
         <Translate name="add"/>

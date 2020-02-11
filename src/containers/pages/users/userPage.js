@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import {  Col, Card, CardBody, Modal, ModalHeader } from "reactstrap";
+import {  Col, Card, CardBody } from "reactstrap";
 import TableComponent from './userTable';
 import ModalComponent from './userModal';
-import Translate from "../../../Translate";
 import AddButton from "../../../components/buttons/addButton";
 
 
@@ -10,28 +9,30 @@ import AddButton from "../../../components/buttons/addButton";
 class UserContainer extends Component {
     constructor(props) {
         super(props)
-        this.props.getUsers()
-        this.props.getPositions()
-    }
-    toggle() {
-        this.props.userModal("add",!this.props.modal.add)
+        this.props.userActions("getAll")
+        this.props.positionActions("getAll")
     }
 
     render() {
+        console.log(this.props.perm)
         return(
             <Col sm="12">
                 <Card>
                     <CardBody>
-                        <AddButton perm = {this.props.perm} onClick={() => this.toggle()} />{" "}
-                        <TableComponent {...this.props}/>
+                        <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add")} />{" "}
+                        <TableComponent
+                            data = {this.props.users}
+                            toggleModal = {this.props.toggleModal}
+                            actions = {this.props.userActions}
+                            perm = {this.props.perm}
+                        />
                     </CardBody>
                 </Card>
-                <Modal isOpen={this.props.modal.add} toggle={()=>this.toggle()}  size="md">
-                    <ModalHeader toggle={()=>this.toggle()}><Translate name="addUser"/></ModalHeader>
-                    <ModalComponent {...this.props}/>
-                </Modal>
-
+                <ModalComponent {...this.props} type={'add'} />
+                <ModalComponent {...this.props} type={'edit'} />
+                <ModalComponent {...this.props} type={'delete'} />
             </Col>
+
         )
     }
 }

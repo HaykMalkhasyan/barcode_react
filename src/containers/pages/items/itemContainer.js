@@ -1,11 +1,9 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    getItems,
-    addItem,
-    deleteItem,
+    itemActions,
     setModalValues,
-    itemModal
+    toggleModal
 } from "../../../redux/items/actions";
 import ItemPage from './itemPage';
 
@@ -13,10 +11,8 @@ import ItemPage from './itemPage';
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getItems,
-            addItem,
-            deleteItem,
-            itemModal,
+            itemActions,
+            toggleModal,
             setModalValues
         },
         dispatch

@@ -7,6 +7,9 @@ export const translations = {
 
 
     name:["Անվանում","Имя","Name"],
+    name_en:["Անգլերեն անվանում","Имя","Name"],
+    name_ru:["Ռուսերեն անվանում","Имя","Name"],
+
     firstname:["Անուն","Имя","First Name"],
     lastname:["Ազգանուն","Фамилия","Last Name"],
     username:["Մուտքանուն","Логин","Username"],
@@ -31,6 +34,11 @@ export const translations = {
     addItem:["Ավելացնել Ապրանքատեսակ","Добавить Товар","Add Item"],
     editItem:["Փոփոխել Ապրանքատեսակը","Редактировать Товар","Edit Item"],
     deleteItem:["Ջնջել Ապրանքատեսակը","Удалить Товар","Delete Item"],
+
+    category: ['Կատեգորիա','Категория','Category'],
+    addCategory:["Ավելացնել Կատեգորիա","Добавить категория","Add Category"],
+    editCategory:["Փոփոխել Կատեգորիան","Редактировать категория","Edit Category"],
+    deleteCategory:["Ջնջել Կատեգորիան","Удалить категория","Delete Category"],
 
 
 }

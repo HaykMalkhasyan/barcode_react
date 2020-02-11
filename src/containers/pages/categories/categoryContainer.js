@@ -1,29 +1,20 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    addUser,
-    deleteUser,
-    getUser,
-    getUsers,
-    setModalValues,
-    userModal
-} from "../../../redux/users/actions";
-import {
-    getPositions,
-} from "../../../redux/positions/actions";
-import UserPage from './userPage';
+    categoryActions,
+    setModalValues1,
+    toggleModal
+} from "../../../redux/categories/actions";
+import CategoryPage from './categoryPage';
 
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-        //     getUsers,
-        //     getUser,
-        //     addUser,
-        //     getPositions,
-        //     userModal,
-        //     setModalValues,
-        //     deleteUser
+            categoryActions,
+            setModalValues1,
+            toggleModal
+
         },
         dispatch
     );
@@ -31,13 +22,13 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        // users: state.users.users,
-        // modal: state.users.modal,
-        // positions: state.positions.positions,
-        // perm: state.permission.data.users,
-        // user: state.users.user
+        categories: state.categories.categories,
+        category: state.categories.category,
+        modal: state.categories.modal,
+        perm: state.permission.data.category,
+        errors: state.categories.errors,
 
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);
