@@ -1,26 +1,34 @@
-import React from "react";
+import React, {Component} from "react";
 import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import ReactCountryFlag from "react-country-flag";
 
+class ThemeNavbar extends Component{
+    constructor(props) {
+        super(props)
+        this.props.getLanguages()
+        this.props.getTranslations()
+    }
+    render() {
+        return (
+            <UncontrolledDropdown nav inNavbar className="pr-1">
+                <DropdownToggle nav>
+                    <ReactCountryFlag code={this.props.active} svg/> {this.props.active.toUpperCase()}
+                </DropdownToggle>
+                <DropdownMenu right>
 
-function ThemeNavbar(props) {
-    return (
-        <UncontrolledDropdown nav inNavbar className="pr-1">
-            <DropdownToggle nav>
-                <ReactCountryFlag code={props.activeLanguage} svg/> {props.activeLanguage.toUpperCase()}
-            </DropdownToggle>
-            <DropdownMenu right>
-                {props.languages.map((value, index) =>
-                    <DropdownItem key={value.code} onClick={() => {
-                        props.setLanguage(value.code)
-                    }}>
-                        <ReactCountryFlag code={value.code} svg/> {value.name}
-                    </DropdownItem>
-                )}
-            </DropdownMenu>
-        </UncontrolledDropdown>
+                    {this.props.languages.map((value, index) =>
+                        <DropdownItem key={value.code} onClick={() => {
+                            this.props.setLanguage(value.code);
+                            this.props.getTranslations()
+                        }}>
+                            <ReactCountryFlag code={value.code} svg/> {value.name}
+                        </DropdownItem>
+                    )}
+                </DropdownMenu>
+            </UncontrolledDropdown>
 
-    );
+        );
+    }
 }
 
 

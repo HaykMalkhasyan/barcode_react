@@ -27,11 +27,6 @@ class ThemeNavbar extends Component {
       this.toggle = this.toggle.bind(this);
       this.state = {
          isOpen: false,
-         languages: [
-            {code:"am", value:'Armenian'},
-            {code:"ru", value:'Russian'},
-            {code:"us", value:'English'},
-         ],
          user:SessionStorage.get("user"),
       };
    }

@@ -41,7 +41,7 @@ const PositionModal = (props) => {
                 <ModalHeader toggle={() => props.toggleModal(props.type, props.position.id)}><Translate name={props.type + "Position"}/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
-                    <Button color="primary" type="submit" onClick={()=>props.positionActions(props.type,props.position)}>
+                    <Button color="primary" outline type="submit" onClick={()=>props.positionActions(props.type,props.position)}>
                         <Translate name="confirm"/>
                     </Button>
                 </ModalFooter>

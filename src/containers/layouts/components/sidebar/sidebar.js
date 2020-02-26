@@ -59,7 +59,6 @@ class Sidebar extends Component {
    };
 
    render() {
-       console.log(this.props)
       return (
         <Fragment>
          <FoldedContentConsumer>

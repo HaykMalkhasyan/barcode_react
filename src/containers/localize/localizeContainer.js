@@ -1,6 +1,8 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
+    getLanguages,
+    getTranslations,
     setLanguage
 } from "../../redux/lang/actions";
 import Localize from './localize';
@@ -9,6 +11,8 @@ import Localize from './localize';
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
+            getLanguages,
+            getTranslations,
             setLanguage
         },
         dispatch
@@ -17,8 +21,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        languages: state.locale.languages,
-        activeLanguage: state.locale.activeLanguage,
+        languages: state.languages.languages,
+        active: state.languages.active,
 
     }
 };

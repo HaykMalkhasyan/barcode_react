@@ -19,7 +19,7 @@ export const IsRequiredField = (requiredFields,field,errors) => {
 export const IsRequiredFields = (requiredFields,fields,errors) => {
     requiredFields.forEach(function(val, index){
             if(!fields[val] || fields[val]===""){
-                errors[val]= "reqired"
+                errors[val]= "Required"
             }
     })
     return errors;

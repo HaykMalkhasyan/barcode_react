@@ -7,31 +7,21 @@ export default class ApiClient {
     API_URI = process.env.REACT_APP_API_URL;
 
     constructor() {
-        const token = SessionStorage.get("token");
-        let headers = {
-            "Content-Type": "application/json"
-        };
-
-        if (token) {
-            headers["Token"] = token;
-        }
-
         this.defaultConfigs = {
-            headers,
+            headers:{},
             path:"",
             params: {}
         };
-
         this.resetConfigs();
     }
 
     getRuntimeConfigs() {
         const token = SessionStorage.get("token");
-
+        const lang = SessionStorage.get("lang")?SessionStorage.get("lang"):'am';
         let headers = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Lang": lang,
         };
-
         if (token) {
             headers["Token"] = token;
         }

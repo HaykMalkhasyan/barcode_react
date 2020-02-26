@@ -1,28 +1,20 @@
 import React from "react";
-import {bindActionCreators} from "redux";
-import {getTranslate} from "./redux/lang/actions";
 import {connect} from "react-redux";
 
 
 function Translate(props) {
     return (
         <span>
-            {getTranslate(props.name)}
+            {props.translations[props.name]?props.translations[props.name]:props.name}
         </span>
     );
 }
 
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators(
-        {
-            getTranslate
-        },
-        dispatch
-    );
+
+const mapStateToProps = state => {
+    return {
+        translations: state.languages.translations,
+    }
 };
 
-// const mapStateToProps = state => {
-//     return state
-// };
-
-export default connect( mapDispatchToProps)(Translate);
+export default connect( mapStateToProps )(Translate);

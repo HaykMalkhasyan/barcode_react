@@ -14,7 +14,6 @@ class UserContainer extends Component {
     }
 
     render() {
-        console.log(this.props.perm)
         return(
             <Col sm="12">
                 <Card>

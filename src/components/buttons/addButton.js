@@ -6,8 +6,7 @@ export default function AddButton(props) {
     let unauthorized  = (props.perm)?props.perm.includes("add"):false;
     return unauthorized ? <div></div> : <Button
         color="primary"
-        type="button"
-        className="btn btn-raised my-2 shadow-z-2"
+        className="btn btn-square"
         onClick={props.onClick}
     >
         <Translate name="add"/>

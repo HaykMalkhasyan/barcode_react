@@ -174,8 +174,6 @@ export default (state = INIT_STATE, action) => {
                 state.position.perm = {}
             }
             let perm = state.position.perm;
-            console.log(perm)
-            console.log(action)
             if (action.parentId) {
                 if (perm[action.parentId]) {
                     let index = perm[action.parentId].indexOf(action.id);

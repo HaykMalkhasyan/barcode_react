@@ -9,10 +9,10 @@ import ErrorLayoutRoute from "../containers/layouts/routes/errorRoutes";
 
 const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
+const LazySuppliers = lazy(() => import("../containers/pages/suppliers/supplierContainer"));
 const LazyPositions = lazy(() => import("../containers/pages/positions/positionContainer"));
-const LazyItems = lazy(() => import("../containers/pages/items/itemContainer"));
-const LazyCategories = lazy(() => import("../containers/pages/categories/categoryContainer"));
-
+const LazyProducts = lazy(() => import("../containers/pages/products/productContainer"));
+const LazyGroup = lazy(() => import("../containers/pages/group/groupContainer"));
 const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
@@ -36,21 +36,27 @@ function Router(props) {
                 />
                 <PrivateRoute
                     exact
+                    path="/suppliers"
+                    auth={props.auth}
+                    component={LazySuppliers}
+                />
+                <PrivateRoute
+                    exact
                     path="/positions"
                     auth={props.auth}
                     component={LazyPositions}
                 />
                 <PrivateRoute
                     exact
-                    path="/items"
+                    path="/products"
                     auth={props.auth}
-                    component={LazyItems}
+                    component={LazyProducts}
                 />
                 <PrivateRoute
                     exact
-                    path="/category"
+                    path="/groups"
                     auth={props.auth}
-                    component={LazyCategories}
+                    component={LazyGroup}
                 />
                 <PublicRoute
                     exact
