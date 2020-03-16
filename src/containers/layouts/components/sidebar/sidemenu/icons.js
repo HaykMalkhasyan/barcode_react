@@ -10,7 +10,7 @@ class InstarProducts extends Component {
     };
     render() {
         const TagName = this.components[this.props.tag || ''];
-        return <TagName />
+        return TagName?<TagName/>:<div></div>
     }
 }
 export default InstarProducts;
