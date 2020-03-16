@@ -1,38 +1,115 @@
 import React from "react";
-import { Table} from "reactstrap";
-import Translate from "../../../Translate";
-import EditButton from "../../../components/buttons/editButton";
-import DeleteButton from "../../../components/buttons/deleteButton";
+import { Table, Input } from "reactstrap";
+import { Edit, Trash2 } from "react-feather";
 
-const ProductTable = (props) => {
-    if (props.data.length) {
+import coffeeMug from "../../../assets/img/elements/01.png";
+import camera from "../../../assets/img/elements/11.png";
+import headphone from "../../../assets/img/elements/07.png";
+import beer from "../../../assets/img/elements/14.png";
+import penDrive from "../../../assets/img/elements/04.png";
+
+export default class Example extends React.Component {
+    render() {
         return (
             <Table responsive>
                 <thead>
                 <tr>
-                    {Object.keys(props.data[0]).map((key) => <td key={key}><Translate name={key}/></td>)}
+                    <th>Նկար</th>
+                    <th>Անվանում</th>
+                    <th>Բարկոդ</th>
+                    <th>ԱՊՄ</th>
+                    <th>Ակտիվ</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {props.data.map((value, index) =>
-                    <tr key={index}>
-                        {Object.keys(value).map((key) => <td key={key}>{value[key]}</td>)}
-                        <td>
-                            <EditButton perm = {props.perm} onClick={function(){ props.toggleModal('edit',props.data.id); props.actions("get",props.data)}}/>
-                            <DeleteButton perm = {props.perm} onClick={() => props.toggleModal('delete',props.data.id)}/>
-                        </td>
-                    </tr>
-                )}
+                <tr>
+                    <th scope="row">
+                        <img
+                            src={coffeeMug}
+                            alt="coffee-mug"
+                            className="img-fluid width-50"
+                        />
+                    </th>
+                    <td>Coffee Mug</td>
+                    <td>4545656556322</td>
+                    <td>4545656</td>
+                    <td>Այո</td>
+                    <td>
+                        <Edit size={18} className="mr-2" />{" "}
+                        <Trash2 size={18} color="#FF586B" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <img
+                            src={headphone}
+                            alt="head-phon"
+                            className="img-fluid width-50"
+                        />
+                    </th>
+                    <td>Headphone</td>
+                    <td>4545656556322</td>
+                    <td>4545656</td>
+                    <td>Այո</td>
+                    <td>
+                        <Edit size={18} className="mr-2" />{" "}
+                        <Trash2 size={18} color="#FF586B" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <img
+                            src={camera}
+                            alt="camera"
+                            className="img-fluid width-50"
+                        />
+                    </th>
+                    <td>Camera</td>
+                    <td>4545656556322</td>
+                    <td>4545656</td>
+                    <td>Այո</td>
+                    <td>
+                        <Edit size={18} className="mr-2" />{" "}
+                        <Trash2 size={18} color="#FF586B" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <img
+                            src={beer}
+                            alt="beer"
+                            className="img-fluid width-50"
+                        />
+                    </th>
+                    <td>Beer</td>
+                    <td>4545656556322</td>
+                    <td>4545656</td>
+                    <td>Այո</td>
+                    <td>
+                        <Edit size={18} className="mr-2" />{" "}
+                        <Trash2 size={18} color="#FF586B" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <img
+                            src={penDrive}
+                            alt="pend-drive"
+                            className="img-fluid width-50"
+                        />
+                    </th>
+                    <td>Pendrive</td>
+                    <td>4545656556322</td>
+                    <td>4545656</td>
+                    <td>Այո</td>
+                    <td>
+                        <Edit size={18} className="mr-2" />{" "}
+                        <Trash2 size={18} color="#FF586B" />
+                    </td>
+                </tr>
                 </tbody>
-
             </Table>
-
         );
-    } else {
-        return (
-            <div></div>
-        )
     }
 }
-export default ProductTable;

@@ -40,16 +40,14 @@ export default class ApiClient {
         });
     }
 
-    mergeConfigs(path, data, headers, configs) {
+    mergeConfigs(uri,params, headers, configs) {
         const runtimeConfigs = this.getRuntimeConfigs();
         let responseType = {};
-
-        if (data && data.responseType) {
-            responseType = data.responseType;
+        if (params && params.responseType) {
+            responseType = params.responseType;
         }
-        let params = {
-            path:path,
-            data:data
+        if(uri){
+            params.path = uri;
         }
         return Object.assign(
             {},
@@ -61,9 +59,6 @@ export default class ApiClient {
                     ...responseType,
                     params: Object.assign({}, runtimeConfigs.params, params),
                     headers: Object.assign({}, runtimeConfigs.headers, headers),
-                    // paramsSerializer: function(params) {
-                    //     return qs.stringify(params, { arrayFormat: "brackets" });
-                    // }
                 }
             )
         );
@@ -79,14 +74,14 @@ export default class ApiClient {
         ).then(response => response.data);
     }
 
-    post(uri, params = {}, headers = {}, configs = { hasFile: false }) {
-        return axios.post(`${this.API_URI}`,uri,
+    post(uri, data, params = {}, headers = {}, configs = { hasFile: false }) {
+
+        return axios.post(`${this.API_URI}`,data,
             this.mergeConfigs(uri,params, headers, configs)
         ).then(response => response.data);
     }
-
-    put(uri, params = {}, headers = {}, configs = { hasFile: false }) {
-        return axios.put(`${this.API_URI}`,uri,
+    put(uri, data, params = {}, headers = {}, configs = { hasFile: false }) {
+        return axios.put(`${this.API_URI}`,data,
             this.mergeConfigs(uri,params, headers, configs)
         ).then(response => response.data);
     }
@@ -97,19 +92,16 @@ export default class ApiClient {
         ).then(response => response.data);
     }
 
-    upload(uri, form, data, params = {}, headers = {}, configs = { multiple: false }) {
+    upload(uri, form, params = {}, headers = {}, configs = { multiple: false }) {
         let files = form.files;
-        if (!Array.isArray(files)) {
-            files = new Array(files);
-        }
         let formData = new FormData();
-        // formData.append('files', files);
-        files.forEach((item, i) => {
-            formData.append("data[" + i + "][file]", item);
-            formData.append("data[" + i + "][type]", form.type);
-            formData.append("data[" + i + "][caption]", "caption " + i);
-            formData.append("data[" + i + "][credit]", "credit " + i);
-        });
+        Object.keys(files).map(function(key) {
+            formData.append("data[" + key + "][file]", files[key]);
+            formData.append("data[" + key + "][type]", form.type);
+            formData.append("data[" + key + "][caption]", "caption " + key);
+            formData.append("data[" + key + "][credit]", "credit " + key);
+
+        })
 
         return this.post(uri, formData, params, headers, configs);
     }

@@ -4,6 +4,6 @@ let cols =  'id,name,icon';
 export const getPages = () => {
     return {
         types: [GET_PAGES_REQUEST,GET_PAGES_FAIL,GET_PAGES_SUCCESS],
-        promise: (apiClient) => apiClient.get(`User/Pages`, JSON.stringify({ cols }))
+        promise: (apiClient) => apiClient.get(`User/Pages`,{ cols })
     }
 }

@@ -8,9 +8,10 @@ import {
     ADD_SUB_GROUP_REQUEST,ADD_SUB_GROUP_FAIL,ADD_SUB_GROUP_SUCCESS,
     EDIT_SUB_GROUP_REQUEST,EDIT_SUB_GROUP_FAIL,EDIT_SUB_GROUP_SUCCESS,
     DELETE_SUB_GROUP_REQUEST,DELETE_SUB_GROUP_FAIL,DELETE_SUB_GROUP_SUCCESS,
-    SET_GROUP_MODAL,TOGGLE_GROUP_MODAL,TOGGLE_SUB_GROUP_MODAL,OPEN_MENU
+    SET_GROUP_MODAL,TOGGLE_GROUP_MODAL,TOGGLE_SUB_GROUP_MODAL,OPEN_MENU,
+    SELECT_GROUP
 } from "./actionTypes";
-import {IsRequiredField,IsRequiredFields} from "../../utility/utils";
+import {IsRequiredField,IsRequiredFields,PutObjectValues,RemoveObjectValues} from "../../utility/utils";
 import {openMenu,addElement,editElement,deleteElement} from "./functions";
 
 const INIT_STATE = {
@@ -19,6 +20,7 @@ const INIT_STATE = {
     modal: {},
     subModal: {},
     required: ["name"],
+    selected:{},
     loading: false,
     success: false,
     fail: false,
@@ -78,7 +80,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                group: JSON.parse(action.result.data),
+                group: JSON.parse(action.result.data)[Object.keys(JSON.parse(action.result.data))[0]],
                 errors: {},
             };
         case ADD_GROUP_REQUEST:
@@ -130,7 +132,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 group: {},
-                groups: JSON.parse(action.result.data)
+                groups: PutObjectValues(state.groups,JSON.parse(action.result.data))
             };
         case DELETE_GROUP_REQUEST:
             return {
@@ -155,7 +157,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 group: {},
-                groups: JSON.parse(action.result.data)
+                groups: RemoveObjectValues(state.groups,JSON.parse(action.result.data)['id'])
             };
         case GET_SUB_GROUP_REQUEST:
             return {
@@ -317,6 +319,11 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 groups: state.groups
+            }
+        case SELECT_GROUP:
+            state.selected[action.group_id] = action.value
+            return {
+                ...state,
             }
         default:
             return {...state};

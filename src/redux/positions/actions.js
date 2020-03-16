@@ -15,27 +15,27 @@ export const positionActions = (type,data) => {
         case "get":
             return {
                 types: [GET_POSITION_REQUEST,GET_POSITION_FAIL,GET_POSITION_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ param:{id:data.id} }))
+                promise: (apiClient) => apiClient.get(url, { param:{id:data.id} })
             }
         case "getAll":
             return {
                 types: [GET_POSITIONS_REQUEST,GET_POSITIONS_FAIL,GET_POSITIONS_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ cols }))
+                promise: (apiClient) => apiClient.get(url, { cols })
             }
         case "add":
             return {
                 types: [ADD_POSITION_REQUEST,ADD_POSITION_FAIL,ADD_POSITION_SUCCESS],
-                promise: (apiClient) => apiClient.post(url, JSON.stringify({data, cols}))
+                promise: (apiClient) => apiClient.post(url,data, { cols })
             }
         case "edit":
             return {
                 types: [EDIT_POSITION_REQUEST,EDIT_POSITION_FAIL,EDIT_POSITION_SUCCESS],
-                promise: (apiClient) => apiClient.put(url,JSON.stringify({id:data.id,data,cols}))
+                promise: (apiClient) => apiClient.put(url,data,{param:{id:data.id},cols})
             }
         case "delete":
             return {
                 types: [DELETE_POSITION_REQUEST,DELETE_POSITION_FAIL,DELETE_POSITION_SUCCESS],
-                promise: (apiClient) => apiClient.delete(url, JSON.stringify({id:data.id, data,cols }))
+                promise: (apiClient) => apiClient.delete(url, { param:{id:data.id},cols })
             }
         default:
             return ;

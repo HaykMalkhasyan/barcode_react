@@ -8,7 +8,8 @@ import {
     ADD_SUB_GROUP_REQUEST,ADD_SUB_GROUP_FAIL,ADD_SUB_GROUP_SUCCESS,
     EDIT_SUB_GROUP_REQUEST,EDIT_SUB_GROUP_FAIL,EDIT_SUB_GROUP_SUCCESS,
     DELETE_SUB_GROUP_REQUEST,DELETE_SUB_GROUP_FAIL,DELETE_SUB_GROUP_SUCCESS,
-    SET_GROUP_MODAL,TOGGLE_GROUP_MODAL,TOGGLE_SUB_GROUP_MODAL,OPEN_MENU
+    SET_GROUP_MODAL,TOGGLE_GROUP_MODAL,TOGGLE_SUB_GROUP_MODAL,OPEN_MENU,
+    SELECT_GROUP
 } from "./actionTypes";
 
 
@@ -21,27 +22,27 @@ export const groupActions = (type,data) => {
         case "get":
             return {
                 types: [GET_GROUP_REQUEST,GET_GROUP_FAIL,GET_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ param:{id:data.id} }))
+                promise: (apiClient) => apiClient.get(url, { param:{id:data.id} })
             }
         case "getAll":
             return {
                 types: [GET_GROUPS_REQUEST,GET_GROUPS_FAIL,GET_GROUPS_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ cols }))
+                promise: (apiClient) => apiClient.get(url, { cols })
             }
         case "add":
             return {
                 types: [ADD_GROUP_REQUEST, ADD_GROUP_FAIL, ADD_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.post(url, JSON.stringify({data, cols}))
+                promise: (apiClient) => apiClient.post(url, data ,{cols})
             }
         case "edit":
             return {
                 types: [EDIT_GROUP_REQUEST,EDIT_GROUP_FAIL,EDIT_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.put(url,JSON.stringify({id:data.id,data,cols}))
+                promise: (apiClient) => apiClient.put(url,data,{param:{id:data.id},cols})
             }
         case "delete":
             return {
                 types: [DELETE_GROUP_REQUEST,DELETE_GROUP_FAIL,DELETE_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.delete(url, JSON.stringify({id:data.id, data,cols }))
+                promise: (apiClient) => apiClient.delete(url, { param:{id:data.id},cols  })
             }
         default:
             return ;
@@ -52,22 +53,22 @@ export const subGroupActions = (type,data) => {
         case "get":
             return {
                 types: [GET_SUB_GROUP_REQUEST,GET_SUB_GROUP_FAIL,GET_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.get(url1, JSON.stringify({ param:{id:data.id} }))
+                promise: (apiClient) => apiClient.get(url1, { param:{id:data.id} })
             }
         case "add":
             return {
                 types: [ADD_SUB_GROUP_REQUEST, ADD_SUB_GROUP_FAIL, ADD_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.post(url1, JSON.stringify({data, cols}))
+                promise: (apiClient) => apiClient.post(url1,data, { cols})
             }
         case "edit":
             return {
                 types: [EDIT_SUB_GROUP_REQUEST,EDIT_SUB_GROUP_FAIL,EDIT_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.put(url1,JSON.stringify({ param:{id:data.id,group_id: data.group_id},data,cols}))
+                promise: (apiClient) => apiClient.put(url1,data,{ param:{id:data.id,group_id: data.group_id},cols})
             }
         case "delete":
             return {
                 types: [DELETE_SUB_GROUP_REQUEST,DELETE_SUB_GROUP_FAIL,DELETE_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.delete(url1, JSON.stringify({param:{id:data.id,group_id: data.group_id},cols }))
+                promise: (apiClient) => apiClient.delete(url1, {param:{id:data.id,group_id: data.group_id},cols })
             }
         default:
             return ;
@@ -113,6 +114,14 @@ export const handleOpen = (id,group_id) => {
         type: OPEN_MENU,
         id,
         group_id,
+    }
+}
+
+export const selectGroup = (group_id,value) => {
+    return {
+        type: SELECT_GROUP,
+        group_id,
+        value,
     }
 }
 

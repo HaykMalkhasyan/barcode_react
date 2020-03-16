@@ -6,7 +6,8 @@ import {
     setModalValues,
     toggleModal,
     toggleSubModal,
-    handleOpen
+    handleOpen,
+    selectGroup
 } from "../../../redux/group/actions";
 import {
     toggleModalLanguage
@@ -23,7 +24,8 @@ const mapDispatchToProps = dispatch => {
             toggleModal,
             toggleSubModal,
             handleOpen,
-            toggleModalLanguage
+            toggleModalLanguage,
+            selectGroup
         },
         dispatch
     );
@@ -36,6 +38,7 @@ const mapStateToProps = state => {
         modal: state.group.modal,
         subModal: state.group.subModal,
         perm: state.permission.data.group,
+        selected: state.group.selected,
         lang: {
             languages:state.languages.languages,
             modalLang:state.languages.modalLang,

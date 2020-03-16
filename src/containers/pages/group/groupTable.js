@@ -49,8 +49,10 @@ function GroupTableItem(props) {
                                 data={ props.data.subGroup }
                                 toggleSubModal = {props.toggleSubModal}
                                 handleOpen = {props.handleOpen}
+                                selectGroup = {props.selectGroup}
                                 actions={props.subGroupActions}
                                 group_id = { props.data.id }
+                                selected = { props.selected }
                                 lang = {props.lang}
                             />
 
@@ -63,16 +65,18 @@ function GroupTableItem(props) {
 
 }
 function GroupTable(props) {
-    if(Object.keys(props.data).length>0){
+    if(Object.keys(props.groups).length>0){
             return <div>
-                {Object.keys(props.data).map(key =>
+                {Object.keys(props.groups).map(key =>
                     <GroupTableItem
                         key = {key}
-                        data={props.data[key]}
+                        data={props.groups[key]}
                         toggleModal = {props.toggleModal}
                         toggleSubModal = {props.toggleSubModal}
                         perm={props.perm}
                         handleOpen = {props.handleOpen}
+                        selectGroup = {props.selectGroup}
+                        selected = { props.selected }
                         groupActions={props.groupActions}
                         subGroupActions={props.subGroupActions}
                         lang={props.lang}

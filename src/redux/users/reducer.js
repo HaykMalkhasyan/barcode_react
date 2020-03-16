@@ -6,7 +6,7 @@ import {
     DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
     SET_USER_MODAL,TOGGLE_USER_MODAL
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields} from "../../utility/utils";
+import {IsRequiredField, IsRequiredFields, Put ,Push ,Remove} from "../../utility/utils";
 
 
 const INIT_STATE = {
@@ -102,11 +102,7 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 modal: {},
-                users: [
-                    ...state.users,
-                    JSON.parse(action.result.data)[0]
-
-                ]
+                users: Push(state.users,JSON.parse(action.result.data)[0])
             };
         case EDIT_USER_REQUEST:
             return {
@@ -132,7 +128,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 user: {},
-                users: JSON.parse(action.result.data)
+                users: Put(state.users,JSON.parse(action.result.data)[0],'id')
             };
         case DELETE_USER_REQUEST:
             return {
@@ -157,7 +153,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 user: {},
-                users: JSON.parse(action.result.data)
+                users: Remove(state.users,JSON.parse(action.result.data),'id')
             };
 
         case SET_USER_MODAL:

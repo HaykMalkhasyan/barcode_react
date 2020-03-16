@@ -15,27 +15,27 @@ export const supplierActions = (type,data) => {
         case "get":
             return {
                 types: [GET_SUPPLIER_REQUEST,GET_SUPPLIER_FAIL,GET_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ param:{id:data.id} }))
+                promise: (apiClient) => apiClient.get(url, { param:{id:data.id}} )
             }
         case "getAll":
             return {
                 types: [GET_SUPPLIERS_REQUEST,GET_SUPPLIERS_FAIL,GET_SUPPLIERS_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, JSON.stringify({ cols }))
+                promise: (apiClient) => apiClient.get(url, { cols })
             }
         case "add":
             return {
                 types: [ADD_SUPPLIER_REQUEST,ADD_SUPPLIER_FAIL,ADD_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.post(url, JSON.stringify({data, cols}))
+                promise: (apiClient) => apiClient.post(url, data, {cols})
             }
         case "edit":
             return {
                 types: [EDIT_SUPPLIER_REQUEST,EDIT_SUPPLIER_FAIL,EDIT_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.put(url,JSON.stringify({ param:{id:data.id},data,cols}))
+                promise: (apiClient) => apiClient.put(url,data,{ param:{id:data.id},cols})
             }
         case "delete":
             return {
                 types: [DELETE_SUPPLIER_REQUEST,DELETE_SUPPLIER_FAIL,DELETE_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.delete(url, JSON.stringify({ param:{id:data.id}, data,cols }))
+                promise: (apiClient) => apiClient.delete(url, { param:{id:data.id}} )
             }
         default:
             return ;

@@ -6,7 +6,7 @@ import  {
     DELETE_POSITION_REQUEST, DELETE_POSITION_FAIL, DELETE_POSITION_SUCCESS,
     SET_POSITION_MODAL,HANDLE,TOGGLE_POSITION_MODAL
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields} from "../../utility/utils";
+import {IsRequiredField, IsRequiredFields, Push, Remove} from "../../utility/utils";
 
 const INIT_STATE = {
     positions: [],
@@ -92,11 +92,7 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 modal: {},
-                positions: [
-                    ...state.positions,
-                    JSON.parse(action.result.data)
-
-                ]
+                positions: Push(state.positions,JSON.parse(action.result.data))
             };
         case EDIT_POSITION_REQUEST:
             return {
@@ -147,7 +143,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 position: {},
-                positions: JSON.parse(action.result.data)
+                positions: Remove(state.positions,JSON.parse(action.result.data),'id')
             };
         case SET_POSITION_MODAL:
             state.position[action.key] = action.value

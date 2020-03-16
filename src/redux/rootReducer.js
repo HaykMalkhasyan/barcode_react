@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import customizerReducer from "./customizer";
+import todoReducer from "./todo/reducer";
 import authReducer from "./auth/reducer";
 import usersReducer from "./users/reducer";
 import suppliersReducer from "./suppliers/reducer";
@@ -16,6 +17,7 @@ import { reducer as toastrReducer } from "react-redux-toastr";
 const rootReducer = combineReducers({
    toastr: toastrReducer, // <- Mounted at toastr.
    customizer: customizerReducer,
+   todo: todoReducer,
    auth: authReducer,
    users:usersReducer,
    suppliers:suppliersReducer,

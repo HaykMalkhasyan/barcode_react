@@ -1,5 +1,5 @@
 import React from "react";
-import {Row, Col} from "reactstrap";
+import {Row, Col, Badge} from "reactstrap";
 import { Minus, Plus,Check} from "react-feather";
 import PlusButton from "../../../components/buttons/plusButton";
 import EditButton from "../../../components/buttons/editButton";
@@ -15,12 +15,16 @@ function SubMenu(props) {
                 data={props.data.child}
                 handleOpen = {props.handleOpen}
                 toggleSubModal = {props.toggleSubModal}
+                selected = { props.selected }
+                selectGroup = {props.selectGroup}
                 actions={props.actions}
                 lang = {props.lang}
+                page = {props.page}
             />
         }
         return <div></div>
     }
+
 
     function Chevron(props) {
         if (props.data) {
@@ -34,16 +38,21 @@ function SubMenu(props) {
 
     return (
         <li className="list-group-item list-group-item-action border-0 my-0 py-1">
-            <Row className="todo-list-group-item border  rounded">
+            <Row
+                className={ `todo-list-group-item border  rounded ${props.selected[props.data.group_id] && props.selected[props.data.group_id].id === props.data.id? `bg-primary text-white`:`bg-white font-weight-normal text-secondary`}`}
+                onClick = {()=>props.selectGroup(props.data.group_id,{id:props.data.id,name:props.data.name[props.lang.active]})}
+            >
                 <Col sm="11" md="11">
                     <Chevron data={props.data.child} handleOpen = {props.handleOpen} id = {props.data.id} group_id = {props.data.group_id}/>
                     {props.data.name[props.lang.active]?props.data.name[props.lang.active]:""}
                 </Col>
-                <Col sm="1" md="1">
+                {props.page!=="products"?<Col sm="1" md="1">
                     <PlusButton perm={props.perm} onClick={() => props.toggleSubModal('add',props.data.id,props.data.group_id)}/>
                     <EditButton perm={props.perm} onClick={() => { props.toggleSubModal('edit',props.data.id,props.data.group_id); props.actions("get",props.data)}}/>
                     <DeleteButton perm={props.perm} onClick={() => props.toggleSubModal('delete',props.data.id,props.data.group_id)}/>
-                </Col>
+                </Col>:<div></div>
+                }
+
             </Row>
             <SubMenuItem {...props}/>
         </li>
@@ -61,8 +70,11 @@ function Menu(props) {
                         perm={props.perm}
                         actions={props.actions}
                         handleOpen = {props.handleOpen}
+                        selectGroup = {props.selectGroup}
                         toggleSubModal = {props.toggleSubModal}
+                        selected = {props.selected}
                         lang = {props.lang}
+                        page = {props.page}
                     />
                 )
             })}

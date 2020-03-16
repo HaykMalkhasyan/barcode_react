@@ -8,9 +8,10 @@ import {
 } from "./actionTypes";
 
 export const login = (form, redirectPath) => {
+    console.log(form)
     return {
         types: [LOGIN_REQUEST,LOGIN_REQUEST_FAIL,LOGIN_REQUEST_SUCCESS],
-        promise: (apiClient) => apiClient.get(`Auth/Login`, JSON.stringify(form))
+        promise: (apiClient) => apiClient.get(`Auth/Login`, { param:{form:form} })
     }
 };
 

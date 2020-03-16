@@ -19,7 +19,7 @@ const PositionModal = (props) => {
                                     className={`form-control  ${props.errors.name? 'is-invalid':''}`}
                                     type="text"
                                     id="name"
-                                    value={props.position.name}
+                                    value={props.position.name?props.position.name:""}
                                     onChange={event => props.setModalValues("name", event.target.value)}
 
                                 />

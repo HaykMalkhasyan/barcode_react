@@ -16,16 +16,7 @@ class UserContainer extends Component {
                     <Card>
                         <CardBody>
                             <AddButton perm = {this.props.perm}  onClick={() => this.props.toggleModal("add")} />{" "}
-                            <TableComponent
-                                data = {this.props.groups}
-                                toggleModal = {this.props.toggleModal}
-                                toggleSubModal = {this.props.toggleSubModal}
-                                groupActions = {this.props.groupActions}
-                                subGroupActions = {this.props.subGroupActions}
-                                handleOpen = {this.props.handleOpen}
-                                perm = {this.props.perm}
-                                lang = {this.props.lang}
-                            />
+                            <TableComponent {...this.props} />
                         </CardBody>
                     </Card>
                     <GroupModal {...this.props}  type={'add'} />

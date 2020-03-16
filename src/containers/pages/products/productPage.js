@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {  Col, Card, CardBody } from "reactstrap";
 import TableComponent from './productTable';
-import ModalComponent from './productModal';
+import ModalComponent from './modal/productModal';
 import AddButton from "../../../components/buttons/addButton";
 
 
@@ -9,6 +9,7 @@ class ProductContainer extends Component {
     constructor(props) {
         super(props)
         this.props.productActions("getAll")
+        this.props.barcodeActions("getTypes")
     }
 
     render() {

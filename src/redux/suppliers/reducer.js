@@ -197,6 +197,8 @@ export default (state = INIT_STATE, action) => {
                     state.supplier[action.key] = []
                 }
                 if(typeof action.add === 'undefined'){
+                    console.log(state.supplier)
+                    // console.log(JSON.parse(state.supplier[action.key]))
                     state.supplier[action.key][action.index] = action.value;
                 }else
                 if(action.add){
