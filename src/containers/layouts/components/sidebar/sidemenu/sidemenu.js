@@ -17,11 +17,11 @@ class SideMenuContent extends Component {
         }else{
             return(
             <SideMenu.MenuSingleItem badgeColor="danger" key = {key}>
-                <NavLink to={"/"+this.props.pages[key].name} activeclassname="active">
+                <NavLink to={`/${this.props.pages[key].name.trim()}`} activeclassname="active">
                     <i className="menu-icon">
-                        <Icon tag={this.props.pages[key].icon} />
+                        <Icon tag={this.props.pages[key].icon.trim()} />
                     </i>
-                    <span className="menu-item-text"><Translate name={this.props.pages[key].name}/></span>
+                    <span className="menu-item-text"><Translate name={this.props.pages[key].name.trim()}/></span>
                 </NavLink>
             </SideMenu.MenuSingleItem>
             )
@@ -32,6 +32,14 @@ class SideMenuContent extends Component {
        if(Object.entries(this.props.pages).length>0){
            return (
                <SideMenu className="sidebar-content" toggleSidebarMenu={this.props.toggleSidebarMenu}>
+                   <SideMenu.MenuSingleItem badgeColor="danger">
+                   <NavLink to={`/menu`} activeclassname="active">
+                       <i className="menu-icon">
+                           <Icon tag={"Menu"} />
+                       </i>
+                       <span className="menu-item-text">Edit menu</span>
+                   </NavLink>
+                   </SideMenu.MenuSingleItem>
                    {Object.keys(this.props.pages).map((key) =>
                        this.sideMenuItem(key)
                    )}

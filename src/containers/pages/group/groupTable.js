@@ -14,7 +14,8 @@ import {ChevronDown, ChevronRight} from "react-feather";
 import PlusButton from "../../../components/buttons/plusButton";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
-function GroupTableItem(props) {
+
+const GroupTableItem = props => {
 
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
@@ -64,7 +65,7 @@ function GroupTableItem(props) {
     )
 
 }
-function GroupTable(props) {
+const GroupTable = props => {
     if(Object.keys(props.groups).length>0){
             return <div>
                 {Object.keys(props.groups).map(key =>

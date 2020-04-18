@@ -29,12 +29,13 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_PAGES_SUCCESS:
+            console.log(action.result);
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                data: JSON.parse(action.result.data),
+                data: action.result,
                 errors: {},
             };
 

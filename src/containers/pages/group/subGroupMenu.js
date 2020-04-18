@@ -1,11 +1,11 @@
 import React from "react";
-import {Row, Col, Badge} from "reactstrap";
+import {Row, Col, /*Badge*/} from "reactstrap";
 import { Minus, Plus,Check} from "react-feather";
 import PlusButton from "../../../components/buttons/plusButton";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 
-function SubMenu(props) {
+const SubMenu = props => {
     const open = props.data.open;
 
     function SubMenuItem(props) {
@@ -59,13 +59,14 @@ function SubMenu(props) {
     )
 };
 
-function Menu(props) {
+const Menu = props => {
 
     if (props.data && props.data.length > 0) {
         return <ul className="list-group ">
             {props.data.map((value, index) => {
                 return (
                     <SubMenu
+                        key={index}
                         data={value}
                         perm={props.perm}
                         actions={props.actions}

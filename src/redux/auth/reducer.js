@@ -12,7 +12,8 @@ import {
 
 const INIT_STATE = {
     user: getSession('user'),
-    token: getSession('token'),
+    acces_token: getSession('access'),
+    refresh_token: getSession('refresh'),
     loading: false,
     success: false,
     fail: false,
@@ -22,6 +23,7 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
         case LOGIN_REQUEST:
+            console.log('LOGIN_REQUEST', action)
             return {
                 ...state,
                 loading: true,
@@ -30,7 +32,7 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case LOGIN_REQUEST_FAIL:
-
+            console.log('LOGIN_REQUEST_FAIL', action)
             return {
                 ...state,
                 loading: false,
@@ -38,7 +40,7 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case LOGIN_REQUEST_SUCCESS:
-            let data = action.result.data
+            let data = action.result
             saveSession('auth',data);
             return {
                 ...state,
@@ -46,7 +48,8 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 user: data.user,
-                token: data.token,
+                access_token: data.access,
+                access_refresh_token: data.refresh,
                 errors: {},
             };
         case LOGOUT_REQUEST:
@@ -70,7 +73,8 @@ export default (state = INIT_STATE, action) => {
                     fail: false,
                 },
                 user: null,
-                token:null
+                access_token: null,
+                refresh_token: null
             };
         case LOGOUT_REQUEST_FAIL:
             return {

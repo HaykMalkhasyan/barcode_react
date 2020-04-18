@@ -29,7 +29,6 @@ export default (state = INIT_STATE, action) => {
 
             };
         case UPLOAD_IMAGES_SUCCESS:
-            console.log(action)
             return {
                 ...state,
                 loading: false,

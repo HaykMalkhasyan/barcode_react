@@ -10,6 +10,7 @@ let cols =  'id,username,firstname,lastname';
 let url = `User/Users`;
 
 export const userActions = (type,data) => {
+
     switch(type) {
         case "get":
             return {

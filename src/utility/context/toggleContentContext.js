@@ -13,6 +13,7 @@ class FoldedContentProvider extends Component {
          }));
       },
       makeNormalContent: () => {
+         console.log('tia', templateConfig.sidebar.collapsed)
          this.setState(prevState => ({
             foldedContent: false
          }));

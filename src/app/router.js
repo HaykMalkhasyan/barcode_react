@@ -9,6 +9,7 @@ import ErrorLayoutRoute from "../containers/layouts/routes/errorRoutes";
 
 const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
+const LazyMenu = lazy(() => import("../containers/pages/menu/menuPage"));
 const LazySuppliers = lazy(() => import("../containers/pages/suppliers/supplierContainer"));
 const LazyPositions = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyProducts = lazy(() => import("../containers/pages/products/productContainer"));
@@ -21,7 +22,18 @@ function Router(props) {
     return (
         <BrowserRouter basename="/">
             <Switch>
-
+                <PrivateRoute
+                    exact
+                    path="/menu"
+                    auth={props.auth}
+                    component={LazyMenu}
+                />
+                <PrivateRoute
+                    exact
+                    path="/groups"
+                    auth={props.auth}
+                    component={LazyGroup}
+                />
                 <PrivateRoute
                     exact
                     path="/"
@@ -51,12 +63,6 @@ function Router(props) {
                     path="/products"
                     auth={props.auth}
                     component={LazyProducts}
-                />
-                <PrivateRoute
-                    exact
-                    path="/groups"
-                    auth={props.auth}
-                    component={LazyGroup}
                 />
                 <PublicRoute
                     exact

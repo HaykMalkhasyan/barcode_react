@@ -8,7 +8,8 @@ import {
     SET_SUPPLIER_MODAL,TOGGLE_SUPPLIER_MODAL
 } from "./actionTypes";
 let cols =  'id,name,type,hh,address,phone';
-let url = `Supplier/Suppliers`;
+// let url = `Supplier/Suppliers`;
+let url = `supplier`;
 
 export const supplierActions = (type,data) => {
     switch(type) {
@@ -17,10 +18,15 @@ export const supplierActions = (type,data) => {
                 types: [GET_SUPPLIER_REQUEST,GET_SUPPLIER_FAIL,GET_SUPPLIER_SUCCESS],
                 promise: (apiClient) => apiClient.get(url, { param:{id:data.id}} )
             }
+        // case "getAll":
+        //     return {
+        //         types: [GET_SUPPLIERS_REQUEST,GET_SUPPLIERS_FAIL,GET_SUPPLIERS_SUCCESS],
+        //         promise: (apiClient) => apiClient.get(url, { cols })
+        //     }
         case "getAll":
             return {
                 types: [GET_SUPPLIERS_REQUEST,GET_SUPPLIERS_FAIL,GET_SUPPLIERS_SUCCESS],
-                promise: (apiClient) => apiClient.get(url, { cols })
+                promise: (apiClient) => apiClient.gett(url)
             }
         case "add":
             return {

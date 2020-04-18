@@ -1,15 +1,16 @@
 import {
-    GET_LANGUAGES_REQUEST,GET_LANGUAGES_FAIL,GET_LANGUAGES_SUCCESS,
-    GET_TRANSLATIONS_REQUEST,GET_TRANSLATIONS_FAIL,GET_TRANSLATIONS_SUCCESS,
-    SET_ACTIVE_LANGUAGE,SET_MODAL_LANGUAGE,TOGGLE_MODAL_LANGUAGE
+    GET_LANGUAGES_REQUEST, GET_LANGUAGES_FAIL, GET_LANGUAGES_SUCCESS,
+    GET_TRANSLATIONS_REQUEST, GET_TRANSLATIONS_FAIL, GET_TRANSLATIONS_SUCCESS,
+    SET_ACTIVE_LANGUAGE, SET_MODAL_LANGUAGE, TOGGLE_MODAL_LANGUAGE
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
+import {SET_GROUP_MODAL} from "../group/actionTypes";
 
 const INIT_STATE = {
-    languages:[],
-    modalLang:SessionStorage.get("lang")?SessionStorage.get("lang"):'am',
-    translations:{},
-    active:SessionStorage.get("lang")?SessionStorage.get("lang"):'am'
+    languages: [],
+    modalLang: SessionStorage.get("lang") ? SessionStorage.get("lang") : 'am',
+    translations: {},
+    active: SessionStorage.get("lang") ? SessionStorage.get("lang") : 'am'
 };
 
 

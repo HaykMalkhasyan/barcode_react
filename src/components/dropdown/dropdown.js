@@ -11,8 +11,8 @@ const DropdownComponent = (props) => {
         <InputGroupButtonDropdown addonType="prepend" isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle split outline className='rounded-right' />
             <DropdownMenu>
-                {props.data.map((value) => {
-                    return <DropdownItem onClick={()=>{props.onChange(props.name,value.id)}}><Translate name={"generate"}/> {value.name}</DropdownItem>
+                {props.data.map((value, index) => {
+                    return <DropdownItem key={index} onClick={()=>{props.onChange(props.name,value.id)}}><Translate name={"generate"}/> {value.name}</DropdownItem>
                 })}
             </DropdownMenu>
         </InputGroupButtonDropdown>

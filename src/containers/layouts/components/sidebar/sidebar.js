@@ -17,7 +17,6 @@ import { getPermissions } from '../../../../redux/permission/actions';
 import {bindActionCreators} from "redux";
 class Sidebar extends Component {
    state = {
-      collapsedSidebar: templateConfig.sidebar.collapsed,
       width: window.innerWidth
    };
     constructor(props) {
@@ -32,7 +31,7 @@ class Sidebar extends Component {
     };
 
     handleCollapsedSidebar = (collapsedSidebar) => {
-       this.setState({collapsedSidebar})
+       this.props.sidebarCollapsed(collapsedSidebar)
     }
 
    componentDidMount() {
@@ -41,21 +40,23 @@ class Sidebar extends Component {
       }
    }
 
-   componentWillUnmount() {
+    componentWillUnmount() {
       if (window !== "undefined") {
          window.removeEventListener("resize", this.updateWidth, false);
       }
    }
    handleMouseEnter = e => {
-      this.setState(prevState => ({
-         collapsedSidebar: false
-      }));
+       this.props.sidebarCollapsed(false)
+      // this.setState(prevState => ({
+      //    collapsedSidebar: false
+      // }));
    };
 
    handleMouseLeave = e => {
-      this.setState(prevState => ({
-         collapsedSidebar: true
-      }));
+       this.props.sidebarCollapsed(true)
+       // this.setState(prevState => ({
+       //     collapsedSidebar: true
+       // }));
    };
 
    render() {
@@ -65,10 +66,10 @@ class Sidebar extends Component {
             {context => (
                <div
                data-active-color="white"
-               data-background-color={(this.props.color === '') ? templateConfig.sidebar.backgroundColor: this.props.color}
+               data-background-color={(this.props.color.sidebarBgColor === '') ? templateConfig.sidebar.backgroundColor: this.props.color.sidebarBgColor}
                   className={classnames("app-sidebar", {
-                     "": !this.state.collapsedSidebar,
-                     collapsed: this.state.collapsedSidebar
+                     "": !this.props.collapsed,
+                     collapsed: this.props.collapsed
                   },
                   {
                      "hide-sidebar":(this.state.width < 991 && this.props.sidebarState === "close"),
@@ -80,27 +81,27 @@ class Sidebar extends Component {
                >
                   <SidebarHeader toggleSidebarMenu={this.props.toggleSidebarMenu} sidebarBgColor={this.props.color} />
                   <PerfectScrollbar className="sidebar-content">
-                     <SideMenuContent collapsedSidebar={this.state.collapsedSidebar} {...this.props} />
+                     <SideMenuContent collapsedSidebar={this.props.collapsed} {...this.props} />
                   </PerfectScrollbar>
 
                   {/* {this.props.img === '' ? ( */}
                   {templateConfig.sidebar.backgroundImage ? (
-                    (this.props.imgurl === '') ? 
-                        <div 
+                    (this.props.imgurl === '') ?
+                        <div
                         className="sidebar-background"
                         style={{ backgroundImage: "url('" + templateConfig.sidebar.backgroundImageURL + "')" }}>
                         </div>
-                    : 
-                        <div 
+                    :
+                        <div
                         className="sidebar-background"
                         style={{ backgroundImage: "url('" + this.props.imgurl + "')" }}>
                         </div>
                   ) :
                   (
-                    (this.props.imgurl === '') ? 
+                    (this.props.imgurl === '') ?
                         <div className="sidebar-background"></div>
-                    : 
-                        <div 
+                    :
+                        <div
                         className="sidebar-background"
                         style={{ backgroundImage: "url('" + this.props.imgurl + "')" }}>
                         </div>
@@ -109,10 +110,10 @@ class Sidebar extends Component {
                </div>
             )}
          </FoldedContentConsumer>
-         <Customizer 
-            sidebarBgColor={this.props.sidebarBgColor} 
+         <Customizer
+            sidebarBgColor={this.props.sidebarBgColor}
             sidebarImageUrl={this.props.sidebarImageUrl}
-            sidebarCollapsed={this.props.sidebarCollapsed}
+            sidebarCollapsed={this.props.collapsed}
             handleSidebarSize={this.props.handleSidebarSize}
             handleLayout={this.props.handleLayout}
             handleCollapsedSidebar={this.handleCollapsedSidebar.bind(this)}
@@ -125,9 +126,9 @@ class Sidebar extends Component {
 const mapStateToProps = state => ({
     color: state.customizer.sidebarBgColor,
     img: state.customizer.sidebarImage,
-    imgurl: state.customizer.sidebarImageUrl,
-    size: state.customizer.sidebarSize,
-    collapsed: state.customizer.sidebarCollapsed,
+    imgurl: state.customizer.sidebarImageUrl.sidebarImageUrl,
+    size: state.customizer.sidebarSize.size,
+    collapsed: state.customizer.sidebarCollapsed.collapsed,
     pages: state.pages.data,
     permissions : state.permission.data
 })

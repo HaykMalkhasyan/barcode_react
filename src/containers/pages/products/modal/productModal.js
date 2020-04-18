@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Form,Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter, Input, Modal, ModalHeader,CustomInput} from "reactstrap";
 import Translate from "../../../../Translate";
 import TabComponent from "./tab/productTab";
@@ -26,7 +26,7 @@ const ProductModal = (props) => {
                                                     <img className="img-fluid" src={props.uploadedImages[0]?process.env.REACT_APP_API_ENDPOINT+props.uploadedImages[0]:photo6} alt="Timeline 2" />
                                                     <CustomInput
                                                         type="file"
-
+                                                        id="images"
                                                         className="form-control-file"
                                                         value={props.product.images?props.product.images||'':''}
                                                         multiple="multiple"

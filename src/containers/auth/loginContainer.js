@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
     Row,
     Col,
@@ -9,25 +9,26 @@ import {
     Card,
     CardBody
 } from "reactstrap";
-import  jwt  from 'jwt-simple';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { login } from "../../redux/auth/actions";
+import jwt from 'jwt-simple';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {login} from "../../redux/auth/actions";
 
 
 class LoginContainer extends Component {
     state = {
-        rememberMe: false
+        // rememberMe: false
     };
     handleChange = event => {
-        this.setState({ ...this.state, [event.target.name]: event.target.value });
+        this.setState({...this.state, [event.target.name]: event.target.value});
     };
     handleChecked = e => {
-        this.setState({...this.state,rememberMe: !this.state.rememberMe});
+        this.setState({...this.state, rememberMe: !this.state.rememberMe});
     };
     onSubmit = () => {
-        let data = [this.state.username,jwt.encode(this.state.password, "password")];
-        this.props.login(data,'index')
+        // let data = [this.state.username,jwt.encode(this.state.password, "password")];
+        let data = this.state;
+        this.props.login(data, 'index')
     }
 
     render() {
@@ -69,7 +70,8 @@ class LoginContainer extends Component {
                                     <FormGroup>
                                         <Row>
                                             <Col md="12">
-                                                <div className="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 ml-3">
+                                                <div
+                                                    className="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 ml-3">
                                                     <Input
                                                         type="checkbox"
                                                         className="custom-control-input"
@@ -86,7 +88,8 @@ class LoginContainer extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <Col md="12">
-                                            <Button  color="danger" block className="btn-pink btn-raised" onClick={this.onSubmit}>
+                                            <Button color="danger" block className="btn-pink btn-raised"
+                                                    onClick={this.onSubmit}>
                                                 Submit
                                             </Button>
                                             {/*<Button type="button" color="secondary" block className="btn-raised">*/}

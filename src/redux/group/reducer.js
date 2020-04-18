@@ -201,7 +201,6 @@ export default (state = INIT_STATE, action) => {
             };
         case ADD_SUB_GROUP_SUCCESS:
             let addEl =  JSON.parse(action.result.data);
-            console.log(addEl)
             state.groups[addEl.group_id].subGroup = addElement(state.groups[addEl.group_id].subGroup,addEl);
             return {
                 ...state,

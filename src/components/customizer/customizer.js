@@ -33,7 +33,7 @@ class Customizer extends Component {
    handleSizeChange = size => {
       this.props.handleSidebarSize(size);
    };
-   
+
     handleLayout = layout => {
         this.props.handleLayout(layout);
     };
@@ -263,7 +263,7 @@ class Customizer extends Component {
                                                 this.handleSidebarChange(true);
                                              }
                                           }}
-                                          defaultChecked
+                                          defaultChecked={JSON.parse(localStorage.getItem('type')) ? !JSON.parse(localStorage.getItem('type')) : true}
                                        />{" "}
                                        Compact Menu
                                     </Label>
@@ -279,7 +279,7 @@ class Customizer extends Component {
                                        type="select"
                                        id="sidebarWidth"
                                        name="sidebarWidth"
-                                       defaultValue="sidebar-md"
+                                       defaultValue={localStorage.getItem('size') || 'sidebar-md'}
                                        onChange={e => this.handleSizeChange(e.target.value)}
                                     >
                                        <option value="sidebar-sm">Small</option>

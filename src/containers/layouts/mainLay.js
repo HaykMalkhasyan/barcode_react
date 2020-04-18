@@ -8,12 +8,23 @@ import Sidebar from "./components/sidebar/sidebar";
 import Navbar from "./components/navbar/navbar";
 import Footer from "./components/footer/footer";
 import templateConfig from "../../templateConfig";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {
+    sidebarBgColor,
+    sidebarCollapsed,
+    sidebarImage,
+    sidebarImageUrl,
+    sidebarSize
+} from "../../redux/customizer/actions";
+import {getPages} from "../../redux/pages/actions";
+import {getPermissions} from "../../redux/permission/actions";
 
 class MainLayout extends PureComponent {
     state = {
         width: window.innerWidth,
         sidebarState: "close",
-        sidebarSize: '',
+        sidebarSize: localStorage.getItem('size'),
         layout: ''
     };
 
@@ -24,7 +35,10 @@ class MainLayout extends PureComponent {
     };
 
     handleSidebarSize = (sidebarSize) => {
-        this.setState({sidebarSize});
+        this.props.sidebarSize(sidebarSize);
+        this.setState({
+            sidebarSize
+        });
     }
 
     handleLayout = (layout) => {
@@ -86,4 +100,17 @@ class MainLayout extends PureComponent {
     }
 }
 
-export default MainLayout;
+const mapStateToProps = state => ({
+    size: state.customizer.sidebarSize.size,
+});
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators(
+        {
+            sidebarSize
+        },
+        dispatch
+    );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);

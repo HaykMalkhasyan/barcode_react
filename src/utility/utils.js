@@ -7,39 +7,40 @@ export const IsJsonString = (str) => {
     return true;
 };
 
-export const IsRequiredField = (requiredFields,field,errors) => {
-        if(requiredFields.includes(field.key) && field.value===""){
-            errors[field.key] = "Required";
-        }else{
-            delete errors[field.key];
-        }
+export const IsRequiredField = (requiredFields, field, errors) => {
+    if (requiredFields.includes(field.key) && field.value === "") {
+        errors[field.key] = "Required";
+    } else {
+        delete errors[field.key];
+    }
 
     return errors;
 }
 
-export const IsRequiredFields = (requiredFields,fields,errors) => {
-    requiredFields.forEach(function(val, index){
-            if(!fields[val] || fields[val]===""){
-                errors[val]= "Required"
-            }
+export const IsRequiredFields = (requiredFields, fields, errors) => {
+    requiredFields.forEach(function (val, index) {
+        if (!fields[val] || fields[val] === "") {
+            errors[val] = "Required"
+        }
     })
     return errors;
 }
 
 export const ObjectToArray = (obj) => {
     let arr = [];
-    Object.keys(obj).map((key) => {
+    /*method map I change to forEach*/
+    Object.keys(obj).forEach((key) => {
         arr.push(obj[key])
     })
     return arr;
 }
 
-export const RenameKeys = (arr,oldKeys,newKeys) => {
+export const RenameKeys = (arr, oldKeys, newKeys) => {
     let newArr = [];
-    if(arr.length>0){
-        arr.forEach(function(element){
+    if (arr.length > 0) {
+        arr.forEach(function (element) {
             let newEl = {}
-            newKeys.forEach(function(key,index) {
+            newKeys.forEach(function (key, index) {
                 newEl[key] = element[oldKeys[index]]
             })
             newArr.push(newEl);
@@ -49,10 +50,10 @@ export const RenameKeys = (arr,oldKeys,newKeys) => {
 
 }
 
-export const Put = (arr,obj,key) => {
-    if(arr.length>0){
-        arr.forEach(function(element,index){
-            if(element[key] === obj[key]){
+export const Put = (arr, obj, key) => {
+    if (arr.length > 0) {
+        arr.forEach(function (element, index) {
+            if (element[key] === obj[key]) {
                 arr[index] = obj;
             }
         })
@@ -60,32 +61,31 @@ export const Put = (arr,obj,key) => {
     return arr;
 }
 
-export const Push = (arr,obj) => {
+export const Push = (arr, obj) => {
     arr.unshift(obj)
     return arr
 }
 
-export const Remove = (arr,obj,key) => {
-    console.log(arr,obj,key)
-    if(arr.length>0){
-        arr.forEach(function(element,index){
-            if(element[key] === obj[key]){
-                arr.splice(index,1)
+export const Remove = (arr, obj, key) => {
+    if (arr.length > 0) {
+        arr.forEach(function (element, index) {
+            if (element[key] === obj[key]) {
+                arr.splice(index, 1)
             }
         })
     }
-    console.log(arr)
     return arr;
 }
 
-export const PutObjectValues = (obj,newObj) => {
+export const PutObjectValues = (obj, newObj) => {
     let keys = Object.keys(newObj);
-    keys.map((key) => {
+    /*method map I change to forEach*/
+    keys.forEach((key) => {
         obj[key] = newObj[key];
     })
     return obj;
 }
-export const RemoveObjectValues = (obj,key) => {
+export const RemoveObjectValues = (obj, key) => {
     delete obj[key];
     return obj;
 }

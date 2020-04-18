@@ -11,7 +11,6 @@ import {
 
 let url = `Products/Product`;
 export const productActions = (type,data) => {
-    console.log(type,data)
     switch(type) {
         case "get":
             return {

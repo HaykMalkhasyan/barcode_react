@@ -8,7 +8,7 @@ import {
     ADD_BARCODE,DELETE_BARCODE,
     SET_PRODUCT_MODAL,TOGGLE_PRODUCT_MODAL
 } from "./actionTypes";
-import {IsRequiredFields,Remove} from "../../utility/utils";
+import {/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
 
 const INIT_STATE = {
@@ -175,7 +175,6 @@ export default (state = INIT_STATE, action) => {
                 products: JSON.parse(action.result.data)
             };
         case SET_PRODUCT_MODAL:
-            console.log("DFh")
             state.product[action.key] = action.value
             return {
                 ...state,

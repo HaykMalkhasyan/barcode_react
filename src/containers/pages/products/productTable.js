@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Input } from "reactstrap";
+import { Table/*, Input */} from "reactstrap";
 import { Edit, Trash2 } from "react-feather";
 
 import coffeeMug from "../../../assets/img/elements/01.png";
@@ -8,7 +8,9 @@ import headphone from "../../../assets/img/elements/07.png";
 import beer from "../../../assets/img/elements/14.png";
 import penDrive from "../../../assets/img/elements/04.png";
 
-export default class Example extends React.Component {
+/*name change example to TableComponent*/
+
+export default class TableComponent extends React.Component {
     render() {
         return (
             <Table responsive>

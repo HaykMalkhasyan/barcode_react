@@ -10,15 +10,15 @@ import {LogOut} from "react-feather";
 
 
 class LogoutContainer extends Component {
-    state = {
-        rememberMe: false
-    };
-    handleChange = event => {
-        this.setState({ ...this.state, [event.target.name]: event.target.value });
-    };
-    handleChecked = e => {
-        this.setState({...this.state,rememberMe: !this.state.rememberMe});
-    };
+    // state = {
+    //     rememberMe: false
+    // };
+    // handleChange = event => {
+    //     this.setState({ ...this.state, [event.target.name]: event.target.value });
+    // };
+    // handleChecked = e => {
+    //     this.setState({...this.state,rememberMe: !this.state.rememberMe});
+    // };
     onSubmit = () => {
         this.props.logout()
     }

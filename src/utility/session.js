@@ -1,10 +1,13 @@
 import SessionStorage from '../services/SessionStorage';
-export const saveSession = (key,{token,user}, withUser = true) => {
+import  jwt  from 'jwt-simple';
+import jwt_decode from 'jwt-decode'
+export const saveSession = (key,{access, refresh,user}, withUser = true) => {
     const options = {
         path: '/',
         expires: new Date( Date.now()),
     };
-    SessionStorage.set('token', token, options);
+    SessionStorage.set('access', access, options);
+    SessionStorage.set('refresh', refresh, options);
     if (withUser) {
         SessionStorage.set('user', user, options);
     }
@@ -20,7 +23,8 @@ export const destroySession = () => {
     const options = {
         path: '/'
     };
-    SessionStorage.remove('token', options);
+    SessionStorage.remove('access', options);
+    SessionStorage.remove('refresh', options);
     SessionStorage.remove('user', options);
 };
 
