@@ -66,35 +66,6 @@ export default class ApiClient {
         );
     }
 
-    ggetRuntimeConfigs() {
-        const access = SessionStorage.get("access");
-        const lang = SessionStorage.get("lang") ? SessionStorage.get("lang") : 'am';
-        let headers = {
-            "Content-Type": "application/json",
-            "Lang": lang,
-        };
-        if (access) {
-            headers["Authorization"] = `JWT ${access}`;
-        }
-        return Object.assign({}, this.configs, {
-            headers
-        });
-    }
-
-    mmergeConfigs(headers) {
-        const runtimeConfigs = this.ggetRuntimeConfigs();
-        return Object.assign(
-            {},
-            runtimeConfigs,
-            Object.assign(
-                {},
-                {
-                    headers: Object.assign({}, runtimeConfigs.headers, headers),
-                }
-            )
-        );
-    }
-
     static cancelToken() {
         const CancelToken = axios.CancelToken;
         return CancelToken.source();
@@ -105,42 +76,7 @@ export default class ApiClient {
         ).then(response => response.data);
     }
 
-    async gett(uri, headers = {}, configs = {}) {
-        let URL = uri;
-        let HEADERS = headers;
-        let CONFIG = configs
-        try {
-            const response = await axios.get(`${URL}`, this.mmergeConfigs(HEADERS, CONFIG));
-            return response.data
-        } catch (error) {
-            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = getSession('refresh');
 
-                return axios.post('/token/refresh/', {refresh: refresh_token})
-                    .then((response) => {
-                        let user_data = jwt_decode(response.data.access);
-                        let user = {
-                            firstname: user_data.firstname,
-                            lastname: user_data.lastname,
-                            user_id: user_data.user_id
-                        }
-                        response.data.user = user;
-
-                        axios.defaults.headers['Authorization'] = "JWT " + response.data.access;
-                        error.config.headers['Authorization'] = "JWT " + response.data.access;
-
-                        saveSession('auth', response.data);
-                         return this.gett(URL, HEADERS, CONFIG)
-                    })
-                    .catch(err => {
-                        console.log('Error: ',err)
-                    });
-
-                // const response = await this.post('token/refresh/', {refresh: refresh_token});
-                // console.log('for refresh', response)
-            }
-        }
-    }
 
     post(uri, data, params = {}, headers = {}, configs = {hasFile: false}) {
         return axios.post(`${this.API_URI}`, data,
@@ -181,7 +117,34 @@ export default class ApiClient {
 
     /*----------------------------------------*/
 
+    ggetRuntimeConfigs() {
+        const access = SessionStorage.get("access");
+        const lang = SessionStorage.get("lang") ? SessionStorage.get("lang") : 'am';
+        let headers = {
+            "Content-Type": "application/json",
+            "Lang": lang,
+        };
+        if (access) {
+            headers["Authorization"] = `JWT ${access}`;
+        }
+        return Object.assign({}, {
+            headers
+        });
+    }
 
+    mmergeConfigs(headers) {
+        const runtimeConfigs = this.ggetRuntimeConfigs();
+        return Object.assign(
+            {},
+            runtimeConfigs,
+            Object.assign(
+                {},
+                {
+                    headers: Object.assign({}, runtimeConfigs.headers),
+                }
+            )
+        );
+    }
 
      async postt(uri, data) {
 
@@ -201,7 +164,89 @@ export default class ApiClient {
          }
     }
 
+    async gett(uri, headers = {}, configs = {}) {
+        let URL = uri;
+        let HEADERS = headers;
+        let CONFIG = configs
+        try {
+            const response = await axios.get(`${URL}`, this.mmergeConfigs(HEADERS, CONFIG));
+            return response.data
+        } catch (error) {
+            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                const refresh_token = getSession('refresh');
+
+                return axios.post('/token/refresh/', {refresh: refresh_token})
+                    .then((response) => {
+                        let user_data = jwt_decode(response.data.access);
+                        let user = {
+                            firstname: user_data.firstname,
+                            lastname: user_data.lastname,
+                            user_id: user_data.user_id
+                        }
+                        response.data.user = user;
+
+                        axios.defaults.headers['Authorization'] = "JWT " + response.data.access;
+                        error.config.headers['Authorization'] = "JWT " + response.data.access;
+
+                        saveSession('auth', response.data);
+                        return this.gett(URL, HEADERS, CONFIG)
+                    })
+                    .catch(err => {
+                        console.log('Error: ',err)
+                    });
+            }
+        }
+    }
+
     setLogout() {
         destroySession()
     }
+
+
+
+    async deletee(uri, data, headers = {}, configs = {}) {
+        let URL = uri;
+        let HEADERS = headers;
+        let CONFIG = configs
+        await axios.delete(URL,
+            this.mmergeConfigs(HEADERS, CONFIG)
+        )
+        return data
+    }
+
+   async putt(uri, data, headers = {}, configs = {}) {
+        let URL = uri;
+        let HEADERS = headers;
+        let CONFIG = configs;
+        try {
+            const response = await axios.put(URL, data, this.mmergeConfigs(HEADERS, CONFIG));
+            return response.data;
+        } catch (error) {
+            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                const refresh_token = getSession('refresh');
+
+                return axios.post('/token/refresh/', {refresh: refresh_token})
+                    .then((response) => {
+                        let user_data = jwt_decode(response.data.access);
+                        let user = {
+                            firstname: user_data.firstname,
+                            lastname: user_data.lastname,
+                            user_id: user_data.user_id
+                        }
+                        response.data.user = user;
+
+                        axios.defaults.headers['Authorization'] = "JWT " + response.data.access;
+                        error.config.headers['Authorization'] = "JWT " + response.data.access;
+
+                        saveSession('auth', response.data);
+                        return this.putt(URL, HEADERS, CONFIG)
+                    })
+                    .catch(err => {
+                        console.log('Error: ',err)
+                    });
+            }
+        }
+    }
 }
+
+

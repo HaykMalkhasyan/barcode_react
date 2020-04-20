@@ -69,10 +69,39 @@ export const Push = (arr, obj) => {
 export const Remove = (arr, obj, key) => {
     if (arr.length > 0) {
         arr.forEach(function (element, index) {
+            console.log('ELEMENT: ' + element, 'INDEX: ' + index)
             if (element[key] === obj[key]) {
                 arr.splice(index, 1)
             }
         })
+    }
+    return arr;
+}
+
+export function RemoveItem(arr, obj) {
+    if (arr.length > 0) {
+        arr.forEach(
+            (elem, index) => {
+                if (elem.id === obj.id) {
+                    arr.splice(index, 1)
+                }
+            }
+        )
+    }
+    return arr;
+}
+
+export function ChangeItem(arr, obj) {
+    if (arr.length > 0) {
+        arr.forEach(
+            elem => {
+                if (elem.id === obj.id) {
+                    elem.id = obj.id;
+                    elem.name = obj.name;
+                    elem.icon = obj.icon;
+                }
+            }
+        )
     }
     return arr;
 }

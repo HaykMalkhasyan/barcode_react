@@ -29,16 +29,15 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_PAGES_SUCCESS:
-            console.log(action.result);
+            console.log(action.result.results)
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                data: action.result,
+                data: action.result.results,
                 errors: {},
             };
-
         default:
             return {...state};
     }
