@@ -17,7 +17,7 @@ const GroupModal = (props) => {
                         <LocalizeTab />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="name"><Translate name="name"/></Label>
+                        <Label for="name"><Translate name={"name"}/></Label>
                         <LocalizeInput
                             errors = {props.errors.name}
                             name = {props.group.name}
@@ -41,7 +41,7 @@ const GroupModal = (props) => {
                 {modalBodyContent()}
                 <ModalFooter>
                     <Button color="primary"  type="submit" outline onClick={()=>{props.groupActions(props.type,props.group);props.toggleModalLanguage()}}>
-                        <Translate name="confirm"/>
+                        <Translate name={"confirm"}/>
                     </Button>
                 </ModalFooter>
             </Modal>

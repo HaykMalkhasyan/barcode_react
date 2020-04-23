@@ -84,7 +84,7 @@ const UserModal = (props) => {
                         <Row>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="position"><Translate name="position"/></Label>
+                                    <Label for="position"><Translate name="positions"/></Label>
                                     <Input type="select" id="position" value={props.user.position_id || "0"}
                                            defaultValue={"0"}
                                            onChange={event => props.setModalValues("position_id", event.target.value)}>

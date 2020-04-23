@@ -23,7 +23,6 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
         case LOGIN_REQUEST:
-            console.log('LOGIN_REQUEST', action)
             return {
                 ...state,
                 loading: true,
@@ -32,7 +31,6 @@ export default (state = INIT_STATE, action) => {
                 errors: {},
             };
         case LOGIN_REQUEST_FAIL:
-            console.log('LOGIN_REQUEST_FAIL', action)
             return {
                 ...state,
                 loading: false,

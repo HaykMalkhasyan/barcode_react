@@ -9,7 +9,7 @@ import {
 } from "./actionTypes";
 let cols =  'id,name,type,hh,address,phone';
 // let url = `Supplier/Suppliers`;
-let url = `supplier`;
+let url = `supplier/`;
 
 export const supplierActions = (type,data) => {
     switch(type) {

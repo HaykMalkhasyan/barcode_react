@@ -52,8 +52,11 @@ function SubMenu(props) {
                 <Col sm="1" md="1"><Label onClick={() => handleChecked()}><CustomInput type="checkbox" key={props.key}
                                                                                        checked={props.checked}
                                                                                        defaultChecked={props.checked}/></Label></Col>
-                <Col sm="10" md="10" onClick={() => handleOpen()}><p className="mb-0 font-small-3"><Translate
-                    name={props.name}/></p></Col>
+                <Col sm="10" md="10" onClick={() => handleOpen()}>
+                    <p className="mb-0 font-small-3">
+                        <Translate name={props.name}/>
+                    </p>
+                </Col>
                 <Col sm="1" md="1">
                     <Chevron {...props}/>
                 </Col>

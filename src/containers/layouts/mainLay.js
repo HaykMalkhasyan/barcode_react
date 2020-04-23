@@ -11,14 +11,14 @@ import templateConfig from "../../templateConfig";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    sidebarBgColor,
-    sidebarCollapsed,
-    sidebarImage,
-    sidebarImageUrl,
+    // sidebarBgColor,
+    // sidebarCollapsed,
+    // sidebarImage,
+    // sidebarImageUrl,
     sidebarSize
 } from "../../redux/customizer/actions";
-import {getPages} from "../../redux/pages/actions";
-import {getPermissions} from "../../redux/permission/actions";
+// import {getPages} from "../../redux/pages/actions";
+// import {getPermissions} from "../../redux/permission/actions";
 
 class MainLayout extends PureComponent {
     state = {

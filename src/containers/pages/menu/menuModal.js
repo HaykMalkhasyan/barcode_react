@@ -14,7 +14,7 @@ const menuModal = (props) => {
                     <Row>
                         <Col md="12">
                             <FormGroup>
-                                <Label for="name"><Translate name="name"/></Label>
+                                <Label for="name"><Translate name={"name"}/></Label>
                                 <input
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
@@ -26,7 +26,7 @@ const menuModal = (props) => {
                         </Col>
                         <Col md="12">
                             <FormGroup>
-                                <Label for="name"><Translate name="icon"/></Label>
+                                <Label for="name"><Translate name={"icon"}/></Label>
                                 <input
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
@@ -62,7 +62,7 @@ const menuModal = (props) => {
                             }
                         }
                     >
-                        <Translate name="confirm"/>
+                        <Translate name={"confirm"}/>
                     </Button>
                 </ModalFooter>
             </Modal>

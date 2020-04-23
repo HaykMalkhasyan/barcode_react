@@ -9,6 +9,6 @@ export default function AddButton(props) {
         className="btn btn-square"
         onClick={props.onClick}
     >
-        <Translate name="add"/>
+        <Translate name={"add"}/>
     </Button>;
 }

@@ -12,18 +12,43 @@ export default class TableComponent extends React.Component {
         this.props.toggleModal('edit', item.id);
         this.props.actions("get", item)
     }
+
+    createTableHandler = (object, item) => {
+
+        return Object.keys(item).map(
+            key => {
+                if (key === 'icon') {
+                    return (
+                        <td key={key}>
+                            {item[key]}
+                        </td>
+                    )
+                }
+                return (
+                    <td key={key}>
+                        {
+
+
+                            typeof item[key] === 'number' ?
+                            item[key]
+                            :
+                            <Translate name={item[key]}/>
+                        }
+                    </td>
+                )
+            }
+        )
+    }
+
     render() {
         return (
             <Table responsive>
                 <thead>
                 <tr>
-                    {
-                        this.props.data.length !== 0 ?
-                            Object.keys(this.props.data[0]).map((key) => <td key={key}><Translate name={key}/></td>)
-                            :
-                            null
-                    }
-                    <td>E/D</td>
+                    <td>#</td>
+                    <td><Translate name={'Name'}/></td>
+                    <td><Translate name={'Icon'}/></td>
+                    <td><Translate name={'E/D'}/></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +59,10 @@ export default class TableComponent extends React.Component {
 
                                 return (
                                     <tr key={item.id}>
-                                        {Object.keys(item).map((key) => <td key={key}>{item[key]}</td>)}
+                                        {
+                                            this.createTableHandler(Object.keys(item), item)
+
+                                        }
                                         <td>
                                             <EditButton
                                                 perm={'Edit'}

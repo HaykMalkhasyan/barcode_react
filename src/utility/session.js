@@ -1,10 +1,7 @@
 import SessionStorage from '../services/SessionStorage';
-import  jwt  from 'jwt-simple';
-import jwt_decode from 'jwt-decode'
 export const saveSession = (key,{access, refresh,user}, withUser = true) => {
     const options = {
         path: '/',
-        expires: new Date( Date.now()),
     };
     SessionStorage.set('access', access, options);
     SessionStorage.set('refresh', refresh, options);

@@ -10,7 +10,6 @@ import pageReducer from "./pages/reducer";
 import productReducer from './products/reducer';
 import groupReducer from './group/reducer';
 import langReducer from "./lang/reducer";
-import menuReducer from './menu/reducer';
 
 import { reducer as toastrReducer } from "react-redux-toastr";
 
@@ -27,7 +26,6 @@ const rootReducer = combineReducers({
    products:productReducer,
    group:groupReducer,
    pages:pageReducer,
-   menu: menuReducer,
    languages:langReducer,
 });
 

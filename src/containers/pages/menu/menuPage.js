@@ -3,15 +3,9 @@ import {Col, Card, CardBody} from "reactstrap";
 import TableComponent from './menuTable';
 import ModalComponent from './menuModal';
 import AddButton from "../../../components/buttons/addButton";
-import {getPages, toggleModal} from "../../../redux/menu/actions";
 
 
 class MenuContainer extends Component {
-    constructor(props) {
-        super(props)
-        // this.props.menuActions('get')
-        // this.props.barcodeActions("getTypes")
-    }
 
     componentDidMount() {
         this.props.getPages()

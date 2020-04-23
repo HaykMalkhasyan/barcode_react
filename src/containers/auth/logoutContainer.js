@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { logout } from "../../redux/auth/actions";
 import {LogOut} from "react-feather";
+import Translate from "../../Translate";
 // import {Link} from "react-router-dom";
 
 
@@ -26,7 +27,7 @@ class LogoutContainer extends Component {
     render() {
         return (
                 <DropdownItem onClick={this.onSubmit}>
-                    <LogOut size={16} className="mr-1" /> Logout
+                    <LogOut size={16} className="mr-1" /> <Translate name={'Logout'} />
                 </DropdownItem>
         );
     }

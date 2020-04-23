@@ -5,8 +5,7 @@ import {
     setModalValue,
     menuActions,
     getPages,
-} from "../../../redux/menu/actions";
-// import {getPages} from './../../../redux/pages/actions'
+} from "../../../redux/pages/actions";
 import MenuPage from './menuPage';
 
 const mapDispatchToProps = dispatch => {
@@ -23,10 +22,10 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        dataMenu: state.menu.datas,
-        dataMenus: state.menu.data,
-        modal: state.menu.modal,
-        errors: state.menu.errors,
+        dataMenu: state.pages.datas,
+        dataMenus: state.pages.data,
+        modal: state.pages.modal,
+        errors: state.pages.errors,
     }
 };
 

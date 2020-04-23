@@ -18,6 +18,7 @@ export const IsRequiredField = (requiredFields, field, errors) => {
 }
 
 export const IsRequiredFields = (requiredFields, fields, errors) => {
+    console.log(requiredFields, fields, errors)
     requiredFields.forEach(function (val, index) {
         if (!fields[val] || fields[val] === "") {
             errors[val] = "Required"
@@ -61,7 +62,7 @@ export const Put = (arr, obj, key) => {
     return arr;
 }
 
-export const Push = (arr, obj) => {
+export function Push(arr, obj) {
     arr.unshift(obj)
     return arr
 }
@@ -84,6 +85,21 @@ export function RemoveItem(arr, obj) {
             (elem, index) => {
                 if (elem.id === obj.id) {
                     arr.splice(index, 1)
+                }
+            }
+        )
+    }
+    return arr;
+}
+
+export function ChangeTranslation(arr, obj) {
+    if (arr.length > 0) {
+        arr.forEach(
+            elem => {
+                if (elem.id === obj.id) {
+                    elem.id = obj.id;
+                    elem.key = obj.key;
+                    elem.value = obj.value;
                 }
             }
         )

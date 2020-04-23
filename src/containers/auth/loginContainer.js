@@ -9,10 +9,11 @@ import {
     Card,
     CardBody
 } from "reactstrap";
-import jwt from 'jwt-simple';
+// import jwt from 'jwt-simple';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {login} from "../../redux/auth/actions";
+import {getTranslations} from "../../redux/lang/actions"
 
 
 class LoginContainer extends Component {
@@ -29,6 +30,7 @@ class LoginContainer extends Component {
         // let data = [this.state.username,jwt.encode(this.state.password, "password")];
         let data = this.state;
         this.props.login(data, 'index')
+        this.props.getTranslations()
     }
 
     render() {
@@ -114,7 +116,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            login
+            login,
+            getTranslations
         },
         dispatch
     );
