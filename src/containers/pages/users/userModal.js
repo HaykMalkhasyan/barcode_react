@@ -15,7 +15,7 @@ import Translate from "../../../Translate";
 import jwt from "jwt-simple";
 
 const UserModal = (props) => {
-    function modalBodyContent() {
+    const modalBodyContent = () => {
         if (props.type === "delete") {
             return (
                 <ModalBody>Դուք համոզված ե՞ք ջնջել</ModalBody>
@@ -54,6 +54,19 @@ const UserModal = (props) => {
                             </Col>
                         </Row>
                         <Row>
+                            <Col md={12}>
+                                <FormGroup>
+                                    <Label for="email"><Translate name="email"/></Label>
+                                    <input
+                                        className={`form-control  ${props.errors.username ? 'is-invalid' : ''}`}
+                                        type="email"
+                                        id="email"
+                                        onChange={event => props.setModalValues("email", event.target.value)}
+                                        value={props.user.username ? props.user.username : ""}
+
+                                    />
+                                </FormGroup>
+                            </Col>
                             <Col md={6}>
                                 <FormGroup>
                                     <Label for="username"><Translate name="username"/></Label>
@@ -119,14 +132,23 @@ const UserModal = (props) => {
 
     return (
         <React.Fragment>
-            <Modal isOpen={props.modal[props.type]} toggle={() =>{ props.toggleModal(props.type)}} size="lg">
-                <ModalHeader toggle={() => {props.toggleModal(props.type)}}><Translate
+            <Modal isOpen={props.modal[props.type]} toggle={() => {
+                props.toggleModal(props.type)
+            }} size="lg">
+                <ModalHeader toggle={() => {
+                    props.toggleModal(props.type)
+                }}><Translate
                     name={props.type + "User"}/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
-                    <Button color="primary"  outline type="submit" onClick={function () {
-                        props.userActions(props.type, props.user);
-                    }}>
+                    <Button
+                        color="primary"
+                        outline
+                        type="submit"
+                        onClick={function () {
+                            props.userActions(props.type, props.user);
+                        }}
+                    >
                         <Translate name="confirm"/>
                     </Button>
                 </ModalFooter>

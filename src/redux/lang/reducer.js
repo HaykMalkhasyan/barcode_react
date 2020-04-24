@@ -84,10 +84,15 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_TRANSLATIONS_SUCCESS:
+            let actionData = action.result.results;
+            actionData.push({id: 1000, key: 'for test', value: 'for test', language: 'am'})
+            actionData.push({id: 1001, key: 'for test', value: 'for test', language: 'ru'})
+            actionData.push({id: 1002, key: 'for test', value: 'for test', language: 'en'})
+            console.log('actionData', actionData)
             return {
                 ...state,
-                translations: action.result.results,
-                status: true,
+                translations: actionData,
+                status: !!action.result.results.length,
                 loading: false,
                 success: true,
                 fail: false,
@@ -100,6 +105,7 @@ export default (state = INIT_STATE, action) => {
                 success: false,
                 fail: false,
                 errors: {},
+                status: false
             };
         case SET_TRANSLATIONS_FAIL:
             return {
@@ -107,6 +113,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: false,
                 fail: true,
+                status: false
             };
         case SET_TRANSLATIONS_SUCCESS:
             return {
@@ -116,7 +123,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 translations: Push(state.translations, action.result),
                 errors: {},
-                status: false
+                status: true
             }
         case SET_ACTIVE_LANGUAGE:
             return {
@@ -194,7 +201,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             }
         case EDIT_TRANSLATION_SUCCESS:
-            console.log('EDIT_TRANSLATION_SUCCESS', action.result)
             return {
                 ...state,
                 translations: ChangeTranslation(state.translations, action.result),

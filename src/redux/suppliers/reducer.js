@@ -45,7 +45,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_SUPPLIERS_SUCCESS:
-            console.log(JSON.parse(action.result.data))
             return {
                 ...state,
                 loading: false,

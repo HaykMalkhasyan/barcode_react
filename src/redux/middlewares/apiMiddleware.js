@@ -3,7 +3,6 @@ import Immutable from 'immutable';
 let pending = Immutable.Map();
 
 export default function apiClientMiddleware(apiClient) {
-    console.log(apiClient)
     return ({getState, dispatch}) => {
         return next => action => {
             if (typeof action === 'function') {

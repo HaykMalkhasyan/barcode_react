@@ -205,7 +205,6 @@ export default class ApiClient {
                 return response.data;
             } catch (error) {
                 if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    console.log(error.response.status === 401, ' - ', error.response.status, ' : ', error.response.statusText === "Unauthorized", ' - ', error.response.statusText)
                     const refresh_token = getSession('refresh');
                     let new_token_data = this.getToken(error, {refresh: refresh_token});
                     if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
@@ -232,7 +231,6 @@ export default class ApiClient {
                 return response.data
             } catch (error) {
                 if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    console.log(error.response.status === 401, ' - ', error.response.status, ' : ', error.response.statusText === "Unauthorized", ' - ', error.response.statusText)
                     const refresh_token = getSession('refresh');
                     let new_token_data = this.getToken(error, {refresh: refresh_token});
                     if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
@@ -259,7 +257,6 @@ export default class ApiClient {
                 return data
             } catch (error) {
                 if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    console.log(error.response.status === 401, ' - ', error.response.status, ' : ', error.response.statusText === "Unauthorized", ' - ', error.response.statusText)
                     const refresh_token = getSession('refresh');
                     let new_token_data = this.getToken(error, {refresh: refresh_token});
                     if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
@@ -286,7 +283,6 @@ export default class ApiClient {
                 return response.data;
             } catch (error) {
                 if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    console.log(error.response.status === 401, ' - ', error.response.status, ' : ', error.response.statusText === "Unauthorized", ' - ', error.response.statusText)
                     const refresh_token = getSession('refresh');
                     let new_token_data = this.getToken(error, {refresh: refresh_token});
                     if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {

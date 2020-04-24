@@ -46,20 +46,21 @@ export const checkTranslation = object => {
         if (getState().languages.status === true) {
             if (getState().languages.translations.length > 0) {
                 for (let item of getState().languages.translations) {
-                    if (object.key.toLowerCase() === item.key && object.value === item.value && object.language === item.language) {
+                    if (object.key.toLowerCase() === item.key && object.language === item.language) {
                         index = true;
                     }
                 }
-            }
-            if (index === false && object.key.length > 0) {
-                index = false;
-                dispatch(setTranslations(object))
+                if (index === false && object.key.length > 0) {
+                    index = false;
+                    dispatch(setTranslations(object))
+                }
             }
         }
     }
 }
 
 export const setTranslations = (data) => {
+    console.log('DATA', data)
     return {
         types: [SET_TRANSLATIONS_REQUEST, SET_TRANSLATIONS_FAIL, SET_TRANSLATIONS_SUCCESS],
         promise: (apiClient) => apiClient.posttAdd(`translations/`, data, {col})

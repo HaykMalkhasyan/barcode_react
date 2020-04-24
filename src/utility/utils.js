@@ -18,7 +18,6 @@ export const IsRequiredField = (requiredFields, field, errors) => {
 }
 
 export const IsRequiredFields = (requiredFields, fields, errors) => {
-    console.log(requiredFields, fields, errors)
     requiredFields.forEach(function (val, index) {
         if (!fields[val] || fields[val] === "") {
             errors[val] = "Required"
@@ -70,7 +69,6 @@ export function Push(arr, obj) {
 export const Remove = (arr, obj, key) => {
     if (arr.length > 0) {
         arr.forEach(function (element, index) {
-            console.log('ELEMENT: ' + element, 'INDEX: ' + index)
             if (element[key] === obj[key]) {
                 arr.splice(index, 1)
             }

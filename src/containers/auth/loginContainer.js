@@ -14,6 +14,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {login} from "../../redux/auth/actions";
 import {getTranslations} from "../../redux/lang/actions"
+import {getPages} from '../../redux/pages/actions'
 
 
 class LoginContainer extends Component {
@@ -31,6 +32,7 @@ class LoginContainer extends Component {
         let data = this.state;
         this.props.login(data, 'index')
         this.props.getTranslations()
+        this.props.getPages()
     }
 
     render() {
@@ -41,7 +43,7 @@ class LoginContainer extends Component {
                         <Card className="gradient-indigo-purple text-center width-400">
                             <CardBody>
                                 <h2 className="white py-4">Login</h2>
-                                <Form className="pt-2">
+                                <Form onSubmit={this.onSubmit} className="pt-2">
                                     <FormGroup>
                                         <Col md="12">
                                             <Input
@@ -117,7 +119,8 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             login,
-            getTranslations
+            getTranslations,
+            getPages
         },
         dispatch
     );

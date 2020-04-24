@@ -51,7 +51,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                users: JSON.parse(action.result.data),
+                users: action.result.results,
                 modal: {},
                 errors: {},
             };
@@ -153,7 +153,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 user: {},
-                users: Remove(state.users,JSON.parse(action.result.data),'id')
+                users: Put(state.users,JSON.parse(action.result.data)[0],'id')
             };
 
         case SET_USER_MODAL:
