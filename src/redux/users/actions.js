@@ -10,7 +10,6 @@ import {
 let cols = 'id, username, firstname, lastname, email, is_active, deleted ';
 
 export const userActions = (type, data) => {
-    console.log(type, data);
 
     switch (type) {
         case "get":
@@ -24,9 +23,10 @@ export const userActions = (type, data) => {
                 promise: (apiClient) => apiClient.gett('user/', {cols})
             }
         case "add":
+            data.deleted = 0;
             return {
                 types: [ADD_USER_REQUEST, ADD_USER_FAIL, ADD_USER_SUCCESS],
-                promise: (apiClient) => apiClient.postt('user/create/', data, {cols})
+                promise: (apiClient) => apiClient.posttAdd('user/create/', data, {cols})
             }
         case "edit":
             return {
@@ -34,8 +34,7 @@ export const userActions = (type, data) => {
                 promise: (apiClient) => apiClient.putt(`user/${data.id}`, data, {cols})
             }
         case "delete":
-            data.id.deleted = 1;
-            console.log('delete',data)
+            data.deleted = 1;
             return {
                 types: [DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS],
                 promise: (apiClient) => apiClient.putt(`user/${data.id}`, data, {cols})

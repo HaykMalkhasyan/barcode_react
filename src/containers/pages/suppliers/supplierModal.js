@@ -10,28 +10,30 @@ import {
     ModalHeader, Input
 } from "reactstrap";
 import Translate from "../../../Translate";
-import {Plus,Trash2} from "react-feather"
+import {Plus, Trash2} from "react-feather"
 
 const SupplierModal = (props) => {
     function phoneElements() {
-        let element = [],length = props.supplier.phone?props.supplier.phone.length:1;
-        for (let index=0;index<length;index++){
+        let element = [], length = props.supplier.phone ? props.supplier.phone.length : 1;
+        for (let index = 0; index < length; index++) {
             element.push(
                 <FormGroup row key={index}>
-                    <Label for="Phone" sm={3}>{index===0?<Translate name={"phone"}/>:""}</Label>
+                    <Label for="Phone" sm={3}>{index === 0 ? <Translate name={"phone"}/> : ""}</Label>
                     <Col sm={9}>
                         <div className="position-relative has-icon-right">
                             <input
                                 className={`form-control square `}
-                                type="text"
+                                type="tel"
                                 id="Phone"
-                                value={props.supplier.phone?props.supplier.phone[index]||'':''}
-                                onChange={event => props.setModalValues("phone", event.target.value,index)}
+                                value={props.supplier.phone ? props.supplier.phone[index] : ''}
+                                onChange={event => props.setModalValues("phone", event.target.value, index)}
                             />
                             <div className="form-control-position">
-                                {(index+1===length)?
-                                    <Plus size={20} className="success" onClick={() => props.setModalValues("phone", "", index, true)} />:
-                                    <Trash2 size={20} className="danger" onClick={() => props.setModalValues("phone", "", index, false)} />
+                                {(index + 1 === length) ?
+                                    <Plus size={20} className="success"
+                                          onClick={() => props.setModalValues("phone", "", index, true)}/> :
+                                    <Trash2 size={20} className="danger"
+                                            onClick={() => props.setModalValues("phone", "", index, false)}/>
                                 }
                             </div>
                         </div>
@@ -43,47 +45,50 @@ const SupplierModal = (props) => {
     }
 
     function bankElements() {
-        let element = [],length = props.supplier.bank?props.supplier.bank.length:1;
-        for (let index=0;index<length;index++){
+        let element = [], length = props.supplier.bank ? props.supplier.bank.length : 1;
+        for (let index = 0; index < length; index++) {
             element.push(
-
                 <FormGroup row key={index}>
-                    <Label for="Bank" sm={3}>{index===0?<Translate name={"bank"}/>:""}</Label>
+                    <Label for="Bank" sm={3}>{index === 0 ? <Translate name={"bank"}/> : ""}</Label>
                     <Col sm={3} className="pr-0 ">
-                        <Input type="select"  value={(props.supplier.bank_id && props.supplier.bank_id[index])?props.supplier.bank_id[index]:props.setModalValues("bank_id", "1",index)}
+                        <Input type="select"
+                               value={(props.supplier.bank_id && props.supplier.bank_id[index]) ? props.supplier.bank_id[index] : props.setModalValues("bank_id", 1, index)}
                                className={"square"}
-                               onChange={event => props.setModalValues("bank_id", event.target.value,index)}>
-                            {props.banks.map(function (value,index) {
+                               onChange={event => props.setModalValues("bank_id", event.target.value, index)}>
+                            {props.banks.map(function (value, index) {
                                 return <option value={value.id} key={index}>{value.name}</option>
                             })}
                         </Input>
                     </Col>
                     <Col sm={2} className="pr-0 pl-0">
-                        <Input type="select"  value={(props.supplier.currency_id && props.supplier.currency_id[index])? props.supplier.currency_id[index]:props.setModalValues("currency_id", "1",index)}
+                        <Input type="select"
+                               value={(props.supplier.currency_id && props.supplier.currency_id[index]) ? props.supplier.currency_id[index] : props.setModalValues("currency_id", 1, index)}
                                className={"square"}
-                               onChange={event => props.setModalValues("currency_id", event.target.value,index)}>
-                            <option value="1">AMD</option>
-                            <option value="2">USD</option>
-                            <option value="3">RUR</option>
-                            <option value="4">GEL</option>
-                            <option value="5">GBP</option>
+                               onChange={event => props.setModalValues("currency_id", event.target.value, index)}>
+                            <option value={1}>AMD</option>
+                            <option value={2}>USD</option>
+                            <option value={3}>RUR</option>
+                            <option value={4}>GEL</option>
+                            <option value={5}>GBP</option>
                         </Input>
                     </Col>
                     <Col sm={4} className="pl-0 ">
                         <div className="position-relative has-icon-right">
-                        <input
-                            className={`form-control square ${props.errors.bank ? 'is-invalid' : ''}`}
-                            type="text"
-                            id="Bank"
-                            value={props.supplier.bank?props.supplier.bank[index] || '':''}
-                            onChange={event => props.setModalValues("bank", event.target.value,index)}
-                        />
-                        <div className="form-control-position">
-                            {(index+1===length)?
-                                <Plus size={20} className="success" onClick={() => props.setModalValues("bank", "", index, true)} />:
-                                <Trash2 size={20} className="danger" onClick={() => props.setModalValues("bank", "", index, false)} />
-                            }
-                        </div>
+                            <input
+                                className={`form-control square ${props.errors.bank ? 'is-invalid' : ''}`}
+                                type="text"
+                                id="Bank"
+                                value={props.supplier.bank ? props.supplier.bank[index] || '' : ''}
+                                onChange={event => props.setModalValues("bank", event.target.value, index)}
+                            />
+                            <div className="form-control-position">
+                                {(index + 1 === length) ?
+                                    <Plus size={20} className="success"
+                                          onClick={() => props.setModalValues("bank", "", index, true)}/> :
+                                    <Trash2 size={20} className="danger"
+                                            onClick={() => props.setModalValues("bank", "", index, false)}/>
+                                }
+                            </div>
                         </div>
                     </Col>
                 </FormGroup>
@@ -91,6 +96,7 @@ const SupplierModal = (props) => {
         }
         return element;
     }
+
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
@@ -112,7 +118,7 @@ const SupplierModal = (props) => {
                                 />
                             </Col>
                             <Col sm={2} className="pl-0 ">
-                                <Input type="select"  value={props.supplier.type || 1}
+                                <Input type="select" value={props.supplier.type || 1}
                                        className={"square"}
                                        onChange={event => props.setModalValues("type", event.target.value)}>
                                     <option value="1">ՍՊԸ</option>
@@ -185,8 +191,12 @@ const SupplierModal = (props) => {
 
     return (
         <React.Fragment>
-            <Modal isOpen={props.modal[props.type]} toggle={() =>{ props.toggleModal(props.type)}} size="lg">
-                <ModalHeader toggle={() => {props.toggleModal(props.type)}}><Translate
+            <Modal isOpen={props.modal[props.type]} toggle={() => {
+                props.toggleModal(props.type)
+            }} size="lg">
+                <ModalHeader toggle={() => {
+                    props.toggleModal(props.type)
+                }}><Translate
                     name={props.type + "Supplier"}/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>

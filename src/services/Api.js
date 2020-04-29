@@ -191,7 +191,7 @@ export default class ApiClient {
             response.data.user = user
             return response.data;
         } catch (error) {
-            console.log('Error!')
+            console.log('Error!', error.message)
         }
     }
 

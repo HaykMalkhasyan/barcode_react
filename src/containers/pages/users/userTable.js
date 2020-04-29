@@ -13,9 +13,9 @@ const UserTable = (props) => {
                 <tr>
                     <th>#</th>
                     <th><Translate name={'email'}/></th>
+                    <th><Translate name={'username'}/></th>
                     <th><Translate name={'firstname'}/></th>
                     <th><Translate name={'lastname'}/></th>
-                    <th><Translate name={'username'}/></th>
                     <th><Translate name={'status'}/></th>
                     <th><Translate name={'company'}/></th>
                     <th><Translate name={'position'}/></th>
@@ -24,53 +24,80 @@ const UserTable = (props) => {
                 </thead>
                 <tbody>
                 {
-                    props.data.map(
-                        (value, index) => {
-                            if (value.deleted === 0) {
-                                return (
-                                    <tr key={index}>
-                                        {
-                                            Object.keys(value).map(
-                                                key => key !== 'deleted' ?
-                                                    key === 'is_active' ?
-                                                        value[key] ?
-                                                            <td key={key}>
-                                                                <small>{'active'}</small>
-                                                            </td>
+                    props.data ?
+                        props.data.map(
+                            (value, index) => {
+                                if (value.deleted === 0) {
+                                    return (
+                                        <tr key={index}>
+                                            {
+                                                Object.keys(value).map(
+                                                    key => key !== 'deleted' ?
+                                                        key === 'is_active' ?
+                                                            value[key] ?
+                                                                <td key={key}>
+                                                                    <small>{'active'}</small>
+                                                                </td>
+                                                                :
+                                                                <td key={key}>
+                                                                    <small>{'inactive'}</small>
+                                                                </td>
                                                             :
-                                                            <td key={key}>
-                                                                <small>{'inactive'}</small>
-                                                            </td>
+                                                            <td key={key}>{value[key]}</td>
                                                         :
-                                                        <td key={key}>{value[key]}</td>
-                                                    :
-                                                    null
-                                            )
-                                        }
-                                        <td>
-                                            <EditButton
-                                                perm={props.perm}
-                                                onClick={function () {
-                                                    props.toggleModal('edit', value.id);
-                                                    props.actions("get", value)
-                                                }}
-                                            />
-                                            <DeleteButton
-                                                perm={props.perm}
-                                                onClick={function () {
-                                                    props.toggleModal('delete', value);
-                                                    props.actions("get", value)
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                )
-                            } else {
-                                return null;
-                            }
+                                                        null
+                                                )
+                                            }
+                                            <td>
+                                                <EditButton
+                                                    perm={props.perm}
+                                                    onClick={function () {
+                                                        props.toggleModal('edit', value.id);
+                                                        props.actions("get", value)
+                                                    }}
+                                                />
+                                                <DeleteButton
+                                                    perm={props.perm}
+                                                    onClick={function () {
+                                                        props.toggleModal('delete', value);
+                                                        props.actions("get", value)
+                                                    }}
+                                                />
+                                            </td>
+                                        </tr>
+                                    )
+                                } else {
+                                    return (
+                                        <tr key={index} style={{backgroundColor: '#f66'}}>
+                                            {
+                                                Object.keys(value).map(
+                                                    key => key !== 'deleted' ?
+                                                        key === 'is_active' ?
+                                                            value[key] ?
+                                                                <td key={key}>
+                                                                    <small>{'active'}</small>
+                                                                </td>
+                                                                :
+                                                                <td key={key}>
+                                                                    <small>{'inactive'}</small>
+                                                                </td>
+                                                            :
+                                                            <td key={key}>{value[key]}</td>
+                                                        :
+                                                        null
+                                                )
+                                            }
+                                            <td>
+                                                <b><Translate name={'deleted'}/></b>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
 
-                        }
-                    )
+                            }
+                        )
+                        :
+                        null
                 }
                 </tbody>
 

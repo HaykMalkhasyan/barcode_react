@@ -1,22 +1,31 @@
 import React from "react";
 import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter, ModalHeader, Modal} from "reactstrap";
 import Translate from "../../../Translate";
-import {translationActions} from "../../../redux/lang/actions";
+// import {translationActions} from "../../../redux/lang/actions";
 
 const menuModal = (props) => {
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
-                <ModalBody><Translate name={'Դուք համոզված ե՞ք ջնջել'} /></ModalBody>
+                <ModalBody><Translate name={'Դուք համոզված ե՞ք ջնջել'}/></ModalBody>
             )
         } else {
             return (
                 <ModalBody>
                     <Row>
                         <Col md="12">
+                            <span>
+                                <i style={{color: '#666'}}>
+                                    <small>
+                                        <Translate name={'language'}/>
+                                    </small>
+                                </i>
+                                <b style={{backgroundColor: '#009DA0', padding: '3px', marginLeft: '5px', textAlign: 'center', color: '#fff', borderRadius: '5px'}}>{props.translation.language ? props.translation.language : ""}</b>
+                            </span>
                             <FormGroup>
                                 <Label for="name"><Translate name="key"/></Label>
                                 <input
+                                    disabled={true}
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
                                     id="key"
@@ -47,7 +56,8 @@ const menuModal = (props) => {
 
     return (
         <React.Fragment>
-            <Modal isOpen={props.modal[props.type]} toggle={() => props.toggleTranslationModal(props.type, props.translation.id)}
+            <Modal isOpen={props.modal[props.type]}
+                   toggle={() => props.toggleTranslationModal(props.type, props.translation.id)}
                    size="md">
                 <ModalHeader toggle={() => props.toggleTranslationModal(props.type, props.translation.id)}><Translate
                     name={props.type}/></ModalHeader>

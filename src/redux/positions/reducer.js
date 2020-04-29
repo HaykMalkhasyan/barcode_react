@@ -6,7 +6,7 @@ import  {
     DELETE_POSITION_REQUEST, DELETE_POSITION_FAIL, DELETE_POSITION_SUCCESS,
     SET_POSITION_MODAL,HANDLE,TOGGLE_POSITION_MODAL
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields, Push, Remove} from "../../utility/utils";
+import {ChangePositionItem, IsRequiredField, IsRequiredFields, Push, Remove} from "../../utility/utils";
 
 const INIT_STATE = {
     positions: [],
@@ -42,7 +42,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                positions: JSON.parse(action.result.data),
+                positions: action.result.results,
                 errors: {},
             };
         case GET_POSITION_REQUEST:
@@ -66,7 +66,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                position: JSON.parse(action.result.data),
+                position: action.result,
                 errors: {},
             };
         case ADD_POSITION_REQUEST:
@@ -88,11 +88,11 @@ export default (state = INIT_STATE, action) => {
         case ADD_POSITION_SUCCESS:
             return {
                 ...state,
+                positions: Push(state.positions,action.result),
+                modal: {},
                 loading: false,
                 success: true,
-                fail: false,
-                modal: {},
-                positions: Push(state.positions,JSON.parse(action.result.data))
+                fail: false
             };
         case EDIT_POSITION_REQUEST:
             return {
@@ -113,12 +113,12 @@ export default (state = INIT_STATE, action) => {
         case EDIT_POSITION_SUCCESS:
             return {
                 ...state,
+                positions: ChangePositionItem(state.positions, action.result),
                 loading: false,
                 success: true,
                 fail: false,
                 modal: {},
-                position: {},
-                positions: JSON.parse(action.result.data)
+                position: {}
             };
         case DELETE_POSITION_REQUEST:
             return {
@@ -138,12 +138,12 @@ export default (state = INIT_STATE, action) => {
         case DELETE_POSITION_SUCCESS:
             return {
                 ...state,
+                modal: {},
+                positions: Remove(state.positions, action.result,'id'),
                 loading: false,
                 success: true,
                 fail: false,
-                modal: {},
-                position: {},
-                positions: Remove(state.positions,JSON.parse(action.result.data),'id')
+                position: {}
             };
         case SET_POSITION_MODAL:
             state.position[action.key] = action.value

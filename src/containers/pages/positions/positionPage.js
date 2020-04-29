@@ -11,6 +11,7 @@ class PositionContainer extends Component {
         this.props.positionActions("getAll")
     }
     render() {
+        console.log('PERM:', this.props.perm)
         return(
             <Col sm="12">
                 <Card>

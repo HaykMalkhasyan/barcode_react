@@ -6,7 +6,7 @@ import {
     DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
     SET_USER_MODAL,TOGGLE_USER_MODAL
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields, Put ,Push ,Remove} from "../../utility/utils";
+import {IsRequiredField, IsRequiredFields, Put ,Push ,/*Remove*/} from "../../utility/utils";
 
 
 const INIT_STATE = {
@@ -76,7 +76,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                user: JSON.parse(action.result.data)[0],
+                user: action.result,
                 errors: {},
             };
         case ADD_USER_REQUEST:
@@ -98,11 +98,11 @@ export default (state = INIT_STATE, action) => {
         case ADD_USER_SUCCESS:
             return {
                 ...state,
+                users: Push(state.users, action.result),
+                modal: {},
                 loading: false,
                 success: true,
-                fail: false,
-                modal: {},
-                users: Push(state.users,JSON.parse(action.result.data)[0])
+                fail: false
             };
         case EDIT_USER_REQUEST:
             return {
@@ -123,12 +123,12 @@ export default (state = INIT_STATE, action) => {
         case EDIT_USER_SUCCESS:
             return {
                 ...state,
+                users: Put(state.users, action.result,'id'),
+                modal: {},
                 loading: false,
                 success: true,
                 fail: false,
-                modal: {},
-                user: {},
-                users: Put(state.users,JSON.parse(action.result.data)[0],'id')
+                user: {}
             };
         case DELETE_USER_REQUEST:
             return {
@@ -153,7 +153,7 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 user: {},
-                users: Put(state.users,JSON.parse(action.result.data)[0],'id')
+                users: Put(state.users,action.result,'id')
             };
 
         case SET_USER_MODAL:

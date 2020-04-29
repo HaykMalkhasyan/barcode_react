@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {setTranslations, checkTranslation, getTranslations} from './redux/lang/actions'

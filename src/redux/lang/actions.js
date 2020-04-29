@@ -17,8 +17,16 @@ import {
     GET_TRANSLATION_FAIL,
     GET_TRANSLATION_SUCCESS,
     EDIT_TRANSLATION_REQUEST,
+    SET_TRANSLATE,
     EDIT_TRANSLATION_FAIL,
-    EDIT_TRANSLATION_SUCCESS, DELETE_TRANSLATION_REQUEST, DELETE_TRANSLATION_FAIL, DELETE_TRANSLATION_SUCCESS
+    EDIT_TRANSLATION_SUCCESS,
+    DELETE_TRANSLATION_REQUEST,
+    DELETE_TRANSLATION_FAIL,
+    DELETE_TRANSLATION_SUCCESS,
+    GET_TRANSLATION_SIZE_REQUEST,
+    GET_TRANSLATION_SIZE_FAIL,
+    GET_TRANSLATION_SIZE_SUCCESS,
+    SET_TRANSLATION_SIZE_COUNT, GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
 
@@ -38,29 +46,69 @@ export const getTranslations = () => {
     }
 }
 
+export const getTranslationsWithSize = size => {
+    return {
+        types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+        promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}`)
+    }
+}
+
+export const getTranslationPage = (page, pageSize) => {
+
+    return {
+        types: [GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS],
+        promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}`),
+        page
+    }
+}
+
+export const setCount = count => {
+
+    return dispatch => {
+        dispatch(getTranslationsWithSize(count));
+        dispatch(changeCount(count))
+    }
+}
+
+export const changeCount = count => {
+
+    return{
+        type: SET_TRANSLATION_SIZE_COUNT,
+        count
+    }
+}
+
+
 export const checkTranslation = object => {
 
     let index = false;
 
     return (dispatch, getState) => {
-        if (getState().languages.status === true) {
-            if (getState().languages.translations.length > 0) {
-                for (let item of getState().languages.translations) {
-                    if (object.key.toLowerCase() === item.key && object.language === item.language) {
-                        index = true;
-                    }
+
+        if (getState().languages.translations.length > 0) {
+            for (let item of getState().languages.translations) {
+                if (object.key.toLowerCase() === item.key && object.language === item.language) {
+                    index = true;
                 }
-                if (index === false && object.key.length > 0) {
-                    index = false;
-                    dispatch(setTranslations(object))
-                }
+            }
+            if (index === false && object.key.length > 0) {
+                index = false;
+                dispatch(AddTraslationFind(object))
+                dispatch(setTranslations(object))
             }
         }
     }
 }
 
+export function AddTraslationFind(result) {
+
+    return {
+        type: SET_TRANSLATE,
+        result
+    }
+}
+
 export const setTranslations = (data) => {
-    console.log('DATA', data)
     return {
         types: [SET_TRANSLATIONS_REQUEST, SET_TRANSLATIONS_FAIL, SET_TRANSLATIONS_SUCCESS],
         promise: (apiClient) => apiClient.posttAdd(`translations/`, data, {col})

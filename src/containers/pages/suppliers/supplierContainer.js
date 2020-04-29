@@ -3,8 +3,16 @@ import {bindActionCreators} from "redux";
 import {
     supplierActions,
     getBanks,
+    getCurrency,
     toggleModal,
     setModalValues,
+    /*--------------------------*/
+    openSuppliersAddModal,
+    setSuppliersAddModalValue,
+    reducePhone,
+    addPhone,
+    fetchSuppliers,
+    searchRequisite
 } from "../../../redux/suppliers/actions";
 import SupplierPage from './supplierPage';
 
@@ -15,7 +23,15 @@ const mapDispatchToProps = dispatch => {
             supplierActions,
             toggleModal,
             setModalValues,
-            getBanks
+            getBanks,
+            getCurrency,
+            /*-------------------*/
+            openSuppliersAddModal,
+            setSuppliersAddModalValue,
+            reducePhone,
+            addPhone,
+            fetchSuppliers,
+            searchRequisite
         },
         dispatch
     );
@@ -28,7 +44,12 @@ const mapStateToProps = state => {
         banks: state.suppliers.banks,
         modal: state.suppliers.modal,
         perm: state.permission.data.suppliers,
-        errors: state.suppliers.errors
+        errors: state.suppliers.errors,
+        /*-----------------------------------*/
+        isOpen: state.suppliers.isOpen,
+        modalType: state.suppliers.modalType,
+        setSupplier: state.suppliers.setSupplier,
+        currency: state.suppliers.currency,
 
     }
 };

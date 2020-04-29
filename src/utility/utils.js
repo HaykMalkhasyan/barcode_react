@@ -67,6 +67,7 @@ export function Push(arr, obj) {
 }
 
 export const Remove = (arr, obj, key) => {
+
     if (arr.length > 0) {
         arr.forEach(function (element, index) {
             if (element[key] === obj[key]) {
@@ -87,6 +88,20 @@ export function RemoveItem(arr, obj) {
             }
         )
     }
+    return arr;
+}
+
+export function changeAddedTranslations(arr, obj) {
+    if (arr.length > 0) {
+        arr.forEach(
+            elem => {
+                if (elem.key === obj.key && elem.value === obj.value && elem.language === obj.language) {
+                    elem.id = obj.id
+                }
+            }
+        )
+    }
+
     return arr;
 }
 
@@ -113,6 +128,24 @@ export function ChangeItem(arr, obj) {
                     elem.id = obj.id;
                     elem.name = obj.name;
                     elem.icon = obj.icon;
+                }
+            }
+        )
+    }
+    return arr;
+}
+
+export function ChangePositionItem(arr, obj) {
+    if (arr.length > 0) {
+        arr.forEach(
+            elem => {
+                if (elem.id === obj.id) {
+                    Object.keys(elem).forEach(
+                        key => {
+                            elem[key] = obj[key]
+                        }
+                    )
+                    elem.id = obj.id;
                 }
             }
         )
