@@ -19,6 +19,7 @@ const SupplierTable = (props) => {
                     <th><Translate name={'short'}/></th>
                     <th><Translate name={'value'}/></th>
                     <th><Translate name={'phone'}/></th>
+                    <th><Translate name={'director'}/></th>
                     <th><Translate name={'active'}/></th>
                     <th><Translate name={'status'}/></th>
                     <th>Actions</th>
@@ -26,7 +27,7 @@ const SupplierTable = (props) => {
                 </thead>
                 <tbody>
                 {
-                    props.data ?
+                    props.data && props.data[0] ?
                         Object.keys(props.data).map(index =>
                             <tr key={index}>
                                 {
@@ -36,22 +37,126 @@ const SupplierTable = (props) => {
                                         <td>{props.data[index].hh}</td>
                                         <td>{props.data[index].hvhh}</td>
                                         <td>{props.data[index].address}</td>
-                                        <td>{props.data[index].tin.bank_id.name}</td>
-                                        <td>{props.data[index].tin.currency_id.short}</td>
-                                        <td>{props.data[index].tin.tin_value}</td>
-                                        {/*<td>{props.data[index].phone}</td>*/}
-                                        <td>{props.data[index].active}</td>
-                                        <td>{props.data[index].deleted ? <Translate name={'deleted'}/> : ''}</td>
+                                        <td>
+                                            {
+                                                props.data[index].tin.length > 0 ?
+                                                    <Table responsive>
+                                                        <tbody>
+                                                        {
+                                                            props.data[index].tin.map(
+                                                                (item, index) => {
+
+                                                                    return (
+                                                                        <tr key={index}>
+                                                                            <td>
+                                                                                {
+                                                                                    item.bank_id.name
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                        </tbody>
+                                                    </Table>
+                                                    :
+                                                    '-'
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                props.data[index].tin.length > 0 ?
+                                                    <Table responsive>
+                                                        <tbody>
+                                                        {
+                                                            props.data[index].tin.map(
+                                                                (item, index) => {
+
+                                                                    return (
+                                                                        <tr key={index}>
+                                                                            <td>
+                                                                                {
+                                                                                    item.currency_id.short
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                        </tbody>
+                                                    </Table>
+                                                    :
+                                                    '-'
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                props.data[index].tin.length > 0 ?
+                                                    <Table responsive>
+                                                        <tbody>
+                                                        {
+                                                            props.data[index].tin.map(
+                                                                (item, index) => {
+
+                                                                    return (
+                                                                        <tr key={index}>
+                                                                            <td>
+                                                                                {
+                                                                                    item.tin_value
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                        </tbody>
+                                                    </Table>
+                                                    :
+                                                    '-'
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                props.data[index].phone.length > 0 ?
+                                                    <Table responsive>
+                                                        <tbody>
+                                                        {
+                                                            props.data[index].phone.map(
+                                                                (item, index) => {
+
+                                                                    return (
+                                                                        <tr key={index + Math.random()}>
+                                                                            <td>
+                                                                                {
+                                                                                    item.phone
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                        </tbody>
+                                                    </Table>
+                                                    :
+                                                    '-'
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                props.data[index].director ? props.data[index].director : '-'
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                props.data[index].active === "" ? ' - ' : props.data[index].active
+                                            }
+                                        </td>
+                                        <td>{props.data[index].deleted ? <Translate name={'deleted'}/> : ' - '}</td>
                                     </>
-                                    // Object.keys(props.data[index]).map(
-                                    //     (key) => {
-                                    //         if (key === 'tin') {
-                                    //            return  <td style={{width: '300px'}} key={key}>{props.data[index][key] ? props.data[index][key]['bank_id'].name : ''}</td>
-                                    //         }
-                                    //         return <td key={key}>{props.data[index][key]}</td>
-                                    //
-                                    //     }
-                                    // )
                                 }
                                 <td>
                                     <EditButton
@@ -59,9 +164,7 @@ const SupplierTable = (props) => {
                                         onClick={function () {
                                             // props.toggleModal('edit', props.data[index].id);
                                             props.openSuppliersAddModal('edit');
-                                            console.log('props.data[index]', props.data)
-                                            props.setValues(props.data[index])
-                                            // props.actions("get", props.data[index])
+                                            props.actions("get", props.data[index])
                                         }}
                                     />
                                     <DeleteButton

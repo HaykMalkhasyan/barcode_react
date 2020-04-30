@@ -11,8 +11,12 @@ import {
     setSuppliersAddModalValue,
     reducePhone,
     addPhone,
+    reduceTin,
+    addTin,
     fetchSuppliers,
-    searchRequisite
+    searchRequisite,
+    setValues,
+    checkValue
 } from "../../../redux/suppliers/actions";
 import SupplierPage from './supplierPage';
 
@@ -30,8 +34,12 @@ const mapDispatchToProps = dispatch => {
             setSuppliersAddModalValue,
             reducePhone,
             addPhone,
+            reduceTin,
+            addTin,
             fetchSuppliers,
-            searchRequisite
+            searchRequisite,
+            setValues,
+            checkValue
         },
         dispatch
     );
@@ -50,6 +58,7 @@ const mapStateToProps = state => {
         modalType: state.suppliers.modalType,
         setSupplier: state.suppliers.setSupplier,
         currency: state.suppliers.currency,
+        checkValueStatus: state.suppliers.checkValueStatus,
 
     }
 };

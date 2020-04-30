@@ -15,8 +15,7 @@ import Translate from "../../../Translate";
 // import jwt from "jwt-simple";
 
 const UserModal = (props) => {
-    console.log('props.positions', props.positions);
-    const [status, setStatus] = useState('')
+    const [status, setStatus] = useState(false)
     const modalBodyContent = () => {
         if (props.type === "delete") {
             return (
@@ -24,8 +23,7 @@ const UserModal = (props) => {
                     <FormGroup>
                         <Label for="password"><Translate name="password"/></Label>
                         <input
-                            style={{borderColor: status}}
-                            className={`form-control  ${props.errors.password ? 'is-invalid' : ''}`}
+                            className={`form-control  ${status ? 'is-invalid' : ''}`}
                             type="password"
                             id="password"
                             onBlur={event => event.target.value.length < 8 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
@@ -52,9 +50,8 @@ const UserModal = (props) => {
                                 <FormGroup>
                                     <Label for="firstName"><Translate name="firstname"/></Label>
                                     <input
-                                        style={{borderColor: status}}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
-                                        className={`form-control  ${props.errors.first_name ? 'is-invalid' : ''}`}
+                                        className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
                                         id="firstName"
                                         onChange={event => props.setModalValues("first_name", event.target.value)}
@@ -66,9 +63,8 @@ const UserModal = (props) => {
                                 <FormGroup>
                                     <Label for="lastName"><Translate name="lastname"/></Label>
                                     <input
-                                        style={{borderColor: status}}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
-                                        className={`form-control  ${props.errors.last_name ? 'is-invalid' : ''}`}
+                                        className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
                                         id="lastName"
                                         onChange={event => props.setModalValues("last_name", event.target.value)}
@@ -82,9 +78,8 @@ const UserModal = (props) => {
                                 <FormGroup>
                                     <Label for="email"><Translate name="email"/></Label>
                                     <input
-                                        style={{borderColor: status}}
                                         onBlur={event => event.target.value.length === 0 || !event.target.value.includes('@') || !event.target.value.includes('.') ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
-                                        className={`form-control  ${props.errors.email ? 'is-invalid' : ''}`}
+                                        className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="email"
                                         id="email"
                                         onChange={event => props.setModalValues("email", event.target.value)}
@@ -110,9 +105,8 @@ const UserModal = (props) => {
                                 <FormGroup>
                                     <Label for="username"><Translate name="username"/></Label>
                                     <input
-                                        style={{borderColor: status}}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
-                                        className={`form-control  ${props.errors.username ? 'is-invalid' : ''}`}
+                                        className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
                                         id="username"
                                         onChange={event => props.setModalValues("username", event.target.value)}
@@ -125,8 +119,7 @@ const UserModal = (props) => {
                                 <FormGroup>
                                     <Label for="password"><Translate name="password"/></Label>
                                     <input
-                                        style={{borderColor: status}}
-                                        className={`form-control  ${props.errors.password ? 'is-invalid' : ''}`}
+                                        className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="password"
                                         id="password"
                                         onBlur={event => event.target.value.length < 8 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
@@ -193,9 +186,16 @@ const UserModal = (props) => {
 
     return (
         <React.Fragment>
-            <Modal isOpen={props.modal[props.type]} toggle={() => {
-                props.toggleModal(props.type)
-            }} size="lg">
+            <Modal
+                isOpen={props.modal[props.type]}
+                toggle={
+                    () => {
+                        setStatus(false)
+                        props.toggleModal(props.type)
+                    }
+                }
+                size="lg"
+            >
                 <ModalHeader toggle={() => {
                     props.toggleModal(props.type)
                 }}><Translate
@@ -206,18 +206,30 @@ const UserModal = (props) => {
                         color="primary"
                         outline
                         type="submit"
-                        onClick={function () {
-                            console.log(props.user.username)
-                            if (props.typ !== 'delete' && (props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
-                                setStatus('')
-                                props.userActions(props.type, props.user);
-                            } else {
-                                setStatus('#f44')
+                        onClick={
+                            () => {
+                                if (props.type !== 'delete' && (props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
+                                    setStatus(false)
+                                    let index = false
+                                    for (let item of props.users) {
+                                        if (item.username === props.user.username) {
+                                            index = true
+                                        }
+                                    }
+                                    if (index !== true) {
+                                        console.log(index)
+                                        props.userActions(props.type, props.user);
+                                    } else {
+                                        setStatus(true)
+                                    }
+                                } else if (props.type !== 'delete') {
+                                    setStatus(true)
+                                }
+                                if (props.type === 'delete') {
+                                    props.userActions(props.type, props.user);
+                                }
                             }
-                            if (props.type === 'delete') {
-                                props.userActions(props.type, props.user);
-                            }
-                        }}
+                        }
                     >
                         <Translate name="confirm"/>
                     </Button>

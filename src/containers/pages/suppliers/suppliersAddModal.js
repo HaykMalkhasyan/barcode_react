@@ -16,7 +16,7 @@ const SuplliersAddModal = props => {
 
     const printBankElement = () => {
         let element = [];
-        let length = 1;
+        let length = props.setSupplier.tin.length ? props.setSupplier.tin.length : 1;
         for (let i = 0; i < length; i++) {
             element.push(
                 <FormGroup row key={i}>
@@ -33,11 +33,20 @@ const SuplliersAddModal = props => {
                             type={'select'}
                             className={'square'}
                             name={'bank_id'}
-                            value={props.setSupplier.tin.bank_id ? props.setSupplier.tin.bank_id.id : 1}
+                            value={
+                                props.setSupplier.tin.length > 0 && props.setSupplier.tin[i] ?
+                                    props.setSupplier.tin[i].bank_id ?
+                                        props.setSupplier.tin[i].bank_id.id
+                                        :
+                                        0
+                                    :
+                                    0
+                            }
                             onChange={
                                 event => props.setSuppliersAddModalValue(event.target.name, event.target.value, i)
                             }
                         >
+                            <option value={0}>choose...</option>
                             {
                                 props.banks ?
                                     props.banks.map(
@@ -58,11 +67,20 @@ const SuplliersAddModal = props => {
                             type={'select'}
                             className={'square border-left-0'}
                             name={'currency_id'}
-                            value={props.setSupplier.tin.currency_id ? props.setSupplier.tin.currency_id.id : 1}
+                            value={
+                                props.setSupplier.tin.length > 0 ?
+                                    props.setSupplier.tin[i].currency_id ?
+                                        props.setSupplier.tin[i].currency_id.id
+                                        :
+                                        0
+                                    :
+                                    0
+                            }
                             onChange={
                                 event => props.setSuppliersAddModalValue(event.target.name, event.target.value, i)
                             }
                         >
+                            <option value={0}>choose...</option>
                             {
                                 props.currency ?
                                     props.currency.map(
@@ -86,42 +104,44 @@ const SuplliersAddModal = props => {
                                 id={'bank'}
                                 placeholder={'currency'}
                                 name={'tin_value'}
-                                value={props.setSupplier.tin.tin_value || 0}
+                                value={
+                                    props.setSupplier.tin.length > 0 ?
+                                        props.setSupplier.tin[i].tin_value ?
+                                            props.setSupplier.tin[i].tin_value
+                                            :
+                                            ''
+                                        :
+                                        ''
+                                }
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value, i)
                                 }
                             />
                             {
-                                /*
-                                *
-                                * Tt may come in handy in the future,
-                                * the logic for this is not written
-                                * and
-                                * this feature is not added to the reducer
-                                *
-                                * ******************************************************** *
-                                * ******************************************************** *
-                                * ******************************************************** *
-                                * ******                                            ****** *
-                                * ******  <div className={'form-control-position'}> ****** *
-                                * ******      {                                     ****** *
-                                * ******          i + 1 === length ?                ****** *
-                                * ******              <Plus                         ****** *
-                                * ******                  size={20}                 ****** *
-                                * ******                  className={'success'}     ****** *
-                                * ******              />                            ****** *
-                                * ******              :                             ****** *
-                                * ******              <Trash2                       ****** *
-                                * ******                  size={20}                 ****** *
-                                * ******                  className={'danger'}      ****** *
-                                * ******              />                            ****** *
-                                * ******      }                                     ****** *
-                                * ******  </div>                                    ****** *
-                                * ******                                            ****** *
-                                * ******************************************************** *
-                                * ******************************************************** *
-                                * ******************************************************** *
-                                * */
+                                <div className={'form-control-position'}>
+                                    {
+                                        i + 1 === length ?
+                                            <Plus
+                                                size={20}
+                                                className={'success cursor-pointer'}
+                                                onClick={
+                                                    () => props.addTin({
+                                                        bank_id: 1,
+                                                        currency_id: 1,
+                                                        tin_value: ''
+                                                    }, i)
+                                                }
+                                            />
+                                            :
+                                            <Trash2
+                                                size={20}
+                                                className={'danger cursor-pointer'}
+                                                onClick={
+                                                    () => props.reduceTin(i)
+                                                }
+                                            />
+                                    }
+                                </div>
                             }
                         </div>
                     </Col>
@@ -153,7 +173,7 @@ const SuplliersAddModal = props => {
                                 className={"form-control square"}
                                 placeholder={'example: +374 -- --- ---'}
                                 name={'phone'}
-                                value={props.setSupplier.phone[i] ? props.setSupplier.phone[i] : ''}
+                                value={props.setSupplier.phone[i] ? props.setSupplier.phone[i].phone : ''}
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value, i)
                                 }
@@ -163,15 +183,15 @@ const SuplliersAddModal = props => {
                                     i + 1 === length ?
                                         <Plus
                                             size={20}
-                                            className={'success'}
+                                            className={'success cursor-pointer'}
                                             onClick={
-                                                () => props.addPhone('', i)
+                                                () => props.addPhone(null, i)
                                             }
                                         />
                                         :
                                         <Trash2
                                             size={20}
-                                            className={'danger'}
+                                            className={'danger cursor-pointer'}
                                             onClick={
                                                 () => props.reducePhone(i)
                                             }
@@ -212,10 +232,19 @@ const SuplliersAddModal = props => {
                                 type={'text'}
                                 name={'name'}
                                 value={props.setSupplier.name}
+                                onBlur={
+                                    (event => props.checkValue(event.target.name, event.target.value))
+                                }
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value)
                                 }
                             />
+                            {
+                                props.checkValueStatus['name'] ?
+                                     <span style={{color: '#f66'}}><Translate name={props.checkValueStatus.name}/></span>
+                                    :
+                                    null
+                            }
                         </Col>
                         <Col sm={2} className={'pl-0'}>
                             <Input
@@ -246,10 +275,19 @@ const SuplliersAddModal = props => {
                                 type={'text'}
                                 name={'hh'}
                                 value={props.setSupplier.hh}
+                                onBlur={
+                                    (event => props.checkValue(event.target.name, event.target.value))
+                                }
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value)
                                 }
                             />
+                            {
+                                props.checkValueStatus['hh'] ?
+                                    <span style={{color: '#f66'}}><Translate name={props.checkValueStatus['hh']}/></span>
+                                    :
+                                    null
+                            }
                         </Col>
                     </FormGroup>
 
@@ -265,6 +303,9 @@ const SuplliersAddModal = props => {
                                     type={'text'}
                                     name={'hvhh'}
                                     value={props.setSupplier.hvhh}
+                                    onBlur={
+                                        (event => props.checkValue(event.target.name, event.target.value))
+                                    }
                                     onChange={
                                         event => props.setSuppliersAddModalValue(event.target.name, event.target.value)
                                     }
@@ -273,12 +314,21 @@ const SuplliersAddModal = props => {
                                     <Search
                                         size={20}
                                         className={'info cursor-pointer'}
+                                        onBlur={
+                                            (event => props.checkValue(event.target.name, event.target.value))
+                                        }
                                         onClick={
                                             () => props.searchRequisite(props.setSupplier.hvhh)
                                         }
                                     />
                                 </div>
                             </div>
+                            {
+                                props.checkValueStatus['hvhh'] ?
+                                    <span style={{color: '#f66'}}><Translate name={props.checkValueStatus['hvhh']}/></span>
+                                    :
+                                    null
+                            }
                         </Col>
                     </FormGroup>
 
@@ -293,10 +343,19 @@ const SuplliersAddModal = props => {
                                 type={'text'}
                                 name={'address'}
                                 value={props.setSupplier.address}
+                                onBlur={
+                                    (event => props.checkValue(event.target.name, event.target.value))
+                                }
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value)
                                 }
                             />
+                            {
+                                props.checkValueStatus['address'] ?
+                                    <span style={{color: '#f66'}}><Translate name={props.checkValueStatus['address']}/></span>
+                                    :
+                                    null
+                            }
                         </Col>
                     </FormGroup>
 
@@ -312,11 +371,25 @@ const SuplliersAddModal = props => {
                                 type={'text'}
                                 id={'director'}
                                 name={'director'}
-                                value={props.setSupplier.director}
+                                onBlur={
+                                    (event => props.checkValue(event.target.name, event.target.value))
+                                }
+                                value={
+                                    props.setSupplier.director ?
+                                        props.setSupplier.director
+                                        :
+                                        ''
+                                }
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, event.target.value)
                                 }
                             />
+                            {
+                                props.checkValueStatus['director'] ?
+                                    <span style={{color: '#f66'}}><Translate name={props.checkValueStatus['director']}/></span>
+                                    :
+                                    null
+                            }
                         </Col>
                     </FormGroup>
 
@@ -336,7 +409,7 @@ const SuplliersAddModal = props => {
                             props.modalType === 'add' ?
                                 props.fetchSuppliers(props.setSupplier)
                                 :
-                                console.log('edit')
+                                props.supplierActions('edit', props.setSupplier)
                         }
                     }
                 >

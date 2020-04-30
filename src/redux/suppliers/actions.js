@@ -26,7 +26,7 @@ import {
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
-    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL,
+    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, SET_ERROR, EMPTY_VALUE, SUCCES_VALUE,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -58,7 +58,8 @@ export const supplierActions = (type, data) => {
         case "delete":
             return {
                 types: [DELETE_SUPPLIER_REQUEST, DELETE_SUPPLIER_FAIL, DELETE_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.delete(`suppliers/${data.id}`, {cols})
+                promise: (apiClient) => apiClient.deletee(`suppliers/${data.id}`, {cols}),
+                data
             }
         default:
             return;
@@ -105,11 +106,7 @@ export function openSuppliersAddModal(text) {
         hh: '',
         hvhh: '',
         address: '',
-        tin: {
-            tin_value: '',
-            bank_id: null,
-            currency_id: null
-        },
+        tin: [],
         director: '',
         phone: [],
         active: 0,
@@ -138,7 +135,6 @@ export function reducePhone(index) {
         dispatch(setValues(setSupplier))
     }
 }
-
 export function addPhone(value, index) {
 
     return (dispatch, getState) => {
@@ -150,45 +146,93 @@ export function addPhone(value, index) {
     }
 }
 
+export function addTin(value, index) {
+    return (dispatch, getState) => {
+        let setSupplier = getState().suppliers.setSupplier;
+        let tin = setSupplier.tin;
+        if (tin.length === 0) {
+            tin[index] = value;
+        }
+        tin[index + 1] = value;
+        setSupplier.tin = tin;
+        dispatch(setValues(setSupplier))
+    }
+}
+
+export function reduceTin(index) {
+
+    return (dispatch, getState) => {
+        let setSupplier = getState().suppliers.setSupplier;
+        let tin = setSupplier.tin
+        tin.splice(index, 1);
+        setSupplier.tin = tin;
+        dispatch(setValues(setSupplier))
+    }
+}
+
 export function setSuppliersAddModalValue(name, value, index) {
 
     return (dispatch, getState) => {
         let setSupplier = getState().suppliers.setSupplier;
         switch (name) {
             case 'bank_id': {
-
                 let banks = getState().suppliers.banks;
-                for (let bank of banks) {
-                    if (bank.id === +value) {
-
-                        setSupplier.tin[name] = bank;
-                        setSupplier.tin[name].active = +setSupplier.tin[name].active;
+                if (setSupplier.tin.length === 0) {
+                    for (let bank of banks) {
+                        if (bank.id === +value) {
+                            let obj = {
+                                [name]: bank,
+                            }
+                            setSupplier.tin[index] = obj;
+                        }
+                    }
+                } else {
+                    for (let bank of banks) {
+                        if (bank.id === +value) {
+                            setSupplier.tin[index][name] = bank;
+                        }
                     }
                 }
+
                 dispatch(setValues(setSupplier))
                 break;
             }
             case 'currency_id': {
-
+                console.log(name, value, index)
                 let currency = getState().suppliers.currency;
-                for (let item of currency) {
-                    if (item.id === +value) {
-                        setSupplier.tin[name] = item
+                console.log(name, value, index)
+                if (setSupplier.tin.length === 0) {
+                    for (let item of currency) {
+                        if (item.id === +value) {
+                            let obj = {
+                                [name]: item
+                            }
+                            setSupplier.tin[index] = obj
+                        }
+                    }
+                } else {
+                    for (let item of currency) {
+                        if (item.id === +value) {
+                            setSupplier.tin[index][name] = item
+                        }
                     }
                 }
                 dispatch(setValues(setSupplier))
                 break;
             }
             case 'tin_value': {
-
-                setSupplier.tin[name] = value
+                if (setSupplier.tin.length === 0) {
+                    setSupplier.tin[index] = {tin_value: value}
+                } else {
+                    setSupplier.tin[index][name] = value;
+                }
                 dispatch(setValues(setSupplier))
                 break;
             }
             case 'phone': {
 
                 let phone = setSupplier.phone;
-                phone[index] = value
+                phone[index] = {phone: value}
                 setSupplier.phone = (phone);
                 dispatch(setValues(setSupplier));
                 break;
@@ -212,7 +256,6 @@ export function setValues(setSupplier) {
 }
 
 export function fetchSuppliers(data) {
-    console.log(typeof data.type)
     let cleanSuppliers = {
         name: '',
         hh: '',
@@ -228,12 +271,24 @@ export function fetchSuppliers(data) {
         active: 0,
         type: 0
     }
-
-    return {
-        types: [FETCH_SUPPLIER_REQUEST, FETCH_SUPPLIER_FAIL, FETCH_SUPPLIER_SUCCESS],
-        promise: (apiClient) => apiClient.posttAdd(`suppliers/`, data, {cols}),
-        cleanSuppliers
+    let index = true;
+    for( let key in data) {
+        if (data[key].length === 0){
+            index = false
+        }
     }
+
+    if (index === true) {
+        return {
+            types: [FETCH_SUPPLIER_REQUEST, FETCH_SUPPLIER_FAIL, FETCH_SUPPLIER_SUCCESS],
+            promise: (apiClient) => apiClient.posttAdd(`suppliers/`, data, {cols}),
+            cleanSuppliers
+        }
+    }
+    return {
+        type: SET_ERROR
+    }
+
 }
 
 export function searchRequisite(requisite) {
@@ -261,4 +316,18 @@ export function searchRequisite(requisite) {
             console.log(error.message)
         }
     }
+}
+
+export function checkValue(name, value) {
+
+    if (value.length === 0) {
+        return {
+            type: EMPTY_VALUE,
+            name
+        }
+    }
+    return {
+        type: SUCCES_VALUE,
+        name
+    };
 }

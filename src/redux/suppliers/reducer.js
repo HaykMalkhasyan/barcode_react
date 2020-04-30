@@ -26,9 +26,9 @@ import {
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
-    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL,
+    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, SET_ERROR, EMPTY_VALUE, SUCCES_VALUE,
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields} from "../../utility/utils";
+import {IsRequiredField, IsRequiredFields, Push, Put, RemoveItem} from "../../utility/utils";
 
 
 const INIT_STATE = {
@@ -53,16 +53,20 @@ const INIT_STATE = {
         hh: '',
         hvhh: '',
         address: '',
-        tin: {
-            tin_value: '',
-            bank_id: null,
-            currency_id: null
-        },
+        tin: [],
         director: '',
         phone: [],
         active: 0,
         type: 0
-    }
+    },
+    errorMessage: null,
+    checkValueStatus: {
+        name: false,
+        hh: false,
+        hvhh: false,
+        address: false,
+        director: false,
+    },
 };
 
 
@@ -86,7 +90,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_SUPPLIERS_SUCCESS:
-            console.log(action.result.results)
             return {
                 ...state,
                 loading: false,
@@ -117,7 +120,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                supplier: Object.values(JSON.parse(action.result.data))[0],
+                setSupplier: action.result,
                 errors: {},
             };
         case ADD_SUPPLIER_REQUEST:
@@ -165,19 +168,25 @@ export default (state = INIT_STATE, action) => {
 
             };
         case EDIT_SUPPLIER_SUCCESS:
-            for (let [key, value] of Object.entries(JSON.parse(action.result.data))) {
-                state.suppliers[key] = value;
-            }
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
                 modal: {},
-                supplier: {},
-                suppliers: {
-                    ...state.suppliers,
-                }
+                isOpen: false,
+                setSupplier: {
+                    name: '',
+                    hh: '',
+                    hvhh: '',
+                    address: '',
+                    tin: [],
+                    director: '',
+                    phone: [],
+                    active: 0,
+                    type: 0
+                },
+                suppliers: Put(state.suppliers, action.result)
             };
         case DELETE_SUPPLIER_REQUEST:
             return {
@@ -195,15 +204,14 @@ export default (state = INIT_STATE, action) => {
 
             };
         case DELETE_SUPPLIER_SUCCESS:
-            delete state.suppliers[JSON.parse(action.result.data)]
             return {
                 ...state,
+                suppliers: RemoveItem(state.suppliers, action.data),
+                modal: {},
                 loading: false,
                 success: true,
                 fail: false,
-                modal: {},
-                supplier: {},
-                suppliers: state.suppliers
+                supplier: {}
             };
         case GET_BANKS_REQUEST:
             return {
@@ -293,9 +301,9 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 errors: {}
             }
-            /*---------------------------------*/
+        /*---------------------------------*/
         case SUPPLIERS_ADD_MODAL:
-            return  {
+            return {
                 ...state,
                 isOpen: !state.isOpen,
                 modalType: action.text,
@@ -334,8 +342,23 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 isOpen: false,
+                suppliers: Push(state.suppliers, action.result),
                 setSupplier: action.cleanSuppliers
             };
+        case EMPTY_VALUE:
+            let newCheckValueStatusError = state.checkValueStatus
+            newCheckValueStatusError[action.name] = 'the field must not be empty'
+            return {
+                ...state,
+                checkValueStatus: newCheckValueStatusError
+            }
+        case SUCCES_VALUE:
+            let newCheckValueStatusSuccess = state.checkValueStatus;
+            newCheckValueStatusSuccess[action.name] = false;
+            return {
+                ...state,
+                checkValueStatus: newCheckValueStatusSuccess
+            }
         default:
             return {...state};
     }

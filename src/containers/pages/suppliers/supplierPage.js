@@ -36,8 +36,6 @@ class SupplierContainer extends Component {
                 </Card>
                 <SuplliersAddModal {...this.props} type={'add'}/>
                 <SuplliersAddModal {...this.props} type={'edit'}/>
-                <ModalComponent {...this.props} type={'add'}/>
-                <ModalComponent {...this.props} type={'edit'}/>
                 <ModalComponent {...this.props} type={'delete'}/>
             </Col>
 

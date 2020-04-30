@@ -8,7 +8,8 @@ class InstarProducts extends Component {
         UserCheck: Icon.UserCheck,
         Truck:Icon.Truck,
         Menu: Icon.Menu,
-        Shield: Icon.Shield
+        Shield: Icon.Shield,
+        Package: Icon.Package
     };
     render() {
         const TagName = this.components[this.props.tag || ''];
