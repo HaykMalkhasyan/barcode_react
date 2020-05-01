@@ -51,6 +51,7 @@ export const supplierActions = (type, data) => {
                 promise: (apiClient) => apiClient.posttAdd(`suppliers/`, data, {cols})
             }
         case "edit":
+            console.log('data', data)
             return {
                 types: [EDIT_SUPPLIER_REQUEST, EDIT_SUPPLIER_FAIL, EDIT_SUPPLIER_SUCCESS],
                 promise: (apiClient) => apiClient.putt(`suppliers/${data.id}`, data, {cols})
@@ -112,11 +113,23 @@ export function openSuppliersAddModal(text) {
         active: 0,
         type: 0
     }
+    let cleanValueStatus = {
+        name: false,
+        hh: false,
+        hvhh: false,
+        address: false,
+        director: false,
+        bank_id: false,
+        currency_id: false,
+        tin_value: false,
+        phone: false
+    }
     if (text === 'add') {
         return {
             type: SUPPLIERS_ADD_MODAL,
             text,
-            cleanSuppliers
+            cleanSuppliers,
+            cleanValueStatus
         }
     }
     return {
@@ -135,6 +148,7 @@ export function reducePhone(index) {
         dispatch(setValues(setSupplier))
     }
 }
+
 export function addPhone(value, index) {
 
     return (dispatch, getState) => {
@@ -150,9 +164,9 @@ export function addTin(value, index) {
     return (dispatch, getState) => {
         let setSupplier = getState().suppliers.setSupplier;
         let tin = setSupplier.tin;
-        if (tin.length === 0) {
-            tin[index] = value;
-        }
+        // if (tin.length === 0) {
+        //     tin[index+1] = value;
+        // }
         tin[index + 1] = value;
         setSupplier.tin = tin;
         dispatch(setValues(setSupplier))
@@ -175,7 +189,8 @@ export function setSuppliersAddModalValue(name, value, index) {
     return (dispatch, getState) => {
         let setSupplier = getState().suppliers.setSupplier;
         switch (name) {
-            case 'bank_id': {
+            case `bank_id-${index}`: {
+                name = 'bank_id';
                 let banks = getState().suppliers.banks;
                 if (setSupplier.tin.length === 0) {
                     for (let bank of banks) {
@@ -189,18 +204,20 @@ export function setSuppliersAddModalValue(name, value, index) {
                 } else {
                     for (let bank of banks) {
                         if (bank.id === +value) {
-                            setSupplier.tin[index][name] = bank;
+                            if (setSupplier.tin[index]) {
+                                setSupplier.tin[index][name] = bank;
+                            } else {
+                                setSupplier.tin[index] = {[name]: bank}
+                            }
                         }
                     }
                 }
-
                 dispatch(setValues(setSupplier))
                 break;
             }
-            case 'currency_id': {
-                console.log(name, value, index)
+            case `currency_id-${index}`: {
+                name = 'currency_id';
                 let currency = getState().suppliers.currency;
-                console.log(name, value, index)
                 if (setSupplier.tin.length === 0) {
                     for (let item of currency) {
                         if (item.id === +value) {
@@ -213,23 +230,32 @@ export function setSuppliersAddModalValue(name, value, index) {
                 } else {
                     for (let item of currency) {
                         if (item.id === +value) {
-                            setSupplier.tin[index][name] = item
+                            if (setSupplier.tin[index]) {
+                                setSupplier.tin[index][name] = item;
+                            } else {
+                                setSupplier.tin[index] = {[name]: item}
+                            }
                         }
                     }
                 }
                 dispatch(setValues(setSupplier))
                 break;
             }
-            case 'tin_value': {
+            case `tin_value-${index}`: {
+                name = 'tin_value';
                 if (setSupplier.tin.length === 0) {
                     setSupplier.tin[index] = {tin_value: value}
                 } else {
-                    setSupplier.tin[index][name] = value;
+                    if (setSupplier.tin[index]) {
+                        setSupplier.tin[index][name] = value;
+                    } else {
+                        setSupplier.tin[index] = {[name]: value}
+                    }
                 }
                 dispatch(setValues(setSupplier))
                 break;
             }
-            case 'phone': {
+            case `phone-${index}`: {
 
                 let phone = setSupplier.phone;
                 phone[index] = {phone: value}
@@ -272,8 +298,8 @@ export function fetchSuppliers(data) {
         type: 0
     }
     let index = true;
-    for( let key in data) {
-        if (data[key].length === 0){
+    for (let key in data) {
+        if (data[key].length === 0) {
             index = false
         }
     }
@@ -292,7 +318,6 @@ export function fetchSuppliers(data) {
 }
 
 export function searchRequisite(requisite) {
-    console.log(requisite);
     const axiosInstance = axios.create({
         baseURL: 'http://new.haysell.com',
         timeout: 5000,
@@ -307,7 +332,6 @@ export function searchRequisite(requisite) {
         let setSupplier = getState().suppliers.setSupplier;
         try {
             const response = await axiosInstance.post('/tools/get_tin.php', tin);
-            console.log(response.data);
             setSupplier.name = response.data[2];
             setSupplier.address = response.data[3]
             dispatch(setValues(setSupplier))
@@ -318,16 +342,128 @@ export function searchRequisite(requisite) {
     }
 }
 
-export function checkValue(name, value) {
+// export function checkValue(name, value) {
+//
+//     if (value.length === 0) {
+//         let text = 'the field must not be empty';
+//         return {
+//             type: EMPTY_VALUE,
+//             name,
+//             text
+//         }
+//     }
+//     return {
+//         type: SUCCES_VALUE,
+//         name
+//     };
+// }
 
-    if (value.length === 0) {
-        return {
-            type: EMPTY_VALUE,
-            name
-        }
+export function checkValue(name, value, index = false) {
+    let text;
+    switch (name) {
+
+        case `bank_id-${index}`:
+            name = 'bank_id';
+            if (+value === 0) {
+                text = 'You have not chosen a bank';
+                return {
+                    type: EMPTY_VALUE,
+                    name,
+                    text,
+                    index
+                }
+            }
+            return {
+                type: SUCCES_VALUE,
+                name,
+                index
+            }
+        case `currency_id-${index}`:
+            name = 'currency_id';
+            if (+value === 0) {
+                text = 'You have not chosen a currency type';
+                return {
+                    type: EMPTY_VALUE,
+                    name,
+                    text,
+                    index
+                }
+            }
+            return {
+                type: SUCCES_VALUE,
+                name,
+                index
+            }
+        case `tin_value-${index}`:
+            name = 'tin_value';
+            if (value.length === 0) {
+                text = 'the field must not be empty';
+                return {
+                    type: EMPTY_VALUE,
+                    name,
+                    text,
+                    index
+                }
+            }
+            if (value.length > 0) {
+                for (let item of value) {
+                    if (+item !== 0 && !(item / 2)) {
+                        text = 'The field must not have letters or characters';
+                        return {
+                            type: EMPTY_VALUE,
+                            name,
+                            text,
+                            index
+                        }
+                    }
+                }
+            }
+            return {
+                type: SUCCES_VALUE,
+                name,
+                index
+            }
+        case `phone-${index}`:
+            name = 'phone';
+            if (value.length === 0) {
+                text = 'the field must not be empty';
+                return {
+                    type: EMPTY_VALUE,
+                    name,
+                    text,
+                    index
+                }
+            }
+            if (value.length > 0) {
+                for (let item of value) {
+                    if (+item !== 0 && !(item / 2)) {
+                        text = 'The field must not have letters or characters';
+                        return {
+                            type: EMPTY_VALUE,
+                            name,
+                            text,
+                            index
+                        }
+                    }
+                }
+            }
+            return {
+                type: SUCCES_VALUE,
+                name,
+                index
+            }
+        default:
+            if (value.length === 0) {
+                let text = 'the field must not be empty';
+                return {
+                    type: EMPTY_VALUE,
+                    name,
+                    text
+                }
+            }
+            return {
+                type: SUCCES_VALUE,
+                name
+            };
     }
-    return {
-        type: SUCCES_VALUE,
-        name
-    };
 }

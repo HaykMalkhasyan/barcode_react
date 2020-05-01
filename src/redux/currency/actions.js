@@ -1,9 +1,13 @@
-import axios from 'axios'
 import {
-    EDIT_CURRENCY,
+    EDIT_CURRENCY, FETCH_CURRENCY_FAIL, FETCH_CURRENCY_REQUEST, FETCH_CURRENCY_SUCCESS,
     GET_ALL_CURRENCY_FAIL,
     GET_ALL_CURRENCY_REQUEST,
-    GET_ALL_CURRENCY_SUCCESS, SET_FORM_VALIDATE, SET_VALUES,
+    GET_ALL_CURRENCY_SUCCESS,
+    GET_ITEM_CURRENCY_FAIL,
+    GET_ITEM_CURRENCY_REQUEST,
+    GET_ITEM_CURRENCY_SUCCESS,
+    SET_FORM_VALIDATE,
+    SET_VALUES,
     TOGGLE_MODAL
 } from "./actionTypes";
 
@@ -12,6 +16,28 @@ export const getAllCurrency = () => {
     return {
         types: [GET_ALL_CURRENCY_REQUEST, GET_ALL_CURRENCY_FAIL, GET_ALL_CURRENCY_SUCCESS],
         promise: (apiClient) => apiClient.gett('currency/')
+    }
+}
+
+export const getItemCurrency = id => {
+
+    return {
+        types: [GET_ITEM_CURRENCY_REQUEST, GET_ITEM_CURRENCY_FAIL, GET_ITEM_CURRENCY_SUCCESS],
+        promise: (apiClient) => apiClient.gett(`currency/${id}`)
+    }
+}
+
+export const fetchCurrency = data => {
+
+    let requestData = {
+        name: data.name,
+        short: data.short,
+        value: data.value,
+    }
+
+    return {
+        types: [FETCH_CURRENCY_REQUEST, FETCH_CURRENCY_FAIL, FETCH_CURRENCY_SUCCESS],
+        promise: (apiClient) => apiClient.putt(`currency/${data.id}`, requestData)
     }
 }
 
@@ -24,11 +50,8 @@ export const toggleModal = () => {
 
     let cleanFormValidate = {
         name: false,
-        nameTouched: false,
         short: false,
-        ShortTouched: false,
         value: false,
-        ValueTouched: false,
     }
 
     return {
@@ -38,7 +61,7 @@ export const toggleModal = () => {
     }
 }
 
-export const editCurrency = (/*need changed*/) => {
+export const editCurrency = () => {
 
     return {
         type: EDIT_CURRENCY
@@ -50,7 +73,6 @@ export const setCurrencyValue = (name, value) => {
     return (dispatch, getState) => {
         const setCurrency = getState().currency.setCurrency;
         const formValidate = getState().currency.formValidate;
-        formValidate[`${name}Touched`] = true;
         setCurrency[name] = value;
         dispatch(setValue(setCurrency, formValidate))
     }
@@ -79,7 +101,7 @@ export const checkCurrencyValue = (name, value) => {
         }
         if (name !== 'value') {
             for (let item of value) {
-                if (item/2) {
+                if (item / 2) {
                     formValidate[name] = `'${name}' field must not be digits`;
                     dispatch(setFormValidate(formValidate))
                 }
@@ -96,8 +118,3 @@ export const setFormValidate = formValidate => {
     }
 }
 
-export const fetchCurrency = () => {
-    return dispatch => {
-        console.log('SENDEND')
-    }
-}

@@ -2,7 +2,6 @@ import React from "react";
 import {Table} from "reactstrap";
 import Translate from "../../../Translate";
 import EditButton from "../../../components/buttons/editButton";
-import DeleteButton from "../../../components/buttons/deleteButton";
 
 const CurrencyTable = (props) => {
     if (props.data) {
@@ -37,11 +36,14 @@ const CurrencyTable = (props) => {
                                     </td>
                                     <td>{item.name}</td>
                                     <td>{item.short}</td>
-                                    <td>example: 500</td>
+                                    <td>{item.value}</td>
                                     <td>
                                         <EditButton
                                             onClick={
-                                                () => props.editCurrency()
+                                                () => {
+                                                    props.getItemCurrency(item.id);
+                                                    props.editCurrency();
+                                                }
                                             }
                                         />
                                     </td>

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Col, Card, CardBody} from "reactstrap";
 import CurrencyTable from './currencyTable';
 // import ModalComponent from './supplierModal';
-import AddButton from "../../../components/buttons/addButton";
 import CurrencyModal from "./currencyModal";
 // import SuplliersAddModal from './suppliersAddModal';
 
@@ -20,6 +19,7 @@ class CurrencyContainer extends Component {
                         <CurrencyTable
                             data={this.props.currency}
                             editCurrency={this.props.editCurrency}
+                            getItemCurrency={this.props.getItemCurrency}
                         />
                     </CardBody>
                 </Card>

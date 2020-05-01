@@ -208,26 +208,77 @@ const UserModal = (props) => {
                         type="submit"
                         onClick={
                             () => {
-                                if (props.type !== 'delete' && (props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
-                                    setStatus(false)
-                                    let index = false
-                                    for (let item of props.users) {
-                                        if (item.username === props.user.username) {
-                                            index = true
+                                switch (props.type) {
+
+                                    case 'add': {
+                                        if ((props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
+                                            setStatus(false);
+                                            let index = false
+                                            for (let item of props.users) {
+                                                if (item.username === props.user.username) {
+                                                    index = true
+                                                }
+                                            }
+                                            if (!index) {
+                                                props.userActions(props.type, props.user);
+                                            } else {
+                                                setStatus(true)
+                                            }
+                                        } else {
+                                            setStatus(true);
                                         }
+                                        break;
                                     }
-                                    if (index !== true) {
-                                        console.log(index)
+                                    case 'delete': {
                                         props.userActions(props.type, props.user);
-                                    } else {
-                                        setStatus(true)
+                                        break;
                                     }
-                                } else if (props.type !== 'delete') {
-                                    setStatus(true)
+                                    default: {
+                                        if ((props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
+                                            setStatus(false);
+                                            props.userActions(props.type, props.user);
+                                        } else {
+                                            setStatus(true)
+                                        }
+                                        break;
+                                    }
                                 }
-                                if (props.type === 'delete') {
-                                    props.userActions(props.type, props.user);
-                                }
+
+                                // if (props.type !== 'delete' && (props.user.first_name && props.user.first_name.length) && (props.user.last_name && props.user.last_name.length) && (props.user.email && props.user.email.length && props.user.email.includes('@') && props.user.email.includes('.')) && (props.user.username && props.user.username.length) && (props.user.password && props.user.password.length >= 8)) {
+                                //     setStatus(false)
+                                //     let index = false
+                                //     for (let item of props.users) {
+                                //         if (item.username === props.user.username) {
+                                //             index = true
+                                //         }
+                                //     }
+                                //     if (index !== true) {
+                                //         props.userActions(props.type, props.user);
+                                //     } else {
+                                //         setStatus(true)
+                                //     }
+                                // } else if (props.type !== 'delete') {
+                                //     setStatus(true)
+                                // }
+                                // if (props.type === 'delete') {
+                                //     props.userActions(props.type, props.user);
+                                // }
+                                // if (props.type === 'add') {
+                                //     let index = false
+                                //     for (let item of props.users) {
+                                //         if (item.username === props.user.username) {
+                                //             index = true
+                                //         }
+                                //     }
+                                //     if (index !== true) {
+                                //         props.userActions(props.type, props.user);
+                                //     } else {
+                                //         setStatus(true)
+                                //     }
+                                // }
+                                // if (props.type === 'edit') {
+                                //     props.userActions(props.type, props.user);
+                                // }
                             }
                         }
                     >

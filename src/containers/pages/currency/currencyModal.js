@@ -78,7 +78,7 @@ const CurrencyModal = props => {
 
                     <FormGroup row>
                         <Label for={'value'} sm={3}>
-                            <Translate name={'value'}/>
+                            <Translate name={'currency'}/>
 
                         </Label>
                         <Col sm={7} className={'pr-0'}>
@@ -111,7 +111,7 @@ const CurrencyModal = props => {
             <ModalFooter>
                 <Button
                     disabled={
-                        !props.formValidate.name && props.formValidate.nameTouched && !props.formValidate.short && props.formValidate.shortTouched && !props.formValidate.value && props.formValidate.valueTouched ?
+                        !props.formValidate.name && !props.formValidate.short && !props.formValidate.value ?
                             false
                             :
                             true
@@ -120,7 +120,7 @@ const CurrencyModal = props => {
                     className="btn-square"
                     outline type="submit"
                     onClick={
-                        () => props.fetchCurrency()
+                        () => props.fetchCurrency(props.setCurrency)
                     }
                 >
                     <Translate name={'confirm'}/>

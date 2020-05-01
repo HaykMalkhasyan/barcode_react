@@ -12,6 +12,7 @@ const SupplierTable = (props) => {
                 <tr>
                     <th>#</th>
                     <th><Translate name={'name'}/></th>
+                    <th><Translate name={'type'}/></th>
                     <th><Translate name={'hh'}/></th>
                     <th><Translate name={'hvhh'}/></th>
                     <th><Translate name={'address'}/></th>
@@ -34,6 +35,12 @@ const SupplierTable = (props) => {
                                     <>
                                         <td>{props.data[index].id}</td>
                                         <td>{props.data[index].name}</td>
+
+                                        <td>
+                                            {
+                                                props.data[index].type === "" ? ' - ' : props.data[index].type
+                                            }
+                                        </td>
                                         <td>{props.data[index].hh}</td>
                                         <td>{props.data[index].hvhh}</td>
                                         <td>{props.data[index].address}</td>
@@ -50,7 +57,7 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.bank_id.name
+                                                                                    item.bank_id ? item.bank_id.name : <span className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>
@@ -77,7 +84,7 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.currency_id.short
+                                                                                    item.currency_id ? item.currency_id.short : <span className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>
@@ -104,7 +111,7 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.tin_value
+                                                                                    item.tin_value ? item.tin_value : <span className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>

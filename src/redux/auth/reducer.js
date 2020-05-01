@@ -8,6 +8,8 @@ import {
     LOGOUT_REQUEST_FAIL,
     LOGOUT_REQUEST_SUCCESS
 } from "./actionTypes";
+import {DELETE_USER_SUCCESS} from "../users/actionTypes";
+import SessionStorage from "../../services/SessionStorage";
 
 
 const INIT_STATE = {
@@ -74,6 +76,27 @@ export default (state = INIT_STATE, action) => {
                 access_token: null,
                 refresh_token: null
             };
+        case DELETE_USER_SUCCESS:
+            let getUser = SessionStorage.get('user');
+            console.log(getUser);
+            if (getUser.user_id === action.result.id && getUser.firstname === action.result.first_name && getUser.lastname === action.result.last_name) {
+                console.log(getUser);
+                destroySession();
+                return {
+                    ...state,
+                    logout: {
+                        ...state.logout,
+                        loading: false,
+                        success: true,
+                        fail: false,
+                    },
+                    user: null,
+                    access_token: null,
+                    refresh_token: null
+                }
+            } else {
+                return true;
+            }
         case LOGOUT_REQUEST_FAIL:
             return {
                 ...state,

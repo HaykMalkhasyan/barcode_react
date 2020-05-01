@@ -59,7 +59,6 @@ const mapStateToProps = state => {
         setSupplier: state.suppliers.setSupplier,
         currency: state.suppliers.currency,
         checkValueStatus: state.suppliers.checkValueStatus,
-
     }
 };
 

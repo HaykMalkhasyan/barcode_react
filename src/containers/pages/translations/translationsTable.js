@@ -1,9 +1,7 @@
 import React from "react";
 import {Col, FormGroup, Input, Label, Row, Table/*, Input */} from "reactstrap";
-import Translate from "../../../Translate";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
-import PaginationTable from "../../../components/PaginationTable/paginationTable";
 import PaginationS from "../../../components/pagination/pagination";
 
 /*name change example to TableComponent*/

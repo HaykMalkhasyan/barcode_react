@@ -26,7 +26,7 @@ import {
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
-    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, SET_ERROR, EMPTY_VALUE, SUCCES_VALUE,
+    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, EMPTY_VALUE, SUCCES_VALUE,
 } from "./actionTypes";
 import {IsRequiredField, IsRequiredFields, Push, Put, RemoveItem} from "../../utility/utils";
 
@@ -66,6 +66,10 @@ const INIT_STATE = {
         hvhh: false,
         address: false,
         director: false,
+        bank_id: false,
+        currency_id: false,
+        tin_value: false,
+        phone: false
     },
 };
 
@@ -168,6 +172,7 @@ export default (state = INIT_STATE, action) => {
 
             };
         case EDIT_SUPPLIER_SUCCESS:
+            console.log('action.result',action.result)
             return {
                 ...state,
                 loading: false,
@@ -307,7 +312,8 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 isOpen: !state.isOpen,
                 modalType: action.text,
-                setSupplier: action.cleanSuppliers
+                setSupplier: action.cleanSuppliers,
+                checkValueStatus: action.cleanValueStatus,
             }
         case  SUPPLIERS_OPEN_MODAL:
             return {
@@ -335,7 +341,6 @@ export default (state = INIT_STATE, action) => {
 
             };
         case FETCH_SUPPLIER_SUCCESS:
-            console.log(action.result);
             return {
                 ...state,
                 loading: false,
@@ -346,15 +351,48 @@ export default (state = INIT_STATE, action) => {
                 setSupplier: action.cleanSuppliers
             };
         case EMPTY_VALUE:
-            let newCheckValueStatusError = state.checkValueStatus
-            newCheckValueStatusError[action.name] = 'the field must not be empty'
+            let newCheckValueStatusError = state.checkValueStatus;
+            switch (action.name) {
+                case `bank_id`:
+                case 'currency_id':
+                case 'tin_value':
+                case 'phone':{
+                    if (newCheckValueStatusError[action.name] === false) {
+                        let obj = [];
+                        obj[action.index] = action.text;
+                        newCheckValueStatusError[action.name] = obj
+                    } else {
+                        newCheckValueStatusError[action.name][action.index] = action.text
+                    }
+                    break;
+                }
+                default: {
+                    newCheckValueStatusError[action.name] = action.text;
+                    break;
+                }
+            }
+
             return {
                 ...state,
                 checkValueStatus: newCheckValueStatusError
             }
         case SUCCES_VALUE:
             let newCheckValueStatusSuccess = state.checkValueStatus;
-            newCheckValueStatusSuccess[action.name] = false;
+            switch (action.name) {
+                case `bank_id`:
+                case 'currency_id':
+                case 'tin_value':
+                case 'phone': {
+                    if (newCheckValueStatusSuccess[action.name] !== false) {
+                        newCheckValueStatusSuccess[action.name][action.index] = false;
+                    }
+                    break;
+                }
+                default: {
+                    newCheckValueStatusSuccess[action.name] = false;
+                    break;
+                }
+            }
             return {
                 ...state,
                 checkValueStatus: newCheckValueStatusSuccess

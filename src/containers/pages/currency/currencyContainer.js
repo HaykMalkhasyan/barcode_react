@@ -7,7 +7,8 @@ import {
     editCurrency,
     setCurrencyValue,
     checkCurrencyValue,
-    fetchCurrency
+    fetchCurrency,
+    getItemCurrency
 } from '../../../redux/currency/actions';
 
 
@@ -19,7 +20,8 @@ const mapDispatchToProps = dispatch => {
             editCurrency,
             setCurrencyValue,
             checkCurrencyValue,
-            fetchCurrency
+            fetchCurrency,
+            getItemCurrency
         },
         dispatch
     );
