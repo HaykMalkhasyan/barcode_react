@@ -26,6 +26,7 @@ class SupplierContainer extends Component {
                         />
                         <TableComponent
                             setValues={this.props.setValues}
+                            companyTypes={this.props.companyTypes}
                             openSuppliersAddModal={this.props.openSuppliersAddModal}
                             data={this.props.suppliers}
                             toggleModal={this.props.toggleModal}

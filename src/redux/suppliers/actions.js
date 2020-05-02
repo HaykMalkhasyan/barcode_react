@@ -22,7 +22,6 @@ import {
     GET_Currency_REQUEST,
     GET_Currency_FAIL,
     GET_Currency_SUCCESS,
-    SUPPLIERS_ADD_MODAL,
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
@@ -51,7 +50,6 @@ export const supplierActions = (type, data) => {
                 promise: (apiClient) => apiClient.posttAdd(`suppliers/`, data, {cols})
             }
         case "edit":
-            console.log('data', data)
             return {
                 types: [EDIT_SUPPLIER_REQUEST, EDIT_SUPPLIER_FAIL, EDIT_SUPPLIER_SUCCESS],
                 promise: (apiClient) => apiClient.putt(`suppliers/${data.id}`, data, {cols})
@@ -124,17 +122,11 @@ export function openSuppliersAddModal(text) {
         tin_value: false,
         phone: false
     }
-    if (text === 'add') {
-        return {
-            type: SUPPLIERS_ADD_MODAL,
-            text,
-            cleanSuppliers,
-            cleanValueStatus
-        }
-    }
     return {
         type: SUPPLIERS_OPEN_MODAL,
-        text
+        text,
+        cleanSuppliers,
+        cleanValueStatus
     }
 }
 

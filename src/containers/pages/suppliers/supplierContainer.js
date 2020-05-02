@@ -57,6 +57,7 @@ const mapStateToProps = state => {
         isOpen: state.suppliers.isOpen,
         modalType: state.suppliers.modalType,
         setSupplier: state.suppliers.setSupplier,
+        companyTypes: state.suppliers.companyTypes,
         currency: state.suppliers.currency,
         checkValueStatus: state.suppliers.checkValueStatus,
     }

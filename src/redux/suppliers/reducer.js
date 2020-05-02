@@ -22,11 +22,12 @@ import {
     GET_Currency_REQUEST,
     GET_Currency_FAIL,
     GET_Currency_SUCCESS,
-    SUPPLIERS_ADD_MODAL,
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
-    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, EMPTY_VALUE, SUCCES_VALUE,
+    FETCH_SUPPLIER_SUCCESS,
+    SUPPLIERS_OPEN_MODAL,
+    EMPTY_VALUE, SUCCES_VALUE,
 } from "./actionTypes";
 import {IsRequiredField, IsRequiredFields, Push, Put, RemoveItem} from "../../utility/utils";
 
@@ -48,6 +49,12 @@ const INIT_STATE = {
     /*---------------------------------*/
     isOpen: false,
     modalType: '',
+    companyTypes: [
+        {id: 1, name: 'ՍՊԸ', value: 1},
+        {id: 2, name: 'ՓԲԸ', value: 2},
+        {id: 3, name: 'ԲԲԸ', value: 3},
+        {id: 4, name: 'ԱՁ', value: 4},
+    ],
     setSupplier: {
         name: '',
         hh: '',
@@ -172,7 +179,6 @@ export default (state = INIT_STATE, action) => {
 
             };
         case EDIT_SUPPLIER_SUCCESS:
-            console.log('action.result',action.result)
             return {
                 ...state,
                 loading: false,
@@ -191,7 +197,7 @@ export default (state = INIT_STATE, action) => {
                     active: 0,
                     type: 0
                 },
-                suppliers: Put(state.suppliers, action.result)
+                suppliers: Put(state.suppliers, action.result, 'id')
             };
         case DELETE_SUPPLIER_REQUEST:
             return {
@@ -307,19 +313,13 @@ export default (state = INIT_STATE, action) => {
                 errors: {}
             }
         /*---------------------------------*/
-        case SUPPLIERS_ADD_MODAL:
+        case  SUPPLIERS_OPEN_MODAL:
             return {
                 ...state,
                 isOpen: !state.isOpen,
                 modalType: action.text,
                 setSupplier: action.cleanSuppliers,
                 checkValueStatus: action.cleanValueStatus,
-            }
-        case  SUPPLIERS_OPEN_MODAL:
-            return {
-                ...state,
-                isOpen: !state.isOpen,
-                modalType: action.text
             }
         case SET_SUPPLIERS_VALUE:
             return {

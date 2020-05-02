@@ -5,6 +5,17 @@ import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 
 const SupplierTable = (props) => {
+
+    const printCompanyType =(type, companyType) => {
+        if (type) {
+            for( let item of companyType) {
+                if (item.value === +type) {
+                    return item.name;
+                }
+            }
+        }
+    }
+
     if (props.data && Object.keys(props.data).length > 0) {
         return (
             <Table responsive>
@@ -38,7 +49,7 @@ const SupplierTable = (props) => {
 
                                         <td>
                                             {
-                                                props.data[index].type === "" ? ' - ' : props.data[index].type
+                                                printCompanyType(props.data[index].type, props.companyTypes)
                                             }
                                         </td>
                                         <td>{props.data[index].hh}</td>
@@ -57,7 +68,9 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.bank_id ? item.bank_id.name : <span className='danger'>-</span>
+                                                                                    item.bank_id ? item.bank_id.name :
+                                                                                        <span
+                                                                                            className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>
@@ -84,7 +97,9 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.currency_id ? item.currency_id.short : <span className='danger'>-</span>
+                                                                                    item.currency_id ? item.currency_id.short :
+                                                                                        <span
+                                                                                            className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>
@@ -111,7 +126,9 @@ const SupplierTable = (props) => {
                                                                         <tr key={index}>
                                                                             <td>
                                                                                 {
-                                                                                    item.tin_value ? item.tin_value : <span className='danger'>-</span>
+                                                                                    item.tin_value ? item.tin_value :
+                                                                                        <span
+                                                                                            className='danger'>-</span>
                                                                                 }
                                                                             </td>
                                                                         </tr>

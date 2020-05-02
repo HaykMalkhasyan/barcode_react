@@ -288,15 +288,30 @@ const SuplliersAddModal = props => {
                                 className={'square border-left-0'}
                                 type={'select'}
                                 name={'type'}
-                                value={+props.setSupplier.type || 1}
+                                value={+props.setSupplier.type || 0}
                                 onChange={
                                     event => props.setSuppliersAddModalValue(event.target.name, +event.target.value)
                                 }
                             >
-                                <option value={1}>ՍՊԸ</option>
-                                <option value={2}>ՓԲԸ</option>
-                                <option value={3}>ԲԲԸ</option>
-                                <option value={4}>ԱՁ</option>
+                                <option value={0}>choose...</option>
+                                {
+                                    props.companyTypes ?
+                                        props.companyTypes.map(
+                                            type => {
+
+                                                return (
+                                                    <option
+                                                        key={type.id}
+                                                        value={type.value}
+                                                    >
+                                                        {type.name}
+                                                    </option>
+                                                )
+                                            }
+                                        )
+                                        :
+                                        <option>Empty</option>
+                                }
                             </Input>
                         </Col>
                     </FormGroup>
@@ -441,21 +456,29 @@ const SuplliersAddModal = props => {
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button
-                    color="primary"
-                    className="btn-square"
-                    outline type="submit"
-                    onClick={
-                        () => {
-                            props.modalType === 'add' ?
-                                props.fetchSuppliers(props.setSupplier)
-                                :
-                                props.supplierActions('edit', props.setSupplier)
-                        }
-                    }
-                >
-                    <Translate name={'confirm'}/>
-                </Button>
+                {
+                    props.setSupplier.name.length && props.setSupplier.hh.length && props.setSupplier.hvhh.length && props.setSupplier.address.length && props.setSupplier.tin.length > 0 && props.setSupplier.director.length && props.setSupplier.phone.length && props.setSupplier.type ?
+                        <Button
+                            color="primary"
+                            className="btn-square"
+                            outline type="submit"
+                            onClick={
+
+                                () => {
+
+                                    props.modalType === 'add' ?
+                                        props.fetchSuppliers(props.setSupplier)
+                                        :
+                                        props.supplierActions('edit', props.setSupplier)
+
+                                }
+                            }
+                        >
+                            <Translate name={'confirm'}/>
+                        </Button>
+                        :
+                        <span className='danger font-small-3'><Translate name={'The entire field is required'}/></span>
+                }
             </ModalFooter>
         </Modal>
     )
