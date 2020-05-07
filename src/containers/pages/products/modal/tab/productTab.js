@@ -58,7 +58,7 @@ class TabsBorderBottom extends Component {
                                     this.toggle(key);
                                 }}
                             >
-                                {this.props.groups[key].name[this.props.lang.active]}
+                                {this.props.groups[key].name}
                             </NavLink>
                         </NavItem>
                     })}
@@ -106,8 +106,8 @@ class TabsBorderBottom extends Component {
                         return (
                             <TabPane tabId={key} key={key}>
                                 <GroupModal
-                                    data={this.props.groups[key].subGroup}
-                                    name={this.props.groups[key].name[this.props.lang.active]}
+                                    data={this.props.subGroups}
+                                    name={this.props.groups[key].name}
                                     lang={this.props.lang}
                                     handleOpen={this.props.handleOpen}
                                     selectGroup={this.props.selectGroup}

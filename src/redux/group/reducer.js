@@ -1,41 +1,152 @@
 import {
-    GET_GROUPS_REQUEST,GET_GROUPS_FAIL,GET_GROUPS_SUCCESS,
-    GET_GROUP_REQUEST,GET_GROUP_FAIL,GET_GROUP_SUCCESS,
-    ADD_GROUP_REQUEST,ADD_GROUP_FAIL,ADD_GROUP_SUCCESS,
-    EDIT_GROUP_REQUEST,EDIT_GROUP_FAIL,EDIT_GROUP_SUCCESS,
-    DELETE_GROUP_REQUEST,DELETE_GROUP_FAIL,DELETE_GROUP_SUCCESS,
-    GET_SUB_GROUP_REQUEST,GET_SUB_GROUP_FAIL,GET_SUB_GROUP_SUCCESS,
-    ADD_SUB_GROUP_REQUEST,ADD_SUB_GROUP_FAIL,ADD_SUB_GROUP_SUCCESS,
-    EDIT_SUB_GROUP_REQUEST,EDIT_SUB_GROUP_FAIL,EDIT_SUB_GROUP_SUCCESS,
-    DELETE_SUB_GROUP_REQUEST,DELETE_SUB_GROUP_FAIL,DELETE_SUB_GROUP_SUCCESS,
-    SET_GROUP_MODAL,TOGGLE_GROUP_MODAL,TOGGLE_SUB_GROUP_MODAL,OPEN_MENU,
-    SELECT_GROUP
+    GET_GROUPS_REQUEST,
+    GET_GROUPS_FAIL,
+    GET_GROUPS_SUCCESS,
+    GET_GROUP_REQUEST,
+    GET_GROUP_FAIL,
+    GET_GROUP_SUCCESS,
+    ADD_GROUP_REQUEST,
+    ADD_GROUP_FAIL,
+    ADD_GROUP_SUCCESS,
+    EDIT_GROUP_REQUEST,
+    EDIT_GROUP_FAIL,
+    EDIT_GROUP_SUCCESS,
+    DELETE_GROUP_REQUEST,
+    DELETE_GROUP_FAIL,
+    DELETE_GROUP_SUCCESS,
+    GET_SUB_GROUP_REQUEST,
+    GET_SUB_GROUP_FAIL,
+    GET_SUB_GROUP_SUCCESS,
+    ADD_SUB_GROUP_REQUEST,
+    ADD_SUB_GROUP_FAIL,
+    ADD_SUB_GROUP_SUCCESS,
+    EDIT_SUB_GROUP_REQUEST,
+    EDIT_SUB_GROUP_FAIL,
+    EDIT_SUB_GROUP_SUCCESS,
+    DELETE_SUB_GROUP_REQUEST,
+    DELETE_SUB_GROUP_FAIL,
+    DELETE_SUB_GROUP_SUCCESS,
+    SET_GROUP_MODAL,
+    TOGGLE_GROUP_MODAL,
+    TOGGLE_SUB_GROUP_MODAL,
+    OPEN_MENU,
+    SELECT_GROUP,
+    GET_SUB_GROUPS_REQUEST,
+    GET_SUB_GROUPS_FAIL,
+    GET_SUB_GROUPS_SUCCESS,
+    SELECT_GROUPS_REQUEST,
+    SELECT_GROUPS_FAIL,
+    SELECT_GROUPS_SUCCESS,
+    SET_TOGGLE_SUB_MODAL_VALUE,
+    SET_SUB_MODAL_NAME_VALUE, TOGGLE_SUB_MODAL, START_MOVING_GROUP, END_MOVING_GROUP, SET_SEARCH_VALUE, SHOW_ALTERNATIVE
 } from "./actionTypes";
-import {IsRequiredField,IsRequiredFields,PutObjectValues,RemoveObjectValues} from "../../utility/utils";
-import {openMenu,addElement,editElement,deleteElement} from "./functions";
+import {IsRequiredField, Put, IsRequiredFields, Pushend, changeElement, RemoveItem} from "../../utility/utils";
+import {openMenu} from "./functions";
 
 const INIT_STATE = {
     groups: [],
-    group:{},
+    group: {},
+    subGroups: [],
+    subGroup: {},
     modal: {},
     subModal: {},
     required: ["name"],
-    selected:{},
+    selected: {},
     loading: false,
     success: false,
     fail: false,
-    errors: {}
+    errors: {},
+    movingGroupStatus: false,
+    movingstatus: false,
+    search: null,
+    alternative: true,
+    searchResult: []
 };
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case SHOW_ALTERNATIVE:
+            return {
+                ...state,
+                alternative: !state.alternative
+            }
+        case SET_SEARCH_VALUE:
+            return {
+                ...state,
+                searchResult: action.searchResult,
+                search: action.search
+            }
+        case END_MOVING_GROUP:
+            return {
+                ...state,
+                movingGroupStatus: false
+            }
+        case START_MOVING_GROUP:
+            return {
+                ...state,
+                movingGroupStatus: action.id
+            }
+        case TOGGLE_SUB_MODAL:
+            return {
+                ...state,
+                subModal: {}
+            }
+        case SET_TOGGLE_SUB_MODAL_VALUE:
+            return action.subGroup ?
+                {
+                    ...state,
+                    subModal: action.subModal,
+                    subGroup: action.subGroup
+                }
+                :
+                {
+                    ...state,
+                    subModal: action.subModal,
+                }
+        case SET_SUB_MODAL_NAME_VALUE:
+            return {
+                ...state,
+                subGroup: action.subGroup
+            }
+        case SELECT_GROUPS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                success: false,
+                fail: false,
+                modal: {},
+                subModal: {},
+                errors: {},
+            };
+        case SELECT_GROUPS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                modal: {},
+                subModal: {},
+                fail: true,
+            };
+        case SELECT_GROUPS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                modal: {},
+                subModal: {},
+                group: action.result,
+                search: null,
+                searchResult: [],
+                errors: {},
+            };
         case GET_GROUPS_REQUEST:
             return {
                 ...state,
                 loading: true,
                 success: false,
                 fail: false,
-                modal:{},
+                modal: {},
                 subModal: {},
                 errors: {},
             };
@@ -44,7 +155,7 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 loading: false,
                 success: false,
-                modal:{},
+                modal: {},
                 subModal: {},
                 fail: true,
             };
@@ -54,9 +165,10 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                modal:{},
+                modal: {},
                 subModal: {},
-                groups: JSON.parse(action.result.data),
+                groups: action.result.results,
+                group: action.result.results[0],
                 errors: {},
             };
         case GET_GROUP_REQUEST:
@@ -75,12 +187,13 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_GROUP_SUCCESS:
+            // console.log('ggg',action.result[Object.keys(action.result)[0]])
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                group: JSON.parse(action.result.data)[Object.keys(JSON.parse(action.result.data))[0]],
+                group: action.result,
                 errors: {},
             };
         case ADD_GROUP_REQUEST:
@@ -89,7 +202,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors:IsRequiredFields(state.required,state.group,state.errors)
+                errors: IsRequiredFields(state.required, state.group, state.errors)
             }
         case ADD_GROUP_FAIL:
             return {
@@ -106,7 +219,7 @@ export default (state = INIT_STATE, action) => {
                 success: true,
                 fail: false,
                 modal: {},
-                groups: JSON.parse(action.result.data)
+                groups: Pushend(state.groups, action.result)
             };
         case EDIT_GROUP_REQUEST:
             return {
@@ -114,7 +227,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors: IsRequiredFields(state.required,state.group,state.errors)
+                errors: IsRequiredFields(state.required, state.group, state.errors)
             }
         case EDIT_GROUP_FAIL:
             return {
@@ -127,12 +240,11 @@ export default (state = INIT_STATE, action) => {
         case EDIT_GROUP_SUCCESS:
             return {
                 ...state,
+                groups: changeElement(state.groups, action.result),
+                modal: {},
                 loading: false,
                 success: true,
                 fail: false,
-                modal: {},
-                group: {},
-                groups: PutObjectValues(state.groups,JSON.parse(action.result.data))
             };
         case DELETE_GROUP_REQUEST:
             return {
@@ -152,12 +264,12 @@ export default (state = INIT_STATE, action) => {
         case DELETE_GROUP_SUCCESS:
             return {
                 ...state,
+                groups: RemoveItem(state.groups, action.data),
+                modal: {},
                 loading: false,
                 success: true,
                 fail: false,
-                modal: {},
-                group: {},
-                groups: RemoveObjectValues(state.groups,JSON.parse(action.result.data)['id'])
+                group: {}
             };
         case GET_SUB_GROUP_REQUEST:
             return {
@@ -180,7 +292,31 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                group: JSON.parse(action.result.data),
+                subGroup: action.result,
+                errors: {},
+            };
+        case GET_SUB_GROUPS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                success: false,
+                fail: false,
+                errors: {},
+            };
+        case GET_SUB_GROUPS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                fail: true,
+            };
+        case GET_SUB_GROUPS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                fail: false,
+                subGroups: action.result.results,
                 errors: {},
             };
         case ADD_SUB_GROUP_REQUEST:
@@ -189,7 +325,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors:IsRequiredFields(state.required,state.group,state.errors)
+                errors: IsRequiredFields(state.required, state.group, state.errors)
             }
         case ADD_SUB_GROUP_FAIL:
             return {
@@ -200,15 +336,13 @@ export default (state = INIT_STATE, action) => {
 
             };
         case ADD_SUB_GROUP_SUCCESS:
-            let addEl =  JSON.parse(action.result.data);
-            state.groups[addEl.group_id].subGroup = addElement(state.groups[addEl.group_id].subGroup,addEl);
             return {
                 ...state,
+                subGroups: Pushend(state.subGroups, action.result),
+                subModal: {},
                 loading: false,
                 success: true,
-                fail: false,
-                subModal: {},
-                groups: state.groups
+                fail: false
             };
         case EDIT_SUB_GROUP_REQUEST:
             return {
@@ -216,7 +350,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors: IsRequiredFields(state.required,state.group,state.errors)
+                errors: IsRequiredFields(state.required, state.group, state.errors)
             }
         case EDIT_SUB_GROUP_FAIL:
             return {
@@ -227,16 +361,16 @@ export default (state = INIT_STATE, action) => {
 
             };
         case EDIT_SUB_GROUP_SUCCESS:
-            let EditEl =  JSON.parse(action.result.data);
-            state.groups[EditEl.group_id].subGroup = editElement(state.groups[EditEl.group_id].subGroup,EditEl);
+            console.log(action.result)
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
                 subModal: {},
-                group: {},
-                groups: state.groups
+                movingGroupStatus: false,
+                subGroups: Put(state.subGroups, action.result, 'id'),
+                searchResult: state.searchResult.length > 0 ? Put(state.searchResult, action.result, 'id') : [],
             };
         case DELETE_SUB_GROUP_REQUEST:
             return {
@@ -254,37 +388,27 @@ export default (state = INIT_STATE, action) => {
 
             };
         case DELETE_SUB_GROUP_SUCCESS:
-            let delEl =  JSON.parse(action.result.data);
-            state.groups[delEl.group_id].subGroup = deleteElement(state.groups[delEl.group_id].subGroup,delEl.id);
             return {
                 ...state,
                 loading: false,
                 success: true,
                 fail: false,
-                subModal: {},
-                group: {},
-                groups: state.groups
+                subGroups: RemoveItem(state.subGroups, {id: action.data}),
+                searchResult: state.searchResult.length > 0 ? RemoveItem(action.data, {id: action.data}) : [],
             };
 
         case SET_GROUP_MODAL:
-            if(action.lang){
-                if(!state.group[action.key]){
-                    state.group[action.key] = {}
-                }
-                state.group[action.key][action.lang] = action.value;
-            }else{
-                state.group[action.key] = action.value;
-            }
+            state.group[action.key] = action.value;
             return {
                 ...state,
-                errors:IsRequiredField(state.required,action,state.errors)
+                errors: IsRequiredField(state.required, action, state.errors)
             };
         case TOGGLE_GROUP_MODAL:
             state.modal[action.modalType] = !state.modal[action.modalType];
-            if(action.obj){
-                if(action.modalType==="edit"){
+            if (action.obj) {
+                if (action.modalType === "edit") {
                     state.group[action.obj.key] = action.obj.value
-                }else{
+                } else {
                     state.group = action.obj
                 }
             }
@@ -297,14 +421,14 @@ export default (state = INIT_STATE, action) => {
         case TOGGLE_SUB_GROUP_MODAL:
             state.subModal[action.modalType] = !state.subModal[action.modalType];
             let obj = action.obj
-            if(obj){
-                if(action.modalType==="edit"){
-                    state.group = {
-                        ...state.group,
+            if (obj) {
+                if (action.modalType === "edit") {
+                    state.subGroup = {
+                        ...state.subGroup,
                         ...obj
                     }
-                }else{
-                    state.group = obj
+                } else {
+                    state.subGroup = obj
                 }
             }
 
@@ -314,7 +438,7 @@ export default (state = INIT_STATE, action) => {
                 modal: {}
             }
         case OPEN_MENU:
-            state.groups[action.group_id].subGroup = openMenu(state.groups[action.group_id].subGroup,action.id,"open");
+            state.groups[action.group_id].subGroup = openMenu(state.groups[action.group_id].subGroup, action.id, "open");
             return {
                 ...state,
                 groups: state.groups

@@ -3,6 +3,7 @@ import {
 } from "./actionTypes";
 
 export const uploadImages = (page,event) => {
+    console.log(page, event.target.files)
 
     return {
         types: [UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_FAIL, UPLOAD_IMAGES_SUCCESS],

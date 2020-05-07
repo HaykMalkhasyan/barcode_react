@@ -4,19 +4,23 @@ import TableComponent from './groupTable';
 import AddButton from "../../../components/buttons/addButton";
 import GroupModal from "./groupModal";
 import SubGroupModal from "./subGroupModal";
+import ContentTable from "./content";
 
 class UserContainer extends Component {
     constructor(props) {
         super(props)
         this.props.groupActions("getAll")
+        this.props.subGroupActions("getAll")
     }
     render() {
+
             return(
                 <Col sm="12">
                     <Card>
                         <CardBody>
                             <AddButton perm = {this.props.perm}  onClick={() => this.props.toggleModal("add")} />{" "}
-                            <TableComponent {...this.props} />
+                            <ContentTable {...this.props} />
+                            {/*<TableComponent {...this.props} />*/}
                         </CardBody>
                     </Card>
                     <GroupModal {...this.props}  type={'add'} />

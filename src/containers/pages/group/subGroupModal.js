@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import Translate from "../../../Translate";
-import LocalizeInput from "../../localize/localizeInput";
 import LocalizeTab from "../../localize/localizeTab";
 
 const SubGroupModal = (props) => {
@@ -14,15 +13,13 @@ const SubGroupModal = (props) => {
             return(
                 <ModalBody>
                     <FormGroup>
-                        <LocalizeTab />
-                    </FormGroup>
-                    <FormGroup>
                         <Label for="name"><Translate name={"name"}/></Label>
-                        <LocalizeInput
-                            errors = {props.errors.name}
-                            name = {props.group.name}
-                            setValue = {props.setModalValues}
-                            lang = {props.lang}
+                        <input
+                            className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
+                            type="text"
+                            id="name"
+                            value={props.subGroup.name ? props.subGroup.name : ""}
+                            onChange={event => props.setSubModalName("name", event.target.value)}
                         />
                     </FormGroup>
                 </ModalBody>
@@ -35,11 +32,11 @@ const SubGroupModal = (props) => {
     return (
 
         <React.Fragment>
-            <Modal isOpen={props.subModal[props.type]} toggle={()=>props.toggleSubModal(props.type)}  size="md">
+            <Modal isOpen={props.subModal[props.type]} toggle={()=>props.setActionToggleSubModal({/*props.type*/})}  size="md">
                 <ModalHeader toggle={()=>props.toggleSubModal(props.type)}><Translate name={props.type+"SubGroup"}/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
-                    <Button color="primary" outline type="submit" onClick={()=>props.subGroupActions(props.type,props.group)}>
+                    <Button color="primary" outline type="submit" onClick={()=>props.subGroupActions(props.type,props.subGroup)}>
                         <Translate name={"confirm"}/>
                     </Button>
                 </ModalFooter>

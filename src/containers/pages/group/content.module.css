@@ -1,0 +1,24 @@
+.header {
+    border-bottom: 2px solid #e1e1e1;
+    margin-top: 30px;
+}
+
+.groupBtn {
+    margin-right: 10px;
+}
+
+.nav {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.controllers {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.section {
+    margin: 20px;
+    box-sizing: border-box;
+}

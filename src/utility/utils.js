@@ -52,17 +52,24 @@ export const RenameKeys = (arr, oldKeys, newKeys) => {
 
 export const Put = (arr, obj, key) => {
     if (arr.length > 0) {
-        arr.forEach(function (element, index) {
-            if (element[key] === obj[key]) {
-                arr[index] = obj;
+        arr.forEach(
+            (element, index) => {
+                if (element[key] === obj[key]) {
+                    arr[index] = obj;
+                }
             }
-        })
+        )
     }
     return arr;
 }
 
 export function Push(arr, obj) {
     arr.unshift(obj)
+    return arr
+}
+
+export function Pushend(arr, obj) {
+    arr.push(obj)
     return arr
 }
 
@@ -166,4 +173,15 @@ export const RemoveObjectValues = (obj, key) => {
     return obj;
 }
 
+export const changeElement = (state, object) => {
+
+    state.forEach(
+        item => item.id === object.id ?
+            item.name = object.name
+            :
+            null
+    )
+
+    return state
+}
 

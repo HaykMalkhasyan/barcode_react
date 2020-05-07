@@ -6,8 +6,6 @@ import {
     DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
     SET_USER_MODAL, TOGGLE_USER_MODAL
 } from "./actionTypes";
-import SessionStorage from "../../services/SessionStorage";
-import {destroySession} from "../../utility/session";
 
 let cols = 'id, username, firstname, lastname, email, is_active, deleted ';
 

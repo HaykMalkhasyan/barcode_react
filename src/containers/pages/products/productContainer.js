@@ -10,7 +10,7 @@ import {
     supplierActions
 } from "../../../redux/suppliers/actions";
 import {
-    groupActions,handleOpen,selectGroup
+    groupActions,handleOpen,selectGroup,subGroupActions
 } from "../../../redux/group/actions";
 import {
     uploadImages
@@ -29,7 +29,8 @@ const mapDispatchToProps = dispatch => {
             groupActions,
             handleOpen,
             selectGroup,
-            uploadImages
+            uploadImages,
+            subGroupActions
         },
         dispatch
     );
@@ -43,6 +44,7 @@ const mapStateToProps = state => {
         barcodeTypes: state.products.barcodeTypes,
         suppliers: state.suppliers.suppliers,
         groups: state.group.groups,
+        subGroups: state.group.subGroups,
         selectedGroups: state.group.selected,
         perm: state.permission.data.products,
         lang: {

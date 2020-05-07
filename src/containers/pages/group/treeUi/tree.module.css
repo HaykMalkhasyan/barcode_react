@@ -1,0 +1,13 @@
+.block {
+    display: flex;
+}
+
+.leftArrow {
+    color: #666;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.leftArrow:hover {
+    color: #0ABC76;
+}

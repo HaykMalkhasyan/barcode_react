@@ -110,7 +110,7 @@ export default class ApiClient {
 
             })
 
-        return this.post(uri, formData, params, headers, configs);
+        return this.posttAdd(uri, formData, params, headers, configs);
     }
 
 

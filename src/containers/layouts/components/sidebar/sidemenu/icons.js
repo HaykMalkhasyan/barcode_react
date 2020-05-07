@@ -9,7 +9,10 @@ class InstarProducts extends Component {
         Truck:Icon.Truck,
         Menu: Icon.Menu,
         Shield: Icon.Shield,
-        Package: Icon.Package
+        Package: Icon.Package,
+        Flag: Icon.Flag,
+        ChevronsUp: Icon.ChevronsUp,
+        DollarSign: Icon.DollarSign,
     };
     render() {
         const TagName = this.components[this.props.tag || ''];

@@ -26,7 +26,11 @@ import {
     GET_TRANSLATION_SIZE_REQUEST,
     GET_TRANSLATION_SIZE_FAIL,
     GET_TRANSLATION_SIZE_SUCCESS,
-    SET_TRANSLATION_SIZE_COUNT, GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS
+    SET_TRANSLATION_SIZE_COUNT,
+    GET_TRANSLATION_PAGE_REQUEST,
+    GET_TRANSLATION_PAGE_FAIL,
+    GET_TRANSLATION_PAGE_SUCCESS,
+    GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
 import {ChangeTranslation, IsRequiredField, IsRequiredFields, Push, RemoveItem, changeAddedTranslations} from '../../utility/utils';
@@ -37,6 +41,7 @@ const INIT_STATE = {
     translations: {},
     translation: {},
     translationsSize: [],
+    activeTranslationLang: 'all',
     itemsCountPerPage: 10,
     totalItemsCount: 0,
     pageRangeDisplayed: 5,
@@ -55,6 +60,11 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case 'test':
+            return {
+                ...state,
+                activeTranslationLang: action.lang
+            };
         case GET_LANGUAGES_REQUEST:
             return {
                 ...state,
@@ -129,6 +139,7 @@ export default (state = INIT_STATE, action) => {
                 translationsSize: action.result.results,
                 totalItemsCount: action.result.count,
                 status: !!action.result.results.length,
+                activePage: 1,
                 loading: false,
                 success: true,
                 fail: false,
@@ -153,6 +164,35 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 activePage: action.page,
+                translationsSize: action.result.results,
+                totalItemsCount: action.result.count,
+                status: !!action.result.results.length,
+                loading: false,
+                success: true,
+                fail: false,
+                errors: {}
+            };
+            case GET_TRANSLATION_LANGUAGE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                success: false,
+                fail: false,
+                errors: {},
+            };
+        case GET_TRANSLATION_LANGUAGE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                success: false,
+                fail: true,
+            };
+        case GET_TRANSLATION_LANGUAGE_SUCCESS:
+            return {
+                ...state,
+                activeTranslationLang: action.lang,
+                activePage: action.page,
+                totalItemsCount: action.result.count,
                 translationsSize: action.result.results,
                 status: !!action.result.results.length,
                 loading: false,

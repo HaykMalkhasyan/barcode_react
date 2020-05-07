@@ -8,7 +8,9 @@ import {
     toggleTranslationModal,
     setCount,
     getTranslationsWithSize,
-    getTranslationPage
+    getTranslationPage,
+    getTranslationWithLang,
+    getTranslationAll
 } from '../../../redux/lang/actions'
 
 const mapDispatchToProps = dispatch => {
@@ -20,7 +22,9 @@ const mapDispatchToProps = dispatch => {
             getTranslations,
             setCount,
             getTranslationsWithSize,
-            getTranslationPage
+            getTranslationPage,
+            getTranslationWithLang,
+            getTranslationAll
         },
         dispatch
     );
@@ -37,6 +41,7 @@ const mapStateToProps = state => {
         pageRangeDisplayed: state.languages.pageRangeDisplayed,
         totalItemsCount: state.languages.totalItemsCount,
         activePage: state.languages.activePage,
+        activeTranslationLang: state.languages.activeTranslationLang,
     }
 };
 

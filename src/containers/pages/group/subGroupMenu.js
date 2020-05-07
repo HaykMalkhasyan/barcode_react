@@ -25,7 +25,6 @@ const SubMenu = props => {
         return <div></div>
     }
 
-
     function Chevron(props) {
         if (props.data) {
             if (!open) {
@@ -44,7 +43,7 @@ const SubMenu = props => {
             >
                 <Col sm="11" md="11">
                     <Chevron data={props.data.child} handleOpen = {props.handleOpen} id = {props.data.id} group_id = {props.data.group_id}/>
-                    {props.data.name[props.lang.active]?props.data.name[props.lang.active]:""}
+                    {props.data.name?props.data.name:""}
                 </Col>
                 {props.page!=="products"?<Col sm="1" md="1">
                     <PlusButton perm={props.perm} onClick={() => props.toggleSubModal('add',props.data.id,props.data.group_id)}/>
@@ -60,6 +59,7 @@ const SubMenu = props => {
 };
 
 const Menu = props => {
+    console.log(props.data)
 
     if (props.data && props.data.length > 0) {
         return <ul className="list-group ">

@@ -26,7 +26,11 @@ import {
     GET_TRANSLATION_SIZE_REQUEST,
     GET_TRANSLATION_SIZE_FAIL,
     GET_TRANSLATION_SIZE_SUCCESS,
-    SET_TRANSLATION_SIZE_COUNT, GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS
+    SET_TRANSLATION_SIZE_COUNT,
+    GET_TRANSLATION_PAGE_REQUEST,
+    GET_TRANSLATION_PAGE_FAIL,
+    GET_TRANSLATION_PAGE_SUCCESS,
+    GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
 
@@ -46,33 +50,91 @@ export const getTranslations = () => {
     }
 }
 
-export const getTranslationsWithSize = size => {
-    return {
-        types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}`)
-    }
+export const getTranslationsWithSize = (size, lang, page) => {
+    // console.log('size', size)
+    console.log('lang', lang)
+    // console.log('page', page)
+    return lang ?
+        page ?
+            lang === 'all' ?
+                {
+                    types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                    promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${page}`)
+                }
+                :
+                {
+                    types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                    promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${page}&lang=${lang}`)
+                }
+            :
+            lang === 'all' ?
+                {
+                    types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                    promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${1}`)
+                }
+                :
+                {
+                    types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                    promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${1}&lang=${lang}`)
+                }
+        :
+        page ?
+            {
+                types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${page}`)
+            }
+            :
+            {
+                types: [GET_TRANSLATION_SIZE_REQUEST, GET_TRANSLATION_SIZE_FAIL, GET_TRANSLATION_SIZE_SUCCESS],
+                promise: (apiClient) => apiClient.gett(`translations/?page_size=${size}&page=${1}`)
+            }
 }
 
-export const getTranslationPage = (page, pageSize) => {
+export const getTranslationPage = (page, pageSize, lang) => {
+    return lang !== 'all' ?
+        {
+            types: [GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS],
+            promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}&lang=${lang}`),
+            page
+        }
+        :
+        {
+            types: [GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS],
+            promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}`),
+            page
+        }
 
+}
+
+export const getTranslationWithLang = (lang, page, pageSize) => {
     return {
-        types: [GET_TRANSLATION_PAGE_REQUEST, GET_TRANSLATION_PAGE_FAIL, GET_TRANSLATION_PAGE_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}`),
+        types: [GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS],
+        promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}&lang=${lang}`),
+        lang,
         page
     }
 }
 
-export const setCount = count => {
+export const getTranslationAll = (lang, page, pageSize) => {
+    return {
+        types: [GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS],
+        promise: (apiClient) => apiClient.gett(`translations/?page=${page}&page_size=${pageSize}`),
+        lang,
+        page
+    }
+}
+
+export const setCount = (pageSize, language, pageNumber) => {
 
     return dispatch => {
-        dispatch(getTranslationsWithSize(count));
-        dispatch(changeCount(count))
+        dispatch(getTranslationsWithSize(pageSize, language, pageNumber));
+        dispatch(changeCount(pageSize))
     }
 }
 
 export const changeCount = count => {
 
-    return{
+    return {
         type: SET_TRANSLATION_SIZE_COUNT,
         count
     }

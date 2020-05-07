@@ -40,15 +40,19 @@ export default class TableComponent extends React.Component {
         return arr;
     }
 
-    handlePageChange = (pageSize, pageNumber) => {
-        this.props.getTranslationPage(pageNumber, pageSize)
+    handlePageChange = (pageSize, language, pageNumber) => {
+            this.props.getTranslationPage(pageNumber, pageSize, language)
+    }
+
+    handleSizeChange = (pageSize, language, pageNumber) => {
+        this.props.setCount(pageSize, language, pageNumber)
     }
 
     render() {
 
         return (
             <>
-                <Table responsive>
+                <Table hover borderless responsive>
                     {/*<thead>*/}
                     {/*<tr>*/}
                     {/*    <td>#</td>*/}
@@ -94,7 +98,7 @@ export default class TableComponent extends React.Component {
                     </tbody>
                 </Table>
                 <Row style={{justifyContent: 'space-between'}}>
-                    <Col md={'auto'} >
+                    <Col md={'auto'}>
                         <FormGroup>
                             <Label for="count">
                                 <Input
@@ -102,8 +106,7 @@ export default class TableComponent extends React.Component {
                                     type="select"
                                     id="count"
                                     value={this.props.itemsCountPerPage || 10}
-                                    // defaultValue={"0"}
-                                    onChange={event => this.props.setCount(event.target.value)}
+                                    onChange={event => this.handleSizeChange(event.target.value, this.props.activeTranslationLang, 1)}
                                 >
                                     <option value="10">10</option>
                                     <option value="25">25</option>
@@ -116,7 +119,7 @@ export default class TableComponent extends React.Component {
                     </Col>
                     <Col md={'auto'}>
                         <PaginationS
-                            onChange={this.handlePageChange.bind(this, this.props.itemsCountPerPage)}
+                            onChange={this.handlePageChange.bind(this, this.props.itemsCountPerPage, this.props.activeTranslationLang)}
                             itemsCountPerPage={this.props.itemsCountPerPage}
                             activePage={this.props.activePage}
                             pageRangeDisplayed={this.props.pageRangeDisplayed}
@@ -124,20 +127,6 @@ export default class TableComponent extends React.Component {
                         />
                     </Col>
                 </Row>
-                {/*{*/}
-                {/*    this.props.data && this.props.data.length > 0 ?*/}
-                {/*        <PaginationTable*/}
-                {/*            editEvent={this.editBtnHandler}*/}
-                {/*            deleteEvent={this.deleteBtnHandler}*/}
-                {/*            data={this.newDataHandler()}*/}
-                {/*            dataKey={<Translate name={'key'}/>}*/}
-                {/*            value={<Translate name={'value'}/>}*/}
-                {/*            lang={<Translate name={'language'}/>}*/}
-                {/*            // buttons={<Translate name={'E/D'}/>}*/}
-                {/*        />*/}
-                {/*        :*/}
-                {/*        null*/}
-                {/*}*/}
             </>
 
         );

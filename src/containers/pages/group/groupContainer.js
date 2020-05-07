@@ -7,7 +7,16 @@ import {
     toggleModal,
     toggleSubModal,
     handleOpen,
-    selectGroup
+    selectGroup,
+    getSeletGroup,
+    getSubGroup,
+    setActionToggleSubModal,
+    setSubModalName,
+    startMovingGroup,
+    endeMovingGroup,
+    editPosition,
+    searchGroups,
+    alternativeShow
 } from "../../../redux/group/actions";
 import {
     toggleModalLanguage
@@ -25,7 +34,16 @@ const mapDispatchToProps = dispatch => {
             toggleSubModal,
             handleOpen,
             toggleModalLanguage,
-            selectGroup
+            selectGroup,
+            getSeletGroup,
+            getSubGroup,
+            setActionToggleSubModal,
+            setSubModalName,
+            startMovingGroup,
+            endeMovingGroup,
+            editPosition,
+            searchGroups,
+            alternativeShow
         },
         dispatch
     );
@@ -35,6 +53,8 @@ const mapStateToProps = state => {
     return {
         groups: state.group.groups,
         group: state.group.group,
+        subGroups: state.group.subGroups,
+        subGroup: state.group.subGroup,
         modal: state.group.modal,
         subModal: state.group.subModal,
         perm: state.permission.data.group,
@@ -45,6 +65,10 @@ const mapStateToProps = state => {
             active:state.languages.active
         },
         errors: state.group.errors,
+        movingGroupStatus: state.group.movingGroupStatus,
+        search: state.group.search,
+        searchResult: state.group.searchResult,
+        alternative: state.group.alternative,
 
     }
 };

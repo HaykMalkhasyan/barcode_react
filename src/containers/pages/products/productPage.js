@@ -9,6 +9,7 @@ class ProductContainer extends Component {
     constructor(props) {
         super(props)
         this.props.productActions("getAll")
+        this.props.subGroupActions("getAll")
         this.props.barcodeActions("getTypes")
     }
 

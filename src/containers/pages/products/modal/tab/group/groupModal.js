@@ -31,6 +31,9 @@ const ModalExample = props => {
             >
                 <ModalHeader toggle={toggle}>{props.name}</ModalHeader>
                 <ModalBody>
+                    {
+                        console.log(props.data)
+                    }
                     <GroupTabContent
                         data={props.data}
                         lang={props.lang}
