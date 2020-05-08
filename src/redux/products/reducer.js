@@ -175,6 +175,8 @@ export default (state = INIT_STATE, action) => {
                 products: JSON.parse(action.result.data)
             };
         case SET_PRODUCT_MODAL:
+            console.log(action.key)
+            console.log(action.value)
             state.product[action.key] = action.value
             return {
                 ...state,

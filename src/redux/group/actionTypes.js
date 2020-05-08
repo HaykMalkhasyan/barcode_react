@@ -59,3 +59,9 @@ export const START_MOVING_GROUP = 'START_MOVING_GROUP';
 export const END_MOVING_GROUP = 'END_MOVING_GROUP';
 export const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE';
 export const SHOW_ALTERNATIVE = 'SHOW_ALTERNATIVE';
+
+/*
+*       For products
+* */
+
+export const SET_PRODUCT_GROUPS = 'SET_PRODUCT_GROUPS';

@@ -1,12 +1,13 @@
 import { saveSession,getSession,destroySession } from "../../utility/session";
 
 import {
+    LOGIN_EMPTY,
     LOGIN_REQUEST,
     LOGIN_REQUEST_FAIL,
     LOGIN_REQUEST_SUCCESS,
     LOGOUT_REQUEST,
     LOGOUT_REQUEST_FAIL,
-    LOGOUT_REQUEST_SUCCESS
+    LOGOUT_REQUEST_SUCCESS, PASSWORD_EMPTY
 } from "./actionTypes";
 import {DELETE_USER_SUCCESS} from "../users/actionTypes";
 import SessionStorage from "../../services/SessionStorage";
@@ -20,10 +21,21 @@ const INIT_STATE = {
     success: false,
     fail: false,
     errors: {},
+    authError: false,
+    emptyLogin: null,
+    emptyPassword: null
 };
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case LOGIN_EMPTY:
+            return {
+                ...state, emptyLogin: action.status
+            }
+        case PASSWORD_EMPTY:
+            return {
+                ...state, emptyPassword: action.status
+            }
         case LOGIN_REQUEST:
             return {
                 ...state,
@@ -38,15 +50,19 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: false,
                 fail: true,
+                authError: true
             };
         case LOGIN_REQUEST_SUCCESS:
             let data = action.result
             saveSession('auth',data);
             return {
                 ...state,
+                emptyLogin: null,
+                emptyPassword: null,
                 loading: false,
                 success: true,
                 fail: false,
+                authError: false,
                 user: data.user,
                 access_token: data.access,
                 access_refresh_token: data.refresh,

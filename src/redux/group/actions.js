@@ -38,7 +38,13 @@ import {
     SELECT_GROUPS_FAIL,
     SELECT_GROUPS_SUCCESS,
     SET_TOGGLE_SUB_MODAL_VALUE,
-    SET_SUB_MODAL_NAME_VALUE, TOGGLE_SUB_MODAL, START_MOVING_GROUP, END_MOVING_GROUP, SET_SEARCH_VALUE, SHOW_ALTERNATIVE
+    SET_SUB_MODAL_NAME_VALUE,
+    TOGGLE_SUB_MODAL,
+    START_MOVING_GROUP,
+    END_MOVING_GROUP,
+    SET_SEARCH_VALUE,
+    SHOW_ALTERNATIVE,
+    SET_PRODUCT_GROUPS
 } from "./actionTypes";
 import main from "react-stepzilla/dist/main";
 
@@ -250,7 +256,6 @@ export function searchGroups(name, value, mainId) {
                 id: mainId,
                 value: value ? value : null
             }
-            let subGroupsOrigin = group.subGroups
             let subGroups = group.subGroups
             let searchResult = [];
 
@@ -339,6 +344,31 @@ export function alternativeShow() {
 
     return {
         type: SHOW_ALTERNATIVE
+    }
+}
+
+/*------------------------ For products ------------------------*/
+
+export function getSubGroups(data) {
+
+    return (dispatch, getState) => {
+        console.log(data.id);
+        let subGroups = getState().group.subGroups;
+        let productGroups = [];
+        for (let subGroup of subGroups) {
+            if (subGroup.group_id && (subGroup.group_id.id === data.id)) {
+                productGroups.push(subGroup)
+            }
+        }
+        dispatch(setProductGroups(productGroups))
+    }
+}
+
+export function setProductGroups(productGroups) {
+
+    return {
+        type: SET_PRODUCT_GROUPS,
+        productGroups
     }
 }
 

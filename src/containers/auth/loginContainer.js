@@ -7,14 +7,17 @@ import {
     FormGroup,
     Button,
     Card,
-    CardBody
+    CardBody,
 } from "reactstrap";
 // import jwt from 'jwt-simple';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {login} from "../../redux/auth/actions";
+import {login, loginIsEmpty, passwordIsEmpty} from "../../redux/auth/actions";
 import {getTranslations} from "../../redux/lang/actions"
 import {getPages} from '../../redux/pages/actions'
+import classes from './login.module.css'
+import * as Icon from 'react-feather'
+import Translate from "../../Translate";
 
 
 class LoginContainer extends Component {
@@ -30,14 +33,64 @@ class LoginContainer extends Component {
     onSubmit = () => {
         // let data = [this.state.username,jwt.encode(this.state.password, "password")];
         let data = this.state;
+        if (!data.username) {
+            this.props.loginIsEmpty(true)
+        } else {
+
+            this.props.loginIsEmpty(false)
+        }
+        if (!data.password) {
+            this.props.passwordIsEmpty(true)
+        } else {
+            this.props.passwordIsEmpty(false)
+        }
         this.props.login(data, 'index')
         this.props.getTranslations()
         this.props.getPages()
+
     }
 
     render() {
         return (
             <div className="container">
+                <div className={classes.notificationWindow}>
+                    {
+                        this.props.authError ?
+                            <div className={classes.notification}>
+                                <Icon.AlertCircle className="danger" size={20}/>
+                                <b className="danger mr-1 ml-1">#error</b>
+                                <span>
+                                    <Translate name={'incorrect value'}/>
+                                </span>
+                            </div>
+                            :
+                            null
+                    }
+                    {
+                        this.props.emptyLogin ?
+                            <div className={classes.notification}>
+                                <Icon.AlertTriangle className="danger" size={20}/>
+                                <b className="warning mr-1 ml-1">#warning</b>
+                                <span>
+                                    <Translate name={'login is empty'}/>
+                                </span>
+                            </div>
+                            :
+                            null
+                    }
+                    {
+                        this.props.emptyPassword ?
+                            <div className={classes.notification}>
+                                <Icon.AlertTriangle className="danger" size={20}/>
+                                <b className="warning mr-1 ml-1">#warning</b>
+                                <span>
+                                    <Translate name={'password is empty'}/>
+                                </span>
+                            </div>
+                            :
+                            null
+                    }
+                </div>
                 <Row className="full-height-vh">
                     <Col xs="12" className="d-flex align-items-center justify-content-center">
                         <Card className="gradient-indigo-purple text-center width-400">
@@ -112,7 +165,11 @@ class LoginContainer extends Component {
 }
 
 function mapStateToProps(state) {
-    return state;
+    return {
+        authError: state.auth.authError,
+        emptyLogin: state.auth.emptyLogin,
+        emptyPassword: state.auth.emptyPassword,
+    };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -120,7 +177,9 @@ const mapDispatchToProps = dispatch => {
         {
             login,
             getTranslations,
-            getPages
+            getPages,
+            loginIsEmpty,
+            passwordIsEmpty
         },
         dispatch
     );

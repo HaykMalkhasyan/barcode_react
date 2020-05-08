@@ -38,7 +38,13 @@ import {
     SELECT_GROUPS_FAIL,
     SELECT_GROUPS_SUCCESS,
     SET_TOGGLE_SUB_MODAL_VALUE,
-    SET_SUB_MODAL_NAME_VALUE, TOGGLE_SUB_MODAL, START_MOVING_GROUP, END_MOVING_GROUP, SET_SEARCH_VALUE, SHOW_ALTERNATIVE
+    SET_SUB_MODAL_NAME_VALUE,
+    TOGGLE_SUB_MODAL,
+    START_MOVING_GROUP,
+    END_MOVING_GROUP,
+    SET_SEARCH_VALUE,
+    SHOW_ALTERNATIVE,
+    SET_PRODUCT_GROUPS
 } from "./actionTypes";
 import {IsRequiredField, Put, IsRequiredFields, Pushend, changeElement, RemoveItem} from "../../utility/utils";
 import {openMenu} from "./functions";
@@ -60,11 +66,17 @@ const INIT_STATE = {
     movingstatus: false,
     search: null,
     alternative: true,
-    searchResult: []
+    searchResult: [],
+    productGroups: []
 };
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case SET_PRODUCT_GROUPS:
+            return {
+                ...state,
+                productGroups: action.productGroups
+            }
         case SHOW_ALTERNATIVE:
             return {
                 ...state,
@@ -444,7 +456,9 @@ export default (state = INIT_STATE, action) => {
                 groups: state.groups
             }
         case SELECT_GROUP:
-            state.selected[action.group_id] = action.value
+            let newSelected = {};
+            newSelected[action.group_id] = action.value
+            state.selected = newSelected
             return {
                 ...state,
             }

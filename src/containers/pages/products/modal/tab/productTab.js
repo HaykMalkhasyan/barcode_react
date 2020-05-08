@@ -17,6 +17,7 @@ import GroupModal from "./group/groupModal";
 // import DropdownComponent from "../../../../../components/dropdown/dropdown";
 // import {setModalValues} from "../../../../../redux/products/actions";
 import CodeContent from "./code/content";
+import ButtonUi from "../../../../../components/buttons/buttonUi";
 
 class TabsBorderBottom extends Component {
 
@@ -24,7 +25,10 @@ class TabsBorderBottom extends Component {
         super(props)
         this.state = {
             activeTab: "code",
-            modal: false
+            modal: false,
+            key: null,
+            btnType: null,
+            id: null
         };
         this.props.supplierActions("getAll");
         this.props.groupActions("getAll");
@@ -44,24 +48,29 @@ class TabsBorderBottom extends Component {
         }
     };
 
+    setGroupId = id => {
+        this.setState({
+            key: id
+        });
+    }
+
     render() {
         return (
             <div>
                 <Nav tabs className="nav-border-bottom">
-                    {Object.keys(this.props.groups).map((key) => {
-                        return <NavItem key={key}>
-                            <NavLink
-                                className={classnames({
-                                    active: this.state.activeTab === key
-                                })}
-                                onClick={() => {
-                                    this.toggle(key);
-                                }}
-                            >
-                                {this.props.groups[key].name}
-                            </NavLink>
-                        </NavItem>
-                    })}
+                    <NavItem>
+                        <NavLink
+                            className={classnames({
+                                active: this.state.activeTab === "classifiers"
+                            })}
+                            onClick={() => {
+                                this.toggle("classifiers");
+                            }}
+                        >
+                            <Translate name={'classifiers'}/>
+                        </NavLink>
+                    </NavItem>
+
 
                     <NavItem>
                         <NavLink
@@ -102,25 +111,42 @@ class TabsBorderBottom extends Component {
                     </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
-                    {Object.keys(this.props.groups).map((key) => {
-                        return (
-                            <TabPane tabId={key} key={key}>
-                                <GroupModal
-                                    data={this.props.subGroups}
-                                    name={this.props.groups[key].name}
-                                    lang={this.props.lang}
-                                    handleOpen={this.props.handleOpen}
-                                    selectGroup={this.props.selectGroup}
-                                    selected={this.props.selectedGroups}
-                                    setModalValues={this.props.setModalValues}
-                                    product={this.props.product}
-                                    id={key}
-                                />
-
-
-                            </TabPane>
-                        )
-                    })}
+                    <TabPane tabId="classifiers">
+                        {
+                            Object.keys(this.props.groups).map(
+                                (item, index) => {
+                                    return (
+                                        <Row
+                                            key={index}
+                                        >
+                                            <Col md={3} style={{padding: '11px'}}>
+                                                <b>
+                                                    {this.props.groups[item].name}
+                                                </b>
+                                            </Col>
+                                            <Col md={9}>
+                                                <GroupModal
+                                                    getSubGroups={this.props.getSubGroups}
+                                                    data={this.props.subGroups}
+                                                    productGroups={this.props.productGroups}
+                                                    group={this.props.groups[item]}
+                                                    name={this.props.groups[item].name}
+                                                    lang={this.props.lang}
+                                                    handleOpen={this.props.handleOpen}
+                                                    selectGroup={this.props.selectGroup}
+                                                    selected={this.props.selectedGroups}
+                                                    setModalValues={this.props.setModalValues}
+                                                    product={this.props.product}
+                                                    id={item}
+                                                    dataId={this.props.groups[item].id}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            )
+                        }
+                    </TabPane>
 
                     <TabPane tabId="suppliers">
                         <MultiSelect

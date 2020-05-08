@@ -19,6 +19,7 @@ export default function ButtonUi(props) {
             color={props.color}
             disabled={props.disabled}
             variant={props.variant}
+            name={props.name}
         >
             {props.name || props.children}
         </Button>
