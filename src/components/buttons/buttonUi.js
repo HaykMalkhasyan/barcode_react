@@ -13,7 +13,8 @@ export default function ButtonUi(props) {
                 height: props.height ? props.height : 24,
                 outline: "none",
                 margin: props.margin,
-                fontSize: props.fontSize
+                fontSize: props.fontSize,
+                fontWeight: props.Weight
             }}
             onClick={props.onClick}
             color={props.color}
@@ -21,7 +22,7 @@ export default function ButtonUi(props) {
             variant={props.variant}
             name={props.name}
         >
-            {props.name || props.children}
+            {props.label || props.children}
         </Button>
     );
 }

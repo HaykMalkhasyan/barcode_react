@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import {Button, Col, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import Translate from "../../../Translate";
-import {setModalValues} from "../../../redux/group/actions";
+import LocalizeTab from "../../localize/localizeTab";
 
 const GroupModal = (props) => {
     function modalBodyContent() {
@@ -12,6 +12,11 @@ const GroupModal = (props) => {
         } else {
             return (
                 <ModalBody>
+                    <FormGroup row className="justify-content-between">
+                        <Col sm={12}>
+                            <LocalizeTab/>
+                        </Col>
+                    </FormGroup>
                     <FormGroup>
                         <Label for="name"><Translate name={"name"}/></Label>
                         <input

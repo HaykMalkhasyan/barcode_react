@@ -4,7 +4,19 @@ import {
     productActions,
     setModalValues,
     toggleModal,
-    barcodeActions
+    barcodeActions,
+    setBarcodeType,
+    removeBarcode,
+    setMeasurementValue,
+    setPointsValue,
+    SetUploadImages,
+    deleteUploadImages,
+    setMainImage,
+    setSearchProductValue,
+    selectClassifiersGroup,
+    selectGroupsNode,
+    createClassifiers,
+    classifiersToggleModal
 } from "../../../redux/products/actions";
 import {
     supplierActions
@@ -14,7 +26,7 @@ import {
     handleOpen,
     selectGroup,
     subGroupActions,
-    getSubGroups
+    getSubGroups,
 } from "../../../redux/group/actions";
 import {
     uploadImages
@@ -35,7 +47,19 @@ const mapDispatchToProps = dispatch => {
             selectGroup,
             uploadImages,
             subGroupActions,
-            getSubGroups
+            getSubGroups,
+            setBarcodeType,
+            removeBarcode,
+            setMeasurementValue,
+            setPointsValue,
+            SetUploadImages,
+            deleteUploadImages,
+            setMainImage,
+            setSearchProductValue,
+            selectClassifiersGroup,
+            selectGroupsNode,
+            createClassifiers,
+            classifiersToggleModal
         },
         dispatch
     );
@@ -46,6 +70,15 @@ const mapStateToProps = state => {
         modal: state.products.modal,
         products: state.products.products,
         product: state.products.product,
+        group: state.products.group,
+        advancedSearchConfig: state.products.advancedSearchConfig,
+        createError: state.products.createError,
+        classifiersModal: state.products.classifiersModal,
+        searchProduct: state.products.searchProduct,
+        searchProductResult: state.products.searchProductResult,
+        searchErrorName: state.products.searchErrorName,
+        types: state.products.types,
+        measurementData: state.products.measurementData,
         barcodeTypes: state.products.barcodeTypes,
         suppliers: state.suppliers.suppliers,
         groups: state.group.groups,

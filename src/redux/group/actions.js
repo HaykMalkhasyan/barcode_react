@@ -44,7 +44,7 @@ import {
     END_MOVING_GROUP,
     SET_SEARCH_VALUE,
     SHOW_ALTERNATIVE,
-    SET_PRODUCT_GROUPS
+    SET_PRODUCT_GROUPS, SET_ALT_SEARCH_VALUE
 } from "./actionTypes";
 import main from "react-stepzilla/dist/main";
 
@@ -246,12 +246,14 @@ export function editPosition(id) {
     }
 }
 
+// SEARCH GROUP
 export function searchGroups(name, value, mainId) {
 
     return (dispatch, getState) => {
+        let altViewerArray = [];
         if (value.length > 0) {
-            let group = getState().group;
-            let search = getState().group[name];
+            let group = {...getState().group};
+            let search = {...getState().group[name]};
             search = {
                 id: mainId,
                 value: value ? value : null
@@ -261,72 +263,93 @@ export function searchGroups(name, value, mainId) {
 
             if (searchResult.length > 0) {
                 for (let item of subGroups) {
-                    if (item.name === value) {
+                    if (item.name.toLowerCase() === value.toLowerCase()) {
+                        altViewerArray.push(item)
                         if (item.group_id && parseInt(item.group_id.id) === parseInt(mainId)) {
+                            let indexId = false;
                             for (let searchItem of searchResult) {
-                                if (parseInt(searchItem.id) !== parseInt(item.id)) {
-                                    searchResult.push(item)
+                                if (parseInt(searchItem.id) === parseInt(item.id)) {
+                                    indexId = true
                                 }
                             }
-                            for (let i of subGroups) {
-                                if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id))) {
-                                    searchResult.push(i)
-                                }
-                                if (parseInt(i.parent_id) && (parseInt(item.id) === parseInt(i.parent_id))) {
-                                    searchResult.push(i)
-                                }
+                            if (!indexId) {
+                                searchResult.push(item)
                             }
+                            selectUp(searchResult, item, subGroups)
+                            selectDown(searchResult, item, subGroups)
                         }
                     }
-
                 }
             } else {
                 for (let item of subGroups) {
-                    if ((item.name === value)) {
+                    if (item.name.toLowerCase() === value.toLowerCase()) {
+                        altViewerArray.push(item)
                         if (item.group_id && parseInt(item.group_id.id) === parseInt(mainId)) {
-                            searchResult.push(item)
+                            let indexResId = false;
                             for (let searchItem of searchResult) {
-                                if (parseInt(searchItem.id) !== parseInt(item.id)) {
-                                    searchResult.push(item)
+                                if (parseInt(searchItem.id) === parseInt(item.id)) {
+                                    indexResId = true
                                 }
                             }
-                            // for (let i of subGroups) {
-                            //     if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id))) {
-                            // searchResult.push(i)
+                            if (!indexResId) {
+                                searchResult.push(item)
+                            }
+                            let indexId = false;
+                            for (let searchItem of searchResult) {
+                                if (parseInt(searchItem.id) === parseInt(item.id)) {
+                                    indexId = true
+                                }
+                            }
+                            if (!indexId) {
+                                searchResult.push(item)
+                            }
                             selectUp(searchResult, item, subGroups)
                             selectDown(searchResult, item, subGroups)
-                            // }
-                            // if (parseInt(i.parent_id) && (parseInt(item.id) === parseInt(i.parent_id))) {
-                            //     searchResult.push(i)
-                            // }
-                            // }
                         }
                     }
-
                 }
             }
+            dispatch(setAltSearchValue(altViewerArray))
             dispatch(setSearchValue(searchResult, search))
         } else {
-
             dispatch(setSearchValue([], null))
+            dispatch(setAltSearchValue([]))
         }
     }
 }
 
 function selectUp(searchResult, item, subGroups) {
+    let newSearchResult = searchResult;
     for (let i of subGroups) {
         if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id))) {
-            searchResult.push(i)
-            selectUp(searchResult, i, subGroups)
+            let indexId = false;
+            for (let searchItem of newSearchResult) {
+                if (parseInt(searchItem.id) === parseInt(i.id)) {
+                    indexId = true
+                }
+            }
+            if (!indexId) {
+                newSearchResult.push(i)
+            }
+            selectUp(newSearchResult, i, subGroups)
         }
     }
 }
 
 function selectDown(searchResult, item, subGroups) {
+    let newSearchResult = searchResult;
     for (let i of subGroups) {
         if (parseInt(i.parent_id) && (parseInt(item.id) === parseInt(i.parent_id))) {
-            searchResult.push(i)
-            selectDown(searchResult, i, subGroups)
+            let indexId = false;
+            for (let searchItem of newSearchResult) {
+                if (parseInt(searchItem.id) === parseInt(i.id)) {
+                    indexId = true
+                }
+            }
+            if (!indexId) {
+                newSearchResult.push(i)
+            }
+            selectDown(newSearchResult, i, subGroups)
         }
     }
 }
@@ -337,6 +360,14 @@ export function setSearchValue(searchResult, search) {
         type: SET_SEARCH_VALUE,
         searchResult,
         search
+    }
+}
+
+export function setAltSearchValue(searchAltResult) {
+
+    return {
+        type: SET_ALT_SEARCH_VALUE,
+        searchAltResult
     }
 }
 
@@ -403,5 +434,3 @@ export const selectGroup = (group_id, value) => {
         value,
     }
 }
-
-

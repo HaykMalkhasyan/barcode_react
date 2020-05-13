@@ -1,24 +1,58 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-    Form,
-    Col,
-    Row,
-    FormGroup,
-    Label,
     Button,
+    Col,
+    CustomInput,
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Modal,
     ModalBody,
     ModalFooter,
-    Input,
-    Modal,
     ModalHeader,
-    CustomInput
+    Row
 } from "reactstrap";
 import Translate from "../../../../Translate";
 import TabComponent from "./tab/productTab";
 import photo6 from "../../../../assets/images/empty_product.svg";
 import LocalizeTab from "../../../localize/localizeTab";
+import SearchSelectUI from "../../../../components/selectWithSearchUI/selectWithSearch";
 
 const ProductModal = (props) => {
+    const [img, setImg] = useState(false)
+    const[mainImg, setMainImg] = useState(false)
+
+    const onMeasurementHandler = (name, data) => {
+        props.setMeasurementValue(name, data)
+    }
+
+    const setValueHandler = () => {
+        if (props.product.measurement) {
+            for (let item of props.measurementData) {
+                if (item.id === props.product.measurement) {
+                    return item.name;
+                }
+            }
+        }
+    }
+    const onPointHandler = event => {
+        props.setPointsValue(event.target.name, event.target.value)
+    }
+
+    const mImageRender = () => {
+        if (mainImg && props.product.upImages) {
+            for (let item of props.product.upImages) {
+                if (item === mainImg.name) {
+                    return  URL.createObjectURL(mainImg)
+                }
+            }
+            return photo6
+        } else {
+            return photo6
+        }
+    }
+
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
@@ -34,43 +68,45 @@ const ProductModal = (props) => {
                                 <Form className="form-horizontal">
                                     <div className="form-body">
                                         <Row>
-                                            <Col md="5">
+                                            <Col md="4">
                                                 <FormGroup>
                                                     <img
                                                         className="img-fluid"
                                                         src={
-                                                            props.uploadedImages[0] ?
-                                                                process.env.REACT_APP_API_ENDPOINT + props.uploadedImages[0]
+                                                            mainImg ?
+                                                                mImageRender()
                                                                 :
                                                                 photo6
                                                         }
                                                         alt="Timeline 2"
                                                     />
-                                                    <CustomInput
-                                                        type="file"
-                                                        id="images"
-                                                        className="form-control-file"
-                                                        value={props.product.images ? props.product.images || '' : ''}
-                                                        multiple="multiple"
-                                                        onChange={event => {
-                                                            props.uploadImages("products", event);
-                                                            props.setModalValues("images", event.target.value)
-                                                        }}
-                                                    />
+                                                    {/*<CustomInput*/}
+                                                    {/*    type="file"*/}
+                                                    {/*    id="images"*/}
+                                                    {/*    className="form-control-file"*/}
+                                                    {/*    value={props.product.images ? props.product.images || '' : ''}*/}
+                                                    {/*    multiple="multiple"*/}
+                                                    {/*    onChange={event => {*/}
+                                                    {/*        setImg(event.target.files[0])*/}
+                                                    {/*        props.uploadImages("products", event);*/}
+                                                    {/*        props.setModalValues("images", event.target.value)*/}
+                                                    {/*    }}*/}
+                                                    {/*/>*/}
 
 
                                                 </FormGroup>
                                             </Col>
-                                            <Col md="7">
+                                            <Col md="8">
                                                 <FormGroup row className="py-3">
-                                                    <Label sm={3}></Label>
-                                                    <Col sm={9}>
+                                                    <Label sm={4}></Label>
+                                                    <Col sm={8}>
                                                         <LocalizeTab/>
                                                     </Col>
                                                 </FormGroup>
+
                                                 <FormGroup row>
-                                                    <Label for="sku" sm={3}><Translate name={"sku"}/></Label>
-                                                    <Col sm={9}>
+                                                    <Label for="sku" sm={4}><Translate name={"sku"}/></Label>
+                                                    <Col sm={8}>
                                                         <Input
                                                             type="text"
                                                             id="sku"
@@ -79,9 +115,10 @@ const ProductModal = (props) => {
                                                         />
                                                     </Col>
                                                 </FormGroup>
+
                                                 <FormGroup row>
-                                                    <Label for="name" sm={3}><Translate name={"name"}/></Label>
-                                                    <Col sm={9}>
+                                                    <Label for="name" sm={4}><Translate name={"name"}/></Label>
+                                                    <Col sm={8}>
                                                         <Input
                                                             type="text"
                                                             id="name"
@@ -90,9 +127,44 @@ const ProductModal = (props) => {
                                                         />
                                                     </Col>
                                                 </FormGroup>
+
                                                 <FormGroup row>
-                                                    <Label for="active" sm={3}><Translate name={"active"}/></Label>
-                                                    <Col sm={9}>
+                                                    <Label for="points" sm={4}><Translate name={"points"}/></Label>
+                                                    <Col sm={8}>
+                                                        <Input
+                                                            type="number"
+                                                            min={0}
+                                                            id="points"
+                                                            name="points"
+                                                            value={props.product.points ? props.product.points : ''}
+                                                            onChange={event => onPointHandler(event)}
+                                                        />
+                                                    </Col>
+                                                </FormGroup>
+
+                                                <FormGroup
+                                                    row
+                                                    className="justify-content-end"
+                                                >
+                                                    <Label for="measurement" sm={4}><Translate
+                                                        name={"measurement"}/></Label>
+                                                    <Col
+                                                        sm={8}
+                                                    >
+                                                        <SearchSelectUI
+                                                            id={'measurement'}
+                                                            name={'measurement'}
+                                                            label={'measurement'}
+                                                            data={props.measurementData}
+                                                            onClick={onMeasurementHandler}
+                                                            defaultValue={setValueHandler()}
+                                                        />
+                                                    </Col>
+                                                </FormGroup>
+
+                                                <FormGroup row style={{marginBottom: '14px', justifyContent: 'flex-end'}}>
+                                                    <Label for="active" sm={'auto'}><Translate name={"active"}/></Label>
+                                                    <Col sm={'auto'}>
                                                         <CustomInput
                                                             type="checkbox"
                                                             id="active"
@@ -101,11 +173,10 @@ const ProductModal = (props) => {
                                                         />
                                                     </Col>
                                                 </FormGroup>
-
                                             </Col>
 
                                         </Row>
-                                        <TabComponent {...props}/>
+                                        <TabComponent mainIMg={setMainImg} {...props}/>
                                     </div>
                                 </Form>
                             </div>

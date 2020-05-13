@@ -44,7 +44,7 @@ import {
     END_MOVING_GROUP,
     SET_SEARCH_VALUE,
     SHOW_ALTERNATIVE,
-    SET_PRODUCT_GROUPS
+    SET_PRODUCT_GROUPS, SET_ALT_SEARCH_VALUE
 } from "./actionTypes";
 import {IsRequiredField, Put, IsRequiredFields, Pushend, changeElement, RemoveItem} from "../../utility/utils";
 import {openMenu} from "./functions";
@@ -66,12 +66,18 @@ const INIT_STATE = {
     movingstatus: false,
     search: null,
     alternative: true,
+    searchAltResult: [],
     searchResult: [],
     productGroups: []
 };
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case SET_ALT_SEARCH_VALUE:
+            return {
+                ...state,
+                searchAltResult: action.searchAltResult
+            }
         case SET_PRODUCT_GROUPS:
             return {
                 ...state,
@@ -456,9 +462,7 @@ export default (state = INIT_STATE, action) => {
                 groups: state.groups
             }
         case SELECT_GROUP:
-            let newSelected = {};
-            newSelected[action.group_id] = action.value
-            state.selected = newSelected
+            state.selected[action.group_id] = action.value
             return {
                 ...state,
             }

@@ -1,23 +1,18 @@
 import React, {Component} from "react";
-import {
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    Col, FormGroup, Label, Input,
-
-} from "reactstrap";
+import {Col, FormGroup, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
 import classnames from "classnames";
 import Translate from "../../../../../Translate";
 import MultiSelect from "../../../../../components/select/multiSelect"
-import {RenameKeys, ObjectToArray} from "../../../../../utility/utils";
+import {ObjectToArray, RenameKeys} from "../../../../../utility/utils";
 import GroupModal from "./group/groupModal";
 // import DropdownComponent from "../../../../../components/dropdown/dropdown";
 // import {setModalValues} from "../../../../../redux/products/actions";
 import CodeContent from "./code/content";
+import UploadButton from "../../../../../components/buttons/upploadBtnUI";
+import classes from './productTab.module.css';
 import ButtonUi from "../../../../../components/buttons/buttonUi";
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 
 class TabsBorderBottom extends Component {
 
@@ -28,7 +23,8 @@ class TabsBorderBottom extends Component {
             modal: false,
             key: null,
             btnType: null,
-            id: null
+            id: null,
+            valImg: null
         };
         this.props.supplierActions("getAll");
         this.props.groupActions("getAll");
@@ -52,6 +48,92 @@ class TabsBorderBottom extends Component {
         this.setState({
             key: id
         });
+    }
+
+    uploadImageHandler = event => {
+        this.setState({
+            valImg: event.target.files
+        })
+        this.props.SetUploadImages(event.target.name, event.target.files)
+    }
+    deleteImageHandler = (item, index) => {
+        let valImg = [...this.state.valImg]
+        valImg.splice(index, 1);
+        if (valImg.length === 0) {
+            this.setState({
+                valImg: null
+            })
+        } else {
+            this.setState({
+                valImg: valImg
+            })
+        }
+
+        this.props.deleteUploadImages(item)
+    }
+    selectMainIMage =value => {
+        console.log(this.props.mainIMg)
+        this.props.mainIMg(value)
+        this.props.setMainImage(value)
+    }
+
+    imagesRender = (settings) => {
+        let imgData = this.state.valImg
+        let imgObject = []
+        if (imgData) {
+            for (let [key, value] of Object.entries(imgData)) {
+                imgObject.push(
+                    <Col
+                        key={key}
+                        md={3}
+                    >
+                        <div className={classes.imageWindow}>
+                            <div className={classes.imgBord}>
+                                <img className={classes.imgBordImage} src={URL.createObjectURL(value)}
+                                     alt={value.name}/>
+                                {
+                                    settings.edit || settings.delete ?
+                                        <>
+                                            <div className={classes.conttroller}/>
+                                            <div className={classes.btns}>
+                                                <div className={classes.conttrollerBtnsMain}>
+                                                    <ButtonUi
+                                                        disabled={!settings.edit}
+                                                        onClick={this.selectMainIMage.bind(this, value)}
+                                                        color={'primary'}
+                                                        variant={"contained"}
+                                                        padding={'5px'}
+                                                        width={'auto'}
+                                                        height={'auto'}
+                                                    >
+                                                        <AddToHomeScreenIcon/>
+                                                    </ButtonUi>
+                                                </div>
+                                                <div className={classes.conttrollerBtnsDelete}>
+                                                    <ButtonUi
+                                                        disabled={!settings.delete}
+                                                        onClick={this.deleteImageHandler.bind(this, value, key)}
+                                                        color={'secondary'}
+                                                        variant={"contained"}
+                                                        padding={'5px'}
+                                                        width={'auto'}
+                                                        height={'auto'}
+                                                    >
+                                                        <RestoreFromTrashIcon/>
+                                                    </ButtonUi>
+                                                </div>
+                                            </div>
+                                        </>
+                                        :
+                                        null
+                                }
+                            </div>
+                        </div>
+                    </Col>
+                )
+            }
+        }
+        return imgObject;
     }
 
     render() {
@@ -107,6 +189,18 @@ class TabsBorderBottom extends Component {
                             }}
                         >
                             <Translate name={"description"}/>
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({
+                                active: this.state.activeTab === "images"
+                            })}
+                            onClick={() => {
+                                this.toggle("images");
+                            }}
+                        >
+                            <Translate name={"images"}/>
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -176,7 +270,7 @@ class TabsBorderBottom extends Component {
                         <Row>
                             <Col sm="12">
                                 <FormGroup>
-                                    <Label for="description">Նկարագրություն</Label>
+                                    <Label for="description"><Translate name={'description'}/></Label>
                                     <Input
                                         type="textarea"
                                         id="description"
@@ -187,6 +281,28 @@ class TabsBorderBottom extends Component {
                                 </FormGroup>
                             </Col>
                         </Row>
+                    </TabPane>
+                    <TabPane tabId="images">
+                        <header className="d-flex justify-content-center p-1">
+                            <FormGroup encType="multipart/form-data">
+                                <UploadButton
+                                    color={'primary'}
+                                    variant={'outlined'}
+                                    name={'upImages'}
+                                    onChange={this.uploadImageHandler}
+                                />
+                            </FormGroup>
+                        </header>
+                        <section className="p-1">
+                            <Row>
+                                {
+                                    this.imagesRender({
+                                        edit: true,
+                                        delete: false
+                                    })
+                                }
+                            </Row>
+                        </section>
                     </TabPane>
                 </TabContent>
 

@@ -10,16 +10,48 @@ const ModalExample = props => {
         setModal(!modal);
         props.getSubGroups(props.group)
     }
+
+    const setItems = data => {
+        for (let item of props.data) {
+            if (parseInt(data.parent_id) === parseInt(item.id)) {
+                // return `${setItems(item) ? setItems(item) : null} > ${item.name}`
+
+                return setItems(item) ?
+                    `${item.name} < ${setItems(item)}`
+                    :
+                    `${item.name}`
+            }
+        }
+    }
+
+    const roadRender = (data, name) => {
+        let obj;
+        let arrayRoadItems;
+        if (data && data.id && data.name) {
+            for (let item of props.data) {
+                if (item.id === data.id) {
+                    obj = item
+                }
+            }
+            arrayRoadItems = setItems(obj)
+            if (arrayRoadItems) {
+                return obj.name.concat(` < ${arrayRoadItems}`)
+            } else {
+                return obj.name
+            }
+        }
+    }
+
     return (
         <div>
             <Row>
-                <Col sm="11" className="mr-0">
+                <Col sm="11" className="mr-0 mb-0">
                     <Input type="text" readOnly="readOnly"
-                           value={props.product.groups && props.product.groups[props.dataId] ? props.product.groups[props.dataId].name : ""}
+                           value={props.product.groups && props.product.groups[props.dataId] ? roadRender(props.product.groups[props.dataId], props.group.name) : ""}
                            placeholder={props.name}/>
                 </Col>
-                <Col sm="1" className="ml-0">
-                    <Button color="primary" onClick={toggle}><List size={16}/></Button>{" "}
+                <Col sm="1" className="ml-0 mb-0">
+                    <Button color="primary" className="mb-0" onClick={toggle}><List size={16}/></Button>{" "}
                 </Col>
 
             </Row>

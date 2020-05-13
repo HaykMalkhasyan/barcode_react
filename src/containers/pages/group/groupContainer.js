@@ -68,6 +68,7 @@ const mapStateToProps = state => {
         movingGroupStatus: state.group.movingGroupStatus,
         search: state.group.search,
         searchResult: state.group.searchResult,
+        searchAltResult: state.group.searchAltResult,
         alternative: state.group.alternative,
 
     }

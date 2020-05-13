@@ -1,0 +1,97 @@
+.imageWindow {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: 300ms;
+}
+
+.imageWindow:hover {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, .3);
+}
+
+.imageWindow:hover .imgBordImage {
+    transform: scale(1.5);
+}
+
+.imageWindow:hover .conttroller {
+    background-color: rgba(0, 0, 0, .64);
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+
+.imageWindow:hover .btns {
+    /*top: 50%;*/
+    opacity: 1;
+    visibility: visible;
+}
+
+.imageWindow:hover .conttrollerBtnsMain {
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+.imageWindow:hover .conttrollerBtnsDelete {
+    right: 0;
+}
+
+.imgBord {
+    width: 100%;
+    overflow: hidden;
+    height: 200px;
+    position: relative;
+    background-color: #eee;
+}
+
+.imgBord .imgBordImage {
+    height: 200px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    box-sizing: border-box;
+    transition: 500ms;
+}
+
+.conttroller {
+    overflow: hidden;
+    opacity: 0;
+    transition: 500ms;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, .1);
+}
+
+.btns {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: 500ms;
+}
+
+.btns  .conttrollerBtnsMain {
+    margin: 5px auto;
+    position: relative;
+    transition-duration: 500ms;
+    left: -300%;
+}
+
+.btns  .conttrollerBtnsDelete {
+    margin: 5px auto;
+    position: relative;
+    transition-duration: 500ms;
+    right: -300%;
+}

@@ -22,22 +22,22 @@ class ContentTable extends Component {
     }
 
     searchCHangeHandler = (name, value, mainId) => {
-        let index = false
-        for (let item of value) {
-            if (item / 1) {
-                index = true
-            }
-        }
-        if (!index) {
-            this.setState({
-                msg: false
-            })
+        // let index = false
+        // for (let item of value) {
+        //     if (item / 1) {
+        //         index = true
+        //     }
+        // }
+        // if (!index) {
+        //     this.setState({
+        //         msg: false
+        //     })
             this.props.searchGroups(name, value, mainId)
-        } else {
-            this.setState({
-                msg: true
-            })
-        }
+        // } else {
+        //     this.setState({
+        //         msg: true
+        //     })
+        // }
     }
 
     alternativeHandler = () => {
@@ -153,7 +153,8 @@ class ContentTable extends Component {
                         this.props.search && this.props.searchResult.length ?
                             <>
                                 <ButtonUi
-                                    name='Show alternative'
+                                    label={<Translate name={'Show alternative'}/>}
+                                    name={'showAlternative'}
                                     width='auto'
                                     height='auto'
                                     padding='5px 10px'
@@ -169,7 +170,8 @@ class ContentTable extends Component {
                                             subGroupActions={this.props.subGroupActions}
                                             setActionToggleSubModal={this.props.setActionToggleSubModal}
                                             group={this.props.group}
-                                            data={this.props.searchResult}
+                                            subGroups={this.props.subGroups}
+                                            data={this.props.searchAltResult}
                                         />
                                         :
                                         <CustomizedTreeView

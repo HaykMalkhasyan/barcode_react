@@ -97,6 +97,7 @@ const Menu = props => {
                                 (item) => {
 
                                     return item.parent_id.length === 0 ?
+
                                         <TreeItem
                                             key={item.id}
                                             nodeId={`${item.id}`}
@@ -116,32 +117,6 @@ const Menu = props => {
             }
         </>
     )
-
-    // if (props.data && props.data.length > 0) {
-    //     return <ul className="list-group ">
-    //         {props.data.map((value, index) => {
-    //             return value.parent_id.length === 0 ?
-    //                 <SubMenu
-    //                     key={index}
-    //                     data={value}
-    //                     perm={props.perm}
-    //                     actions={props.actions}
-    //                     handleOpen={props.handleOpen}
-    //                     selectGroup={props.selectGroup}
-    //                     toggleSubModal={props.toggleSubModal}
-    //                     selected={props.selected}
-    //                     lang={props.lang}
-    //                     page={props.page}
-    //                 />
-    //                 :
-    //                 null
-    //         })}
-    //
-    //     </ul>
-    //
-    // } else {
-    //     return <div></div>
-    // }
 }
 
 

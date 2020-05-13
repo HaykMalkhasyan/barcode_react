@@ -8,6 +8,7 @@ export default function TextFields(props) {
     return (
             <TextField
                 className={classes.fild}
+                type={props.type}
                 id="standard-basic"
                 label={props.label}
                 name={props.name}
