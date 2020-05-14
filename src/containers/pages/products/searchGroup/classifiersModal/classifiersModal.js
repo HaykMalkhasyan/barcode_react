@@ -14,6 +14,7 @@ const ClassifiersModal = props => {
     }
 
     const chooseClassifiersHandler = () => {
+        setActive(false)
         props.createClassifiers()
     }
 

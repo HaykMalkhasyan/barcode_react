@@ -51,9 +51,7 @@ export const getTranslations = () => {
 }
 
 export const getTranslationsWithSize = (size, lang, page) => {
-    // console.log('size', size)
-    console.log('lang', lang)
-    // console.log('page', page)
+
     return lang ?
         page ?
             lang === 'all' ?

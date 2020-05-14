@@ -1,40 +1,41 @@
 import {
-    GET_PRODUCTS_REQUEST,
-    GET_PRODUCTS_FAIL,
-    GET_PRODUCTS_SUCCESS,
-    GET_PRODUCT_REQUEST,
-    GET_PRODUCT_FAIL,
-    GET_PRODUCT_SUCCESS,
-    ADD_PRODUCT_REQUEST,
-    ADD_PRODUCT_FAIL,
-    ADD_PRODUCT_SUCCESS,
-    EDIT_PRODUCT_REQUEST,
-    EDIT_PRODUCT_FAIL,
-    EDIT_PRODUCT_SUCCESS,
-    DELETE_PRODUCT_REQUEST,
-    DELETE_PRODUCT_FAIL,
-    DELETE_PRODUCT_SUCCESS,
-    GET_BARCODE_TYPES_REQUEST,
-    GET_BARCODE_TYPES_FAIL,
-    GET_BARCODE_TYPES_SUCCESS,
     ADD_BARCODE,
-    DELETE_BARCODE,
-    SET_PRODUCT_MODAL,
-    TOGGLE_PRODUCT_MODAL,
-    SET_BARCODE,
     ADD_MEASUREMENT_VALUE,
     ADD_POINTS_VALUE,
+    ADD_PRODUCT_FAIL,
+    ADD_PRODUCT_REQUEST,
+    ADD_PRODUCT_SUCCESS,
+    ADD_RESULT,
+    ADD_SEARCH_TEXT,
     ADD_UPLOAD_IMAGES,
     ADD_VALUE,
-    ADD_RESULT,
+    CLASSIFIERS_TOGGLE_MODAL,
+    CREATE_CLASSIFIERS_ERROR,
+    CREATE_CLASSIFIERS_SUCCESS,
+    DELETE_BARCODE,
+    DELETE_PRODUCT_FAIL,
+    DELETE_PRODUCT_REQUEST,
+    DELETE_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_FAIL,
+    EDIT_PRODUCT_REQUEST,
+    EDIT_PRODUCT_SUCCESS,
+    GET_BARCODE_TYPES_FAIL,
+    GET_BARCODE_TYPES_REQUEST,
+    GET_BARCODE_TYPES_SUCCESS,
+    GET_PRODUCT_FAIL,
+    GET_PRODUCT_REQUEST,
+    GET_PRODUCT_SUCCESS,
+    GET_PRODUCTS_FAIL,
+    GET_PRODUCTS_REQUEST,
+    GET_PRODUCTS_SUCCESS,
     SEARCH_ERROR,
     SELECT_GROUP,
     SELECT_ID_IN_ARRAY,
-    CLASSIFIERS_TOGGLE_MODAL,
-    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS
+    SET_BARCODE,
+    SET_PRODUCT_MODAL,
+    TOGGLE_PRODUCT_MODAL
 } from "./actionTypes";
 
-let url = `Products/Product`;
 export const productActions = (type, data) => {
     switch (type) {
         case "get":
@@ -100,14 +101,6 @@ export const setModalValues = (key, value) => {
 }
 
 /*----------------------------------*/
-export function setBarcodeType(key, value) {
-
-    return (dispatch, getState) => {
-        let barcode = {...getState().products.product};
-        console.log(key, value, barcode)
-    }
-
-}
 
 export function removeBarcode(data, index) {
 
@@ -281,7 +274,6 @@ export function setSearchProductValue(value, name) {
                                     }
                                 }
                                 if (!index) {
-                                    console.log(barcodeItem[name] && barcodeItem[name].search(searchProduct[name]) !== -1)
                                     searchProductResult.push(product)
                                 }
                             } else {
@@ -300,7 +292,6 @@ export function setSearchProductValue(value, name) {
                                     }
                                 }
                                 if (!index) {
-                                    console.log(barcodeItem[name] && barcodeItem[name].search(searchProduct[name]) !== -1)
                                     searchProductResult.push(product)
                                 }
                             } else {
@@ -392,6 +383,63 @@ export function createClassifiers() {
     }
 }
 
+export function removeSelectedClassifier(data) {
+
+    return (dispatch, getState) => {
+        let advancedSearchConfig = {...getState().products.advancedSearchConfig}
+
+        for(let [key, value] of Object.entries(advancedSearchConfig.classifiers)) {
+
+            if (data.id === value.id) {
+                advancedSearchConfig.classifiers.splice(key, 1);
+            }
+        }
+        if (advancedSearchConfig.classifiers.length === 0 ) {
+            delete advancedSearchConfig.classifiers
+            dispatch(createClassifiersSuccess(advancedSearchConfig))
+        } else {
+            dispatch(createClassifiersSuccess(advancedSearchConfig))
+        }
+    }
+}
+
+export function toggleSwitchValue(name, value) {
+
+    return (dispatch, getState) => {
+        let advancedSearchConfig = {...getState().products.advancedSearchConfig}
+        advancedSearchConfig[name] = !advancedSearchConfig[name]
+        dispatch(createClassifiersSuccess(advancedSearchConfig))
+    }
+}
+
+export function toggleCheckBoxValue(name, check) {
+
+    return (dispatch, getState) => {
+        let advancedSearchConfig = {...getState().products.advancedSearchConfig}
+
+        if (check) {
+            advancedSearchConfig[name] = check
+        } else {
+            delete advancedSearchConfig[name]
+        }
+        dispatch(createClassifiersSuccess(advancedSearchConfig))
+    }
+}
+
+export function changePageSize(value) {
+
+    return (dispatch, getState) => {
+        let advancedSearchConfig = {...getState().products.advancedSearchConfig}
+
+        if (value !== 'all') {
+            advancedSearchConfig.pageSize = +value
+        } else {
+            advancedSearchConfig.pageSize = value
+        }
+        dispatch(createClassifiersSuccess(advancedSearchConfig))
+    }
+}
+
 export function createClassifiersError() {
 
     return {
@@ -400,10 +448,28 @@ export function createClassifiersError() {
 }
 
 export function createClassifiersSuccess(data) {
-
+    sessionStorage.setItem('advancedSearchConfig', JSON.stringify(data))
     return {
         type: CREATE_CLASSIFIERS_SUCCESS,
         data
+    }
+}
+
+export function setSearchText(text) {
+
+    return (dispatch, getState) => {
+        let advancedSearchText = {...getState().products.advancedSearchText}
+
+        advancedSearchText = text
+        dispatch(addSearchText(advancedSearchText))
+    }
+}
+
+export function addSearchText(advancedSearchText) {
+
+    return {
+        type: ADD_SEARCH_TEXT,
+        advancedSearchText
     }
 }
 

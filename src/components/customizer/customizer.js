@@ -232,7 +232,7 @@ class Customizer extends Component {
                                     <Label check>
                                        <Input
                                           type="checkbox"
-                                          id="cz-bg-image-display"
+                                          id="cz-bg-image-display-1"
                                           onChange={e => {
                                              if (e.target.checked === true) {
                                                 this.handleLayout('layout-dark');
@@ -253,7 +253,7 @@ class Customizer extends Component {
                                     <Label check>
                                        <Input
                                           type="checkbox"
-                                          id="cz-bg-image-display"
+                                          id="cz-bg-image-display-2"
                                           onChange={e => {
                                              if (e.target.checked === true) {
                                                 context.makeNormalContent();

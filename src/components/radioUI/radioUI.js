@@ -7,18 +7,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Translate from "../../Translate";
 
 export default function RadioUi(props) {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
 
     return (
         <FormControl component="fieldset">
             <FormLabel component="legend"><Translate name={props.headerName}/></FormLabel>
-            <RadioGroup aria-label="gender" name={props.name} value={parseInt(value)} onChange={handleChange}>
+            <RadioGroup aria-label="gender" name={props.name} value={props.value} onChange={props.onChange}>
                 <FormControlLabel
-                    value={0}
+                    value={'all'}
                     control={<Radio color={props.color} />}
                     label={<Translate name={'all'}/>}
                 />

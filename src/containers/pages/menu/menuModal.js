@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter, ModalHeader, Modal} from "reactstrap";
+import {Button, Col, FormGroup, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
 import Translate from "../../../Translate";
 
 const menuModal = (props) => {

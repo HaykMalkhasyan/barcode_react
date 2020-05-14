@@ -18,7 +18,6 @@ const Show = props => {
     }
 
     const roadRender = (data, name) => {
-        console.log(name)
         let obj;
         let arrayRoadItems;
         if (data && data.id && data.name) {
@@ -35,7 +34,6 @@ const Show = props => {
             }
         }
     }
-console.log(props.group)
     return (
         <div>
             <ListGroup>

@@ -59,7 +59,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_TOOLS_SUCCESS:
-            console.log('GET_PERMISSIONS_SUCCESS', action.result.results)
             return {
                 ...state,
                 loading: false,

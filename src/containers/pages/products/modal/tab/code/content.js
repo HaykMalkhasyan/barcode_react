@@ -1,9 +1,9 @@
 import React from 'react';
-import {Input, Table, InputGroup, Button} from 'reactstrap';
+import {Badge, Button, Input, InputGroup, ListGroup, ListGroupItem, Table} from 'reactstrap';
 import Translate from "../../../../../../Translate";
-import {Settings, Plus, Trash2} from "react-feather";
+import {Plus, Settings, Trash2} from "react-feather";
 import DropdownComponent from "../../../../../../components/dropdown/dropdown";
-import {ListGroup, ListGroupItem, Badge} from 'reactstrap';
+import ErrorIcon from '@material-ui/icons/Error';
 
 
 export default class Example extends React.Component {
@@ -13,16 +13,37 @@ export default class Example extends React.Component {
             barcode: "",
             type: null
         },
-        error: false
+        error: false,
+        errorMsg: false
     }
 
     addBarcode() {
+        let index = false
         if (this.state.currentInputValue.barcode !== "" && this.state.currentInputValue.type !== null) {
-            this.props.barcodeActions("add", this.state.currentInputValue);
-            let newCurrentInput = {...this.state.currentInputValue};
-            newCurrentInput.barcode = "";
-            newCurrentInput.type = null;
-            this.setState({currentInputValue: newCurrentInput, error: false})
+            if (this.props.barcodeTypes) {
+                for (let item of this.props.barcodeTypes) {
+                    if (item.barcode === this.state.currentInputValue.barcode) {
+                        index = true
+                    }
+                }
+                if (!index) {
+                    this.props.barcodeActions("add", this.state.currentInputValue);
+                    let newCurrentInput = {...this.state.currentInputValue};
+                    newCurrentInput.barcode = "";
+                    newCurrentInput.type = null;
+                    this.setState({
+                        currentInputValue: newCurrentInput,
+                        error: false,
+                        errorMsg: false
+                    })
+                } else {
+                    this.setState({
+                        error: true,
+                        errorMsg: 'such barcode already exists'
+                    })
+                }
+            }
+
         } else {
             this.setState({error: true})
         }
@@ -155,6 +176,15 @@ export default class Example extends React.Component {
                                 name='type'
                             />
                         </InputGroup>
+                        {
+                            this.state.errorMsg ?
+                                <span className="danger font-small-1">
+                                    <ErrorIcon className="mr-1"/>
+                                    <Translate name={this.state.errorMsg}/>
+                                </span>
+                                :
+                                null
+                        }
                     </td>
                     <td>
                         <Button size="sm" color="primary" onClick={() => {

@@ -31,7 +31,7 @@ import {
     SELECT_GROUP,
     SELECT_ID_IN_ARRAY,
     CLASSIFIERS_TOGGLE_MODAL,
-    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS
+    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS, ADD_SEARCH_TEXT
 } from "./actionTypes";
 import {Pushend,/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
@@ -73,13 +73,27 @@ const INIT_STATE = {
     group: null,
     elemsIdInArray: null,
     classifiersModal: false,
-    advancedSearchConfig: {},
+    advancedSearchConfig: sessionStorage.getItem('advancedSearchConfig') ?
+        JSON.parse(sessionStorage.getItem('advancedSearchConfig'))
+        :
+        {
+            image: false,
+            hasActive: false,
+            hasSuppliers: false,
+            pageSize: 'all'
+        },
+    advancedSearchText: '',
     createError: false,
 };
 
 export default (state = INIT_STATE, action) => {
 
     switch (action.type) {
+        case ADD_SEARCH_TEXT:
+            return {
+                ...state,
+                advancedSearchText: action.advancedSearchText
+            }
         case CREATE_CLASSIFIERS_ERROR:
             return {
                 ...state,
@@ -218,7 +232,7 @@ export default (state = INIT_STATE, action) => {
                 loading: false,
                 success: true,
                 fail: false,
-                barcodeTypes: JSON.parse(action.result.data),
+                barcodeTypes: action.result.results,
                 errors: {},
             };
         case ADD_PRODUCT_REQUEST:
@@ -302,25 +316,25 @@ export default (state = INIT_STATE, action) => {
                 ...state,
             }
         case ADD_BARCODE:
-            if(!state.product.barcode){
-                state.product.barcode=[];
+            if (!state.product.barcode) {
+                state.product.barcode = [];
             }
             state.product.barcode.push({...action.code})
             return {
                 ...state,
             }
         case DELETE_BARCODE:
-            state.product.barcode=Remove(state.product.barcode,{barcode:action.code},'barcode')
+            state.product.barcode = Remove(state.product.barcode, {barcode: action.code}, 'barcode')
             return {
                 ...state,
             }
         case TOGGLE_PRODUCT_MODAL:
             let newModal = {};
             newModal[action.modalType] = !state.modal[action.modalType];
-            let product = (action.modalType==="edit")?{
+            let product = (action.modalType === "edit") ? {
                 ...state.product,
                 ...action.obj
-            }:{
+            } : {
                 ...action.obj
             }
             return {

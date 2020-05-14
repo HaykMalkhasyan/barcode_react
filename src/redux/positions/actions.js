@@ -11,7 +11,7 @@ let cols = 'id,name';
 
 
 export const positionActions = (type, data) => {
-    console.log(type, data)
+
     switch (type) {
         case "get":
             return {

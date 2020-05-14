@@ -71,8 +71,7 @@ class TabsBorderBottom extends Component {
 
         this.props.deleteUploadImages(item)
     }
-    selectMainIMage =value => {
-        console.log(this.props.mainIMg)
+    selectMainIMage = value => {
         this.props.mainIMg(value)
         this.props.setMainImage(value)
     }

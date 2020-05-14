@@ -205,7 +205,6 @@ export default (state = INIT_STATE, action) => {
                 fail: true,
             };
         case GET_GROUP_SUCCESS:
-            // console.log('ggg',action.result[Object.keys(action.result)[0]])
             return {
                 ...state,
                 loading: false,
@@ -379,7 +378,6 @@ export default (state = INIT_STATE, action) => {
 
             };
         case EDIT_SUB_GROUP_SUCCESS:
-            console.log(action.result)
             return {
                 ...state,
                 loading: false,

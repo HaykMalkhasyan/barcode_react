@@ -94,9 +94,7 @@ export default (state = INIT_STATE, action) => {
             };
         case DELETE_USER_SUCCESS:
             let getUser = SessionStorage.get('user');
-            console.log(getUser);
             if (getUser.user_id === action.result.id && getUser.firstname === action.result.first_name && getUser.lastname === action.result.last_name) {
-                console.log(getUser);
                 destroySession();
                 return {
                     ...state,

@@ -81,7 +81,6 @@ function SubMenu(props) {
 };
 
 const PositionDownMenu = (props) => {
-    console.log(props.perm);
     let data = props.data;
     let perm = props.perm ? props.perm : {};
     return (
@@ -89,8 +88,6 @@ const PositionDownMenu = (props) => {
             {
                 Object.keys(data).map(
                     elem => {
-                        // let checked = (perm[data[elem].id] && perm[data[elem].id].length === 0) ? false : true;
-                        // console.log(perm[data[elem].id])
                         return (
                             <SubMenu
                                 key={elem}

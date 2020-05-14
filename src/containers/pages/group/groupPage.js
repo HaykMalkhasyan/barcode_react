@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import {  Col, Card, CardBody, } from "reactstrap";
-import TableComponent from './groupTable';
+import React, {Component} from "react";
+import {Card, CardBody, Col,} from "reactstrap";
 import AddButton from "../../../components/buttons/addButton";
 import GroupModal from "./groupModal";
 import SubGroupModal from "./subGroupModal";

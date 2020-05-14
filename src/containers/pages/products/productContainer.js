@@ -5,7 +5,6 @@ import {
     setModalValues,
     toggleModal,
     barcodeActions,
-    setBarcodeType,
     removeBarcode,
     setMeasurementValue,
     setPointsValue,
@@ -16,7 +15,12 @@ import {
     selectClassifiersGroup,
     selectGroupsNode,
     createClassifiers,
-    classifiersToggleModal
+    classifiersToggleModal,
+    removeSelectedClassifier,
+    toggleSwitchValue,
+    toggleCheckBoxValue,
+    changePageSize,
+    addSearchText
 } from "../../../redux/products/actions";
 import {
     supplierActions
@@ -48,7 +52,6 @@ const mapDispatchToProps = dispatch => {
             uploadImages,
             subGroupActions,
             getSubGroups,
-            setBarcodeType,
             removeBarcode,
             setMeasurementValue,
             setPointsValue,
@@ -59,7 +62,12 @@ const mapDispatchToProps = dispatch => {
             selectClassifiersGroup,
             selectGroupsNode,
             createClassifiers,
-            classifiersToggleModal
+            classifiersToggleModal,
+            removeSelectedClassifier,
+            toggleSwitchValue,
+            toggleCheckBoxValue,
+            changePageSize,
+            addSearchText
         },
         dispatch
     );
@@ -71,6 +79,7 @@ const mapStateToProps = state => {
         products: state.products.products,
         product: state.products.product,
         group: state.products.group,
+        advancedSearchText: state.products.advancedSearchText,
         advancedSearchConfig: state.products.advancedSearchConfig,
         createError: state.products.createError,
         classifiersModal: state.products.classifiersModal,

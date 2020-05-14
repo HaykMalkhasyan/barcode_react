@@ -25,7 +25,13 @@ export default class TableComponent extends React.Component {
         return (
             <>
                 <AdvancedSearch
+                    advancedSearchText={this.props.advancedSearchText}
+                    addSearchText={this.props.addSearchText}
                     searchItemsKey={this.props.searchProduct}
+                    removeSelectedClassifier={this.props.removeSelectedClassifier}
+                    toggleSwitchValue={this.props.toggleSwitchValue}
+                    toggleCheckBoxValue={this.props.toggleCheckBoxValue}
+                    changePageSize={this.props.changePageSize}
                     createError={this.props.createError}
                     classifiersModal={this.props.classifiersModal}
                     advancedSearchConfig={this.props.advancedSearchConfig}
@@ -38,7 +44,7 @@ export default class TableComponent extends React.Component {
                     selectGroupsNode={this.props.selectGroupsNode}
                     buttonName={'Advanced search'}
                 />
-                <Table responsive>
+                <Table responsive className='mt-3'>
                     <thead>
                     <tr>
                         <th><Translate name={'image'}/></th>

@@ -21,7 +21,13 @@ class ProductContainer extends Component {
                     <CardBody>
                         <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add",0)} />{" "}
                         <TableComponent
+                            advancedSearchText = {this.props.advancedSearchText}
+                            addSearchText = {this.props.addSearchText}
                             selectClassifiersGroup = {this.props.selectClassifiersGroup}
+                            removeSelectedClassifier = {this.props.removeSelectedClassifier}
+                            toggleSwitchValue = {this.props.toggleSwitchValue}
+                            toggleCheckBoxValue = {this.props.toggleCheckBoxValue}
+                            changePageSize = {this.props.changePageSize}
                             advancedSearchConfig = {this.props.advancedSearchConfig}
                             createError = {this.props.createError}
                             createClassifiers = {this.props.createClassifiers}

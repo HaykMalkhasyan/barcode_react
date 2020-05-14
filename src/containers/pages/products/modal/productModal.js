@@ -20,11 +20,22 @@ import LocalizeTab from "../../../localize/localizeTab";
 import SearchSelectUI from "../../../../components/selectWithSearchUI/selectWithSearch";
 
 const ProductModal = (props) => {
-    const [img, setImg] = useState(false)
-    const[mainImg, setMainImg] = useState(false)
+    const [img] = useState(false)
+    const [mainImg, setMainImg] = useState(false)
+    const [creatProductStatus, setCreateProductStatus] = useState(false)
 
     const onMeasurementHandler = (name, data) => {
         props.setMeasurementValue(name, data)
+    }
+
+    const createProduct = () => {
+        let prod = props.product;
+        if (prod.sku && prod.name && prod.points && prod.measurement && prod.groups && prod.suppliers && prod.barcode && prod.description) {
+            setCreateProductStatus(false);
+            props.productActions(props.type, props.product)
+        } else {
+            setCreateProductStatus('You have not filled in all the fields')
+        }
     }
 
     const setValueHandler = () => {
@@ -44,7 +55,7 @@ const ProductModal = (props) => {
         if (mainImg && props.product.upImages) {
             for (let item of props.product.upImages) {
                 if (item === mainImg.name) {
-                    return  URL.createObjectURL(mainImg)
+                    return URL.createObjectURL(mainImg)
                 }
             }
             return photo6
@@ -162,7 +173,8 @@ const ProductModal = (props) => {
                                                     </Col>
                                                 </FormGroup>
 
-                                                <FormGroup row style={{marginBottom: '14px', justifyContent: 'flex-end'}}>
+                                                <FormGroup row
+                                                           style={{marginBottom: '14px', justifyContent: 'flex-end'}}>
                                                     <Label for="active" sm={'auto'}><Translate name={"active"}/></Label>
                                                     <Col sm={'auto'}>
                                                         <CustomInput
@@ -198,8 +210,16 @@ const ProductModal = (props) => {
                 <ModalHeader toggle={() => props.toggleModal(props.type)}><Translate name="addProduct"/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
+                    {
+                        creatProductStatus ?
+                            <span className='danger font-small-1'>
+                                <Translate name={creatProductStatus}/>
+                            </span>
+                            :
+                            null
+                    }
                     <Button color="primary" outline type="submit"
-                            onClick={() => props.productActions(props.type, props.product)}>
+                            onClick={createProduct}>
                         <Translate name="confirm"/>
                     </Button>
                 </ModalFooter>

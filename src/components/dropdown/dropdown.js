@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {InputGroupButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
-import Translate from "../../Translate";
+import {DropdownItem, DropdownMenu, DropdownToggle, InputGroupButtonDropdown} from 'reactstrap';
 
 const DropdownComponent = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
