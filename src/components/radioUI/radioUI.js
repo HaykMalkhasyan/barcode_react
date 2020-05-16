@@ -9,12 +9,17 @@ import Translate from "../../Translate";
 export default function RadioUi(props) {
 
     return (
-        <FormControl component="fieldset">
+        <FormControl
+            component="fieldset"
+            style={{
+                userSelect: 'none'
+            }}
+        >
             <FormLabel component="legend"><Translate name={props.headerName}/></FormLabel>
             <RadioGroup aria-label="gender" name={props.name} value={props.value} onChange={props.onChange}>
                 <FormControlLabel
                     value={'all'}
-                    control={<Radio color={props.color} />}
+                    control={<Radio color={props.color}/>}
                     label={<Translate name={'all'}/>}
                 />
                 {
@@ -27,7 +32,7 @@ export default function RadioUi(props) {
                                         key={item.id}
                                         value={item.value}
                                         size={props.size}
-                                        control={<Radio color={props.color} />}
+                                        control={<Radio color={props.color}/>}
                                         label={<Translate name={item.name}/>}
                                     />
                                 )

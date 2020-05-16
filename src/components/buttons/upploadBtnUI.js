@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core/styles';
-import ImageIcon from '@material-ui/icons/Image';
+import Translate from "../../Translate";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -21,21 +21,25 @@ export default function UploadButton(props) {
         <>
             <label htmlFor="contained-button-file">
                 <Button
+                    style={{
+                        padding: props.padding,
+                        margin: props.margin,
+                    }}
                     component="span"
                     variant={props.variant}
                     color={props.color}
                     className={classes.button}
-                    startIcon={<ImageIcon/>}
-                    multiple
+                    startIcon={props.icon}
+                    multiple={props.multiple}
                 >
-                    Upload
+                    <Translate name={props.label}/>
                 </Button>
             </label>
             <input
-                accept="image/*"
+                accept={props.accept}
                 className={classes.input}
                 id="contained-button-file"
-                multiple
+                multiple={props.multiple}
                 type="file"
                 name={props.name}
                 value={props.value}

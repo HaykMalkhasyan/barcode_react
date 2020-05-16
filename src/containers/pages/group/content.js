@@ -13,7 +13,8 @@ import * as Icon from 'react-feather';
 
 class ContentTable extends Component {
     state = {
-        msg: false
+        msg: false,
+        searchStatus: false
     }
 
     clickHandler = id => {
@@ -32,7 +33,7 @@ class ContentTable extends Component {
         //     this.setState({
         //         msg: false
         //     })
-            this.props.searchGroups(name, value, mainId)
+        this.props.searchGroups(name, value, mainId)
         // } else {
         //     this.setState({
         //         msg: true
@@ -83,48 +84,78 @@ class ContentTable extends Component {
                 <nav className={classes.nav}>
                     <div className={classes.controllers}>
                         {
-                            this.props.group.id ?
-                                <PlusButton
-                                    perm={this.props.perm}
-                                    onClick={
-                                        () => this.props.setActionToggleSubModal('add', this.props.group.id)
-                                    }
-                                />
+                            this.props.group ?
+                                this.props.group.id ?
+                                    <PlusButton
+                                        perm={this.props.perm}
+                                        onClick={
+                                            () => this.props.setActionToggleSubModal('add', this.props.group.id)
+                                        }
+                                    />
+                                    :
+                                    null
                                 :
                                 null
                         }
                         {
-                            this.props.group.id ?
-                                <EditButton
-                                    perm={this.props.perm}
-                                    onClick={() => {
-                                        this.props.toggleModal('edit', this.props.group.id);
-                                        this.props.groupActions("get", this.props.group)
-                                    }}
-                                />
+                            this.props.group ?
+                                this.props.group.id ?
+                                    <EditButton
+                                        perm={this.props.perm}
+                                        onClick={() => {
+                                            this.props.toggleModal('edit', this.props.group.id);
+                                            this.props.groupActions("get", this.props.group)
+                                        }}
+                                    />
+                                    :
+                                    null
                                 :
                                 null
                         }
                         {
-                            this.props.group.id ?
-                                <DeleteButton
-                                    perm={this.props.perm}
-                                    onClick={
-                                        () => this.props.toggleModal('delete', this.props.group.id)
-                                    }
-                                />
+                            this.props.group ?
+                                this.props.group.id ?
+                                    <DeleteButton
+                                        perm={this.props.perm}
+                                        onClick={
+                                            () => this.props.toggleModal('delete', this.props.group.id)
+                                        }
+                                    />
+                                    :
+                                    null
                                 :
                                 null
                         }
                     </div>
+
                     <TextFields
                         label={<Translate name={'Search'}/>}
                         name={'search'}
                         value={this.props.search ? this.props.search.value : ''}
                         onChange={
-                            event => this.searchCHangeHandler(event.target.name, event.target.value, this.props.group.id)
+                            this.props.group ?
+                                this.props.group.id ?
+                                    event => this.searchCHangeHandler(event.target.name, event.target.value, this.props.group.id)
+                                    :
+                                    () => this.setState({
+                                        searchStatus: 'The groups are empty'
+                                    })
+                                :
+                                () => this.setState({
+                                    searchStatus: 'The groups are empty'
+                                })
                         }
                     />
+                    {
+                        this.state.searchStatus ?
+                            <span className='info font-small-1 bold'>
+                            <Icon.AlertOctagon className='mr-1 warning' size={18}/>
+                                <Translate name={this.state.searchStatus}/>
+                            </span>
+                            :
+                            null
+                    }
+
                     {
                         this.state.msg ?
                             <p className='font-small-2 m-0'>
@@ -188,18 +219,21 @@ class ContentTable extends Component {
                                 }
                             </>
                             :
-                            this.props.group.id ?
-                                <CustomizedTreeView
-                                    subGroupActions={this.props.subGroupActions}
-                                    setActionToggleSubModal={this.props.setActionToggleSubModal}
-                                    mainId={this.props.group.id}
-                                    mainName={this.props.group.name}
-                                    data={this.props.subGroups}
-                                    movingGroupStatus={this.props.movingGroupStatus}
-                                    startMovingGroup={this.props.startMovingGroup}
-                                    endeMovingGroup={this.props.endeMovingGroup}
-                                    editPosition={this.props.editPosition}
-                                />
+                            this.props.group ?
+                                this.props.group.id ?
+                                    <CustomizedTreeView
+                                        subGroupActions={this.props.subGroupActions}
+                                        setActionToggleSubModal={this.props.setActionToggleSubModal}
+                                        mainId={this.props.group.id}
+                                        mainName={this.props.group.name}
+                                        data={this.props.subGroups}
+                                        movingGroupStatus={this.props.movingGroupStatus}
+                                        startMovingGroup={this.props.startMovingGroup}
+                                        endeMovingGroup={this.props.endeMovingGroup}
+                                        editPosition={this.props.editPosition}
+                                    />
+                                    :
+                                    null
                                 :
                                 null
                     }

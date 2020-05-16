@@ -81,7 +81,8 @@ export default (state = INIT_STATE, action) => {
         case SET_PRODUCT_GROUPS:
             return {
                 ...state,
-                productGroups: action.productGroups
+                productGroups: action.productGroups,
+                selected: action.selected
             }
         case SHOW_ALTERNATIVE:
             return {

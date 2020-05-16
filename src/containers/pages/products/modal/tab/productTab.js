@@ -13,6 +13,8 @@ import classes from './productTab.module.css';
 import ButtonUi from "../../../../../components/buttons/buttonUi";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
+import * as Icon from 'react-feather'
+import ImageIcon from "@material-ui/icons/Image";
 
 class TabsBorderBottom extends Component {
 
@@ -206,6 +208,7 @@ class TabsBorderBottom extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="classifiers">
                         {
+                            this.props.groups.length ?
                             Object.keys(this.props.groups).map(
                                 (item, index) => {
                                     return (
@@ -238,6 +241,11 @@ class TabsBorderBottom extends Component {
                                     )
                                 }
                             )
+                                :
+                                <p className='text-center font-small-5 info p-2 mb-0'>
+                                    <Icon.AlertOctagon className='mr-1 warning'/>
+                                    <Translate name={'The groups are empty'}/>
+                                </p>
                         }
                     </TabPane>
 
@@ -289,6 +297,9 @@ class TabsBorderBottom extends Component {
                                     variant={'outlined'}
                                     name={'upImages'}
                                     onChange={this.uploadImageHandler}
+                                    icon={<ImageIcon/>}
+                                    multiple={true}
+                                    accept={'image/*'}
                                 />
                             </FormGroup>
                         </header>

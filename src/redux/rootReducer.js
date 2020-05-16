@@ -13,6 +13,7 @@ import langReducer from "./lang/reducer";
 
 import { reducer as toastrReducer } from "react-redux-toastr";
 import currencyReducer from "./currency/reducer";
+import importReducer from "./import/reducer";
 
 
 const rootReducer = combineReducers({
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
    group:groupReducer,
    pages:pageReducer,
    languages:langReducer,
-   currency: currencyReducer
+   currency: currencyReducer,
+   importReducer: importReducer
 });
 
 export default rootReducer;

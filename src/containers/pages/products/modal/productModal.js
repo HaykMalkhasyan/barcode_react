@@ -46,6 +46,7 @@ const ProductModal = (props) => {
                 }
             }
         }
+        return 'select the unit of measurement'
     }
     const onPointHandler = event => {
         props.setPointsValue(event.target.name, event.target.value)

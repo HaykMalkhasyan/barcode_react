@@ -383,22 +383,25 @@ export function alternativeShow() {
 export function getSubGroups(data) {
 
     return (dispatch, getState) => {
-        let subGroups = getState().group.subGroups;
+        let subGroups = [...getState().group.subGroups];
+        let selected = {...getState().group.selected};
         let productGroups = [];
         for (let subGroup of subGroups) {
             if (subGroup.group_id && (subGroup.group_id.id === data.id)) {
                 productGroups.push(subGroup)
             }
         }
-        dispatch(setProductGroups(productGroups))
+        selected = {};
+        dispatch(setProductGroups(productGroups, selected))
     }
 }
 
-export function setProductGroups(productGroups) {
+export function setProductGroups(productGroups, selected) {
 
     return {
         type: SET_PRODUCT_GROUPS,
-        productGroups
+        productGroups,
+        selected
     }
 }
 

@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Row, Col} from "reactstrap";
 import GroupTabContent from "../../../../group/subGroupMenuNew";
 import Translate from "../../../../../../Translate";
-import {List} from "react-feather"
+import {default as Icon, List} from "react-feather"
+import * as MyIcon from 'react-feather'
 
 const ModalExample = props => {
     const [modal, setModal] = useState(false)
@@ -64,28 +65,47 @@ const ModalExample = props => {
             >
                 <ModalHeader toggle={toggle}>{props.name}</ModalHeader>
                 <ModalBody>
-                    <GroupTabContent
-                        data={props.productGroups}
-                        group={props.group}
-                        lang={props.lang}
-                        handleOpen={props.handleOpen}
-                        selectGroup={props.selectGroup}
-                        selected={props.selected}
-                        page="products"
-                    />
+                    {
+                        props.productGroups.length ?
+                            <GroupTabContent
+                                data={props.productGroups}
+                                group={props.group}
+                                lang={props.lang}
+                                handleOpen={props.handleOpen}
+                                selectGroup={props.selectGroup}
+                                selected={props.selected}
+                                page="products"
+                            />
+                            :
+                            <p className='text-center font-small-5 info p-2 mb-0'>
+                                <MyIcon.AlertOctagon className='mr-1 warning'/>
+                                <Translate name={'The sub groups are empty'}/>
+                            </p>
+                    }
+
                 </ModalBody>
                 <ModalFooter>
-                    <Button
-                        color="primary"
-                        onClick={
-                            () => {
-                                toggle();
-                                props.setModalValues("groups", props.selected)
-                            }
-                        }
-                    >
-                        <Translate name="select"/>
-                    </Button>
+                    {
+
+                        Object.keys(props.selected).length ?
+                            <Button
+                                color="primary"
+                                disabled={props.productGroups.length ? false : true}
+                                onClick={
+                                    () => {
+                                        toggle();
+                                        props.setModalValues("groups", props.selected);
+                                    }
+                                }
+                            >
+                                <Translate name="select"/>
+                            </Button>
+                            :
+                            <span className='info text-right'>
+                                <MyIcon.AlertTriangle className='warning mr-1'/>
+                                <Translate name={'You have not selected a subgroup'}/>
+                            </span>
+                    }
                 </ModalFooter>
             </Modal>
 

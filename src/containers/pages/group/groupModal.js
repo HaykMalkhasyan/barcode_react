@@ -23,7 +23,7 @@ const GroupModal = (props) => {
                             className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                             type="text"
                             id="name"
-                            value={props.group.name ? props.group.name : ""}
+                            value={props.group && props.group.name ? props.group.name : ""}
                             onChange={event => props.setModalValues("name", event.target.value)}
                         />
                     </FormGroup>

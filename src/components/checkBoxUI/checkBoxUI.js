@@ -5,7 +5,12 @@ import Translate from "../../Translate";
 export default function CheckboxesUi(props) {
 
     return (
-            <label className="p-0 mt-0 mb-0">
+            <label
+                className="p-0 mt-0 mb-0"
+                style={{
+                    userSelect: 'none'
+                }}
+            >
                 <Checkbox
                     checked={props.checked}
                     size={props.size}

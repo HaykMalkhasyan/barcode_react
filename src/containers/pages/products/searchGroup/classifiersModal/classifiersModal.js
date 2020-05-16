@@ -4,6 +4,7 @@ import Translate from "../../../../../Translate";
 import classes from './classifiersModal.module.css'
 import ButtonUi from "../../../../../components/buttons/buttonUi";
 import ClassifiersTreeViewer from "./classifiersTreeViewer/classifiersTreeViewer";
+import * as Icon from 'react-feather'
 
 const ClassifiersModal = props => {
     const [active, setActive] = useState(false)
@@ -35,7 +36,7 @@ const ClassifiersModal = props => {
             <ModalBody>
                 <header className={classes.mBodyHeader}>
                     {
-                        props.groups ?
+                        props.groups && props.groups.length ?
                             props.groups.map(
                                 item => {
 
@@ -57,7 +58,10 @@ const ClassifiersModal = props => {
                                 }
                             )
                             :
-                            null
+                            <p className="text-center info m-1">
+                                <Icon.AlertTriangle className='warning mr-1'/>
+                                <Translate name={'The groups are empty'}/>
+                            </p>
                     }
                 </header>
                 <section className={classes.mBodySection}>
@@ -71,9 +75,12 @@ const ClassifiersModal = props => {
                                 selectGroupsNode={props.selectGroupsNode}
                             />
                             :
-                            <p className="text-center info pt-2 mb-0">
-                                <Translate name={'Everyone is selected'}/>
-                            </p>
+                            props.groups.length === 0 ?
+                                null
+                                :
+                                <p className="text-center info pt-2 mb-0">
+                                    <Translate name={'Everyone is selected'}/>
+                                </p>
                     }
                 </section>
             </ModalBody>

@@ -5,7 +5,11 @@ import Translate from "../../Translate";
 export default function SwitchesUi(props) {
 
     return (
-        <label>
+        <label
+            style={{
+                userSelect: 'none'
+            }}
+        >
             <Translate name={props.label}/>
             <Switch
                 checked={props.value}

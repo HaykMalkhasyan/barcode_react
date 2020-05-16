@@ -25,6 +25,11 @@ const AdvancedSearch = (props) => {
         {id: 3, name: 'Show the first 100 pieces', value: 100},
     ])
 
+    let clsSearchBtn = [
+        classes.searchBtn,
+        isOpen ? classes.searchBtnOpened : null
+    ]
+
     const toggle = () => {
         setIsOpen(!isOpen)
         setType(!type)
@@ -63,21 +68,26 @@ const AdvancedSearch = (props) => {
                 selectGroupsNode={props.selectGroupsNode}
                 createClassifiers={props.createClassifiers}
             />
-            <div className='mb-3'>
-                <button
-                    className={classes.searchBtn}
-                    onClick={toggle}
-                >
-                    {
-                        !isOpen ?
-                            <SearchIcon className={classes.icon}/>
-                            :
+            <Row>
+                <Col md={11}>
+                    <TextFields
+                        type={'search'}
+                        label={<><SearchIcon/><Translate name={'search'}/></>}
+                        name={'searchProduct'}
+                        value={props.advancedSearchText}
+                        onChange={event => writeSearchText(event.target.value)}
+                    />
+                </Col>
+                <Col md={1}>
+                    <button
+                        type={'button'}
+                        className={classes.searchButton}
+                    >
+                        <SearchIcon style={{ fontSize: 20 }}/>
+                    </button>
+                </Col>
+            </Row>
 
-                            <ExpandLessIcon className={classes.icon}/>
-                    }
-                </button>
-                <div className={classes.line}/>
-            </div>
             <Collapse isOpen={isOpen}>
                 <Card style={{backgroundColor: 'transparent'}} className="m-0">
                     <CardBody className="m-0">
@@ -213,27 +223,17 @@ const AdvancedSearch = (props) => {
                             </Col>
                         </Row>
                     </CardBody>
-                    <Row>
-                        <Col md={11}>
-                            <TextFields
-                                type={'search'}
-                                label={<><SearchIcon/><Translate name={'search'}/></>}
-                                name={'searchProduct'}
-                                value={props.advancedSearchText}
-                                onChange={event => writeSearchText(event.target.value)}
-                            />
-                        </Col>
-                        <Col md={1}>
-                            <button
-                                type={'button'}
-                                className={classes.searchButton}
-                            >
-                                <SearchIcon style={{ fontSize: 20 }}/>
-                            </button>
-                        </Col>
-                    </Row>
                 </Card>
             </Collapse>
+            <div className='mb-3'>
+                <button
+                    className={clsSearchBtn.join(' ')}
+                    onClick={toggle}
+                >
+                    <ExpandLessIcon className={classes.icon}/>
+                </button>
+                <div className={classes.line}/>
+            </div>
         </div>
     );
 }
