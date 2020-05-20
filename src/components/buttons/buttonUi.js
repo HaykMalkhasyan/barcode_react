@@ -6,6 +6,7 @@ export default function ButtonUi(props) {
 
     return (
         <Button
+            className={props.className}
             style={{
                 padding: props.padding ? props.padding : 0,
                 minWidth: props.minWidth ? props.minWidth : 0,
@@ -15,7 +16,8 @@ export default function ButtonUi(props) {
                 margin: props.margin,
                 fontSize: props.fontSize,
                 fontWeight: props.Weight,
-                color: props.fontColor
+                color: props.fontColor,
+                borderRadius: props.borderRadius
             }}
             onClick={props.onClick}
             color={props.color}

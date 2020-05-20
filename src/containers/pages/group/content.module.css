@@ -1,10 +1,11 @@
 .header {
     border-bottom: 2px solid #e1e1e1;
-    margin-top: 30px;
+    margin-top: 10px;
+    display: flex;
 }
 
 .groupBtn {
-    margin-right: 10px;
+    /*margin-right: 10px;*/
 }
 
 .nav {
@@ -21,4 +22,87 @@
 .section {
     margin: 20px;
     box-sizing: border-box;
+}
+
+.btnWindow {
+    position: relative;
+    margin-right: 10px;
+}
+
+.controlBtnAll {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    /*width: 100%;*/
+    background-color: rgba(255, 255, 255, 0.76);
+}
+
+.controlBtnEdit {
+    margin: 0!important;
+    width: 26px;
+    height: 26px;
+    box-sizing: border-box;
+    padding: 5px;
+    color: #888;
+    transition: 300ms;
+}
+
+.controlBtnEdit:hover {
+    background-color: #888;
+    color: #fff;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .34);
+}
+
+.controlBtnAdd {
+    margin: 0!important;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+.controlBtnDelete {
+    margin: 0!important;
+    width: 26px;
+    height: 26px;
+    color: #f88;
+    box-sizing: border-box;
+    padding: 5px;
+    transition: 300ms;
+}
+
+.controlBtnDelete:hover {
+    background-color: #888;
+    color: #fff;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .34);
+}
+
+.buildBtn {
+    position: absolute !important;
+    top: 20px;
+    right: 20px;
+    border-radius: 50% !important;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .35) inset;
+    transform: rotate(0);
+}
+
+.buildBtnAnimated {
+    animation: rotateble 700ms ease-in-out alternate infinite;
+}
+
+.buildBtn:hover {
+    animation: rotateble 700ms ease-in-out alternate infinite;
+}
+
+@keyframes rotateble {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(45deg);
+    }
 }

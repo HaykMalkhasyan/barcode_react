@@ -10,8 +10,8 @@ class ThemeNavbar extends Component{
     }
     render() {
         return (
-            <UncontrolledDropdown nav inNavbar className="pr-1">
-                <DropdownToggle nav>
+            <UncontrolledDropdown nav inNavbar className="p-0">
+                <DropdownToggle className='px-0' nav>
                     <ReactCountryFlag code={this.props.active} svg/> {this.props.active.toUpperCase()}
                 </DropdownToggle>
                 <DropdownMenu right>

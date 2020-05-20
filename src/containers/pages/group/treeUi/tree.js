@@ -1,47 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import {fade, makeStyles, withStyles} from '@material-ui/core/styles';
-import TreeView from '@material-ui/lab/TreeView';
-import TreeItem from '@material-ui/lab/TreeItem';
-import Collapse from '@material-ui/core/Collapse';
-import {useSpring, animated} from 'react-spring/web.cjs';
+import Collapsee from '@material-ui/core/Collapse';
+import {animated, useSpring} from 'react-spring/web.cjs';
 import ContextMenu from "./contextMenu/contextMenu";
 import * as Icon from 'react-feather'
 import styls from './tree.module.css'
 import ButtonUi from "../../../../components/buttons/buttonUi";
-import Tooltip from '@material-ui/core/Tooltip';
-import Translate from "../../../../Translate";
+import FolderIcon from '@material-ui/icons/Folder';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {Collapse} from 'reactstrap';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
-function MinusSquare(props) {
-    return (
-        <SvgIcon fontSize="inherit" style={{width: 14, height: 14}} {...props}>
-            {/* tslint:disable-next-line: max-line-length */}
-            <path
-                d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 11.023h-11.826q-.375 0-.669.281t-.294.682v0q0 .401.294 .682t.669.281h11.826q.375 0 .669-.281t.294-.682v0q0-.401-.294-.682t-.669-.281z"/>
-        </SvgIcon>
-    );
-}
-
-function PlusSquare(props) {
-    return (
-        <SvgIcon fontSize="inherit" style={{width: 14, height: 14}} {...props}>
-            {/* tslint:disable-next-line: max-line-length */}
-            <path
-                d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 12.977h-4.923v4.896q0 .401-.281.682t-.682.281v0q-.375 0-.669-.281t-.294-.682v-4.896h-4.923q-.401 0-.682-.294t-.281-.669v0q0-.401.281-.682t.682-.281h4.923v-4.896q0-.401.294-.682t.669-.281v0q.401 0 .682.281t.281.682v4.896h4.923q.401 0 .682.281t.281.682v0q0 .375-.281.669t-.682.294z"/>
-        </SvgIcon>
-    );
-}
-
-function CloseSquare(props) {
-    return (
-        <SvgIcon className="close" fontSize="inherit" style={{width: 14, height: 14}} {...props}>
-            {/* tslint:disable-next-line: max-line-length */}
-            <path
-                d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z"/>
-        </SvgIcon>
-    );
-}
 
 function TransitionComponent(props) {
     const style = useSpring({
@@ -51,7 +23,7 @@ function TransitionComponent(props) {
 
     return (
         <animated.div style={style}>
-            <Collapse {...props} />
+            <Collapsee {...props} />
         </animated.div>
     );
 }
@@ -63,37 +35,16 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 };
 
-const StyledTreeItem = withStyles((theme) => ({
-    iconContainer: {
-        '& .close': {
-            opacity: 0.1,
-        },
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 18,
-        borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent}/>);
-
-const useStyles = makeStyles({
-    root: {
-        height: 'auto',
-        flexGrow: 1,
-        maxWidth: '100%',
-        fontSize: '2rem !important'
-    },
-});
-
-
 export default function CustomizedTreeView(props) {
-    const classes = useStyles();
     const [menu, setMenu] = useState(false)
     const [x, setX] = useState(0)
     const [y, setY] = useState(0)
     const [id, setId] = useState(null)
     const [group_id, setGroup_id] = useState(null)
 
+    const toggle = id => {
+        props.subGroupsCollapseStatus(id)
+    };
 
     useEffect(
         () => {
@@ -103,10 +54,12 @@ export default function CustomizedTreeView(props) {
                     props.endeMovingGroup()
                 }
             }
-
+            // if (props.expanded === null) {
+            props.seteExpanded([`${props.mI.id}`])
+            // }
             window.onscroll = () => setMenu(false)
             // window.onmousedown = () => setMenu(false)
-        }, [props.movingGroupStatus]
+        }, [props.movingGroupStatus, props.seteExpanded]
     )
 
     const myContextMenu = (event, group_id, id) => {
@@ -144,46 +97,140 @@ export default function CustomizedTreeView(props) {
         }
     }
 
+    const controllersRenderBtnHandler = (type, id, groupId, item) => {
+        if (groupId) {
+            onClickHandler(type, group_id, id)
+        } else {
+            if (type === 'edit') {
+                props.toggleModal('edit', id);
+                props.groupActions("get", item);
+            } else if (type === 'delete') {
+                props.toggleModal('delete', id)
+            }
+
+        }
+    }
+
+    const controllersRender = (id, groupId, item) => {
+
+        return (
+            <ButtonGroup className='ml-2' variant="text" color="primary" aria-label="text primary button group">
+                <ButtonUi
+                    className={styls.ctrlButtons}
+                    label={<AddIcon style={{fontSize: 14}}/>}
+                    width={'auto'}
+                    height={'auto'}
+                    padding={'0'}
+                    margin={'0'}
+                    color={'primary'}
+                    onClick={
+                        groupId ?
+                            () => onClickHandler('add', groupId, id)
+                            :
+                            () => onClickHandler('add', id)
+                    }
+                />
+                <ButtonUi
+                    className={styls.ctrlButtons}
+                    label={<EditIcon style={{fontSize: 14}}/>}
+                    width={'auto'}
+                    height={'auto'}
+                    padding={'0 5px'}
+                    margin={'0'}
+                    color={'default'}
+                    onClick={() => controllersRenderBtnHandler('edit', id, groupId, item)
+                    }
+                />
+                <ButtonUi
+                    className={styls.ctrlButtons}
+                    label={<DeleteForeverIcon style={{fontSize: 14}}/>}
+                    width={'auto'}
+                    height={'auto'}
+                    padding={'0 5px'}
+                    margin={'0'}
+                    color={'secondary'}
+                    onClick={() => controllersRenderBtnHandler('delete', id, groupId, item)}
+                />
+            </ButtonGroup>
+        )
+    }
+
     const treeItemRender = (group_id, id, movingGroupStatus) => {
         let statusId = movingGroupStatus
-        let x =  props.data.map(
+        let x = props.data.map(
             item => {
                 if (parseInt(item.parent_id) === parseInt(id)) {
                     let groupId = item.group_id ? item.group_id.id : false
                     if (parseInt(groupId) === parseInt(group_id)) {
+
                         return (
-                            <div
-                                className={styls.block}
-                                key={item.id}
-                            >
-                                {
-                                    statusId ?
-                                        (statusId !== +item.parent_id) ?
-                                            <ButtonUi
-                                                onClick={event => movingHandler(event, item.id)}
-                                            >
-                                                <Icon.ArrowRight className={styls.leftArrow}/>
-                                            </ButtonUi>
-                                            :
-                                            statusId === +item.parent_id ?
-                                                statusId = false
+                            <li key={item.id}>
+                                    <span
+                                        onClick={() => toggle(item.id)}
+                                        onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
+                                        style={{
+                                            marginBottom: '1rem',
+                                            color: colorHandler(item.id)
+                                        }}
+                                    >
+                                        {
+                                            treeItemRender(item.group_id.id, item.id, statusId).length > 0 ?
+                                                <FolderIcon
+                                                    style={{
+                                                        color: '#ffc749',
+                                                        verticalAlign: "middle"
+                                                    }}
+                                                    fontSize={'small'}
+                                                />
+                                                :
+                                                <FolderOpenIcon
+                                                    style={{
+                                                        color: '#ffc749',
+                                                        verticalAlign: "middle"
+                                                    }}
+                                                    fontSize={'small'}
+                                                />
+                                        }
+                                        <span
+                                            className={animatedHandler(item.id)}
+                                        >
+                                            {item.name}
+                                        </span>
+                                        {ctr(item.id, item.group_id.id, item)}
+                                        {
+                                            statusId ?
+                                                (statusId !== +item.parent_id && statusId !== +item.id) ?
+                                                    <ButtonUi
+                                                        onClick={event => movingHandler(event, item.id)}
+                                                    >
+                                                        <Icon.ArrowLeft className={styls.leftArrow}/>
+                                                    </ButtonUi>
+                                                    :
+                                                    statusId === +item.parent_id ?
+                                                        statusId = false
+                                                        :
+                                                        null
                                                 :
                                                 null
+                                        }
+                                    </span>
+                                {
+                                    treeItemRender(item.group_id.id, item.id, statusId).length > 0 ?
+                                        <Collapse
+                                            isOpen={!!parseInt(props.collapsedStatus[item.id])}
+                                        >
+                                            {
+                                                <ul className={styls.list} style={{listStyle: 'none'}}>
+                                                    {
+                                                        treeItemRender(item.group_id.id, item.id, statusId)
+                                                    }
+                                                </ul>
+                                            }
+                                        </Collapse>
                                         :
                                         null
                                 }
-                                <StyledTreeItem
-                                    onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
-                                    key={item.id}
-                                    nodeId={`"${item.id}"`}
-                                    label={item.name}
-                                    fontSize={'20px'}
-                                >
-                                    {
-                                        treeItemRender(item.group_id.id, item.id, statusId)
-                                    }
-                                </StyledTreeItem>
-                            </div>
+                            </li>
                         )
                     } else {
                         return null;
@@ -194,6 +241,7 @@ export default function CustomizedTreeView(props) {
             }
         )
         let arr = []
+
         x.map(
             (item, index) => {
                 if (item !== null) {
@@ -207,8 +255,56 @@ export default function CustomizedTreeView(props) {
 
 
     const movingHandler = (event, id) => {
+
         event.stopPropagation()
         props.editPosition(id)
+    }
+
+    const handleToggle = (event, nodeIds) => {
+
+        props.seteExpanded(nodeIds);
+    };
+
+    const checkId = (searchId, id) => {
+
+        if (searchId && searchId.length > 0) {
+            for (let item of searchId) {
+                if (item === id) {
+                    return true
+                }
+            }
+        }
+    }
+
+    const colorHandler = (id) => {
+        let color;
+        if (props.expanded && Object.keys(props.expanded).length > 0) {
+            for (let item of props.expanded) {
+                if ((parseInt(item) === parseInt(id)) || checkId(props.searchResItem, parseInt(id))) {
+                    return '#4fb555';
+                } else {
+                    color = '#666'
+                }
+            }
+        }
+        return color
+    }
+    const animatedHandler = (id) => {
+        let color;
+        if (props.expanded && Object.keys(props.expanded).length > 0) {
+            for (let item of props.expanded) {
+                if ((parseInt(item) === parseInt(id)) || checkId(props.searchResItem, parseInt(id))) {
+                    return styls.searchAnimated;
+                }
+            }
+        }
+        return color
+    }
+
+    const ctr = (id, groupId, elem) => {
+        if (props.editabled === true) {
+            return controllersRender(id, groupId, elem)
+        }
     }
 
     return (
@@ -226,66 +322,113 @@ export default function CustomizedTreeView(props) {
                     :
                     null
             }
-            <Tooltip title={<Translate name={'right click to open the context menu'}/>} placement="left-start">
-                <TreeView
-                    style={{marginBottom: 100}}
-                    className={classes.root}
-                    defaultExpanded={['1']}
-                    defaultCollapseIcon={<MinusSquare/>}
-                    defaultExpandIcon={<PlusSquare/>}
-                    defaultEndIcon={<CloseSquare/>}
-                >
-                    <StyledTreeItem
-                        // onContextMenu={event => myContextMenu(event, props.mainId)}
-                        nodeId={`${props.mainId}`}
-                        label={props.mainName}
+
+            <ul className={styls.mainList}>
+                <li className={styls.borderLine}>
+                    <span
+                        onClick={() => toggle(props.mainId)}
+                        style={{
+                            marginBottom: '1rem'
+                        }}
                     >
-                        {
-                            props.data.length ?
-                                props.data.map(
-                                    item => {
+                        <FolderIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />
+                        {props.mainName}
+                        {ctr(props.mainId, null, props.mI)}
+                    </span>
+                    <Collapse isOpen={true}
+                              style={{paddingLeft: '10px', backgroundColor: 'transparent'}}>
 
-                                        return item.group_id && !item.parent_id ?
+                        <ul className={styls.tree} style={{listStyle: 'none'}}>
+                            {
+                                props.data.length ?
+                                    props.data.map(
+                                        item => {
 
-                                            props.mainId === item.group_id.id ?
-                                                <div
-                                                    className={styls.block}
-                                                    key={item.id}
-                                                >
-                                                    {
-                                                        props.movingGroupStatus ?
-                                                            <ButtonUi
-                                                                onClick={event => movingHandler(event, item.id)}
+                                            return item.group_id && !item.parent_id ?
+
+                                                props.mainId === item.group_id.id ?
+                                                    <li key={item.id} className={styls.borderLine}>
+
+                                                            <span
+                                                                onClick={() => toggle(item.id)}
+                                                                onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
+                                                                style={{
+                                                                    marginBottom: '1rem',
+                                                                    color: colorHandler(item.id)
+                                                                }}
                                                             >
-                                                                <Icon.ArrowRight className={styls.leftArrow}/>
-                                                            </ButtonUi>
-                                                            :
-                                                            null
-                                                    }
-                                                    <StyledTreeItem
-                                                        onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
-                                                        key={item.id}
-                                                        nodeId={`"${item.id}"`}
-                                                        label={item.name}
-                                                        fontSize={'20px'}
-                                                    >
+                                                                {
+                                                                    treeItemRender(item.group_id.id, item.id, props.movingGroupStatus).length > 0 ?
+                                                                        <FolderIcon
+                                                                            style={{
+                                                                                color: '#ffc749',
+                                                                                verticalAlign: "middle"
+                                                                            }}
+                                                                            fontSize={'small'}
+                                                                        />
+                                                                        :
+                                                                        <FolderOpenIcon
+                                                                            style={{
+                                                                                color: '#ffc749',
+                                                                                verticalAlign: "middle"
+                                                                            }}
+                                                                            fontSize={'small'}
+                                                                        />
+                                                                }
+                                                                <span
+                                                                    className={animatedHandler(item.id)}
+                                                                >
+                                                                    {item.name}
+                                                                </span>
+                                                                {ctr(item.id, item.group_id.id, item)}
+                                                                {
+                                                                    props.movingGroupStatus ?
+                                                                        <ButtonUi
+                                                                            onClick={event => movingHandler(event, item.id)}
+                                                                        >
+                                                                            <Icon.ArrowLeft
+                                                                                className={styls.leftArrow}/>
+                                                                        </ButtonUi>
+                                                                        :
+                                                                        null
+                                                                }
+                                                            </span>
                                                         {
-                                                            treeItemRender(item.group_id.id, item.id, props.movingGroupStatus)
+                                                            treeItemRender(item.group_id.id, item.id, props.movingGroupStatus).length > 0 ?
+                                                                <Collapse
+                                                                    isOpen={!!parseInt(props.collapsedStatus[item.id])}
+                                                                >
+                                                                    <ul className={styls.tree}
+                                                                        style={{listStyle: 'none'}}>
+                                                                        {
+                                                                            treeItemRender(item.group_id.id, item.id, props.movingGroupStatus)
+                                                                        }
+                                                                    </ul>
+                                                                </Collapse>
+                                                                :
+                                                                null
                                                         }
-                                                    </StyledTreeItem>
-                                                </div>
+                                                    </li>
+
+                                                    :
+                                                    null
                                                 :
                                                 null
-                                            :
-                                            null
-                                    }
-                                )
-                                :
-                                null
-                        }
-                    </StyledTreeItem>
-                </TreeView>
-            </Tooltip>
+                                        }
+                                    )
+                                    :
+                                    null
+                            }
+                        </ul>
+                    </Collapse>
+                </li>
+            </ul>
         </>
     );
 }

@@ -16,7 +16,10 @@ import {
     endeMovingGroup,
     editPosition,
     searchGroups,
-    alternativeShow
+    alternativeShow,
+    seteExpanded,
+    toggleEditebled,
+    subGroupsCollapseStatus
 } from "../../../redux/group/actions";
 import {
     toggleModalLanguage
@@ -43,7 +46,10 @@ const mapDispatchToProps = dispatch => {
             endeMovingGroup,
             editPosition,
             searchGroups,
-            alternativeShow
+            alternativeShow,
+            seteExpanded,
+            toggleEditebled,
+            subGroupsCollapseStatus
         },
         dispatch
     );
@@ -70,6 +76,10 @@ const mapStateToProps = state => {
         searchResult: state.group.searchResult,
         searchAltResult: state.group.searchAltResult,
         alternative: state.group.alternative,
+        expanded: state.group.expanded,
+        searchResItem: state.group.searchResItem,
+        editabled: state.group.editabled,
+        collapsedStatus: state.group.collapsedStatus,
 
     }
 };

@@ -4,6 +4,8 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+import FolderIcon from "@material-ui/icons/Folder";
+import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 
 const useStyles = makeStyles({
     root: {
@@ -85,8 +87,29 @@ const Menu = props => {
 
                     <TreeView
                         className={classes.root}
-                        defaultCollapseIcon={<ExpandMoreIcon/>}
-                        defaultExpandIcon={<ChevronRightIcon/>}
+                        defaultCollapseIcon={<FolderIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />}
+                        defaultExpandIcon={<FolderIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />}
+                        defaultEndIcon={
+                            <FolderOpenIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />
+                        }
                         expanded={expanded}
                         selected={selected}
                         onNodeToggle={handleToggle}

@@ -61,6 +61,10 @@ export const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE';
 export const SET_ALT_SEARCH_VALUE = 'SET_ALT_SEARCH_VALUE';
 export const SHOW_ALTERNATIVE = 'SHOW_ALTERNATIVE';
 
+export const ADD_EXPENDED = 'ADD_EXPENDED';
+export const TOGGLE_EDITEBLED = 'TOGGLE_EDITEBLED';
+export const SET_COLLAPSED = 'SET_COLLAPSED';
+
 /*
 *       For products
 * */

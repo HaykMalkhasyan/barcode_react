@@ -1,14 +1,5 @@
 import React, {Component} from "react";
-import {
-    Row,
-    Col,
-    Input,
-    Form,
-    FormGroup,
-    Button,
-    Card,
-    CardBody,
-} from "reactstrap";
+import {Button, Card, CardBody, Col, FormGroup, Input, Row,} from "reactstrap";
 // import jwt from 'jwt-simple';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -30,7 +21,10 @@ class LoginContainer extends Component {
     handleChecked = e => {
         this.setState({...this.state, rememberMe: !this.state.rememberMe});
     };
-    onSubmit = () => {
+
+
+    onSubmit = event => {
+        event.preventDefault();
         // let data = [this.state.username,jwt.encode(this.state.password, "password")];
         let data = this.state;
         if (!data.username) {
@@ -52,7 +46,7 @@ class LoginContainer extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className={`container`}>
                 <div className={classes.notificationWindow}>
                     {
                         this.props.authError ?
@@ -91,12 +85,12 @@ class LoginContainer extends Component {
                             null
                     }
                 </div>
-                <Row className="full-height-vh">
-                    <Col xs="12" className="d-flex align-items-center justify-content-center">
-                        <Card className="gradient-indigo-purple text-center width-400">
+                <Row className={`full-height-vh ${classes.main}`}>
+                    <Col xs="12" className={`d-flex align-items-center justify-content-center`}>
+                        <Card className={`{/*gradient-indigo-purple*/} text-center width-400 ${classes.mainWindow}`}>
                             <CardBody>
-                                <h2 className="white py-4">Login</h2>
-                                <Form onSubmit={this.onSubmit} className="pt-2">
+                                <h2 className="primary bold py-4" style={{fontWeight: 600}}>Barcode.am</h2>
+                                <form onSubmit={event => this.onSubmit(event)} className="pt-2">
                                     <FormGroup>
                                         <Col md="12">
                                             <Input
@@ -136,25 +130,22 @@ class LoginContainer extends Component {
                                                         onChange={this.handleChecked}
                                                         id="rememberme"
                                                     />
-                                                    {/*<Label className="custom-control-label float-left white" for="rememberme">*/}
-                                                    {/*    Remember Me*/}
-                                                    {/*</Label>*/}
                                                 </div>
                                             </Col>
                                         </Row>
                                     </FormGroup>
                                     <FormGroup>
                                         <Col md="12">
-                                            <Button color="danger" block className="btn-pink btn-raised"
-                                                    onClick={this.onSubmit}>
-                                                Submit
+                                            <Button type={'submit'} color="primary" block className="btn-primary btn-raised"
+                                                    onClick={event => this.onSubmit(event)}>
+                                                Login
                                             </Button>
                                             {/*<Button type="button" color="secondary" block className="btn-raised">*/}
                                             {/*    Cancel*/}
                                             {/*</Button>*/}
                                         </Col>
                                     </FormGroup>
-                                </Form>
+                                </form>
                             </CardBody>
                         </Card>
                     </Col>

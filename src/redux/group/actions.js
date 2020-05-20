@@ -1,4 +1,5 @@
 import {
+    ADD_EXPENDED,
     ADD_GROUP_FAIL,
     ADD_GROUP_REQUEST,
     ADD_GROUP_SUCCESS,
@@ -35,14 +36,14 @@ import {
     SELECT_GROUPS_FAIL,
     SELECT_GROUPS_REQUEST,
     SELECT_GROUPS_SUCCESS,
-    SET_ALT_SEARCH_VALUE,
+    SET_ALT_SEARCH_VALUE, SET_COLLAPSED,
     SET_GROUP_MODAL,
     SET_PRODUCT_GROUPS,
     SET_SEARCH_VALUE,
     SET_SUB_MODAL_NAME_VALUE,
     SET_TOGGLE_SUB_MODAL_VALUE,
     SHOW_ALTERNATIVE,
-    START_MOVING_GROUP,
+    START_MOVING_GROUP, TOGGLE_EDITEBLED,
     TOGGLE_GROUP_MODAL,
     TOGGLE_SUB_GROUP_MODAL,
     TOGGLE_SUB_MODAL
@@ -88,7 +89,8 @@ export const getSeletGroup = id => {
 
     return {
         types: [SELECT_GROUPS_REQUEST, SELECT_GROUPS_FAIL, SELECT_GROUPS_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`group/${id}`)
+        promise: (apiClient) => apiClient.gett(`group/${id}`),
+        id
     }
 }
 
@@ -251,20 +253,24 @@ export function searchGroups(name, value, mainId) {
 
     return (dispatch, getState) => {
         let altViewerArray = [];
+        let expanded = [];
         if (value.length > 0) {
+            expanded.push(`${mainId}`)
             let group = {...getState().group};
-            let search = {...getState().group[name]};
-            search = {
+            let searchV = {...getState().group[name]};
+            searchV = {
                 id: mainId,
                 value: value ? value : null
             }
             let subGroups = group.subGroups
             let searchResult = [];
+            let searchResItem = [];
 
             if (searchResult.length > 0) {
                 for (let item of subGroups) {
-                    if (item.name.toLowerCase() === value.toLowerCase()) {
+                    if (item.name.toLowerCase().search(value.toLowerCase()) !== -1) {
                         altViewerArray.push(item)
+                        searchResItem.push(item.id)
                         if (item.group_id && parseInt(item.group_id.id) === parseInt(mainId)) {
                             let indexId = false;
                             for (let searchItem of searchResult) {
@@ -275,15 +281,16 @@ export function searchGroups(name, value, mainId) {
                             if (!indexId) {
                                 searchResult.push(item)
                             }
-                            selectUp(searchResult, item, subGroups)
+                            selectUp(searchResult, item, subGroups, expanded)
                             selectDown(searchResult, item, subGroups)
                         }
                     }
                 }
             } else {
                 for (let item of subGroups) {
-                    if (item.name.toLowerCase() === value.toLowerCase()) {
-                        altViewerArray.push(item)
+                    if (item.name.toLowerCase().search(value.toLowerCase()) !== -1) {
+                        altViewerArray.push(item);
+                        searchResItem.push(item.id)
                         if (item.group_id && parseInt(item.group_id.id) === parseInt(mainId)) {
                             let indexResId = false;
                             for (let searchItem of searchResult) {
@@ -292,7 +299,7 @@ export function searchGroups(name, value, mainId) {
                                 }
                             }
                             if (!indexResId) {
-                                searchResult.push(item)
+                                searchResult.push(item);
                             }
                             let indexId = false;
                             for (let searchItem of searchResult) {
@@ -301,24 +308,24 @@ export function searchGroups(name, value, mainId) {
                                 }
                             }
                             if (!indexId) {
-                                searchResult.push(item)
+                                searchResult.push(item);
                             }
-                            selectUp(searchResult, item, subGroups)
+                            selectUp(searchResult, item, subGroups, expanded)
                             selectDown(searchResult, item, subGroups)
                         }
                     }
                 }
             }
             dispatch(setAltSearchValue(altViewerArray))
-            dispatch(setSearchValue(searchResult, search))
+            dispatch(setSearchValue(searchResult, searchV, expanded, searchResItem))
         } else {
-            dispatch(setSearchValue([], null))
+            dispatch(setSearchValue([], null, [`${mainId}`]))
             dispatch(setAltSearchValue([]))
         }
     }
 }
 
-function selectUp(searchResult, item, subGroups) {
+function selectUp(searchResult, item, subGroups, expanded) {
     let newSearchResult = searchResult;
     for (let i of subGroups) {
         if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id))) {
@@ -329,9 +336,14 @@ function selectUp(searchResult, item, subGroups) {
                 }
             }
             if (!indexId) {
+                if (expanded === null) {
+                    expanded = [`${item.parent_id}`]
+                } else {
+                    expanded.unshift(`${item.parent_id}`)
+                }
                 newSearchResult.push(i)
             }
-            selectUp(newSearchResult, i, subGroups)
+            selectUp(newSearchResult, i, subGroups, expanded)
         }
     }
 }
@@ -354,12 +366,14 @@ function selectDown(searchResult, item, subGroups) {
     }
 }
 
-export function setSearchValue(searchResult, search) {
+export function setSearchValue(searchResult, search, expanded, searchResItem) {
 
     return {
         type: SET_SEARCH_VALUE,
         searchResult,
-        search
+        search,
+        expanded,
+        searchResItem
     }
 }
 
@@ -375,6 +389,44 @@ export function alternativeShow() {
 
     return {
         type: SHOW_ALTERNATIVE
+    }
+}
+
+export function toggleEditebled() {
+
+    return {
+        type: TOGGLE_EDITEBLED
+    }
+}
+
+export function subGroupsCollapseStatus(id) {
+
+    return (dispatch, getState) => {
+        let index = false
+        let collapsedStatus = {...getState().group.collapsedStatus}
+        if (Object.keys(collapsedStatus).length > 0) {
+            for (let item in collapsedStatus) {
+                if (parseInt(collapsedStatus[item]) === id) {
+                    index = collapsedStatus[item]
+                }
+            }
+            if (index === false) {
+                collapsedStatus[id] = id
+            } else {
+                delete collapsedStatus[index]
+            }
+        } else {
+            collapsedStatus[id] = id
+        }
+        dispatch(setSubGroupsCollapseStatus(collapsedStatus))
+    }
+}
+
+export function setSubGroupsCollapseStatus(collapsedStatus) {
+
+    return {
+        type: SET_COLLAPSED,
+        collapsedStatus
     }
 }
 
@@ -402,6 +454,14 @@ export function setProductGroups(productGroups, selected) {
         type: SET_PRODUCT_GROUPS,
         productGroups,
         selected
+    }
+}
+
+export function seteExpanded(nodeId) {
+
+    return {
+        type: ADD_EXPENDED,
+        nodeId
     }
 }
 

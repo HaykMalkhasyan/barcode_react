@@ -193,7 +193,7 @@ export function setMainImage(imageFile) {
 
     return (dispatch, getState) => {
         let product = {...getState().products.product}
-        product['image'] = imageFile.name;
+        product['image'] = imageFile;
         dispatch(AddUploadImages(product))
 
     }

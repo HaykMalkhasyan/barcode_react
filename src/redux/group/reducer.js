@@ -44,7 +44,7 @@ import {
     END_MOVING_GROUP,
     SET_SEARCH_VALUE,
     SHOW_ALTERNATIVE,
-    SET_PRODUCT_GROUPS, SET_ALT_SEARCH_VALUE
+    SET_PRODUCT_GROUPS, SET_ALT_SEARCH_VALUE, ADD_EXPENDED, TOGGLE_EDITEBLED, SET_COLLAPSED
 } from "./actionTypes";
 import {IsRequiredField, Put, IsRequiredFields, Pushend, changeElement, RemoveItem} from "../../utility/utils";
 import {openMenu} from "./functions";
@@ -67,12 +67,31 @@ const INIT_STATE = {
     search: null,
     alternative: true,
     searchAltResult: [],
+    searchResItem: null,
     searchResult: [],
-    productGroups: []
+    productGroups: [],
+    expanded: null,
+    editabled: false,
+    collapsedStatus: {}
 };
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case SET_COLLAPSED:
+            return {
+                ...state,
+                collapsedStatus: action.collapsedStatus
+            }
+        case TOGGLE_EDITEBLED:
+            return {
+                ...state,
+                editabled: !state.editabled
+            }
+        case ADD_EXPENDED:
+            return {
+                ...state,
+                expanded: action.nodeId
+            }
         case SET_ALT_SEARCH_VALUE:
             return {
                 ...state,
@@ -93,7 +112,9 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 searchResult: action.searchResult,
-                search: action.search
+                search: action.search,
+                expanded: action.expanded,
+                searchResItem: action.searchResItem
             }
         case END_MOVING_GROUP:
             return {
@@ -155,6 +176,7 @@ export default (state = INIT_STATE, action) => {
                 modal: {},
                 subModal: {},
                 group: action.result,
+                expanded: [`${action.id}`],
                 search: null,
                 searchResult: [],
                 errors: {},

@@ -41,3 +41,20 @@
         opacity: 1;
     }
 }
+
+.main {
+    background: url("./image/login.png") no-repeat center;
+    background-size: cover;
+}
+
+.mainWindow {
+    background-color: #fff;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .24);
+    border: 1px solid #ccc;
+    transition: 300ms;
+}
+
+.mainWindow:hover {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .45);
+    border-color: #aaa;
+}

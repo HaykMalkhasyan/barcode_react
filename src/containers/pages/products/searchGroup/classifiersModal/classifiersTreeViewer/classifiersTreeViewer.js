@@ -5,6 +5,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Translate from "../../../../../../Translate";
+import FolderOpenIcon from "@material-ui/icons/FolderOpen";
+import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles({
     root: {
@@ -61,8 +63,27 @@ const ClassifiersTreeViewer = (props) => {
                 props.data && props.data.length > 0 ?
                     <TreeView
                         className={classes.root}
-                        defaultCollapseIcon={<ExpandMoreIcon/>}
-                        defaultExpandIcon={<ChevronRightIcon/>}
+                        defaultCollapseIcon={<FolderIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />}
+                        defaultExpandIcon={<FolderIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />}
+                        defaultEndIcon={<FolderOpenIcon
+                            style={{
+                                color: '#ffc749',
+                                verticalAlign: "middle"
+                            }}
+                            fontSize={'small'}
+                        />}
                         onNodeSelect={selectNodes}
                         multiSelect
                     >

@@ -1,0 +1,43 @@
+.menuWindow {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    background: #fff;
+    position: sticky;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .24);
+    top: 0;
+    z-index: 10;
+    overflow-x: auto;
+}
+
+.menuWindow > div {
+    width: auto;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.menuWindow > div > div {
+    color: #444;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.navLink {
+    color: #444;
+    font-weight: 600;
+    padding: 0 10px 15px;
+    box-sizing: border-box;
+}
+
+.active {
+    border-bottom: 2px solid #666;
+}
+
+a {
+    color: inherit;
+}

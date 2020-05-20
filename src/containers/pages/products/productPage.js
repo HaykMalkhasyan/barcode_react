@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import {  Col, Card, CardBody } from "reactstrap";
+import React, {Component} from "react";
+import {Card, CardBody, Col} from "reactstrap";
 import TableComponent from './productTable';
 import ModalComponent from './modal/productModal';
 import AddButton from "../../../components/buttons/addButton";
-
 
 class ProductContainer extends Component {
     constructor(props) {
@@ -51,7 +50,6 @@ class ProductContainer extends Component {
                 <ModalComponent {...this.props} type={'add'} />
                 <ModalComponent {...this.props} type={'edit'} />
                 <ModalComponent {...this.props} type={'delete'} />
-
 
             </Col>
         )

@@ -17,6 +17,14 @@ import {
     // sidebarImageUrl,
     sidebarSize
 } from "../../redux/customizer/actions";
+import classes from './mainLay.module.css'
+import SideMenu from "./components/sidebar/sidemenuHelper";
+import {NavLink} from "react-router-dom";
+import Icon from "./components/sidebar/sidemenu/icons";
+import Translate from "../../Translate";
+import {getPages} from "../../redux/pages/actions";
+import {getPermissions, getTools} from "../../redux/permission/actions";
+import ProminentAppBar from "../../components/navbar/navbar";
 // import {getPages} from "../../redux/pages/actions";
 // import {getPermissions} from "../../redux/permission/actions";
 
@@ -27,6 +35,7 @@ class MainLayout extends PureComponent {
         sidebarSize: localStorage.getItem('size'),
         layout: ''
     };
+
 
     updateWidth = () => {
         this.setState(prevState => ({
@@ -46,6 +55,9 @@ class MainLayout extends PureComponent {
     }
 
     componentDidMount() {
+        this.props.getPages()
+        this.props.getPermissions()
+        this.props.getTools()
         if (window !== "undefined") {
             window.addEventListener("resize", this.updateWidth, false);
         }
@@ -64,6 +76,13 @@ class MainLayout extends PureComponent {
     render() {
         return (
             <FoldedContentProvider>
+                <ProminentAppBar
+                    position={'sticky'}
+                    name={'Barcode.am'}
+                    searchIcon={false}
+                    data={this.props.pages}
+                    permissions={this.props.permissions}
+                />
                 <FoldedContentConsumer>
                     {context => (
 
@@ -80,16 +99,16 @@ class MainLayout extends PureComponent {
                             })}
                         >
 
-                            <Sidebar
-                                toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}
-                                sidebarState={this.state.sidebarState}
-                                handleSidebarSize={this.handleSidebarSize.bind(this)}
-                                handleLayout={this.handleLayout.bind(this)}
-                            />
-                            <Navbar
-                                toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}
-                                sidebarState={this.state.sidebarState}
-                            />
+                            {/*<Sidebar*/}
+                            {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
+                            {/*    sidebarState={this.state.sidebarState}*/}
+                            {/*    handleSidebarSize={this.handleSidebarSize.bind(this)}*/}
+                            {/*    handleLayout={this.handleLayout.bind(this)}*/}
+                            {/*/>*/}
+                            {/*<Navbar*/}
+                            {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
+                            {/*    sidebarState={this.state.sidebarState}*/}
+                            {/*/>*/}
                             <main>{this.props.children}</main>
                             <Footer/>
                         </div>
@@ -102,12 +121,17 @@ class MainLayout extends PureComponent {
 
 const mapStateToProps = state => ({
     size: state.customizer.sidebarSize.size,
+    pages: state.pages.data,
+    permissions: state.permission.data
 });
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            sidebarSize
+            sidebarSize,
+            getPages,
+            getPermissions,
+            getTools
         },
         dispatch
     );

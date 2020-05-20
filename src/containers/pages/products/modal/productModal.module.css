@@ -1,0 +1,17 @@
+.imagesArea {
+    position: relative;
+}
+
+.ctrlsBtns {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.53);
+    border-radius: 3px;
+}
+
+.mainImage {
+    height: 53px !important;
+    display: none !important;
+}

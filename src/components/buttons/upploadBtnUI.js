@@ -2,6 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core/styles';
 import Translate from "../../Translate";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import ButtonUi from "./buttonUi";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -19,11 +21,19 @@ export default function UploadButton(props) {
 
     return (
         <>
-            <label htmlFor="contained-button-file">
+            <label htmlFor="contained-button-file"
+                   style={{
+                       margin: 0,
+                       padding: 0,
+                       borderRadius: '3px'
+                   }}
+            >
                 <Button
                     style={{
                         padding: props.padding,
                         margin: props.margin,
+                        height: props.height,
+                        width: props.width
                     }}
                     component="span"
                     variant={props.variant}
@@ -32,7 +42,10 @@ export default function UploadButton(props) {
                     startIcon={props.icon}
                     multiple={props.multiple}
                 >
-                    <Translate name={props.label}/>
+                    <AddToPhotosIcon
+                        fontSize={'small'}
+                        className='mr-1'
+                    />
                 </Button>
             </label>
             <input

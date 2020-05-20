@@ -17,7 +17,6 @@ class UserContainer extends Component {
                 <Col sm="12">
                     <Card>
                         <CardBody>
-                            <AddButton perm = {this.props.perm}  onClick={() => this.props.toggleModal("add")} />{" "}
                             <ContentTable {...this.props} />
                             {/*<TableComponent {...this.props} />*/}
                         </CardBody>
