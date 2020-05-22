@@ -20,7 +20,8 @@ import {
     toggleSwitchValue,
     toggleCheckBoxValue,
     changePageSize,
-    addSearchText
+    addSearchText,
+    editabledProduct
 } from "../../../redux/products/actions";
 import {
     supplierActions
@@ -67,7 +68,8 @@ const mapDispatchToProps = dispatch => {
             toggleSwitchValue,
             toggleCheckBoxValue,
             changePageSize,
-            addSearchText
+            addSearchText,
+            editabledProduct
         },
         dispatch
     );
@@ -77,6 +79,7 @@ const mapStateToProps = state => {
     return {
         modal: state.products.modal,
         products: state.products.products,
+        editabledStatus: state.products.editabledStatus,
         product: state.products.product,
         group: state.products.group,
         advancedSearchText: state.products.advancedSearchText,
@@ -99,6 +102,7 @@ const mapStateToProps = state => {
             active:state.languages.active
         },
         uploadedImages: state.todo.images,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
 
     }
 };

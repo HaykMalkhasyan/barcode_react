@@ -13,6 +13,7 @@ const SupplierModal = (props) => {
     return (
         <React.Fragment>
             <Modal
+                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                 isOpen={props.modal[props.type]}
                 toggle={
                     () => {

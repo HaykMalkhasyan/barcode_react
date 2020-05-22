@@ -17,7 +17,7 @@ class ThemeNavbar extends Component{
                 <DropdownMenu right>
 
                     {this.props.languages.map((value, index) =>
-                        <DropdownItem key={value.code} onClick={() => {
+                        <DropdownItem style={{color: this.props.headerFontColor, transaction: '500ms'}} key={value.code} onClick={() => {
                             this.props.setLanguage(value.code);
                             this.props.getTranslations()
                         }}>

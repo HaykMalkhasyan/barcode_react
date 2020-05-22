@@ -18,6 +18,7 @@ class MenuContainer extends Component {
                     <CardBody>
                         <AddButton perm={this.props.perm} onClick={() => this.props.toggleModal("add", 0)}/>{" "}
                         <TableComponent
+                            sectionFontColor={this.props.sectionFontColor}
                             data={this.props.dataMenus}
                             toggleModal={this.props.toggleModal}
                             actions={this.props.menuActions}

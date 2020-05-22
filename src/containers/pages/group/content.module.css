@@ -83,8 +83,8 @@
 
 .buildBtn {
     position: absolute !important;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     border-radius: 50% !important;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .35) inset;
     transform: rotate(0);

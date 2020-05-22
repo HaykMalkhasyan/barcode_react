@@ -6,7 +6,10 @@ import EditButton from "../../../components/buttons/editButton";
 const CurrencyTable = (props) => {
     if (props.data) {
         return (
-            <Table responsive>
+            <Table
+                responsive
+                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+            >
                 <thead>
                 <tr>
                     <th>#</th>

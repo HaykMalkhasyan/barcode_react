@@ -80,6 +80,7 @@ const mapStateToProps = state => {
         searchResItem: state.group.searchResItem,
         editabled: state.group.editabled,
         collapsedStatus: state.group.collapsedStatus,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
 
     }
 };

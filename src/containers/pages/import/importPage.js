@@ -56,6 +56,7 @@ class ImportPage extends Component {
                 <Col sm={12}>
                     <Card>
                         <HeaderComponent
+                            sectionFontColor={this.props.sectionFontColor}
                             file={this.state.file}
                             error={this.props.error}
                             onChange={this.importExelHandler}
@@ -65,6 +66,7 @@ class ImportPage extends Component {
                                 <>
                                     <BodyComponent
                                         // DATA
+                                        sectionFontColor={this.props.sectionFontColor}
                                         formData={this.props.formData}
                                         formDataValue={this.props.formDataValue}
                                         //METHODS

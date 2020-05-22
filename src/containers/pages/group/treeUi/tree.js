@@ -164,13 +164,19 @@ export default function CustomizedTreeView(props) {
                     if (parseInt(groupId) === parseInt(group_id)) {
 
                         return (
-                            <li key={item.id}>
+                            <li key={item.id} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                     <span
                                         onClick={() => toggle(item.id)}
                                         onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
                                         style={{
                                             marginBottom: '1rem',
-                                            color: colorHandler(item.id)
+                                            color: colorHandler(item.id) === '#666' ?
+                                                props.sectionFontColor ?
+                                                    props.sectionFontColor
+                                                    :
+                                                    colorHandler(item.id)
+                                                :
+                                                colorHandler(item.id)
                                         }}
                                     >
                                         {
@@ -327,7 +333,7 @@ export default function CustomizedTreeView(props) {
                 <li className={styls.borderLine}>
                     <span
                         onClick={() => toggle(props.mainId)}
-                        style={{
+                        style={props.sectionFontColor ? {color: props.sectionFontColor, marginBottom: '1rem'} : {
                             marginBottom: '1rem'
                         }}
                     >
@@ -360,7 +366,13 @@ export default function CustomizedTreeView(props) {
                                                                 onContextMenu={event => myContextMenu(event, item.group_id.id, item.id)}
                                                                 style={{
                                                                     marginBottom: '1rem',
-                                                                    color: colorHandler(item.id)
+                                                                    color: colorHandler(item.id) === '#666' ?
+                                                                        props.sectionFontColor ?
+                                                                            props.sectionFontColor
+                                                                            :
+                                                                            colorHandler(item.id)
+                                                                        :
+                                                                        colorHandler(item.id)
                                                                 }}
                                                             >
                                                                 {

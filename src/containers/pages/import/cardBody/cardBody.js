@@ -26,6 +26,7 @@ const BodyComponent = props => {
                         key={item.id}
                     >
                         <InputUi
+                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                             margin={item.error ? 0 : '0 0 24px'}
                             label={item.name}
                             type={'number'}
@@ -51,7 +52,7 @@ const BodyComponent = props => {
 
     return (
         <CardBody>
-            <h4 className='pb-2'>
+            <h4 className='pb-2' style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                 <FormatListNumberedIcon fontSize={'large'}/>
                 <Translate name={'It is necessary to indicate the numbers of the sections in the corresponding field'}/>
             </h4>

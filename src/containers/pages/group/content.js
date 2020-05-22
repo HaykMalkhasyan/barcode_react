@@ -57,7 +57,9 @@ class ContentTable extends Component {
                     color={this.props.editabled ? 'primary' : 'default'}
                     onClick={this.props.toggleEditebled}
                 />
-                <header className={classes.header}>
+                <header
+                    className={classes.header}
+                >
                     {
                         this.props.groups ?
                             this.props.groups.map(
@@ -130,7 +132,7 @@ class ContentTable extends Component {
                 <nav className={classes.nav}>
 
                     <TextFields
-                        label={<Translate name={'Search'}/>}
+                        label={<Translate name={'Search'} />}
                         name={'search'}
                         value={this.props.search ? this.props.search.value : ''}
                         onChange={
@@ -185,6 +187,7 @@ class ContentTable extends Component {
                             this.props.group ?
                                 this.props.group.id ?
                                     <CustomizedTreeView
+                                        sectionFontColor={this.props.sectionFontColor}
                                         subGroupActions={this.props.subGroupActions}
                                         subGroupsCollapseStatus={this.props.subGroupsCollapseStatus}
                                         collapsedStatus={this.props.collapsedStatus}

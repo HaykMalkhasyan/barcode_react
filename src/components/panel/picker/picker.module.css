@@ -1,0 +1,136 @@
+.colorArea {
+    margin: 5px auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.colorWindow {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.colorWindow > label {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .24) inset;
+}
+
+.colorWindow > label input[type=radio] {
+    display: none;
+    box-sizing: border-box;
+}
+
+.radioCheked {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.checked:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .24);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .6) inset;
+}
+
+.checkedBefore:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .6) inset;
+}
+
+
+.radioCheked:checked {
+    border: 1px solid #fff;
+}
+
+.colorRed {
+    background-color: #801313;
+}
+
+.colorPink {
+    background-color: #5f0937;
+}
+
+.colorPurple {
+    background-color: #330e62;
+}
+
+.colorDeepPurple {
+    background-color: #221266;
+}
+
+.colorIndigo {
+    background-color: #121858;
+}
+
+.colorBlue {
+    background-color: #093170;
+}
+
+.colorLightBlue {
+    background-color: #003c6c;
+}
+
+.colorCyan {
+    background-color: #004346;
+}
+
+.colorTeal {
+    background-color: #00352c;
+}
+
+.colorGreen {
+    background-color: #124116;
+}
+
+.colorLightGreen {
+    background-color: #234915;
+}
+
+.colorLime {
+    background-color: #5b5310;
+}
+
+.colorYellow {
+    background-color: #ab5810;
+}
+
+.colorAmber {
+    background-color: #b24d00;
+}
+
+.colorOrange {
+    background-color: #a13800;
+}
+
+.colorDeepOrange {
+    background-color: #852508;
+}

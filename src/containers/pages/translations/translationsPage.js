@@ -58,6 +58,7 @@ class MenuContainer extends Component {
                             />
                         </div>
                         <TableComponent
+                            sectionFontColor={this.props.sectionFontColor}
                             getTranslationPage={this.props.getTranslationPage}
                             activeTranslationLang={this.props.activeTranslationLang}
                             itemsCountPerPage={this.props.itemsCountPerPage}

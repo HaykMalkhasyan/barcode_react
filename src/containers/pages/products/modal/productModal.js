@@ -6,7 +6,7 @@ import {
     CustomInput,
     Form,
     FormGroup,
-    Input,
+    Input, InputGroup,
     Label,
     Modal,
     ModalBody,
@@ -206,12 +206,12 @@ const ProductModal = (props) => {
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
-                <ModalBody>Դուք համոզված ե՞ք ջնջել</ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>Դուք համոզված ե՞ք ջնջել</ModalBody>
             )
 
         } else {
             return (
-                <ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                     <Row>
                         <Col md="12">
                             <div className="px-3">
@@ -330,9 +330,10 @@ const ProductModal = (props) => {
                                                 </FormGroup>
 
                                                 <FormGroup row>
-                                                    <Label for="sku" sm={4}><Translate name={"sku"}/></Label>
+                                                    <Label for="sku" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"sku"}/></Label>
                                                     <Col sm={8}>
                                                         <Input
+                                                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                                             type="text"
                                                             id="sku"
                                                             value={props.product.sku ? props.product.sku || '' : ''}
@@ -342,9 +343,10 @@ const ProductModal = (props) => {
                                                 </FormGroup>
 
                                                 <FormGroup row>
-                                                    <Label for="name" sm={4}><Translate name={"name"}/></Label>
+                                                    <Label for="name" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"name"}/></Label>
                                                     <Col sm={8}>
                                                         <Input
+                                                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                                             type="text"
                                                             id="name"
                                                             value={props.product.name ? props.product.name || '' : ''}
@@ -354,9 +356,10 @@ const ProductModal = (props) => {
                                                 </FormGroup>
 
                                                 <FormGroup row>
-                                                    <Label for="points" sm={4}><Translate name={"points"}/></Label>
+                                                    <Label for="points" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"points"}/></Label>
                                                     <Col sm={8}>
                                                         <Input
+                                                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                                             type="number"
                                                             min={0}
                                                             id="points"
@@ -371,8 +374,8 @@ const ProductModal = (props) => {
                                                     row
                                                     className="justify-content-end"
                                                 >
-                                                    <Label for="measurement" sm={4}><Translate
-                                                        name={"measurement"}/></Label>
+                                                    <Label for="measurement" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                                                        <Translate name={"measurement"}/></Label>
                                                     <Col
                                                         sm={8}
                                                     >
@@ -389,7 +392,7 @@ const ProductModal = (props) => {
 
                                                 <FormGroup row
                                                            style={{marginBottom: '14px', justifyContent: 'flex-end'}}>
-                                                    <Label for="active" sm={'auto'}><Translate name={"active"}/></Label>
+                                                    <Label for="active" sm={'auto'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"active"}/></Label>
                                                     <Col sm={'auto'}>
                                                         <CustomInput
                                                             type="checkbox"
@@ -421,7 +424,7 @@ const ProductModal = (props) => {
     return (
         <React.Fragment>
             <Modal isOpen={props.modal[props.type]} toggle={() => props.toggleModal(props.type)} size="xl">
-                <ModalHeader toggle={() => props.toggleModal(props.type)}><Translate name="addProduct"/></ModalHeader>
+                <ModalHeader toggle={() => props.toggleModal(props.type)} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name="addProduct"/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
                     {

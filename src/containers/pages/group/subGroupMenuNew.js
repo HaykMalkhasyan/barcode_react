@@ -86,6 +86,7 @@ const Menu = props => {
                 props.data && props.data.length > 0 ?
 
                     <TreeView
+                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                         className={classes.root}
                         defaultCollapseIcon={<FolderIcon
                             style={{

@@ -25,6 +25,7 @@ import Translate from "../../Translate";
 import {getPages} from "../../redux/pages/actions";
 import {getPermissions, getTools} from "../../redux/permission/actions";
 import ProminentAppBar from "../../components/navbar/navbar";
+import TemporaryDrawer from "../../components/panel/panel";
 // import {getPages} from "../../redux/pages/actions";
 // import {getPermissions} from "../../redux/permission/actions";
 
@@ -75,52 +76,66 @@ class MainLayout extends PureComponent {
 
     render() {
         return (
-            <FoldedContentProvider>
-                <ProminentAppBar
-                    position={'sticky'}
-                    name={'Barcode.am'}
-                    searchIcon={false}
-                    data={this.props.pages}
-                    permissions={this.props.permissions}
+            <>
+                <TemporaryDrawer
+                    type={'right'}
                 />
-                <FoldedContentConsumer>
-                    {context => (
+                <FoldedContentProvider>
 
-                        <div
-                            className={classnames("wrapper ", {
-                                "menu-collapsed": context.foldedContent || this.state.width < 991,
-                                "main-layout": !context.foldedContent,
-                                [`${templateConfig.sidebar.size}`]: (this.state.sidebarSize === ''),
-                                [`${this.state.sidebarSize}`]: (this.state.sidebarSize !== ''),
-                                //    "layout-dark": (this.state.layout === 'layout-dark'),
-                                //    " layout-dark": (this.state.layout === '' && templateConfig.layoutDark === true)
-                                [`${templateConfig.layoutColor}`]: (this.state.layout === ''),
-                                [`${this.state.layout}`]: (this.state.layout !== '')
-                            })}
-                        >
+                    <ProminentAppBar
+                        headerBackgroundColor={this.props.headerBackgroundColor}
+                        headerIconColor={this.props.headerIconColor}
+                        headerFontColor={this.props.headerFontColor}
+                        position={'sticky'}
+                        name={'Barcode.am'}
+                        searchIcon={false}
+                        data={this.props.pages}
+                        permissions={this.props.permissions}
+                    />
+                    <FoldedContentConsumer>
+                        {context => (
 
-                            {/*<Sidebar*/}
-                            {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
-                            {/*    sidebarState={this.state.sidebarState}*/}
-                            {/*    handleSidebarSize={this.handleSidebarSize.bind(this)}*/}
-                            {/*    handleLayout={this.handleLayout.bind(this)}*/}
-                            {/*/>*/}
-                            {/*<Navbar*/}
-                            {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
-                            {/*    sidebarState={this.state.sidebarState}*/}
-                            {/*/>*/}
-                            <main>{this.props.children}</main>
-                            <Footer/>
-                        </div>
-                    )}
-                </FoldedContentConsumer>
-            </FoldedContentProvider>
+                            <div
+                                style={{backgroundColor: this.props.backgroundColor, transition: '500ms'}}
+                                className={classnames({
+                                    "menu-collapsed": context.foldedContent || this.state.width < 991,
+                                    "main-layout": !context.foldedContent,
+                                    [`${templateConfig.sidebar.size}`]: (this.state.sidebarSize === ''),
+                                    [`${this.state.sidebarSize}`]: (this.state.sidebarSize !== ''),
+                                    //    "layout-dark": (this.state.layout === 'layout-dark'),
+                                    //    " layout-dark": (this.state.layout === '' && templateConfig.layoutDark === true)
+                                    [`${templateConfig.layoutColor}`]: (this.state.layout === ''),
+                                    [`${this.state.layout}`]: (this.state.layout !== '')
+                                })}
+                            >
+
+                                {/*<Sidebar*/}
+                                {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
+                                {/*    sidebarState={this.state.sidebarState}*/}
+                                {/*    handleSidebarSize={this.handleSidebarSize.bind(this)}*/}
+                                {/*    handleLayout={this.handleLayout.bind(this)}*/}
+                                {/*/>*/}
+                                {/*<Navbar*/}
+                                {/*    toggleSidebarMenu={this.toggleSidebarMenu.bind(this)}*/}
+                                {/*    sidebarState={this.state.sidebarState}*/}
+                                {/*/>*/}
+                                <main>{this.props.children}</main>
+                                <Footer/>
+                            </div>
+                        )}
+                    </FoldedContentConsumer>
+                </FoldedContentProvider>
+            </>
         );
     }
 }
 
 const mapStateToProps = state => ({
     size: state.customizer.sidebarSize.size,
+    backgroundColor: state.customizer.sidebarSize.backgroundColor,
+    headerBackgroundColor: state.customizer.sidebarSize.headerBackgroundColor,
+    headerIconColor: state.customizer.sidebarSize.headerIconColor,
+    headerFontColor: state.customizer.sidebarSize.headerFontColor,
     pages: state.pages.data,
     permissions: state.permission.data
 });

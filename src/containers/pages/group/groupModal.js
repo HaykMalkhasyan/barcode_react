@@ -7,7 +7,9 @@ const GroupModal = (props) => {
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
-                <ModalBody>Դուք համոզված ե՞ք ջնջել</ModalBody>
+                <ModalBody
+                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+                >Դուք համոզված ե՞ք ջնջել</ModalBody>
             )
         } else {
             return (
@@ -18,8 +20,9 @@ const GroupModal = (props) => {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="name"><Translate name={"name"}/></Label>
+                        <Label for="name" style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"name"}/></Label>
                         <input
+                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                             className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                             type="text"
                             id="name"
@@ -38,8 +41,9 @@ const GroupModal = (props) => {
 
         <React.Fragment>
             <Modal isOpen={props.modal[props.type]} toggle={() => props.toggleModal(props.type)} size="md">
-                <ModalHeader toggle={() => props.toggleModal(props.type)}><Translate
-                    name={props.type + "Group"}/></ModalHeader>
+                <ModalHeader toggle={() => props.toggleModal(props.type)} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                    <Translate name={props.type + "Group"}/>
+                </ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
                     <Button

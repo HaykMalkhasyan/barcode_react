@@ -42,6 +42,7 @@ const mapStateToProps = state => {
         totalItemsCount: state.languages.totalItemsCount,
         activePage: state.languages.activePage,
         activeTranslationLang: state.languages.activeTranslationLang,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
     }
 };
 

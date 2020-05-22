@@ -1,0 +1,56 @@
+.anchorBtn {
+    min-width: auto !important;
+    position: fixed !important;
+    top: 50%;
+    right: 0;
+    z-index: 2;
+    transform: translateY(-50%);
+    transition: 225ms !important;
+    padding: 20px 10px !important;
+    border-radius: 5px 0 0 5px !important;
+    outline: none !important;
+    animation: changeColor 3s ease-in-out alternate infinite !important;
+    transition: 225ms;
+}
+
+.anchorBtnOpened {
+    right: 402px;
+}
+
+.backDrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    display: none;
+}
+
+.backDropOpened {
+    display: block;
+}
+
+@keyframes changeColor {
+    from {
+        background-color: #f50057;
+    }
+
+    to {
+        background-color: #00bcd4;
+    }
+}
+
+.imgWindow {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.customizationImage {
+    width: 80%;
+    margin: 5px auto 20px;
+    display: block;
+}

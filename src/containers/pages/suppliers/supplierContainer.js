@@ -60,6 +60,7 @@ const mapStateToProps = state => {
         companyTypes: state.suppliers.companyTypes,
         currency: state.suppliers.currency,
         checkValueStatus: state.suppliers.checkValueStatus,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
     }
 };
 

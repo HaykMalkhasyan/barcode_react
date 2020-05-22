@@ -48,7 +48,8 @@ const ModalExample = props => {
             <Row>
                 <Col sm="11" className="mr-0 mb-0">
                     <Input type="text" readOnly="readOnly"
-                           value={props.product.groups && props.product.groups[props.dataId] ? roadRender(props.product.groups[props.dataId], props.group.name) : ""}
+                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+                           value={props.product.groups ? roadRender(props.product.groups[props.dataId], props.group.name) : ""}
                            placeholder={props.name}/>
                 </Col>
                 <Col sm="1" className="ml-0 mb-0">
@@ -63,11 +64,12 @@ const ModalExample = props => {
                 toggle={toggle}
                 className={props.className}
             >
-                <ModalHeader toggle={toggle}>{props.name}</ModalHeader>
+                <ModalHeader toggle={toggle} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.name}</ModalHeader>
                 <ModalBody>
                     {
                         props.productGroups.length ?
                             <GroupTabContent
+                                sectionFontColor={props.sectionFontColor}
                                 data={props.productGroups}
                                 group={props.group}
                                 lang={props.lang}

@@ -33,6 +33,7 @@ const mapStateToProps = state => {
         setCurrency: state.currency.setCurrency,
         isOpen: state.currency.isOpen,
         formValidate: state.currency.formValidate,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
     }
 };
 

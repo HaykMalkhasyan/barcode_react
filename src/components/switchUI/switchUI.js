@@ -7,7 +7,8 @@ export default function SwitchesUi(props) {
     return (
         <label
             style={{
-                userSelect: 'none'
+                userSelect: 'none',
+                marginBottomL: props.mBottom
             }}
         >
             <Translate name={props.label}/>

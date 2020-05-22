@@ -9,8 +9,8 @@ const UserTable = (props) => {
     if (props.data && props.data.length) {
         return (
             <>
-                <h4><Translate name={'Existing users'}/></h4>
-                <Table responsive className='mb-5'>
+                <h4 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Existing users'}/></h4>
+                <Table responsive className='mb-5' style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                     <thead>
                     <tr>
                         <th>#</th>
@@ -79,10 +79,10 @@ const UserTable = (props) => {
                     </tbody>
 
                 </Table>
-                <h4><Translate name={'Deleted users'}/></h4>
+                <h4 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Deleted users'}/></h4>
                 <Table responsive>
                     <thead>
-                    <tr>
+                    <tr style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <th>#</th>
                         <th><Translate name={'email'}/></th>
                         <th><Translate name={'username'}/></th>

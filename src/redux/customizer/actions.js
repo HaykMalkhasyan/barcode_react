@@ -34,3 +34,20 @@ export const sidebarSize = size => ({
     size
 })
 
+export function setColor(name, color) {
+
+    return {
+        type: 'set__color',
+        name,
+        color
+    }
+}
+
+export function restorColor(name, color) {
+
+    return {
+        type: 'reset__color',
+        name,
+        color
+    }
+}

@@ -19,13 +19,13 @@ export default class TableComponent extends React.Component {
             key => {
                 if (key === 'icon') {
                     return (
-                        <td key={key}>
+                        <td key={key} style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                             {item[key]}
                         </td>
                     )
                 }
                 return (
-                    <td key={key}>
+                    <td key={key} style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                         {
 
 
@@ -44,8 +44,8 @@ export default class TableComponent extends React.Component {
         return (
             <Table responsive>
                 <thead>
-                <tr>
-                    <td>#</td>
+                <tr style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
+                    <td >#</td>
                     <td><Translate name={'Name'}/></td>
                     <td><Translate name={'Icon'}/></td>
                     <td><Translate name={'E/D'}/></td>

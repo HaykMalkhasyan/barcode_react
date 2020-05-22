@@ -26,7 +26,7 @@ class LogoutContainer extends Component {
 
     render() {
         return (
-                <DropdownItem onClick={this.onSubmit}>
+                <DropdownItem style={{color: this.props.headerFontColor, transition: '500ms'}} onClick={this.onSubmit}>
                     <LogOut size={16} className="mr-1" /> <Translate name={'Logout'} />
                 </DropdownItem>
         );

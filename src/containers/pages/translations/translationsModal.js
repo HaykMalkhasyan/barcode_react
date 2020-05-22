@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter, ModalHeader, Modal} from "reactstrap";
+import {Col, Row, FormGroup, Label, Button, ModalBody, ModalFooter, ModalHeader, Modal, CardBody} from "reactstrap";
 import Translate from "../../../Translate";
 // import {translationActions} from "../../../redux/lang/actions";
 
@@ -7,16 +7,16 @@ const menuModal = (props) => {
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
-                <ModalBody><Translate name={'Դուք համոզված ե՞ք ջնջել'}/></ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Դուք համոզված ե՞ք ջնջել'}/></ModalBody>
             )
         } else {
             return (
-                <ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                     <Row>
                         <Col md="12">
                             <span>
                                 <i style={{color: '#666'}}>
-                                    <small>
+                                    <small style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                         <Translate name={'language'}/>
                                     </small>
                                 </i>
@@ -25,6 +25,7 @@ const menuModal = (props) => {
                             <FormGroup>
                                 <Label for="name"><Translate name="key"/></Label>
                                 <input
+                                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                     disabled={true}
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
@@ -38,6 +39,7 @@ const menuModal = (props) => {
                             <FormGroup>
                                 <Label for="name"><Translate name="value"/></Label>
                                 <input
+                                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
                                     id="value"
@@ -59,7 +61,7 @@ const menuModal = (props) => {
             <Modal isOpen={props.modal[props.type]}
                    toggle={() => props.toggleTranslationModal(props.type, props.translation.id)}
                    size="md">
-                <ModalHeader toggle={() => props.toggleTranslationModal(props.type, props.translation.id)}><Translate
+                <ModalHeader toggle={() => props.toggleTranslationModal(props.type, props.translation.id)} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
                     name={props.type}/></ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>

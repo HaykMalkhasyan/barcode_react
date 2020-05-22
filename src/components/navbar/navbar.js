@@ -5,11 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Icon from "../../containers/layouts/components/sidebar/sidemenu/icons";
 import Translate from "../../Translate";
-import {NavLink} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import Localize from "../../containers/localize/localizeContainer";
 import {Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, UncontrolledDropdown} from "reactstrap";
 import CollapseUi from '@material-ui/core/Collapse';
@@ -19,25 +18,25 @@ import SessionStorage from "../../services/SessionStorage";
 import SettingsIcon from '@material-ui/icons/Settings';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props) => (
-    <Menu
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
+// const StyledMenu = withStyles({
+//     paper: {
+//         border: '1px solid #d3d4d5',
+//     },
+// })((props) => (
+//     <Menu
+//         elevation={0}
+//         getContentAnchorEl={null}
+//         anchorOrigin={{
+//             vertical: 'bottom',
+//             horizontal: 'center',
+//         }}
+//         transformOrigin={{
+//             vertical: 'top',
+//             horizontal: 'center',
+//         }}
+//         {...props}
+//     />
+// ));
 
 const StyledMenuItem = withStyles((theme) => ({
     root: {
@@ -69,9 +68,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProminentAppBar(props) {
+const ProminentAppBar = props => {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [isOpen, setIsOpen] = useState(false)
     const [user] = useState(SessionStorage.get("user"))
 
@@ -86,17 +84,17 @@ export default function ProminentAppBar(props) {
                 return <div></div>
             } else {
                 return (
-                    <StyledMenuItem key={key} className='my-2 mx-1'>
+                    <StyledMenuItem key={key} className='my-2 mx-1' style={props.match.path === `/${props.data[key].name.trim()}` ? {borderBottom: '1px solid rgba(0, 0, 0, .1)'} : null}>
                         <NavLink
                             to={`/${props.data[key].name.trim()}`}
                             className={cls.navLink}
                             activeClassName={cls.active}
                             onClick={() => setIsOpen(false)}
                         >
-                            <i className="menu-icon">
+                            <i className="menu-icon" style={props.headerIconColor ? {color: props.headerIconColor, transition: '500ms'} : null}>
                                 <Icon tag={props.data[key].icon.trim()}/>
                             </i>
-                            <span className="menu-item-text d-none d-md-inline"><Translate name={props.data[key].name.trim()}/></span>
+                            <span className="menu-item-text d-none d-md-inline" style={props.headerFontColor ? {color: props.headerFontColor, transition: '500ms'} : null}><Translate name={props.data[key].name.trim()}/></span>
                         </NavLink>
                     </StyledMenuItem>
                 )
@@ -104,33 +102,39 @@ export default function ProminentAppBar(props) {
         }
 
     }
-
     return (
         <AppBar
             color={'inherit'}
             position={props.position}
             style={{
                 zIndex: 14,
-                paddingTop: 10
+                paddingTop: 10,
+                backgroundColor: props.headerBackgroundColor,
+                transition: '500ms',
+                color: props.headerFontColor
             }}
         >
             <h3
                 className='p-0 mx-1 my-0 d-block d-lg-none'
                 style={{
                     alignSelf: 'flex-start',
-                    fontWeight: 100
+                    fontWeight: 100,
+                    transition: '500ms',
+                    color: props.headerFontColor
                 }}
             >
                 {props.name}
             </h3>
-            <Toolbar className={classes.toolbar} style={{minHeight: 'auto'}}>
+            <Toolbar className={classes.toolbar} style={{minHeight: 'auto', transition: '500ms'}}>
                 <h3
                     className='p-2 mr-2 d-none d-lg-inline'
                     style={{
                         alignSelf: 'flex-start',
                         fontWeight: 100,
                         borderRight: '1px solid #d5d5d5',
-                        userSelect: 'none'
+                        userSelect: 'none',
+                        transition: '500ms',
+                        color: props.headerFontColor
                     }}
                 >
                     {props.name}
@@ -138,7 +142,7 @@ export default function ProminentAppBar(props) {
                 {
                     props.searchIcon ?
                         <IconButton aria-label="search" color="inherit">
-                            <SearchIcon/>
+                            <SearchIcon style={{color: props.headerIconColor, transition: '500ms'}}/>
                         </IconButton>
                         :
                         null
@@ -166,31 +170,31 @@ export default function ProminentAppBar(props) {
                 >
                     {
                         !isOpen ?
-                            <SettingsIcon/>
+                            <SettingsIcon style={{color: props.headerIconColor, transition: '500ms'}}/>
                             :
-                            <SettingsApplicationsIcon/>
+                            <SettingsApplicationsIcon style={{color: props.headerIconColor, transition: '500ms'}}/>
                     }
-                    <span className="menu-item-text d-none d-md-inline">
+                    <span className="menu-item-text d-none d-md-inline" style={{color: props.headerFontColor, transition: '500ms'}}>
                         <Translate name={'Settings'}/>
                     </span>
                 </StyledMenuItem>
                 <div className="ml-auto py-2 py-sm-0">
                     <Collapse isOpen={true} navbar>
                         <Nav className="d-flex p-0 m-0">
-                            <Localize/>
+                            <Localize headerFontColor={props.headerFontColor} />
                             <UncontrolledDropdown nav inNavbar className="p-0">
                                 <DropdownToggle nav>
                                     <img src={userImage} alt="logged-in-user" className="rounded-circle width-35" />
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
-                                 <span className="font-small-3">
+                                 <span className="font-small-3" style={{color: props.headerFontColor, transition: '500ms'}}>
                                     {user.firstname} {user.lastname} <span className="text-muted">({user.position})</span>
                                  </span>
                                     </DropdownItem>
                                     <DropdownItem divider />
 
-                                    <LogoutComponent/>
+                                    <LogoutComponent headerFontColor={props.headerFontColor}/>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
@@ -198,18 +202,18 @@ export default function ProminentAppBar(props) {
                 </div>
             </Toolbar>
             <CollapseUi in={isOpen} timeout="auto" unmountOnExit>
-            <Toolbar>
-                <StyledMenuItem>
+                <hr style={{width: '97%', borderColor: '#eee', marginBottom: 0, marginTop: 0}}/>
+                <Toolbar>
+                <StyledMenuItem style={props.match.path === `/menu` ? {borderBottom: '1px solid rgba(0, 0, 0, .1)'} : null}>
                     <NavLink
                         to={`/menu`}
                         className={cls.navLink}
                         activeClassName={cls.active}
-                        onClick={() => setIsOpen(false)}
                     >
-                        <i className="menu-icon">
+                        <i className="menu-icon" style={props.headerIconColor ? {color: props.headerIconColor, transition: '500ms'} : null}>
                             <Icon tag={"Edit"}/>
                         </i>
-                        <span className="menu-item-text d-none d-lg-inline"><Translate name={'EditMenu'}/></span>
+                        <span className="menu-item-text d-none d-lg-inline" style={{color: props.headerFontColor, transition: '500ms'}}><Translate name={'EditMenu'}/></span>
                     </NavLink>
                 </StyledMenuItem>
                 {
@@ -218,17 +222,16 @@ export default function ProminentAppBar(props) {
                             if (item.name === 'translations' || item.name === 'suppliers' || item.name === 'positions' || item.name === 'Currency' || item.name === 'Import') {
 
                                 return (
-                                    <StyledMenuItem key={item.id}>
+                                    <StyledMenuItem key={item.id} style={props.match.path === `/${item.name.toLowerCase().trim()}` ? {borderBottom: '1px solid rgba(0, 0, 0, .1)'} : null}>
                                         <NavLink
-                                            to={`/${item.name.trim()}`}
+                                            to={`/${item.name.toLowerCase().trim()}`}
                                             className={cls.navLink}
                                             activeClassName={cls.active}
-                                            onClick={() => setIsOpen(false)}
                                         >
-                                            <i className="menu-icon">
+                                            <i className="menu-icon" style={props.headerIconColor ? {color: props.headerIconColor, transition: '500ms'} : null}>
                                                 <Icon tag={item.icon.trim()}/>
                                             </i>
-                                            <span className="menu-item-text d-none d-md-inline"><Translate name={item.name.trim()}/></span>
+                                            <span className="menu-item-text d-none d-md-inline" style={props.headerFontColor ? {color: props.headerFontColor, transition: '500ms'} : null}><Translate name={item.name.trim()}/></span>
                                         </NavLink>
                                     </StyledMenuItem>
                                 )
@@ -244,3 +247,5 @@ export default function ProminentAppBar(props) {
         </AppBar>
     );
 }
+
+export default withRouter(ProminentAppBar)

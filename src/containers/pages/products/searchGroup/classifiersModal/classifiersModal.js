@@ -25,15 +25,13 @@ const ClassifiersModal = props => {
     }
 
     return (
-        <Modal
-            isOpen={props.classifiersModal}
-            size='md'
-            toggle={toggleModal}
+        <div
+            style={{
+                padding: 5
+            }}
         >
-            <ModalHeader>
-                <Translate name={'Classifiers'}/>
-            </ModalHeader>
             <ModalBody>
+                <h5 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Classifiers'}/></h5>
                 <header className={classes.mBodyHeader}>
                     {
                         props.groups && props.groups.length ?
@@ -69,6 +67,7 @@ const ClassifiersModal = props => {
                         props.group && props.subGroups ?
                             <ClassifiersTreeViewer
                                 // DATA
+                                sectionFontColor={props.sectionFontColor}
                                 data={props.subGroups}
                                 group={props.group}
                                 // METHODS
@@ -106,7 +105,7 @@ const ClassifiersModal = props => {
                     :
                     null
             }
-        </Modal>
+        </div>
     )
 }
 

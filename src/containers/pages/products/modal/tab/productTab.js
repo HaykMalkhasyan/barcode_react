@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Col, FormGroup, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
+import {Col, FormGroup, Input, InputGroup, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
 import classnames from "classnames";
 import Translate from "../../../../../Translate";
 import MultiSelect from "../../../../../components/select/multiSelect"
@@ -8,13 +8,11 @@ import GroupModal from "./group/groupModal";
 // import DropdownComponent from "../../../../../components/dropdown/dropdown";
 // import {setModalValues} from "../../../../../redux/products/actions";
 import CodeContent from "./code/content";
-import UploadButton from "../../../../../components/buttons/upploadBtnUI";
 import classes from './productTab.module.css';
 import ButtonUi from "../../../../../components/buttons/buttonUi";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import * as Icon from 'react-feather'
-import ImageIcon from "@material-ui/icons/Image";
 
 class TabsBorderBottom extends Component {
 
@@ -192,20 +190,11 @@ class TabsBorderBottom extends Component {
                             <Translate name={"description"}/>
                         </NavLink>
                     </NavItem>
-                    <NavItem>
-                        <NavLink
-                            className={classnames({
-                                active: this.state.activeTab === "images"
-                            })}
-                            onClick={() => {
-                                this.toggle("images");
-                            }}
-                        >
-                            <Translate name={"images"}/>
-                        </NavLink>
-                    </NavItem>
                 </Nav>
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent
+                    activeTab={this.state.activeTab}
+                    style={{height: '230px', overflowY: 'auto'}}
+                >
                     <TabPane tabId="classifiers">
                         {
                             this.props.groups.length ?
@@ -222,6 +211,7 @@ class TabsBorderBottom extends Component {
                                             </Col>
                                             <Col md={9}>
                                                 <GroupModal
+                                                    sectionFontColor={this.props.sectionFontColor}
                                                     getSubGroups={this.props.getSubGroups}
                                                     data={this.props.subGroups}
                                                     productGroups={this.props.productGroups}
@@ -249,7 +239,7 @@ class TabsBorderBottom extends Component {
                         }
                     </TabPane>
 
-                    <TabPane tabId="suppliers">
+                    <TabPane tabId="suppliers" style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                         <MultiSelect
                             name={"suppliers"}
                             handleChange={this.props.setModalValues}
@@ -265,7 +255,6 @@ class TabsBorderBottom extends Component {
                     <TabPane tabId="code">
                         <Row>
                             <Col sm="12">
-
                                 <FormGroup>
                                     <CodeContent {...this.props} />
                                 </FormGroup>
@@ -277,8 +266,9 @@ class TabsBorderBottom extends Component {
                         <Row>
                             <Col sm="12">
                                 <FormGroup>
-                                    <Label for="description"><Translate name={'description'}/></Label>
+                                    <Label for="description" style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}><Translate name={'description'}/></Label>
                                     <Input
+                                        style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}
                                         type="textarea"
                                         id="description"
                                         rows="5"
@@ -288,31 +278,6 @@ class TabsBorderBottom extends Component {
                                 </FormGroup>
                             </Col>
                         </Row>
-                    </TabPane>
-                    <TabPane tabId="images">
-                        <header className="d-flex justify-content-center p-1">
-                            <FormGroup encType="multipart/form-data">
-                                <UploadButton
-                                    color={'primary'}
-                                    variant={'outlined'}
-                                    name={'upImages'}
-                                    onChange={this.uploadImageHandler}
-                                    icon={<ImageIcon/>}
-                                    multiple={true}
-                                    accept={'image/*'}
-                                />
-                            </FormGroup>
-                        </header>
-                        <section className="p-1">
-                            <Row>
-                                {
-                                    this.imagesRender({
-                                        edit: true,
-                                        delete: false
-                                    })
-                                }
-                            </Row>
-                        </section>
                     </TabPane>
                 </TabContent>
 

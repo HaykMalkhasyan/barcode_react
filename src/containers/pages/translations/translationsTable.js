@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, FormGroup, Input, Label, Row, Table/*, Input */} from "reactstrap";
+import {CardBody, Col, FormGroup, Input, Label, Row, Table/*, Input */} from "reactstrap";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 import PaginationS from "../../../components/pagination/pagination";
@@ -52,7 +52,7 @@ export default class TableComponent extends React.Component {
 
         return (
             <>
-                <Table hover borderless responsive>
+                <Table hover borderless responsive style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                     {/*<thead>*/}
                     {/*<tr>*/}
                     {/*    <td>#</td>*/}

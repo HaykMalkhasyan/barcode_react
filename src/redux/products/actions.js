@@ -18,7 +18,7 @@ import {
     DELETE_PRODUCT_SUCCESS,
     EDIT_PRODUCT_FAIL,
     EDIT_PRODUCT_REQUEST,
-    EDIT_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_SUCCESS, EDITABLED_PRODUCT,
     GET_BARCODE_TYPES_FAIL,
     GET_BARCODE_TYPES_REQUEST,
     GET_BARCODE_TYPES_SUCCESS,
@@ -477,6 +477,13 @@ export function classifiersToggleModal() {
 
     return {
         type: CLASSIFIERS_TOGGLE_MODAL
+    }
+}
+
+export function editabledProduct() {
+
+    return {
+        type: EDITABLED_PRODUCT
     }
 }
 

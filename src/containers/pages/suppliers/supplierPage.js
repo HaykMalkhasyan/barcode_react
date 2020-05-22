@@ -25,6 +25,7 @@ class SupplierContainer extends Component {
                             }
                         />
                         <TableComponent
+                            sectionFontColor={this.props.sectionFontColor}
                             setValues={this.props.setValues}
                             companyTypes={this.props.companyTypes}
                             openSuppliersAddModal={this.props.openSuppliersAddModal}

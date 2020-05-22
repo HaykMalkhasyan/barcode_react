@@ -71,14 +71,74 @@ export default class Example extends React.Component {
 
         let props = this.props;
         return (
-            <Table borderless>
+            <Table borderless style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                 <thead>
                 <tr>
                     <th><Translate name={"barcode"}/></th>
-                    <th><Settings size={20}></Settings></th>
                 </tr>
                 </thead>
                 <tbody>
+                <tr style={{position: 'sticky', top: 0}}>
+                    <td colSpan={1}>
+                        <InputGroup size="sm">
+                            {
+                                this.state.currentInputValue.type !== null ?
+                                    <span
+                                        className="bg-primary"
+                                        style={{
+                                            padding: '3px 5px',
+                                            borderRadius: '5px 0 0 5px',
+                                            color: '#444',
+                                            fontWeight: 600,
+                                            fontSize: '13px'
+                                        }}
+                                    >
+                                        {
+                                            this.props.types.map(
+                                                type => type.id === this.state.currentInputValue.type ?
+                                                    type.name
+                                                    :
+                                                    null
+                                            )
+                                        }
+                                    </span>
+                                    :
+                                    null
+                            }
+                            <Input
+                                style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}
+                                type="text"
+                                className={`form-control  ${this.state.error ? 'is-invalid' : ''}`}
+                                id="barcode"
+                                value={this.state.currentInputValue.barcode ? this.state.currentInputValue.barcode || '' : ''}
+                                onChange={event => this.changeBarcode(event.target.value)}
+                            />
+                            <DropdownComponent
+                                // setBarcodeType={this.props.setBarcodeType}
+                                types={this.props.types}
+                                // onChange={this.props.setModalValues}
+                                onClick={this.addBarcodeType}
+                                name='type'
+                            />
+                        </InputGroup>
+                        {
+                            this.state.errorMsg ?
+                                <span className="danger font-small-1">
+                                    <ErrorIcon className="mr-1"/>
+                                    <Translate name={this.state.errorMsg}/>
+                                </span>
+                                :
+                                null
+                        }
+                    </td>
+                    <td>
+                        <Button size="sm" color="primary" onClick={() => {
+                            this.addBarcode()
+                        }}>
+                            <Plus size={16}/>
+                        </Button>
+                    </td>
+                </tr>
                 {
 
                     this.props.types ?
@@ -97,7 +157,7 @@ export default class Example extends React.Component {
                                                                 action
                                                                 className="border-0 justify-content-between p-0 pl-2 pr-2">
                                                                 {value.barcode}
-                                                                <Badge pill className="ml-1 font-small-1 p-1">
+                                                                <Badge pill className="ml-1 font-small-1 p-1" style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                                                                     {
                                                                         this.props.types.map(
                                                                             type => type.id === value.type ?
@@ -134,66 +194,6 @@ export default class Example extends React.Component {
                         :
                         null
                 }
-                <tr>
-                    <td colSpan={1}>
-                        <InputGroup size="sm">
-                            {
-                                this.state.currentInputValue.type !== null ?
-                                    <span
-                                        className="bg-primary"
-                                        style={{
-                                            padding: '3px 5px',
-                                            borderRadius: '5px 0 0 5px',
-                                            color: '#444',
-                                            fontWeight: 600,
-                                            fontSize: '13px'
-                                        }}
-                                    >
-                                        {
-                                            this.props.types.map(
-                                                type => type.id === this.state.currentInputValue.type ?
-                                                    type.name
-                                                    :
-                                                    null
-                                            )
-                                        }
-                                    </span>
-                                    :
-                                    null
-                            }
-                            <Input
-                                type="text"
-                                className={`form-control  ${this.state.error ? 'is-invalid' : ''}`}
-                                id="barcode"
-                                value={this.state.currentInputValue.barcode ? this.state.currentInputValue.barcode || '' : ''}
-                                onChange={event => this.changeBarcode(event.target.value)}
-                            />
-                            <DropdownComponent
-                                // setBarcodeType={this.props.setBarcodeType}
-                                types={this.props.types}
-                                // onChange={this.props.setModalValues}
-                                onClick={this.addBarcodeType}
-                                name='type'
-                            />
-                        </InputGroup>
-                        {
-                            this.state.errorMsg ?
-                                <span className="danger font-small-1">
-                                    <ErrorIcon className="mr-1"/>
-                                    <Translate name={this.state.errorMsg}/>
-                                </span>
-                                :
-                                null
-                        }
-                    </td>
-                    <td>
-                        <Button size="sm" color="primary" onClick={() => {
-                            this.addBarcode()
-                        }}>
-                            <Plus size={16}/>
-                        </Button>
-                    </td>
-                </tr>
                 </tbody>
 
             </Table>

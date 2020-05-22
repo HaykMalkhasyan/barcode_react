@@ -18,7 +18,7 @@ const SupplierTable = (props) => {
 
     if (props.data && Object.keys(props.data).length > 0) {
         return (
-            <Table responsive>
+            <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                 <thead>
                 <tr>
                     <th>#</th>
@@ -58,7 +58,7 @@ const SupplierTable = (props) => {
                                         <td>
                                             {
                                                 props.data[index].tin.length > 0 ?
-                                                    <Table responsive>
+                                                    <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                                         <tbody>
                                                         {
                                                             props.data[index].tin.map(
@@ -87,7 +87,7 @@ const SupplierTable = (props) => {
                                         <td>
                                             {
                                                 props.data[index].tin.length > 0 ?
-                                                    <Table responsive>
+                                                    <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                                         <tbody>
                                                         {
                                                             props.data[index].tin.map(
@@ -116,7 +116,7 @@ const SupplierTable = (props) => {
                                         <td>
                                             {
                                                 props.data[index].tin.length > 0 ?
-                                                    <Table responsive>
+                                                    <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                                         <tbody>
                                                         {
                                                             props.data[index].tin.map(
@@ -145,7 +145,7 @@ const SupplierTable = (props) => {
                                         <td>
                                             {
                                                 props.data[index].phone.length > 0 ?
-                                                    <Table responsive>
+                                                    <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                                         <tbody>
                                                         {
                                                             props.data[index].phone.map(

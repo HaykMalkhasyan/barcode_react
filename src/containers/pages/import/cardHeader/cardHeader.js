@@ -16,7 +16,6 @@ const HeaderComponent = props => {
     return (
         <CardHeader>
             <UploadButton
-                icon={<AttachFileIcon/>}
                 variant={'contained'}
                 color={'primary'}
                 multiple={false}
@@ -26,6 +25,7 @@ const HeaderComponent = props => {
                 margin={'2px 2px 10px'}
                 label={'Attach a file'}
             />
+            <b style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Attach a file'}/></b>
             {
                 props.error ?
                     <p
@@ -43,23 +43,24 @@ const HeaderComponent = props => {
                             <ListItemIcon>
                                 <FileCopyIcon />
                             </ListItemIcon>
-                            <ListItemText primary={<Translate name={'File name'}/>} />
-                            {props.file.name}
+                            <ListItemText primary={<Translate name={'File name'}/>} style={props.sectionFontColor ? {color: props.sectionFontColor} : null} />
+                            <span style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.file.name}</span>
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon>
                                 <MemoryIcon />
                             </ListItemIcon>
-                            <ListItemText primary={<Translate name={'File size'}/>} />
-                            {props.file.size}&nbsp;
+                            <ListItemText primary={<Translate name={'File size'}/>} style={props.sectionFontColor ? {color: props.sectionFontColor} : null} />
+                            <span style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.file.size}&nbsp;
                             <Translate name={'bytes'}/>
+                            </span>
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon>
                                 <AttachmentIcon />
                             </ListItemIcon>
-                            <ListItemText primary={<Translate name={'File type'}/>} />
-                            {props.file.type}
+                            <ListItemText primary={<Translate name={'File type'}/>} style={props.sectionFontColor ? {color: props.sectionFontColor} : null} />
+                            <span style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.file.type}</span>
                         </ListItem>
                     </List>
                     :

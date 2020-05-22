@@ -20,6 +20,9 @@ class ProductContainer extends Component {
                     <CardBody>
                         <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add",0)} />{" "}
                         <TableComponent
+                            editabledProduct = {this.props.editabledProduct}
+                            editabledStatus = {this.props.editabledStatus}
+                            sectionFontColor = {this.props.sectionFontColor}
                             advancedSearchText = {this.props.advancedSearchText}
                             addSearchText = {this.props.addSearchText}
                             selectClassifiersGroup = {this.props.selectClassifiersGroup}

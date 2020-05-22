@@ -26,6 +26,7 @@ const mapStateToProps = state => {
         dataMenus: state.pages.data,
         modal: state.pages.modal,
         errors: state.pages.errors,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
     }
 };
 

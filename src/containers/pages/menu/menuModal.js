@@ -6,16 +6,17 @@ const menuModal = (props) => {
     function modalBodyContent() {
         if (props.type === "delete") {
             return (
-                <ModalBody>Դուք համոզված ե՞ք ջնջել</ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>Դուք համոզված ե՞ք ջնջել</ModalBody>
             )
         } else {
             return (
-                <ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                     <Row>
                         <Col md="12">
                             <FormGroup>
                                 <Label for="name"><Translate name={"name"}/></Label>
                                 <input
+                                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
                                     id="name"
@@ -28,6 +29,7 @@ const menuModal = (props) => {
                             <FormGroup>
                                 <Label for="name"><Translate name={"icon"}/></Label>
                                 <input
+                                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                     className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                                     type="text"
                                     id="icon"
@@ -48,8 +50,10 @@ const menuModal = (props) => {
         <React.Fragment>
             <Modal isOpen={props.modal[props.type]} toggle={() => props.toggleModal(props.type, props.dataMenu.id)}
                    size="md">
-                <ModalHeader toggle={() => props.toggleModal(props.type, props.dataMenu.id)}><Translate
-                    name={props.type + "menu"}/></ModalHeader>
+                <ModalHeader toggle={() => props.toggleModal(props.type, props.dataMenu.id)} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                    <Translate
+                    name={props.type + "menu"}/>
+                </ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
                     <Button

@@ -30,7 +30,8 @@ const mapStateToProps = state => {
         positions: state.positions.positions,
         perm: state.permission.data.users,
         user: state.users.user,
-        errors: state.users.errors
+        errors: state.users.errors,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
 
     }
 };

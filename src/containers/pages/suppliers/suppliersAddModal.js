@@ -20,7 +20,7 @@ const SuplliersAddModal = props => {
         for (let i = 0; i < length; i++) {
             element.push(
                 <FormGroup row key={i}>
-                    <Label for={'bank'} sm={3}>
+                    <Label for={'bank'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         {
                             i === 0 ?
                                 <Translate name={'bank'}/>
@@ -28,8 +28,9 @@ const SuplliersAddModal = props => {
                                 ''
                         }
                     </Label>
-                    <Col sm={3} className={'pr-0'}>
+                    <Col sm={3} className={'pr-0'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <Input
+                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                             type={'select'}
                             className={'square'}
                             name={`bank_id-${i}`}
@@ -72,8 +73,9 @@ const SuplliersAddModal = props => {
                                 null
                         }
                     </Col>
-                    <Col sm={2} className={'pr-0 pl-0'}>
+                    <Col sm={2} className={'pr-0 pl-0'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <Input
+                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                             type={'select'}
                             className={'square border-left-0'}
                             name={`currency_id-${i}`}
@@ -116,9 +118,10 @@ const SuplliersAddModal = props => {
                                 null
                         }
                     </Col>
-                    <Col sm={4} className={'pl-0'}>
+                    <Col sm={4} className={'pl-0'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <div className={'position-relative has-icon-right'}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 className={'form-control square border-left-0'}
                                 type={'text'}
                                 id={'bank1'}
@@ -184,7 +187,7 @@ const SuplliersAddModal = props => {
         for (let i = 0; i < length; i++) {
             element.push(
                 <FormGroup row key={i}>
-                    <Label for={'phone'} sm={3}>
+                    <Label for={'phone'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         {
                             i === 0 ?
                                 <Translate name={'phone'}/>
@@ -192,9 +195,10 @@ const SuplliersAddModal = props => {
                                 ''
                         }
                     </Label>
-                    <Col sm={9}>
+                    <Col sm={9} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <div className={"position-relative has-icon-right"}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 type={"tel"}
                                 className={"form-control square"}
                                 placeholder={'example: 098 --- ---'}
@@ -251,18 +255,19 @@ const SuplliersAddModal = props => {
                 () => props.openSuppliersAddModal()
             }
         >
-            <ModalHeader>
+            <ModalHeader style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                 <Translate name={`${props.modalType}Supplier`}/>
             </ModalHeader>
             <ModalBody>
                 <form>
 
                     <FormGroup row>
-                        <Label for={'firstName'} sm={3}>
+                        <Label for={'firstName'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'name'}/>
                         </Label>
-                        <Col sm={7} className={'pr-0'}>
+                        <Col sm={7} className={'pr-0'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'firstName'}
                                 className={`form-control square ${props.checkValueStatus['name'] ? 'is-invalid' : null}`}
                                 type={'text'}
@@ -283,8 +288,9 @@ const SuplliersAddModal = props => {
                                     null
                             }
                         </Col>
-                        <Col sm={2} className={'pl-0'}>
+                        <Col sm={2} className={'pl-0'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 className={'square border-left-0'}
                                 type={'select'}
                                 name={'type'}
@@ -317,11 +323,12 @@ const SuplliersAddModal = props => {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Label for={'hh'} sm={3}>
+                        <Label for={'hh'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'hh'}/>
                         </Label>
-                        <Col sm={9}>
+                        <Col sm={9} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'hh'}
                                 className={`form-control square ${props.checkValueStatus['hh'] ? 'is-invalid' : null}`}
                                 type={'text'}
@@ -345,12 +352,13 @@ const SuplliersAddModal = props => {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Label for={'hvhh'} sm={3}>
+                        <Label for={'hvhh'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'hvhh'}/>
                         </Label>
-                        <Col sm={9}>
+                        <Col sm={9} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <div className={"position-relative has-icon-right"}>
                                 <input
+                                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                     id={'hvhh'}
                                     className={`form-control square`}
                                     type={'text'}
@@ -387,11 +395,12 @@ const SuplliersAddModal = props => {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Label for={'address'} sm={3}>
+                        <Label for={'address'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'address'}/>
                         </Label>
-                        <Col sm={9}>
+                        <Col sm={9} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'address'}
                                 className={`form-control square ${props.checkValueStatus['address'] ? 'is-invalid' : null}`}
                                 type={'text'}
@@ -417,11 +426,12 @@ const SuplliersAddModal = props => {
                     {printBankElement()}
 
                     <FormGroup row>
-                        <Label for={'director'} sm={3}>
+                        <Label for={'director'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'director'}/>
                         </Label>
-                        <Col sm={9}>
+                        <Col sm={9} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 className={`form-control square ${props.checkValueStatus['director'] ? 'is-invalid' : null}`}
                                 type={'text'}
                                 id={'director'}

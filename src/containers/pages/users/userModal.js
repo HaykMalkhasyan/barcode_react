@@ -21,8 +21,12 @@ const UserModal = (props) => {
             return (
                 <ModalBody>
                     <FormGroup>
-                        <Label for="password"><Translate name="password"/></Label>
+                        <Label for="password"
+                               style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+                        >
+                            <Translate name="password"/></Label>
                         <input
+                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                             className={`form-control  ${status ? 'is-invalid' : ''}`}
                             type="password"
                             id="password"
@@ -34,7 +38,7 @@ const UserModal = (props) => {
 
                         />
                     </FormGroup>
-                    <p>
+                    <p style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                         <Translate name={'Դուք համոզված ե՞ք ջնջել'}/>
                     </p>
                 </ModalBody>
@@ -48,8 +52,11 @@ const UserModal = (props) => {
                         <Row>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="firstName"><Translate name="firstname"/></Label>
+                                    <Label for="firstName"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="firstname"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
                                         className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
@@ -61,8 +68,11 @@ const UserModal = (props) => {
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="lastName"><Translate name="lastname"/></Label>
+                                    <Label for="lastName"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="lastname"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
                                         className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
@@ -76,8 +86,11 @@ const UserModal = (props) => {
                         <Row>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="email"><Translate name="email"/></Label>
+                                    <Label for="email"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="email"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         onBlur={event => event.target.value.length === 0 || !event.target.value.includes('@') || !event.target.value.includes('.') ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
                                         className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="email"
@@ -90,8 +103,11 @@ const UserModal = (props) => {
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="company"><Translate name="company"/></Label>
+                                    <Label for="company"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="company"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         className={`form-control  ${props.errors.company_id ? 'is-invalid' : ''}`}
                                         type="text"
                                         id="company"
@@ -103,8 +119,11 @@ const UserModal = (props) => {
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="username"><Translate name="username"/></Label>
+                                    <Label for="username"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="username"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         onBlur={event => event.target.value.length === 0 ? event.target.style.borderColor = '#f44' : event.target.style.borderColor = ''}
                                         className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="text"
@@ -117,8 +136,11 @@ const UserModal = (props) => {
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="password"><Translate name="password"/></Label>
+                                    <Label for="password"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="password"/></Label>
                                     <input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         className={`form-control  ${status ? 'is-invalid' : ''}`}
                                         type="password"
                                         id="password"
@@ -135,8 +157,11 @@ const UserModal = (props) => {
                         <Row>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="position"><Translate name="positions"/></Label>
+                                    <Label for="position"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="positions"/></Label>
                                     <Input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         type="select"
                                         id="position"
                                         value={props.user.position_id || "0"}
@@ -159,8 +184,11 @@ const UserModal = (props) => {
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="active"><Translate name="active"/></Label>
+                                    <Label for="active"
+                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                        name="active"/></Label>
                                     <Input
+                                        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                         type="select"
                                         id="active"
                                         value={props.user.active || "0"}
@@ -196,10 +224,16 @@ const UserModal = (props) => {
                 }
                 size="lg"
             >
-                <ModalHeader toggle={() => {
-                    props.toggleModal(props.type)
-                }}><Translate
-                    name={props.type + "User"}/></ModalHeader>
+                <ModalHeader
+                    toggle={
+                        () => {
+                            props.toggleModal(props.type)
+                        }
+                    }
+                    style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+                >
+                    <Translate name={props.type + "User"}/>
+                </ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
                     <Button

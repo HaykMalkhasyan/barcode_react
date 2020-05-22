@@ -31,12 +31,13 @@ import {
     SELECT_GROUP,
     SELECT_ID_IN_ARRAY,
     CLASSIFIERS_TOGGLE_MODAL,
-    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS, ADD_SEARCH_TEXT
+    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS, ADD_SEARCH_TEXT, EDITABLED_PRODUCT
 } from "./actionTypes";
 import {Pushend,/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
 
 const INIT_STATE = {
+    editabledStatus: false,
     products: [],
     product: {},
     barcodeTypes: [],
@@ -89,6 +90,10 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
 
     switch (action.type) {
+        case EDITABLED_PRODUCT:
+            return {
+                ...state, editabledStatus: !state.editabledStatus
+            }
         case ADD_SEARCH_TEXT:
             return {
                 ...state,

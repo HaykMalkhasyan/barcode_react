@@ -29,6 +29,7 @@ const mapStateToProps = state => {
         formData: state.importReducer.formData,
         formDataValue: state.importReducer.formDataValue,
         error: state.importReducer.error,
+        sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
     }
 }
 

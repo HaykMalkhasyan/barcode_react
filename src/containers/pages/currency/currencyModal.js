@@ -11,18 +11,21 @@ const CurrencyModal = props => {
                 () => props.toggleModal()
             }
         >
-            <ModalHeader>
+            <ModalHeader
+                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+            >
                 <Translate name={'editCurrency'}/>
             </ModalHeader>
             <ModalBody>
                 <form>
                     <FormGroup row>
-                        <Label for={'name'} sm={3}>
+                        <Label for={'name'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'name'}/>
 
                         </Label>
                         <Col sm={7} className={'pr-0'}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'name'}
                                 type={'text'}
                                 required={true}
@@ -47,12 +50,13 @@ const CurrencyModal = props => {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Label for={'short'} sm={3}>
+                        <Label for={'short'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'short'}/>
 
                         </Label>
                         <Col sm={7} className={'pr-0'}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'short'}
                                 type={'text'}
                                 name={'short'}
@@ -77,12 +81,13 @@ const CurrencyModal = props => {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Label for={'value'} sm={3}>
+                        <Label for={'value'} sm={3} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                             <Translate name={'currency'}/>
 
                         </Label>
                         <Col sm={7} className={'pr-0'}>
                             <input
+                                style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
                                 id={'value'}
                                 type={'number'}
                                 required={true}

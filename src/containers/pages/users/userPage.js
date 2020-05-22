@@ -20,6 +20,7 @@ class UserContainer extends Component {
                     <CardBody>
                         <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add")} />{" "}
                         <TableComponent
+                            sectionFontColor = {this.props.sectionFontColor}
                             data = {this.props.users}
                             toggleModal = {this.props.toggleModal}
                             actions = {this.props.userActions}
