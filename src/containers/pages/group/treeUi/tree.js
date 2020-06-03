@@ -400,7 +400,7 @@ export default function CustomizedTreeView(props) {
                                                                 </span>
                                                                 {ctr(item.id, item.group_id.id, item)}
                                                                 {
-                                                                    props.movingGroupStatus ?
+                                                                    props.movingGroupStatus &&  props.movingGroupStatus !== item.id ?
                                                                         <ButtonUi
                                                                             onClick={event => movingHandler(event, item.id)}
                                                                         >

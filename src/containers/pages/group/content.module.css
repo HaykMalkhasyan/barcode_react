@@ -1,16 +1,9 @@
 .header {
-    border-bottom: 2px solid #e1e1e1;
     margin-top: 10px;
-    display: flex;
 }
 
 .groupBtn {
     /*margin-right: 10px;*/
-}
-
-.nav {
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .controllers {
@@ -30,9 +23,6 @@
 }
 
 .controlBtnAll {
-    position: absolute;
-    top: 1px;
-    right: 1px;
     width: auto;
     height: auto;
     display: flex;
@@ -42,23 +32,21 @@
 }
 
 .controlBtnEdit {
-    margin: 0!important;
-    width: 26px;
-    height: 26px;
+    margin: 0 5px !important;
+    width: 46px;
+    height: auto;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 0;
     color: #888;
     transition: 300ms;
 }
 
 .controlBtnEdit:hover {
-    background-color: #888;
-    color: #fff;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .34);
+    color: forestgreen !important;
 }
 
 .controlBtnAdd {
-    margin: 0!important;
+    margin: 0 5px !important;
     width: 20px;
     height: 20px;
     box-sizing: border-box;
@@ -66,19 +54,17 @@
 }
 
 .controlBtnDelete {
-    margin: 0!important;
-    width: 26px;
-    height: 26px;
+    margin: 0 5px!important;
+    width: 46px;
+    height: auto;
     color: #f88;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 0;
     transition: 300ms;
 }
 
 .controlBtnDelete:hover {
-    background-color: #888;
-    color: #fff;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .34);
+    color: forestgreen !important;
 }
 
 .buildBtn {
@@ -105,4 +91,20 @@
     to {
         transform: rotate(45deg);
     }
+}
+
+.headerWindow {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerWindow > div {
+    /*width: 50%;*/
+    display: flex;
+}
+
+.searchArea {
+    flex-direction: column;
 }

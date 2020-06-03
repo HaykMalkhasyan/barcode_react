@@ -1,41 +1,35 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {
-    productActions,
-    setModalValues,
-    toggleModal,
+    addProductStatus,
+    addSearchText,
     barcodeActions,
-    removeBarcode,
-    setMeasurementValue,
-    setPointsValue,
-    SetUploadImages,
+    changePageSize,
+    classifiersToggleModal,
+    createClassifiers,
+    deleteUploadImage,
     deleteUploadImages,
-    setMainImage,
-    setSearchProductValue,
+    editabledProduct,
+    productActions,
+    removeBarcode,
+    removeSelectedClassifier,
     selectClassifiersGroup,
     selectGroupsNode,
-    createClassifiers,
-    classifiersToggleModal,
-    removeSelectedClassifier,
-    toggleSwitchValue,
+    setMainImage,
+    setMeasurementValue,
+    setModalValues,
+    setPointsValue,
+    setSearchProductValue,
+    SetUploadImages,
+    subGroupCollapses,
+    testFetchNewProduct,
     toggleCheckBoxValue,
-    changePageSize,
-    addSearchText,
-    editabledProduct
+    toggleModal,
+    toggleSwitchValue
 } from "../../../redux/products/actions";
-import {
-    supplierActions
-} from "../../../redux/suppliers/actions";
-import {
-    groupActions,
-    handleOpen,
-    selectGroup,
-    subGroupActions,
-    getSubGroups,
-} from "../../../redux/group/actions";
-import {
-    uploadImages
-} from "../../../redux/todo/actions";
+import {supplierActions} from "../../../redux/suppliers/actions";
+import {getSubGroups, groupActions, handleOpen, selectGroup, subGroupActions,} from "../../../redux/group/actions";
+import {uploadImages} from "../../../redux/todo/actions";
 import ProductPage from './productPage';
 
 
@@ -69,7 +63,12 @@ const mapDispatchToProps = dispatch => {
             toggleCheckBoxValue,
             changePageSize,
             addSearchText,
-            editabledProduct
+            editabledProduct,
+            /*------------*/
+            testFetchNewProduct,
+            subGroupCollapses,
+            deleteUploadImage,
+            addProductStatus
         },
         dispatch
     );
@@ -77,7 +76,12 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
+        collapsedStatus: state.products.collapsedStatus,
         modal: state.products.modal,
+        status: state.products.status,
+        severity: state.products.severity,
+        text: state.products.text,
+        images: state.products.images,
         products: state.products.products,
         editabledStatus: state.products.editabledStatus,
         product: state.products.product,

@@ -30,12 +30,16 @@ import {
     GET_TRANSLATION_PAGE_REQUEST,
     GET_TRANSLATION_PAGE_FAIL,
     GET_TRANSLATION_PAGE_SUCCESS,
-    GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS
+    GET_TRANSLATION_LANGUAGE_REQUEST,
+    GET_TRANSLATION_LANGUAGE_FAIL,
+    GET_TRANSLATION_LANGUAGE_SUCCESS,
+    TOGGLE_TRANSLATION_EDITABLE, RESET_ACTIVE_LANGUAGE
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
 import {ChangeTranslation, IsRequiredField, IsRequiredFields, Push, RemoveItem, changeAddedTranslations} from '../../utility/utils';
 // import {SET_GROUP_MODAL} from "../group/actionTypes";
 const INIT_STATE = {
+    editabledStatus: false,
     languages: [],
     modalLang: SessionStorage.get("lang") ? SessionStorage.get("lang") : 'am',
     translations: {},
@@ -60,6 +64,14 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case RESET_ACTIVE_LANGUAGE:
+            return {
+                ...state, activeTranslationLang: 'all'
+            }
+        case TOGGLE_TRANSLATION_EDITABLE:
+            return {
+                ...state, editabledStatus: !state.editabledStatus
+            }
         case 'test':
             return {
                 ...state,

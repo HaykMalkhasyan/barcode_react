@@ -7,12 +7,13 @@ import {
     GET_ITEM_CURRENCY_REQUEST,
     GET_ITEM_CURRENCY_SUCCESS,
     SET_FORM_VALIDATE,
-    SET_VALUES,
+    SET_VALUES, TOGGLE_EDITABLE_CURRENCY,
     TOGGLE_MODAL
 } from "./actionTypes";
 import {Put} from "../../utility/utils";
 
 const initialState = {
+    editabledStatus: false,
     currency: null,
     loading: false,
     success: false,
@@ -36,6 +37,10 @@ export default function currencyReducer(state = initialState, action) {
 
     switch (action.type) {
 
+        case TOGGLE_EDITABLE_CURRENCY:
+            return {
+                ...state, editabledStatus: !state.editabledStatus
+            }
         case GET_ALL_CURRENCY_REQUEST:
             return {
                 ...state,

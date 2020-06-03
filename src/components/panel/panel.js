@@ -157,9 +157,9 @@ const TemporaryDrawer = props => {
                                 >
                                     {
                                         state[anchor] ?
-                                            <ExitToAppIcon/>
+                                            <ExitToAppIcon fontSize={'small'}/>
                                             :
-                                            <PhonelinkSetupIcon/>
+                                            <PhonelinkSetupIcon fontSize={'small'}/>
                                     }
                                 </Button>
                                 <Drawer variant={'persistent'} anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>

@@ -7,7 +7,7 @@ import {
     GET_ITEM_CURRENCY_REQUEST,
     GET_ITEM_CURRENCY_SUCCESS,
     SET_FORM_VALIDATE,
-    SET_VALUES,
+    SET_VALUES, TOGGLE_EDITABLE_CURRENCY,
     TOGGLE_MODAL
 } from "./actionTypes";
 
@@ -118,3 +118,9 @@ export const setFormValidate = formValidate => {
     }
 }
 
+export function currencyEditabkeToggle() {
+
+    return {
+        type: TOGGLE_EDITABLE_CURRENCY
+    }
+}

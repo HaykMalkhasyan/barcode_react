@@ -25,7 +25,7 @@ import {
     SET_SUPPLIERS_VALUE,
     FETCH_SUPPLIER_REQUEST,
     FETCH_SUPPLIER_FAIL,
-    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, SET_ERROR, EMPTY_VALUE, SUCCES_VALUE,
+    FETCH_SUPPLIER_SUCCESS, SUPPLIERS_OPEN_MODAL, SET_ERROR, EMPTY_VALUE, SUCCES_VALUE, TOGGLE_EDITABLE_SUPPLIERS,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -457,5 +457,12 @@ export function checkValue(name, value, index = false) {
                 type: SUCCES_VALUE,
                 name
             };
+    }
+}
+
+export function suppliersEditableToggle() {
+
+    return {
+        type: TOGGLE_EDITABLE_SUPPLIERS
     }
 }

@@ -16,7 +16,8 @@ import {
     fetchSuppliers,
     searchRequisite,
     setValues,
-    checkValue
+    checkValue,
+    suppliersEditableToggle
 } from "../../../redux/suppliers/actions";
 import SupplierPage from './supplierPage';
 
@@ -39,7 +40,8 @@ const mapDispatchToProps = dispatch => {
             fetchSuppliers,
             searchRequisite,
             setValues,
-            checkValue
+            checkValue,
+            suppliersEditableToggle
         },
         dispatch
     );
@@ -48,6 +50,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         suppliers: state.suppliers.suppliers,
+        editabledStatus: state.suppliers.editabledStatus,
         supplier: state.suppliers.supplier,
         banks: state.suppliers.banks,
         modal: state.suppliers.modal,

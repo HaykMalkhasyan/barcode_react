@@ -5,6 +5,7 @@ import ModalComponent from './translationsModal';
 import MyButton from "../../../components/buttons/button";
 import classes from './translationPage.module.css'
 import {Maximize} from 'react-feather';
+import Translate from "../../../Translate";
 
 // import {toggleTranslationModal, translationActions} from "../../../redux/lang/actions";
 
@@ -22,6 +23,7 @@ class MenuContainer extends Component {
             <Col sm="12">
                 <Card>
                     <CardBody>
+                        <h4 style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}><Translate name={'Translations'}/></h4>
                         <div className={classes.tabHeader}>
                             <MyButton
                                 icon={true}
@@ -58,6 +60,9 @@ class MenuContainer extends Component {
                             />
                         </div>
                         <TableComponent
+                            editabledStatus={this.props.editabledStatus}
+                            resetActiveTranslationLang={this.props.resetActiveTranslationLang}
+                            translationEditableToggle={this.props.translationEditableToggle}
                             sectionFontColor={this.props.sectionFontColor}
                             getTranslationPage={this.props.getTranslationPage}
                             activeTranslationLang={this.props.activeTranslationLang}

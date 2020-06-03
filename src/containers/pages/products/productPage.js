@@ -3,6 +3,7 @@ import {Card, CardBody, Col} from "reactstrap";
 import TableComponent from './productTable';
 import ModalComponent from './modal/productModal';
 import AddButton from "../../../components/buttons/addButton";
+import Translate from "../../../Translate";
 
 class ProductContainer extends Component {
     constructor(props) {
@@ -14,45 +15,61 @@ class ProductContainer extends Component {
     }
 
     render() {
-        return(
+        return (
             <Col sm="12">
                 <Card>
                     <CardBody>
-                        <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add",0)} />{" "}
+                        <div className='d-flex' style={{alignItems: 'center', height: 55}}>
+                            <h4 className='mr-1' style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
+                                <Translate name={'Products'}/>
+                            </h4>
+                            {
+                                this.props.editabledStatus ?
+                                    <AddButton className='m-0' perm={this.props.perm} onClick={() => this.props.toggleModal("add", 0)}/>
+                                    :
+                                    null
+                            }
+                        </div>
                         <TableComponent
-                            editabledProduct = {this.props.editabledProduct}
-                            editabledStatus = {this.props.editabledStatus}
-                            sectionFontColor = {this.props.sectionFontColor}
-                            advancedSearchText = {this.props.advancedSearchText}
-                            addSearchText = {this.props.addSearchText}
-                            selectClassifiersGroup = {this.props.selectClassifiersGroup}
-                            removeSelectedClassifier = {this.props.removeSelectedClassifier}
-                            toggleSwitchValue = {this.props.toggleSwitchValue}
-                            toggleCheckBoxValue = {this.props.toggleCheckBoxValue}
-                            changePageSize = {this.props.changePageSize}
-                            advancedSearchConfig = {this.props.advancedSearchConfig}
-                            createError = {this.props.createError}
-                            createClassifiers = {this.props.createClassifiers}
-                            classifiersToggleModal = {this.props.classifiersToggleModal}
-                            classifiersModal = {this.props.classifiersModal}
-                            selectGroupsNode = {this.props.selectGroupsNode}
-                            data = {this.props.products}
-                            groups = {this.props.groups}
-                            group = {this.props.group}
+                            subGroupCollapses={this.props.subGroupCollapses}
+                            status={this.props.status}
+                            severity={this.props.severity}
+                            text={this.props.text}
+                            addProductStatus={this.props.addProductStatus}
+                            collapsedStatus={this.props.collapsedStatus}
+                            editabledProduct={this.props.editabledProduct}
+                            editabledStatus={this.props.editabledStatus}
+                            sectionFontColor={this.props.sectionFontColor}
+                            advancedSearchText={this.props.advancedSearchText}
+                            addSearchText={this.props.addSearchText}
+                            selectClassifiersGroup={this.props.selectClassifiersGroup}
+                            removeSelectedClassifier={this.props.removeSelectedClassifier}
+                            toggleSwitchValue={this.props.toggleSwitchValue}
+                            toggleCheckBoxValue={this.props.toggleCheckBoxValue}
+                            changePageSize={this.props.changePageSize}
+                            advancedSearchConfig={this.props.advancedSearchConfig}
+                            createError={this.props.createError}
+                            createClassifiers={this.props.createClassifiers}
+                            classifiersToggleModal={this.props.classifiersToggleModal}
+                            classifiersModal={this.props.classifiersModal}
+                            selectGroupsNode={this.props.selectGroupsNode}
+                            data={this.props.products}
+                            groups={this.props.groups}
+                            group={this.props.group}
                             subGroups={this.props.subGroups}
-                            searchErrorName = {this.props.searchErrorName}
-                            setSearchProductValue = {this.props.setSearchProductValue}
-                            searchProductResult = {this.props.searchProductResult}
-                            searchProduct = {this.props.searchProduct}
-                            types = {this.props.types}
-                            toggleModal = {this.props.toggleModal}
-                            actions = {this.props.productActions}
-                            perm = {this.props.perm}/>
+                            searchErrorName={this.props.searchErrorName}
+                            setSearchProductValue={this.props.setSearchProductValue}
+                            searchProductResult={this.props.searchProductResult}
+                            searchProduct={this.props.searchProduct}
+                            types={this.props.types}
+                            toggleModal={this.props.toggleModal}
+                            actions={this.props.productActions}
+                            perm={this.props.perm}/>
                     </CardBody>
                 </Card>
-                <ModalComponent {...this.props} type={'add'} />
-                <ModalComponent {...this.props} type={'edit'} />
-                <ModalComponent {...this.props} type={'delete'} />
+                <ModalComponent {...this.props} type={'add'}/>
+                <ModalComponent {...this.props} type={'edit'}/>
+                <ModalComponent {...this.props} type={'delete'}/>
 
             </Col>
         )

@@ -8,7 +8,8 @@ import {
     setCurrencyValue,
     checkCurrencyValue,
     fetchCurrency,
-    getItemCurrency
+    getItemCurrency,
+    currencyEditabkeToggle
 } from '../../../redux/currency/actions';
 
 
@@ -21,7 +22,8 @@ const mapDispatchToProps = dispatch => {
             setCurrencyValue,
             checkCurrencyValue,
             fetchCurrency,
-            getItemCurrency
+            getItemCurrency,
+            currencyEditabkeToggle
         },
         dispatch
     );
@@ -30,6 +32,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         currency: state.currency.currency,
+        editabledStatus: state.currency.editabledStatus,
         setCurrency: state.currency.setCurrency,
         isOpen: state.currency.isOpen,
         formValidate: state.currency.formValidate,

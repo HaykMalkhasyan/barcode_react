@@ -443,7 +443,7 @@ export function getSubGroups(data) {
                 productGroups.push(subGroup)
             }
         }
-        selected = {};
+        // selected = {};
         dispatch(setProductGroups(productGroups, selected))
     }
 }

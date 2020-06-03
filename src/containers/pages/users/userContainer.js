@@ -4,6 +4,7 @@ import {
     userActions,
     toggleModal,
     setModalValues,
+    userEditableToggle
 } from "../../../redux/users/actions";
 import {
     positionActions,
@@ -17,7 +18,8 @@ const mapDispatchToProps = dispatch => {
             userActions,
             toggleModal,
             setModalValues,
-            positionActions
+            positionActions,
+            userEditableToggle
         },
         dispatch
     );
@@ -27,6 +29,7 @@ const mapStateToProps = state => {
     return {
         users: state.users.users,
         modal: state.users.modal,
+        editabledStatus: state.users.editabledStatus,
         positions: state.positions.positions,
         perm: state.permission.data.users,
         user: state.users.user,

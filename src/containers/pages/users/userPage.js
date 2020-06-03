@@ -18,9 +18,16 @@ class UserContainer extends Component {
             <Col sm="12">
                 <Card>
                     <CardBody>
-                        <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add")} />{" "}
+                        {
+                            this.props.editabledStatus ?
+                                <AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add")} />
+                                :
+                                null
+                        }
                         <TableComponent
                             sectionFontColor = {this.props.sectionFontColor}
+                            editabledStatus = {this.props.editabledStatus}
+                            userEditableToggle = {this.props.userEditableToggle}
                             data = {this.props.users}
                             toggleModal = {this.props.toggleModal}
                             actions = {this.props.userActions}

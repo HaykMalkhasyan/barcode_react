@@ -17,6 +17,8 @@ class CurrencyContainer extends Component {
                 <Card>
                     <CardBody>
                         <CurrencyTable
+                            editabledStatus={this.props.editabledStatus}
+                            currencyEditabkeToggle={this.props.currencyEditabkeToggle}
                             sectionFontColor={this.props.sectionFontColor}
                             data={this.props.currency}
                             editCurrency={this.props.editCurrency}

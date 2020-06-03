@@ -7,6 +7,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import Translate from "../../../../../../Translate";
 import FolderOpenIcon from "@material-ui/icons/FolderOpen";
 import FolderIcon from "@material-ui/icons/Folder";
+import CheckboxesUi from "../../../../../../components/checkBoxUI/checkBoxUI";
 
 const useStyles = makeStyles({
     root: {
@@ -19,6 +20,7 @@ const ClassifiersTreeViewer = (props) => {
     const classes = useStyles();
 
     const selectNodes = (event, nodeId) => {
+        event.stopPropagation()
         props.selectGroupsNode(nodeId)
     }
     const treeItemRender = (id, group_id) => {
@@ -32,7 +34,18 @@ const ClassifiersTreeViewer = (props) => {
                             <TreeItem
                                 key={item.id}
                                 nodeId={`${item.id}`}
-                                label={item.name}
+                                label={
+                                    <CheckboxesUi
+                                        checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? true : false}
+                                        color={'primary'}
+                                        label={item.name}
+                                        name={item.name}
+                                        value={item.id}
+                                        size={'small'}
+                                        translate={false}
+                                        onChange={event => props.onChange(event, event.target.value, event.target.checked)}
+                                    />
+                                }
                             >
                                 {treeItemRender(item.id, item.group_id.id)}
                             </TreeItem>
@@ -96,7 +109,18 @@ const ClassifiersTreeViewer = (props) => {
                                         <TreeItem
                                             key={item.id}
                                             nodeId={`${item.id}`}
-                                            label={item.name}
+                                            label={
+                                                <CheckboxesUi
+                                                    checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? true : false}
+                                                    color={'primary'}
+                                                    label={item.name}
+                                                    name={item.name}
+                                                    value={item.id}
+                                                    size={'small'}
+                                                    translate={false}
+                                                    onChange={event => props.onChange(event, event.target.value, event.target.checked)}
+                                                />
+                                            }
                                         >
                                             {treeItemRender(item.id, item.group_id.id)}
                                         </TreeItem>
@@ -106,19 +130,6 @@ const ClassifiersTreeViewer = (props) => {
                                 }
                             )
                         }
-                        {/*<TreeItem nodeId="1" label="Applications">*/}
-                        {/*    <TreeItem nodeId="2" label="Calendar"/>*/}
-                        {/*    <TreeItem nodeId="3" label="Chrome"/>*/}
-                        {/*    <TreeItem nodeId="4" label="Webstorm"/>*/}
-                        {/*</TreeItem>*/}
-                        {/*<TreeItem nodeId="5" label="Documents">*/}
-                        {/*    <TreeItem nodeId="6" label="Material-UI">*/}
-                        {/*        <TreeItem nodeId="7" label="src">*/}
-                        {/*            <TreeItem nodeId="8" label="index.js"/>*/}
-                        {/*            <TreeItem nodeId="9" label="tree-view.js"/>*/}
-                        {/*        </TreeItem>*/}
-                        {/*    </TreeItem>*/}
-                        {/*</TreeItem>*/}
                     </TreeView>
                     :
                     <p className="text-center info pt-2 mb-0">

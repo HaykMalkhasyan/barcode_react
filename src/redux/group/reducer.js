@@ -48,6 +48,7 @@ import {
 } from "./actionTypes";
 import {IsRequiredField, Put, IsRequiredFields, Pushend, changeElement, RemoveItem} from "../../utility/utils";
 import {openMenu} from "./functions";
+import {TOGGLE_PRODUCT_MODAL} from "../products/actionTypes";
 
 const INIT_STATE = {
     groups: [],
@@ -481,6 +482,11 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 groups: state.groups
+            }
+        case TOGGLE_PRODUCT_MODAL:
+            return {
+                ...state,
+                selected: {}
             }
         case SELECT_GROUP:
             state.selected[action.group_id] = action.value

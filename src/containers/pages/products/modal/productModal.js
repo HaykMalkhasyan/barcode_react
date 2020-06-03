@@ -6,7 +6,7 @@ import {
     CustomInput,
     Form,
     FormGroup,
-    Input, InputGroup,
+    Input,
     Label,
     Modal,
     ModalBody,
@@ -16,12 +16,10 @@ import {
 } from "reactstrap";
 import Translate from "../../../../Translate";
 import TabComponent from "./tab/productTab";
-import photo6 from "../../../../assets/images/empty_product.svg";
 import LocalizeTab from "../../../localize/localizeTab";
 import SearchSelectUI from "../../../../components/selectWithSearchUI/selectWithSearch";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import BackspaceIcon from '@material-ui/icons/Backspace';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
@@ -30,64 +28,10 @@ import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ButtonUi from "../../../../components/buttons/buttonUi";
 import UploadButton from "../../../../components/buttons/upploadBtnUI";
-
-const images = [
-    {
-        id: 1,
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        originalAlt: '10',
-    },
-    {
-        id: 2,
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        originalAlt: '20'
-    },
-    {
-        id: 3,
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        originalAlt: '30'
-    },
-    {
-        id: 4,
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        originalAlt: '40'
-    },
-    {
-        id: 5,
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        originalAlt: '50'
-    },
-    {
-        id: 6,
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        originalAlt: '60'
-    },
-    {
-        id: 7,
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        originalAlt: '70'
-    },
-    {
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        originalAlt: '80'
-    },
-    {
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        originalAlt: '90'
-    },
-];
+import Tooltip from '@material-ui/core/Tooltip';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const ProductModal = (props) => {
-    const [img] = useState(false)
     const [mainImg, setMainImg] = useState(false)
     const [creatProductStatus, setCreateProductStatus] = useState(false)
     const [photoBtns, setPhotoBtns] = useState(false)
@@ -98,13 +42,18 @@ const ProductModal = (props) => {
         props.setMeasurementValue(name, data)
     }
 
-    const createProduct = () => {
+    const createProduct = type => {
         let prod = props.product;
-        if (prod.sku && prod.name && prod.points && prod.measurement && prod.groups && prod.suppliers && prod.barcode && prod.description) {
-            setCreateProductStatus(false);
-            props.productActions(props.type, props.product)
+        if (type !== 'delete') {
+            if (prod.sku && prod.name && prod.measurement && prod.groups && prod.suppliers && prod.barcode && prod.description && props.images.length) {
+                setCreateProductStatus(false);
+                // props.productActions(props.type, props.product)
+                props.testFetchNewProduct(props.type, props.product, valImg)
+            } else {
+                setCreateProductStatus('You have not filled in all the fields')
+            }
         } else {
-            setCreateProductStatus('You have not filled in all the fields')
+            props.productActions(type, props.product)
         }
     }
 
@@ -118,15 +67,70 @@ const ProductModal = (props) => {
         }
         return 'select the unit of measurement'
     }
-    const onPointHandler = event => {
-        props.setPointsValue(event.target.name, event.target.value)
+    const deleteImage = type => {
+        switch (type) {
+            case 'add': {
+                let images = [...valImg];
+                images.splice(activeImg.index, 1)
+                setValImg(images)
+                props.deleteUploadImage(activeImg.image, activeImg.index,  type)
+                break;
+            }
+            case 'edit': {
+                console.log(type)
+                break;
+            }
+            default: break
+        }
     }
 
-    //galery change handler
-    const clickHandler = event => {
-        setPhotoBtns(true)
-        console.log(images[event])
-        setActiveImg(event)
+    const uploadImageHandler = event => {
+        let imgs = event.target.files;
+        let allImage = false;
+        if (valImg !== null) {
+            allImage = [...valImg];
+        }
+        for (let item of imgs) {
+            let index = false;
+            for (let imageItem of props.images) {
+                if (item.name === imageItem.originalAlt) {
+                    index = true
+                }
+            }
+            if (!index) {
+                if (allImage !== false) {
+                    allImage.push(item)
+                    setValImg(allImage)
+                } else {
+                    setValImg(event.target.files)
+                }
+                let obj = {
+                    original: URL.createObjectURL(item),
+                    thumbnail: URL.createObjectURL(item),
+                    originalAlt: item.name
+                }
+                props.images.unshift(obj)
+
+                props.SetUploadImages(event.target.name, item)
+            }
+        }
+    }
+
+    const selectMainIMage = () => {
+        setMainImg(props.images[activeImg.index])
+        if (activeImg) {
+            props.setMainImage(activeImg.image.originalAlt)
+        }
+        setPhotoBtns(false)
+    }
+
+    const thumbClickHandler = (event, index) => {
+        setPhotoBtns(true);
+        let img = {
+            image: props.images[index],
+            index: index
+        }
+        setActiveImg(img)
     }
 
     const renderLeftNav = (onClick, disabled) => {
@@ -170,46 +174,15 @@ const ProductModal = (props) => {
         )
     }
 
-    const uploadImageHandler = event => {
-        setValImg(event.target.files)
-        let imgs = event.target.files;
-        for (let item of imgs) {
-            let obj = {
-                original: URL.createObjectURL(item),
-                thumbnail: URL.createObjectURL(item),
-                originalAlt: item.name
-            }
-            images.unshift(obj)
-        }
-        props.SetUploadImages(event.target.name, event.target.files)
-    }
-
-    const selectMainIMage = () => {
-        console.log(images[activeImg].originalAlt)
-        // props.mainIMg(images[activeImg].originalAlt)
-        props.setMainImage(images[activeImg].originalAlt)
-    }
-
-    const mImageRender = () => {
-        if (mainImg && props.product.upImages) {
-            for (let item of props.product.upImages) {
-                if (item === mainImg.name) {
-                    return URL.createObjectURL(mainImg)
-                }
-            }
-            return photo6
-        } else {
-            return photo6
-        }
-    }
-
     function modalBodyContent() {
-        if (props.type === "delete") {
+        if (props.modal === "delete") {
             return (
-                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>Դուք համոզված ե՞ք ջնջել</ModalBody>
+                <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                    <Translate name={'Դուք համոզված ե՞ք ջնջել'}/>
+                </ModalBody>
             )
 
-        } else {
+        } else if (props.modal === 'add' || props.modal === 'edit') {
             return (
                 <ModalBody style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                     <Row>
@@ -220,27 +193,20 @@ const ProductModal = (props) => {
                                         <Row>
                                             <Col md="5">
                                                 <FormGroup>
-                                                    {/*<img*/}
-                                                    {/*    className="img-fluid"*/}
-                                                    {/*    src={*/}
-                                                    {/*        mainImg ?*/}
-                                                    {/*            mImageRender()*/}
-                                                    {/*            :*/}
-                                                    {/*            photo6*/}
-                                                    {/*    }*/}
-                                                    {/*    alt="Timeline 2"*/}
-                                                    {/*/>*/}
-
                                                     <div className={classes.imagesArea}>
                                                         <div
                                                             className={`d-flex justify-content-center ${classes.ctrlsBtns}`}>
                                                             {
                                                                 photoBtns ?
-                                                                    <ButtonGroup variant="text" color="primary"
-                                                                                 aria-label="text primary button group">
+                                                                    <ButtonGroup
+                                                                        variant="text"
+                                                                        color="primary"
+                                                                        aria-label="text primary button group"
+                                                                        onMouseLeave={() => setPhotoBtns(false)}
+                                                                    >
                                                                         <UploadButton
                                                                             color={'default'}
-                                                                            name={'upImages'}
+                                                                            name={'pictures'}
                                                                             onChange={event => uploadImageHandler(event)}
                                                                             multiple={true}
                                                                             accept={'image/*'}
@@ -248,32 +214,46 @@ const ProductModal = (props) => {
                                                                             margin={0}
                                                                             width={'auto'}
                                                                             height={'auto'}
+                                                                            title={'add photo'}
                                                                         />
-                                                                        <ButtonUi
-                                                                            width={'auto'}
-                                                                            height={'auto'}
-                                                                            margin={'0'}
-                                                                            padding={'1px 15px'}
-                                                                            color={'primary'}
-                                                                            onClick={selectMainIMage}
-                                                                        >
-                                                                            <PhotoLibraryIcon
-                                                                                fontSize={'small'}
-                                                                                className='mr-1'
-                                                                            />
-
-                                                                        </ButtonUi>
+                                                                        {
+                                                                            props.type === 'edit' ?
+                                                                                <ButtonUi
+                                                                                    width={'auto'}
+                                                                                    height={'auto'}
+                                                                                    margin={'0'}
+                                                                                    padding={'1px 15px'}
+                                                                                    color={'primary'}
+                                                                                    onClick={selectMainIMage}
+                                                                                >
+                                                                                    <Tooltip title={<Translate
+                                                                                        name={'make the main'}/>}
+                                                                                             placement="right">
+                                                                                        <PhotoLibraryIcon
+                                                                                            fontSize={'small'}
+                                                                                            className='mr-1'
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </ButtonUi>
+                                                                                :
+                                                                                null
+                                                                        }
                                                                         <ButtonUi
                                                                             width={'auto'}
                                                                             height={'auto'}
                                                                             margin={'0'}
                                                                             padding={'1px 15px'}
                                                                             color={'secondary'}
+                                                                            onClick={deleteImage.bind(this, props.type)}
                                                                         >
-                                                                            <BackspaceIcon
-                                                                                fontSize={'small'}
-                                                                                className='mr-1'
-                                                                            />
+                                                                            <Tooltip
+                                                                                title={<Translate name={'delete'}/>}
+                                                                                placement="right">
+                                                                                <DeleteForeverIcon
+                                                                                    fontSize={'small'}
+                                                                                    className='mr-1'
+                                                                                />
+                                                                            </Tooltip>
                                                                         </ButtonUi>
                                                                     </ButtonGroup>
                                                                     :
@@ -281,7 +261,7 @@ const ProductModal = (props) => {
                                                                                  aria-label="text primary button group">
                                                                         <UploadButton
                                                                             color={'default'}
-                                                                            name={'upImages'}
+                                                                            name={'pictures'}
                                                                             onChange={event => uploadImageHandler(event)}
                                                                             multiple={true}
                                                                             accept={'image/*'}
@@ -289,35 +269,43 @@ const ProductModal = (props) => {
                                                                             margin={0}
                                                                             width={'auto'}
                                                                             height={'auto'}
+                                                                            title={'add photo'}
                                                                         />
                                                                     </ButtonGroup>
                                                             }
                                                         </div>
-                                                        <ImageGallery
-                                                            items={images}
-                                                            showPlayButton={false}
-                                                            showFullscreenButton={false}
-                                                            // onThumbnailClick={event => clickHandler(event)}
-                                                            onSlide={event => clickHandler(event)}
-                                                            renderLeftNav={renderLeftNav}
-                                                            renderRightNav={renderRightNav}
-                                                            renderFullscreenButton={renderFullscreenButton}
-                                                        />
+                                                        {
+                                                            props.images.length ?
+                                                                <ImageGallery
+                                                                    items={props.images}
+                                                                    showPlayButton={false}
+                                                                    showFullscreenButton={false}
+                                                                    renderLeftNav={renderLeftNav}
+                                                                    renderRightNav={renderRightNav}
+                                                                    renderFullscreenButton={renderFullscreenButton}
+                                                                    onThumbnailClick={(event, index) => thumbClickHandler(event, index)}
+                                                                    thumbnailPosition={'bottom'}
+                                                                />
+                                                                :
+                                                                <div
+                                                                    style={{
+                                                                        height: 300,
+                                                                        overflow: 'hidden',
+                                                                        // backgroundColor: '#F2F2F2'
+                                                                    }}
+                                                                >
+                                                                    <img
+                                                                        src={process.env.PUBLIC_URL + '/folder-add.gif'}
+                                                                        alt=""
+                                                                        style={{
+                                                                            height: 300,
+                                                                            display: 'block',
+                                                                            margin: '0 auto'
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                        }
                                                     </div>
-
-                                                    {/*<CustomInput*/}
-                                                    {/*    type="file"*/}
-                                                    {/*    id="images"*/}
-                                                    {/*    className="form-control-file"*/}
-                                                    {/*    value={props.product.images ? props.product.images || '' : ''}*/}
-                                                    {/*    multiple="multiple"*/}
-                                                    {/*    onChange={event => {*/}
-                                                    {/*        setImg(event.target.files[0])*/}
-                                                    {/*        props.uploadImages("products", event);*/}
-                                                    {/*        props.setModalValues("images", event.target.value)*/}
-                                                    {/*    }}*/}
-                                                    {/*/>*/}
-
 
                                                 </FormGroup>
                                             </Col>
@@ -330,7 +318,9 @@ const ProductModal = (props) => {
                                                 </FormGroup>
 
                                                 <FormGroup row>
-                                                    <Label for="sku" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"sku"}/></Label>
+                                                    <Label for="sku" sm={4}
+                                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                                        name={"sku"}/></Label>
                                                     <Col sm={8}>
                                                         <Input
                                                             style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
@@ -343,7 +333,9 @@ const ProductModal = (props) => {
                                                 </FormGroup>
 
                                                 <FormGroup row>
-                                                    <Label for="name" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"name"}/></Label>
+                                                    <Label for="name" sm={4}
+                                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                                        name={"name"}/></Label>
                                                     <Col sm={8}>
                                                         <Input
                                                             style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
@@ -354,27 +346,12 @@ const ProductModal = (props) => {
                                                         />
                                                     </Col>
                                                 </FormGroup>
-
-                                                <FormGroup row>
-                                                    <Label for="points" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"points"}/></Label>
-                                                    <Col sm={8}>
-                                                        <Input
-                                                            style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
-                                                            type="number"
-                                                            min={0}
-                                                            id="points"
-                                                            name="points"
-                                                            value={props.product.points ? props.product.points : ''}
-                                                            onChange={event => onPointHandler(event)}
-                                                        />
-                                                    </Col>
-                                                </FormGroup>
-
                                                 <FormGroup
                                                     row
                                                     className="justify-content-end"
                                                 >
-                                                    <Label for="measurement" sm={4} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                                                    <Label for="measurement" sm={4}
+                                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
                                                         <Translate name={"measurement"}/></Label>
                                                     <Col
                                                         sm={8}
@@ -392,7 +369,9 @@ const ProductModal = (props) => {
 
                                                 <FormGroup row
                                                            style={{marginBottom: '14px', justifyContent: 'flex-end'}}>
-                                                    <Label for="active" sm={'auto'} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={"active"}/></Label>
+                                                    <Label for="active" sm={'auto'}
+                                                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                                                        name={"active"}/></Label>
                                                     <Col sm={'auto'}>
                                                         <CustomInput
                                                             type="checkbox"
@@ -421,10 +400,47 @@ const ProductModal = (props) => {
 
     }
 
+    const modalheaderName = type => {
+        if (type === 'add') {
+            return "addProduct"
+        } else if (type === 'edit') {
+            return "editProduct"
+        }
+        return "deleteProduct"
+    }
+
     return (
         <React.Fragment>
-            <Modal isOpen={props.modal[props.type]} toggle={() => props.toggleModal(props.type)} size="xl">
-                <ModalHeader toggle={() => props.toggleModal(props.type)} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name="addProduct"/></ModalHeader>
+            <Modal
+                isOpen={props.modal === props.type ? true : false}
+                toggle={
+                    () => {
+                        setPhotoBtns(false)
+                        setActiveImg(null)
+                        props.toggleModal(props.type, 0, true)
+                    }
+                }
+                size="xl"
+            >
+                <ModalHeader
+                    toggle={
+                        () => {
+                            setPhotoBtns(false)
+                            setActiveImg(null)
+                            props.toggleModal(props.type, 0, true)
+                        }
+                    }
+                    style={
+                        props.sectionFontColor ?
+                            {color: props.sectionFontColor}
+                            :
+                            null
+                    }
+                >
+                    {
+                        <Translate name={modalheaderName(props.type)}/>
+                    }
+                </ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
                     {
@@ -436,7 +452,7 @@ const ProductModal = (props) => {
                             null
                     }
                     <Button color="primary" outline type="submit"
-                            onClick={createProduct}>
+                            onClick={createProduct.bind(this, props.type)}>
                         <Translate name="confirm"/>
                     </Button>
                 </ModalFooter>

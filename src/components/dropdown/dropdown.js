@@ -7,7 +7,7 @@ const DropdownComponent = (props) => {
 
     return (
         <InputGroupButtonDropdown addonType="prepend" isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle split outline className='rounded-right'/>
+            <DropdownToggle style={props.style} split outline className='rounded-right btn-secondary'/>
             <DropdownMenu>
                 {
                     props.types.map(

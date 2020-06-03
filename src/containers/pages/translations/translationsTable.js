@@ -1,12 +1,20 @@
 import React from "react";
-import {CardBody, Col, FormGroup, Input, Label, Row, Table/*, Input */} from "reactstrap";
+import {Col, FormGroup, Input, Label, Row, Table} from "reactstrap";
 import EditButton from "../../../components/buttons/editButton";
 import DeleteButton from "../../../components/buttons/deleteButton";
 import PaginationS from "../../../components/pagination/pagination";
+import Translate from "../../../Translate";
+import classes from "../group/content.module.css";
+import BuildIcon from "@material-ui/icons/Build";
+import ButtonUi from "../../../components/buttons/buttonUi";
 
 /*name change example to TableComponent*/
 
 export default class TableComponent extends React.Component {
+
+    componentWillUnmount() {
+        this.props.resetActiveTranslationLang()
+    }
 
     editBtnHandler = (item) => {
         this.props.toggleModal('edit', item.id);
@@ -41,7 +49,7 @@ export default class TableComponent extends React.Component {
     }
 
     handlePageChange = (pageSize, language, pageNumber) => {
-            this.props.getTranslationPage(pageNumber, pageSize, language)
+        this.props.getTranslationPage(pageNumber, pageSize, language)
     }
 
     handleSizeChange = (pageSize, language, pageNumber) => {
@@ -52,16 +60,31 @@ export default class TableComponent extends React.Component {
 
         return (
             <>
-                <Table hover borderless responsive style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
-                    {/*<thead>*/}
-                    {/*<tr>*/}
-                    {/*    <td>#</td>*/}
-                    {/*    <td><Translate name={'key'}/></td>*/}
-                    {/*    <td><Translate name={'value'}/></td>*/}
-                    {/*    <td><Translate name={'language'}/></td>*/}
-                    {/*    <td><Translate name={'E/D'}/></td>*/}
-                    {/*</tr>*/}
-                    {/*</thead>*/}
+                <ButtonUi
+                    className={`${classes.buildBtn} ${this.props.editabledStatus ? classes.buildBtnAnimated : null}`}
+                    label={<BuildIcon style={{fontSize: 12}}/>}
+                    padding={5}
+                    width={'auto'}
+                    height={'auto'}
+                    color={this.props.editabledStatus ? 'primary' : 'default'}
+                    onClick={this.props.translationEditableToggle}
+                />
+                <Table hover borderless responsive
+                       style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
+                    <thead>
+                    <tr>
+                        <td>#</td>
+                        <td><Translate name={'key'}/></td>
+                        <td><Translate name={'value'}/></td>
+                        <td><Translate name={'language'}/></td>
+                        {
+                            this.props.editabledStatus ?
+                                <td><Translate name={'E/D'}/></td>
+                                :
+                                null
+                        }
+                    </tr>
+                    </thead>
                     <tbody>
                     {
                         this.props.data && this.props.data.length > 0 ?
@@ -70,23 +93,32 @@ export default class TableComponent extends React.Component {
 
                                     return (
                                         <tr key={item.id}>
-                                            {Object.keys(item).map((key) => <td key={key}>
-                                                {
-                                                    item[key]
-                                                }
-                                            </td>)}
-                                            <td>
-                                                <EditButton
-                                                    perm={'Edit'}
-                                                    onClick={this.editBtnHandler.bind(this, item)}
-                                                />
-                                                <DeleteButton
-                                                    perm={'Delete'}
-                                                    onClick={
-                                                        () => this.props.toggleModal('delete', item.id)
-                                                    }
-                                                />
-                                            </td>
+                                            {
+                                                Object.keys(item).map(
+                                                    (key) => <td key={key}>
+                                                        {
+                                                            item[key]
+                                                        }
+                                                    </td>
+                                                )
+                                            }
+                                            {
+                                                this.props.editabledStatus ?
+                                                    <td>
+                                                        <EditButton
+                                                            perm={'Edit'}
+                                                            onClick={this.editBtnHandler.bind(this, item)}
+                                                        />
+                                                        <DeleteButton
+                                                            perm={'Delete'}
+                                                            onClick={
+                                                                () => this.props.toggleModal('delete', item.id)
+                                                            }
+                                                        />
+                                                    </td>
+                                                    :
+                                                    null
+                                            }
                                         </tr>
 
                                     )

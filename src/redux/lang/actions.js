@@ -30,7 +30,10 @@ import {
     GET_TRANSLATION_PAGE_REQUEST,
     GET_TRANSLATION_PAGE_FAIL,
     GET_TRANSLATION_PAGE_SUCCESS,
-    GET_TRANSLATION_LANGUAGE_REQUEST, GET_TRANSLATION_LANGUAGE_FAIL, GET_TRANSLATION_LANGUAGE_SUCCESS
+    GET_TRANSLATION_LANGUAGE_REQUEST,
+    GET_TRANSLATION_LANGUAGE_FAIL,
+    GET_TRANSLATION_LANGUAGE_SUCCESS,
+    TOGGLE_TRANSLATION_EDITABLE, RESET_ACTIVE_LANGUAGE
 } from "./actionTypes";
 import SessionStorage from "../../services/SessionStorage";
 
@@ -234,5 +237,19 @@ export const translationActions = (type, data) => {
             }
         default:
             return;
+    }
+}
+
+export const translationEditableToggle = () => {
+
+    return {
+        type: TOGGLE_TRANSLATION_EDITABLE
+    }
+}
+
+export const resetActiveTranslationLang = () => {
+
+    return {
+        type: RESET_ACTIVE_LANGUAGE
     }
 }

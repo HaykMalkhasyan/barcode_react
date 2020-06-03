@@ -1,0 +1,47 @@
+.mainWindow {
+    cursor: pointer;
+    padding: 7px;
+    height: 166px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.mainWindowMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .04);
+    transition: 300ms;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainWindow:hover .mainWindowMenu {
+    opacity: 1;
+}
+
+.mainWindow img {
+    height: 100%;
+}
+
+.closeBtn {
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    transition: 300ms;
+}
+
+.closeBtn:hover {
+    color: #f44;
+}

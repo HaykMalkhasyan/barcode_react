@@ -6,7 +6,7 @@
     z-index: 2;
     transform: translateY(-50%);
     transition: 225ms !important;
-    padding: 20px 10px !important;
+    padding: 10px 5px !important;
     border-radius: 5px 0 0 5px !important;
     outline: none !important;
     animation: changeColor 3s ease-in-out alternate infinite !important;

@@ -4,6 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Translate from "../../Translate";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import ButtonUi from "./buttonUi";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -21,6 +22,7 @@ export default function UploadButton(props) {
 
     return (
         <>
+            <Tooltip title={<Translate name={props.title}/>} placement="right">
             <label htmlFor="contained-button-file"
                    style={{
                        margin: 0,
@@ -48,6 +50,7 @@ export default function UploadButton(props) {
                     />
                 </Button>
             </label>
+            </Tooltip>
             <input
                 accept={props.accept}
                 className={classes.input}

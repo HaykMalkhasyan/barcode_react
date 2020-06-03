@@ -47,10 +47,21 @@ const ModalExample = props => {
         <div>
             <Row>
                 <Col sm="11" className="mr-0 mb-0">
-                    <Input type="text" readOnly="readOnly"
-                           style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
-                           value={props.product.groups ? roadRender(props.product.groups[props.dataId], props.group.name) : ""}
-                           placeholder={props.name}/>
+                    {
+                        props.product.groups ?
+                            <span key={props.dataId} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                                {
+                                    roadRender(props.product.groups[props.dataId], props.group.name)
+                                }
+                            </span>
+                            :
+                            null
+                        // <Input type="text" readOnly="readOnly"
+                        //        style={props.sectionFontColor ? {color: props.sectionFontColor} : null}
+                        //        value={props.product.groups ? roadRender(props.product.groups[props.dataId], props.group.name) : ""}
+                        //        placeholder={props.name}
+                        // />
+                    }
                 </Col>
                 <Col sm="1" className="ml-0 mb-0">
                     <Button color="primary" className="mb-0" onClick={toggle}><List size={16}/></Button>{" "}
@@ -64,7 +75,8 @@ const ModalExample = props => {
                 toggle={toggle}
                 className={props.className}
             >
-                <ModalHeader toggle={toggle} style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.name}</ModalHeader>
+                <ModalHeader toggle={toggle}
+                             style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>{props.name}</ModalHeader>
                 <ModalBody>
                     {
                         props.productGroups.length ?

@@ -27,12 +27,13 @@ import {
     FETCH_SUPPLIER_FAIL,
     FETCH_SUPPLIER_SUCCESS,
     SUPPLIERS_OPEN_MODAL,
-    EMPTY_VALUE, SUCCES_VALUE,
+    EMPTY_VALUE, SUCCES_VALUE, TOGGLE_EDITABLE_SUPPLIERS,
 } from "./actionTypes";
 import {IsRequiredField, IsRequiredFields, Push, Put, RemoveItem} from "../../utility/utils";
 
 
 const INIT_STATE = {
+    editabledStatus: false,
     suppliers: [],
     supplier: {},
     banks: [],
@@ -83,6 +84,10 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case TOGGLE_EDITABLE_SUPPLIERS:
+            return {
+                ...state, editabledStatus: !state.editabledStatus
+            }
         case GET_SUPPLIERS_REQUEST:
             return {
                 ...state,

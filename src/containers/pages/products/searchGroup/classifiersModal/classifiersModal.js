@@ -1,101 +1,110 @@
 import React, {useState} from "react";
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import {Card, CardBody, ModalFooter} from "reactstrap";
 import Translate from "../../../../../Translate";
 import classes from './classifiersModal.module.css'
-import ButtonUi from "../../../../../components/buttons/buttonUi";
-import ClassifiersTreeViewer from "./classifiersTreeViewer/classifiersTreeViewer";
 import * as Icon from 'react-feather'
+import LayersIcon from '@material-ui/icons/Layers';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import Collapse from '@material-ui/core/Collapse';
+import ClassifaersTree from "./classifiersTreeViewer/classifiersTreeViewverV2";
 
 const ClassifiersModal = props => {
     const [active, setActive] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
-    const groupsClickHandler = item => {
-        setActive(item.id)
-        props.selectClassifiersGroup(item)
+    // const groupsClickHandler = item => {
+    //     setActive(item.id)
+    //     props.selectClassifiersGroup(item)
+    // }
+
+    // const chooseClassifiersHandler = () => {
+    //     setActive(false)
+    //     props.createClassifiers()
+    // }
+
+    const handleClick = (item) => {
+        if (isOpen === item.name) {
+            setIsOpen(false)
+        } else {
+            setIsOpen(item.name)
+            setActive(item.id)
+            props.selectClassifiersGroup(item)
+        }
     }
 
-    const chooseClassifiersHandler = () => {
-        setActive(false)
-        props.createClassifiers()
-    }
-
-    const toggleModal = () => {
-        setActive(false)
-        props.classifiersToggleModal()
+    const classifiersSelectHandler = (event, value, check) => {
+        event.stopPropagation()
+        props.toggleCheckBoxValue('classifier', check, +value)
     }
 
     return (
-        <div
-            style={{
-                padding: 5
-            }}
-        >
-            <ModalBody>
-                <h5 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Classifiers'}/></h5>
+        <Card className="m-0">
+            <CardBody className="m-0">
+                <h6 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
+                    <LayersIcon className='mr-1'/>
+                    <Translate name={'Classifiers'}/>
+                </h6>
+                <hr style={{margin: '10px 0', borderColor: '#eee'}}/>
                 <header className={classes.mBodyHeader}>
-                    {
-                        props.groups && props.groups.length ?
-                            props.groups.map(
-                                item => {
+                    <List
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                    >
+                        {
+                            props.groups && props.groups.length ?
+                                props.groups.map(
+                                    (item, index) => {
 
-                                    return (
-                                        <ButtonUi
-                                            key={item.id}
-                                            label={item.name}
-                                            name={'group'}
-                                            width={'auto'}
-                                            height={'auto'}
-                                            margin={'3px 5px'}
-                                            padding={'2px 8px'}
-                                            fontSize={'12px'}
-                                            variant={+active === parseInt(item.id) ? 'contained' : 'outlined'}
-                                            color={+active === parseInt(item.id) ? 'primary' : 'default'}
-                                            onClick={groupsClickHandler.bind(this, item)}
-                                        />
-                                    )
-                                }
-                            )
-                            :
-                            <p className="text-center info m-1">
-                                <Icon.AlertTriangle className='warning mr-1'/>
-                                <Translate name={'The groups are empty'}/>
-                            </p>
-                    }
-                </header>
-                <section className={classes.mBodySection}>
-                    {
-                        props.group && props.subGroups ?
-                            <ClassifiersTreeViewer
-                                // DATA
-                                sectionFontColor={props.sectionFontColor}
-                                data={props.subGroups}
-                                group={props.group}
-                                // METHODS
-                                selectGroupsNode={props.selectGroupsNode}
-                            />
-                            :
-                            props.groups.length === 0 ?
-                                null
+                                        return (
+                                            <React.Fragment key={index}>
+                                                <ListItem className='px-0' button onClick={handleClick.bind(this, item)}>
+                                                    <ListItemIcon>
+                                                        <LayersIcon fontSize='small'/>
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={item.name}/>
+                                                    {isOpen === item.name ? <ExpandLess/> : <ExpandMore/>}
+                                                </ListItem>
+                                                <Collapse
+                                                    in={isOpen === item.name ? true : false}
+                                                    timeout={400}
+                                                    unmountOnExit
+                                                    className='px-2'
+                                                >
+                                                    {
+                                                        props.group && props.subGroups ?
+                                                            <ClassifaersTree
+                                                                // DATA
+                                                                group={props.group}
+                                                                data={props.subGroups}
+                                                                sectionFontColor={props.sectionFontColor}
+                                                                collapsedStatus={props.collapsedStatus}
+                                                                advancedSearchConfig={props.advancedSearchConfig}
+                                                                // METHODS
+                                                                subGroupCollapses={props.subGroupCollapses}
+                                                                onChange={classifiersSelectHandler}
+                                                            />
+                                                            :
+                                                            null
+                                                    }
+                                                </Collapse>
+                                            </React.Fragment>
+                                        )
+                                    }
+                                )
                                 :
-                                <p className="text-center info pt-2 mb-0">
-                                    <Translate name={'Everyone is selected'}/>
+                                <p className="text-center info m-1">
+                                    <Icon.AlertTriangle className='warning mr-1'/>
+                                    <Translate name={'The groups are empty'}/>
                                 </p>
-                    }
-                </section>
-            </ModalBody>
-            {
-                props.group !== null ?
-                    <ModalFooter>
-                        <Button
-                            color={'primary'}
-                            onClick={chooseClassifiersHandler}
-                        >
-                            <Translate name={'select'}/>
-                        </Button>
-                    </ModalFooter>
-                    :
-                    null
-            }
+                        }
+                    </List>
+                </header>
+            </CardBody>
             {
                 props.createError ?
                     <ModalFooter>
@@ -105,7 +114,7 @@ const ClassifiersModal = props => {
                     :
                     null
             }
-        </div>
+        </Card>
     )
 }
 

@@ -10,7 +10,9 @@ import {
     getTranslationsWithSize,
     getTranslationPage,
     getTranslationWithLang,
-    getTranslationAll
+    getTranslationAll,
+    translationEditableToggle,
+    resetActiveTranslationLang
 } from '../../../redux/lang/actions'
 
 const mapDispatchToProps = dispatch => {
@@ -24,7 +26,9 @@ const mapDispatchToProps = dispatch => {
             getTranslationsWithSize,
             getTranslationPage,
             getTranslationWithLang,
-            getTranslationAll
+            getTranslationAll,
+            translationEditableToggle,
+            resetActiveTranslationLang
         },
         dispatch
     );
@@ -33,6 +37,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         translations: state.languages.translations,
+        editabledStatus: state.languages.editabledStatus,
         translation: state.languages.translation,
         translationsSize: state.languages.translationsSize,
         modal: state.languages.modal,

@@ -4,12 +4,13 @@ import {
     ADD_USER_REQUEST, ADD_USER_FAIL, ADD_USER_SUCCESS,
     EDIT_USER_REQUEST, EDIT_USER_FAIL, EDIT_USER_SUCCESS,
     DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
-    SET_USER_MODAL,TOGGLE_USER_MODAL
+    SET_USER_MODAL, TOGGLE_USER_MODAL, TOGGLE_EDITABLE_USER
 } from "./actionTypes";
-import {IsRequiredField, IsRequiredFields, Put ,Push ,/*Remove*/} from "../../utility/utils";
+import {IsRequiredField, IsRequiredFields, Put, Push,/*Remove*/} from "../../utility/utils";
 
 
 const INIT_STATE = {
+    editabledStatus: false,
     users: [],
     user: {},
     modal: {},
@@ -28,6 +29,10 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case TOGGLE_EDITABLE_USER:
+            return {
+                ...state, editabledStatus: !state.editabledStatus
+            }
         case GET_USERS_REQUEST:
             return {
                 ...state,
@@ -85,7 +90,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors:IsRequiredFields(state.required,state.user,state.errors)
+                errors: IsRequiredFields(state.required, state.user, state.errors)
             }
         case ADD_USER_FAIL:
             return {
@@ -110,7 +115,7 @@ export default (state = INIT_STATE, action) => {
                 loading: true,
                 success: false,
                 fail: false,
-                errors:IsRequiredFields(state.required,state.user,state.errors)
+                errors: IsRequiredFields(state.required, state.user, state.errors)
             }
         case EDIT_USER_FAIL:
             return {
@@ -123,7 +128,7 @@ export default (state = INIT_STATE, action) => {
         case EDIT_USER_SUCCESS:
             return {
                 ...state,
-                users: Put(state.users, action.result,'id'),
+                users: Put(state.users, action.result, 'id'),
                 modal: {},
                 loading: false,
                 success: true,
@@ -153,23 +158,23 @@ export default (state = INIT_STATE, action) => {
                 fail: false,
                 modal: {},
                 user: {},
-                users: Put(state.users,action.result,'id')
+                users: Put(state.users, action.result, 'id')
             };
 
         case SET_USER_MODAL:
-            state.user.active = (state.user.active)?state.user.active:0;
+            state.user.active = (state.user.active) ? state.user.active : 0;
             state.user[action.key] = action.value;
             return {
                 ...state,
-                errors: IsRequiredField(state.required,action,state.errors)
+                errors: IsRequiredField(state.required, action, state.errors)
             };
         case TOGGLE_USER_MODAL:
             state.modal[action.modalType] = !state.modal[action.modalType];
 
-            if(action.obj){
-                if(action.modalType==="edit"){
+            if (action.obj) {
+                if (action.modalType === "edit") {
                     state.user[action.obj.key] = action.obj.value
-                }else{
+                } else {
                     state.user = action.obj
                 }
             }

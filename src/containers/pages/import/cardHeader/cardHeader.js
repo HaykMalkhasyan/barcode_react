@@ -24,8 +24,8 @@ const HeaderComponent = props => {
                 padding={'5px 15px'}
                 margin={'2px 2px 10px'}
                 label={'Attach a file'}
+                title={'Attach a file'}
             />
-            <b style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Attach a file'}/></b>
             {
                 props.error ?
                     <p

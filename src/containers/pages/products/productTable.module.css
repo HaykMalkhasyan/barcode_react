@@ -1,3 +1,13 @@
 .myTable svg {
     vertical-align: middle !important;
 }
+
+@media (max-width: 576px) {
+    .btnWrap {
+        width: 100%;
+    }
+
+    .btnWrap button {
+        width: 100% !important;
+    }
+}

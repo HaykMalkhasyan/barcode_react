@@ -31,17 +31,23 @@ import {
     SELECT_GROUP,
     SELECT_ID_IN_ARRAY,
     CLASSIFIERS_TOGGLE_MODAL,
-    CREATE_CLASSIFIERS_ERROR, CREATE_CLASSIFIERS_SUCCESS, ADD_SEARCH_TEXT, EDITABLED_PRODUCT
+    CREATE_CLASSIFIERS_ERROR,
+    CREATE_CLASSIFIERS_SUCCESS,
+    ADD_SEARCH_TEXT,
+    EDITABLED_PRODUCT,
+    SET_IMAGES_DATA,
+    SET_PRODUCT_COLLAPSED, SET_ADDED_PRODUCT, SET_DELETED_IMAGES, ADD_PRODUCT_STATUS
 } from "./actionTypes";
 import {Pushend,/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
 
 const INIT_STATE = {
+    images: [],
     editabledStatus: false,
     products: [],
     product: {},
     barcodeTypes: [],
-    modal: {},
+    modal: false,
     loading: false,
     success: false,
     fail: false,
@@ -81,15 +87,46 @@ const INIT_STATE = {
             image: false,
             hasActive: false,
             hasSuppliers: false,
-            pageSize: 'all'
+            pageSize: 'all',
+            /*classifier: null*/
         },
     advancedSearchText: '',
     createError: false,
+    collapsedStatus: {},
+    status: false,
+    severity: null,
+    text: null
 };
 
 export default (state = INIT_STATE, action) => {
 
     switch (action.type) {
+        case ADD_PRODUCT_STATUS:
+            return {
+                ...state,
+                status: action.status,
+                severity: action.severity,
+                text: action.text
+            }
+        case SET_DELETED_IMAGES:
+            return {
+                ...state, product: action.product, images: action.images
+            }
+        case SET_ADDED_PRODUCT:
+            return {
+                ...state,
+                product: {},
+                modal: {},
+                products: action.data
+            }
+        case SET_PRODUCT_COLLAPSED:
+            return {
+                ...state, collapsedStatus: action.collapsedStatus
+            }
+        case SET_IMAGES_DATA:
+            return {
+                ...state, images: action.images
+            }
         case EDITABLED_PRODUCT:
             return {
                 ...state, editabledStatus: !state.editabledStatus
@@ -110,7 +147,7 @@ export default (state = INIT_STATE, action) => {
                 advancedSearchConfig: action.data,
                 createError: false,
                 classifiersModal: false,
-                group: null,
+                // group: null,
                 elemsIdInArray: null
             }
         case CLASSIFIERS_TOGGLE_MODAL:
@@ -334,8 +371,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
             }
         case TOGGLE_PRODUCT_MODAL:
-            let newModal = {};
-            newModal[action.modalType] = !state.modal[action.modalType];
             let product = (action.modalType === "edit") ? {
                 ...state.product,
                 ...action.obj
@@ -344,11 +379,8 @@ export default (state = INIT_STATE, action) => {
             }
             return {
                 ...state,
-                modal: {
-                    ...state.modal,
-                    ...newModal
-                },
-                product
+                modal: state.modal === action.modalType ? false : action.modalType,
+                product: {}
             }
         default:
             return {...state};

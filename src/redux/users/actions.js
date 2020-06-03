@@ -4,7 +4,7 @@ import {
     ADD_USER_REQUEST, ADD_USER_FAIL, ADD_USER_SUCCESS,
     EDIT_USER_REQUEST, EDIT_USER_FAIL, EDIT_USER_SUCCESS,
     DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS,
-    SET_USER_MODAL, TOGGLE_USER_MODAL
+    SET_USER_MODAL, TOGGLE_USER_MODAL, TOGGLE_EDITABLE_USER
 } from "./actionTypes";
 
 let cols = 'id, username, firstname, lastname, email, is_active, deleted ';
@@ -59,5 +59,12 @@ export const toggleModal = (modalType, id) => {
         type: TOGGLE_USER_MODAL,
         modalType,
         obj
+    }
+}
+
+export function userEditableToggle() {
+
+    return {
+        type: TOGGLE_EDITABLE_USER
     }
 }

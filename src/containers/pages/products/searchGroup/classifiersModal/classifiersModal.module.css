@@ -1,15 +1,12 @@
 .mBodyHeader {
-    border-bottom: 1px solid #eee;
     padding: 5px;
     box-sizing: border-box;
     width: 100%;
-    max-height: 83px;
-    overflow-y: auto;
 }
 
 .mBodySection {
     box-sizing: border-box;
-    padding: 20px 5px;
+    padding: 5px;
     width: 100%;
     color: #666;
 }

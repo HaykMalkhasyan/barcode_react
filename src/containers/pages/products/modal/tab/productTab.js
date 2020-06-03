@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Col, FormGroup, Input, InputGroup, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
+import {Col, FormGroup, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
 import classnames from "classnames";
 import Translate from "../../../../../Translate";
 import MultiSelect from "../../../../../components/select/multiSelect"
@@ -13,6 +13,10 @@ import ButtonUi from "../../../../../components/buttons/buttonUi";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import * as Icon from 'react-feather'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 
 class TabsBorderBottom extends Component {
 
@@ -251,6 +255,27 @@ class TabsBorderBottom extends Component {
                                 )
                             }
                         />
+                        <div className='p-2'>
+                            {
+                                console.log(this.props.product)
+                            }
+                            {
+                                this.props.type === 'edit' ?
+                                    this.props.product && this.props.product.supplier ?
+                                        <List component="nav" aria-label="secondary mailbox folders">
+                                            <ListItem button>
+                                                <ListItemText primary={this.props.product.supplier.name} />
+                                                <ButtonUi>
+                                                    <DeleteForeverRoundedIcon color='secondary' fontSize="small"/>
+                                                </ButtonUi>
+                                            </ListItem>
+                                        </List>
+                                        :
+                                        null
+                                    :
+                                    null
+                            }
+                        </div>
                     </TabPane>
                     <TabPane tabId="code">
                         <Row>

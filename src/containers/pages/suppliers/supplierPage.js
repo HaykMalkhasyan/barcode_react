@@ -18,13 +18,21 @@ class SupplierContainer extends Component {
                 <Card>
                     <CardBody>
                         {/*<AddButton perm = {this.props.perm} onClick={() => this.props.toggleModal("add")} />*/}
-                        <AddButton
-                            perm={this.props.perm}
-                            onClick={
-                                () => this.props.openSuppliersAddModal('add')
-                            }
-                        />
+                        {
+                            this.props.editabledStatus ?
+                                <AddButton
+                                    perm={this.props.perm}
+                                    onClick={
+                                        () => this.props.openSuppliersAddModal('add')
+                                    }
+                                />
+                                :
+                                null
+                        }
+
                         <TableComponent
+                            editabledStatus={this.props.editabledStatus}
+                            suppliersEditableToggle={this.props.suppliersEditableToggle}
                             sectionFontColor={this.props.sectionFontColor}
                             setValues={this.props.setValues}
                             companyTypes={this.props.companyTypes}
