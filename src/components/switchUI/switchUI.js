@@ -13,6 +13,7 @@ export default function SwitchesUi(props) {
         >
             <Translate name={props.label}/>
             <Switch
+                size={props.size}
                 checked={props.value}
                 onChange={props.onChange}
                 color={props.color}

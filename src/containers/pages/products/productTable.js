@@ -1,8 +1,7 @@
 import React from "react";
 import cls from './productTable.module.css'
-import {Col, Row, Table} from "reactstrap";
+import {Col, Row} from "reactstrap";
 import Translate from "../../../Translate";
-import Tooltip from '@material-ui/core/Tooltip';
 import AdvancedSearch from "./searchGroup/advancedSearch/advancedSearch";
 import classes from "../group/content.module.css";
 import BuildIcon from "@material-ui/icons/Build";
@@ -11,16 +10,16 @@ import TextFields from "../../../components/textFieldUI/textField";
 import CloseIcon from '@material-ui/icons/Close';
 import ClassifiersModal from "./searchGroup/classifiersModal/classifiersModal";
 import SearchIcon from "@material-ui/icons/Search";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import SwitchesUi from "../../../components/switchUI/switchUI";
-import EditButton from "../../../components/buttons/editButton";
-import DeleteButton from "../../../components/buttons/deleteButton";
 import CustomizedSnackbars from "../../../components/snachbarsUI/snachbarsUi";
+import {withRouter} from "react-router-dom";
 
 /*name change example to TableComponent*/
 
-export default class TableComponent extends React.Component {
+class TableComponent extends React.Component {
     state = {
+        active: false,
+        isOpen: false,
         searchConfig: {
             sku: false,
             name: false,
@@ -81,6 +80,31 @@ export default class TableComponent extends React.Component {
 
     changeSwitchHandler = (name, value) => {
         this.props.toggleSwitchValue(name, value)
+    }
+
+    searchHandler = () => {
+        console.log(this.props)
+        this.props.history.push('/search')
+    }
+
+    handleClick = (item) => {
+        if (this.state.isOpen === item.name) {
+            this.setState({
+                isOpen: false
+            })
+        } else {
+            this.setState({
+                isOpen: item.name,
+                active: item.id
+            })
+            this.props.selectClassifiersGroup(item)
+        }
+    }
+
+    classifiersSelectHandler = (event, value, check, name) => {
+        event.stopPropagation()
+        console.log(name)
+        this.props.toggleCheckBoxValue('classifier', check, +value, name)
     }
 
     render() {
@@ -178,6 +202,10 @@ export default class TableComponent extends React.Component {
                                 md={4} xl={3}
                             >
                                 <ClassifiersModal
+                                    active={this.state.active}
+                                    isOpen={this.state.isOpen}
+                                    handleClick={this.handleClick}
+                                    classifiersSelectHandler={this.classifiersSelectHandler}
                                     subGroupCollapses={this.props.subGroupCollapses}
                                     collapsedStatus={this.props.collapsedStatus}
                                     sectionFontColor={this.props.sectionFontColor}
@@ -258,388 +286,13 @@ export default class TableComponent extends React.Component {
                                     textAlign={'center'}
                                     color={'primary'}
                                     variant='contained'
+                                    onClick={this.searchHandler}
                                 >
-                                    <ArrowForwardIosIcon fontSize={'small'}/>
+                                    <SearchIcon fontSize={'small'}/>
                                 </ButtonUi>
                             </Col>
                         </Row>
 
-                    </Col>
-                    <Col>
-                        <div style={{overflowX: 'auto', width: '100%'}}>
-                            <Row style={{minWidth: 996, margin: 0}}>
-                                <Col md={12}>
-                                    <Row
-                                        style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            {
-                                                !this.state.searchConfig.sku ?
-                                                    <b style={{cursor: "pointer"}}
-                                                       onClick={this.searchAreaToggle.bind(this, 'sku')}>
-                                                        <Translate name={'sku'}/>
-                                                    </b>
-                                                    :
-                                                    <>
-                                                        <div className="d-flex justify-content-center">
-                                                            <ButtonUi
-                                                                onClick={this.searchAreaClose.bind(this, 'sku')}
-                                                            >
-                                                                <CloseIcon fontSize='small'/>
-                                                            </ButtonUi>
-                                                            <TextFields
-                                                                // label={<Translate name={'sku'}/>}
-                                                                type={'search'}
-                                                                value={this.props.searchProduct.sku}
-                                                                name={'sku'}
-                                                                onChange={event => this.searchProductHandler(event.target.value, event.target.name)}
-                                                                style={{
-                                                                    width: '100%'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        {
-                                                            this.props.searchErrorName === 'sku' ?
-                                                                <span className="info font-small-1">
-                                                    {/*<Icon.AlertCircle size={15} className="danger mr-1"/>*/}
-                                                                    <Translate name={'the search returned no result'}/>
-                                                </span>
-                                                                :
-                                                                null
-                                                        }
-                                                    </>
-                                            }
-                                        </Col>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            {
-                                                !this.state.searchConfig.name ?
-                                                    <b style={{cursor: "pointer"}}
-                                                       onClick={this.searchAreaToggle.bind(this, 'name')}>
-                                                        <Translate name={'name'}/>
-                                                    </b>
-                                                    :
-                                                    <>
-                                                        <div className="d-flex">
-                                                            <ButtonUi
-                                                                onClick={this.searchAreaClose.bind(this, 'name')}
-                                                            >
-                                                                <CloseIcon fontSize='small'/>
-                                                            </ButtonUi>
-                                                            <TextFields
-                                                                // label={<Translate name={'name'}/>}
-                                                                type={'search'}
-                                                                value={this.props.searchProduct.name}
-                                                                name={'name'}
-                                                                onChange={event => this.searchProductHandler(event.target.value, event.target.name)}
-                                                                style={{
-                                                                    width: '100%'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        {
-                                                            this.props.searchErrorName === 'name' ?
-                                                                <span className="info font-small-1">
-                                                    {/*<Icon.AlertCircle size={15} className="danger mr-1"/>*/}
-                                                                    <Translate name={'the search returned no result'}/>
-                                                </span>
-                                                                :
-                                                                null
-                                                        }
-                                                    </>
-                                            }
-                                        </Col>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            {
-                                                !this.state.searchConfig.suppliers ?
-                                                    <b style={{cursor: "pointer"}}
-                                                       onClick={this.searchAreaToggle.bind(this, 'suppliers')}>
-                                                        <Translate name={'suppliers'}/>
-                                                    </b>
-                                                    :
-                                                    <>
-                                                        <div className="d-flex">
-                                                            <ButtonUi
-                                                                onClick={this.searchAreaClose.bind(this, 'suppliers')}
-                                                            >
-                                                                <CloseIcon fontSize='small'/>
-                                                            </ButtonUi>
-                                                            <TextFields
-                                                                // label={<Translate name={'suppliers'}/>}
-                                                                type={'search'}
-                                                                value={this.props.searchProduct.suppliers}
-                                                                name={'suppliers'}
-                                                                onChange={event => this.searchProductHandler(event.target.value, event.target.name)}
-                                                                style={{
-                                                                    width: '100%'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        {
-                                                            this.props.searchErrorName === 'suppliers' ?
-                                                                <span className="info font-small-1">
-                                                    {/*<Icon.AlertCircle size={15} className="danger mr-1"/>*/}
-                                                                    <Translate name={'the search returned no result'}/>
-                                                </span>
-                                                                :
-                                                                null
-                                                        }
-                                                    </>
-                                            }
-                                        </Col>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            {
-                                                !this.state.searchConfig.barcode ?
-                                                    <b style={{cursor: "pointer"}}
-                                                       onClick={this.searchAreaToggle.bind(this, 'barcode')}>
-                                                        <Translate name={'barcode'}/>
-                                                    </b>
-                                                    :
-                                                    <>
-                                                        <div className="d-flex">
-                                                            <ButtonUi
-                                                                onClick={this.searchAreaClose.bind(this, 'barcode')}
-                                                            >
-                                                                <CloseIcon fontSize='small'/>
-                                                            </ButtonUi>
-                                                            <TextFields
-                                                                // label={<Translate name={'barcode'}/>}
-                                                                type={'search'}
-                                                                value={this.props.searchProduct.barcode}
-                                                                name={'barcode'}
-                                                                onChange={event => this.searchProductHandler(event.target.value, event.target.name)}
-                                                                style={{
-                                                                    width: '100%'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        {
-                                                            this.props.searchErrorName === 'barcode' ?
-                                                                <span className="info font-small-1">
-                                                    {/*<Icon.AlertCircle size={15} className="danger mr-1"/>*/}
-                                                                    <Translate name={'the search returned no result'}/>
-                                                </span>
-                                                                :
-                                                                null
-                                                        }
-                                                    </>
-                                            }
-                                        </Col>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            {
-                                                !this.state.searchConfig.description ?
-                                                    <b style={{cursor: "pointer"}}
-                                                       onClick={this.searchAreaToggle.bind(this, 'description')}>
-                                                        <Translate name={'description'}/>
-                                                    </b>
-                                                    :
-                                                    <>
-                                                        <div className='d-flex'>
-                                                            <ButtonUi
-                                                                onClick={this.searchAreaClose.bind(this, 'description')}
-                                                            >
-                                                                <CloseIcon fontSize='small'/>
-                                                            </ButtonUi>
-                                                            <TextFields
-                                                                // label={<Translate name={'description'}/>}
-                                                                type={'search'}
-                                                                value={this.props.searchProduct.description}
-                                                                name={'description'}
-                                                                onChange={event => this.searchProductHandler(event.target.value, event.target.name)}
-                                                                style={{
-                                                                    width: '100%'
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        {
-                                                            this.props.searchErrorName === 'description' ?
-                                                                <span className="info font-small-1">
-                                                    {/*<Icon.AlertCircle size={15} className="danger mr-1"/>*/}
-                                                                    <Translate name={'the search returned no result'}/>
-                                                </span>
-                                                                :
-                                                                null
-                                                        }
-                                                    </>
-                                            }
-                                        </Col>
-                                        <Col style={{height: 32}} className='text-center m-0 p-0'>
-                                            <b>
-                                                <Translate name={'active'}/>
-                                            </b>
-                                        </Col>
-                                        {
-                                            this.props.editabledStatus ?
-                                                <Col xs={1} className='text-center'>
-                                                    <b>
-                                                        <Translate name={'e/d'}/>
-                                                    </b>
-                                                </Col>
-                                                :
-                                                <Col xs={1}/>
-                                        }
-                                    </Row>
-                                </Col>
-                                <Col md={12}>
-                                    <hr style={{borderColor: '#eee'}}/>
-                                </Col>
-                                    {
-                                        this.props.data ?
-                                            this.props.searchProductResult.length ?
-                                                this.props.searchProductResult.map(
-                                                    product => {
-
-                                                        return (
-
-                                                            <Col md={12} key={product.id}>
-                                                                <Row style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
-                                                                    <Col className='text-center py-1'>
-                                                                        {
-                                                                            product.sku ?
-                                                                                product.sku
-                                                                                :
-                                                                                '-'
-                                                                        }
-                                                                    </Col>
-                                                                    <Col className='text-center py-1'>{product.name}</Col>
-                                                                    <Col className='text-center py-1'>-</Col>
-                                                                    <Col className='text-center py-1'>
-                                                                        {
-                                                                            product.barcode ?
-                                                                                <Tooltip
-                                                                                    title={
-                                                                                        product.barcode.map(
-                                                                                            item => <React.Fragment
-                                                                                                key={item.id}
-                                                                                            >
-                                                                                                {item.barcode}
-                                                                                                <br/>
-                                                                                            </React.Fragment>
-                                                                                        )
-                                                                                    }
-                                                                                    placement="right"
-                                                                                >
-                                                                                    <span className='mr-1'>
-                                                                                        {product.barcode[0].barcode}
-                                                                                    </span>
-                                                                                </Tooltip>
-                                                                                :
-                                                                                '-'
-                                                                        }
-                                                                    </Col>
-                                                                    <Col className='text-center py-1'>-</Col>
-                                                                    <Col className='text-center py-1'>
-                                                                        {
-                                                                            product.active ?
-                                                                                <Translate name={'active'}/>
-                                                                                :
-                                                                                <Translate name={'inactive'}/>
-                                                                        }
-                                                                    </Col>
-                                                                    {
-                                                                        this.props.editabledStatus ?
-                                                                            <Col xs={1} className='text-center py-1'>
-                                                                                <EditButton
-                                                                                    styles={'#444 !important'}
-                                                                                    perm={'Edit'}
-                                                                                    onClick={this.onEditHandler.bind(this, product)}
-                                                                                />
-                                                                                <DeleteButton
-                                                                                    perm={'Delete'}
-                                                                                    onClick={this.onDeleteHandler.bind(this, product)}
-                                                                                />
-                                                                            </Col>
-                                                                            :
-                                                                            <Col xs={1}/>
-                                                                    }
-                                                                </Row>
-                                                            </Col>
-                                                        )
-                                                    }
-                                                )
-                                                :
-                                                this.props.data.map(
-                                                    product => {
-
-                                                        return (
-                                                            <Col md={12} key={product.id}>
-                                                                <Row style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
-                                                                        <Col className='text-center py-1'>
-                                                                            {
-                                                                                product.sku ?
-                                                                                    product.sku
-                                                                                    :
-                                                                                    '-'
-                                                                            }
-                                                                        </Col>
-                                                                        <Col className='text-center py-1'>{product.name}</Col>
-                                                                        <Col className='text-center py-1'>-</Col>
-                                                                        <Col className='text-center py-1'>
-                                                                            {
-                                                                                product.barcode ?
-                                                                                    product.barcode.length ?
-                                                                                        <Tooltip
-                                                                                            title={
-                                                                                                product.barcode.map(
-                                                                                                    item => {
-
-                                                                                                        return (
-                                                                                                            <React.Fragment
-                                                                                                                key={item.id}>
-                                                                                                                {`${item.barcode}`}
-                                                                                                                <br/>
-                                                                                                            </React.Fragment>
-                                                                                                        )
-                                                                                                    }
-                                                                                                )
-                                                                                            }
-                                                                                            placement="right"
-                                                                                        >
-                                                                        <span className='mr-1'>
-                                                                            {
-                                                                                product.barcode[0].barcode
-                                                                            }
-                                                                        </span>
-                                                                                        </Tooltip>
-                                                                                        :
-                                                                                        '-'
-                                                                                    :
-                                                                                    '-'
-                                                                            }
-                                                                        </Col>
-                                                                        <Col className='text-center py-1'>-</Col>
-                                                                        <Col className='text-center py-1'>
-                                                                            {
-                                                                                product.active ?
-                                                                                    <Translate name={'active'}/>
-                                                                                    :
-                                                                                    <Translate name={'inactive'}/>
-                                                                            }
-                                                                        </Col>
-                                                                        {
-                                                                            this.props.editabledStatus ?
-                                                                                <Col xs={1} className='text-center py-1'>
-                                                                                    <EditButton
-                                                                                        styles={'#444 !important'}
-                                                                                        perm={'Edit'}
-                                                                                        onClick={this.onEditHandler.bind(this, product)}
-                                                                                    />
-                                                                                    <DeleteButton
-                                                                                        perm={'Delete'}
-                                                                                        onClick={this.onDeleteHandler.bind(this, product)}
-                                                                                    />
-                                                                                </Col>
-                                                                                :
-                                                                                <Col xs={1}/>
-                                                                        }
-                                                                </Row>
-                                                            </Col>
-                                                        )
-                                                    }
-                                                )
-                                            :
-                                            null
-                                    }
-                            </Row>
-                        </div>
                     </Col>
                 </Row>
                 {
@@ -657,3 +310,5 @@ export default class TableComponent extends React.Component {
         );
     }
 }
+
+export default withRouter(TableComponent)

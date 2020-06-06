@@ -250,7 +250,6 @@ export function editPosition(id) {
 
 // SEARCH GROUP
 export function searchGroups(name, value, mainId) {
-
     return (dispatch, getState) => {
         let altViewerArray = [];
         let expanded = [];
@@ -281,8 +280,10 @@ export function searchGroups(name, value, mainId) {
                             if (!indexId) {
                                 searchResult.push(item)
                             }
-                            selectUp(searchResult, item, subGroups, expanded)
-                            selectDown(searchResult, item, subGroups)
+                            if (item.parent_id.length > 0) {
+                                selectUp(searchResult, item, subGroups, expanded, mainId)
+                            }
+                            selectDown(searchResult, item, subGroups, mainId)
                         }
                     }
                 }
@@ -310,8 +311,10 @@ export function searchGroups(name, value, mainId) {
                             if (!indexId) {
                                 searchResult.push(item);
                             }
-                            selectUp(searchResult, item, subGroups, expanded)
-                            selectDown(searchResult, item, subGroups)
+                            if (item.parent_id.length > 0) {
+                                selectUp(searchResult, item, subGroups, expanded, mainId)
+                            }
+                            selectDown(searchResult, item, subGroups, mainId)
                         }
                     }
                 }
@@ -325,43 +328,49 @@ export function searchGroups(name, value, mainId) {
     }
 }
 
-function selectUp(searchResult, item, subGroups, expanded) {
+function selectUp(searchResult, item, subGroups, expanded, mainId) {
+
     let newSearchResult = searchResult;
     for (let i of subGroups) {
-        if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id))) {
-            let indexId = false;
-            for (let searchItem of newSearchResult) {
-                if (parseInt(searchItem.id) === parseInt(i.id)) {
-                    indexId = true
+        if (i.group_id && mainId === i.group_id.id) {
+            if (parseInt(item.parent_id) && (parseInt(i.id) === parseInt(item.parent_id)) && (parseInt(i.id !== parseInt(i.parent_id)))) {
+                let indexId = false;
+                for (let searchItem of newSearchResult) {
+                    if (parseInt(searchItem.id) === parseInt(i.id)) {
+                        indexId = true
+                    }
                 }
-            }
-            if (!indexId) {
-                if (expanded === null) {
-                    expanded = [`${item.parent_id}`]
-                } else {
-                    expanded.unshift(`${item.parent_id}`)
+                if (!indexId) {
+                    if (expanded === null) {
+                        expanded = [`${item.parent_id}`]
+                    } else {
+                        expanded.unshift(`${item.parent_id}`)
+                    }
+                    newSearchResult.push(i)
                 }
-                newSearchResult.push(i)
+                selectUp(newSearchResult, i, subGroups, expanded, mainId)
             }
-            selectUp(newSearchResult, i, subGroups, expanded)
         }
     }
 }
 
-function selectDown(searchResult, item, subGroups) {
+function selectDown(searchResult, item, subGroups, mainId) {
+    console.log(mainId)
     let newSearchResult = searchResult;
     for (let i of subGroups) {
-        if (parseInt(i.parent_id) && (parseInt(item.id) === parseInt(i.parent_id))) {
-            let indexId = false;
-            for (let searchItem of newSearchResult) {
-                if (parseInt(searchItem.id) === parseInt(i.id)) {
-                    indexId = true
+        if (i.group_id && mainId === i.group_id.id) {
+            if (parseInt(i.parent_id) && (parseInt(item.id) === parseInt(i.parent_id)) && (parseInt(i.id !== parseInt(i.parent_id)))) {
+                let indexId = false;
+                for (let searchItem of newSearchResult) {
+                    if (parseInt(searchItem.id) === parseInt(i.id)) {
+                        indexId = true
+                    }
                 }
+                if (!indexId) {
+                    newSearchResult.push(i)
+                }
+                selectDown(newSearchResult, i, subGroups, mainId)
             }
-            if (!indexId) {
-                newSearchResult.push(i)
-            }
-            selectDown(newSearchResult, i, subGroups)
         }
     }
 }

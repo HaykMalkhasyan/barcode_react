@@ -8,22 +8,18 @@ import List from '@material-ui/core/List';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import CollapseUi from "../collapseUi/collapseUi";
 import AirplayIcon from '@material-ui/icons/Airplay';
-import BorderRightIcon from '@material-ui/icons/BorderRight';
 import BorderTopIcon from '@material-ui/icons/BorderTop';
 import BorderClearIcon from '@material-ui/icons/BorderClear';
-import BorderBottomIcon from '@material-ui/icons/BorderBottom';
 import customizationImage from './image/customz-image.png'
 import Background from "./background/background";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {
-    setColor,
-    restorColor
-} from '../../redux/customizer/actions'
-import CustomizationPanel from "./customisationPanel/cutomizationPanel";
+import {restorColor, setColor} from '../../redux/customizer/actions'
 import HeaderPanel from "./headerPanel/headerPanel";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SectionPanel from "./seactionPanel/sectionPanel";
+import ButtonUi from "../buttons/buttonUi";
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles({
     list: {
@@ -59,6 +55,14 @@ const TemporaryDrawer = props => {
             })}
             role="presentation"
         >
+            <ButtonUi
+                variant='contained'
+                margin={10}
+                color='secondary'
+                onClick={toggleDrawer(anchor, !state[anchor])}
+            >
+                <CloseIcon fontSize='small' />
+            </ButtonUi>
             <div className={cls.imgWindow}>
                 <img className={cls.customizationImage} src={customizationImage} alt="customization"/>
             </div>

@@ -49,6 +49,7 @@ const AdvancedSearch = (props) => {
                                                 className='py-1 pl-2'
                                             >
                                                 <CheckboxesUi
+                                                    translate={true}
                                                     checked={props.advancedSearchConfig[item] ? props.advancedSearchConfig[item] : false}
                                                     label={item}
                                                     size={"small"}

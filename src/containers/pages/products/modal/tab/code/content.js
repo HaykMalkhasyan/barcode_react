@@ -13,7 +13,7 @@ export default class Example extends React.Component {
         currentInputValue: {
             barcode: "",
             barcode_type: null,
-            point: null
+            count: null
         },
         error: false,
         errorMsg: false,
@@ -23,7 +23,7 @@ export default class Example extends React.Component {
 
     addBarcode() {
         let index = false
-        if (this.state.currentInputValue.barcode !== "" && this.state.currentInputValue.barcode_type !== null && this.state.currentInputValue.point !== null) {
+        if (this.state.currentInputValue.barcode !== "" && this.state.currentInputValue.barcode_type !== null && this.state.currentInputValue.count !== null) {
             if (this.props.barcodeTypes) {
                 for (let item of this.props.barcodeTypes) {
                     if (item.barcode === this.state.currentInputValue.barcode) {
@@ -35,7 +35,7 @@ export default class Example extends React.Component {
                     let newCurrentInput = {...this.state.currentInputValue};
                     newCurrentInput.barcode = "";
                     newCurrentInput.barcode_type = null;
-                    newCurrentInput.point = null;
+                    newCurrentInput.count = null;
                     this.setState({
                         currentInputValue: newCurrentInput,
                         error: false,
@@ -76,7 +76,7 @@ export default class Example extends React.Component {
 
     onPointHandler(value) {
         let newCurrentInput = {...this.state.currentInputValue};
-        newCurrentInput.point = value;
+        newCurrentInput.count = value;
 
         if (value.length > 0) {
             if (value/1) {
@@ -150,7 +150,7 @@ export default class Example extends React.Component {
                                     style={props.sectionFontColor ? {color: props.sectionFontColor} : {width: '10%'}}
                                     type="text"
                                     name="points"
-                                    value={this.state.currentInputValue.point ? this.state.currentInputValue.point || '' : ''}
+                                    value={this.state.currentInputValue.count ? this.state.currentInputValue.count || '' : ''}
                                     onChange={event => this.onPointHandler(event.target.value)}
                                 />
                                 <DropdownComponent

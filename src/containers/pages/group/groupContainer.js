@@ -22,6 +22,9 @@ import {
     subGroupsCollapseStatus
 } from "../../../redux/group/actions";
 import {
+    productActions
+} from '../../../redux/products/actions'
+import {
     toggleModalLanguage
 } from "../../../redux/lang/actions";
 import GroupPage from './groupPage';
@@ -49,7 +52,8 @@ const mapDispatchToProps = dispatch => {
             alternativeShow,
             seteExpanded,
             toggleEditebled,
-            subGroupsCollapseStatus
+            subGroupsCollapseStatus,
+            productActions
         },
         dispatch
     );
@@ -81,7 +85,7 @@ const mapStateToProps = state => {
         editabled: state.group.editabled,
         collapsedStatus: state.group.collapsedStatus,
         sectionFontColor: state.customizer.sidebarSize.sectionFontColor,
-
+        products: state.products.products
     }
 };
 

@@ -32,8 +32,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const ProductModal = (props) => {
-    const [mainImg, setMainImg] = useState(false)
-    const [creatProductStatus, setCreateProductStatus] = useState(false)
     const [photoBtns, setPhotoBtns] = useState(false)
     const [valImg, setValImg] = useState(null)
     const [activeImg, setActiveImg] = useState(null)
@@ -42,18 +40,35 @@ const ProductModal = (props) => {
         props.setMeasurementValue(name, data)
     }
 
-    const createProduct = type => {
+    const createProduct = (event,type) => {
+        event.preventDefault();
+        console.log(event, type)
         let prod = props.product;
-        if (type !== 'delete') {
-            if (prod.sku && prod.name && prod.measurement && prod.groups && prod.suppliers && prod.barcode && prod.description && props.images.length) {
-                setCreateProductStatus(false);
-                // props.productActions(props.type, props.product)
-                props.testFetchNewProduct(props.type, props.product, valImg)
+        if (Object.keys(prod).length > 0) {
+            if (type === 'add') {
+                if (prod.sku && prod.name && prod.measurement && prod.groups && prod.supplier && prod.barcode && prod.description && props.images.length) {
+                    let image = valImg;
+                    props.testFetchNewProduct(props.type, props.product, image);
+                    setPhotoBtns(false)
+                    setValImg(null)
+                    setActiveImg(null)
+                } else {
+                    props.addProductStatus(true, 'error', 'You have not filled in all the fields')
+                }
+            } else if (type === 'edit') {
+                let image = valImg
+                props.testFetchNewProduct(props.type, props.product, image)
+                setPhotoBtns(false)
+                setValImg(null)
+                setActiveImg(null)
             } else {
-                setCreateProductStatus('You have not filled in all the fields')
+                props.productActions(type, props.product)
+                setPhotoBtns(false)
+                setValImg(null)
+                setActiveImg(null)
             }
         } else {
-            props.productActions(type, props.product)
+            props.addProductStatus(true, 'error', 'You have not filled in all the fields')
         }
     }
 
@@ -117,7 +132,6 @@ const ProductModal = (props) => {
     }
 
     const selectMainIMage = () => {
-        setMainImg(props.images[activeImg.index])
         if (activeImg) {
             props.setMainImage(activeImg.image.originalAlt)
         }
@@ -384,7 +398,7 @@ const ProductModal = (props) => {
                                             </Col>
 
                                         </Row>
-                                        <TabComponent mainIMg={setMainImg} {...props}/>
+                                        <TabComponent {...props}/>
                                     </div>
                                 </Form>
                             </div>
@@ -414,7 +428,8 @@ const ProductModal = (props) => {
             <Modal
                 isOpen={props.modal === props.type ? true : false}
                 toggle={
-                    () => {
+                    event => {
+                        event.stopPropagation()
                         setPhotoBtns(false)
                         setActiveImg(null)
                         props.toggleModal(props.type, 0, true)
@@ -424,7 +439,8 @@ const ProductModal = (props) => {
             >
                 <ModalHeader
                     toggle={
-                        () => {
+                        event => {
+                            event.stopPropagation()
                             setPhotoBtns(false)
                             setActiveImg(null)
                             props.toggleModal(props.type, 0, true)
@@ -443,16 +459,14 @@ const ProductModal = (props) => {
                 </ModalHeader>
                 {modalBodyContent()}
                 <ModalFooter>
-                    {
-                        creatProductStatus ?
-                            <span className='danger font-small-1'>
-                                <Translate name={creatProductStatus}/>
-                            </span>
-                            :
-                            null
-                    }
-                    <Button color="primary" outline type="submit"
-                            onClick={createProduct.bind(this, props.type)}>
+                    <Button
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={
+                            event => createProduct(event, props.type)
+                        }
+                    >
                         <Translate name="confirm"/>
                     </Button>
                 </ModalFooter>

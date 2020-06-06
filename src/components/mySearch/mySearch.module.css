@@ -1,0 +1,36 @@
+.mainWindow {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.srchInput {
+    width: 100%;
+    outline: none;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 5px;
+    text-indent: 10px;
+    transition: 300ms;
+    color: #666;
+}
+
+.srchInput:hover {
+    border-color: #aaa;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .14);
+}
+
+.srchInput:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 1px 5px 0 rgba(63, 81, 181, 0.49) inset;
+}

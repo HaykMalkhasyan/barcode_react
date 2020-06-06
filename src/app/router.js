@@ -17,6 +17,7 @@ const LazyCurrency = lazy(() => import("../containers/pages/currency/currencyCon
 const LazySuppliers = lazy(() => import("../containers/pages/suppliers/supplierContainer"));
 const LazyPositions = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyProducts = lazy(() => import("../containers/pages/products/productContainer"));
+const LazySearchResult = lazy(() => import("../containers/pages/products/searchResult/searchResultContainer"));
 const LazyGroup = lazy(() => import("../containers/pages/group/groupContainer"));
 const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 // Error Pages
@@ -91,6 +92,12 @@ function Router(props) {
                     path="/products"
                     auth={props.auth}
                     component={LazyProducts}
+                />
+                <PrivateRoute
+                    exact
+                    path="/search"
+                    auth={props.auth}
+                    component={LazySearchResult}
                 />
                 <PublicRoute
                     exact

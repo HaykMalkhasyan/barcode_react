@@ -37,6 +37,8 @@ import {
 } from "./actionTypes";
 import axios from 'axios'
 import SessionStorage from "../../services/SessionStorage";
+import {getSession, saveSession} from "../../utility/session";
+import jwt_decode from "jwt-decode";
 
 export const productActions = (type, data) => {
     switch (type) {
@@ -438,9 +440,10 @@ export function toggleSwitchValue(name, value) {
     }
 }
 
-export function toggleCheckBoxValue(name, check, value = false) {
+export function toggleCheckBoxValue(name, check, value = false, classifier) {
 
     return (dispatch, getState) => {
+        console.log(check)
         let advancedSearchConfig = {...getState().products.advancedSearchConfig}
 
         if (value === false) {
@@ -451,7 +454,7 @@ export function toggleCheckBoxValue(name, check, value = false) {
             }
         } else {
             if (check) {
-                advancedSearchConfig[name] = value
+                advancedSearchConfig[name] = classifier
             } else {
                 delete advancedSearchConfig[name]
             }
@@ -580,62 +583,201 @@ export const setToggleModal = (modalType, id) => {
 /*----------------------------------------------------------*/
 
 /*-------------------Test-----------------------------------*/
-export function testFetchNewProduct(type, data, images) {
 
+export function getToken(error, refreshToken) {
+    return async dispatch => {
+        try {
+            const res = await axios.post('token/refresh/', refreshToken);
+            let uderData = jwt_decode(res.data.access);
+            let user = {
+                firstname: uderData.firstname,
+                lastname: uderData.lastname,
+                user_id: uderData.user_id
+            }
+            let resData = {};
+            resData.refresh = res.data.refresh;
+            resData.access = res.data.access;
+            axios.defaults.headers['Authorization'] = "JWT " + resData.access;
+            error.config.headers['Authorization'] = "JWT " + resData.access;
+            saveSession('auth', resData);
+            const options = {
+                path: '/',
+            };
+            SessionStorage.set('access', resData.access, options);
+            SessionStorage.set('refresh', resData.refresh, options);
+            SessionStorage.set('user', user, options);
+            return {
+                access: resData.access,
+                refresh: resData.refresh,
+                user: user
+            }
+        } catch (error) {
+            console.log('Error !')
+        }
+    }
+}
+
+
+export function testFetchNewProduct(type, data, images) {
     return async (dispatch, getState) => {
 
         const access = SessionStorage.get("access");
         const picture = [...getState().products.product.pictures]
 
-        for (let [key, value] of Object.entries(picture)) {
+        switch (type) {
 
-            let imageName = value.name
-            let form_data = new FormData();
-            let image = images[key];
+            case 'add': {
+                    for (let [key, value] of Object.entries(picture)) {
 
-            form_data.append('file', image)
-            form_data.append('filename', imageName)
+                        let imageName = value.name
+                        let form_data = new FormData();
+                        let image = images[key];
 
-            await axios.post('/product/upload/', form_data, {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    'Authorization': `JWT ${access}`
+                        form_data.append('file', image)
+                        form_data.append('filename', imageName)
+                        try {
+                        await axios.post('/product/upload/', form_data, {
+                            headers: {
+                                'content-type': 'multipart/form-data',
+                                'Authorization': `JWT ${access}`
+                            }
+                        })
+                        } catch (error) {
+                            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                                const refresh_token = getSession('refresh');
+                                let new_token_data = getToken(error, {refresh: refresh_token})
+                                if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
+                                    return axios.post('/product/upload/', form_data, {
+                                        headers: {
+                                            'content-type': 'multipart/form-data',
+                                            'Authorization': `JWT ${access}`
+                                        }
+                                    })
+                                        .then(
+                                            response => response.data
+                                        )
+                                        .catch(err => {
+                                            console('Error')
+                                        })
+                                }
+                            }
+                        }
+                    }
+
+                    dispatch(fetchImages(data, type))
+                break;
+            }
+            case 'edit': {
+                if (images) {
+                    for (let [key, value] of Object.entries(picture)) {
+
+                        let imageName = value.name
+                        let form_data = new FormData();
+                        let image = images[key];
+
+                        form_data.append('file', image)
+                        form_data.append('filename', imageName)
+
+                        try {
+                            await axios.post('/product/upload/', form_data, {
+                                headers: {
+                                    'content-type': 'multipart/form-data',
+                                    'Authorization': `JWT ${access}`
+                                }
+                            })
+                        } catch (error) {
+                            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                                const refresh_token = getSession('refresh');
+                                let new_token_data = getToken(error, {refresh: refresh_token})
+                                if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
+                                    return axios.post('/product/upload/', form_data, {
+                                        headers: {
+                                            'content-type': 'multipart/form-data',
+                                            'Authorization': `JWT ${access}`
+                                        }
+                                    })
+                                        .then(
+                                            response => response.data
+                                        )
+                                        .catch(err => {
+                                            console('Error')
+                                        })
+                                }
+                            }
+                        }
+                    }
+
+                    dispatch(fetchImages(data, type))
+                } else {
+                    dispatch(fetchImages(data, type))
                 }
-            })
+                break;
+            }
+            default: return ;
         }
-
-        dispatch(fetchImages(data, images, type))
     }
 }
 
-export function fetchImages(data, images, type) {
+export function fetchImages(data, type) {
 
     return async (dispatch, getState) => {
+        console.log('DASA', data, type)
         const access = SessionStorage.get("access");
         let response;
         switch (type) {
 
             case 'add': {
-                response = await axios.post('product/', data, {
-                    headers: {
-                        "Authorization": `JWT ${access}`
+                try {
+                    response = await axios.post('product/', data, {
+                        headers: {
+                            "Authorization": `JWT ${access}`
+                        }
+                    })
+                    console.log('RESPONSE', response)
+                    dispatch(addedProduct(response.data))
+                } catch (error) {
+                    if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                        const refresh_token = getSession('refresh');
+                        let new_token_data = getToken(error, {refresh: refresh_token})
+                        if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
+                            response = await axios.post('product/', data, {
+                                headers: {
+                                    'Authorization': `JWT ${access}`
+                                }
+                            })
+                            dispatch(addedProduct(response.data))
+                        }
                     }
-                })
+                }
                 break;
             }
             case 'edit': {
-                response = await axios.put(`product/${data.id}`, data, {
-                    headers: {
-                        "Authorization": `JWT ${access}`
+                try {
+                    response = await axios.put(`product/${data.id}`, data, {
+                        headers: {
+                            "Authorization": `JWT ${access}`
+                        }
+                    })
+                    dispatch(addedProduct(response.data))
+                } catch (error) {
+                    if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                        const refresh_token = getSession('refresh');
+                        let new_token_data = getToken(error, {refresh: refresh_token})
+                        if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
+                            response = await axios.post(`product/${data.id}`, data, {
+                                headers: {
+                                    'Authorization': `JWT ${access}`
+                                }
+                            })
+                            dispatch(addedProduct(response.data))
+                        }
                     }
-                })
+                }
                 break;
             }
             default:
                 break;
         }
-
-        dispatch(addedProduct(response.data))
     }
 }
 

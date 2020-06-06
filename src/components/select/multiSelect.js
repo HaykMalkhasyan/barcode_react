@@ -4,7 +4,13 @@ import Select from 'react-select';
 
 class App extends React.Component {
     handleChange = selectedOption => {
-        this.props.handleChange(this.props.name,selectedOption)
+        let suplliersArray = [];
+        for (let item of selectedOption) {
+            suplliersArray.push({
+                id: item.id
+            })
+        }
+        this.props.handleChange(this.props.name,suplliersArray)
     };
     render() {
 

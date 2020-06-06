@@ -117,6 +117,7 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 product: {},
                 modal: {},
+                images: [],
                 products: action.data
             }
         case SET_PRODUCT_COLLAPSED:

@@ -64,7 +64,8 @@ class ProductContainer extends Component {
                             types={this.props.types}
                             toggleModal={this.props.toggleModal}
                             actions={this.props.productActions}
-                            perm={this.props.perm}/>
+                            perm={this.props.perm}
+                        />
                     </CardBody>
                 </Card>
                 <ModalComponent {...this.props} type={'add'}/>

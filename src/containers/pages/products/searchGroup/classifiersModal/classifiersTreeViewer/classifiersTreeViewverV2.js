@@ -92,9 +92,9 @@ const ClassifaersTree = props => {
                                     }
                                     <span style={{height: 20}}>
                                         <CheckboxesUi
-                                            useColor={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? '#20d62e' : null}
+                                            useColor={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier.id === item.id ? '#20d62e' : null}
                                             padding={0}
-                                            checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? true : false}
+                                            checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier.id === item.id ? true : false}
                                             color={'primary'}
                                             label={item.name}
                                             name={item.name}
@@ -102,7 +102,9 @@ const ClassifaersTree = props => {
                                             hidden={true}
                                             size={'small'}
                                             translate={false}
-                                            onChange={event => props.onChange(event, event.target.value, event.target.checked)}
+                                            onChange={event =>
+                                                props.onChange(event, event.target.value, event.target.checked, item)
+                                            }
                                         />
                                     </span>
                                 </span>
@@ -199,9 +201,9 @@ const ClassifaersTree = props => {
                                             }
                                             <span style={{height: 20}}>
                                                 <CheckboxesUi
-                                                    useColor={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? '#20d62e' : null}
+                                                    useColor={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier.id === item.id ? '#20d62e' : null}
                                                     padding={0}
-                                                    checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier === item.id ? true : false}
+                                                    checked={props.advancedSearchConfig.classifier && props.advancedSearchConfig.classifier.id === item.id ? true : false}
                                                     color={'primary'}
                                                     label={item.name}
                                                     name={item.name}
@@ -209,7 +211,7 @@ const ClassifaersTree = props => {
                                                     value={item.id}
                                                     size={'small'}
                                                     translate={false}
-                                                    onChange={event => props.onChange(event, event.target.value, event.target.checked)}
+                                                    onChange={event => props.onChange(event, event.target.value, event.target.checked, item)}
                                                 />
                                             </span>
                                         </span>

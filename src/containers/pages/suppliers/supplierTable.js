@@ -6,6 +6,7 @@ import DeleteButton from "../../../components/buttons/deleteButton";
 import classes from "../group/content.module.css";
 import BuildIcon from "@material-ui/icons/Build";
 import ButtonUi from "../../../components/buttons/buttonUi";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const SupplierTable = (props) => {
 
@@ -31,7 +32,8 @@ const SupplierTable = (props) => {
                     color={props.editabledStatus ? 'primary' : 'default'}
                     onClick={props.suppliersEditableToggle}
                 />
-                <h4 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate name={'Suppliers'}/></h4>
+                <h4 style={props.sectionFontColor ? {color: props.sectionFontColor} : null}><Translate
+                    name={'Suppliers'}/></h4>
                 <Table
                     bordered
                     responsive
@@ -81,28 +83,33 @@ const SupplierTable = (props) => {
                                             <td>
                                                 {
                                                     props.data[index].tin.length > 0 ?
-                                                        <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
-                                                            <tbody>
-                                                            {
+                                                        <Tooltip
+                                                            title={
                                                                 props.data[index].tin.map(
                                                                     (item, index) => {
 
-                                                                        return (
-                                                                            <tr key={index}>
-                                                                                <td>
-                                                                                    {
-                                                                                        item.bank_id ? item.bank_id.name :
-                                                                                            <span
-                                                                                                className='danger'>-</span>
-                                                                                    }
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
+                                                                        return <React.Fragment key={index}>
+                                                                            {
+                                                                                item.bank_id ?
+                                                                                    <span key={index}>
+                                                                                        {item.bank_id.name}
+                                                                                    </span>
+                                                                                    :
+                                                                                    <span
+                                                                                        key={index}
+                                                                                        className='danger'
+                                                                                    >-</span>
+                                                                            }
+                                                                        </React.Fragment>
                                                                     }
                                                                 )
                                                             }
-                                                            </tbody>
-                                                        </Table>
+                                                            placement="right"
+                                                        >
+                                                            <span>
+                                                                {props.data[index].tin[0].bank_id.name}
+                                                            </span>
+                                                        </Tooltip>
                                                         :
                                                         '-'
                                                 }
@@ -110,28 +117,32 @@ const SupplierTable = (props) => {
                                             <td>
                                                 {
                                                     props.data[index].tin.length > 0 ?
-                                                        <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
-                                                            <tbody>
-                                                            {
+                                                        <Tooltip
+                                                            title={
                                                                 props.data[index].tin.map(
                                                                     (item, index) => {
-
-                                                                        return (
-                                                                            <tr key={index}>
-                                                                                <td>
-                                                                                    {
-                                                                                        item.currency_id ? item.currency_id.short :
-                                                                                            <span
-                                                                                                className='danger'>-</span>
-                                                                                    }
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
+                                                                        return <React.Fragment key={index}>
+                                                                            {
+                                                                                item.currency_id ?
+                                                                                    <span key={index}>
+                                                                                        {item.currency_id.short}
+                                                                                    </span>
+                                                                                    :
+                                                                                    <span
+                                                                                        key={index}
+                                                                                        className='danger'
+                                                                                    >-</span>
+                                                                            }
+                                                                        </React.Fragment>
                                                                     }
                                                                 )
                                                             }
-                                                            </tbody>
-                                                        </Table>
+                                                            placement="right"
+                                                        >
+                                                            <span>
+                                                                {props.data[index].tin[0].currency_id.short}
+                                                            </span>
+                                                        </Tooltip>
                                                         :
                                                         '-'
                                                 }
@@ -139,28 +150,32 @@ const SupplierTable = (props) => {
                                             <td>
                                                 {
                                                     props.data[index].tin.length > 0 ?
-                                                        <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
-                                                            <tbody>
-                                                            {
+                                                        <Tooltip
+                                                            title={
                                                                 props.data[index].tin.map(
                                                                     (item, index) => {
-
-                                                                        return (
-                                                                            <tr key={index}>
-                                                                                <td>
-                                                                                    {
-                                                                                        item.tin_value ? item.tin_value :
-                                                                                            <span
-                                                                                                className='danger'>-</span>
-                                                                                    }
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
+                                                                        return <React.Fragment key={index}>
+                                                                            {
+                                                                                item.tin_value ?
+                                                                                    <span key={index}>
+                                                                                        {item.tin_value}
+                                                                                    </span>
+                                                                                    :
+                                                                                    <span
+                                                                                        key={index}
+                                                                                        className='danger'
+                                                                                    >-</span>
+                                                                            }
+                                                                        </React.Fragment>
                                                                     }
                                                                 )
                                                             }
-                                                            </tbody>
-                                                        </Table>
+                                                            placement="right"
+                                                        >
+                                                            <span>
+                                                                {props.data[index].tin[0].tin_value}
+                                                            </span>
+                                                        </Tooltip>
                                                         :
                                                         '-'
                                                 }
@@ -168,26 +183,32 @@ const SupplierTable = (props) => {
                                             <td>
                                                 {
                                                     props.data[index].phone.length > 0 ?
-                                                        <Table responsive style={props.sectionFontColor ? {color: props.sectionFontColor} : null}>
-                                                            <tbody>
-                                                            {
+                                                        <Tooltip
+                                                            title={
                                                                 props.data[index].phone.map(
                                                                     (item, index) => {
-
-                                                                        return (
-                                                                            <tr key={index + Math.random()}>
-                                                                                <td>
-                                                                                    {
-                                                                                        item.phone
-                                                                                    }
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
+                                                                        return <React.Fragment key={index}>
+                                                                            {
+                                                                                item.phone ?
+                                                                                    <span key={index}>
+                                                                                        {item.phone}
+                                                                                    </span>
+                                                                                    :
+                                                                                    <span
+                                                                                        key={index}
+                                                                                        className='danger'
+                                                                                    >-</span>
+                                                                            }
+                                                                        </React.Fragment>
                                                                     }
                                                                 )
                                                             }
-                                                            </tbody>
-                                                        </Table>
+                                                            placement="right"
+                                                        >
+                                                            <span>
+                                                                {props.data[index].phone[0].phone}
+                                                            </span>
+                                                        </Tooltip>
                                                         :
                                                         '-'
                                                 }
@@ -207,7 +228,7 @@ const SupplierTable = (props) => {
                                     }
                                     {
                                         props.editabledStatus ?
-                                            <td  style={{width: 74}}>
+                                            <td style={{width: 74}}>
                                                 <EditButton
                                                     perm={props.perm}
                                                     onClick={function () {

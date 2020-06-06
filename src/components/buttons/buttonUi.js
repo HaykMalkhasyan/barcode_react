@@ -18,7 +18,9 @@ export default function ButtonUi(props) {
                 fontWeight: props.Weight,
                 color: props.fontColor,
                 borderRadius: props.borderRadius,
-                textAlign: props.textAlign
+                textAlign: props.textAlign,
+                backgroundColor: props.bgColor,
+                display: props.display
             }}
             onClick={props.onClick}
             color={props.color}

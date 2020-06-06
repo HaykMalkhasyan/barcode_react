@@ -10,6 +10,7 @@ class UserContainer extends Component {
         super(props)
         this.props.groupActions("getAll")
         this.props.subGroupActions("getAll")
+        this.props.productActions("getAll")
     }
     render() {
 

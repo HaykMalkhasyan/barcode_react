@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Card, CardBody, ModalFooter} from "reactstrap";
 import Translate from "../../../../../Translate";
 import classes from './classifiersModal.module.css'
@@ -14,8 +14,6 @@ import Collapse from '@material-ui/core/Collapse';
 import ClassifaersTree from "./classifiersTreeViewer/classifiersTreeViewverV2";
 
 const ClassifiersModal = props => {
-    const [active, setActive] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
 
     // const groupsClickHandler = item => {
     //     setActive(item.id)
@@ -27,20 +25,6 @@ const ClassifiersModal = props => {
     //     props.createClassifiers()
     // }
 
-    const handleClick = (item) => {
-        if (isOpen === item.name) {
-            setIsOpen(false)
-        } else {
-            setIsOpen(item.name)
-            setActive(item.id)
-            props.selectClassifiersGroup(item)
-        }
-    }
-
-    const classifiersSelectHandler = (event, value, check) => {
-        event.stopPropagation()
-        props.toggleCheckBoxValue('classifier', check, +value)
-    }
 
     return (
         <Card className="m-0">
@@ -62,15 +46,15 @@ const ClassifiersModal = props => {
 
                                         return (
                                             <React.Fragment key={index}>
-                                                <ListItem className='px-0' button onClick={handleClick.bind(this, item)}>
+                                                <ListItem className='px-0' button onClick={props.handleClick.bind(this, item)}>
                                                     <ListItemIcon>
                                                         <LayersIcon fontSize='small'/>
                                                     </ListItemIcon>
                                                     <ListItemText primary={item.name}/>
-                                                    {isOpen === item.name ? <ExpandLess/> : <ExpandMore/>}
+                                                    {props.isOpen === item.name ? <ExpandLess/> : <ExpandMore/>}
                                                 </ListItem>
                                                 <Collapse
-                                                    in={isOpen === item.name ? true : false}
+                                                    in={props.isOpen === item.name ? true : false}
                                                     timeout={400}
                                                     unmountOnExit
                                                     className='px-2'
@@ -86,7 +70,7 @@ const ClassifiersModal = props => {
                                                                 advancedSearchConfig={props.advancedSearchConfig}
                                                                 // METHODS
                                                                 subGroupCollapses={props.subGroupCollapses}
-                                                                onChange={classifiersSelectHandler}
+                                                                onChange={props.classifiersSelectHandler}
                                                             />
                                                             :
                                                             null

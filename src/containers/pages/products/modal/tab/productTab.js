@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import {Col, FormGroup, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane,} from "reactstrap";
 import classnames from "classnames";
 import Translate from "../../../../../Translate";
-import MultiSelect from "../../../../../components/select/multiSelect"
-import {ObjectToArray, RenameKeys} from "../../../../../utility/utils";
 import GroupModal from "./group/groupModal";
 // import DropdownComponent from "../../../../../components/dropdown/dropdown";
 // import {setModalValues} from "../../../../../redux/products/actions";
@@ -13,10 +11,7 @@ import ButtonUi from "../../../../../components/buttons/buttonUi";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import * as Icon from 'react-feather'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import Selectstrap from "../../../../../components/selectstrap/selectstrap";
 
 class TabsBorderBottom extends Component {
 
@@ -76,7 +71,6 @@ class TabsBorderBottom extends Component {
         this.props.deleteUploadImages(item)
     }
     selectMainIMage = value => {
-        this.props.mainIMg(value)
         this.props.setMainImage(value)
     }
 
@@ -244,38 +238,29 @@ class TabsBorderBottom extends Component {
                     </TabPane>
 
                     <TabPane tabId="suppliers" style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
-                        <MultiSelect
-                            name={"suppliers"}
-                            handleChange={this.props.setModalValues}
-                            data={
-                                RenameKeys(
-                                    ObjectToArray(this.props.suppliers),
-                                    ['name', 'name'],
-                                    ['value', 'label']
-                                )
+                        {/*<MultiSelect*/}
+                        {/*    name={"suppliers"}*/}
+                        {/*    handleChange={this.props.setModalValues}*/}
+                        {/*    data={*/}
+                        {/*        RenameKeys(*/}
+                        {/*            ObjectToArray(this.props.suppliers),*/}
+                        {/*            ['id', 'name', 'name'],*/}
+                        {/*            ['id', 'value', 'label']*/}
+                        {/*        )*/}
+                        {/*    }*/}
+                        {/*/>*/}
+                        <Selectstrap
+                            name={'supplier'}
+                            label={'suppliers'}
+                            data={this.props.suppliers}
+                            value={this.props.product.supplier ? this.props.product.supplier.id : ''}
+                            onChange={
+                                event => {
+                                    console.log(event.target.name, event.target.value)
+                                    this.props.setModalValues(event.target.name, {id: +event.target.value})
+                                }
                             }
                         />
-                        <div className='p-2'>
-                            {
-                                console.log(this.props.product)
-                            }
-                            {
-                                this.props.type === 'edit' ?
-                                    this.props.product && this.props.product.supplier ?
-                                        <List component="nav" aria-label="secondary mailbox folders">
-                                            <ListItem button>
-                                                <ListItemText primary={this.props.product.supplier.name} />
-                                                <ButtonUi>
-                                                    <DeleteForeverRoundedIcon color='secondary' fontSize="small"/>
-                                                </ButtonUi>
-                                            </ListItem>
-                                        </List>
-                                        :
-                                        null
-                                    :
-                                    null
-                            }
-                        </div>
                     </TabPane>
                     <TabPane tabId="code">
                         <Row>
