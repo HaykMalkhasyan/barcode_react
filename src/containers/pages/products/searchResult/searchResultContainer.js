@@ -25,7 +25,8 @@ import {
     testFetchNewProduct,
     toggleCheckBoxValue,
     toggleModal,
-    toggleSwitchValue
+    toggleSwitchValue,
+    toggleClassifierState
 } from "../../../../redux/products/actions";
 import {
     getPages
@@ -72,7 +73,8 @@ const mapDispatchToProps = dispatch => {
             subGroupCollapses,
             deleteUploadImage,
             addProductStatus,
-            getPages
+            getPages,
+            toggleClassifierState
         },
         dispatch
     );
@@ -81,6 +83,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         collapsedStatus: state.products.collapsedStatus,
+        active: state.products.active,
+        isOpen: state.products.isOpen,
         modal: state.products.modal,
         status: state.products.status,
         severity: state.products.severity,

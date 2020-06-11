@@ -1,24 +1,20 @@
-import MySearch from "../../../../../components/mySearch/mySearch";
 import ClassifiersModal from "../../searchGroup/classifiersModal/classifiersModal";
 import CheckboxesUi from "../../../../../components/checkBoxUI/checkBoxUI";
 import SwitchesUi from "../../../../../components/switchUI/switchUI";
 import classes from "./SearchFilters.module.css";
 import {Col} from "reactstrap";
-import React, {useState} from "react";
+import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import Translate from "../../../../../Translate";
 import TextFields from "../../../../../components/textFieldUI/textField";
 
 const SearchFilters = props => {
-    const [active, setActive] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
 
     const handleClick = (item) => {
-        if (isOpen === item.name) {
-            setIsOpen(false)
+        if (props.isOpen === item.name) {
+            props.toggleClassifierState(false, false)
         } else {
-            setIsOpen(item.name)
-            setActive(item.id)
+            props.toggleClassifierState(item.id, item.name)
             props.selectClassifiersGroup(item)
         }
     }
@@ -38,8 +34,8 @@ const SearchFilters = props => {
             </div>
             <div className={`p-0 ${classes.filters}`}>
                 <ClassifiersModal
-                    active={active}
-                    isOpen={isOpen}
+                    active={props.active}
+                    isOpen={props.isOpen}
                     handleClick={handleClick}
                     classifiersSelectHandler={classifiersSelectHandler}
                     subGroupCollapses={props.subGroupCollapses}

@@ -1,0 +1,13 @@
+.product {
+    padding: 10px 5px;
+    transition: 300ms;
+    box-sizing: border-box;
+    border-radius: 1px;
+    border: 1px solid transparent;
+    margin-bottom: 15px;
+}
+
+.product:hover {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .24);
+    border-color: #ccc;
+}

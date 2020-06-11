@@ -1,0 +1,59 @@
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.pageHeader > h1 {
+    font-size: 32px;
+    color: #313131;
+    font-weight: 400;
+    margin: 0;
+}
+
+.pageHeader > .addButton {
+    width: 245px;
+    height: 54px;
+    font-size: 20px;
+    background: linear-gradient(45deg, #36D1DC, #5B86E5);
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    color: #fff;
+    transition: 300ms;
+}
+
+.pageHeader > .addButton:hover {
+    background: linear-gradient(45deg, #5B86E5, #36D1DC);
+    box-shadow: 0 0 0 2px rgba(54, 209, 220, 0.5);
+}
+
+.pageHeader > .addButton:active {
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .24) inset;
+}
+
+@media (max-width: 576px) {
+    .pageHeader > h1 {
+        font-size: 16px;
+    }
+
+    .pageHeader > .addButton {
+        font-size: 16px;
+        width: 160px;
+        height: 30px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .pageHeader > h1 {
+        font-size: 21px;
+    }
+
+    .pageHeader > .addButton {
+        font-size: 20px;
+        width: 180px;
+        height: 40px;
+    }
+}

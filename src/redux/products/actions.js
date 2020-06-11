@@ -32,7 +32,7 @@ import {
     SELECT_GROUP,
     SELECT_ID_IN_ARRAY, SET_ADDED_PRODUCT,
     SET_BARCODE, SET_DELETED_IMAGES, SET_IMAGES_DATA, SET_PRODUCT_COLLAPSED,
-    SET_PRODUCT_MODAL,
+    SET_PRODUCT_MODAL, TOGGLE_CLASSIFIERS_STATE,
     TOGGLE_PRODUCT_MODAL
 } from "./actionTypes";
 import axios from 'axios'
@@ -521,6 +521,14 @@ export function editabledProduct() {
 
     return {
         type: EDITABLED_PRODUCT
+    }
+}
+
+export function toggleClassifierState(active, isOpen) {
+
+    return {
+        type: TOGGLE_CLASSIFIERS_STATE,
+        active, isOpen
     }
 }
 

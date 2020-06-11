@@ -4,6 +4,7 @@ import TableComponent from './productTable';
 import ModalComponent from './modal/productModal';
 import AddButton from "../../../components/buttons/addButton";
 import Translate from "../../../Translate";
+import SearchFilters from "./searchResult/filters/SearchFilters";
 
 class ProductContainer extends Component {
     constructor(props) {
@@ -31,6 +32,9 @@ class ProductContainer extends Component {
                             }
                         </div>
                         <TableComponent
+                            active={this.props.active}
+                            isOpen={this.props.isOpen}
+                            toggleClassifierState={this.props.toggleClassifierState}
                             subGroupCollapses={this.props.subGroupCollapses}
                             status={this.props.status}
                             severity={this.props.severity}

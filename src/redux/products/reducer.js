@@ -36,7 +36,7 @@ import {
     ADD_SEARCH_TEXT,
     EDITABLED_PRODUCT,
     SET_IMAGES_DATA,
-    SET_PRODUCT_COLLAPSED, SET_ADDED_PRODUCT, SET_DELETED_IMAGES, ADD_PRODUCT_STATUS
+    SET_PRODUCT_COLLAPSED, SET_ADDED_PRODUCT, SET_DELETED_IMAGES, ADD_PRODUCT_STATUS, TOGGLE_CLASSIFIERS_STATE
 } from "./actionTypes";
 import {Pushend,/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
@@ -95,12 +95,18 @@ const INIT_STATE = {
     collapsedStatus: {},
     status: false,
     severity: null,
-    text: null
+    text: null,
+    active: false,
+    isOpen: false,
 };
 
 export default (state = INIT_STATE, action) => {
 
     switch (action.type) {
+        case TOGGLE_CLASSIFIERS_STATE:
+            return {
+                ...state, active: action.active, isOpen: action.isOpen
+            }
         case ADD_PRODUCT_STATUS:
             return {
                 ...state,

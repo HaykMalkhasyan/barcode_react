@@ -3,6 +3,7 @@ import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 // import internal(own) modules
 import {connect} from 'react-redux';
+import './app.css'
 import Router from "./router";
 function App(props) {
     return (

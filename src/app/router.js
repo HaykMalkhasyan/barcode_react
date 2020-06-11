@@ -7,7 +7,7 @@ import PrivateRoute from "./privateRoute";
 import PublicRoute from "./publicRoute";
 import ErrorLayoutRoute from "../containers/layouts/routes/errorRoutes";
 
-const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
+// const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyMainPage = lazy(() => import("../containers/pages/main/mainContainer"));
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
 const LazyMenu = lazy(() => import("../containers/pages/menu/menuContainer"));
@@ -20,6 +20,10 @@ const LazyProducts = lazy(() => import("../containers/pages/products/productCont
 const LazySearchResult = lazy(() => import("../containers/pages/products/searchResult/searchResultContainer"));
 const LazyGroup = lazy(() => import("../containers/pages/group/groupContainer"));
 const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
+// const LazyVerification = lazy(() => import("../containers/auth/registration/mailVerification/mailVerification"));
+const LazySignUp = lazy(() => import("../containers/auth/registration/registration"));
+const LazyCompany = lazy(() => import("../containers/pages/company/companyContainer"));
+const LazyRecoverPassword = lazy(() => import("../containers/auth/forgotPassword/foegotPassword"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
 
@@ -95,6 +99,12 @@ function Router(props) {
                 />
                 <PrivateRoute
                     exact
+                    path="/company"
+                    auth={props.auth}
+                    component={LazyCompany}
+                />
+                <PrivateRoute
+                    exact
                     path="/search"
                     auth={props.auth}
                     component={LazySearchResult}
@@ -105,6 +115,24 @@ function Router(props) {
                     auth={props.auth}
                     component={LazyLogin}
                 />
+                <PublicRoute
+                    exact
+                    path="/registration"
+                    auth={props.auth}
+                    component={LazySignUp}
+                />
+                <PublicRoute
+                    exact
+                    path="/recover-password"
+                    auth={props.auth}
+                    component={LazyRecoverPassword}
+                />
+                {/*<PublicRoute*/}
+                {/*    exact*/}
+                {/*    path="/signup"*/}
+                {/*    auth={props.auth}*/}
+                {/*    component={LazyVerification}*/}
+                {/*/>*/}
 
                 <ErrorLayoutRoute
                     exact

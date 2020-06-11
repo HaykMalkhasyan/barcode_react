@@ -1,4 +1,5 @@
 import {
+    CLOSE_NOTIFICATION,
     LOGIN_EMPTY,
     LOGIN_REQUEST,
     LOGIN_REQUEST_FAIL,
@@ -38,5 +39,12 @@ export const passwordIsEmpty = status => {
     return {
         type: PASSWORD_EMPTY,
         status
+    }
+}
+
+export function closeNotification() {
+
+    return {
+        type: CLOSE_NOTIFICATION
     }
 }

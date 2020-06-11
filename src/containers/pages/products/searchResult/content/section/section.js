@@ -3,6 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import Translate from "../../../../../../Translate";
 import TableType from "./tableType/tableType";
 import ProductType from "./productType/productType";
+import ListType from "./listType/listType";
 
 const Section = props => {
 
@@ -11,7 +12,19 @@ const Section = props => {
         switch (activeType) {
 
             case 'type-list': {
-                return <h4>type-list</h4>;
+                return <ListType
+                    //variables
+                    sectionFontColor={props.sectionFontColor}
+                    searchProduct={props.searchProduct}
+                    searchErrorName={props.searchErrorName}
+                    editabledStatus={props.editabledStatus}
+                    data={props.data}
+                    searchProductResult={props.searchProductResult}
+                    //methods
+                    setSearchProductValue={props.setSearchProductValue}
+                    toggleModal={props.toggleModal}
+                    actions={props.actions}
+                />;
             }
             case 'type-product': {
                 return <ProductType

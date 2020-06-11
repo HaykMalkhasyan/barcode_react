@@ -4,7 +4,7 @@ import Header from "./header/header";
 import Section from "./section/section";
 
 const Content = props => {
-    const [activeType, setActiveType] = useState(/*'type-table'*/ 'type-product')
+    const [activeType, setActiveType] = useState(/*'type-table'*/ 'type-list')
 
     const typeViewHandler = name => {
         setActiveType(name)

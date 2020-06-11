@@ -34,6 +34,9 @@ class SearchResult extends Component {
                             sectionFontColor={this.props.sectionFontColor}
                             //classificators
                             subGroupCollapses={this.props.subGroupCollapses}
+                            active={this.props.active}
+                            isOpen={this.props.isOpen}
+                            toggleClassifierState={this.props.toggleClassifierState}
                             collapsedStatus={this.props.collapsedStatus}
                             toggleCheckBoxValue={this.props.toggleCheckBoxValue}
                             groups={this.props.groups}

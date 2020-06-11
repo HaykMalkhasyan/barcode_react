@@ -80,7 +80,7 @@ const ProminentAppBar = props => {
 
     const sideMenuItem = key => {
 
-        if (props.data[key].name !== 'translations' && props.data[key].name !== 'suppliers' && props.data[key].name !== 'positions' && props.data[key].name !== 'Currency' && props.data[key].name !== 'Import') {
+        if (props.data[key].name !== 'translations' && props.data[key].name !== 'company' && props.data[key].name !== 'suppliers' && props.data[key].name !== 'positions' && props.data[key].name !== 'Currency' && props.data[key].name !== 'Import') {
             if (props.permissions[props.data[key].name] && props.permissions[props.data[key].name].length === 0) {
                 return <div></div>
             } else {
@@ -271,7 +271,7 @@ const ProminentAppBar = props => {
                     {
                         props.data.map(
                             item => {
-                                if (item.name === 'translations' || item.name === 'suppliers' || item.name === 'positions' || item.name === 'Currency' || item.name === 'Import') {
+                                if (item.name === 'translations' || item.name === 'company' || item.name === 'suppliers' || item.name === 'positions' || item.name === 'Currency' || item.name === 'Import') {
 
                                     return (
                                         <NavLink

@@ -1,0 +1,14 @@
+.slider {
+    height: 200px;
+    overflow: hidden;
+    user-select: none;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.slider img {
+    width: auto !important;
+    height: 190px !important;
+    display: block;
+    margin: 0 auto;
+}

@@ -1,6 +1,7 @@
 import { saveSession,getSession,destroySession } from "../../utility/session";
 
 import {
+    CLOSE_NOTIFICATION,
     LOGIN_EMPTY,
     LOGIN_REQUEST,
     LOGIN_REQUEST_FAIL,
@@ -28,6 +29,10 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case CLOSE_NOTIFICATION:
+            return {
+                ...state, fail: false
+            }
         case LOGIN_EMPTY:
             return {
                 ...state, emptyLogin: action.status

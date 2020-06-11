@@ -18,8 +18,6 @@ import {withRouter} from "react-router-dom";
 
 class TableComponent extends React.Component {
     state = {
-        active: false,
-        isOpen: false,
         searchConfig: {
             sku: false,
             name: false,
@@ -88,15 +86,10 @@ class TableComponent extends React.Component {
     }
 
     handleClick = (item) => {
-        if (this.state.isOpen === item.name) {
-            this.setState({
-                isOpen: false
-            })
+        if (this.props.isOpen === item.name) {
+            this.props.toggleClassifierState(false, false)
         } else {
-            this.setState({
-                isOpen: item.name,
-                active: item.id
-            })
+            this.props.toggleClassifierState(item.id, item.name)
             this.props.selectClassifiersGroup(item)
         }
     }
@@ -196,14 +189,12 @@ class TableComponent extends React.Component {
                             </Col>
                         </Row>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} className='mt-1'>
                         <Row>
-                            <Col
-                                md={4} xl={3}
-                            >
+                            <Col md={4} xl={4}>
                                 <ClassifiersModal
-                                    active={this.state.active}
-                                    isOpen={this.state.isOpen}
+                                    active={this.props.active}
+                                    isOpen={this.props.isOpen}
                                     handleClick={this.handleClick}
                                     classifiersSelectHandler={this.classifiersSelectHandler}
                                     subGroupCollapses={this.props.subGroupCollapses}
@@ -246,7 +237,7 @@ class TableComponent extends React.Component {
                                         null
                                 }
                             </Col>
-                            <Col md={6} xl={7}>
+                            <Col md={6} xl={8} className='mt-1'>
                                 <AdvancedSearch
                                     sectionFontColor={this.props.sectionFontColor}
                                     advancedSearchText={this.props.advancedSearchText}
@@ -270,25 +261,25 @@ class TableComponent extends React.Component {
                                 />
                             </Col>
                             <Col
-                                md={2}
+                                md={12}
                                 className='d-flex'
                                 style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
+                                    justifyContent: 'flex-end',
+                                    alignItems: 'flex-end'
                                 }}
                             >
                                 <ButtonUi
-                                    width={'50px'}
-                                    height={'50px'}
-                                    borderRadius={'50%'}
+                                    width={'auto'}
+                                    height={'auto'}
                                     margin={'0'}
-                                    padding={'0'}
+                                    padding={'5px 15px'}
                                     textAlign={'center'}
                                     color={'primary'}
                                     variant='contained'
                                     onClick={this.searchHandler}
                                 >
-                                    <SearchIcon fontSize={'small'}/>
+                                    <Translate name={'search'}/>
+                                    {/*<SearchIcon fontSize={'small'}/>*/}
                                 </ButtonUi>
                             </Col>
                         </Row>
