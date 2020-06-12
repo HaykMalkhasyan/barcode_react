@@ -2,7 +2,7 @@ import React, {Component} from "react";
 // import jwt from 'jwt-simple';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {closeNotification, login, loginIsEmpty, passwordIsEmpty} from "../../redux/auth/actions";
+import {closeNotification, login, loginIsEmpty, passwordIsEmpty, resetPage} from "../../redux/auth/actions";
 import {getTranslations} from "../../redux/lang/actions"
 import {getPages} from '../../redux/pages/actions'
 import classes from './login.module.css'
@@ -99,6 +99,10 @@ class LoginContainer extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.props.resetPage()
+    }
+
     render() {
 
         return (
@@ -187,8 +191,9 @@ class LoginContainer extends Component {
                                     style={{
                                         cursor: 'pointer'
                                     }}
-                                    onMouseDown={this.showPasswordHandler}
+                                    onClick={this.showPasswordHandler}
                                     onMouseUp={this.hidePasswordHandler}
+                                    onMouseLeave={this.hidePasswordHandler}
                                 >
                                     {
                                         this.state.showPass ?
@@ -240,7 +245,8 @@ const mapDispatchToProps = dispatch => {
             getPages,
             loginIsEmpty,
             passwordIsEmpty,
-            closeNotification
+            closeNotification,
+            resetPage
         },
         dispatch
     );

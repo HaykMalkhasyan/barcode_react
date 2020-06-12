@@ -8,7 +8,7 @@ import {
     LOGIN_REQUEST_SUCCESS,
     LOGOUT_REQUEST,
     LOGOUT_REQUEST_FAIL,
-    LOGOUT_REQUEST_SUCCESS, PASSWORD_EMPTY
+    LOGOUT_REQUEST_SUCCESS, PASSWORD_EMPTY, RESET_PAGE
 } from "./actionTypes";
 import {DELETE_USER_SUCCESS} from "../users/actionTypes";
 import SessionStorage from "../../services/SessionStorage";
@@ -29,6 +29,10 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case RESET_PAGE:
+            return {
+                ...state, fail: false
+            }
         case CLOSE_NOTIFICATION:
             return {
                 ...state, fail: false

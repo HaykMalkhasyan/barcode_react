@@ -42,7 +42,7 @@ const ProductModal = (props) => {
 
     const createProduct = (event,type) => {
         event.preventDefault();
-        console.log(event, type)
+
         let prod = props.product;
         if (Object.keys(prod).length > 0) {
             if (type === 'add') {

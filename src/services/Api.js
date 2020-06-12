@@ -3,6 +3,8 @@ import axios from "axios";
 import {destroySession, getSession, saveSession} from "../utility/session";
 import jwt_decode from 'jwt-decode'
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default class ApiClient {
     configs = {};
     defaultConfigs = {};
@@ -147,7 +149,7 @@ export default class ApiClient {
 
     async getToken(error, refreshToken) {
         try {
-            const res = await axios.post('token/refresh/', refreshToken);
+            const res = await axios.post(`${API_URL}/token/refresh/`, refreshToken);
             let uderData = jwt_decode(res.data.access);
             let user = {
                 firstname: uderData.firstname,

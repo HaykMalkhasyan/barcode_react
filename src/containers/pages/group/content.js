@@ -45,7 +45,7 @@ class ContentTable extends Component {
     }
 
     render() {
-        console.log(this.props.products)
+
         return (
             <>
                 <ButtonUi

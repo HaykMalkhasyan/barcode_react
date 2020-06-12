@@ -8,6 +8,7 @@ import {
 } from "./actionTypes";
 
 let cols = 'id, username, firstname, lastname, email, is_active, deleted ';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const userActions = (type, data) => {
 
@@ -15,29 +16,29 @@ export const userActions = (type, data) => {
         case "get":
             return {
                 types: [GET_USER_REQUEST, GET_USER_FAIL, GET_USER_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`user/${data.id}`, {cols})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/user/${data.id}`, {cols})
             }
         case "getAll":
             return {
                 types: [GET_USERS_REQUEST, GET_USERS_FAIL, GET_USERS_SUCCESS],
-                promise: (apiClient) => apiClient.gett('user/', {cols})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/user/`, {cols})
             }
         case "add":
             data.deleted = 0;
             return {
                 types: [ADD_USER_REQUEST, ADD_USER_FAIL, ADD_USER_SUCCESS],
-                promise: (apiClient) => apiClient.posttAdd('user/create/', data, {cols})
+                promise: (apiClient) => apiClient.posttAdd(`${API_URL}/user/create/`, data, {cols})
             }
         case "edit":
             return {
                 types: [EDIT_USER_REQUEST, EDIT_USER_FAIL, EDIT_USER_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`user/${data.id}`, data, {cols})
+                promise: (apiClient) => apiClient.putt(`${API_URL}/user/${data.id}`, data, {cols})
             }
         case "delete":
             data.deleted = 1;
             return {
                 types: [DELETE_USER_REQUEST, DELETE_USER_FAIL, DELETE_USER_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`user/${data.id}`, data, {cols})
+                promise: (apiClient) => apiClient.putt(`${API_URL}/user/${data.id}`, data, {cols})
             }
         default:
             return;

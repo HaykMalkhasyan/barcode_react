@@ -212,7 +212,7 @@
 
 .forgetPassword {
     text-align: right;
-    color: #4DA3E1;
+    color: #578EE4;
     font-family: 'Mardoto', sans-serif;
     font-size: 12px;
     display: block;
@@ -222,7 +222,7 @@
 }
 
 .forgetPassword:hover {
-    color: #578EE4;
+    color: #4DA3E1;
     user-select: none;
 }
 

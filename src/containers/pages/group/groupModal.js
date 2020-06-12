@@ -78,10 +78,10 @@ const GroupModal = (props) => {
                                 label={'required'}
                                 mBottom={0}
                                 name={'required_group'}
-                                value={props.group.required_group}
+                                value={props.group ? props.group.required_group : ''}
                                 onChange={
                                     event => {
-                                        console.log(!event.target.checked)
+
                                         props.setModalValues("required_group", event.target.checked)
                                     }
                                 }

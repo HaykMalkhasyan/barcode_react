@@ -30,34 +30,35 @@ import {
 import axios from "axios";
 
 let cols = 'id,name,type,hh,address,phone';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const supplierActions = (type, data) => {
     switch (type) {
         case "get":
             return {
                 types: [GET_SUPPLIER_REQUEST, GET_SUPPLIER_FAIL, GET_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`suppliers/${data.id}`, {cols})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/suppliers/${data.id}`, {cols})
             }
         case "getAll":
             return {
                 types: [GET_SUPPLIERS_REQUEST, GET_SUPPLIERS_FAIL, GET_SUPPLIERS_SUCCESS],
-                promise: (apiClient) => apiClient.gett('suppliers/', {cols})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/suppliers/`, {cols})
             }
         case "add":
             data.type = 0;
             return {
                 types: [ADD_SUPPLIER_REQUEST, ADD_SUPPLIER_FAIL, ADD_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.posttAdd(`suppliers/`, data, {cols})
+                promise: (apiClient) => apiClient.posttAdd(`${API_URL}/suppliers/`, data, {cols})
             }
         case "edit":
             return {
                 types: [EDIT_SUPPLIER_REQUEST, EDIT_SUPPLIER_FAIL, EDIT_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`suppliers/${data.id}`, data, {cols})
+                promise: (apiClient) => apiClient.putt(`${API_URL}/suppliers/${data.id}`, data, {cols})
             }
         case "delete":
             return {
                 types: [DELETE_SUPPLIER_REQUEST, DELETE_SUPPLIER_FAIL, DELETE_SUPPLIER_SUCCESS],
-                promise: (apiClient) => apiClient.deletee(`suppliers/${data.id}`, {cols}),
+                promise: (apiClient) => apiClient.deletee(`${API_URL}/suppliers/${data.id}`, {cols}),
                 data
             }
         default:
@@ -68,14 +69,14 @@ export const supplierActions = (type, data) => {
 export const getBanks = () => {
     return {
         types: [GET_BANKS_REQUEST, GET_BANKS_FAIL, GET_BANKS_SUCCESS],
-        promise: (apiClient) => apiClient.gett('bank/')
+        promise: (apiClient) => apiClient.gett(`${API_URL}/bank/`)
     }
 }
 
 export const getCurrency = () => {
     return {
         types: [GET_Currency_REQUEST, GET_Currency_FAIL, GET_Currency_SUCCESS],
-        promise: (apiClient) => apiClient.gett('currency/')
+        promise: (apiClient) => apiClient.gett(`${API_URL}/currency/`)
     }
 }
 

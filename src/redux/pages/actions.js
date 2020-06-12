@@ -18,11 +18,12 @@ import {
     TOGGLE_MENU_MODAL
 } from "./actionTypes";
 let cols =  'id,name,icon';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const getPages = () => {
     return {
         types: [GET_PAGES_REQUEST,GET_PAGES_FAIL,GET_PAGES_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`pages/`,{ cols })
+        promise: (apiClient) => apiClient.gett(`${API_URL}/pages/`,{ cols })
     }
 }
 let col = 'id, name';
@@ -33,7 +34,7 @@ export const menuActions = (type, data) => {
         case 'get':
             return {
                 types: [GET_MENU_ITEM_REQUEST, GET_MENU_ITEM_FAIL, GET_MENU_ITEM_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`pages/${data.id}`, {col})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/pages/${data.id}`, {col})
             }
         case 'add':
             let menuItem = {};
@@ -41,17 +42,17 @@ export const menuActions = (type, data) => {
             menuItem.icon = data.icon;
             return {
                 types: [ADD_MENU_REQUEST, ADD_MENU_FAIL, ADD_MENU_SUCCESS],
-                promise: apiClient => apiClient.posttAdd('pages/', menuItem, {col})
+                promise: apiClient => apiClient.posttAdd(`${API_URL}/pages/`, menuItem, {col})
             };
         case 'edit':
             return {
                 types: [EDIT_MENU_REQUEST, EDIT_MENU_FAIL, EDIT_MENU_SUCCESS],
-                promise: apiClient => apiClient.putt(`pages/${data.id}`, JSON.stringify(data), {col})
+                promise: apiClient => apiClient.putt(`${API_URL}/pages/${data.id}`, JSON.stringify(data), {col})
             }
         case 'delete':
             return {
                 types: [DELETE_MENU_REQUEST, DELETE_MENU_FAIL, DELETE_MENU_SUCCESS],
-                promise: apiClient => apiClient.deletee(`pages/${JSON.parse(data.id)}`, data, {col})
+                promise: apiClient => apiClient.deletee(`${API_URL}/pages/${JSON.parse(data.id)}`, data, {col})
             }
         default:
             return;

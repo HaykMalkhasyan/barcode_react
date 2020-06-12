@@ -39,33 +39,34 @@ import axios from 'axios'
 import SessionStorage from "../../services/SessionStorage";
 import {getSession, saveSession} from "../../utility/session";
 import jwt_decode from "jwt-decode";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const productActions = (type, data) => {
     switch (type) {
         case "get":
             return {
                 types: [GET_PRODUCT_REQUEST, GET_PRODUCT_FAIL, GET_PRODUCT_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`product/${data.id}`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/product/${data.id}`)
             }
         case "getAll":
             return {
                 types: [GET_PRODUCTS_REQUEST, GET_PRODUCTS_FAIL, GET_PRODUCTS_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`product/?page_size=10000`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/product/?page_size=10000`)
             }
         case "add":
             return {
                 types: [ADD_PRODUCT_REQUEST, ADD_PRODUCT_FAIL, ADD_PRODUCT_SUCCESS],
-                promise: (apiClient) => apiClient.posttAdd(`product/`, data)
+                promise: (apiClient) => apiClient.posttAdd(`${API_URL}/product/`, data)
             }
         case "edit":
             return {
                 types: [EDIT_PRODUCT_REQUEST, EDIT_PRODUCT_FAIL, EDIT_PRODUCT_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`product/${data.id}`, data)
+                promise: (apiClient) => apiClient.putt(`${API_URL}/product/${data.id}`, data)
             }
         case "delete":
             return {
                 types: [DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_SUCCESS],
-                promise: (apiClient) => apiClient.deletee(`product/${data.id}`),
+                promise: (apiClient) => apiClient.deletee(`${API_URL}/product/${data.id}`),
                 data
             }
         default:
@@ -77,7 +78,7 @@ export const barcodeActions = (type, code) => {
         case "getTypes":
             return {
                 types: [GET_BARCODE_TYPES_REQUEST, GET_BARCODE_TYPES_FAIL, GET_BARCODE_TYPES_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`barcode`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/barcode`)
             }
         case "add":
             return {
@@ -443,7 +444,7 @@ export function toggleSwitchValue(name, value) {
 export function toggleCheckBoxValue(name, check, value = false, classifier) {
 
     return (dispatch, getState) => {
-        console.log(check)
+
         let advancedSearchConfig = {...getState().products.advancedSearchConfig}
 
         if (value === false) {
@@ -595,7 +596,7 @@ export const setToggleModal = (modalType, id) => {
 export function getToken(error, refreshToken) {
     return async dispatch => {
         try {
-            const res = await axios.post('token/refresh/', refreshToken);
+            const res = await axios.post(`${API_URL}/token/refresh/`, refreshToken);
             let uderData = jwt_decode(res.data.access);
             let user = {
                 firstname: uderData.firstname,
@@ -644,7 +645,7 @@ export function testFetchNewProduct(type, data, images) {
                         form_data.append('file', image)
                         form_data.append('filename', imageName)
                         try {
-                        await axios.post('/product/upload/', form_data, {
+                        await axios.post(`${API_URL}/product/upload/`, form_data, {
                             headers: {
                                 'content-type': 'multipart/form-data',
                                 'Authorization': `JWT ${access}`
@@ -655,7 +656,7 @@ export function testFetchNewProduct(type, data, images) {
                                 const refresh_token = getSession('refresh');
                                 let new_token_data = getToken(error, {refresh: refresh_token})
                                 if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
-                                    return axios.post('/product/upload/', form_data, {
+                                    return axios.post(`${API_URL}/product/upload/`, form_data, {
                                         headers: {
                                             'content-type': 'multipart/form-data',
                                             'Authorization': `JWT ${access}`
@@ -687,7 +688,7 @@ export function testFetchNewProduct(type, data, images) {
                         form_data.append('filename', imageName)
 
                         try {
-                            await axios.post('/product/upload/', form_data, {
+                            await axios.post(`${API_URL}/product/upload/`, form_data, {
                                 headers: {
                                     'content-type': 'multipart/form-data',
                                     'Authorization': `JWT ${access}`
@@ -698,7 +699,7 @@ export function testFetchNewProduct(type, data, images) {
                                 const refresh_token = getSession('refresh');
                                 let new_token_data = getToken(error, {refresh: refresh_token})
                                 if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
-                                    return axios.post('/product/upload/', form_data, {
+                                    return axios.post(`${API_URL}/product/upload/`, form_data, {
                                         headers: {
                                             'content-type': 'multipart/form-data',
                                             'Authorization': `JWT ${access}`
@@ -729,26 +730,26 @@ export function testFetchNewProduct(type, data, images) {
 export function fetchImages(data, type) {
 
     return async (dispatch, getState) => {
-        console.log('DASA', data, type)
+
         const access = SessionStorage.get("access");
         let response;
         switch (type) {
 
             case 'add': {
                 try {
-                    response = await axios.post('product/', data, {
+                    response = await axios.post(`${API_URL}/product/`, data, {
                         headers: {
                             "Authorization": `JWT ${access}`
                         }
                     })
-                    console.log('RESPONSE', response)
+
                     dispatch(addedProduct(response.data))
                 } catch (error) {
                     if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
                         const refresh_token = getSession('refresh');
                         let new_token_data = getToken(error, {refresh: refresh_token})
                         if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
-                            response = await axios.post('product/', data, {
+                            response = await axios.post(`${API_URL}/product/`, data, {
                                 headers: {
                                     'Authorization': `JWT ${access}`
                                 }
@@ -761,7 +762,7 @@ export function fetchImages(data, type) {
             }
             case 'edit': {
                 try {
-                    response = await axios.put(`product/${data.id}`, data, {
+                    response = await axios.put(`${API_URL}/product/${data.id}`, data, {
                         headers: {
                             "Authorization": `JWT ${access}`
                         }
@@ -772,7 +773,7 @@ export function fetchImages(data, type) {
                         const refresh_token = getSession('refresh');
                         let new_token_data = getToken(error, {refresh: refresh_token})
                         if ((await new_token_data).access === getSession('access') && (await new_token_data).refresh === getSession('refresh')) {
-                            response = await axios.post(`product/${data.id}`, data, {
+                            response = await axios.post(`${API_URL}/product/${data.id}`, data, {
                                 headers: {
                                     'Authorization': `JWT ${access}`
                                 }

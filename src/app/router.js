@@ -24,6 +24,7 @@ const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 const LazySignUp = lazy(() => import("../containers/auth/registration/registration"));
 const LazyCompany = lazy(() => import("../containers/pages/company/companyContainer"));
 const LazyRecoverPassword = lazy(() => import("../containers/auth/forgotPassword/foegotPassword"));
+const LazyVerifyUser = lazy(() => import("../containers/auth/verifyUser/verifyUser"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
 
@@ -120,6 +121,12 @@ function Router(props) {
                     path="/registration"
                     auth={props.auth}
                     component={LazySignUp}
+                />
+                <PublicRoute
+                    exact
+                    path="/verify-user"
+                    auth={props.auth}
+                    component={LazyVerifyUser}
                 />
                 <PublicRoute
                     exact

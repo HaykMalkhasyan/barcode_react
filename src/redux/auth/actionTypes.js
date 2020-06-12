@@ -10,3 +10,5 @@ export const LOGIN_EMPTY = 'LOGIN_EMPTY';
 export const PASSWORD_EMPTY = 'PASSWORD_EMPTY';
 
 export const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION';
+
+export const RESET_PAGE = 'RESET_PAGE';

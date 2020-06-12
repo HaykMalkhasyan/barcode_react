@@ -81,7 +81,7 @@ class TableComponent extends React.Component {
     }
 
     searchHandler = () => {
-        console.log(this.props)
+
         this.props.history.push('/search')
     }
 
@@ -96,7 +96,6 @@ class TableComponent extends React.Component {
 
     classifiersSelectHandler = (event, value, check, name) => {
         event.stopPropagation()
-        console.log(name)
         this.props.toggleCheckBoxValue('classifier', check, +value, name)
     }
 

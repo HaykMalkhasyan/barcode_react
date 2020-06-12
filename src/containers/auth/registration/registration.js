@@ -10,9 +10,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import {
-    fetchRegistration
-} from '../../../redux/authReg/actions'
+import {fetchRegistration} from '../../../redux/authReg/actions'
 
 class Reagistration extends Component {
 
@@ -175,12 +173,13 @@ class Reagistration extends Component {
 
     errorRender = error => {
         let errorArray = [];
+        let errorStatus = false;
         if (error) {
             for (let item in error) {
                 errorArray.push(item)
             }
         }
-        return errorArray.map(
+        let errorFinish = errorArray.map(
             (item, index) => {
                 switch (item) {
 
@@ -203,13 +202,23 @@ class Reagistration extends Component {
                     case 'password':
                     case 'password_confirm':
                         return (
-                            <Alert className='my-1' key={index} severity="error">Դուք մուտքագրել եք սխալ գաղտնաբառ</Alert>
+                            <Alert className='my-1' key={index} severity="error">Դուք մուտքագրել եք սխալ
+                                գաղտնաբառ</Alert>
                         )
-                    default:
+                    default: {
+                        errorStatus = true;
                         return null;
+                    }
                 }
             }
         )
+        if (errorStatus) {
+            return (
+                <Alert className='my-1' severity="error">Գրանցումը չհաջողվեց</Alert>
+            )
+        } else {
+            return errorFinish
+        }
     }
 
     render() {
@@ -218,7 +227,7 @@ class Reagistration extends Component {
             <div className={cls.main}>
                 <div className={cls.backdrop}>
                     <div className={`text-center ${cls.mainWindow}`}>
-                        <span className={cls.name}>Barcode.am</span>
+                        <span className={`${cls.name} ${this.props.success ? cls.nameSecond : ''}`}>Barcode.am</span>
                         <span className={cls.action}>
                                 Գրանցվել
                             </span>
@@ -228,80 +237,92 @@ class Reagistration extends Component {
                                 :
                                 null
                         }
-                        <form onSubmit={event => this.onSubmit(event)}>
-                            <label
-                                htmlFor={'first_name'}
-                                className={
+                        {
+                            this.props.success ?
+                                <div className={cls.regSuccess}>
+                                    Դուք շուտով կստանաք էլ․ հաղորդագրություն, անցեք հաղորդագրությանը կից հղմամբ որպիսզի
+                                    հաստատեք գրանցումը, շնորհակալություն․․․
+                                </div>
+                                :
+                                <>
+                                    <form onSubmit={event => this.onSubmit(event)}>
+                                        <label
+                                            htmlFor={'first_name'}
+                                            className={
+                                                `
+                                                ${
+                                                    cls.email
+                                                }
+                                                ${
+                                                    this.state.selected === 'first_name' ?
+                                                        cls.selected
+                                                        :
+                                                        null
+                                                }
+                                                ${
+                                                    this.state.isEmpty['first_name'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
                                     `
-                                    ${
-                                        cls.email
-                                    } 
-                                    ${
-                                        this.state.selected === 'first_name' ?
-                                            cls.selected
-                                            :
-                                            null
-                                    }
-                                    ${
-                                        this.state.isEmpty['first_name'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
-                                    `
-                                }
-                            >
+                                            }
+                                        >
                                 <span className={cls.forIcon}>
-                                    <svg width={16} height={13} viewBox="0 0 10.419 11.658">
+                                    <svg width={16} height={13} viewBox="0 0 10.619 11.858">
                                         <defs>
-                                            <style>{".statick1{fill: #444 !important;}"}</style>
+                                           <style>{".statick1{fill: #444 !important;stroke:#545454;stroke-width:0.4px;}"}</style>
                                         </defs>
-                                        <path
-                                            className="statick1"
-                                            d="M43.719,42.8a.155.155,0,1,1-.31,0,4.8,4.8,0,0,0-9.6,0,.155.155,0,0,1-.31,0,5.11,5.11,0,0,1,10.219,0Zm-5.11-5.419a2.942,2.942,0,1,1,2.942-2.942A2.942,2.942,0,0,1,38.61,37.384Zm0-.31a2.632,2.632,0,1,0-2.632-2.632A2.632,2.632,0,0,0,38.61,37.074Z"
-                                            transform="translate(-33.4 -31.4)"
-                                        />
+                                        <g transform="translate(-33.3 -31.3)">
+                                          <g transform="translate(33.5 31.5)">
+                                            <path
+                                                className="statick1"
+                                                d="M43.719,42.8a.155.155,0,1,1-.31,0,4.8,4.8,0,0,0-9.6,0,.155.155,0,0,1-.31,0,5.11,5.11,0,0,1,10.219,0Zm-5.11-5.419a2.942,2.942,0,1,1,2.942-2.942A2.942,2.942,0,0,1,38.61,37.384Zm0-.31a2.632,2.632,0,1,0-2.632-2.632A2.632,2.632,0,0,0,38.61,37.074Z"
+                                                transform="translate(-33.5 -31.5)"
+                                            />
+                                          </g>
+                                        </g>
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'first_name')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'first_name'}
-                                    className={`border-0 ${cls.emailInput}`}
-                                    type="text"
-                                    required={true}
-                                    name="first_name"
-                                    placeholder={'Անուն'}
-                                    value={this.state.name}
-                                    onChange={this.handleChange}
-                                />
-                            </label>
-                            <label
-                                htmlFor={'last_name'}
-                                className={
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'first_name')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'first_name'}
+                                                className={`border-0 ${cls.emailInput}`}
+                                                type="text"
+                                                required={true}
+                                                name="first_name"
+                                                placeholder={'Անուն'}
+                                                value={this.state.name}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                        <label
+                                            htmlFor={'last_name'}
+                                            className={
+                                                `
+                                                ${
+                                                    cls.email
+                                                }
+                                                ${
+                                                    this.state.selected === 'last_name' ?
+                                                        cls.selected
+                                                        :
+                                                        null
+                                                }
+                                                ${
+                                                    this.state.isEmpty['last_name'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
                                     `
-                                    ${
-                                        cls.email
-                                    }
-                                    ${
-                                        this.state.selected === 'last_name' ?
-                                            cls.selected
-                                            :
-                                            null
-                                    }
-                                    ${
-                                        this.state.isEmpty['last_name'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
-                                    `
-                                }
-                            >
+                                            }
+                                        >
                                 <span className={cls.forIcon}>
                                     <svg width={16} height={13} viewBox="0 0 15.866 11.658">
                                         <defs>
-                                            <style>{".statick2{fill: #444 !important;}"}</style>
+                                            <style>{".statick2{fill: #444 !important;stroke:#545454;stroke-width:0.4px;}"}</style>
                                         </defs>
                                         <g transform="translate(-1.9 -15.9)">
                                           <g transform="translate(2 16)">
@@ -337,44 +358,44 @@ class Reagistration extends Component {
                                         </g>
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'last_name')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'last_name'}
-                                    className={`border-0 ${cls.emailInput}`}
-                                    type="text"
-                                    name="last_name"
-                                    placeholder={'Ազգանուն'}
-                                    value={this.state.surname}
-                                    onChange={this.handleChange}
-                                />
-                            </label>
-                            <label
-                                htmlFor={'email'}
-                                className={
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'last_name')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'last_name'}
+                                                className={`border-0 ${cls.emailInput}`}
+                                                type="text"
+                                                name="last_name"
+                                                placeholder={'Ազգանուն'}
+                                                value={this.state.surname}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                        <label
+                                            htmlFor={'email'}
+                                            className={
+                                                `
+                                    ${
+                                                    cls.email
+                                                }
+                                    ${
+                                                    this.state.selected === 'email' ?
+                                                        cls.selected
+                                                        :
+                                                        null
+                                                }
+                                    ${
+                                                    this.state.isEmpty['email'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
                                     `
-                                    ${
-                                        cls.email
-                                    }
-                                    ${
-                                        this.state.selected === 'email' ?
-                                            cls.selected
-                                            :
-                                            null
-                                    }
-                                    ${
-                                        this.state.isEmpty['email'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
-                                    `
-                                }
-                            >
+                                            }
+                                        >
                                 <span className={cls.forIcon}>
                                     <svg width={16} height={13} viewBox="0 0 14.408 11.658">
                                         <defs>
-                                            <style>{".statick3{fill: #444 !important;}"}</style>
+                                            <style>{".statick3{fill: #444 !important;stroke:#545454;stroke-width:0.4px;}"}</style>
                                         </defs>
                                         <path
                                             className="statick3"
@@ -383,51 +404,51 @@ class Reagistration extends Component {
                                         />
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'email')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'email'}
-                                    className={`border-0 ${cls.input}`}
-                                    type="email"
-                                    name="email"
-                                    placeholder={'Էլ․ հասցե'}
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                                <span className={classes.forIcon}>
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'email')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'email'}
+                                                className={`border-0 ${cls.input}`}
+                                                type="email"
+                                                name="email"
+                                                placeholder={'Էլ․ հասցե'}
+                                                value={this.state.email}
+                                                onChange={this.handleChange}
+                                            />
+                                            <span className={classes.forIcon}>
                                     {
                                         this.checkStatus(this.state.emailStatus)
                                     }
                                 </span>
-                            </label>
-                            <label
-                                htmlFor={'password'}
-                                className={
-                                    `
-                                    ${
-                                        cls.password
-                                    }
-                                    ${
-                                        this.state.selected === 'password' ?
-                                            cls.selected
-                                            :
-                                            null
-                                    }
-                                    ${
-                                        this.state.password !== this.state.password_confirm ?
-                                            cls.error
-                                            :
-                                            ''
-                                    }
-                                    ${
-                                        this.state.isEmpty['password'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
-                                    `
-                                }
-                            >
+                                        </label>
+                                        <label
+                                            htmlFor={'password'}
+                                            className={
+                                                `
+                                                ${
+                                                    cls.password
+                                                }
+                                                ${
+                                                    this.state.selected === 'password' ?
+                                                        cls.selected
+                                                        :
+                                                        null
+                                                }
+                                                ${
+                                                    this.state.password !== this.state.password_confirm ?
+                                                        cls.error
+                                                        :
+                                                        ''
+                                                }
+                                                ${
+                                                    this.state.isEmpty['password'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
+                                                `
+                                            }
+                                        >
                                 <span className={cls.forIcon}>
                                     <svg width={22} height={19} viewBox="0 0 11.664 11.665">
                                         <g transform="translate(-2.072 -95.593)">
@@ -450,31 +471,31 @@ class Reagistration extends Component {
                                         </g>
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'password')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'password'}
-                                    placeholder={'Նոր գաղտնաբառ'}
-                                    className={`border-0 ${cls.input}`}
-                                    type={
-                                        this.state.showPass ?
-                                            'text'
-                                            :
-                                            'password'
-                                    }
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
-                                <span
-                                    className={cls.forIcon}
-                                    style={{
-                                        cursor: 'pointer'
-                                    }}
-                                    onMouseDown={this.showPasswordHandler.bind(this, 'password')}
-                                    onMouseUp={this.hidePasswordHandler.bind(this, 'password')}
-                                    onMouseLeave={this.hidePasswordHandler.bind(this, 'password')}
-                                >
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'password')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'password'}
+                                                placeholder={'Նոր գաղտնաբառ'}
+                                                className={`border-0 ${cls.input}`}
+                                                type={
+                                                    this.state.showPass ?
+                                                        'text'
+                                                        :
+                                                        'password'
+                                                }
+                                                name="password"
+                                                value={this.state.password}
+                                                onChange={this.handleChange}
+                                            />
+                                            <span
+                                                className={cls.forIcon}
+                                                style={{
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick={this.showPasswordHandler.bind(this, 'password')}
+                                                onMouseUp={this.hidePasswordHandler.bind(this, 'password')}
+                                                onMouseLeave={this.hidePasswordHandler.bind(this, 'password')}
+                                            >
                                     {
                                         this.state.showPass ?
                                             <VisibilityOffOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
@@ -482,33 +503,35 @@ class Reagistration extends Component {
                                             <VisibilityOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
                                     }
                                 </span>
-                            </label>
-                            <label
-                                htmlFor={'password_confirm'}
-                                className={
-                                    `
-                                    ${cls.confirmPassword} 
-                                    ${
-                                        this.state.selected === 'password_confirm' ?
-                                            cls.selected
-                                            :
-                                            null
-                                    } 
-                                    ${
-                                        this.state.password !== this.state.password_confirm ?
-                                            cls.error
-                                            :
-                                            ''
-                                    }
-                                    ${
-                                        this.state.isEmpty['password_confirm'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
-                                    `
-                                }
-                            >
+                                        </label>
+                                        <label
+                                            htmlFor={'password_confirm'}
+                                            className={
+                                                `
+                                                ${
+                                                    cls.confirmPassword
+                                                }
+                                                ${
+                                                    this.state.selected === 'password_confirm' ?
+                                                        cls.selected
+                                                        :
+                                                        null
+                                                }
+                                                ${
+                                                    this.state.password !== this.state.password_confirm ?
+                                                        cls.error
+                                                        :
+                                                        ''
+                                                }
+                                                ${
+                                                    this.state.isEmpty['password_confirm'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
+                                                `
+                                            }
+                                        >
                                 <span className={cls.forIcon}>
                                     <svg width={22} height={19} viewBox="0 0 11.664 11.665">
                                         <g transform="translate(-2.072 -95.593)">
@@ -531,31 +554,31 @@ class Reagistration extends Component {
                                         </g>
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'password_confirm')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'password_confirm'}
-                                    placeholder={'Կրկնել գաղտնաբառ'}
-                                    className={`border-0 ${cls.input}`}
-                                    type={
-                                        this.state.showConfPass ?
-                                            'text'
-                                            :
-                                            'password'
-                                    }
-                                    name="password_confirm"
-                                    value={this.state.password_confirm}
-                                    onChange={this.handleChange}
-                                />
-                                <span
-                                    className={cls.forIcon}
-                                    style={{
-                                        cursor: 'pointer'
-                                    }}
-                                    onMouseDown={this.showPasswordHandler.bind(this, 'password_confirm')}
-                                    onMouseUp={this.hidePasswordHandler.bind(this, 'password_confirm')}
-                                    onMouseLeave={this.hidePasswordHandler.bind(this, 'password_confirm')}
-                                >
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'password_confirm')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'password_confirm'}
+                                                placeholder={'Կրկնել գաղտնաբառ'}
+                                                className={`border-0 ${cls.input}`}
+                                                type={
+                                                    this.state.showConfPass ?
+                                                        'text'
+                                                        :
+                                                        'password'
+                                                }
+                                                name="password_confirm"
+                                                value={this.state.password_confirm}
+                                                onChange={this.handleChange}
+                                            />
+                                            <span
+                                                className={cls.forIcon}
+                                                style={{
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick={this.showPasswordHandler.bind(this, 'password_confirm')}
+                                                onMouseUp={this.hidePasswordHandler.bind(this, 'password_confirm')}
+                                                onMouseLeave={this.hidePasswordHandler.bind(this, 'password_confirm')}
+                                            >
                                     {
                                         this.state.showConfPass ?
                                             <VisibilityOffOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
@@ -563,63 +586,66 @@ class Reagistration extends Component {
                                             <VisibilityOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
                                     }
                                 </span>
-                            </label>
-                            <div
-                                className={
-                                    `
+                                        </label>
+                                        <div
+                                            className={
+                                                `
                                     ${
-                                        cls.checkWindow
-                                    }
+                                                    cls.checkWindow
+                                                }
                                     ${
-                                        this.state.isEmpty['usagerules'] ?
-                                            `${cls.error} ${cls.erroVerify}`
-                                            :
-                                            ''
-                                    }
+                                                    this.state.isEmpty['usagerules'] ?
+                                                        `${cls.error} ${cls.erroVerify}`
+                                                        :
+                                                        ''
+                                                }
                                     `
-                                }
-                            >
-                                <Checkbox
-                                    classes={{
-                                        root: cls.checkboxRoot
-                                    }}
-                                    checked={this.state.usagerules}
-                                    id={'check'}
-                                    size="small"
-                                    name={'usagerules'}
-                                    inputProps={{'aria-label': 'checkbox with small size'}}
-                                    onChange={this.usagerulesHandler}
-                                />
-                                <label htmlFor="check" className={cls.checkLabel}>
+                                            }
+                                        >
+                                            <Checkbox
+                                                classes={{
+                                                    root: cls.checkboxRoot
+                                                }}
+                                                checked={this.state.usagerules}
+                                                id={'check'}
+                                                size="small"
+                                                name={'usagerules'}
+                                                inputProps={{'aria-label': 'checkbox with small size'}}
+                                                onChange={this.usagerulesHandler}
+                                            />
+                                            <label htmlFor="check" className={cls.checkLabel}>
                                     <span
                                         className={`${cls.check} mr-1`}
                                     >
                                         Ես համաձայն եմ
                                     </span>
-                                    <NavLink
-                                        className={cls.checkLink}
-                                        to={'/usagerules'}
-                                    >
-                                        Օգտագործման կանոններին
-                                    </NavLink>
-                                    <span>:</span>
-                                </label>
-                            </div>
-                            <button
-                                className={cls.signIn}
-                                onClick={event => this.onSubmit(event)}
-                            >
-                                Գրանցվել
-                            </button>
-                        </form>
-                        <div className={cls.createAccount}>
+                                                <NavLink
+                                                    className={cls.checkLink}
+                                                    to={'/usagerules'}
+                                                >
+                                                    Օգտագործման կանոններին
+                                                </NavLink>
+                                                <span>:</span>
+                                            </label>
+                                        </div>
+                                        <button
+                                            className={cls.signIn}
+                                            onClick={event => this.onSubmit(event)}
+                                        >
+                                            Գրանցվել
+                                        </button>
+                                    </form>
+                                    <div className={cls.createAccount}>
                             <span>
                                 Գրանցվա՞ծ եք:
                             </span>
-                            <NavLink className={cls.signUp} to={'login'}>
-                                Մուտք
-                            </NavLink>
-                        </div>
+                                        <NavLink className={cls.signUp} to={'login'}>
+                                            Մուտք
+                                        </NavLink>
+                                    </div>
+                                </>
+
+                        }
                         {
                             this.props.progress ?
                                 <LinearProgress

@@ -51,33 +51,34 @@ import {
 
 
 let cols = 'id,name';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const groupActions = (type, data) => {
     switch (type) {
         case "get":
             return {
                 types: [GET_GROUP_REQUEST, GET_GROUP_FAIL, GET_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`group/${data.id}`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/group/${data.id}`)
             }
         case "getAll":
             return {
                 types: [GET_GROUPS_REQUEST, GET_GROUPS_FAIL, GET_GROUPS_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`group/?page_size=10000`, {cols})
+                promise: (apiClient) => apiClient.gett(`${API_URL}/group/?page_size=10000`, {cols})
             }
         case "add":
             return {
                 types: [ADD_GROUP_REQUEST, ADD_GROUP_FAIL, ADD_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.posttAdd(`group/`, data, {cols})
+                promise: (apiClient) => apiClient.posttAdd(`${API_URL}/group/`, data, {cols})
             }
         case "edit":
             return {
                 types: [EDIT_GROUP_REQUEST, EDIT_GROUP_FAIL, EDIT_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`group/${data.id}`, data, {cols})
+                promise: (apiClient) => apiClient.putt(`${API_URL}/group/${data.id}`, data, {cols})
             }
         case "delete":
             return {
                 types: [DELETE_GROUP_REQUEST, DELETE_GROUP_FAIL, DELETE_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.deletee(`group/${data.id}`, {cols}),
+                promise: (apiClient) => apiClient.deletee(`${API_URL}/group/${data.id}`, {cols}),
                 data
             }
         default:
@@ -89,7 +90,7 @@ export const getSeletGroup = id => {
 
     return {
         types: [SELECT_GROUPS_REQUEST, SELECT_GROUPS_FAIL, SELECT_GROUPS_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`group/${id}`),
+        promise: (apiClient) => apiClient.gett(`${API_URL}/group/${id}`),
         id
     }
 }
@@ -98,7 +99,7 @@ export const getSubGroup = id => {
 
     return {
         types: [GET_SUB_GROUPS_REQUEST, GET_SUB_GROUPS_FAIL, GET_SUB_GROUPS_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`subgroup/?group_id=${id}&page_size=10000`)
+        promise: (apiClient) => apiClient.gett(`${API_URL}/subgroup/?group_id=${id}&page_size=10000`)
     }
 }
 
@@ -107,27 +108,27 @@ export const subGroupActions = (type, data) => {
         case "getAll":
             return {
                 types: [GET_SUB_GROUPS_REQUEST, GET_SUB_GROUPS_FAIL, GET_SUB_GROUPS_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`subgroup/?page_size=10000`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/subgroup/?page_size=10000`)
             }
         case "get":
             return {
                 types: [GET_SUB_GROUP_REQUEST, GET_SUB_GROUP_FAIL, GET_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.gett(`subgroup/${data}`)
+                promise: (apiClient) => apiClient.gett(`${API_URL}/subgroup/${data}`)
             }
         case "add":
             return {
                 types: [ADD_SUB_GROUP_REQUEST, ADD_SUB_GROUP_FAIL, ADD_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.posttAdd(`subgroup/`, data, {cols})
+                promise: (apiClient) => apiClient.posttAdd(`${API_URL}/subgroup/`, data, {cols})
             }
         case "edit":
             return {
                 types: [EDIT_SUB_GROUP_REQUEST, EDIT_SUB_GROUP_FAIL, EDIT_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.putt(`subgroup/${data.id}`, data, {cols})
+                promise: (apiClient) => apiClient.putt(`${API_URL}/subgroup/${data.id}`, data, {cols})
             }
         case "delete":
             return {
                 types: [DELETE_SUB_GROUP_REQUEST, DELETE_SUB_GROUP_FAIL, DELETE_SUB_GROUP_SUCCESS],
-                promise: (apiClient) => apiClient.deletee(`subgroup/${data}`, {cols}),
+                promise: (apiClient) => apiClient.deletee(`${API_URL}/subgroup/${data}`, {cols}),
                 data
             }
         default:
@@ -355,7 +356,7 @@ function selectUp(searchResult, item, subGroups, expanded, mainId) {
 }
 
 function selectDown(searchResult, item, subGroups, mainId) {
-    console.log(mainId)
+
     let newSearchResult = searchResult;
     for (let i of subGroups) {
         if (i.group_id && mainId === i.group_id.id) {

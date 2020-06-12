@@ -256,7 +256,7 @@ class TabsBorderBottom extends Component {
                             value={this.props.product.supplier ? this.props.product.supplier.id : ''}
                             onChange={
                                 event => {
-                                    console.log(event.target.name, event.target.value)
+
                                     this.props.setModalValues(event.target.name, {id: +event.target.value})
                                 }
                             }

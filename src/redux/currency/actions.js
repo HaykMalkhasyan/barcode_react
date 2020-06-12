@@ -11,11 +11,13 @@ import {
     TOGGLE_MODAL
 } from "./actionTypes";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const getAllCurrency = () => {
 
     return {
         types: [GET_ALL_CURRENCY_REQUEST, GET_ALL_CURRENCY_FAIL, GET_ALL_CURRENCY_SUCCESS],
-        promise: (apiClient) => apiClient.gett('currency/')
+        promise: (apiClient) => apiClient.gett(`${API_URL}/currency/`)
     }
 }
 
@@ -23,7 +25,7 @@ export const getItemCurrency = id => {
 
     return {
         types: [GET_ITEM_CURRENCY_REQUEST, GET_ITEM_CURRENCY_FAIL, GET_ITEM_CURRENCY_SUCCESS],
-        promise: (apiClient) => apiClient.gett(`currency/${id}`)
+        promise: (apiClient) => apiClient.gett(`${API_URL}/currency/${id}`)
     }
 }
 
@@ -37,7 +39,7 @@ export const fetchCurrency = data => {
 
     return {
         types: [FETCH_CURRENCY_REQUEST, FETCH_CURRENCY_FAIL, FETCH_CURRENCY_SUCCESS],
-        promise: (apiClient) => apiClient.putt(`currency/${data.id}`, requestData)
+        promise: (apiClient) => apiClient.putt(`${API_URL}/currency/${data.id}`, requestData)
     }
 }
 
