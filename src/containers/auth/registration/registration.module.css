@@ -1,6 +1,6 @@
 .main {
     background: linear-gradient(-30deg, #5b86e5, #36dadc);
-
+    background-size: cover !important;
     position: fixed;
     top: 0;
     left: 0;

@@ -323,9 +323,17 @@ export function searchGroups(name, value, mainId) {
             dispatch(setAltSearchValue(altViewerArray))
             dispatch(setSearchValue(searchResult, searchV, expanded, searchResItem))
         } else {
-            dispatch(setSearchValue([], null, [`${mainId}`]))
+            dispatch(setSearchValue([], null, []))
             dispatch(setAltSearchValue([]))
         }
+    }
+}
+
+export function clearExpanded() {
+
+    return dispatch => {
+        dispatch(setSearchValue([], null, []))
+        dispatch(setAltSearchValue([]))
     }
 }
 

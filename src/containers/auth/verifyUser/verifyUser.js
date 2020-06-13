@@ -42,8 +42,6 @@ class VerifyUser extends Component {
             return  <><ErrorIcon className={cls.iconError} fontSize='default'/> Ստուգումը չհաջողվեց</>
         }
         return <RecordVoiceOverIcon className={cls.iconAnimated} fontSize='large'/>
-        // <VerifiedUserIcon className={cls.iconVerified} fontSize='large'/>
-        // <RecordVoiceOverIcon className={cls.iconAnimated} fontSize='large'/>
     }
 
     componentWillUnmount() {
@@ -52,7 +50,7 @@ class VerifyUser extends Component {
 
     render() {
         return (
-            <div className={cls.main}>
+            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
                 <div className={cls.backdrop}>
                     <div className={`text-center ${cls.mainWindow}`}>
                         <span className={cls.name}>Barcode.am</span>

@@ -267,7 +267,6 @@ export default function CustomizedTreeView(props) {
     }
 
     const handleToggle = (event, nodeIds) => {
-
         props.seteExpanded(nodeIds);
     };
 

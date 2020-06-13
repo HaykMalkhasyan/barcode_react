@@ -91,7 +91,7 @@ export default (state = INIT_STATE, action) => {
         case ADD_EXPENDED:
             return {
                 ...state,
-                expanded: action.nodeId
+                // expanded: action.nodeId
             }
         case SET_ALT_SEARCH_VALUE:
             return {
@@ -177,7 +177,7 @@ export default (state = INIT_STATE, action) => {
                 modal: {},
                 subModal: {},
                 group: action.result,
-                expanded: [`${action.id}`],
+                // expanded: [`${action.id}`],
                 search: null,
                 searchResult: [],
                 errors: {},

@@ -79,7 +79,7 @@ class RecoverPassword extends Component {
     render() {
 
         return (
-            <div className={classes.main}>
+            <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
                 <div className={classes.backdrop}>
                     <div className={`text-center ${classes.mainWindow}`}>
                         <span className={classes.name}>Barcode.am</span>

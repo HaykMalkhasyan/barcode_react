@@ -19,6 +19,7 @@ class ContentTable extends Component {
     clickHandler = id => {
         this.props.getSeletGroup(id)
         this.props.getSubGroup(id)
+        this.props.clearExpanded(id)
     }
 
     searchCHangeHandler = (name, value, mainId) => {

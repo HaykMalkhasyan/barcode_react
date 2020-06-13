@@ -224,7 +224,7 @@ class Reagistration extends Component {
     render() {
 
         return (
-            <div className={cls.main}>
+            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
                 <div className={cls.backdrop}>
                     <div className={`text-center ${cls.mainWindow}`}>
                         <span className={`${cls.name} ${this.props.success ? cls.nameSecond : ''}`}>Barcode.am</span>

@@ -51,7 +51,7 @@ const SubGroupModal = (props) => {
                             className={`form-control  ${props.errors.name ? 'is-invalid' : ''}`}
                             type="text"
                             id="name"
-                            value={props.subGroup.name ? props.subGroup.name : ""}
+                            value={props.subGroup ? props.subGroup.name : ""}
                             onChange={event => props.setSubModalName("name", event.target.value)}
                         />
                     </FormGroup>

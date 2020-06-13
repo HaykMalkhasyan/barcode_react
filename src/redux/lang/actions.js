@@ -173,9 +173,10 @@ export function AddTraslationFind(result) {
 }
 
 export const setTranslations = (data) => {
+    console.log(data)
     return {
         types: [SET_TRANSLATIONS_REQUEST, SET_TRANSLATIONS_FAIL, SET_TRANSLATIONS_SUCCESS],
-        promise: (apiClient) => apiClient.posttAdd(`${API_URL}/translations/`)
+        promise: (apiClient) => apiClient.posttAdd(`${API_URL}/translations/`, data)
     }
 }
 

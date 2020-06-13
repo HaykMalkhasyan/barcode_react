@@ -19,7 +19,8 @@ import {
     alternativeShow,
     seteExpanded,
     toggleEditebled,
-    subGroupsCollapseStatus
+    subGroupsCollapseStatus,
+    clearExpanded
 } from "../../../redux/group/actions";
 import {
     productActions
@@ -53,7 +54,8 @@ const mapDispatchToProps = dispatch => {
             seteExpanded,
             toggleEditebled,
             subGroupsCollapseStatus,
-            productActions
+            productActions,
+            clearExpanded
         },
         dispatch
     );
