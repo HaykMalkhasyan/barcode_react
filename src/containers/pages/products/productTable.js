@@ -3,8 +3,6 @@ import cls from './productTable.module.css'
 import {Col, Row} from "reactstrap";
 import Translate from "../../../Translate";
 import AdvancedSearch from "./searchGroup/advancedSearch/advancedSearch";
-import classes from "../group/content.module.css";
-import BuildIcon from "@material-ui/icons/Build";
 import ButtonUi from "../../../components/buttons/buttonUi";
 import TextFields from "../../../components/textFieldUI/textField";
 import CloseIcon from '@material-ui/icons/Close';
@@ -103,15 +101,6 @@ class TableComponent extends React.Component {
 
         return (
             <>
-                <ButtonUi
-                    className={`${classes.buildBtn} ${this.props.editabledStatus ? classes.buildBtnAnimated : null}`}
-                    label={<BuildIcon style={{fontSize: 12}}/>}
-                    padding={5}
-                    width={'auto'}
-                    height={'auto'}
-                    color={this.props.editabledStatus ? 'primary' : 'default'}
-                    onClick={this.props.editabledProduct}
-                />
                 <Row className='mt-0'>
 
                     <Col md={12} xl={12}>

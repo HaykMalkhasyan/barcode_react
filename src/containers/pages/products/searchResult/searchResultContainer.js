@@ -28,9 +28,6 @@ import {
     toggleSwitchValue,
     toggleClassifierState
 } from "../../../../redux/products/actions";
-import {
-    getPages
-} from '../../../../redux/pages/actions'
 import {supplierActions} from "../../../../redux/suppliers/actions";
 import {getSubGroups, groupActions, handleOpen, selectGroup, subGroupActions,} from "../../../../redux/group/actions";
 import {uploadImages} from "../../../../redux/todo/actions";
@@ -73,7 +70,6 @@ const mapDispatchToProps = dispatch => {
             subGroupCollapses,
             deleteUploadImage,
             addProductStatus,
-            getPages,
             toggleClassifierState
         },
         dispatch

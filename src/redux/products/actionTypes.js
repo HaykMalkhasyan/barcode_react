@@ -27,6 +27,7 @@ export const DELETE_BARCODE = "DELETE_BARCODE";
 
 export const SET_PRODUCT_MODAL = "SET_PRODUCT_MODAL";
 export const TOGGLE_PRODUCT_MODAL = "TOGGLE_PRODUCT_MODAL";
+export const EDITABLED_PRODCT = "EDITABLED_PRODCT";
 
 /*----------------------------------*/
 export const SET_BARCODE = 'SET_BARCODE';

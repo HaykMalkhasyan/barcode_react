@@ -4,7 +4,6 @@ import TableComponent from './productTable';
 import ModalComponent from './modal/productModal';
 import AddButton from "../../../components/buttons/addButton";
 import Translate from "../../../Translate";
-import SearchFilters from "./searchResult/filters/SearchFilters";
 
 class ProductContainer extends Component {
     constructor(props) {
@@ -21,15 +20,12 @@ class ProductContainer extends Component {
                 <Card>
                     <CardBody>
                         <div className='d-flex' style={{alignItems: 'center', height: 55}}>
-                            <h4 className='mr-1' style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
+                            <h4 className='mr-1'
+                                style={this.props.sectionFontColor ? {color: this.props.sectionFontColor} : null}>
                                 <Translate name={'Products'}/>
                             </h4>
-                            {
-                                this.props.editabledStatus ?
-                                    <AddButton className='m-0' perm={this.props.perm} onClick={() => this.props.toggleModal("add", 0)}/>
-                                    :
-                                    null
-                            }
+                            <AddButton className='m-0' perm={this.props.perm}
+                                       onClick={() => this.props.toggleModal("add", 0)}/>
                         </div>
                         <TableComponent
                             active={this.props.active}
@@ -41,8 +37,6 @@ class ProductContainer extends Component {
                             text={this.props.text}
                             addProductStatus={this.props.addProductStatus}
                             collapsedStatus={this.props.collapsedStatus}
-                            editabledProduct={this.props.editabledProduct}
-                            editabledStatus={this.props.editabledStatus}
                             sectionFontColor={this.props.sectionFontColor}
                             advancedSearchText={this.props.advancedSearchText}
                             addSearchText={this.props.addSearchText}

@@ -2,7 +2,7 @@ import { saveSession,getSession,destroySession } from "../../utility/session";
 
 import {
     CLOSE_NOTIFICATION,
-    LOGIN_EMPTY,
+    LOGIN_EMPTY, LOGIN_PROGRESS,
     LOGIN_REQUEST,
     LOGIN_REQUEST_FAIL,
     LOGIN_REQUEST_SUCCESS,
@@ -15,6 +15,7 @@ import SessionStorage from "../../services/SessionStorage";
 
 
 const INIT_STATE = {
+    progress: false,
     user: getSession('user'),
     acces_token: getSession('access'),
     refresh_token: getSession('refresh'),
@@ -29,6 +30,10 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+        case LOGIN_PROGRESS:
+            return {
+                ...state, progress: true
+            }
         case RESET_PAGE:
             return {
                 ...state, fail: false
@@ -56,6 +61,7 @@ export default (state = INIT_STATE, action) => {
         case LOGIN_REQUEST_FAIL:
             return {
                 ...state,
+                progress: false,
                 loading: false,
                 success: false,
                 fail: true,
@@ -66,6 +72,7 @@ export default (state = INIT_STATE, action) => {
             saveSession('auth',data);
             return {
                 ...state,
+                progress: false,
                 emptyLogin: null,
                 emptyPassword: null,
                 loading: false,

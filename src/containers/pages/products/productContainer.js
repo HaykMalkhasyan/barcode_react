@@ -32,6 +32,7 @@ import {supplierActions} from "../../../redux/suppliers/actions";
 import {getSubGroups, groupActions, handleOpen, selectGroup, subGroupActions,} from "../../../redux/group/actions";
 import {uploadImages} from "../../../redux/todo/actions";
 import ProductPage from './productPage';
+import ProductFilters from "./productFilterPage/productFilters";
 
 
 const mapDispatchToProps = dispatch => {
@@ -115,4 +116,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductFilters)/*(ProductPage)*/;

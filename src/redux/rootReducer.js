@@ -16,6 +16,7 @@ import currencyReducer from "./currency/reducer";
 import importReducer from "./import/reducer";
 import registrationReducer from "./authReg/reducer";
 import companyReducer from "./company/reducer";
+import resetPasswordReducer from "./authResetPassword/reducer";
 
 
 const rootReducer = combineReducers({
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
    currency: currencyReducer,
    importReducer: importReducer,
    signup: registrationReducer,
-   company: companyReducer
+   company: companyReducer,
+   resetPass: resetPasswordReducer
 });
 
 export default rootReducer;

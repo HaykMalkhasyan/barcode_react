@@ -30,7 +30,7 @@ export default function CheckboxesUi(props) {
                     value={props.value}
                     onChange={props.onChange}
                 />
-                <span>
+                <span className={props.chckClassName}>
                     {
                         props.translate ?
                             <Translate name={props.label}/>

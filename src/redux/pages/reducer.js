@@ -1,184 +1,67 @@
-import {
-    GET_PAGES_REQUEST,
-    GET_PAGES_FAIL,
-    GET_PAGES_SUCCESS,
-    ADD_MENU_FAIL,
-    ADD_MENU_REQUEST,
-    ADD_MENU_SUCCESS,
-    DELETE_MENU_FAIL,
-    DELETE_MENU_REQUEST,
-    DELETE_MENU_SUCCESS,
-    EDIT_MENU_FAIL,
-    EDIT_MENU_REQUEST,
-    EDIT_MENU_SUCCESS,
-    GET_MENU_ITEM_FAIL,
-    GET_MENU_ITEM_REQUEST,
-    GET_MENU_ITEM_SUCCESS,
-    SET_MENU_MODAL,
-    TOGGLE_MENU_MODAL
-} from "./actionTypes";
-import {ChangeItem, IsRequiredField, IsRequiredFields, Push, RemoveItem} from "../../utility/utils";
+import {ACTIVE_MENU} from "./actionTypes";
 
+const initialState = {
+    activeMenu: null,
+    menus: [
+        {
+            id: 1,
+            name: 'Ապրանքներ',
+            staticName: 'products',
+            subMenus: [
+                {id: '1-1', name: 'Ապրանքատեսականի', url: '/products'},
+                {id: '1-2', name: 'Գներ', url: '/prices'},
+                {id: '1-3', name: 'Բնութագրիչներ', url: '/characteristics'}
+            ]
+        },
+        {
+            id: 2,
+            name: 'Փաստաթղթեր',
+            staticName: 'documents',
+            subMenus: [
+                {id: '2-1', name: 'Հաշիվներ', url: '/accounts'},
+                {id: '2-2', name: 'Պայմանագրեր', url: '/contracts'},
+                {id: '2-3', name: 'Չեկեր', url: '/checks'}
+            ]
+        },
+        {
+            id: 3,
+            name: 'Վաճառքներ',
+            staticName: 'sales',
+            subMenus: [
+                {id: '3-1', name: 'Վաճառք բաժին 1', url: '/link_3_1'},
+                {id: '3-2', name: 'Վաճառք բաժին 1', url: '/link_3_2'},
+                {id: '3-3', name: 'Վաճառք բաժին 2', url: '/link_3_3'},
+            ]
+        },
+        {
+            id: 4,
+            name: 'Գործընկերներ',
+            staticName: 'suppliers',
+            subMenus: [
+                {id: '4-1', name: 'Գործընկեր բաժին 1', url: '/link_4_1'},
+                {id: '4-2', name: 'Գործընկեր բաժին 1', url: '/link_4_2'},
+                {id: '4-3', name: 'Գործընկեր բաժին 2', url: '/link_4_3'},
+            ]
+        },
+        {
+            id: 5,
+            name: 'Աշխատակիցներ',
+            staticName: 'worckers',
+            subMenus: [
+                {id: '5-1', name: 'Աշխատակից բաժին 1', url: '/link_5_1'},
+                {id: '5-2', name: 'Աշխատակից բաժին 1', url: '/link_5_2'},
+                {id: '5-3', name: 'Աշխատակից բաժին 2', url: '/link_5_3'},
+            ]
+        }
+    ],
 
-const INIT_STATE = {
-    data: [],
-    datas: {},
-    required:["name"],
-    modal: {},
-    loading: false,
-    success: false,
-    fail: false,
-    errors: {}
 };
 
-export default (state = INIT_STATE, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_PAGES_REQUEST:
+        case ACTIVE_MENU:
             return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-                errors: {},
-            };
-        case GET_PAGES_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-            };
-        case GET_PAGES_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                data: action.result.results,
-                errors: {},
-            };
-            /*--------------------------------------------*/
-        case GET_MENU_ITEM_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-                errors: {},
-            }
-        case GET_MENU_ITEM_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-            }
-        case GET_MENU_ITEM_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                success: true,
-                fail: false,
-                datas: action.result,
-                errors: {},
-            }
-        case ADD_MENU_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-                errors:IsRequiredFields(state.required,state.datas,state.errors),
-                modal: {}
-            };
-        case ADD_MENU_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-
-            };
-        case ADD_MENU_SUCCESS:
-            return {
-                ...state,
-                data: Push(state.data, action.result),
-                loading: false,
-                success: true,
-                fail: false,
-                modal: {}
-            };
-        case EDIT_MENU_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-                modal: {},
-                errors:IsRequiredFields(state.required,state.datas,state.errors)
-            };
-        case EDIT_MENU_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-
-            };
-        case EDIT_MENU_SUCCESS:
-            return {
-                ...state,
-                data: ChangeItem(state.data, action.result),
-                loading: false,
-                success: true,
-                fail: false,
-                modal: {},
-                datas: {}
-            };
-        case DELETE_MENU_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                success: false,
-                fail: false,
-                modal: {},
-            };
-        case DELETE_MENU_FAIL:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                fail: true,
-
-            };
-        case DELETE_MENU_SUCCESS:
-            return {
-                ...state,
-                data: RemoveItem(state.data, action.result),
-                loading: false,
-                success: true,
-                fail: false,
-                modal: {},
-                datas: {}
-            };
-        case TOGGLE_MENU_MODAL:
-            state.modal[action.modalType] = !state.modal[action.modalType];
-
-            if (action.obj) {
-                if (action.modalType === "edit") {
-                    state.datas[action.obj.key] = action.obj.value
-                } else {
-                    state.datas = action.obj
-                }
-            }
-            return {
-                ...state, errors: {}
-            };
-        case SET_MENU_MODAL:
-            state.datas[action.key] = action.value;
-            return {
-                ...state,
-                errors: IsRequiredField(state.required,action,state.errors)
+                ...state, activeMenu: action.menu
             }
         default:
             return {...state};

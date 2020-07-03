@@ -43,7 +43,7 @@ import {Pushend,/*IsRequiredFields,*/Remove} from "../../utility/utils";
 
 const INIT_STATE = {
     images: [],
-    editabledStatus: false,
+    editabledStatus: true,
     products: [],
     product: {},
     barcodeTypes: [],

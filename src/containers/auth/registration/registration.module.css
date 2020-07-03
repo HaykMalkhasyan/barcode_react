@@ -338,6 +338,9 @@
 }
 
 .checkLink {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
     color: #5B86E5;
     display: block;
     font-size: 11px;
@@ -346,7 +349,6 @@
     text-transform: none;
     transition: 300ms;
 }
-
 .checkLink:hover {
     color: #36D1DC;
 }

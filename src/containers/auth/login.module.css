@@ -75,6 +75,7 @@
     overflow-y: auto;
     transition: 300ms;
     user-select: none;
+    position: relative;
 }
 
 /* width */
@@ -283,6 +284,17 @@
 .error {
     color: #ff3939 !important;
     border-color: #ff3939;
+}
+
+.progres {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.progresBgColor {
+    background: transparent !important;
 }
 
 @media (max-width: 576px) {

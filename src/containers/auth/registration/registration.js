@@ -5,12 +5,13 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import {NavLink} from "react-router-dom";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import Checkbox from '@material-ui/core/Checkbox';
-import classes from "./mailVerification/mailVerification.module.css";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {fetchRegistration} from '../../../redux/authReg/actions'
+import CheckIcon from '@material-ui/icons/Check';
+import AlertDialogSlide from "../../../components/dialogUI/dialogUi";
 
 class Reagistration extends Component {
 
@@ -35,6 +36,13 @@ class Reagistration extends Component {
     usagerulesHandler = event => {
         this.setState({
             [event.target.name]: !this.state.usagerules,
+            isEmpty: {}
+        })
+    }
+
+    usagerulesHandlerAgree = status => {
+        this.setState({
+            usagerules: status,
             isEmpty: {}
         })
     }
@@ -153,7 +161,7 @@ class Reagistration extends Component {
 
             case true:
                 return (
-                    <ErrorOutlineOutlinedIcon fontSize='small' style={{color: '#578DE4'}}/>
+                    <CheckIcon fontSize='small' style={{color: '#578DE4'}}/>
                 );
             case false:
                 return (
@@ -415,7 +423,7 @@ class Reagistration extends Component {
                                                 value={this.state.email}
                                                 onChange={this.handleChange}
                                             />
-                                            <span className={classes.forIcon}>
+                                            <span className={cls.forIcon}>
                                     {
                                         this.checkStatus(this.state.emailStatus)
                                     }
@@ -619,12 +627,14 @@ class Reagistration extends Component {
                                     >
                                         Ես համաձայն եմ
                                     </span>
-                                                <NavLink
+                                                <AlertDialogSlide
+                                                    type={'button'}
                                                     className={cls.checkLink}
-                                                    to={'/usagerules'}
-                                                >
-                                                    Օգտագործման կանոններին
-                                                </NavLink>
+                                                    text={'Օգտագործման կանոններին'}
+                                                    agree={'Համաձայն եմ'}
+                                                    disagree={'Համաձայն չեմ'}
+                                                    usagerulesHandlerAgree={this.usagerulesHandlerAgree}
+                                                />
                                                 <span>:</span>
                                             </label>
                                         </div>

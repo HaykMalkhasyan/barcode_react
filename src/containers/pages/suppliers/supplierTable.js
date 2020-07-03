@@ -256,7 +256,17 @@ const SupplierTable = (props) => {
         );
     } else {
         return (
-            <div></div>
+            <div>
+                <ButtonUi
+                    className={`${classes.buildBtn} ${props.editabledStatus ? classes.buildBtnAnimated : null}`}
+                    label={<BuildIcon style={{fontSize: 12}}/>}
+                    padding={5}
+                    width={'auto'}
+                    height={'auto'}
+                    color={props.editabledStatus ? 'primary' : 'default'}
+                    onClick={props.suppliersEditableToggle}
+                />
+            </div>
         )
     }
 }

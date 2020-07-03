@@ -1,32 +1,18 @@
 // import external modules
 import React, {PureComponent} from "react";
 import classnames from "classnames";
-
 // import internal(own) modules
 import {FoldedContentConsumer, FoldedContentProvider} from "../../utility/context/toggleContentContext";
-import Sidebar from "./components/sidebar/sidebar";
-import Navbar from "./components/navbar/navbar";
 import Footer from "./components/footer/footer";
 import templateConfig from "../../templateConfig";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {
-    // sidebarBgColor,
-    // sidebarCollapsed,
-    // sidebarImage,
-    // sidebarImageUrl,
-    sidebarSize
-} from "../../redux/customizer/actions";
-import classes from './mainLay.module.css'
-import SideMenu from "./components/sidebar/sidemenuHelper";
-import {NavLink} from "react-router-dom";
-import Icon from "./components/sidebar/sidemenu/icons";
-import Translate from "../../Translate";
-import {getPages} from "../../redux/pages/actions";
+import {sidebarSize} from "../../redux/customizer/actions";
 import {getPermissions, getTools} from "../../redux/permission/actions";
 import ProminentAppBar from "../../components/navbar/navbar";
 import TemporaryDrawer from "../../components/panel/panel";
-// import {getPages} from "../../redux/pages/actions";
+import {logout} from "../../redux/auth/actions";
+import {setActiveMenu} from '../../redux/pages/actions';
 // import {getPermissions} from "../../redux/permission/actions";
 
 class MainLayout extends PureComponent {
@@ -56,7 +42,6 @@ class MainLayout extends PureComponent {
     }
 
     componentDidMount() {
-        this.props.getPages()
         this.props.getPermissions()
         this.props.getTools()
         if (window !== "undefined") {
@@ -86,17 +71,21 @@ class MainLayout extends PureComponent {
                         headerBackgroundColor={this.props.headerBackgroundColor}
                         headerIconColor={this.props.headerIconColor}
                         headerFontColor={this.props.headerFontColor}
+                        logout={this.props.logout}
                         position={'sticky'}
                         name={'Barcode.am'}
                         searchIcon={false}
-                        data={this.props.pages}
                         permissions={this.props.permissions}
+                        menus={this.props.menus}
+                        activeMenu={this.props.activeMenu}
+                        // Methods
+                        setActiveMenu={this.props.setActiveMenu}
                     />
                     <FoldedContentConsumer>
                         {context => (
 
                             <div
-                                style={{backgroundColor: this.props.backgroundColor, transition: '500ms'}}
+                                style={{backgroundColor: this.props.backgroundColor, transition: '500ms', padding: 8}}
                                 className={classnames({
                                     "menu-collapsed": context.foldedContent || this.state.width < 991,
                                     "main-layout": !context.foldedContent,
@@ -120,7 +109,7 @@ class MainLayout extends PureComponent {
                                 {/*    sidebarState={this.state.sidebarState}*/}
                                 {/*/>*/}
                                 <main>{this.props.children}</main>
-                                <Footer/>
+                                {/*<Footer/>*/}
                             </div>
                         )}
                     </FoldedContentConsumer>
@@ -136,17 +125,19 @@ const mapStateToProps = state => ({
     headerBackgroundColor: state.customizer.sidebarSize.headerBackgroundColor,
     headerIconColor: state.customizer.sidebarSize.headerIconColor,
     headerFontColor: state.customizer.sidebarSize.headerFontColor,
-    pages: state.pages.data,
-    permissions: state.permission.data
+    permissions: state.permission.data,
+    menus: state.pages.menus,
+    activeMenu: state.pages.activeMenu,
 });
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
             sidebarSize,
-            getPages,
             getPermissions,
-            getTools
+            getTools,
+            logout,
+            setActiveMenu
         },
         dispatch
     );

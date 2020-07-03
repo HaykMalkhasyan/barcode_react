@@ -10,7 +10,6 @@ import ErrorLayoutRoute from "../containers/layouts/routes/errorRoutes";
 // const LazyAnalyticsDashboard = lazy(() => import("../containers/pages/positions/positionContainer"));
 const LazyMainPage = lazy(() => import("../containers/pages/main/mainContainer"));
 const LazyUsers = lazy(() => import("../containers/pages/users/userContainer"));
-const LazyMenu = lazy(() => import("../containers/pages/menu/menuContainer"));
 const LazyImport = lazy(() => import("../containers/pages/import/importContainer"));
 const LazyTranslations = lazy(() => import("../containers/pages/translations/translationsContainer"));
 const LazyCurrency = lazy(() => import("../containers/pages/currency/currencyContainer"));
@@ -24,6 +23,7 @@ const LazyLogin = lazy(() => import("../containers/auth/loginContainer"));
 const LazySignUp = lazy(() => import("../containers/auth/registration/registration"));
 const LazyCompany = lazy(() => import("../containers/pages/company/companyContainer"));
 const LazyRecoverPassword = lazy(() => import("../containers/auth/forgotPassword/foegotPassword"));
+const LazyResetPassword = lazy(() => import("../containers/auth/resetPassword/resetPassword"));
 const LazyVerifyUser = lazy(() => import("../containers/auth/verifyUser/verifyUser"));
 // Error Pages
 const LazyErrorPage = lazy(() => import("../containers/pages/error"));
@@ -37,12 +37,6 @@ function Router(props) {
                     path="/"
                     auth={props.auth}
                     component={LazyMainPage}
-                />
-                <PrivateRoute
-                    exact
-                    path="/menu"
-                    auth={props.auth}
-                    component={LazyMenu}
                 />
                 <PrivateRoute
                     exact
@@ -133,6 +127,12 @@ function Router(props) {
                     path="/recover-password"
                     auth={props.auth}
                     component={LazyRecoverPassword}
+                />
+                <PublicRoute
+                    exact
+                    path="/reset-password"
+                    auth={props.auth}
+                    component={LazyResetPassword}
                 />
                 {/*<PublicRoute*/}
                 {/*    exact*/}

@@ -4,13 +4,13 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {closeNotification, login, loginIsEmpty, passwordIsEmpty, resetPage} from "../../redux/auth/actions";
 import {getTranslations} from "../../redux/lang/actions"
-import {getPages} from '../../redux/pages/actions'
 import classes from './login.module.css'
 import {NavLink} from "react-router-dom";
-import CustomizedSnackbars from "../../components/snachbarsUI/snachbarsUi";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
+import CheckIcon from '@material-ui/icons/Check';
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 class LoginContainer extends Component {
     state = {
@@ -44,7 +44,6 @@ class LoginContainer extends Component {
         let data = this.state;
         this.props.login(data, 'index')
         this.props.getTranslations()
-        this.props.getPages()
 
     }
 
@@ -82,11 +81,11 @@ class LoginContainer extends Component {
 
             case true:
                 return (
-                    <ErrorOutlineOutlinedIcon fontSize='small' style={{color: '#578DE4'}}/>
+                    <CheckIcon fontSize='small' style={{color: '#578DE4'}}/>
                 );
             case false:
                 return (
-            <ErrorOutlineOutlinedIcon fontSize='small' style={{color: '#ff3939'}}/>
+                    <ErrorOutlineOutlinedIcon fontSize='small' style={{color: '#ff3939'}}/>
                 );
             default: return null;
         }
@@ -221,6 +220,17 @@ class LoginContainer extends Component {
                                 Գրանցվել
                             </NavLink>
                         </div>
+                        {
+                            this.props.progress ?
+                                <LinearProgress
+                                    classes={{
+                                        root: classes.progres,
+                                        colorPrimary: classes.progresBgColor
+                                    }}
+                                />
+                                :
+                                null
+                        }
                     </div>
                 </div>
             </div>
@@ -230,6 +240,7 @@ class LoginContainer extends Component {
 
 function mapStateToProps(state) {
     return {
+        progress: state.auth.progress,
         authError: state.auth.authError,
         fail: state.auth.fail,
         emptyLogin: state.auth.emptyLogin,
@@ -242,7 +253,6 @@ const mapDispatchToProps = dispatch => {
         {
             login,
             getTranslations,
-            getPages,
             loginIsEmpty,
             passwordIsEmpty,
             closeNotification,

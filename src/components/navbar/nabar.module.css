@@ -1,3 +1,25 @@
+@font-face {
+    font-family: 'Mardoto-medium';
+    src: url("../../fonts/Mardoto-Medium.ttf");
+}
+
+@font-face {
+    font-family: 'Mardoto-Regular';
+    src: url("../../fonts/Mardoto-Medium.ttf");
+    src: url("../../fonts/Mardoto-Light.ttf");
+}
+
+.appBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.hideAppBar {
+    display: none;
+}
+
 .navLink {
     color: #444 !important;
     font-weight: 100;
@@ -8,4 +30,436 @@
 
 .active {
     color: rgb(0, 157, 160) !important;
+}
+
+.upPanel {
+    transition: 200ms;
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    background: #000022;
+    padding: 0 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+}
+
+.hidden {
+    height: 0;
+}
+
+.projectName {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    cursor: pointer;
+}
+
+.toolsPanel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.toolsPanel > div {
+    margin-left: 10px;
+}
+
+.notIcons {
+    position: relative;
+}
+
+.notificationsCount {
+    position: absolute;
+    top: -6px;
+    right: -5px;
+    width: 14px;
+    height: 14px;
+    text-align: center;
+    line-height: 14px;
+    color: #fff;
+    border-radius: 50%;
+    background-color: #3DDC97;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.messageCount {
+    position: absolute;
+    top: -6px;
+    right: -5px;
+    width: 14px;
+    height: 14px;
+    text-align: center;
+    line-height: 14px;
+    color: #fff;
+    border-radius: 50%;
+    background-color: #FE5233;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.userWindow {
+    position: relative;
+}
+
+.user {
+    user-select: none;
+    cursor: pointer;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.backdropMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.user span {
+    color: #fff;
+    font-size: 13px;
+    font-family: 'Mardoto-medium';
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.userContnet {
+    position: absolute;
+    top: 147%;
+    right: -8px;
+    width: 168px;
+    height: auto;
+    background-color: #fff;
+    box-shadow: 0 0 9px rgba(35, 62, 170, 0.33);
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.userContnet:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid;
+    border-color: transparent transparent #fff transparent;
+    position: absolute;
+    bottom: 100%;
+    right: 2px;
+    z-index: 10;
+}
+
+.userContnet ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: flex-start;*/
+}
+
+.userContnet ul  li {
+    display: block;
+    margin: 5px 0 0;
+    padding: 0 14px;
+}
+
+.dropLinks {
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.dropLinks:hover {
+    background-color: #ececec;
+}
+
+.userName {
+    margin: 0 auto !important;
+    width: 95%;
+    text-align: center;
+    text-align: center;
+    font-family: 'Mardoto-medium';
+    box-sizing: border-box;
+    border-bottom: .1px solid #707070;
+}
+
+.userName > span {
+    color: #3B3B3B;
+    font-size: 12px;
+    padding-bottom: 13px;
+}
+
+.myPage span {
+    margin-left: 15.5px;
+    font-size: 12px;
+    font-family: 'Mardoto-medium';
+    color: #3B3B3B;
+}
+
+.configuration span {
+    margin-left: 15.5px;
+    font-size: 12px;
+    font-family: 'Mardoto-medium';
+    color: #3B3B3B;
+}
+
+.logout span {
+    margin-left: 15.5px;
+    font-size: 12px;
+    font-family: 'Mardoto-medium';
+    color: #3B3B3B;
+}
+
+.dropActive {
+    border-left: 1px solid #062C70;
+    background-color: #FCFCFC;
+}
+
+.menu {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #FCFCFC;
+}
+
+.menu > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.menuList {
+    text-transform: uppercase;
+    display: flex;
+    width: 127px;
+    height: 79px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #171717;
+    fill: #b6acab;
+    cursor: pointer;
+}
+
+.menuListActive {
+    border-radius: 8px 8px 0 0;
+    box-shadow: 1px -7px 6px rgb(0, 0, 0, .14), -1px -7px 6px rgb(0, 0, 0, .14);
+    color: #FE5233 !important;
+    fill: #FE5233;
+    background-color: #fff;
+}
+
+.menuBtn {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: #fff;
+    margin-right: 10px;
+    display: none;
+    position: relative;
+    z-index: 100;
+    transition: 300ms;
+}
+
+.menuBtn:hover {
+    border-color: #fff;
+}
+
+.menuBtn:active {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .7) inset;
+}
+
+@media (max-width: 768px) {
+    .menuBtn {
+        display: inline;
+    }
+
+
+    .menuBtnOpen {
+        transform: translateX(240px);
+    }
+
+    .menu {
+        position: fixed;
+        top: 0;
+        left: -240px;
+        width: 240px;
+        z-index: 20;
+        min-height: 100%;
+        display: block;
+        /*flex-direction: column;*/
+        overflow-y: auto;
+        box-shadow: -1px 0 5px rgba(0, 0, 0, .3);
+        transition: 300ms;
+    }
+
+    .openMenu {
+        left: 0;
+    }
+
+    .menu > div {
+        overflow-y: auto;
+        height: 100vh;
+        padding: 0 10px 20px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .menu > div::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .menuListActive,
+    .menuListActiveProd {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        color: #FE5233 !important;
+        fill: #FE5233;
+        background-color: #eee !important;
+    }
+
+    .menuList {
+        flex-direction: row;
+        margin: 10px 0;
+        width: 100% !important;
+        height: 48px !important;
+    }
+
+    .menuList span {
+        margin-left: 10px;
+        font-size: 12px !important;
+    }
+
+    .textElem {
+        visibility: visible;
+        opacity: 1;
+        height: 25px !important;
+        overflow: hidden;
+        transition: 200ms;
+    }
+}
+
+.menuList:hover {
+    fill: #FE5233;
+    color: #FE5233;
+}
+
+.minimaze {
+    width: 48px;
+    height: 48px;
+}
+
+.textElem {
+    visibility: visible;
+    opacity: 1;
+    height: 25px;
+    overflow: hidden;
+}
+
+.hiddenElem {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+}
+
+.menuList span {
+    font-size: 12px;
+    font-family: 'Mardoto-Regular';
+}
+
+.prod {
+    fill: inherit;
+}
+
+.docs {
+    fill: none;
+    stroke: #b6acab;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sell {
+    fill:inheritb
+}
+
+.frends {
+    fill: inherit;
+}
+
+.workers {
+    fill: inherit;
+}
+
+
+
+.menuListActiveProd {
+    border-radius: 0 8px 0 0;
+    box-shadow: 1px -7px 6px rgb(0, 0, 0, .14), -1px -7px 6px rgb(0, 0, 0, .14);
+    color: #FE5233 !important;
+    fill: #FE5233;
+    background-color: #fff;
+}
+
+.subMenu {
+    width: 100%;
+    height: 35px;
+    padding: 5px 0;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 0 6px rgb(0, 0, 0, .14);
+}
+
+.subMenuList {
+    list-style: none;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.subMenuList > li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 25px;
+    height: 20px;
+    border-left: .1px solid #858585;
+    box-sizing: border-box;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.subMenuLink {
+    font-size: 12px;
+    font-family: 'Mardoto-Regular';
+    color: #313131 !important;
+}
+
+.subMenuList > li:first-child {
+    border-left: none !important;
+}
+
+
+.subMenuActive {
+    font-size: 14px;
+    border-bottom: .5px solid #FE5233;
+    font-family: 'Mardoto-medium';
 }

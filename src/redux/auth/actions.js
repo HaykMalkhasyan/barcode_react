@@ -1,6 +1,6 @@
 import {
     CLOSE_NOTIFICATION,
-    LOGIN_EMPTY,
+    LOGIN_EMPTY, LOGIN_PROGRESS,
     LOGIN_REQUEST,
     LOGIN_REQUEST_FAIL,
     LOGIN_REQUEST_SUCCESS,
@@ -12,11 +12,26 @@ import {
 let col = "login, password"
 const API_URL = process.env.REACT_APP_API_URL;
 export const login = (form, redirectPath) => {
+
+    return dispatch => {
+        dispatch(startProgress())
+        dispatch(loginRequest(form, redirectPath))
+    }
+};
+
+export function startProgress() {
+
+    return {
+        type: LOGIN_PROGRESS
+    }
+}
+
+export const loginRequest = (form, redirectPath) => {
     return {
         types: [LOGIN_REQUEST,LOGIN_REQUEST_FAIL,LOGIN_REQUEST_SUCCESS],
         promise: (apiClient) => apiClient.postt(`${API_URL}/token/obtain/`, form, {col})
     }
-};
+}
 
 export const logout = () => {
     return {

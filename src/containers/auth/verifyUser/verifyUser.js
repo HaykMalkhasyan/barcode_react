@@ -31,15 +31,16 @@ class VerifyUser extends Component {
             this.props.history.push('/')
         }
     }
+
     statusRender = (success, error) => {
         if (success === 'User verified successfully') {
              window.sTime = setTimeout(
-                () => this.props.history.push('/'), 500
+                () => this.props.history.push('/'), 1000
             )
             return <VerifiedUserIcon className={cls.iconVerified} fontSize='large'/>
         }
         if (error) {
-            return  <><ErrorIcon className={cls.iconError} fontSize='default'/> Ստուգումը չհաջողվեց</>
+            return <><ErrorIcon className={cls.iconError} fontSize='default'/> Ստուգումը չհաջողվեց</>
         }
         return <RecordVoiceOverIcon className={cls.iconAnimated} fontSize='large'/>
     }
@@ -50,7 +51,7 @@ class VerifyUser extends Component {
 
     render() {
         return (
-            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
+            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}/pic.jpg) no-repeat center`}}>
                 <div className={cls.backdrop}>
                     <div className={`text-center ${cls.mainWindow}`}>
                         <span className={cls.name}>Barcode.am</span>

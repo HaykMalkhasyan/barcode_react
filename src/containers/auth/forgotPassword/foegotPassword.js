@@ -2,6 +2,12 @@ import React, {Component} from "react";
 import classes from './foegotPassword.module.css';
 import {NavLink} from "react-router-dom";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import CheckIcon from '@material-ui/icons/Check';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {progressAction, sendMail, sendMailSuccess, sendMailError} from '../../../redux/authResetPassword/actions'
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Alert from "@material-ui/lab/Alert";
 
 class RecoverPassword extends Component {
 
@@ -12,12 +18,14 @@ class RecoverPassword extends Component {
         severity: null,
         text: null,
         emailStatus: null,
-        selected: null
+        selected: null,
+        isEmpty: null
     };
 
     handleChange = event => {
         this.setState({
-            email: event.target.value
+            email: event.target.value,
+            isEmpty: null,
         });
         let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (event.target.name === 'username') {
@@ -34,8 +42,16 @@ class RecoverPassword extends Component {
     };
 
     onSubmit = event => {
-        event.preventDefault()
-        console.log('Send mail')
+        event.preventDefault();
+
+        if (this.state.email.length === 0 || this.state.emailStatus === false) {
+            this.setState({
+                isEmpty: true
+            })
+        } else {
+            this.props.sendMail(this.state.email)
+        }
+
 
     }
 
@@ -57,7 +73,7 @@ class RecoverPassword extends Component {
 
             case true:
                 return (
-                    <ErrorOutlineOutlinedIcon fontSize='small' style={{color: '#578DE4'}}/>
+                    <CheckIcon fontSize='small' style={{color: '#578DE4'}}/>
                 );
             case false:
                 return (
@@ -76,19 +92,43 @@ class RecoverPassword extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.props.progressAction(false)
+        this.props.sendMailSuccess(null)
+        this.props.sendMailError(null)
+    }
+
     render() {
 
         return (
-            <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
+            <div className={classes.main}
+                 style={{background: `url(${process.env.PUBLIC_URL}pic.jpg) no-repeat center`}}>
                 <div className={classes.backdrop}>
                     <div className={`text-center ${classes.mainWindow}`}>
                         <span className={classes.name}>Barcode.am</span>
-                        <span className={classes.action}>
+                        <span className={`${classes.action} ${this.props.error ? classes.actionError : ''} ${this.props.success ? classes.actionSuccess : ''}`}>
                                 Վերականգնել գաղտնաբառը
                             </span>
-                        <form onSubmit={event => this.onSubmit(event)}>
-                            <label htmlFor={'email'}
-                                   className={`${classes.email} ${this.state.selected === 'email' ? classes.selected : null}`}>
+                        {
+                            this.props.error ?
+                                <Alert className='mb-4' severity="error">Հարցումը չհաջողվեց</Alert>
+                                :
+                                null
+                        }
+                        {
+                            this.props.success ?
+                                <div className={classes.regSuccess}>
+                                    Դուք շուտով կստանաք էլ․ հաղորդագրություն, անցեք հաղորդագրությանը կից հղմամբ որպիսզի
+                                    վերականգնեք գաղտնաբառը, շնորհակալություն․․․
+                                </div>
+                                :
+                                <>
+                                    <form onSubmit={event => this.onSubmit(event)}>
+                                        <label
+                                            htmlFor={'email'}
+                                            className={`${classes.email} ${this.state.selected === 'email' ? classes.selected : null} ${this.state.isEmpty ? `${classes.error} ${classes.erroVerify}` : ''
+                                            }`}
+                                        >
                                 <span className={classes.forIcon}>
                                     <svg width={16} height={13} viewBox="0 0 14.408 11.658">
                                         <defs>
@@ -101,42 +141,55 @@ class RecoverPassword extends Component {
                                         />
                                     </svg>
                                 </span>
-                                <input
-                                    onFocus={this.clickHandler.bind(this, 'email')}
-                                    onBlur={this.clickHandler.bind(this, null)}
-                                    id={'email'}
-                                    className={`border-0 ${classes.input}`}
-                                    type="email"
-                                    required={true}
-                                    name="username"
-                                    placeholder={'Էլ․ հասցե'}
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                                <span className={classes.forIcon}>
+                                            <input
+                                                onFocus={this.clickHandler.bind(this, 'email')}
+                                                onBlur={this.clickHandler.bind(this, null)}
+                                                id={'email'}
+                                                className={`border-0 ${classes.input}`}
+                                                type="email"
+                                                required={true}
+                                                name="username"
+                                                placeholder={'Էլ․ հասցե'}
+                                                value={this.state.email}
+                                                onChange={this.handleChange}
+                                            />
+                                            <span className={classes.forIcon}>
                                     {
                                         this.checkStatus(this.state.emailStatus)
                                     }
                                 </span>
-                            </label>
-                            <button
-                                className={classes.signIn}
-                                onClick={event => this.onSubmit(event)}
-                            >
-                                Ուղարկել
-                            </button>
-                        </form>
-                        <div className={classes.createAccount}>
-                            <NavLink className={classes.signUp} to={'login'}>
-                                Մուտք գործել
-                            </NavLink>
-                            <span>
-                                կամ
-                            </span>
-                            <NavLink className={classes.signUp} to={'registration'}>
-                                Գրանցվել
-                            </NavLink>
-                        </div>
+                                        </label>
+                                        <button
+                                            className={classes.signIn}
+                                            onClick={event => this.onSubmit(event)}
+                                        >
+                                            Ուղարկել
+                                        </button>
+                                    </form>
+                                    <div className={classes.createAccount}>
+                                        <NavLink className={classes.signUp} to={'login'}>
+                                            Մուտք գործել
+                                        </NavLink>
+                                        <span>
+                                            կամ
+                                        </span>
+                                        <NavLink className={classes.signUp} to={'registration'}>
+                                            Գրանցվել
+                                        </NavLink>
+                                    </div>
+                                </>
+                        }
+                        {
+                            this.props.progress ?
+                                <LinearProgress
+                                    classes={{
+                                        root: classes.progres,
+                                        colorPrimary: classes.progresBgColor
+                                    }}
+                                />
+                                :
+                                null
+                        }
                     </div>
                 </div>
             </div>
@@ -144,4 +197,24 @@ class RecoverPassword extends Component {
     }
 }
 
-export default RecoverPassword
+function mapStateToProps(state) {
+    return {
+        error: state.resetPass.error,
+        success: state.resetPass.success,
+        progress: state.resetPass.progress,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(
+        {
+            sendMail,
+            progressAction,
+            sendMailSuccess,
+            sendMailError
+        },
+        dispatch
+    )
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword)
