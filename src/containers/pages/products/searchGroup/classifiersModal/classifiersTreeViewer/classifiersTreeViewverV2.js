@@ -244,7 +244,7 @@ const ClassifaersTree = props => {
                                         {
                                             treeItemRender(item.group_id.id, item.id).length > 0 ?
                                                 <Collapse
-                                                    timeout="0"
+                                                    timeout={0}
                                                     isOpen={!!parseInt(props.collapsedStatus[item.id])}>
                                                     <ul
                                                         className={classes.tree}

@@ -25,7 +25,7 @@ const LeftBar = props => {
                             (item, index) => {
 
                                 return (
-                                    <div>
+                                    <div key={index}>
                                         <header>{item.name}</header>
                                         <div className={classes.classifBody}>
                                             <ul

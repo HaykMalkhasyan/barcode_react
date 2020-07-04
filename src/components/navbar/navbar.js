@@ -1,72 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import cls from './nabar.module.css'
-import {makeStyles, withStyles} from '@material-ui/core/styles';
-import MenuItem from "@material-ui/core/MenuItem";
 import {NavLink, withRouter} from "react-router-dom";
 import SessionStorage from "../../services/SessionStorage";
 import CustomButton from "../buttons/myButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import Backdrop from "../backdrop/backdrop";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import MobileMenu from "./mobileNavBar/mobileNavBar";
 
-// const StyledMenu = withStyles({
-//     paper: {
-//         border: '1px solid #d3d4d5',
-//     },
-// })((props) => (
-//     <Menu
-//         elevation={0}
-//         getContentAnchorEl={null}
-//         anchorOrigin={{
-//             vertical: 'bottom',
-//             horizontal: 'center',
-//         }}
-//         transformOrigin={{
-//             vertical: 'top',
-//             horizontal: 'center',
-//         }}
-//         {...props}
-//     />
-// ));
-
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:focus': {
-            // backgroundColor: theme.palette.primary.main,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
-    },
-}))(MenuItem);
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    toolbar: {
-        minHeight: 128,
-        alignItems: 'flex-start',
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-        alignSelf: 'flex-end',
-    },
-}));
 
 const ProminentAppBar = props => {
-    const classes = useStyles();
     const [scroll, setScroll] = useState(0)
     const [sticky, setSticky] = useState(false)
     const [hideText, setHideText] = useState(false)
     const [menu, setMenu] = useState(false)
     const [minimaze, setMinimaze] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
     const [user] = useState(SessionStorage.get("user"))
     const [confWindow, setConfWindow] = useState(true)
 
@@ -111,13 +59,7 @@ const ProminentAppBar = props => {
     useEffect(
         () => {
             setScroll(window.pageYOffset)
-            if (window.innerWidth > 768) {
-                window.addEventListener('scroll', windowScrolling)
-            } else {
-                setMinimaze(false)
-                setSticky(false)
-                setHideText(false)
-            }
+            window.addEventListener('scroll', windowScrolling)
 
 
             return () => {
@@ -263,14 +205,15 @@ const ProminentAppBar = props => {
 
                 return (
                     <div
+                        key={menu.id}
                         className={
                             minimaze ?
-                                activeMenu && activeMenu.id === menu.id ?
+                                (activeMenu && activeMenu.id === menu.id) || (props.match.path === `/${menu.staticName.toLowerCase()}`) ?
                                     `${cls.minimaze} ${cls.menuList} ${cls.prodLink} ${cls.menuListActive}`
                                     :
                                     `${cls.minimaze} ${cls.menuList} ${cls.prodLink}`
                                 :
-                                activeMenu && activeMenu.id === menu.id ?
+                                (activeMenu && activeMenu.id === menu.id) || (props.match.path === `/${menu.staticName.toLowerCase()}`) ?
                                     `${cls.menuList} ${cls.prodLink} ${cls.menuListActive}`
                                     :
                                     `${cls.menuList} ${cls.prodLink}`
@@ -415,7 +358,11 @@ const ProminentAppBar = props => {
                                 <li className={cls.userName}>
                                     <span>{user.firstname} {user.lastname}</span>
                                 </li>
-                                <NavLink to={'/user-page'} className={cls.dropLinks} activeClassName={cls.dropActive}>
+                                <NavLink
+                                    to={'/user-page'}
+                                    activeClassName={cls.dropActive}
+                                    className={cls.dropLinks}
+                                >
                                     <li className={cls.myPage}>
                                         <svg width={21} height={21} viewBox="0 0 21.005 21.005">
                                             <defs>
@@ -436,8 +383,11 @@ const ProminentAppBar = props => {
                                         <span>Իմ էջը</span>
                                     </li>
                                 </NavLink>
-                                <NavLink to={'/configurations'} className={cls.dropLinks}
-                                         activeClassName={cls.dropActive}>
+                                <NavLink
+                                    to={'/configurations'}
+                                    className={cls.dropLinks}
+                                    activeClassName={cls.dropActive}
+                                >
                                     <li className={cls.configuration}>
                                         <svg width={21} height={21} viewBox="0 0 21.005 20.976">
                                             <defs>
@@ -463,9 +413,7 @@ const ProminentAppBar = props => {
                                 </NavLink>
                                 <span
                                     onClick={
-                                        () => {
-                                            props.logout()
-                                        }
+                                        () => props.logout()
                                     }
                                     className={cls.dropLinks}
                                     activeClassName={cls.dropActive}
@@ -505,6 +453,12 @@ const ProminentAppBar = props => {
                     }
                 </div>
             </div>
+            <MobileMenu
+                menus={props.menus}
+                menu={menu}
+                setMenu={setMenu}
+                activeMenu={props.activeMenu}
+            />
             <div className={cls.subMenu}>
                 <ul className={cls.subMenuList}>
                     {
