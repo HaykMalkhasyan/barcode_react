@@ -1,0 +1,153 @@
+.menu {
+    position: fixed;
+    top: 0;
+    left: -240px;
+    width: 240px;
+    z-index: 20;
+    min-height: 100%;
+    display: block;
+    /*flex-direction: column;*/
+    overflow-y: auto;
+    box-sizing: border-box;
+    background-color: #FCFCFC;
+    box-shadow: -1px 0 5px rgba(0, 0, 0, .3);
+    transition: 300ms;
+}
+
+.openMenu {
+    left: 0;
+}
+
+
+.menu > div {
+    overflow-y: auto;
+    height: 100vh;
+    padding: 0 10px 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.menu > div::-webkit-scrollbar {
+    width: 0;
+}
+
+.menuListActive,
+.menuListActiveProd {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #FE5233 !important;
+    fill: #FE5233 !important;
+    background-color: #eee !important;
+}
+
+.menuList {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+    width: 100% !important;
+    height: 48px !important;
+    align-items: center;
+    color: #171717;
+    fill: #b6acab;
+}
+
+.listRoot {
+    justify-content: space-between !important;
+}
+
+.menuList span {
+    margin-left: 10px;
+    font-size: 12px !important;
+}
+
+
+.menuList:hover {
+    fill: #FE5233;
+    color: #FE5233;
+}
+
+.minimaze {
+    width: 48px;
+    height: 48px;
+}
+
+.textElem {
+    visibility: visible;
+    opacity: 1;
+    height: 25px;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.hiddenElem {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+}
+
+.menuList span {
+    font-size: 12px;
+    font-family: Mardoto-Regular;
+}
+
+.docs {
+    fill: none;
+    stroke: #b6acab;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+
+.menuListActiveProd {
+    border-radius: 0 8px 0 0;
+    box-shadow: 1px -7px 6px rgba(0, 0, 0, .14), -1px -7px 6px rgba(0, 0, 0, .14);
+    color: #FE5233 !important;
+    fill: #FE5233;
+    background-color: #fff;
+}
+
+.subMenu {
+    width: 100%;
+    height: 35px;
+    padding: 5px 0;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .14);
+}
+
+.nested {
+    width: 100% !important;
+    font-weight: bold;
+}
+
+.listText {
+    font-size: 12px !important;
+    text-align: left;
+    text-indent: 20px;
+}
+
+.subMenuLink {
+    font-size: 12px;
+    font-family: Mardoto-Regular;
+    color: #313131 !important;
+}
+
+.subMenuList > li:first-child {
+    border-left: none !important;
+}
+
+
+.subMenuActive {
+    font-size: 14px;
+    border-bottom: .5px solid #FE5233;
+    font-family: Mardoto-medium;
+}
+
+@media (min-width: 768px) {
+    .menu {
+        display: none;
+    }
+}

@@ -1,0 +1,8 @@
+.company {
+    padding: 33px 25px;
+    font-family: Mardoto, 'Segoe UI', sans-serif;
+}
+
+.company * {
+    font-family: Mardoto, 'Segoe UI', sans-serif;
+}

@@ -1,0 +1,45 @@
+.dataItem {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dataInput {
+    padding: 10px;
+    font-size: 12px;
+    width: 70%;
+    border: 2px solid rgba(0, 0, 0, 0.54);
+    color: #666;
+    font-weight: 600;
+    transition: 300ms;
+    border-radius: 3px;
+}
+
+.dataInput:hover {
+    border-color: #f50057;
+}
+
+.dataInput:focus {
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, .24);*/
+    box-shadow: 0 0 0 4px rgba(245, 0, 87, 0.3);
+    background-color: #fdfdfd;
+    border-color: #f50057;
+}
+
+.dataLabel {
+    color: #666;
+    font-weight: 100;
+}
+
+.itemCheckBox {
+    justify-content: flex-end;
+}
+
+.activeCheckBox {
+    display: flex;
+    align-items: center;
+    font-weight: 900;
+    color: #666;
+    font-size: 12px;
+}

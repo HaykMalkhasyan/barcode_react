@@ -1,0 +1,430 @@
+.main {
+    background: linear-gradient(-30deg, #5b86e5, #36dadc);
+    background-size: cover !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.backdrop {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.notificationWindow {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.notification {
+    position: relative;
+    display: inline-block;
+    /*top: 30px;*/
+    right: 10px;
+    margin: 5px 0;
+    opacity: 1;
+    /*width: 300px;*/
+    padding: 10px 30px;
+    border: 3px solid rgba(255, 85, 85, 0.3);
+    background-color: rgba(255, 153, 153, 0.3);
+    border-radius: 2px;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .2);
+    animation: show 500ms linear;
+}
+
+.notification * {
+    vertical-align: middle;
+}
+
+.notification:hover {
+    border-color: rgba(255, 85, 85, .8);
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .3);
+    /*background-color: #fff;*/
+}
+
+@keyframes show {
+    from {
+        right: -340px;
+        opacity: 0;
+    }
+    to {
+        right: 10px;
+        opacity: 1;
+    }
+}
+
+.mainWindow {
+    text-align: center !important;
+    width: 436px;
+    height: auto;
+    padding:  43px 38px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, .16);
+    border: none;
+    overflow-y: auto;
+    transition: 300ms;
+    user-select: none;
+    position: relative;
+}
+
+.alertError {
+    margin: 10px auto;
+    font-size: 11px;
+}
+
+.progres {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.progresBgColor {
+    background: transparent !important;
+}
+
+/* width */
+.mainWindow::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+.mainWindow::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.mainWindow::-webkit-scrollbar-thumb {
+    background: linear-gradient(to top, #fff, #36dadc, #fff);
+}
+
+/* Handle on hover */
+.mainWindow::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to top, #fff, #5b86e5, #fff);
+}
+
+.name {
+    margin: 0 0 24px;
+    font-size: 34px;
+    color: #1B5985;
+    font-weight: 600;
+    font-family: Montserrat, sans-serif;
+    text-align: center;
+    display: block;
+    padding: 10px 0;
+}
+
+.nameSecond {
+    margin-bottom: 5px;
+}
+
+.action {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 21px;
+    font-weight: 400;
+    font-family: 'Mardoto', sans-serif;
+    color: #444;
+    padding: 10px 0;
+}
+
+.email {
+    border-bottom: 1px solid #888;
+    height: 46px;
+    margin-bottom: 33.5px;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: center;
+    /*transition: 300ms;*/
+}
+
+.emailLabel {
+    background-color: #F8F8F8;
+}
+
+.emailLabel input {
+    color: rgba(68, 68, 68, 0.65);
+}
+
+.email > * {
+    display: block;
+    height: 44px;
+}
+
+.email > span {
+    width: 10%;
+}
+
+.password {
+    background-color: #fff;
+    border-bottom: 1px solid #888;
+    height: 46px;
+    margin-bottom: 33.5px;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: center;
+    /*transition: 300ms;*/
+}
+
+.selected {
+    border-bottom: 1px solid darkorange !important;
+}
+
+.password > * {
+    display: block;
+    height: 44px;
+}
+
+.password > span {
+    width: 10%;
+}
+
+.confirmPassword {
+    background-color: #fff;
+    border-bottom: 1px solid #888;
+    height: 46px;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: center;
+    /*transition: 300ms;*/
+}
+
+.confirmPassword > * {
+    display: block;
+    height: 44px;
+}
+
+.confirmPassword > span {
+    width: 10%;
+}
+
+.forIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forIcon > svg {
+    display: block;
+}
+
+.input {
+    border: none;
+    background: transparent;
+    outline: none !important;
+    width: 80%;
+}
+
+.emailInput {
+    border: none;
+    background: transparent;
+    outline: none !important;
+    width: 90%;
+}
+
+.forgetPassword {
+    text-align: right;
+    color: #4DA3E1;
+    font-family: 'Mardoto', sans-serif;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 27px;
+    margin-top: 11.5px;
+    line-height: 16px;
+}
+
+.forgetPassword:hover {
+    color: #578EE4;
+    user-select: none;
+}
+
+.signIn {
+    background: linear-gradient(to right, #F53803, #F5D020);
+    width: 242px;
+    height: 43px;
+    border: none;
+    outline: none;
+    font-family: 'Mardoto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 21px;
+    color: #fff;
+    transition: 300ms;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.signIn:hover {
+    box-shadow: 0 0 5px 2px rgba(255, 172, 46, 0.55);
+}
+
+.signIn:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset !important;
+}
+
+.signIn:focus {
+    box-shadow: 0 0 0 4px rgba(255, 172, 46, 0.4);
+}
+
+.createAccount {
+    display: flex;
+    justify-content: center;
+}
+
+.regSuccess {
+    font-family: 'Mardoto', sans-serif;
+    font-weight: 400;
+}
+
+.createAccount > * {
+    display: block;
+}
+
+.createAccount > span {
+    color: #878787;
+    font-size: 10px;
+    font-family: 'Mardoto', sans-serif;
+    margin-right: 5px;
+}
+
+.signUp {
+    outline: none !important;
+    font-family: 'Mardoto', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #1790FF;
+    transition: 300ms;
+    font-weight: 500;
+}
+
+.signUp:hover {
+    color: #36dadc;
+}
+
+.signUp:focus {
+    transform: scale(1.1);
+}
+
+.checkWindow {
+    margin-top: 10px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.checkboxRoot {
+    padding: 0 !important;
+    color: #578EE4 !important;
+    width: 11px;
+    height: 11px;
+}
+
+.checkLabel {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 0 8px;
+}
+
+.check {
+    display: block;
+    font-size: 11px;
+    font-family: 'Mardoto', sans-serif;
+    letter-spacing: 1px;
+    text-transform: none;
+    margin-right: 5px;
+}
+
+.checkLink {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    padding: 0;
+    color: #5B86E5;
+    display: block;
+    font-size: 11px;
+    font-family: 'Mardoto', sans-serif;
+    letter-spacing: 1px;
+    text-transform: none;
+    transition: 300ms;
+}
+.checkLink:hover {
+    color: #36D1DC;
+}
+
+.error {
+    color: #ff3939 !important;
+    border-color: #ff3939;
+}
+
+.passwordFill {
+    fill: #444;
+    stroke:#444;
+    stroke-width: 0.2px;
+}
+
+.passwordFillError {
+    fill: #ff3939;
+    stroke:#ff3939;
+    stroke-width: 0.2px;
+}
+
+.errorVerify {
+    animation: error .1s ease-in-out alternate 2;
+}
+
+@keyframes error {
+    from {
+        transform: translateX(-5px);
+    }
+
+    to {
+        transform: translateX(5px);
+    }
+}
+
+@media (max-width: 576px) {
+
+    .mainWindow {
+        width: 100%;
+        /*height: 100%;*/
+    }
+
+    .signIn {
+        width: 100%;
+    }
+
+    .password > span,
+    .email > span,
+    .confirmPassword > span,
+    .emailInput > span {
+        width: 20%;
+    }
+
+    .input {
+        width: 60%;
+    }
+
+    .emailInput {
+        width: 80%;
+    }
+}

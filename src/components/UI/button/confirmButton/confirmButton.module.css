@@ -1,0 +1,27 @@
+.confirmButton {
+    color: #fff;
+    background-color: #67CA51;
+    border-radius: 5px;
+    padding: 10px 31px;
+    border: none;
+    outline: none !important;
+    cursor: pointer;
+    transition: 300ms;
+    overflow: hidden;
+}
+
+.confirmButton:hover {
+    background-color: #74e35c;
+}
+.confirmButton:focus {
+    box-shadow: 0 0 0 4px rgba(116, 227, 92, 0.5);
+}
+
+.confirmButtonIcon {
+    fill: #fff;
+}
+
+.confirmButtonName {
+    margin-left: 7px;
+    font-size: 12px;
+}

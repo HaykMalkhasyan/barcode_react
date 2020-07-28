@@ -1,13 +1,39 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {Provider} from "react-redux";
+import {BrowserRouter} from "react-router-dom";
+import thunk from "redux-thunk";
+import rootReducer from "./Redux/rootReducer";
+import {applyMiddleware, compose, createStore} from "redux";
+import Spinner from "./components/UI/spinner/spinner";
+const LazyApp = lazy(() => import('./App'));
+
+const composeEnhancers =
+    typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+            // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+        }) : compose;
+
+const store = createStore(
+    rootReducer,
+    composeEnhancers(applyMiddleware(thunk))
+);
+
+const app = (
+    <Provider store={store}>
+        <Suspense fallback={<Spinner color='secondary'/>}>
+            <BrowserRouter basename="/">
+                <LazyApp/>
+            </BrowserRouter>
+        </Suspense>
+    </Provider>
+);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  app,
   document.getElementById('root')
 );
 

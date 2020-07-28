@@ -1,0 +1,512 @@
+.filters {
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 170px 8px 0;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.launchButton {
+    position: fixed;
+    left: 5%;
+    bottom: -100px;
+    border-radius: 50%;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #4DA3E1;
+    color: #fff;
+    cursor: pointer;
+    transition: 300ms;
+    z-index: 13;
+}
+
+.launchButton:hover {
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .35);
+}
+
+.launchButton:active {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .5) inset;
+}
+
+.gridContainer {
+    height: 100%;
+    align-items: stretch;
+}
+
+.gritItem {
+    height: 100%;
+    padding-bottom: 0 !important;
+}
+
+@media (max-width: 960px) {
+    .gritItemClassifiers {
+        position: fixed;
+        top: -100%;
+        left: 50%;
+        width: 100%;
+        height: 99%;
+        transform: translateX(-50%);
+        z-index: 12;
+        transition: 300ms;
+        /*display: none;*/
+    }
+
+    .gritItemClassifiersOpen {
+        top: 0;
+    }
+
+    .launchButton {
+        bottom: 20px;
+    }
+
+    .launchButtonOpen {
+        left: calc(95% - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .filters {
+        overflow: auto;
+        padding: 56px 8px 8px;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * *
+ * *                             * *
+ * *   characteristics tree styles   * *
+ * *                             * *
+ * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * */
+
+/* width */
+.classifiersWindow::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.classifiersWindow::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.classifiersWindow::-webkit-scrollbar-thumb {
+    background: rgb(253, 117, 91);
+    border-radius: 10px;
+    border: 4px solid #fff;
+    transition: 300ms;
+}
+
+/* Handle on hover */
+.classifiersWindow::-webkit-scrollbar-thumb:hover {
+    background: rgba(254, 82, 51, 1);
+    border-width: 0;
+}
+
+.classifiersWindow {
+    box-shadow: 0 0 10px rgba(52, 100, 212, 0.12);
+    height: 100%;
+    border-radius: 8px;
+    background-color: #FCFCFC;
+    overflow-y: auto;
+}
+
+.nextSlideBtn {
+    outline: none !important;
+    position: absolute;
+    right: 37px;
+    top: 4px;
+    padding: 10px;
+    z-index: 1;
+    border: none;
+    background-color: transparent;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.nextSlideBtn:hover {
+    transform: scale(1.5);
+}
+
+.nextSlideIcon {
+    fill: #414141;
+}
+
+.prevSlideBtn {
+    outline: none;
+    position: absolute;
+    left: 37px;
+    top: 4px;
+    padding: 10px;
+    z-index: 1;
+    border: none;
+    background-color: transparent;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.prevSlideBtn:hover {
+    transform: scale(1.5);
+}
+
+.prevSlideIcon {
+    fill: #414141;
+}
+
+.classifiersWindow header {
+    height: 45px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 45px;
+    color: #414141;
+    font-size: 13px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 0 6px rgba(70, 131, 255, 0.18);
+}
+
+.classifBody {
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+.mainTreeName {
+    display: flex;
+    align-items: center;
+}
+
+.classifMainName {
+    margin-left: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #666;
+}
+
+.fonstStyale {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.modal {
+    background-color: #F9F9FF;
+    width: 600px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.allGroups {
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+.allGroups > ul.allGroupsList {
+    list-style: none;
+}
+
+.allGroups > ul.allGroupsList > li {
+    margin-bottom: 10px;
+}
+
+.allGroups > ul.allGroupsList > li ul.allGroupsContentList {
+    list-style: none;
+    padding: 0;
+}
+
+.allGroups > ul.allGroupsList > li ul.allGroupsContentList > li {
+    margin-bottom: 10px;
+}
+
+.actionModal {
+    background-color: #fff;
+    width: 960px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.modalGroup {
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 5px;
+    width: 600px;
+}
+
+/* * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * *
+ * *                             * *
+ * *     search window styles    * *
+ * *                             * *
+ * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * */
+
+/* width */
+.searchWindow::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.searchWindow::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.searchWindow::-webkit-scrollbar-thumb {
+    background: rgb(253, 117, 91);
+    border-radius: 10px;
+    border: 4px solid #fff;
+    transition: 300ms;
+}
+
+/* Handle on hover */
+.searchWindow::-webkit-scrollbar-thumb:hover {
+    background: rgba(254, 82, 51, 1);
+    border-width: 0;
+}
+
+.searchWindow {
+    padding: 10px 14px 25px 14px;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: auto;
+    border-radius: 8px;
+    background-color: #fff;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.forWhat {
+    font-size: 12px;
+    color: #8D8D8D;
+}
+
+@media (max-width: 960px) {
+    .searchWindow {
+        overflow: hidden;
+        height: auto;
+        min-height: 100%;
+    }
+}
+
+.searchImage {
+    height: 180pt;
+    display: block;
+    margin: 0 auto 14px;
+}
+
+.searchBorder {
+    height: 46px;
+    width: 80%;
+    margin: 0 auto 25px auto;
+    position: relative;
+    z-index: 1;
+}
+
+.searchSpanIcon {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.searchInput {
+    height: 46px;
+    width: 100%;
+    border-radius: 25px;
+    border: 1px solid #1492E6;
+    background-color: #FCFCFC;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    text-indent: 25px;
+    outline: none !important;
+}
+
+.searchInput:hover {
+    box-shadow: 0 0 4px rgba(20, 146, 230, 0.61);
+}
+
+.searchInput:focus {
+    box-shadow: 0 0 0 4px rgba(20, 146, 230, 0.3);
+}
+
+.searchSpecific {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.specBtn {
+    border: none;
+    outline: none !important;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: transparent;
+    border-radius: 3px;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.specBtn:last-child {
+    border-radius: 3px 25px 25px 3px !important;
+}
+
+.specBtn:hover {
+    background-color: #eee;
+}
+
+.searchCollapseWindow {
+    width: 80%;
+    margin: 0 auto;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.searchCollapseWindowHeader {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.advancedSearchBtn {
+    outline: none !important;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    fill: #666;
+    transition: 300ms;
+}
+
+.advancedSearchBtn:hover {
+    color: #1492e6;
+    fill: #1492e6;
+}
+
+.advancedSearchBtn span {
+    margin-left: 10px;
+}
+
+.finishedButtons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+.addButton {
+    outline: none !important;
+    height: 42px;
+    width: 170px;
+    background-color: #fff;
+    border: 1px solid #FE8A69;
+    border-radius: 3px;
+    margin-left: 23px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #FE8A69;
+    transition: 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: rgba(254, 138, 105, 0.1);
+}
+
+.addButton:focus {
+    background-color: rgba(254, 138, 105, 0.1);
+}
+
+.addButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    border-color: transparent;
+}
+
+.addButton span {
+    margin-left: 10px;
+}
+
+.addBtnIcon {
+    fill: #FE8A69;
+    stroke: #FE8A69;
+}
+
+.searchButton {
+    outline: none !important;
+    height: 42px;
+    width: 170px;
+    background-color: #F97F42;
+    border: none;
+    border-radius: 3px;
+    margin-left: 23px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    transition: 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchButton:hover {
+    background-color: rgba(249, 127, 66, 0.80);
+}
+
+.searchButton:focus {
+    background-color: rgba(249, 127, 66, 0.60)
+}
+
+.searchButton:active {
+    /*border-color: #c36939;*/
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+}
+
+.searchButton span {
+    margin-left: 10px;
+}
+
+.searchBtnIcon {
+    fill: #fff;
+}
+
+.paper {
+    width: 60%;
+}
+
+@media (max-width: 576px) {
+    .paper {
+        width: 100%;
+    }
+}
+
+ul.mainTree li {
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0 8px;
+    line-height: 20px;
+    background: transparent url(http://odyniec.net/articles/turning-lists-into-trees/node.png) no-repeat;
+    color: #666;
+    /* background-color: lawngreen; */
+    font-weight: 500;
+}
+
+ul.mainTree li:last-child {
+    background: #FCFCFC url(http://odyniec.net/articles/turning-lists-into-trees/lastnode.png) no-repeat;
+}

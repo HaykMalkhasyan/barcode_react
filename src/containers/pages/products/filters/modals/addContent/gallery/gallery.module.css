@@ -1,0 +1,250 @@
+.galleryWindow {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.addPhoto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    z-index: 1;
+    height: 40px;
+    box-sizing: border-box;
+    font-weight: 100;
+    cursor: pointer;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, .5);
+    transition: 300ms;
+}
+
+.addPhoto:hover {
+    box-shadow: 0 0 5px 3px rgba(30, 96, 173, 0.34);
+}
+
+.mainImage {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.galleryControllers {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 40px;
+    opacity: 0;
+    overflow: hidden;
+    transition: 100ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.mainImage:hover .galleryControllers {
+    opacity: 1;
+}
+
+.galleryControllers > div {
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    z-index: 2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 300ms;
+    position: relative;
+}
+
+.galleryControllers > div:first-child {
+    border-right: 2px solid #fff;
+}
+
+.galleryControllers > div:last-child {
+    border-left: 2px solid #fff;
+}
+
+.setToMainImage:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: -1;
+    transition: 300ms;
+}
+
+.setToMainImage:hover:after {
+    width: 100%;
+}
+
+.deleteItemImage:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: -1;
+    transition: 300ms;
+}
+
+.deleteItemImage:hover:after {
+    width: 100%;
+}
+
+.controllersBtn {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.setToMainBtn:hover {
+    color: #39ff39;
+}
+
+.deleteItemBtn:hover {
+    color: #ff3939;
+}
+
+.mainImage img {
+    display: block;
+    width: 100%;
+}
+
+.main {
+    height: 400px;
+}
+
+.subImage {
+    width: 80px;
+    height: 80px;
+    margin: 5px auto;
+    padding: 5px;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.subImage:hover {
+    box-shadow: 0 0 0 4px rgba(1, 182, 253, .3);
+}
+
+.subImage img {
+    display: block;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.arrowsBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.prevClassName {
+    left: 10px;
+    background-color: rgba(0, 0, 0, .35);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms;
+}
+
+.prevClassName:hover {
+    background-color: rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 1) inset;
+    border-radius: 50%;
+}
+
+.nextClassName {
+    right: 10px;
+    background-color: rgba(0, 0, 0, .35);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms;
+}
+
+.nextClassName:hover {
+    background-color: rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 1) inset;
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .mainImage {
+        height: auto;
+    }
+
+    .main {
+        width: 100%;
+        height: auto;
+    }
+
+    .subImage {
+        width: 90%;
+        height: 40px;
+    }
+
+    .subImage img {
+        height: 40px;
+    }
+
+    .galleryControllers > div {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1500px) {
+    .mainImage {
+        height: auto;
+    }
+
+    .main {
+        width: 100%;
+        height: auto;
+    }
+
+    .subImage {
+        width: 90%;
+        height: 60px;
+    }
+
+    .subImage img {
+        height: 60px;
+    }
+}

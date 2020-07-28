@@ -1,0 +1,240 @@
+.main {
+    width: 100%;
+    height: auto;
+}
+
+.main > header {
+    height: 48px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modalButton {
+    outline: none !important;
+    transition: 300ms;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.backButton {
+    margin: 0 10px;
+    padding: 5px;
+    border: none;
+    background: transparent;
+}
+
+.backButtonIcon {
+    fill: #4b4b4b;
+    opacity: 0.56;
+    transition: 300ms;
+}
+
+.backButton:focus {
+    background-color: rgba(77, 163, 225, 0.1);;
+}
+
+.backButton:hover {
+    background-color: rgba(77, 163, 225, 0.3);
+    border-radius: 5px;
+}
+
+.backButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
+}
+
+.backButton:hover .backButtonIcon {
+    fill: #4DA3E1;
+    opacity: 1;
+}
+
+.closeButton {
+    margin: 0 10px;
+    border: none;
+    padding: 5px;
+    background-color: #F8FAFF;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+
+.closeButtonIcon {
+    fill: #4b4b4b;
+    stroke: #4b4b4b;
+    opacity: 0.5;
+    transition: 300ms;
+}
+
+.closeButton:focus {
+    background-color: rgba(255, 74, 74, 0.1);
+}
+
+.closeButton:hover {
+    background-color: rgba(255, 74, 74, 0.3);
+}
+
+.closeButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
+}
+
+.closeButton:hover .closeButtonIcon {
+    fill: #ff4a4a;
+    stroke: #ff4a4a;
+    opacity: 1;
+}
+
+.modalLabel {
+    font-size: 18px;
+    color: #49525E;
+    font-weight: 600;
+}
+
+.mainContent {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 21px 31px;
+}
+
+.imageWindow {
+    width: 360px;
+    height: 360px;
+    border-radius: 5px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.classNameLabel img {
+    height: 360px;
+    margin: 0 auto;
+    display: block;
+}
+
+.classNameLabel {
+    cursor: pointer;
+    width: 360px;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms;
+    outline: none !important;
+}
+
+.classNameLabel:hover {
+    background-color: #d7d5d5;
+}
+
+.classNameLabel:active {
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, .6) inset;
+}
+
+.dataWindow {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nameInput {
+    width: 100%;
+    padding: 12px 19px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none !important;
+    font-size: 15px;
+    color: #666;
+    transition: 300ms;
+    margin-bottom: 28px;
+}
+
+.nameInput:hover {
+    border-color: #4683FF;
+}
+
+.nameInput:focus {
+    border-color: #4683FF;
+    box-shadow: 0 0 0 4px rgba(70, 131, 255, 0.3);
+}
+
+.checkboxLabel {
+    display: inline-block;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    user-select: none;
+}
+
+.checkBoxWindow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.checkbox {
+    margin-left: 27px;
+    width: 59px;
+    height: 30px;
+    background-color: #c6c6c6;
+    border-radius: 25px;
+    position: relative;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, .6) inset;
+}
+
+.checkbox:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, .4);
+    transition: 300ms;
+}
+
+.checkboxChecked {
+    background-color: #67CA51;
+    transition: 300ms;
+}
+
+.checkboxChecked::after {
+    left: 33px;
+}
+
+.dataWindow > footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.alertShow {
+    margin-bottom: 10px;
+    padding: 0 10px;
+    font-size: 12px;
+    height: 50px;
+    transition: 500ms;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    visibility: visible;
+}
+
+.alertHidden {
+    margin-bottom: 0;
+    padding: 0 10px;
+    font-size: 12px;
+    transition: 500ms;
+    overflow: hidden;
+    height: 0;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+}
