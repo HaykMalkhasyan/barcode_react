@@ -9,17 +9,23 @@ const ClassifiersActionModals = props => {
                 <>
                     <Content
                         newGroup={props.newGroup}
+                        newSubgroup={props.newSubgroup}
                         label={props.groupType === 'group' ? 'Ավելացնել դասակարգիչ' : 'Ավելացնել խումբ'}
                         groupType={props.groupType}
                         subgroup={props.subgroup}
                         error={props.error}
                         group={props.group}
                         modalType={props.modalType}
+                        customSubgroup={props.customSubgroup}
+                        collapsedModalStatus={props.collapsedModalStatus}
                         // Methods
                         setGroupValues={props.setGroupValues}
                         setProductValues={props.setProductValues}
                         closeHandler={props.closeHandler}
                         uploadImage={props.uploadImage}
+                        addSubgroup={props.addSubgroup}
+                        addGroup={props.addGroup}
+                        subGroupModalCollapses={props.subGroupModalCollapses}
                     />
                 </>
             );
@@ -28,17 +34,23 @@ const ClassifiersActionModals = props => {
                 <>
                     <Content
                         newGroup={props.newGroup}
+                        newSubgroup={props.newSubgroup}
                         label={props.groupType === 'group' ? 'Փոփոխել դասակարգիչը' : 'Փոփոխել խումբը'}
                         groupType={props.groupType}
                         subgroup={props.subgroup}
                         group={props.group}
                         error={props.error}
                         modalType={props.modalType}
+                        customSubgroup={props.customSubgroup}
+                        collapsedModalStatus={props.collapsedModalStatus}
                         // Methods
                         setGroupValues={props.setGroupValues}
                         setProductValues={props.setProductValues}
                         closeHandler={props.closeHandler}
                         uploadImage={props.uploadImage}
+                        editSubgroup={props.editSubgroup}
+                        editGroup={props.editGroup}
+                        subGroupModalCollapses={props.subGroupModalCollapses}
                     />
                 </>
             );

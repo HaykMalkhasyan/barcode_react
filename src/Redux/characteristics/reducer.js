@@ -1,10 +1,14 @@
 import {SET_GROUP_VALUE} from "./actionTypes";
 
 const initialState = {
+    active: 0,
+    open: false,
     group: null,
     customGroup: null,
     groups: [],
     search: '',
+    classifiersSearch: '',
+    touched: false,
     searchResult: [],
     subgroup: null,
     customSubgroup: null,
@@ -13,9 +17,6 @@ const initialState = {
     toggleButtons: null,
     errors: null,
     movingStatus: false,
-    prevGroup: null,
-    nextGroup: null,
-    indexKey: null,
     changeStatus: true,
     selectId: null,
     groupType: null,
@@ -23,12 +24,18 @@ const initialState = {
     newGroup: {
         name: '',
         required_group: false,
-        image: null
+        group_type: '1'
+    },
+    newSubgroup: {
+        name: '',
+        image: []
     },
     error: null,
     allError: null,
     modalGroup: false,
     groupActiveId: null,
+    delete: false,
+    collapsedModalStatus: []
 };
 
 export default function characteristicsReducer(state = initialState, action) {
@@ -37,7 +44,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case SET_GROUP_VALUE:
             return {
                 ...state, [action.name]: action.value
-            }
+            };
         default: return {...state}
     }
 }

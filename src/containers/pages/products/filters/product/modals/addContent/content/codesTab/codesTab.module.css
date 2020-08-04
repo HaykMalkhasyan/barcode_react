@@ -1,0 +1,117 @@
+.codesTab {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 5px;
+}
+
+.header {
+    width: 100%;
+    height: 1px;
+    background-color: #DBDBDB;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header > h3 {
+    text-transform: uppercase;
+    margin: 0;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #737373;
+    font-weight: 400;
+    text-align: center;
+}
+
+.content {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.information {
+    color: #888888;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.gridContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.gridContainer > .codActions {
+    width: 45%;
+}
+
+.gridContainer > .transformActions {
+    width: 10%;
+}
+
+.gridContainer > .attachment {
+    width: 45%;
+}
+
+.gridContainer > .transformActions > .transformActionsWindow {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrowButton {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 500ms;
+    margin: 5px auto;
+    padding: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leftArrowButton:focus {
+    background-color: #eee;
+}
+
+.leftArrowButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+
+.leftArrowButton:hover .leftArrowIcon {
+    fill: #67CA51;
+}
+
+.leftArrowIcon {
+    fill: #ff9d52;
+    transition: 500ms;
+}
+
+.rightArrowButton:focus {
+    background-color: #eee;
+}
+
+.rightArrowButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.rightArrowButton:hover .rightArrowIcon {
+    fill: #67CA51;
+}
+
+.rightArrowIcon {
+    fill: #ff9d52;
+    transition: 500ms;
+}

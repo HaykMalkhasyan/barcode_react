@@ -1,0 +1,58 @@
+.employeesTab {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 5px;
+}
+
+.header {
+    width: 100%;
+    height: 1px;
+    background-color: #DBDBDB;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header > h3 {
+    text-transform: uppercase;
+    margin: 0;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #737373;
+    font-weight: 400;
+    text-align: center;
+}
+
+.content {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.information {
+    color: #888888;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.textFieldWindow {
+    width: 100%;
+    margin-top: 30px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+.multiSelect {
+    width: 100% !important;
+    padding: 5px 0 0 !important;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+.textFieldRoot {
+    border: none !important;
+}

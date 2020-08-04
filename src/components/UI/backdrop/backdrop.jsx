@@ -8,6 +8,6 @@ const Backdrop = props => {
             onClick={props.onClick}
         />
     )
-}
+};
 
 export default Backdrop

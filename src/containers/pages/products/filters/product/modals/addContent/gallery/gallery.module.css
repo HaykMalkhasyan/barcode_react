@@ -2,12 +2,13 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
+    width: 100%;
 }
 
 .addPhoto {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 20%;
     color: #fff;
     z-index: 1;
     height: 40px;
@@ -27,7 +28,7 @@
 
 .mainImage {
     width: 100%;
-    height: 400px;
+    height: 312px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -125,11 +126,29 @@
 
 .mainImage img {
     display: block;
-    width: 100%;
+    height: 312px;
+    margin: 0 auto;
+}
+
+.asNavForClass {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.asNavForClass > div:first-child {
+    width: 80%;
+}
+
+.asNavForClass > div:last-child {
+    width: 20%;
 }
 
 .main {
-    height: 400px;
+    height: 312px;
+}
+
+.second {
+    height: 312px;
 }
 
 .subImage {

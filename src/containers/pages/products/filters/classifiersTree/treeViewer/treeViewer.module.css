@@ -30,7 +30,7 @@ ul.tree, ul.tree ul {
 }
 
 ul.tree ul  {
-    margin: 5px 0 5px 10px;
+    margin: 5px 0 5px 31px;
     width: 95%;
 
 }
@@ -79,4 +79,9 @@ ul.tree li:last-child {
 
 .fonstStyale {
 
+}
+
+
+.selected {
+    background-color: #eee !important;
 }

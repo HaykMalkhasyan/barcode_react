@@ -6,29 +6,25 @@
     height: 48px;
     width: 100%;
     display: flex;
+    padding: 0 10px;
+    box-sizing: border-box;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     box-shadow: 0 0 5px rgba(0, 0, 0, .1);
     position: relative;
     z-index: 1;
 }
 
 .classifiers > header > .closeButton {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
     border: none;
-    outline: none !important;
+    background-color: #F8FAFF;
     border-radius: 50%;
     width: 25px;
     height: 25px;
-    padding: 0;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: 300ms;
 }
 
 .classifiers > header > .closeButton:active {
@@ -178,8 +174,7 @@
 }
 
 .classifiers > section > section {
-    max-height: 400px;
-    height: auto;
+    height: 270px;
     width: 100%;
     padding: 0 11px;
     box-sizing: border-box;
@@ -240,14 +235,15 @@
     box-shadow: 0 0 4px rgba(155, 155, 155, 0.31);
     cursor: pointer;
     position: relative;
-}
-
-.classifiersItem:active {
-    box-shadow: 1px 1px 6px rgba(0, 0, 0, .6) inset;
+    z-index: 1;
 }
 
 .classifiersItem:hover {
     box-shadow: 0 0 4px 2px rgba(255, 157, 82, 0.6);
+}
+
+.classifiersItem:active {
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, .6) inset;
 }
 
 .selected {
@@ -270,14 +266,14 @@
     right: 5px;
     border: none;
     cursor: pointer;
-    z-index: 1;
+    /*z-index: 1;*/
     color: #FF9D52;
     background-color: transparent;
     padding: 0;
-    border-bottom: 2px solid transparent;
     transition: 300ms;
     visibility: hidden;
     opacity: 0;
+    fill: #747ad5;
 }
 
 .classifiersItem:hover .editButton {
@@ -286,27 +282,11 @@
 }
 
 .editButton:hover {
-    border-color: #444;
-}
-
-.editButton:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    z-index: -1;
-    background-color: rgba(255, 157, 82, 0.1);
-    transition: 300ms;
-}
-
-.editButton:active:after {
-    height: 100%;
+    fill: #5052a0;
 }
 
 .editButtonSelected {
-    color: #fff;
+    fill: #fff;
 }
 /*.light {*/
 /*    position: absolute;*/

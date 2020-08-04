@@ -1,4 +1,5 @@
 .confirmButton {
+    box-sizing: border-box;
     color: #fff;
     background-color: #67CA51;
     border-radius: 5px;
@@ -24,4 +25,5 @@
 .confirmButtonName {
     margin-left: 7px;
     font-size: 12px;
+    text-transform: uppercase;
 }

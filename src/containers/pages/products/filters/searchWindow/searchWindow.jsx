@@ -2,16 +2,16 @@ import React from 'react'
 import classes from '../filters.module.css'
 import CustomInput from "../../../../../components/UI/input/customInput/customInput"
 import CustomButton from "../../../../../components/UI/button/customButton/customButton"
-import ProductModal from "../modals/productModal";
+import ProductModal from "../product/modals/productModal";
 import {connect} from "react-redux";
 import {setProductValues} from "../../../../../Redux/products/actions";
 
 const SearchWindow = props => {
 
     const toggleAddModalHandler = (name, value, scrollType) => {
-        props.setProductValues(name, value)
+        props.setProductValues(name, value);
         props.setProductValues('scroll', scrollType)
-    }
+    };
 
     return (
         <div className={classes.searchWindow}>
@@ -241,6 +241,7 @@ const SearchWindow = props => {
                 scroll={props.scroll}
                 open={props.open}
                 paper={classes.paper}
+                modalTabs={props.modalTabs}
                 // Methods
                 handleClose={
                     () => {
@@ -250,13 +251,14 @@ const SearchWindow = props => {
             />
         </div>
     )
-}
+};
 
 function mapStateToProps(state) {
 
     return {
         open: state.products.open,
         scroll: state.products.scroll,
+        modalTabs: state.products.modalTabs
     }
 }
 

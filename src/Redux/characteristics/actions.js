@@ -7,7 +7,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 export function uploadImage(type, file, data, modalType) {
 
     return async dispatch => {
-        let image_name = data.image;
+        let image_name = data.image[0].name;
         let image = file;
         let form_data = new FormData();
 
@@ -114,8 +114,10 @@ export function getGroup(id) {
 
 export function getAllGroup() {
 
-    return async dispatch => {
+    return async (dispatch, getState) => {
         if (localStorage.getItem('access')) {
+            const groups = [];
+            groups.push({id: 0, name: 'Հիմնական դասակարգիչ', group_type: '1', required_group: true});
             try {
                 const response = await Axios.get(`${API_URL}/group/?page_size=10000`, {
                     headers: {
@@ -124,7 +126,8 @@ export function getAllGroup() {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-                dispatch(setGroupValues('groups', response.data.results))
+                groups.push(...response.data.results);
+                dispatch(setGroupValues('groups', groups))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = localStorage.getItem('refresh');
@@ -191,9 +194,9 @@ export function editGroup(data) {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-                for (let [key, value] of Object.keys(groups)) {
+                for (let [key, value] of Object.entries(groups)) {
                     if (value.id === response.data.id) {
-                        groups[key] = response.data
+                        groups[key] = response.data;
                     }
                 }
                 dispatch(setGroupValues('groups', groups))
@@ -207,7 +210,7 @@ export function editGroup(data) {
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
                         dispatch(editGroup(data))
                     }
-                } else if (error.response.status === 400) {
+                } else if (error.response  && error.response.status === 400) {
                     dispatch(setGroupValues('error', true))
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -294,7 +297,7 @@ export function getSubgroupWithGroupId(id) {
     return async dispatch => {
         if (localStorage.getItem('access')) {
             try {
-                const response = await Axios.get(`${API_URL}/subgroup/?group_id=${id}`, {
+                const response = await Axios.get(`${API_URL}/subgroup/?group_id=${id}&page_size=100`, {
                     headers: {
                         "lang": "am",
                         "Content-Type": "application/json",
@@ -312,6 +315,37 @@ export function getSubgroupWithGroupId(id) {
                         dispatch(setGroupValues('errors', error.message))
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
                         dispatch(getSubgroupWithGroupId(id))
+                    }
+                } else {
+                    dispatch(setGroupValues('allError', true))
+                }
+            }
+        }
+    }
+}
+
+export function getOnlySubgroupWithGroupId(id) {
+
+    return async dispatch => {
+        if (localStorage.getItem('access')) {
+            try {
+                const response = await Axios.get(`${API_URL}/subgroup/?group_id=${id}&page_size=100`, {
+                    headers: {
+                        "lang": "am",
+                        "Content-Type": "application/json",
+                        "Authorization": `JWT ${localStorage.getItem('access')}`
+                    }
+                });
+                dispatch(setGroupValues('customSubgroup', response.data.results));
+            } catch (error) {
+                if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                    const refresh_token = localStorage.getItem('refresh');
+                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+
+                    if ((await new_token_data) === null) {
+                        dispatch(setGroupValues('errors', error.message))
+                    } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                        dispatch(getOnlySubgroupWithGroupId(id))
                     }
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -355,6 +389,7 @@ export function addSubgroup(data) {
     return async (dispatch, getState) => {
         if (localStorage.getItem('access')) {
             const subgroups = [...getState().characteristics.subgroups];
+            const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
             try {
                 const response = await Axios.post(`${API_URL}/subgroup/`, data, {
                     headers: {
@@ -364,6 +399,8 @@ export function addSubgroup(data) {
                     }
                 });
                 subgroups.push(response.data);
+                customSubgroup.push(response.data);
+                dispatch(setGroupValues('customSubgroup', customSubgroup));
                 dispatch(setGroupValues('subgroups', subgroups))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -418,13 +455,14 @@ export function editSubgroup(data) {
     }
 }
 
-export function deleteSubgroup(data) {
+export function deleteSubgroup(id) {
 
     return async (dispatch, getState) => {
         if (localStorage.getItem('access')) {
             const subgroups = [...getState().characteristics.subgroups];
+            const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
             try {
-                const response = await Axios.delete(`${API_URL}/subgroup/${data.id}`, {
+                await Axios.delete(`${API_URL}/subgroup/${id}`, {
                     headers: {
                         "lang": "am",
                         "Content-Type": "application/json",
@@ -432,13 +470,21 @@ export function deleteSubgroup(data) {
                     }
                 });
                 if (subgroups.length > 0) {
-                    for (let [key, value] of Object.keys(subgroups)) {
-                        if (value.id === response.data.id) {
+                    for (let [key, value] of Object.entries(subgroups)) {
+                        if (value.id === id) {
+                            console.log(key, value);
                             subgroups.splice(key, 1);
                         }
                     }
+                    for (let [key, value] of Object.entries(customSubgroup)) {
+                        if (value.id === id) {
+                            console.log(key, value);
+                            customSubgroup.splice(key, 1);
+                        }
+                    }
                 }
-                dispatch(setGroupValues('subgroups', subgroups))
+                dispatch(setGroupValues('subgroups', subgroups));
+                dispatch(setGroupValues('customSubgroup', customSubgroup))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = localStorage.getItem('refresh');
@@ -447,7 +493,7 @@ export function deleteSubgroup(data) {
                     if ((await new_token_data) === null) {
                         dispatch(setGroupValues('errors', error.message))
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
-                        dispatch(deleteSubgroup(data))
+                        dispatch(deleteSubgroup(id))
                     }
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -471,10 +517,25 @@ export function subGroupCollapses(id) {
     }
 }
 
+
+export function subGroupModalCollapses(id) {
+
+    return (dispatch, getState) => {
+        const collapsedModalStatus = [...getState().characteristics.collapsedModalStatus];
+        let index = collapsedModalStatus.indexOf(id);
+        if (index === -1) {
+            collapsedModalStatus.push(id);
+        } else {
+            collapsedModalStatus.splice(index, 1)
+        }
+        dispatch(setGroupValues('collapsedModalStatus', collapsedModalStatus))
+    }
+}
+
 export function addEditedData(data) {
 
     return (dispatch, getState) => {
-        const customSubgroup = [...getState().characteristics.customSubgroup];
+        const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
         for (let [key, value] of Object.entries(customSubgroup)) {
             if (value.id === data.id) {
                 customSubgroup[key] = data;
@@ -497,7 +558,7 @@ export function searchHandler(name, value) {
 export function searchSubgroup() {
 
     return (dispatch, getState) => {
-        const customSubgroup = [...getState().characteristics.customSubgroup];
+        const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
         const search = getState().characteristics.search;
         let searchResult = [];
 

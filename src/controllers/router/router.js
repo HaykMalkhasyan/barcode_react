@@ -48,7 +48,7 @@ const Router = props => {
 
     return (
         <Switch>
-            {/* Main page */}
+            {/* MainTab page */}
             <PrivateRoute
                 exact
                 path='/'

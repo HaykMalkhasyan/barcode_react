@@ -1,0 +1,71 @@
+.apm {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.apm > span {
+    color: #8F8F8F;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.apm > span > span {
+    color: #2B2B2B;
+    font-size: 17px;
+    font-style: normal;
+    margin-left: 10px;
+}
+
+.textField {
+    width: 100%;
+}
+
+.dataItem {
+    margin: 30px 0 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dataItem:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.spaceAround > div:first-child {
+    width: calc(100% - 10px);
+    margin-right: 10px;
+}
+
+.spaceAround > div:last-child {
+    width: calc(100% - 10px);
+    margin-left: 10px;
+}
+
+.spaceAround {
+    justify-content: space-around;
+}
+
+.selectRoot {
+    width: 100% !important;
+}
+
+.formControl {
+    width: 100%;
+}
+
+.flexStart {
+    justify-content: flex-start;
+}
+
+.flexStart > div {
+    margin-right: 20px;
+}
+
+.checkbox {
+    color: #737373;
+    font-size: 16px;
+    font-weight: 600;
+}

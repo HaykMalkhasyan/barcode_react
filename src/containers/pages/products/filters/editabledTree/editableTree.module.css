@@ -30,8 +30,8 @@ ul.tree, ul.tree ul {
 }
 
 ul.tree ul {
-    margin: 5px 0 5px 10px;
-    /*width: 95%;*/
+    margin: 5px 0 5px 28px;
+    width: calc(100% - 28px);
 
 }
 
@@ -39,7 +39,7 @@ ul.tree li {
     width: 100%;
     position: relative;
     margin: 0;
-    padding: 0 8px;
+    padding: 0 10px;
     line-height: 20px;
     background: url(http://odyniec.net/articles/turning-lists-into-trees/node.png) no-repeat;
     color: #666;
@@ -148,7 +148,7 @@ ul.tree li:last-child {
 }
 
 .cntBtns:hover {
-    background: linear-gradient(to top, #f6adad, #F8EBEB, #F8EBEB, #F8EBEB, #f6adad);
+    background: #fff;
 }
 
 .cntBtns:active {

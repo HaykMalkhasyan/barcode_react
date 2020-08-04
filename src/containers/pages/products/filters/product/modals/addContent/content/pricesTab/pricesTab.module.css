@@ -1,0 +1,239 @@
+.pricesTab {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 5px;
+}
+
+.header {
+    width: 100%;
+    height: 1px;
+    background-color: #DBDBDB;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header > h3 {
+    text-transform: uppercase;
+    margin: 0;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #737373;
+    font-weight: 400;
+    text-align: center;
+}
+
+.content {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.information {
+    color: #888888;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.filters {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.filters > div {
+    margin-right: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+}
+
+div.filtersName {
+    width: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 12px;
+    color: #737373;
+    font-weight: 600;
+}
+
+.selectRoot {
+    width: 100% !important;
+}
+
+.formControl {
+    width: 100%;
+}
+
+.priceContent {
+    width: 100%;
+    height: 250px;
+    box-shadow: 0 0 6px rgba(0, 110, 194, 0.09);
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.priceContent > header {
+    height: 30px;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0, 110, 194, 0.09);
+    cursor: default;
+}
+
+.gridContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.mainGrid {
+    width: 196px;
+    height: 30px;
+    line-height: 29px;
+    text-align: center;
+    color: #292929;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0, 110, 194, 0.09);
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.priceContent > section {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+/* width */
+.priceContent > section::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+.priceContent > section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.priceContent > section::-webkit-scrollbar-thumb {
+    background: #FF5019;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+/* Handle on hover */
+.priceContent > section::-webkit-scrollbar-thumb:hover {
+    background: #FF5019;
+}
+
+.secondItem {
+    width: 196px;
+    height: 250px;
+}
+
+.contentItem {
+    width: 100%;
+    height: 250px;
+    box-sizing: border-box;
+}
+
+.priceContent > section .paramList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fbfbfb;
+}
+
+.noBorder {
+    border: none !important;
+    background-color: #fbfbfb;
+}
+
+.priceContent > section .paramList > li {
+    height: calc(220px / 5);
+    width: 100%;
+    text-align: center;
+    line-height: calc(220px / 5);
+    font-size: 12px;
+    font-style: italic;
+    color: #292929;
+    cursor: default;
+}
+
+.priceContent > section .warehouseContent {
+    height: 250px;
+    width: calc(100% - 196px);
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* width */
+.priceContent > section .warehouseContent::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+/* Track */
+.priceContent > section .warehouseContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.priceContent > section .warehouseContent::-webkit-scrollbar-thumb {
+    background: #FF5019;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+/* Handle on hover */
+.priceContent > section .warehouseContent::-webkit-scrollbar-thumb:hover {
+    background: #FF5019;
+}
+
+.warehouseList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 220px;
+ }
+
+.warehouseList > li {
+    width: 196px;
+    height: calc(220px / 5);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.warehouseList > li > span {
+    box-shadow: 0 0 2px rgba(0, 119, 255, 0.28);
+    text-align: center;
+    font-size: 15px;
+    font-style: italic;
+    color: #000000;
+    font-weight: 600;
+    cursor: default;
+    width: 150px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 5px;
+}

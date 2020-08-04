@@ -1,0 +1,131 @@
+.deleteModal {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    z-index: 6;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .35);
+    overflow: hidden;
+    transition: 500ms;
+}
+
+.deleteModalClosed {
+    visibility: hidden;
+    opacity: 0;
+    top: 60%;
+}
+
+.deleteModalOpened {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.deleteModal > header {
+    padding: 0 10px;
+    text-align: left;
+    font-size: 15px;
+    color: #444;
+    font-weight: 600;
+    box-sizing: border-box;
+    height: 30px;
+    line-height: 30px;
+}
+
+.deleteModal > section {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 15px 15px;
+}
+
+.deleteModal > section > p {
+    color: #666;
+    font-weight: 100;
+    font-size: 12px;
+    margin: 0 0 5px;
+}
+
+.deleteModal > section > h5 {
+    color: #F97F42;
+    text-align: center;
+}
+
+.deleteModal > footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding: 0 10px 10px;
+}
+
+.deleteModal > footer > .cancelButton {
+    margin: 0 5px;
+    background-color: transparent;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-size: 12px;
+    border: 1px solid #ff4a4a;
+    border-radius: 5px;
+    font-weight: 600;
+    color: #ff4a4a;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.deleteModal > footer > .cancelButton:hover {
+    background-color: rgba(255, 74, 74, 0.1);
+}
+
+.deleteModal > footer > .cancelButton:focus {
+    box-shadow: 0 0 0 4px rgba(255, 74, 74, 0.3);
+}
+
+.deleteModal > footer > .cancelButton:active {
+    background-color: rgba(255, 74, 74, 0.15);
+}
+
+.deleteModal > footer > .confirmButton {
+    margin: 0 5px;
+    background-color: transparent;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-size: 12px;
+    border: 1px solid #54a94a;
+    border-radius: 5px;
+    font-weight: 600;
+    color: #54a94a;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.deleteModal > footer > .confirmButton:hover {
+    background-color: rgba(84, 169, 74, 0.1);
+}
+
+.deleteModal > footer > .confirmButton:focus {
+    box-shadow: 0 0 0 4px rgba(84, 169, 74, 0.3);
+}
+
+.deleteModal > footer > .confirmButton:active {
+    background-color: rgba(84, 169, 74, 0.15);
+}
+
+.deleteModal > footer > .confirmButton:disabled {
+    color: #999;
+    border-color: #999;
+    background-color: rgba(153, 153, 153, 0.1) !important;
+}
+
+.alertRoot {
+    padding: 0 15px;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 10px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

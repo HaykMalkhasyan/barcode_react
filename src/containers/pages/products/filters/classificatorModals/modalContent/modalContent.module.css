@@ -5,6 +5,17 @@
     box-sizing: border-box;
     overflow-y: auto;
     user-select: none;
+    position: relative;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 5;
 }
 
 /* width */
@@ -35,42 +46,87 @@
 .main > header {
     /*height: 48px;*/
     width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
     display: flex;
-    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     background-color: #FBFBFB;
     position: relative;
 }
 
-.closeBtnWithIcon {
-    outline: none !important;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 37px;
-    height: 37px;
+.main > header > .backButton {
     border: none;
+    padding: 5px;
+    background-color: #F8FAFF;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.main > header > .backButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
+}
+
+.main > header > .backButton:hover {
+    background-color: rgba(116, 143, 255, 0.2);
+    fill: red;
+}
+
+.main > header > .backButton:hover .backButtonIcon {
+    fill: #2c40a7;
+}
+
+.main > header > .backButton:focus {
+    background-color: rgba(116, 143, 255, 0.2);
+}
+
+.backButtonIcon {
+    fill: #666;
+}
+
+.closeButton {
+    border: none;
+    background-color: #F8FAFF;
     border-radius: 50%;
-    background-color: #F5F8FF;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.main > header > .closeButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
+}
+
+.main > header > .closeButton:hover {
+    background-color: rgba(255, 74, 74, 0.2);
+}
+
+.main > header > .closeButton:hover .closeButtonIcon {
+    fill: #ff4a4a;
+    stroke: #ff4a4a;
+}
+
+.main > header > .closeButton:focus {
+    background-color: rgba(255, 74, 74, 0.2);
+}
+
+.closeButtonIcon {
+    fill: #4b4b4b;
+    stroke: #4b4b4b;
     transition: 300ms;
-}
-
-.closeBtnWithIcon:hover {
-    background-color: #dfe2e8;
-}
-
-.closeBtnWithIcon:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .5) inset;
 }
 
 .forOf {
     width: 100%;
     height: auto;
     display: flex;
-    padding: 21px;
+    padding:  0 21px;
     box-sizing: border-box;
     flex-direction: column;
     align-items: flex-start;
@@ -101,7 +157,7 @@
 .groupName {
     width: 100%;
     margin: 9px auto;
-    padding: 12px 0;
+    padding: 7px 0;
     border: 1px solid #DFDEEE;
     box-sizing: border-box;
     background-color: #F4F7FE;
@@ -176,13 +232,59 @@
 .main > section > div.content {
     background-color: #fff;
     overflow: hidden;
-    padding: 3px 10px;
+    padding: 30px 10px 3px;
     box-sizing: border-box;
+}
+
+.treeWindow {
+    width: 98%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 200px;
+    margin-top: 10px;
+    padding-right: 5px;
+}
+
+/* width */
+.treeWindow::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+.treeWindow::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.treeWindow::-webkit-scrollbar-thumb {
+    background: #ccc;
+    background-clip: content-box;
+    border: 2px solid transparent;
+    transition: 300ms;
+}
+
+/* Handle on hover */
+.treeWindow::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+    border-color: #aaa;
 }
 
 .classifierButton {
     cursor: pointer;
-    padding: 0 25px;
+    padding: 5px 25px;
+    transition: 300ms;
+    border: 1px solid transparent;
+}
+
+.classifierButton:hover {
+    background-color: #FF9D52;
+    color: #fff;
+    border-color: #ff7420;
+    box-shadow: 0 0 0 4px rgba(255, 157, 82, 0.51);
+}
+
+.classifierButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
 }
 
 .searchWindow {
@@ -192,10 +294,11 @@
     justify-content: flex-end;
     /*padding: 15px 17px;*/
     box-sizing: border-box;
+    transition: 300ms;
 }
 
 .searchLabel {
-    width:100%;
+    width: 100%;
     height: 40px;
     position: relative;
     border: 1px solid #C8C4EC;
@@ -209,7 +312,6 @@
 .searchLabel:hover {
     box-shadow: 0 0 4px rgba(130, 159, 252, 0.75);
 }
-
 .searchIcon {
     position: absolute;
     top: 50%;
@@ -236,6 +338,21 @@
 
 .searchInput:focus + .searchLabel {
     box-shadow: 0 0 4px rgba(130, 159, 252, 0.75) !important;
+}
+
+.nameWindow {
+    width: 86%;
+    margin: 0 auto 30px;
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.nameWindow .nameInput {
+    width: 100%;
+    color: #f66 !important;
 }
 
 .mainTreeName {

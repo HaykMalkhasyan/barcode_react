@@ -1,0 +1,37 @@
+.removeButton {
+    box-sizing: border-box;
+    color: #FF3E3E;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px 31px;
+    border: 1px solid #FF3E3E;
+    outline: none !important;
+    cursor: pointer;
+    transition: 300ms;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.removeButton:hover {
+    background-color: #FF3E3E;
+    color: #fff;
+}
+.removeButton:focus {
+    box-shadow: 0 0 0 4px rgba(255, 62, 62, 0.5);
+}
+
+.removeButton:hover .removeButtonIcon {
+    fill: #fff;
+}
+
+.removeButtonIcon {
+    fill: #FF3E3E;
+    transition: 300ms;
+}
+
+.removeButtonName {
+    margin-left: 7px;
+    font-size: 12px;
+}

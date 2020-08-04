@@ -4,18 +4,10 @@ import CustomButton from "../../../../../../components/UI/button/customButton/cu
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput"
 import Grid from "@material-ui/core/Grid"
 import SpinnerForContent from "../../../../../../components/UI/spinerForContent/spinnerForContent"
-import EditIcon from '@material-ui/icons/Edit'
+import Icons from "../../../../../../components/Icons/icons";
+import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
 
 const Classifiers = props => {
-    // const [left, setLeft] = useState(0);
-    // const [top, setTop] = useState(0);
-    // const currentRef = useRef(null);
-    // const itemRef = useRef(null);
-    //
-    // const mouseMoveHandler = event => {
-    //     setLeft(event.clientX - currentRef.current.getBoundingClientRect().x);
-    //     setTop(event.clientY - currentRef.current.getBoundingClientRect().y);
-    // };
 
     const addHandler = () => {
 
@@ -25,51 +17,110 @@ const Classifiers = props => {
     };
 
     const editHandler = (event, item) => {
-
         event.stopPropagation();
-        const newGroup = {...props.newGroup};
-        props.getGroup(item.id);
-        newGroup.name = item.name;
-        newGroup.required_group = item.required_group;
-        newGroup.image = item.image;
-        props.setGroupValues('newGroup', newGroup);
-        props.setGroupValues('modalType', 'edit');
-        props.setGroupValues('groupType', 'group');
-        props.setGroupValues('modalGroup', false);
+        props.editModalHandleOpen(item);
     };
 
-    const contentRender = (groups, groupActiveId, handleOpen, classifierCloseHandler) => {
+    const contentRender = (groups, groupActiveId, handleOpen, classifierCloseHandler, touched, searchValue) => {
         const result = [];
 
         if (groups && groups.length > 0) {
 
             for (let [index, item] of Object.entries(props.groups)) {
-                result.push(
-                    <Grid key={item.id} item xs={3}>
-                        <div
-                            className={groupActiveId === item.id ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
-                            // Methods
-                            onClick={
-                                () => {
-                                    classifierCloseHandler();
-                                    handleOpen(item, index, groups[index - 1], groups[index + 1])
-                                }
-                            }
-                        >
-                            <CustomButton
-                                className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                children={
-                                    <EditIcon fontSize='small'/>
-                                }
-                                // Methods
-                                onClick={event => editHandler(event, item)}
-                            />
-                            <p>
-                                {item.name}
-                            </p>
-                        </div>
-                    </Grid>
-                )
+                if (item.id !== 0) {
+                    if (touched) {
+                        if (item.name.toLowerCase().search(searchValue.toLowerCase()) !== -1) {
+                            result.push(
+                                <Grid key={item.id} item xs={3}>
+                                    <div
+                                        className={groupActiveId === item.id ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
+                                        // Methods
+                                        onClick={
+                                            event => {
+                                                event.stopPropagation();
+                                                classifierCloseHandler();
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            }
+                                        }
+                                    >
+                                        <CustomButton
+                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                            children={
+                                                <Icons type={'edit'}/>
+                                            }
+                                            // Methods
+                                            onClick={event => editHandler(event, item)}
+                                        />
+                                        <p>
+                                            {item.name}
+                                        </p>
+                                    </div>
+                                </Grid>
+                            )
+                        }
+                    } else {
+                        if (groupActiveId === item.id) {
+                            result.unshift(
+                                <Grid key={item.id} item xs={3}>
+                                    <div
+                                        className={`${classes.classifiersItem} ${classes.selected}`}
+                                        // Methods
+                                        onClick={
+                                            event => {
+                                                event.stopPropagation();
+                                                classifierCloseHandler();
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            }
+                                        }
+                                    >
+                                        <CustomButton
+                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                            children={
+                                                <Icons type={'edit'}/>
+                                            }
+                                            // Methods
+                                            onClick={event => editHandler(event, item)}
+                                        />
+                                        <p>
+                                            {item.name}
+                                        </p>
+                                    </div>
+                                </Grid>
+                            )
+                        } else {
+                            result.push(
+                                <Grid key={item.id} item xs={3}>
+                                    <div
+                                        className={classes.classifiersItem}
+                                        // Methods
+                                        onClick={
+                                            event => {
+                                                event.stopPropagation();
+                                                classifierCloseHandler();
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            }
+                                        }
+                                    >
+                                        <CustomButton
+                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                            children={
+                                                <Icons type={'edit'}/>
+                                            }
+                                            // Methods
+                                            onClick={event => editHandler(event, item)}
+                                        />
+                                        <p>
+                                            {item.name}
+                                        </p>
+                                    </div>
+                                </Grid>
+                            )
+                        }
+                    }
+                }
             }
             return result
         } else {
@@ -77,24 +128,23 @@ const Classifiers = props => {
         }
     };
 
+    const classifierSearchFocusHandler = () => {
+        if (props.classifiersSearch.length > 0) {
+            props.setGroupValues('touched', true)
+        } else {
+            props.setGroupValues('touched', true)
+        }
+    };
+
+    const classifierSearchHandler = event => {
+        props.setGroupValues(event.target.name, event.target.value)
+    };
+
     return (
         <div className={classes.classifiers}>
             <header>
-                <CustomButton
-                    className={classes.closeButton}
-                    children={
-                        <svg width={9.196} height={9.169} viewBox="0 0 9.196 9.169">
-                            <path
-                                className={classes.closeButtonIcon}
-                                d="M21.719,13.2l-3.661,3.672a.164.164,0,0,1-.237,0L14.149,13.2a.164.164,0,0,0-.237,0h0a.164.164,0,0,0,0,.237l3.672,3.672a.164.164,0,0,1,0,.237L13.9,21.019a.164.164,0,0,0,0,.237h0a.164.164,0,0,0,.237,0l3.672-3.672a.164.164,0,0,1,.237,0l3.672,3.683a.164.164,0,0,0,.237,0h0a.164.164,0,0,0,0-.237L18.3,17.359a.164.164,0,0,1,0-.237l3.672-3.672a.164.164,0,0,0,0-.237h0A.168.168,0,0,0,21.719,13.2Z"
-                                transform="translate(-13.323 -12.65)"
-                            />
-                        </svg>
-                    }
-                    // Methods
-                    onClick={props.classifierCloseHandler}
-                />
                 <span>Դասակարգիչների ցանկ</span>
+                <CloseButton onClick={props.classifierCloseHandler}/>
             </header>
             <div className={classes.description}>
                 Սեղմելով ցանկի որևէ դասակարգչի վրա կարող եք տեսնել տվյալ դասակարգչի ենթախմբերը և կարող եք ավելացնել նոր դասակարգիչ։
@@ -105,14 +155,7 @@ const Classifiers = props => {
                         className={classes.newClassifierButton}
                         children={
                             <>
-                                <svg width={13.362} height={13.362} viewBox="0 0 13.362 13.362">
-                                    <g transform="translate(6.691 0.727) rotate(45)">
-                                        <path
-                                            className={classes.newClassifierButtonIcon}
-                                            d="M8.088.052,4.326,3.826a.168.168,0,0,1-.244,0L.308.052a.168.168,0,0,0-.244,0h0A.168.168,0,0,0,.064.3L3.838,4.07a.168.168,0,0,1,0,.244L.052,8.088a.168.168,0,0,0,0,.244h0a.168.168,0,0,0,.244,0L4.07,4.558a.168.168,0,0,1,.244,0L8.088,8.344a.168.168,0,0,0,.244,0h0a.168.168,0,0,0,0-.244L4.57,4.326a.168.168,0,0,1,0-.244L8.344.308a.168.168,0,0,0,0-.244h0A.173.173,0,0,0,8.088.052Z"
-                                        />
-                                    </g>
-                                </svg>
+                                <Icons type={'add'} className={classes.newClassifierButtonIcon}/>
                                 <span className={classes.newClassifierButtonName}>Նոր դասակարգիչ</span>
                             </>
                         }
@@ -123,22 +166,18 @@ const Classifiers = props => {
                         id={'classifier-search'}
                         inputType={'inner'}
                         type={'search'}
+                        name={'classifiersSearch'}
                         label={
                             <span className={classes.searchIcon}>
-                                <svg width={19} height={22} viewBox="0 0 19.939 23.047">
-                                    <g transform="translate(0.101 0.1)">
-                                      <g transform="translate(0 0)">
-                                        <path
-                                            className={classes.searchIconSvg}
-                                            d="M17.238,22.294l-3.673-4.87a1.39,1.39,0,0,1-.1-1.519l-.892-1.182a8.084,8.084,0,1,1,.874-.687l.905,1.2a1.388,1.388,0,0,1,1.432.516l3.673,4.87a1.389,1.389,0,0,1-2.219,1.673ZM1.111,8.056A6.944,6.944,0,1,0,8.055,1.112,6.952,6.952,0,0,0,1.111,8.056Z"
-                                        />
-                                      </g>
-                                    </g>
-                                  </svg>
+                                <Icons type={'search'} className={classes.searchIconSvg}/>
                             </span>
                         }
                         classNameLabel={classes.searchClassifiersLabel}
                         classNameInput={classes.searchClassifiersInput}
+                        value={props.classifiersSearch}
+                        // Methods
+                        onFocus={classifierSearchFocusHandler}
+                        onChange={classifierSearchHandler}
                     />
                 </header>
                 <section /*ref={currentRef} onMouseMove={props.groups && props.groups.length > 0 ? mouseMoveHandler : null}*/>
@@ -150,7 +189,7 @@ const Classifiers = props => {
                                 null
                         }*/}
                         <Grid container spacing={1}>
-                            {contentRender(props.groups, props.groupActiveId, props.handleOpen, props.classifierCloseHandler)}
+                            {contentRender(props.groups, props.groupActiveId, props.handleOpen, props.classifierCloseHandler, props.touched, props.classifiersSearch)}
                         </Grid>
                     </div>
                 </section>

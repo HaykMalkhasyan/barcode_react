@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -34,7 +33,7 @@ export default function DialogUI(props) {
                 {props.label}
             </DialogTitle>
             <div
-                style={{boxSizing: 'border-box', width: '100%',padding: 5, overflow: 'hidden'}}
+                style={{boxSizing: 'border-box', width: '100%',padding: 0, overflow: 'hidden'}}
                 // dividers={props.scroll === 'paper'}
             >
                 <div
@@ -46,12 +45,7 @@ export default function DialogUI(props) {
                 </div>
             </div>
             <DialogActions>
-                <Button onClick={props.handleClose} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={props.handleClose} color="primary">
-                    Subscribe
-                </Button>
+                {props.footer}
             </DialogActions>
         </Dialog>
     );

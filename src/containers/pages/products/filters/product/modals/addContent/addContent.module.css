@@ -1,0 +1,40 @@
+.root {
+    background-color: #fff !important;
+    box-shadow: 0 3px 7px rgba(0, 110, 194, 0.18);
+}
+
+.selected {
+    color: #FF5019 !important;
+}
+
+.indicator {
+    background-color: #FF5019 !important;
+}
+
+.tabPanelRoot {
+    height: 485px !important;
+    overflow-y: auto !important;
+}
+
+/* width */
+.tabPanelRoot::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+.tabPanelRoot::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.tabPanelRoot::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    box-sizing: border-box;
+}
+
+/* Handle on hover */
+.tabPanelRoot::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}

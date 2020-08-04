@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import classes from './gallery.module.css'
-import AsNavFor from "../../../../../../../components/asNavFor/asNavFor"
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen'
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton"
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
-import Tooltip from "@material-ui/core/Tooltip";
-import CustomInput from "../../../../../../../components/UI/input/customInput/customInput";
+import Tooltip from "@material-ui/core/Tooltip"
+import CustomInput from "../../../../../../../../components/UI/input/customInput/customInput";
+import AsNavFor from "../../../../../../../../components/asNavFor/asNavFor";
+import CustomButton from "../../../../../../../../components/UI/button/customButton/customButton";
 
 const Gallery = props => {
     const [gallery] = useState(
@@ -43,7 +43,7 @@ const Gallery = props => {
                 image: 'data:image/jpeg;base64,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'
             },
         ]
-    )
+    );
 
     return (
         <div className={classes.galleryWindow}>
@@ -57,7 +57,9 @@ const Gallery = props => {
                 multiple={true}
             />
             <AsNavFor
+                className={classes.asNavForClass}
                 main={classes.main}
+                second={classes.second}
                 mainImg={classes.mainImage}
                 subImg={classes.subImage}
                 data={gallery}
@@ -66,6 +68,8 @@ const Gallery = props => {
                 swipeToSlide={true}
                 subArrows={false}
                 subDots={false}
+                vertical={true}
+                verticalSwiping={true}
                 prevClassName={`${classes.prevClassName} ${classes.arrowsBtn}`}
                 nextIcon={<ChevronRightIcon fontSize='large'/>}
                 prevIcon={<ChevronLeftIcon fontSize='large'/>}
@@ -123,6 +127,6 @@ const Gallery = props => {
             />
         </div>
     )
-}
+};
 
 export default Gallery

@@ -18,6 +18,6 @@ const FullPageLayoutRoute = props => {
             }
         />
     )
-}
+};
 
 export default FullPageLayoutRoute
