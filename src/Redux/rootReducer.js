@@ -12,5 +12,5 @@ export default combineReducers({
     registration: registrationReducer,
     page: pageReducer,
     characteristics: characteristicsReducer,
-    products: productsReducer
+    products: productsReducer,
 })

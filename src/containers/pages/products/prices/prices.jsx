@@ -8,6 +8,6 @@ const Prices = props => {
             <span>Prices</span>
         </div>
     )
-}
+};
 
 export default Prices

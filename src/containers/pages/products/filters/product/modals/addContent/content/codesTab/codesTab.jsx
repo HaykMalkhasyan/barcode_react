@@ -2,7 +2,9 @@ import React from 'react'
 import classes from './codesTab.module.css'
 import CustomButton from "../../../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../../../components/Icons/icons";
-import SectionWindow from "./sectionWindow/sectionWindow";
+import SectionWindow from "../../../../../../../../../components/sectionWindow/sectionWindow";
+import CodeGeneration from "./codeGeneration/codeGeneration";
+import CodeData from "./codeData/codeData";
 
 const CodesTab = props => {
 
@@ -19,6 +21,9 @@ const CodesTab = props => {
                     <div className={classes.codActions}>
                         <SectionWindow
                             label={'Կոդի ավելացում/փոփոխում'}
+                            children={
+                                <CodeGeneration/>
+                            }
                         />
                     </div>
                     <div className={classes.transformActions}>
@@ -36,6 +41,9 @@ const CodesTab = props => {
                     <div className={classes.attachment}>
                         <SectionWindow
                             label={'Ապրանքին կցված կոդերի ցանկ'}
+                            children={
+                                <CodeData/>
+                            }
                         />
                     </div>
                 </div>

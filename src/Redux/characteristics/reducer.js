@@ -13,12 +13,8 @@ const initialState = {
     subgroup: null,
     customSubgroup: null,
     subgroups: [],
-    collapsed: [],
-    toggleButtons: null,
     errors: null,
-    movingStatus: false,
     changeStatus: true,
-    selectId: null,
     groupType: null,
     modalType: false,
     newGroup: {
@@ -35,7 +31,17 @@ const initialState = {
     modalGroup: false,
     groupActiveId: null,
     delete: false,
-    collapsedModalStatus: []
+    collapsedModalStatus: [],
+    collapsed: [],
+
+
+    controllerId: null,
+    moveElement: null,
+    collapsedGroup: [],
+
+    classifierSubgroup: null,
+    classifiersCollapsed: [],
+    classifiersCollapsedGroup: [],
 };
 
 export default function characteristicsReducer(state = initialState, action) {

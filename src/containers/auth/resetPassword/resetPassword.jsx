@@ -1,21 +1,22 @@
-import React, {Component} from "react";
+import React, {Component} from "react"
 import cls from './resetPassword.module.css'
-import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import {NavLink, withRouter} from "react-router-dom";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import {connect} from "react-redux";
-import classes from "../recoverPassword/recoverPassword.module.css";
-import Alert from "@material-ui/lab/Alert";
+import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined"
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined"
+import {NavLink, withRouter} from "react-router-dom"
+import LinearProgress from "@material-ui/core/LinearProgress"
+import {connect} from "react-redux"
+import classes from "../recoverPassword/recoverPassword.module.css"
+import Alert from "@material-ui/lab/Alert"
 import {
     createNewPass,
     progressAction,
     sendMailError,
     sendMailSuccess,
     userInformation
-} from "../../../Redux/recoverPassword/action";
-import CustomInput from "../../../components/UI/input/customInput/customInput";
-import CustomButton from "../../../components/UI/button/customButton/customButton";
+} from "../../../Redux/recoverPassword/action"
+import CustomInput from "../../../components/UI/input/customInput/customInput"
+import CustomButton from "../../../components/UI/button/customButton/customButton"
+import Icons from "../../../components/Icons/icons";
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -28,13 +29,13 @@ class ResetPassword extends Component {
             };
             let objValue = this.props.location.search.slice(1, this.props.location.search.length).split('&').map(
                 item => item.split('=')[1]
-            )
+            );
 
             Object.keys(obj).forEach(
                 (item, index) => {
                     obj[item] = objValue[index]
                 }
-            )
+            );
 
             if (typeof obj['user_id'] !== "undefined" && typeof obj['timestamp'] !== "undefined" && typeof obj['signature'] !== "undefined") {
                 this.props.userInformation(obj)
@@ -70,7 +71,7 @@ class ResetPassword extends Component {
             timestamp: this.props.timestamp,
             user_id: this.props.user_id,
             password: this.state.password,
-        }
+        };
         const isEmpty = {};
         for (let item in object) {
             if (object[item].length === 0) {
@@ -86,11 +87,11 @@ class ResetPassword extends Component {
         }
         this.setState({
             isEmpty
-        })
+        });
         if (this.state.password === this.state.password_confirm && Object.keys(isEmpty).length === 0) {
             this.props.createNewPass(object)
         }
-    }
+    };
 
     handleChange = event => {
         this.setState({
@@ -115,7 +116,7 @@ class ResetPassword extends Component {
         this.setState({
             selected: name
         })
-    }
+    };
 
     showPasswordHandler = place => {
 
@@ -124,20 +125,20 @@ class ResetPassword extends Component {
             case 'password': {
                 this.setState({
                     showPass: true
-                })
+                });
                 break;
             }
             case 'password_confirm': {
                 this.setState({
                     showConfPass: true
-                })
+                });
                 break;
 
             }
             default:
                 break;
         }
-    }
+    };
 
     hidePasswordHandler = place => {
 
@@ -146,32 +147,32 @@ class ResetPassword extends Component {
             case 'password': {
                 this.setState({
                     showPass: false
-                })
+                });
                 break;
             }
             case 'password_confirm': {
                 this.setState({
                     showConfPass: false
-                })
+                });
                 break;
 
             }
             default:
                 break;
         }
-    }
+    };
 
     changePage = () => {
         window.exitPage = setTimeout(
             () => this.props.history.push('/'),
             1000
         )
-    }
+    };
 
     componentWillUnmount() {
-        clearTimeout(window.exitPage)
-        this.props.progressAction(false)
-        this.props.sendMailSuccess(null)
+        clearTimeout(window.exitPage);
+        this.props.progressAction(false);
+        this.props.sendMailSuccess(null);
         this.props.sendMailError(null)
     }
 
@@ -217,26 +218,7 @@ class ResetPassword extends Component {
                                             }
                                             label={
                                                 <span className={cls.forIcon}>
-                                                    <svg width={22} height={19} viewBox="0 0 11.664 11.665">
-                                                        <g transform="translate(-2.072 -95.593)">
-                                                            <path
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}
-                                                                d="M108,95.959l-1.588-.259-4.82,4.822a3.452,3.452,0,1,0,1.847,1.847l1.128-1.127.288-1.13,1.193-.306.3-1.193,1.13-.288.778-.778Zm-5.6,9.894a3.037,3.037,0,1,1-.924-4.929l.066.03a3,3,0,0,1,.736.489l.05.045.07.069a0,0,0,0,1,0,0l.033.033.034.036.025.028.062.07s0,0,0,0l.021.025c.029.033.055.068.083.1a2.992,2.992,0,0,1,.339.555A3.043,3.043,0,0,1,102.4,105.853Zm4.863-7.9-1.256.321-.3,1.193-1.193.3-.321,1.256-.948.948q-.031-.054-.066-.107c-.012-.021-.026-.04-.039-.061s-.012-.019-.019-.029l-.029-.041a3.5,3.5,0,0,0-.4-.474,3.445,3.445,0,0,0-.715-.55h0l4.571-4.572,1.086.178.178,1.086Z"
-                                                                transform="translate(-94.628)"
-                                                            />
-                                                            <path
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}
-                                                                d="M208.655,674.463a.984.984,0,1,0,0,1.391A.984.984,0,0,0,208.655,674.463Zm-.282,1.109a.584.584,0,1,1,0-.827A.586.586,0,0,1,208.372,675.572Z"
-                                                                transform="translate(-203.285 -570.505)"
-                                                            />
-                                                            <rect
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}
-                                                                width={1.502}
-                                                                height={0.413}
-                                                                transform="translate(7.025 103.37) rotate(-135)"
-                                                            />
-                                                        </g>
-                                                    </svg>
+                                                    <Icons type={'ley'} className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}/>
                                                 </span>
                                             }
                                             // for input
@@ -305,26 +287,7 @@ class ResetPassword extends Component {
                                             }
                                             label={
                                                 <span className={cls.forIcon}>
-                                                    <svg width={22} height={19} viewBox="0 0 11.664 11.665">
-                                                        <g transform="translate(-2.072 -95.593)">
-                                                            <path
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}
-                                                                d="M108,95.959l-1.588-.259-4.82,4.822a3.452,3.452,0,1,0,1.847,1.847l1.128-1.127.288-1.13,1.193-.306.3-1.193,1.13-.288.778-.778Zm-5.6,9.894a3.037,3.037,0,1,1-.924-4.929l.066.03a3,3,0,0,1,.736.489l.05.045.07.069a0,0,0,0,1,0,0l.033.033.034.036.025.028.062.07s0,0,0,0l.021.025c.029.033.055.068.083.1a2.992,2.992,0,0,1,.339.555A3.043,3.043,0,0,1,102.4,105.853Zm4.863-7.9-1.256.321-.3,1.193-1.193.3-.321,1.256-.948.948q-.031-.054-.066-.107c-.012-.021-.026-.04-.039-.061s-.012-.019-.019-.029l-.029-.041a3.5,3.5,0,0,0-.4-.474,3.445,3.445,0,0,0-.715-.55h0l4.571-4.572,1.086.178.178,1.086Z"
-                                                                transform="translate(-94.628)"
-                                                            />
-                                                            <path
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}
-                                                                d="M208.655,674.463a.984.984,0,1,0,0,1.391A.984.984,0,0,0,208.655,674.463Zm-.282,1.109a.584.584,0,1,1,0-.827A.586.586,0,0,1,208.372,675.572Z"
-                                                                transform="translate(-203.285 -570.505)"
-                                                            />
-                                                            <rect
-                                                                className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.password_confirm : '' : ''}`}
-                                                                width={1.502}
-                                                                height={0.413}
-                                                                transform="translate(7.025 103.37) rotate(-135)"
-                                                            />
-                                                        </g>
-                                                    </svg>
+                                                    <Icons type={'key'} className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}/>
                                                 </span>
                                             }
                                             // for input
@@ -349,8 +312,9 @@ class ResetPassword extends Component {
                                                     style={{
                                                         cursor: 'pointer'
                                                     }}
-                                                    onClick={this.showPasswordHandler.bind(this, 'password_confirm')}
+                                                    onMouseDown={this.showPasswordHandler.bind(this, 'password_confirm')}
                                                     onMouseUp={this.hidePasswordHandler.bind(this, 'password_confirm')}
+                                                    onTouchStart={this.showPasswordHandler.bind(this, 'password_confirm')}
                                                     onMouseLeave={this.hidePasswordHandler.bind(this, 'password_confirm')}
                                                 >
                                             {

@@ -9,16 +9,21 @@ import CloseIcon from '@material-ui/icons/Close'
 import {connect} from "react-redux";
 import {
     addGroup,
-    addSubgroup, deleteSubgroup, editGroup,
+    addSubgroup,
+    deleteSubgroup,
+    editGroup, editGroupSubGroup,
     editSubgroup,
     getAllGroup,
-    getAllSubgroup,
-    getGroup, getOnlySubgroupWithGroupId,
+    getGroup,
+    getOnlySubgroupWithGroupId,
     getSubgroup,
     getSubgroupWithGroupId,
     searchHandler,
     setGroupValues,
-    subGroupCollapses, subGroupModalCollapses,
+    subCollapsed,
+    subCollapsedGroup,
+    subGroupCollapses,
+    subGroupModalCollapses,
     uploadImage
 } from "../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../components/modalUI/modalUI";
@@ -31,7 +36,6 @@ class Filters extends Component {
     constructor(props) {
         super(props);
         this.props.getAllGroup();
-        this.props.getAllSubgroup();
         this.state = {
             open: false
         }
@@ -53,13 +57,19 @@ class Filters extends Component {
     };
 
     handleClose = () => {
+        this.props.setGroupValues('moveElement', null);
+        this.props.setGroupValues('controllerId', null);
         this.props.setProductValues('classifiersModal', false);
         this.props.setGroupValues('group', null);
         this.props.setGroupValues('customSubgroup', null);
         this.props.setGroupValues('collapsed', []);
-        this.props.setGroupValues('toggleButtons', null);
         this.props.setGroupValues('movingStatus', false);
-        this.props.setGroupValues('subgroup', null)
+        this.props.setGroupValues('subgroup', null);
+        this.props.setGroupValues('newGroup', {
+            name: '',
+            required_group: false,
+            group_type: '1'
+        });
     };
 
     closeHandler = (type = 'close') => {
@@ -83,6 +93,8 @@ class Filters extends Component {
     };
 
     classifierOpenHandler = id => {
+        this.props.setGroupValues('moveElement', null);
+        this.props.setGroupValues('controllerId', null);
         this.props.getAllGroup();
         this.props.setGroupValues('newGroup', {
             name: '',
@@ -141,27 +153,22 @@ class Filters extends Component {
                         groups={this.props.groups}
                         subgroup={this.props.subgroup}
                         customSubgroup={this.props.customSubgroup}
-                        collapsedStatus={this.props.collapsedStatus}
-                        toggleButtons={this.props.toggleButtons}
-                        movingStatus={this.props.movingStatus}
+                        collapsed={this.props.collapsed}
+                        controllerId={this.props.controllerId}
+                        moveElement={this.props.moveElement}
+                        collapsedGroup={this.props.collapsedGroup}
+                        newGroup={this.props.newGroup}
+                        delete={this.props.delete}
+                        newSubgroup={this.props.newSubgroup}
                         search={this.props.search}
                         searchResult={this.props.searchResult}
-                        prevGroup={this.props.prevGroup}
-                        nextGroup={this.props.nextGroup}
-                        indexKey={this.props.indexKey}
-                        changeStatus={this.props.changeStatus}
-                        selectId={this.props.selectId}
-                        modalType={this.props.modalType}
-                        groupType={this.props.groupType}
-                        newSubgroup={this.props.newSubgroup}
-                        delete={this.props.delete}
-                        newGroup={this.props.newGroup}
                         // Methods
+                        subCollapsed={this.props.subCollapsed}
+                        subCollapsedGroup={this.props.subCollapsedGroup}
+                        setGroupValues={this.props.setGroupValues}
                         handleClose={this.handleClose}
                         handleOpen={this.handleOpen}
                         classifierOpenHandler={this.classifierOpenHandler}
-                        subGroupCollapses={this.props.subGroupCollapses}
-                        setGroupValues={this.props.setGroupValues}
                         getSubgroup={this.props.getSubgroup}
                         getGroup={this.props.getGroup}
                         editSubgroup={this.props.editSubgroup}
@@ -169,6 +176,7 @@ class Filters extends Component {
                         setProductValues={this.props.setProductValues}
                         deleteSubgroup={this.props.deleteSubgroup}
                         editGroup={this.props.editGroup}
+                        editGroupSubGroup={this.props.editGroupSubGroup}
                     />
                 </ModalUI>
                 <ModalUI
@@ -232,9 +240,9 @@ function mapStateToProps(state) {
         group: state.characteristics.group,
         groups: state.characteristics.groups,
         customSubgroup: state.characteristics.customSubgroup,
-        collapsedStatus: state.characteristics.collapsed,
-        toggleButtons: state.characteristics.toggleButtons,
-        movingStatus: state.characteristics.movingStatus,
+        collapsed: state.characteristics.collapsed,
+        moveElement: state.characteristics.moveElement,
+        collapsedGroup: state.characteristics.collapsedGroup,
         subgroup: state.characteristics.subgroup,
         search: state.characteristics.search,
         searchResult: state.characteristics.searchResult,
@@ -242,7 +250,7 @@ function mapStateToProps(state) {
         nextGroup: state.characteristics.nextGroup,
         indexKey: state.characteristics.indexKey,
         changeStatus: state.characteristics.changeStatus,
-        selectId: state.characteristics.selectId,
+        controllerId: state.characteristics.controllerId,
         modalType: state.characteristics.modalType,
         newGroup: state.characteristics.newGroup,
         groupType: state.characteristics.groupType,
@@ -264,9 +272,8 @@ function mapDispatchToProps(dispatch) {
         addGroup: data => dispatch(addGroup(data)),
         editGroup: data => dispatch(editGroup(data)),
         addSubgroup: data => dispatch(addSubgroup(data)),
-        getOnlySubgroupWithGroupId: id => dispatch(getOnlySubgroupWithGroupId(id)),
-        getAllSubgroup: () => dispatch(getAllSubgroup()),
-        getGroup: id => dispatch(getGroup(id)),
+        getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
+        getGroup: (id, place) => dispatch(getGroup(id, place)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
@@ -277,6 +284,9 @@ function mapDispatchToProps(dispatch) {
         uploadImage: (type, file, data, modalType) => dispatch(uploadImage(type, file, data, modalType)),
         subGroupModalCollapses: id => dispatch(subGroupModalCollapses(id)),
         deleteSubgroup: id => dispatch(deleteSubgroup(id)),
+        subCollapsed: id => dispatch(subCollapsed(id)),
+        subCollapsedGroup: id => dispatch(subCollapsedGroup(id)),
+        editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
     }
 }
 

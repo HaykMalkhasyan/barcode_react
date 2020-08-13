@@ -81,7 +81,7 @@ export function uploadImage(type, file, data, modalType) {
 
 // Groups actions
 
-export function getGroup(id) {
+export function getGroup(id, place = null) {
 
     return async dispatch => {
         if (localStorage.getItem('access')) {
@@ -93,7 +93,11 @@ export function getGroup(id) {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-                dispatch(setGroupValues('group', response.data))
+                if (place && place === 'customGroup') {
+                    dispatch(setGroupValues('customGroup', response.data))
+                } else {
+                    dispatch(setGroupValues('group', response.data))
+                }
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = localStorage.getItem('refresh');
@@ -171,7 +175,7 @@ export function addGroup(data) {
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
                         dispatch(addGroup(data))
                     }
-                } else if (error.response.status === 400) {
+                } else if (error.response && error.response.status === 400) {
                     dispatch(setGroupValues('error', true))
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -304,7 +308,14 @@ export function getSubgroupWithGroupId(id) {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-                dispatch(setGroupValues('customSubgroup', response.data.results));
+
+                let customSubgroup = response.data.results.sort(
+                    (a, b) => {
+                        return parseInt(a.sort) - parseInt(b.sort);
+                    }
+                );
+
+                dispatch(setGroupValues('customSubgroup', customSubgroup));
                 dispatch(setGroupValues('changeStatus', true))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -324,7 +335,7 @@ export function getSubgroupWithGroupId(id) {
     }
 }
 
-export function getOnlySubgroupWithGroupId(id) {
+export function getOnlySubgroupWithGroupId(id, place = null) {
 
     return async dispatch => {
         if (localStorage.getItem('access')) {
@@ -336,7 +347,16 @@ export function getOnlySubgroupWithGroupId(id) {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-                dispatch(setGroupValues('customSubgroup', response.data.results));
+                if (place !== null) {
+                    dispatch(setGroupValues([place], response.data.results));
+                } else {
+                    let customSubgroup = response.data.results.sort(
+                        (a, b) => {
+                            return parseInt(a.sort) - parseInt(b.sort);
+                        }
+                    );
+                    dispatch(setGroupValues('customSubgroup', customSubgroup));
+                }
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = localStorage.getItem('refresh');
@@ -345,7 +365,7 @@ export function getOnlySubgroupWithGroupId(id) {
                     if ((await new_token_data) === null) {
                         dispatch(setGroupValues('errors', error.message))
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
-                        dispatch(getOnlySubgroupWithGroupId(id))
+                        dispatch(getOnlySubgroupWithGroupId(id, place))
                     }
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -412,7 +432,7 @@ export function addSubgroup(data) {
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
                         dispatch(addSubgroup(data))
                     }
-                } else if (error.response.status === 400) {
+                } else if (error.response && error.response.status === 400) {
                     dispatch(setGroupValues('error', true))
                 } else {
                     dispatch(setGroupValues('allError', true))
@@ -445,12 +465,56 @@ export function editSubgroup(data) {
                     } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
                         dispatch(editSubgroup(data))
                     }
-                } else if (error.response.status === 400) {
+                } else if (error.response && error.response.status === 400) {
                     dispatch(setGroupValues('error', true))
                 } else {
                     dispatch(setGroupValues('allError', true))
                 }
             }
+        }
+    }
+}
+
+export function editGroupSubGroup(data) {
+
+    return async dispatch => {
+        if (localStorage.getItem('access')) {
+            let subs = data.map(
+                item => {
+                    return Axios.put(`${API_URL}/subgroup/${item.id}`, item, {
+                        headers: {
+                            "lang": "am",
+                            "Content-Type": "application/json",
+                            "Authorization": `JWT ${localStorage.getItem('access')}`
+                        }
+                    });
+                }
+            );
+
+            Promise.all(subs).then(
+                value => {
+                    value.forEach(
+                        item => dispatch(addEditedData(item.data))
+                    )
+                }
+            ).catch(
+                async error => {
+                    if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                        const refresh_token = localStorage.getItem('refresh');
+                        const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+
+                        if ((await new_token_data) === null) {
+                            dispatch(setGroupValues('errors', error.message))
+                        } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                            dispatch(editSubgroup(data))
+                        }
+                    } else if (error.response && error.response.status === 400) {
+                        dispatch(setGroupValues('error', true))
+                    } else {
+                        dispatch(setGroupValues('allError', true))
+                    }
+                }
+            )
         }
     }
 }
@@ -535,15 +599,19 @@ export function subGroupModalCollapses(id) {
 export function addEditedData(data) {
 
     return (dispatch, getState) => {
-        const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
+        let customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
         for (let [key, value] of Object.entries(customSubgroup)) {
             if (value.id === data.id) {
                 customSubgroup[key] = data;
                 break
             }
         }
+        customSubgroup = customSubgroup.sort(
+            (a, b) => {
+                return parseInt(a.sort) - parseInt(b.sort);
+            }
+        );
         dispatch(setGroupValues('customSubgroup', customSubgroup));
-        dispatch(getAllSubgroup())
     }
 }
 
@@ -565,6 +633,7 @@ export function searchSubgroup() {
         if (search.length > 0) {
             for (let item of customSubgroup) {
                 if (item.name.toLowerCase().search(search.toLowerCase()) !== -1) {
+                    console.log(item);
                     searchResult.push(item.id);
                     searchResult = searchUp(item, customSubgroup, searchResult)
                 }
@@ -576,6 +645,54 @@ export function searchSubgroup() {
 
     }
 }
+
+export function subCollapsed(id, place = null) {
+
+    return (dispatch, getState) => {
+        let collapsed = null;
+        if (place !== null) {
+            collapsed = [...getState().characteristics[place]];
+        } else {
+            collapsed = [...getState().characteristics.collapsed];
+        }
+
+        let index = collapsed.indexOf(id);
+        if (index === -1) {
+            collapsed.push(id);
+        } else {
+            collapsed.splice(index, 1)
+        }
+        if (place !== null) {
+            dispatch(setGroupValues([place], collapsed))
+        } else {
+            dispatch(setGroupValues('collapsed', collapsed))
+        }
+    }
+}
+
+export function subCollapsedGroup(id, place = null) {
+
+    return (dispatch, getState) => {
+        let collapsedGroup = null;
+        if (place !== null) {
+            collapsedGroup = [...getState().characteristics[place]];
+        } else {
+            collapsedGroup = [...getState().characteristics.collapsedGroup];
+        }
+        let index = collapsedGroup.indexOf(id);
+        if (index === -1) {
+            collapsedGroup.push(id);
+        } else {
+            collapsedGroup.splice(index, 1)
+        }
+        if (place !== null) {
+            dispatch(setGroupValues([place], collapsedGroup))
+        } else {
+            dispatch(setGroupValues('collapsedGroup', collapsedGroup))
+        }
+    }
+}
+
 
 
 // ----------------------------------------------------------------------------------------

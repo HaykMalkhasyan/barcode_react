@@ -5,6 +5,7 @@ import CustomButton from "../../../../../components/UI/button/customButton/custo
 import ProductModal from "../product/modals/productModal";
 import {connect} from "react-redux";
 import {setProductValues} from "../../../../../Redux/products/actions";
+import Icons from "../../../../../components/Icons/icons";
 
 const SearchWindow = props => {
 
@@ -21,16 +22,7 @@ const SearchWindow = props => {
                      alt='search-logotype'/>
                 <div className={classes.searchBorder}>
                     <div className={classes.searchSpanIcon}>
-                        <svg width={12} height={12} viewBox="0 0 12.668 12.399">
-                            <defs>
-                                <style>{".searchIcon{fill:#3a3a3a;stroke:#3a3a3a;stroke-width:0.5px;}"}</style>
-                            </defs>
-                            <path
-                                className="searchIcon"
-                                d="M13.65,12.832,10.414,9.668a4.814,4.814,0,0,0-.269-6.637,5.087,5.087,0,0,0-7.081,0,4.819,4.819,0,0,0,0,6.923,5.088,5.088,0,0,0,6.788.263l3.236,3.164a.4.4,0,0,0,.562,0A.383.383,0,0,0,13.65,12.832ZM6.6,10.611A4.233,4.233,0,0,1,3.627,9.4a4.054,4.054,0,0,1,0-5.824,4.279,4.279,0,0,1,5.956,0,4.054,4.054,0,0,1,0,5.824A4.234,4.234,0,0,1,6.6,10.611Z"
-                                transform="translate(-1.348 -1.347)"
-                            />
-                        </svg>
+                        <Icons type={'search'}/>
                     </div>
                     <CustomInput
                         classNameInput={classes.searchInput}

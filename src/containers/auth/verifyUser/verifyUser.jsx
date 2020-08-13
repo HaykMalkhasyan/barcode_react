@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React, {Component} from "react"
 import cls from './verifyUser.module.css'
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
-import {connect} from "react-redux";
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import ErrorIcon from '@material-ui/icons/Error';
-import {fetchVerifyUser} from "../../../Redux/registration/action";
-import {withRouter} from "react-router-dom";
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver'
+import {connect} from "react-redux"
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
+import ErrorIcon from '@material-ui/icons/Error'
+import {fetchVerifyUser} from "../../../Redux/registration/action"
+import {withRouter} from "react-router-dom"
 
 class VerifyUser extends Component {
     constructor(props) {
@@ -18,13 +18,13 @@ class VerifyUser extends Component {
             };
             let objValue = this.props.location.search.slice(1, this.props.location.search.length).split('&').map(
                 item => item.split('=')[1]
-            )
+            );
 
             Object.keys(obj).forEach(
                 (item, index) => {
                     obj[item] = objValue[index]
                 }
-            )
+            );
             this.props.fetchVerifyUser(obj)
         } else {
             this.props.history.push('/')
@@ -35,14 +35,14 @@ class VerifyUser extends Component {
         if (success === 'User verified successfully') {
             window.sTime = setTimeout(
                 () => this.props.history.push('/'), 1000
-            )
+            );
             return <VerifiedUserIcon className={cls.iconVerified} fontSize='large'/>
         }
         if (error) {
             return <><ErrorIcon className={cls.iconError} fontSize='default'/> Ստուգումը չհաջողվեց</>
         }
         return <RecordVoiceOverIcon className={cls.iconAnimated} fontSize='large'/>
-    }
+    };
 
     componentWillUnmount() {
         clearTimeout(window.sTime)

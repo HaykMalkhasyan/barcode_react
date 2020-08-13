@@ -1,0 +1,132 @@
+.counterInput {
+    width: 165px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*overflow: hidden;*/
+}
+
+.label {
+    margin-bottom: 10px;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8F8F8F;
+}
+
+.input {
+    width: 95px;
+    height: 34px;
+    padding: 5px;
+    text-align: center;
+    box-sizing: border-box;
+    border-width: 1px 0 1px 0 !important;
+}
+
+.plusButton {
+    width: 35px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 7px 7px 0;
+    transition: 300ms;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.plusButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset !important;
+}
+
+.plusButton:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    transition: 300ms;
+    background-color: rgba(0, 0, 0, .1);
+    z-index: -1;
+}
+
+.plusButton:hover:after {
+    width: 100%;
+}
+
+.minusButton {
+    width: 35px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px 0 0 7px;
+    transition: 300ms;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.minusButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset !important;
+}
+
+.minusButton:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    transition: 300ms;
+    background-color: rgba(0, 0, 0, .1);
+    z-index: -1;
+}
+
+.minusButton:hover:after {
+    width: 100%;
+}
+
+.primary .input {border: solid #0077FF;}
+.primary .plusButton {border: 1px solid #0077FF;background-color: #0077FF;}
+.primary .plusButton:focus {box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.4);}
+.primary .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.primary .minusButton {border: 1px solid #0077FF;background-color: #fff;}
+.primary .minusButton:focus {box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.4);}
+.primary .minusButton .minusIcon {fill: #07f;stroke: #07f;}
+
+.secondary .input {border: solid #DC004E;}
+.secondary .plusButton {border: 1px solid #DC004E;background-color: #DC004E;}
+.secondary .plusButton:focus {box-shadow: 0 0 0 3px rgba(220, 0, 78, 0.4);}
+.secondary .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.secondary .minusButton {border: 1px solid #DC004E;background-color: #fff;}
+.secondary .minusButton:focus {box-shadow: 0 0 0 3px rgba(220, 0, 78, 0.4);}
+.secondary .minusButton .minusIcon {fill: #DC004E;stroke: #DC004E;}
+
+.info .input {border: solid #4397dc;}
+.info .plusButton {border: 1px solid #4397dc;background-color: #4397dc;}
+.info .plusButton:focus {box-shadow: 0 0 0 3px rgba(67, 151, 220, 0.4);}
+.info .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.info .minusButton {border: 1px solid #4397dc;background-color: #fff;}
+.info .minusButton:focus {box-shadow: 0 0 0 3px rgba(67, 151, 220, 0.4);}
+.info .minusButton .minusIcon {fill: #4397dc;stroke: #4397dc;}
+
+.dark .input {border: solid #403c40;}
+.dark .plusButton {border: 1px solid #403c40;background-color: #403c40;}
+.dark .plusButton:focus {box-shadow: 0 0 0 3px rgba(64, 60, 64, 0.4);}
+.dark .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.dark .minusButton {border: 1px solid #403c40;background-color: #fff;}
+.dark .minusButton:focus {box-shadow: 0 0 0 3px rgba(64, 60, 64, 0.4);}
+.dark .minusButton .minusIcon {fill: #403c40;stroke: #403c40;}
+
+.light .input {border: solid #eeeeeb;}
+.light .plusButton {border: 1px solid #eeeeeb;background-color: #eeeeeb;}
+.light .plusButton:focus {box-shadow: 0 0 0 3px #eeeeeb;}
+.light .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.light .minusButton {border: 1px solid #eeeeeb;background-color: #fff;}
+.light .minusButton:focus {box-shadow: 0 0 0 3px #eeeeeb;}
+.light .minusButton .minusIcon {fill: #eeeeeb;stroke: #eeeeeb;}

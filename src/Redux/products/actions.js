@@ -14,6 +14,24 @@ export function subGroupCollapses(id) {
     }
 }
 
+export function advanceSearchHandler(item) {
+
+    return (dispatch, getState) => {
+        const advancedSearchConfig = {...getState().products.advancedSearchConfig};
+        const classifiers = [...advancedSearchConfig.classifiers];
+
+        if (classifiers.indexOf(item) !== -1) {
+            classifiers.splice(classifiers.indexOf(item), 1);
+        } else {
+            classifiers.push(item);
+        }
+        advancedSearchConfig.classifiers = classifiers;
+
+        dispatch(setProductValues('advancedSearchConfig', advancedSearchConfig))
+    }
+}
+
+// stugel ,, erevi petq e jnjel kam poxel
 export function toggleCheckBoxValue(name, check, value = false, classifier) {
 
     return (dispatch, getState) => {

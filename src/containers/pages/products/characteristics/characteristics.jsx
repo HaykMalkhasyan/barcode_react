@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classes from './characteristics.module.css'
 
-const Characteristics = props => {
+class Characteristics extends Component {
 
-    return (
-        <div className={classes.classifiers}>
-            Classifiers
-        </div>
-    )
+    render() {
+        return (
+            <div className={classes.classifiers}>
+                <span>Characteristics</span>
+            </div>
+        )
+    }
 }
 
 export default Characteristics

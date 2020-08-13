@@ -433,20 +433,21 @@
 .searchInput {
     height: 46px;
     width: 100%;
-    border-radius: 25px;
-    border: 1px solid #1492E6;
+    border-radius: 5px;
+    border: 1px solid #C8C4EC;
     background-color: #FCFCFC;
     box-sizing: border-box;
     padding: 10px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 500;
-    color: #666;
-    text-indent: 25px;
+    color: #483A3A;
+    text-indent: 35px;
     outline: none !important;
+    transition: 300ms;
 }
 
 .searchInput:hover {
-    box-shadow: 0 0 4px rgba(20, 146, 230, 0.61);
+    box-shadow: 0 0 4px rgba(130, 159, 252, 0.76);
 }
 
 .searchInput:focus {

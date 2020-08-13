@@ -39,6 +39,7 @@ const Classifiers = props => {
                                             event => {
                                                 event.stopPropagation();
                                                 classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                 props.setGroupValues('active', +index);
                                                 props.setGroupValues('open', `collapse-${item.id}`);
                                             }
@@ -70,6 +71,7 @@ const Classifiers = props => {
                                             event => {
                                                 event.stopPropagation();
                                                 classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                 props.setGroupValues('active', +index);
                                                 props.setGroupValues('open', `collapse-${item.id}`);
                                             }
@@ -99,6 +101,7 @@ const Classifiers = props => {
                                             event => {
                                                 event.stopPropagation();
                                                 classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                 props.setGroupValues('active', +index);
                                                 props.setGroupValues('open', `collapse-${item.id}`);
                                             }

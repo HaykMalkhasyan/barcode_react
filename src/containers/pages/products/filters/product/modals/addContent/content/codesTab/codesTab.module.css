@@ -46,7 +46,7 @@
 }
 
 .gridContainer > .codActions {
-    width: 45%;
+    width: 40%;
 }
 
 .gridContainer > .transformActions {
@@ -54,7 +54,7 @@
 }
 
 .gridContainer > .attachment {
-    width: 45%;
+    width: 50%;
 }
 
 .gridContainer > .transformActions > .transformActionsWindow {

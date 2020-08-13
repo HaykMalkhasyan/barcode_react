@@ -1,7 +1,9 @@
 import {SET_PRODUCT_VALUES} from "./actionTypes";
 
 const initialState = {
-    advancedSearchConfig: {},
+    advancedSearchConfig: {
+        classifiers: []
+    },
     collapsedStatus: [],
     open: false,
     scroll: 'paper',
