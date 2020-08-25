@@ -4,6 +4,8 @@ const CustomButton = props => {
 
     return (
         <button
+            aria-describedby={props.ariaDescribedby}
+            tabIndex={props.tabIndex}
             id={props.id}
             type={props.type}
             name={props.name}

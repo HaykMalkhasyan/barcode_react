@@ -1,10 +1,32 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AddContent from "./addContent/addContent";
 import DialogUI from "../../../../../../components/dialogUI/dialogUI";
 import ModalHeader from "./modalHeader/modalHeader";
 import ModalFooter from "./modalFooter/modalFooter";
+import {connect} from "react-redux";
+import {setProduct, setProductValues} from "../../../../../../Redux/products/actions";
 
 const ProductModal = props => {
+    const [gallery, setGallery] = useState([]);
+
+    const addPhotoHandler = event => {
+        setGallery([...event.target.files]);
+        const pictures = [];
+        [...event.target.files].forEach(
+            file => {
+                pictures.push({name: file.name})
+            }
+        );
+        props.setProductValues('pictures', {pictures: pictures})
+    };
+
+    const confirmHandler = type => {
+        props.setProduct(gallery, type);
+        if (type !== 'save') {
+            setGallery([])
+        }
+    };
+
     switch (props.type) {
         case 'add':
             return (
@@ -13,7 +35,13 @@ const ProductModal = props => {
                         <ModalHeader
                             label={'Ավելացնել ապրանք'}
                             // Methods
-                            closeHandler={props.handleClose}
+                            confirmHandler={confirmHandler}
+                            closeHandler={
+                                () => {
+                                    setGallery([]);
+                                    props.handleClose()
+                                }
+                            }
                         />
                     }
                     maxWidth={false}
@@ -23,13 +51,18 @@ const ProductModal = props => {
                     children={
                         <AddContent
                             modalTabs={props.modalTabs}
+                            gallery={gallery}
+                            // Methods
+                            addPhotoHandler={addPhotoHandler}
                         />
                     }
                     // Methods
                     handleClose={props.handleClose}
                     footer={
                         <ModalFooter
-                            handleClose={props.handleClose}
+                            type={props.type}
+                            // Methods
+                            confirmHandler={confirmHandler}
                         />
                     }
                 />
@@ -41,7 +74,12 @@ const ProductModal = props => {
                         <ModalHeader
                             label={'Փոփոխել ապրանքը'}
                             // Methods
-                            closeHandler={props.handleClose}
+                            closeHandler={
+                                () => {
+                                    setGallery([]);
+                                    props.handleClose()
+                                }
+                            }
                         />
                     }
                     maxWidth={'lg'}
@@ -60,4 +98,19 @@ const ProductModal = props => {
     }
 };
 
-export default ProductModal
+function mapStateToProps(state) {
+
+    return {
+        errorFields: state.products.errorFields,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+
+    return {
+        setProductValues: (name, value) => dispatch(setProductValues(name, value)),
+        setProduct: (gallery, type) => dispatch(setProduct(gallery, type)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductModal)

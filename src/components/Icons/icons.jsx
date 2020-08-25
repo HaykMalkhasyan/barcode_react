@@ -512,6 +512,256 @@ const Icons = props => {
                     </g>
                 </svg>
             );
+        case 'send':
+            return (
+                <svg width={props.width || 17.681} height={props.height || 15.82} viewBox="0 0 17.681 15.82">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".send{fill:#1a2a38;opacity:0.48;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0)">
+                        <g transform="translate(0 0)">
+                            <g transform="translate(0 0)">
+                                <path
+                                    className={props.className || "send"}
+                                    d="M15.743,7.841.914,1.261,2.187,6.35,8.636,7.359a.492.492,0,0,1,0,.965L2.187,9.377.914,14.422ZM.388-.011,17.1,7.4a.473.473,0,0,1,0,.877L.432,15.694a.482.482,0,0,1-.7-.526L1.353,8.807A.476.476,0,0,1,1.7,8.456l3.817-.614-3.773-.57a.519.519,0,0,1-.395-.395L-.27.559A.486.486,0,0,1,.388-.011Z"
+                                    transform="translate(0.282 0.058)"
+                                />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'print':
+            return (
+                <svg width={props.width || 18.728} height={props.height || 16.876} viewBox="0 0 18.728 16.876">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>
+                                    {".print{fill:#1a2a38;stroke:#1a2a38;stroke-width:0.2px;opacity:0.48;}"}
+                                </style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0.099 0.1)">
+                        <g transform="translate(0.001 0)">
+                            <path
+                                className={props.className || "print"}
+                                d="M22.264,14.759h-.683v-2.5a.2.2,0,0,0,0-.151v-.424c0-.637-1.144-1.988-1.375-2.251-.424-.484-1.462-1.6-2.062-1.6H10.972A1.557,1.557,0,0,0,9.387,9.35v5.408H9a2.667,2.667,0,0,0-2.661,2.6v4.6a.212.212,0,0,0,.212.212H9.387v.743A1.57,1.57,0,0,0,10.972,24.5H20a1.57,1.57,0,0,0,1.585-1.587v-.743h3.074a.212.212,0,0,0,.212-.212v-4.6A2.606,2.606,0,0,0,22.264,14.759Zm-1.108,8.158A1.137,1.137,0,0,1,20,24.08H10.972a1.137,1.137,0,0,1-1.161-1.163v-.743H21.157Zm0-11.233v.289H18.413V8.349c.855.49,2.743,2.71,2.743,3.335ZM9.811,9.35a1.135,1.135,0,0,1,1.161-1.1h7.017v3.936a.212.212,0,0,0,.212.212h2.956v2.362H9.811Zm14.64,12.4H6.764V17.36A2.238,2.238,0,0,1,9,15.183H22.264a2.181,2.181,0,0,1,2.179,2.177Z"
+                                transform="translate(-6.34 -7.829)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'paper-list':
+            return (
+                <svg width={props.width || 12.129} height={props.height || 16.676} viewBox="0 0 12.129 16.676">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".paper-list{fill:#1a2a38;opacity:0.48;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0.001)">
+                        <g transform="translate(-0.001)">
+                            <path
+                                className={props.className || "paper-list"}
+                                d="M29.233,22.426H20.9a1.9,1.9,0,0,1-1.9-1.9V7.646a1.9,1.9,0,0,1,1.9-1.9h8.337a1.9,1.9,0,0,1,1.9,1.9V20.53A1.9,1.9,0,0,1,29.233,22.426ZM20.9,6.511a1.136,1.136,0,0,0-1.135,1.135V20.53A1.137,1.137,0,0,0,20.9,21.666h8.337a1.137,1.137,0,0,0,1.135-1.135V7.646a1.136,1.136,0,0,0-1.135-1.135Zm7.579,12.505H21.654v-.761h6.821Zm0-2.274H21.654v-.761h6.821Zm0-2.274H21.654v-.761h6.821Zm0-2.273H21.654v-.761h6.821Z"
+                                transform="translate(-19 -5.75)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'export':
+            return (
+                <svg width={props.width || 23.155} height={props.height || 12.187} viewBox="0 0 23.155 12.187">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".export{fill:#8d969f;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0)">
+                        <g transform="translate(0)">
+                            <path
+                                className={props.className || "export"}
+                                d="M45.83,42.2l2.625-2.625L45.83,37l-.656.656,1.453,1.453H30.315a5.039,5.039,0,0,0,0,10.077h15v-.937h-15a4.078,4.078,0,0,1,0-8.156H46.627l-1.453,1.453Z"
+                                transform="translate(-25.3 -37)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'triangle-up':
+            return (
+                <svg width={props.width || 4.799} height={props.height || 2.751} viewBox="0 0 4.799 2.751">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".triangle-up{fill:#5d5d5d;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <path
+                        className={props.className || "triangle-up"}
+                        d="M2.286,4.723.084,2.6a.275.275,0,0,1,0-.4L2.286.076a.275.275,0,0,1,.465.2V4.525a.275.275,0,0,1-.465.2Z"
+                        transform="translate(4.799) rotate(90)"
+                    />
+                </svg>
+            );
+        case 'triangle-down':
+            return (
+                <svg width={props.width || 4.799} height={props.height || 2.751} viewBox="0 0 4.799 2.751">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".triangle-down{fill:#5d5d5d;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <path
+                        className={props.className || "triangle-down"}
+                        d="M2.286,4.723.084,2.6a.275.275,0,0,1,0-.4L2.286.076a.275.275,0,0,1,.465.2V4.525a.275.275,0,0,1-.465.2Z"
+                        transform="translate(0 2.751) rotate(-90)"
+                    />
+                </svg>
+            );
+        case 'code':
+            return (
+                <svg width={props.width || 20} height={props.height || 13} viewBox="0 0 15.158 13.087">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".code{fill:none;stroke:#757575;stroke-width:0.5px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0.33 0.253)">
+                        <g transform="translate(0 0)">
+                            <path
+                                className="code"
+                                d="M57.221,58.578a1.069,1.069,0,0,1-.755-1.825l1.581-1.584-1.581-1.584a1.069,1.069,0,1,1,1.512-1.512l2.339,2.34a1.069,1.069,0,0,1,0,1.512l-2.339,2.34A1.064,1.064,0,0,1,57.221,58.578Z"
+                                transform="translate(-46.053 -48.547)"
+                            />
+                            <path
+                                className={props.className || "code"}
+                                d="M38.3,58.584a1.072,1.072,0,0,1-.757-.313l-2.339-2.344a1.07,1.07,0,0,1,0-1.51l2.339-2.337a1.069,1.069,0,0,1,1.512,1.512l-1.584,1.581,1.584,1.587a1.069,1.069,0,0,1-.757,1.825Z"
+                                transform="translate(-34.895 -48.551)"
+                            />
+                            <path
+                                className="code"
+                                d="M46.191,57.583a1.067,1.067,0,0,1-1.035-1.337L47.878,45.8a1.069,1.069,0,1,1,2.068.539L47.224,56.782A1.07,1.07,0,0,1,46.191,57.583Z"
+                                transform="translate(-40.262 -44.999)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'barcode':
+            return (
+                <svg width={props.width || 20} height={props.height ||13} viewBox="0 0 19.005 13.084">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".barcode{fill:none;stroke:#757575;stroke-width:0.5px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0.25 0.25)">
+                        <g transform="translate(0 0)">
+                            <path
+                                className={props.className || "barcode"}
+                                d="M21.3,17.7a.607.607,0,0,0-.6.6V29.68a.6.6,0,0,0,1.208,0V18.3A.607.607,0,0,0,21.3,17.7Z"
+                                transform="translate(-17.155 -17.7)"
+                            />
+                            <path
+                                className={props.className || "barcode"}
+                                d="M36.754,17.7h-1.87a.586.586,0,0,0-.584.584V29.7a.586.586,0,0,0,.584.584h1.87a.586.586,0,0,0,.584-.584V18.284A.574.574,0,0,0,36.754,17.7Z"
+                                transform="translate(-28.106 -17.7)"
+                            />
+                            <path
+                                className={props.className || "barcode"}
+                                d="M57.9,17.7a.607.607,0,0,0-.6.6V29.68a.6.6,0,0,0,1.208,0V18.3A.6.6,0,0,0,57.9,17.7Z"
+                                transform="translate(-46.625 -17.7)"
+                            />
+                            <path
+                                className={props.className || "barcode"}
+                                d="M71.6,17.7a.607.607,0,0,0-.6.6V29.68a.6.6,0,0,0,1.208,0V18.3A.607.607,0,0,0,71.6,17.7Z"
+                                transform="translate(-57.657 -17.7)"
+                            />
+                            <path
+                                className={props.className || "barcode"}
+                                d="M86.528,17.7H85.184a.586.586,0,0,0-.584.584V29.7a.586.586,0,0,0,.584.584h1.344a.586.586,0,0,0,.584-.584V18.284A.574.574,0,0,0,86.528,17.7Z"
+                                transform="translate(-68.608 -17.7)"
+                            />
+                            <path
+                                className={props.className || "barcode"}
+                                d="M4.019,17.7H3.084a.586.586,0,0,0-.584.584V29.7a.586.586,0,0,0,.584.584h.935A.586.586,0,0,0,4.6,29.7V18.284A.586.586,0,0,0,4.019,17.7Z"
+                                transform="translate(-2.5 -17.7)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'text':
+            return (
+                <svg width={props.width || 20} height={props.height || 13} viewBox="0 0 20.634 13.084">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".text{fill:none;stroke:#000;stroke-width:0.5px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0.25 0.25)">
+                        <g transform="translate(0 0)">
+                            <path
+                                className={props.className || "text"}
+                                d="M14.067,9H5.258A1.259,1.259,0,0,0,4,10.258v1.888a1.258,1.258,0,1,0,2.517,0v-.629H8.4v7.55H7.775a1.258,1.258,0,0,0,0,2.517H11.55a1.258,1.258,0,0,0,0-2.517h-.629v-7.55h1.888v.629a1.258,1.258,0,1,0,2.517,0V10.258A1.259,1.259,0,0,0,14.067,9Z"
+                                transform="translate(-4 -9)"
+                            />
+                        </g>
+                        <g transform="translate(13.842 0)">
+                            <path
+                                className={props.className || "text"}
+                                d="M20.033,11.517H16.258a1.258,1.258,0,0,1,0-2.517h3.775a1.258,1.258,0,0,1,0,2.517Z"
+                                transform="translate(-15 -9)"
+                            />
+                        </g>
+                        <g transform="translate(13.842 5.033)">
+                            <path
+                                className={props.className || "text"}
+                                d="M20.033,15.517H16.258a1.258,1.258,0,0,1,0-2.517h3.775a1.258,1.258,0,0,1,0,2.517Z"
+                                transform="translate(-15 -13)"
+                            />
+                        </g>
+                        <g transform="translate(13.842 10.067)">
+                            <path
+                                className={props.className || "text"}
+                                d="M20.033,19.517H16.258a1.258,1.258,0,0,1,0-2.517h3.775a1.258,1.258,0,0,1,0,2.517Z"
+                                transform="translate(-15 -17)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
         default:
             return null
     }

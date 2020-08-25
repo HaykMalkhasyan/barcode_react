@@ -5,6 +5,7 @@ import registrationReducer from "./registration/reducer";
 import pageReducer from "./pages/reducer";
 import characteristicsReducer from "./characteristics/reducer";
 import productsReducer from "./products/reducer";
+import filtersReducer from "./filtersContainer/reducer";
 
 export default combineReducers({
     auth: authReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
     page: pageReducer,
     characteristics: characteristicsReducer,
     products: productsReducer,
+    filters: filtersReducer
 })

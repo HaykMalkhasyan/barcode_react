@@ -8,6 +8,7 @@ import CustomButton from "../UI/button/customButton/customButton";
 
 const Tree = props => {
     const [active, setActive] = useState(null);
+    const [openGroup, setOpenGroup] = useState(true);
 
     const toggle = (event, id, status) => {
         event.stopPropagation();
@@ -416,7 +417,8 @@ const Tree = props => {
                             // className={classes.tree}
                             style={{
                                 listStyle: 'none',
-                                marginLeft: 10
+                                marginLeft: 10,
+                                padding: 0
                             }}
                         >
                             <li className={classes.allName}>
@@ -452,7 +454,7 @@ const Tree = props => {
                                                 <span className={classes.chevron}>
                                                     <ChevronRightIcon
                                                         style={
-                                                            props.collapsedGroup.includes(props.group.id) ?
+                                                            openGroup ?
                                                                 {
                                                                     verticalAlign: 'middle',
                                                                     transaction: '300ms',
@@ -466,7 +468,7 @@ const Tree = props => {
                                                                     fontSize: 20
                                                                 }
                                                         }
-                                                        onClick={event => toggle(event, props.group.id, true)}
+                                                        onClick={() => setOpenGroup(!openGroup)}
                                                     />
                                                 </span>
                                                 :
@@ -486,7 +488,7 @@ const Tree = props => {
                                 <Collapse
                                     timeout={300}
                                     unmountOnExit
-                                    in={props.collapsedGroup.includes(props.group.id)}
+                                    in={openGroup}
                                 >
                                     <ul
                                         className={classes.tree}

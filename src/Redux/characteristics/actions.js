@@ -1,6 +1,7 @@
 import Axios from "axios";
 import {SET_GROUP_VALUE} from "./actionTypes";
 import {getToken, searchUp} from "../../services/services";
+import is from 'is_js'
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -118,7 +119,7 @@ export function getGroup(id, place = null) {
 
 export function getAllGroup() {
 
-    return async (dispatch, getState) => {
+    return async dispatch => {
         if (localStorage.getItem('access')) {
             const groups = [];
             groups.push({id: 0, name: 'Հիմնական դասակարգիչ', group_type: '1', required_group: true});
@@ -308,14 +309,7 @@ export function getSubgroupWithGroupId(id) {
                         "Authorization": `JWT ${localStorage.getItem('access')}`
                     }
                 });
-
-                let customSubgroup = response.data.results.sort(
-                    (a, b) => {
-                        return parseInt(a.sort) - parseInt(b.sort);
-                    }
-                );
-
-                dispatch(setGroupValues('customSubgroup', customSubgroup));
+                dispatch(setGroupValues('customSubgroup', response.data.results));
                 dispatch(setGroupValues('changeStatus', true))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -350,12 +344,7 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
                 if (place !== null) {
                     dispatch(setGroupValues([place], response.data.results));
                 } else {
-                    let customSubgroup = response.data.results.sort(
-                        (a, b) => {
-                            return parseInt(a.sort) - parseInt(b.sort);
-                        }
-                    );
-                    dispatch(setGroupValues('customSubgroup', customSubgroup));
+                    dispatch(setGroupValues('customSubgroup', response.data.results));
                 }
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -542,7 +531,6 @@ export function deleteSubgroup(id) {
                     }
                     for (let [key, value] of Object.entries(customSubgroup)) {
                         if (value.id === id) {
-                            console.log(key, value);
                             customSubgroup.splice(key, 1);
                         }
                     }
@@ -631,14 +619,17 @@ export function searchSubgroup() {
         let searchResult = [];
 
         if (search.length > 0) {
-            for (let item of customSubgroup) {
-                if (item.name.toLowerCase().search(search.toLowerCase()) !== -1) {
-                    console.log(item);
-                    searchResult.push(item.id);
-                    searchResult = searchUp(item, customSubgroup, searchResult)
+            if (is.alphaNumeric(search)) {
+                for (let item of customSubgroup) {
+                    if (item.name.toLowerCase().search(search.toLowerCase()) !== -1) {
+                        searchResult.push(item.id);
+                        searchResult = searchUp(item, customSubgroup, searchResult);
+                    }
                 }
+                dispatch(setGroupValues('searchResult', searchResult))
+            } else {
+                dispatch(setGroupValues('searchResult', []))
             }
-            dispatch(setGroupValues('searchResult', searchResult))
         } else {
             dispatch(setGroupValues('searchResult', []))
         }

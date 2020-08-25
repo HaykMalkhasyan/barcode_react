@@ -11,16 +11,16 @@ import Submenu from "./submenu/submenu";
 import {withRouter} from "react-router-dom";
 
 const Header = props => {
-    const [scroll, setScroll] = useState(0)
-    const [sticky, setSticky] = useState(false)
-    const [hideText, setHideText] = useState(false)
-    const [menu, setMenu] = useState(false)
-    const [minimaze, setMinimaze] = useState(false)
-    const [user] = useState(JSON.parse(localStorage.getItem('user')))
-    const [confWindow, setConfWindow] = useState(true)
+    const [scroll, setScroll] = useState(0);
+    const [sticky, setSticky] = useState(false);
+    const [hideText, setHideText] = useState(false);
+    const [menu, setMenu] = useState(false);
+    const [minimaze, setMinimaze] = useState(false);
+    const [user] = useState(JSON.parse(localStorage.getItem('user')));
+    const [confWindow, setConfWindow] = useState(true);
 
     const windowScrolling = () => {
-        setScroll(window.pageYOffset)
+        setScroll(window.pageYOffset);
         if (window.innerWidth > 768) {
             if (window.pageYOffset > 0) {
                 setSticky(true)
@@ -42,37 +42,37 @@ const Header = props => {
         }
 
         if (scroll > window.pageYOffset) {
-            setMinimaze(false)
-            setSticky(false)
+            setMinimaze(false);
+            setSticky(false);
             setHideText(false)
         }
 
-    }
+    };
 
     useEffect(
         () => {
-                window.addEventListener('scroll', windowScrolling)
+                window.addEventListener('scroll', windowScrolling);
 
             return () => {
                 window.removeEventListener('scroll', windowScrolling)
             }
         }
-    )
+    );
 
     const toggleMenu = () => {
         setMenu(!menu)
-    }
+    };
 
     const toggleConfigurationWindow = () => {
         setConfWindow(
             !confWindow
         )
-    }
+    };
 
     const showThisSubMenuHandler = menu => {
         setMenu(false);
         props.setActiveMenu(menu)
-    }
+    };
 
     return (
         <div className={hideText ? `${classes.hideAppBar} ${classes.appBar}` : classes.appBar}>
@@ -118,7 +118,7 @@ const Header = props => {
             />
         </div>
     )
-}
+};
 
 function mapStateToProps(state) {
 

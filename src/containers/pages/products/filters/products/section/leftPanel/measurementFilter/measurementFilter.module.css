@@ -1,0 +1,38 @@
+.measurementFilter {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.checkboxes {
+    color: #000 !important;
+}
+
+.filterWindow {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+
+.filterWindow p {
+    margin: 0;
+}
+
+.categoryName {
+    color: #F28705;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.colorSecondary {
+    color: forestgreen !important;
+}
+
+.colorSecondary:hover {
+    background-color: rgba(34, 139, 34, 0.04) !important;
+}
+
+.labelStyle {
+    font-size: 14px;
+    color: #5D5D5D;
+    user-select: none;
+}

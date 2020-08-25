@@ -1,0 +1,17 @@
+.list {
+    width: 100%;
+}
+
+.listSubheaderRoot {
+    background-color: #fff;
+    line-height: 40px !important;
+}
+
+.empty {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #b6b6b6;
+}

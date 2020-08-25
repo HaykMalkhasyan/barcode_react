@@ -1,0 +1,55 @@
+.pricesWindow {
+    box-shadow: 0 0 6px rgba(52, 100, 212, 0.16);
+    border-radius: 5px;
+    overflow: hidden;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+
+.rangeInput, .rangeLabel {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    padding: 0 5px;
+    display: block;
+    height: 35px;
+    border: none;
+}
+
+.levelWindow {
+    width: 20px;
+    height: 35px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #e2e2e2;
+}
+
+.levelButton {
+    width: 100%;
+    height: calc(35px / 2);
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.levelButton:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.levelButton:first-child {
+    border-radius: 0 5px 0 0;
+    border-bottom: .5px solid #e2e2e2;
+}
+
+.levelButton:last-child {
+    border-radius: 0 0 5px 0;
+}

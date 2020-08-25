@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import CustomButton from "../UI/button/customButton/customButton";
+import Icons from "../Icons/icons";
 
 function SampleNextArrow(props) {
     const {onClick} = props;
     return (
         <CustomButton
+            tabIndex={-1}
             onClick={onClick}
             className={props.nextClassName}
         >
@@ -13,16 +15,7 @@ function SampleNextArrow(props) {
                 props.nextIcon !== undefined ?
                     props.nextIcon
                     :
-                    <svg width={5} height={9} viewBox="0 0 5.182 9.675">
-                        <g transform="translate(0 9.675) rotate(-90)">
-                            <g transform="translate(0 0)">
-                                <path
-                                    className={props.nextSlideIcon}
-                                    d="M4.907,5.178a.516.516,0,0,0,.285-.14L9.492.91A.516.516,0,1,0,8.782.163L4.837,3.952.893.163A.516.516,0,1,0,.183.91l4.3,4.128A.516.516,0,0,0,4.907,5.178Z"
-                                />
-                            </g>
-                        </g>
-                    </svg>
+                    <Icons type={'right-angle'} className={props.nextSlideIcon}/>
             }
         </CustomButton>
     );
@@ -32,6 +25,7 @@ function SamplePrevArrow(props) {
     const {onClick} = props;
     return (
         <CustomButton
+            tabIndex={-1}
             onClick={onClick}
             className={props.prevClassName}
         >
@@ -39,14 +33,7 @@ function SamplePrevArrow(props) {
                 props.prevIcon !== undefined ?
                     props.prevIcon
                     :
-                    <svg width={5} height={9} viewBox="0 0 5.182 9.675">
-                        <g transform="translate(5.182) rotate(90)">
-                            <path
-                                className={props.prevSlideIcon}
-                                d="M4.907,5.178a.516.516,0,0,0,.285-.14L9.492.91A.516.516,0,1,0,8.782.163L4.837,3.952.893.163A.516.516,0,1,0,.183.91l4.3,4.128A.516.516,0,0,0,4.907,5.178Z"
-                            />
-                        </g>
-                    </svg>
+                    <Icons type={'left-angle'} className={props.prevSlideIcon}/>
             }
         </CustomButton>
     );
@@ -73,6 +60,8 @@ export default class AsNavFor extends Component {
             <div className={this.props.className}>
                 <div>
                     <Slider
+                        tabIndex={-1}
+                        accessibility={false}
                         className={this.props.main}
                         asNavFor={this.state.nav2}
                         ref={slider => (this.slider1 = slider)}
@@ -84,6 +73,8 @@ export default class AsNavFor extends Component {
                 </div>
                 <div>
                     <Slider
+                        tabIndex={-1}
+                        accessibility={false}
                         className={this.props.second}
                         arrows={this.props.subArrows}
                         dots={this.props.subDots}

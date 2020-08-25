@@ -34,12 +34,9 @@ export function searchUp(item, subgroup, searchArray) {
     let searchArrayCopy = [...searchArray];
 
     for (let subItem of subgroup) {
-        if (!searchArrayCopy.includes(subItem.id)) {
-            if (parseInt(subItem.id) === parseInt(item['parent_id'])) {
-                searchArrayCopy.push(subItem.id);
-                searchUp(subItem, subgroup, searchArrayCopy);
-                return searchArrayCopy;
-            }
+        if (parseInt(subItem.id) === parseInt(item['parent_id']) && searchArrayCopy.indexOf(subItem.id) === -1) {
+            searchArrayCopy.push(subItem.id);
+            return searchUp(subItem, subgroup, searchArrayCopy);
         }
     }
 

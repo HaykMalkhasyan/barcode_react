@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import classes from './filters.module.css'
 import {Grid} from "@material-ui/core"
-import ClassifiersTree from "./classifiersTree/classifiersTree"
-import SearchWindow from "./searchWindow/searchWindow"
-import CustomButton from "../../../../components/UI/button/customButton/customButton"
+import ClassifiersTree from "../classifiersTree/classifiersTree"
+import SearchWindow from "../searchWindow/searchWindow"
+import CustomButton from "../../../../../components/UI/button/customButton/customButton"
 import LaunchIcon from '@material-ui/icons/Launch'
 import CloseIcon from '@material-ui/icons/Close'
 import {connect} from "react-redux";
@@ -25,12 +25,12 @@ import {
     subGroupCollapses,
     subGroupModalCollapses,
     uploadImage
-} from "../../../../Redux/characteristics/actions";
-import ModalUI from "../../../../components/modalUI/modalUI";
-import {setProductValues} from "../../../../Redux/products/actions";
-import ModalContent from "./classificatorModals/modalContent/modalContent";
-import ClassifiersActionModals from "./classificatorModals/addClassifiers/classifiersActionModals";
-import Classifiers from "./classificatorModals/classifiers/classifiers";
+} from "../../../../../Redux/characteristics/actions";
+import ModalUI from "../../../../../components/modalUI/modalUI";
+import {setProductValues} from "../../../../../Redux/products/actions";
+import ModalContent from "../classificatorModals/modalContent/modalContent";
+import ClassifiersActionModals from "../classificatorModals/addClassifiers/classifiersActionModals";
+import Classifiers from "../classificatorModals/classifiers/classifiers";
 
 class Filters extends Component {
     constructor(props) {
@@ -50,7 +50,7 @@ class Filters extends Component {
     handleOpen = item => {
         this.props.setGroupValues('newGroup', {id: item.id, name: item.name, required_group: item.required_group});
         this.props.setGroupValues('changeStatus', false);
-        this.props.setGroupValues('modalGroup', false);
+        this.props.setGroupValues('modalGroup', null);
         this.props.getGroup(item.id);
         this.props.getSubgroupWithGroupId(item.id);
         this.props.setProductValues('classifiersModal', true)
@@ -80,7 +80,7 @@ class Filters extends Component {
 
         if (type === 'back') {
             if (this.props.groupType === 'group') {
-                this.props.setGroupValues('modalGroup', true)
+                this.props.setGroupValues('modalGroup', "edit")
             } else {
                 this.props.setProductValues('classifiersModal', true)
             }
@@ -103,11 +103,11 @@ class Filters extends Component {
         });
         this.props.setProductValues('classifiersModal', false);
         this.props.setGroupValues('groupActiveId', id);
-        this.props.setGroupValues('modalGroup', true);
+        this.props.setGroupValues('modalGroup', "edit");
     };
 
     classifierCloseHandler = () => {
-        this.props.setGroupValues('modalGroup', false);
+        this.props.setGroupValues('modalGroup', null);
         this.props.setGroupValues('groupActiveId', null);
         this.props.setGroupValues('classifiersSearch', '');
         this.props.setGroupValues('touched', false);
@@ -208,12 +208,13 @@ class Filters extends Component {
                     />
                 </ModalUI>
                 <ModalUI
-                    open={this.props.modalGroup}
+                    open={this.props.modalGroup !== null}
                     className={classes.modalGroup}
                     // Methods
                     // handleClose={this.classifierCloseHandler}
                 >
                     <Classifiers
+                        type={this.props.modalGroup}
                         groups={this.props.groups}
                         groupActiveId={this.props.groupActiveId}
                         newGroup={this.props.newGroup}

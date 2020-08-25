@@ -10,6 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    font-size: 14px;
 }
 
 .checkbox {
@@ -19,7 +20,7 @@
     background-color: #c6c6c6;
     border-radius: 25px;
     position: relative;
-    /*box-shadow: 1px 1px 6px rgba(0, 0, 0, .6) inset;*/
+    transition: 300ms;
 }
 
 .checkbox:after {
@@ -32,13 +33,11 @@
     height: 14px;
     border-radius: 50%;
     background-color: #fff;
-    /*box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, .4);*/
     transition: 300ms;
 }
 
 .checkboxChecked {
     background-color: #67CA51;
-    transition: 300ms;
 }
 
 .checkboxChecked::after {

@@ -66,11 +66,11 @@
 }
 
 .buttonRoot {
-    background-color: #FF9D52;
+    background-color: #FF9D52 !important;
     height: 46px;
     width: 100%;
-    font-size: 11px;
-    color: #fff;
+    font-size: 11px !important;
+    color: #fff !important;
     transition: 300ms;
 }
 

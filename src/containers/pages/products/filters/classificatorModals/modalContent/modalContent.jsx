@@ -227,6 +227,7 @@ const ModalContent = props => {
                             classNameInput={classes.searchInput}
                             name={'search'}
                             value={props.search}
+                            placeholder={'[1-9, a-z, A-Z]'}
                             // Methods
                             onChange={event => searchChangeHandler(event.target.name, event.target.value)}
                         />

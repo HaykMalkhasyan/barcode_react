@@ -7,28 +7,50 @@
 
 .addPhoto {
     position: absolute;
-    top: 0;
-    left: 20%;
+    top: 5px;
+    left: 22%;
     color: #fff;
     z-index: 1;
-    height: 40px;
     box-sizing: border-box;
     font-weight: 100;
     cursor: pointer;
     letter-spacing: 2px;
     font-size: 12px;
-    padding: 10px;
+    padding: 5px;
     background-color: rgba(0, 0, 0, .5);
     transition: 300ms;
+    user-select: none;
 }
 
-.addPhoto:hover {
+.addPFirstPhoto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(0, 0, 0, .8);
+    z-index: 1;
+    box-sizing: border-box;
+    font-weight: 100;
+    cursor: pointer;
+    letter-spacing: 2px;
+    font-size: 12px;
+    padding: 5px;
+    transition: 300ms;
+    user-select: none;
+}
+
+.addPhoto:hover, .addPFirstPhoto:hover {
     box-shadow: 0 0 5px 3px rgba(30, 96, 173, 0.34);
+}
+
+.addPhoto:active, .addPFirstPhoto:active {
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4) inset;
 }
 
 .mainImage {
     width: 100%;
     height: 312px;
+    box-sizing: border-box;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -38,14 +60,12 @@
 
 .galleryControllers {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 200px;
-    height: 40px;
+    top: 5px;
+    right: 5px;
     opacity: 0;
     overflow: hidden;
     transition: 100ms;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, .3);
@@ -56,9 +76,7 @@
 }
 
 .galleryControllers > div {
-    width: 200px;
-    height: 200px;
-    padding: 10px;
+    width: 50%;
     z-index: 2;
     box-sizing: border-box;
     display: flex;
@@ -66,14 +84,6 @@
     align-items: center;
     transition: 300ms;
     position: relative;
-}
-
-.galleryControllers > div:first-child {
-    border-right: 2px solid #fff;
-}
-
-.galleryControllers > div:last-child {
-    border-left: 2px solid #fff;
 }
 
 .setToMainImage:after {
@@ -114,6 +124,8 @@
     color: #fff;
     cursor: pointer;
     transition: 300ms;
+    padding: 2px;
+    box-sizing: border-box;
 }
 
 .setToMainBtn:hover {
@@ -136,15 +148,17 @@
 }
 
 .asNavForClass > div:first-child {
-    width: 80%;
+    width: 79%;
 }
 
 .asNavForClass > div:last-child {
-    width: 20%;
+    width: 21%;
 }
 
 .main {
     height: 312px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .second {
@@ -166,7 +180,7 @@
 }
 
 .subImage:hover {
-    box-shadow: 0 0 0 4px rgba(1, 182, 253, .3);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .4);
 }
 
 .subImage img {
@@ -200,8 +214,7 @@
 
 .prevClassName:hover {
     background-color: rgba(0, 0, 0, .5);
-    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 1) inset;
-    border-radius: 50%;
+    box-shadow: 0 0 5px 3px rgba(30, 96, 173, 0.34);
 }
 
 .nextClassName {
@@ -219,8 +232,7 @@
 
 .nextClassName:hover {
     background-color: rgba(0, 0, 0, .5);
-    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 1) inset;
-    border-radius: 50%;
+    box-shadow: 0 0 5px 3px rgba(30, 96, 173, 0.34);
 }
 
 @media (max-width: 768px) {

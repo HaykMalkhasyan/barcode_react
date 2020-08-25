@@ -9,7 +9,7 @@ export default function CheckboxesUi(props) {
             style={{
                 userSelect: 'none',
                 position: 'relative',
-                zIndex: 10,
+                zIndex: 2,
                 cursor: 'pointer',
                 color: props.useColor
             }}
@@ -20,7 +20,11 @@ export default function CheckboxesUi(props) {
                         position: 'relative',
                         zIndex: -1,
                         padding: props.padding,
-                        // display: 'none'
+                        display: props.display
+                    }}
+                    classes={{
+                        root: props.root,
+                        colorSecondary: props.colorSecondary
                     }}
                     checked={props.checked}
                     size={props.size}
@@ -31,7 +35,7 @@ export default function CheckboxesUi(props) {
                     onChange={props.onChange}
                 />
             </span>
-            <span className={props.chckClassName}>{props.label}</span>
+            <span className={props.checkClassName}>{props.label}</span>
         </label>
     );
 }

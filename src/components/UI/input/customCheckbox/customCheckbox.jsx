@@ -19,14 +19,14 @@ const CustomCheckbox = props => {
                         <div className={classes.checkBoxWindow}>
                             <div>{props.label}</div>
                             <div
-                                className={props.status ? `${classes.checkboxChecked} ${classes.checkbox}` : classes.checkbox}/>
+                                className={props.checked ? `${classes.checkboxChecked} ${classes.checkbox}` : classes.checkbox}/>
                         </div>
                     </Tooltip>
                     :
                     <div className={classes.checkBoxWindow}>
-                        <div>{props.label}</div>
+                        <div className={props.labelStyle}>{props.label}</div>
                         <div
-                            className={props.status ? `${classes.checkboxChecked} ${classes.checkbox}` : classes.checkbox}/>
+                            className={props.checked ? `${classes.checkboxChecked} ${classes.checkbox}` : classes.checkbox}/>
                     </div>
             }
             type={'checkbox'}

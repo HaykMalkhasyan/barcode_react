@@ -38,21 +38,28 @@ const Classifiers = props => {
                                         onClick={
                                             event => {
                                                 event.stopPropagation();
-                                                classifierCloseHandler();
-                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                props.setGroupValues('active', +index);
-                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                                if (props.type === "edit") {
+                                                    classifierCloseHandler();
+                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                    props.setGroupValues('active', +index);
+                                                    props.setGroupValues('open', `collapse-${item.id}`);
+                                                }
                                             }
                                         }
                                     >
-                                        <CustomButton
-                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                            children={
-                                                <Icons type={'edit'}/>
-                                            }
-                                            // Methods
-                                            onClick={event => editHandler(event, item)}
-                                        />
+                                        {
+                                            props.type === "edit" ?
+                                                <CustomButton
+                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                    children={
+                                                        <Icons type={'edit'}/>
+                                                    }
+                                                    // Methods
+                                                    onClick={event => editHandler(event, item)}
+                                                />
+                                                :
+                                                null
+                                        }
                                         <p>
                                             {item.name}
                                         </p>
@@ -70,21 +77,28 @@ const Classifiers = props => {
                                         onClick={
                                             event => {
                                                 event.stopPropagation();
-                                                classifierCloseHandler();
-                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                props.setGroupValues('active', +index);
-                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                                if (props.type === "edit") {
+                                                    classifierCloseHandler();
+                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                    props.setGroupValues('active', +index);
+                                                    props.setGroupValues('open', `collapse-${item.id}`);
+                                                }
                                             }
                                         }
                                     >
-                                        <CustomButton
-                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                            children={
-                                                <Icons type={'edit'}/>
-                                            }
-                                            // Methods
-                                            onClick={event => editHandler(event, item)}
-                                        />
+                                        {
+                                            props.type === "edit" ?
+                                                <CustomButton
+                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                    children={
+                                                        <Icons type={'edit'}/>
+                                                    }
+                                                    // Methods
+                                                    onClick={event => editHandler(event, item)}
+                                                />
+                                                :
+                                                null
+                                        }
                                         <p>
                                             {item.name}
                                         </p>
@@ -100,21 +114,28 @@ const Classifiers = props => {
                                         onClick={
                                             event => {
                                                 event.stopPropagation();
-                                                classifierCloseHandler();
-                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                props.setGroupValues('active', +index);
-                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                                if (props.type === "edit") {
+                                                    classifierCloseHandler();
+                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                    props.setGroupValues('active', +index);
+                                                    props.setGroupValues('open', `collapse-${item.id}`);
+                                                }
                                             }
                                         }
                                     >
-                                        <CustomButton
-                                            className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                            children={
-                                                <Icons type={'edit'}/>
-                                            }
-                                            // Methods
-                                            onClick={event => editHandler(event, item)}
-                                        />
+                                        {
+                                            props.type === "edit" ?
+                                                <CustomButton
+                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                    children={
+                                                        <Icons type={'edit'}/>
+                                                    }
+                                                    // Methods
+                                                    onClick={event => editHandler(event, item)}
+                                                />
+                                                :
+                                                null
+                                        }
                                         <p>
                                             {item.name}
                                         </p>

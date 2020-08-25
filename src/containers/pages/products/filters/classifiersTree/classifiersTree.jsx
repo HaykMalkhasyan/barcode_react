@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import classes from '../filters.module.css'
+import classes from '../filters/filters.module.css'
 import {connect} from "react-redux"
 import {
     advanceSearchHandler,
@@ -34,13 +34,17 @@ class ClassifiersTree extends Component {
         let length = groups.length;
 
         if (active !== 0) {
+            if (active - 1 !== 0) {
+                this.props.getOnlySubgroupWithGroupId(groups[active - 1].id, 'classifierSubgroup')
+            }
             this.props.setGroupValues('open', `collapse-${groups[active - 1].id}`);
             this.props.setGroupValues('active', active - 1);
-            this.props.getOnlySubgroupWithGroupId(groups[active - 1].id, 'classifierSubgroup')
         } else {
+            if (length - 1 !== 0) {
+                this.props.getOnlySubgroupWithGroupId(groups[length - 1].id, 'classifierSubgroup')
+            }
             this.props.setGroupValues('open', `collapse-${groups[length - 1].id}`);
             this.props.setGroupValues('active', length - 1);
-            this.props.getOnlySubgroupWithGroupId(groups[length - 1].id, 'classifierSubgroup')
         }
     };
 

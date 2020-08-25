@@ -5,6 +5,7 @@ const InputUI = props => {
 
     return (
         <TextField
+            required={props.required}
             classes={{root: props.root}}
             id={props.id}
             error={props.error}
@@ -15,6 +16,7 @@ const InputUI = props => {
             helperText={props.helperText}
             // Methods
             onChange={props.onChange}
+            onBlur={props.onBlur}
         />
     )
 };

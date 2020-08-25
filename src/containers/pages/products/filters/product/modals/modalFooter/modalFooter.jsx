@@ -6,15 +6,20 @@ import RemoveButton from "../../../../../../../components/UI/button/removeButton
 const ModalFooter = props => {
 
     return (
-        <div className={classes.modalFooter}>
-            <RemoveButton
-                name={'remove'}
-                label={'Ջնջել'}
-            />
+        <div className={props.type === "add" ? `${classes.modalFooter} ${classes.typeAdd}` : classes.modalFooter}>
+            {
+                props.type === "edit" ?
+                    <RemoveButton
+                        name={'remove'}
+                        label={'Ջնջել'}
+                    />
+                    :
+                    null
+            }
             <ConfirmButton
                 name={'confirm'}
                 // Methods
-                onClick={props.handleClose}
+                onClick={() => props.confirmHandler('confirm')}
             />
         </div>
     )

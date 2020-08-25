@@ -1,0 +1,24 @@
+.supplierFilter {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.categoryName {
+    color: #F28705;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.filterWindow {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px 10px;
+}
+
+.filterWindow > div {
+    margin-bottom: 20px;
+}
+
+.selectRoot {
+    width: 100% !important;
+}

@@ -1,27 +1,44 @@
 import React from 'react'
 import {FormControl, InputLabel, Select, MenuItem} from "@material-ui/core"
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const SelectUI = props => {
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     return (
-        <FormControl className={props.formControl}>
+        <FormControl className={props.formControl} error={props.error} required={props.required}>
             <InputLabel id={props.labelId}>{props.label}</InputLabel>
             <Select
                 classes={{root: props.root}}
                 labelId={props.labelId}
                 id={props.id}
-                value={age}
-                onChange={handleChange}
+                value={props.value}
+                name={props.name}
+                onChange={props.onChange}
             >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                    props.data && props.data.length ?
+                        props.data.map(
+                            item => {
+                                return (
+                                    <MenuItem
+                                        key={item.id + Math.random()}
+                                        value={item.value}
+                                    >
+                                        {item.name}
+                                    </MenuItem>
+                                )
+                            }
+                        )
+                        :
+                        <MenuItem value={''}>դատարկ է</MenuItem>
+                }
             </Select>
+            {
+                props.error ?
+                    <FormHelperText>{props.helperText}</FormHelperText>
+                    :
+                    null
+            }
         </FormControl>
     )
 };

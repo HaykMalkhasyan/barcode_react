@@ -1,0 +1,124 @@
+.tableWindow {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+/* width */
+.tableWindow::-webkit-scrollbar {
+    height: 7px;
+}
+
+/* Track */
+.tableWindow::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.tableWindow::-webkit-scrollbar-thumb {
+    background: #ccc;
+    background-clip: content-box;
+    border: 3px solid transparent;
+}
+
+/* Handle on hover */
+.tableWindow::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+    border-color: #aaa;
+}
+
+.table {
+    display: inline-table;
+}
+
+.table thead tr {
+    background-color: #F4F5F8;
+    user-select: none;
+}
+
+.table tbody tr {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.table th {
+    position: relative;
+    height: 38px;
+    user-select: none;
+}
+
+.table th * {
+    user-select: none;
+}
+
+.door {
+    width: 1px;
+    height: 50%;
+    background-color: #888;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: col-resize;
+    user-select: none;
+}
+
+.door:hover {
+    width: 3px;
+    background-color: #666;
+}
+
+.table td {
+    /*border: 1px solid #ccc;*/
+}
+
+.table tr {
+    width: auto;
+}
+
+.content {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #f3f3f3;
+    transition: 300ms;
+}
+
+.content:hover {
+    background-color: #fafafa;
+}
+
+.tHeadName {
+    text-transform: capitalize;
+    font-size: 14px;
+    color: #5D5D5D;
+    font-weight: 900;
+    padding: 0 5px;
+    min-width: 30px;
+    box-sizing: border-box;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tBodyItems {
+    box-sizing: border-box;
+    padding: 5px;
+    text-align: left;
+    font-size: 13px;
+    color: #414141;
+}
+
+.colorSecondary {
+    color: forestgreen !important;
+}
+
+.colorSecondary:hover {
+    background-color: rgba(34, 139, 34, 0.04) !important;
+}
+
+.chkRoot {
+    padding: 4px !important;
+    margin: 0 5px !important;
+    font-size: 1rem !important;
+}

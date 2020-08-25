@@ -1,0 +1,92 @@
+.rightPanel {
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+}
+
+.showCount {
+    font-size: 12px;
+    color: #505050;
+    font-weight: 900;
+}
+
+.paginationWindow {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.colorSecondary {
+    background: #F28705 !important;
+    color: #fff;
+}
+
+.emptyWindow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    height: 400px;
+    box-sizing: border-box;
+}
+
+.emptyWindow > div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emptyWindow > div > img {
+    display: block;
+    height: 200px;
+}
+
+.emptyWindow > div > h3 {
+    color: #ccc;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    transform: translateY(-15px);
+}
+
+.addProductButton {
+    outline: none !important;
+    height: 42px;
+    width: 170px;
+    background-color: #fff;
+    border: 1px solid #FE8A69;
+    border-radius: 3px;
+    margin-left: 23px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #FE8A69;
+    transition: 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.addProductButton:hover {
+    background-color: rgba(254, 138, 105, 0.1);
+}
+
+.addProductButton:focus {
+    background-color: rgba(254, 138, 105, 0.1);
+}
+
+.addProductButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+    border-color: transparent;
+}
+
+.addProductButton span {
+    margin-left: 10px;
+}
+
+.addBtnIcon {
+    fill: #FE8A69;
+    stroke: #FE8A69;
+}

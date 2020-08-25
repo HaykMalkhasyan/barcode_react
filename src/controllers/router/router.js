@@ -25,7 +25,7 @@ const LazyResetPassword = lazy(
 // For user
 const LazyUserPage = lazy(
     () => import('../../containers/user/user')
-)
+);
 // Pages
 const LazyMainPage = lazy(
     () => import('../../containers/pages/main/main')
@@ -34,8 +34,8 @@ const LazyErrorPage = lazy(
     () => import('../../containers/pages/error')
 );
 // Products and characteristics
-const LazyFilters = lazy(
-    () => import('../../containers/pages/products/filters/filters')
+const LazyFiltersContainer = lazy(
+    () => import('../../containers/pages/products/filters/filtersContainer')
 );
 const LazyPrices = lazy(
     () => import('../../containers/pages/products/prices/prices')
@@ -67,7 +67,7 @@ const Router = props => {
                 exact
                 path='/products/filters'
                 auth={props.auth}
-                component={LazyFilters}
+                component={LazyFiltersContainer}
             />
             {/* Prices */}
             <PrivateRoute

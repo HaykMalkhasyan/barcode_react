@@ -41,6 +41,7 @@ ul.tree li {
     position: relative;
     margin: 0;
     padding: 0 8px;
+    box-sizing: border-box;
     line-height: 20px;
     background: transparent url(http://odyniec.net/articles/turning-lists-into-trees/node.png) no-repeat;
     color: #666;

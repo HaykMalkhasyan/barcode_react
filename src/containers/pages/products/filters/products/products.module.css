@@ -1,0 +1,15 @@
+.products {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 170px 10px 0;
+}
+
+.paper {
+    width: 60%;
+}
+
+@media (max-width: 576px) {
+    .paper {
+        width: 100%;
+    }
+}

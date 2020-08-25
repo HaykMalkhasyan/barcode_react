@@ -8,6 +8,7 @@ const CustomTextArea = props => {
             id={props.id}
             className={props.className}
             placeholder={props.placeholder}
+            value={props.value}
             // Methods
             onChange={props.onChange}
         />
