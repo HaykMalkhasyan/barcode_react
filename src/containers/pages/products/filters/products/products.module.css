@@ -8,6 +8,23 @@
     width: 60%;
 }
 
+.progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5000;
+    width: 100%;
+    height: 2px;
+}
+
+.barColorPrimary {
+    background-color: #F28705;
+}
+
+.progressBgColor {
+    background-color: transparent;
+}
+
 @media (max-width: 576px) {
     .paper {
         width: 100%;

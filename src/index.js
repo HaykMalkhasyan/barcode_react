@@ -7,7 +7,7 @@ import {BrowserRouter} from "react-router-dom";
 import thunk from "redux-thunk";
 import rootReducer from "./Redux/rootReducer";
 import {applyMiddleware, compose, createStore} from "redux";
-import Spinner from "./components/UI/spinner/spinner";
+import Spinner from "./components/UI/spinners/spinner/spinner";
 const LazyApp = lazy(() => import('./App'));
 
 const composeEnhancers =

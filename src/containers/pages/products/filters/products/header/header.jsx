@@ -18,6 +18,7 @@ const Header = props => {
                             <span>Վերադառնալ նախորդ էջ</span>
                         </>
                     }
+                    // Methods
                 />
             </div>
             <div className={classes.actionsButtonWindow}>

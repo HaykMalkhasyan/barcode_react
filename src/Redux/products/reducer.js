@@ -81,7 +81,8 @@ const initialState = {
         pictures: []
     },
     error: null,
-    selected_products: []
+    selected_products: [],
+    productLoadingStatus: true,
 };
 
 export default function productsReducer(state = initialState, action) {
@@ -89,7 +90,7 @@ export default function productsReducer(state = initialState, action) {
     switch (action.type) {
         case SET_PRODUCTS:
             return {
-                ...state, products: action.products, count: action.count
+                ...state, products: action.products, count: action.count, productLoadingStatus: false
             };
         case SET_PRODUCT_VALUES:
             return {

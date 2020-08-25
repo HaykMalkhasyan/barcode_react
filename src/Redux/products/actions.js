@@ -253,7 +253,7 @@ export function productDataRequest(data, type) {
 export function selectProducts(id = null, type) {
 
     return (dispatch, getState) => {
-        const selected_products = [...getState().products.selected_products];
+        let selected_products = [...getState().products.selected_products];
         if (type === 'item') {
             let index = selected_products.indexOf(id);
             index === -1 ?
@@ -262,12 +262,16 @@ export function selectProducts(id = null, type) {
                 selected_products.splice(index, 1)
         } else if (type === 'all') {
             const products = [...getState().products.products];
-            for (let item of products) {
-                let index = selected_products.indexOf(item.id);
-                index === -1 ?
-                    selected_products.push(item.id)
-                    :
-                    selected_products.splice(index, 1);
+            if (selected_products.length === products.length) {
+                selected_products = [];
+            } else {
+                let index;
+                for (let item of products) {
+                    index = selected_products.indexOf(item.id);
+                    if (index === -1) {
+                        selected_products.push(item.id)
+                    }
+                }
             }
         }
         dispatch(setProductValues('selected_products', selected_products));

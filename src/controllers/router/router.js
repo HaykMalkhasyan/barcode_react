@@ -3,7 +3,7 @@ import {Switch} from "react-router-dom";
 import PublicRoute from "../publicRoute/publicRoute";
 import PrivateRoute from "../privateRoute/privateRoute";
 import ErrorLayoutRoute from "../../containers/hoc/layouts/routs/errorRoutes";
-import Spinner from "../../components/UI/spinner/spinner";
+import Spinner from "../../components/UI/spinners/spinner/spinner";
 // Lazy imports
 
 // Authentications

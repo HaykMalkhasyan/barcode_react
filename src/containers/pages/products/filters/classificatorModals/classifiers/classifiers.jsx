@@ -3,7 +3,7 @@ import classes from './classifiers.module.css'
 import CustomButton from "../../../../../../components/UI/button/customButton/customButton"
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput"
 import Grid from "@material-ui/core/Grid"
-import SpinnerForContent from "../../../../../../components/UI/spinerForContent/spinnerForContent"
+import SpinnerForContent from "../../../../../../components/UI/spinners/spinerForContent/spinnerForContent"
 import Icons from "../../../../../../components/Icons/icons";
 import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
 

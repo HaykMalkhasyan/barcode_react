@@ -9,6 +9,8 @@ import Icons from "../../../../../../../components/Icons/icons";
 const RightPanel = props => {
 
     const changeHandler = (event, page) => {
+        props.setProductValues('productLoadingStatus', true);
+        props.setProductValues('selected_products', []);
         props.getAllProducts(page)
     };
 
@@ -34,9 +36,9 @@ const RightPanel = props => {
                         {
                             props.count ?
                                 props.count > 20 ?
-                                <p className={classes.showCount}>
-                                    Ցուցադրված է {props.products.length}-ը {props.count} տողից
-                                </p>
+                                    <p className={classes.showCount}>
+                                        Ցուցադրված է {props.products.length}-ը {props.count} տողից
+                                    </p>
                                     :
                                     <p className={classes.showCount}>
                                         Ցուցադրված է {props.count}-ը {props.count} տողից
@@ -52,7 +54,8 @@ const RightPanel = props => {
                                         hidePrevButton
                                         hideNextButton
                                         renderItem={
-                                            item => <PaginationItem classes={{selected: classes.colorSecondary}}  {...item}/>
+                                            item => <PaginationItem
+                                                classes={{selected: classes.colorSecondary}}  {...item}/>
                                         }
                                         onChange={changeHandler}
                                     />
@@ -64,7 +67,8 @@ const RightPanel = props => {
                     :
                     <div className={classes.emptyWindow}>
                         <div>
-                            <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'} alt={'product-empty'}/>
+                            <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}
+                                 alt={'product-empty'}/>
                             <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>
                             <CustomButton
                                 className={classes.addProductButton}

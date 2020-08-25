@@ -12,6 +12,7 @@ import {
     setProductValues
 } from "../../../../../Redux/products/actions";
 import ProductModal from "../product/modals/productModal";
+import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 
 class Products extends Component{
     constructor(props) {
@@ -38,6 +39,16 @@ class Products extends Component{
 
         return (
             <div className={classes.products}>
+                {
+                    this.props.productLoadingStatus ?
+                        <LinearSpinner
+                            progres={classes.progress}
+                            barColorPrimary={classes.barColorPrimary}
+                            progresBgColor={classes.progressBgColor}
+                        />
+                        :
+                        null
+                }
                 <Header
                     tabs={this.props.tabs}
                     activeTabs={this.props.activeTabs}
@@ -102,6 +113,7 @@ function mapStateToProps(state) {
         count: state.products.count,
         products: state.products.products,
         types: state.products.types,
+        productLoadingStatus: state.products.productLoadingStatus,
         selected_products: state.products.selected_products,
         advancedSearchConfig: state.products.advancedSearchConfig,
         selectedIndex: state.filters.selectedIndex,

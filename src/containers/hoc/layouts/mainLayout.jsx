@@ -11,6 +11,6 @@ const MainLayout = props => {
             </main>
         </div>
     )
-}
+};
 
 export default MainLayout

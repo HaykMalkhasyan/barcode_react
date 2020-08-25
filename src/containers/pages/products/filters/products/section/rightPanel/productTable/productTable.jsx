@@ -36,9 +36,9 @@ class ProductTable extends Component {
         move = event => this.moveHandler(event, elem);
         window.addEventListener('mousemove', move);
     };
-    
+
     endMoving() {window.removeEventListener('mousemove', move)}
-    
+
     moveHandler(event, elem) {
         let left = event.clientX - elem.getBoundingClientRect().left;
         elem.style.width = left + 'px'
@@ -63,7 +63,10 @@ class ProductTable extends Component {
                                 <th ref={this.ref_1}>
                                     <div ref={this.ref_1} className={classes.tHeadName}>
                                         <CheckboxesUi
+                                            checked={this.props.selected_products.length === this.props.products.length}
                                             colorSecondary={classes.colorSecondary}
+                                            // Methods
+                                            onChange={() => this.props.selectProducts(null, 'all')}
                                         />
                                     </div>
                                     <div onMouseDown={event => this.startHandler(event, this.ref_1.current)} className={classes.door}/>

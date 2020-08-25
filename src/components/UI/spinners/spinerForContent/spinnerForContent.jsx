@@ -9,6 +9,6 @@ const SpinnerForContent = () => {
             <CircularProgress disableShrink />
         </div>
     )
-}
+};
 
 export default SpinnerForContent

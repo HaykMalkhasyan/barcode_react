@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react'
 import {Redirect} from "react-router-dom";
-import Spinner from "../../components/UI/spinner/spinner";
+import Spinner from "../../components/UI/spinners/spinner/spinner";
 import MainLayoutRoute from "../../containers/hoc/layouts/routs/mainRoutes";
 import FullPageLayoutRoute from "../../containers/hoc/layouts/routs/fullPageRoutes";
 

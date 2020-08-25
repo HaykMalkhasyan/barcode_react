@@ -3,7 +3,7 @@ import classes from './modalContent.module.css'
 import CustomButton from "../../../../../../components/UI/button/customButton/customButton"
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput"
 import SearchIcon from '@material-ui/icons/Search'
-import SpinnerForContent from "../../../../../../components/UI/spinerForContent/spinnerForContent";
+import SpinnerForContent from "../../../../../../components/UI/spinners/spinerForContent/spinnerForContent";
 import ConfirmButton from "../../../../../../components/UI/button/confirmButton/confirmButton";
 import DeleteModal from "../../../../../../components/deleteModal/deleteModal";
 import Backdrop from "../../../../../../components/UI/backdrop/backdrop";

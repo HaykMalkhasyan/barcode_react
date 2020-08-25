@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react'
 import {Redirect} from "react-router-dom";
-import Spinner from "../../components/UI/spinner/spinner";
+import Spinner from "../../components/UI/spinners/spinner/spinner";
 import FullPageLayoutRoute from "../../containers/hoc/layouts/routs/fullPageRoutes";
 
 const PublicRoute = ({auth, component: Component, ...rest}) => {
