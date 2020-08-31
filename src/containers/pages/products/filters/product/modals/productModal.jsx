@@ -9,99 +9,126 @@ import {setProduct, setProductValues} from "../../../../../../Redux/products/act
 const ProductModal = props => {
     const [gallery, setGallery] = useState([]);
 
+    const deleteUploadImagesHandler = (item, index) => {
+        const images = [];
+        const old_images = [...props.images];
+
+        setGallery([]);
+        if (props.open === 'edit') {
+            props.product['pictures'].forEach(
+                image => old_images.indexOf(image.image) !== -1 ?
+                    images.push(image['image'])
+                    :
+                    null
+            );
+            props.setProductValues('pictures', {pictures: props.product.pictures});
+        }
+        props.setProductValues('images', images);
+    };
+
+    const deleteImageHandler = (image, index) => {
+
+        const pictures = {...props.pictures};
+        const picturesArr = [...pictures.pictures];
+        const images = [...props.images];
+        images.splice(index, 1);
+        for (let [key, item] of Object.entries(picturesArr)) {
+            if (item.image === image) {
+                picturesArr.splice(+key, 1)
+            }
+        }
+        props.setProductValues('images', images);
+        props.setProductValues('pictures', {pictures: picturesArr})
+    };
+
     const addPhotoHandler = event => {
         setGallery([...event.target.files]);
-        const pictures = [];
+        const pictures = {...props.pictures};
+        const picturesArr = [...pictures.pictures];
+        const images = [...props.images];
         [...event.target.files].forEach(
             file => {
-                pictures.push({name: file.name})
+                images.push(URL.createObjectURL(file));
+                picturesArr.push({name: file.name})
             }
         );
-        props.setProductValues('pictures', {pictures: pictures})
+        props.setProductValues('images', images);
+        props.setProductValues('pictures', {pictures: picturesArr})
     };
 
     const confirmHandler = type => {
         props.setProduct(gallery, type);
-        if (type !== 'save') {
+        if (type !== 'save' && props.open === false) {
             setGallery([])
         }
     };
 
-    switch (props.type) {
-        case 'add':
-            return (
-                <DialogUI
-                    label={
-                        <ModalHeader
-                            label={'Ավելացնել ապրանք'}
-                            // Methods
-                            confirmHandler={confirmHandler}
-                            closeHandler={
-                                () => {
-                                    setGallery([]);
-                                    props.handleClose()
-                                }
-                            }
-                        />
-                    }
-                    maxWidth={false}
-                    scroll={props.scroll}
-                    open={props.open === "add"}
-                    paper={props.paper}
-                    children={
-                        <AddContent
-                            modalTabs={props.modalTabs}
-                            gallery={gallery}
-                            // Methods
-                            addPhotoHandler={addPhotoHandler}
-                        />
-                    }
+    const labelRender = type => {
+
+        switch (type) {
+            case 'add':
+                return 'Ավելացնել ապրանք';
+            case 'edit':
+                return 'Փոփոխել ապրանքը';
+            default:
+                return 'Error #404!'
+        }
+
+    };
+
+    return (
+        <DialogUI
+            label={
+                <ModalHeader
+                    label={labelRender(props.type)}
                     // Methods
-                    handleClose={props.handleClose}
-                    footer={
-                        <ModalFooter
-                            type={props.type}
-                            // Methods
-                            confirmHandler={confirmHandler}
-                        />
+                    confirmHandler={confirmHandler}
+                    closeHandler={
+                        () => {
+                            setGallery([]);
+                            props.handleClose()
+                        }
                     }
                 />
-            );
-        case 'edit':
-            return (
-                <DialogUI
-                    label={
-                        <ModalHeader
-                            label={'Փոփոխել ապրանքը'}
-                            // Methods
-                            closeHandler={
-                                () => {
-                                    setGallery([]);
-                                    props.handleClose()
-                                }
-                            }
-                        />
-                    }
-                    maxWidth={'lg'}
-                    scroll={props.scroll}
-                    open={props.open === "edit"}
-                    children={
-                        <div>
-                            <h1>Փոփոխել ապրանք</h1>
-                        </div>
-                    }
+            }
+            maxWidth={false}
+            scroll={props.scroll}
+            open={props.open}
+            paper={props.paper}
+            children={
+                <AddContent
+                    type={props.type}
+                    modalTabs={props.modalTabs}
+                    gallery={props.images}
+                    imageData={gallery}
+                    pictures={props.pictures}
                     // Methods
-                    handleClose={props.handleClose}
+                    addPhotoHandler={addPhotoHandler}
+                    deleteImageHandler={deleteImageHandler}
+                    deleteUploadImagesHandler={deleteUploadImagesHandler}
                 />
-            );
-        default: return null;
-    }
+            }
+            // Methods
+            handleClose={props.handleClose}
+            footer={
+                <ModalFooter
+                    type={props.type}
+                    // Methods
+                    confirmHandler={confirmHandler}
+                />
+            }
+        />
+    );
 };
 
 function mapStateToProps(state) {
 
     return {
         errorFields: state.products.errorFields,
+        images: state.products.images,
+        pictures: state.products.pictures,
+        product: state.products.product,
+        open: state.products.open,
     }
 }
 

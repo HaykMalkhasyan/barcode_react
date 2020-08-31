@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './rightPanel.module.css'
-import ProductTable from "./productTable/productTable"
+import ResizableDragTable from "../../../../../../../components/resizableDragTable/resizableDragTable"
 import Pagination from "@material-ui/lab/Pagination"
 import PaginationItem from "@material-ui/lab/PaginationItem";
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
@@ -24,14 +24,19 @@ const RightPanel = props => {
             {
                 props.products && props.products.length ?
                     <>
-                        <ProductTable
+                        <ResizableDragTable
                             activeTabs={props.activeTabs}
                             tabs={props.tabs}
                             products={props.products}
                             types={props.types}
                             selected_products={props.selected_products}
+                            in_data_1={props.types}
+                            in_data_2={props.measurements}
                             // Methods
-                            selectProducts={props.selectProducts}
+                            selectData={props.selectProducts}
+                            setValues={props.setProductValues}
+                            getData={props.getProduct}
+                            sortTableTabs={props.sortTableTabs}
                         />
                         {
                             props.count ?

@@ -16,6 +16,8 @@ import {
     subCollapsedGroup
 } from "../../../../../Redux/characteristics/actions";
 import Tree from "../../../../../components/tree/tree";
+import CustomHeader from "../../../../../components/UI/customHeader/customHeader";
+import Collapse from "@material-ui/core/Collapse";
 
 class ClassifiersTree extends Component {
     constructor(props) {
@@ -23,8 +25,15 @@ class ClassifiersTree extends Component {
         this.state = {
             open: false,
             isOpen: false,
+            collapseStatus: true
         };
     }
+
+    collapsed = () => {
+      this.setState({
+          collapseStatus: !this.state.collapseStatus
+      })
+    };
 
     classifiersSelectHandler = (value) => {
         this.props.advanceSearchHandler(value)
@@ -64,64 +73,73 @@ class ClassifiersTree extends Component {
     render() {
         return (
             <div className={classes.classifiersWindow}>
-                {
-                    this.props.groups && this.props.groups.length ?
-                        <>
-                            <header>
-                                <CustomButton
-                                    className={classes.nextSlideBtn}
-                                    children={
-                                        <Icons type={'right-angle'} className={classes.nextSlideIcon}/>
+                <CustomHeader
+                    type={'collapsed'}
+                    name={'Դասակարգիչ'}
+                    open={this.state.collapseStatus}
+                    // Methods
+                    onClick={this.collapsed}
+                />
+                <Collapse in={this.state.collapseStatus} timeout="auto" unmountOnExit>
+                    {
+                        this.props.groups && this.props.groups.length ?
+                            <>
+                                <div className={classes.controllers}>
+                                    <CustomButton
+                                        className={classes.nextSlideBtn}
+                                        children={
+                                            <Icons type={'right-angle'} className={classes.nextSlideIcon}/>
+                                        }
+                                        // Methods
+                                        onClick={this.nextHandler.bind(this, this.props.groups, this.props.active)}
+                                    />
+                                    <span onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}>{this.props.groups[this.props.active].name}</span>
+                                    <CustomButton
+                                        className={classes.prevSlideBtn}
+                                        children={
+                                            <Icons type={'left-angle'} className={classes.prevSlideIcon}/>
+                                        }
+                                        // Methods
+                                        onClick={this.prevHandler.bind(this, this.props.groups, this.props.active)}
+                                    />
+                                </div>
+                                <div className={classes.classifBody}>
+                                    {
+                                        this.props.active === 0 ?
+                                            <Tree
+                                                label={'Բոլորը'}
+                                                type={'select'}
+                                                group={this.props.groups[0]}
+                                                customSubgroup={[]}
+                                                collapsed={[]}
+                                                collapsedGroup={[]}
+                                                advancedSearchConfig={this.props.advancedSearchConfig}
+                                                // Methods
+                                                subCollapsed={this.props.subCollapsed}
+                                                subCollapsedGroup={this.props.subCollapsedGroup}
+                                                select={this.classifiersSelectHandler}
+                                            />
+                                            :
+                                            <Tree
+                                                label={'Բոլորը'}
+                                                type={'select'}
+                                                group={this.props.groups[this.props.active]}
+                                                customSubgroup={this.props.classifierSubgroup}
+                                                collapsed={this.props.classifiersCollapsed}
+                                                collapsedGroup={this.props.classifiersCollapsedGroup}
+                                                advancedSearchConfig={this.props.advancedSearchConfig}
+                                                // Methods
+                                                subCollapsed={this.props.subCollapsed}
+                                                subCollapsedGroup={this.props.subCollapsedGroup}
+                                                select={this.classifiersSelectHandler}
+                                            />
                                     }
-                                    // Methods
-                                    onClick={this.nextHandler.bind(this, this.props.groups, this.props.active)}
-                                />
-                                <span onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}>{this.props.groups[this.props.active].name}</span>
-                                <CustomButton
-                                    className={classes.prevSlideBtn}
-                                    children={
-                                        <Icons type={'left-angle'} className={classes.prevSlideIcon}/>
-                                    }
-                                    // Methods
-                                    onClick={this.prevHandler.bind(this, this.props.groups, this.props.active)}
-                                />
-                            </header>
-                            <div className={classes.classifBody}>
-                                {
-                                    this.props.active === 0 ?
-                                        <Tree
-                                            label={'Բոլորը'}
-                                            type={'select'}
-                                            group={this.props.groups[0]}
-                                            customSubgroup={[]}
-                                            collapsed={[]}
-                                            collapsedGroup={[]}
-                                            advancedSearchConfig={this.props.advancedSearchConfig}
-                                            // Methods
-                                            subCollapsed={this.props.subCollapsed}
-                                            subCollapsedGroup={this.props.subCollapsedGroup}
-                                            select={this.classifiersSelectHandler}
-                                        />
-                                        :
-                                        <Tree
-                                            label={'Բոլորը'}
-                                            type={'select'}
-                                            group={this.props.groups[this.props.active]}
-                                            customSubgroup={this.props.classifierSubgroup}
-                                            collapsed={this.props.classifiersCollapsed}
-                                            collapsedGroup={this.props.classifiersCollapsedGroup}
-                                            advancedSearchConfig={this.props.advancedSearchConfig}
-                                            // Methods
-                                            subCollapsed={this.props.subCollapsed}
-                                            subCollapsedGroup={this.props.subCollapsedGroup}
-                                            select={this.classifiersSelectHandler}
-                                        />
-                                }
-                            </div>
-                        </>
-                        :
-                        null
-                }
+                                </div>
+                            </>
+                            :
+                            null
+                    }
+                </Collapse>
             </div>
         )
     }

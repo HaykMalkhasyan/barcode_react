@@ -1,0 +1,162 @@
+.customSelect {
+    width: 200px;
+    box-sizing: border-box;;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /*background-color: rgba(0, 0, 0, .5);*/
+    z-index: 101;
+}
+
+.select {
+    position: relative;
+    z-index: 102;
+    background-color: #fff;
+    width: 100%;
+    height: 22px;
+    border-bottom: .1pt solid #ececec;
+}
+
+.label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 22px;
+    cursor: pointer;
+    transition: 300ms;
+    z-index: 1;
+}
+
+.labelWindow {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 100%;
+    height: 22px;
+    font-size: 12px;
+    color: #333333;
+    letter-spacing: .4pt;
+    box-sizing: border-box;
+    transition: 300ms;
+    z-index: 1;
+}
+
+.labelWindowOpened {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    padding: 0;
+    font-size: 12px;
+    color: #ff8927;
+    letter-spacing: normal;
+}
+
+.arrowButton {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.arrowDown {
+    fill: #5D5D5D;
+}
+
+.input {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    width: 100%;
+    height: 22px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.focused {
+    border-color: #ff8927;
+}
+
+.focused:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f7f7f7;
+    width: 100%;
+    height: 101%;
+    z-index: -1;
+    animation: show 200ms linear;
+}
+
+@keyframes show {
+    from {width: 0;}
+    to {width: 100%}
+}
+
+.content {
+    position: absolute;
+    top: calc(110% + 2px);
+    left: 0;
+    z-index: 10;
+    border-radius: 6px;
+    width: 120%;
+    max-height: 100px;
+    background-color: #fff;
+    border: .1pt solid #ececec;
+    overflow-y: auto;
+    visibility: hidden;
+    transition: 300ms;
+    opacity: 0;
+    text-align: center;
+}
+
+.content small {
+    color: #ccc;
+}
+
+.contentOpened {
+    top: calc(100% + 2px);
+    visibility: visible;
+    opacity: 1;
+}
+
+/* width */
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    background-clip: content-box;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+}
+
+/* Handle on hover */
+.content::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+    background-clip: content-box;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+}
+
+.root {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

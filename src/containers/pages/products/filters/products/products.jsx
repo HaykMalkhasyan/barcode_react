@@ -4,22 +4,32 @@ import Header from "./header/header"
 import Section from "./section/section";
 import {connect} from "react-redux";
 import {getAllGroup, getGroup, subCollapsed, subCollapsedGroup} from "../../../../../Redux/characteristics/actions";
-import {closeClassifierWindow, setFiltersValue} from "../../../../../Redux/filtersContainer/actions";
+import {closeClassifierWindow, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {
     closeProductActionModal,
-    getAllProducts,
+    getAllProducts, getProduct,
     selectProducts,
     setProductValues
 } from "../../../../../Redux/products/actions";
 import ProductModal from "../product/modals/productModal";
 import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
+import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 
 class Products extends Component{
     constructor(props) {
         super(props);
+        this.state = {
+            open : false
+        };
         this.props.getAllGroup();
         this.props.getAllProducts(1)
     }
+
+    toggleBackdrop = anchor => {
+        this.setState({
+            open: anchor
+        })
+    };
 
     changeTabsHandler = (id) => {
         const activeTabs = [...this.props.activeTabs];
@@ -30,7 +40,7 @@ class Products extends Component{
             } else {
                 activeTabs.splice(activeTabs.indexOf(id), 1)
             }
-
+            localStorage.setItem('activeTabs', JSON.stringify(activeTabs));
             this.props.setFiltersValue('activeTabs', activeTabs)
         }
     };
@@ -39,6 +49,16 @@ class Products extends Component{
 
         return (
             <div className={classes.products}>
+                {
+                    this.state.open ?
+                        <Backdrop
+                            className={classes.backDrop}
+                            // Methods
+                            onClick={() => this.setState({open: false})}
+                        />
+                        :
+                        null
+                }
                 {
                     this.props.productLoadingStatus ?
                         <LinearSpinner
@@ -53,8 +73,10 @@ class Products extends Component{
                     tabs={this.props.tabs}
                     activeTabs={this.props.activeTabs}
                     products={this.props.products}
+                    open={this.state.open}
                     // Methods
                     onClick={this.changeTabsHandler}
+                    toggleBackdrop={this.toggleBackdrop}
                 />
                 <Section
                     groups={this.props.groups}
@@ -71,6 +93,7 @@ class Products extends Component{
                     products={this.props.products}
                     types={this.props.types}
                     selected_products={this.props.selected_products}
+                    measurements={this.props.measurements}
                     // Methods
                     subCollapsed={this.props.subCollapsed}
                     subCollapsedGroup={this.props.subCollapsedGroup}
@@ -80,6 +103,8 @@ class Products extends Component{
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
                     setProductValues={this.props.setProductValues}
+                    getProduct={this.props.getProduct}
+                    sortTableTabs={this.props.sortTableTabs}
                 />
                 <ProductModal
                     type={this.props.open}
@@ -113,6 +138,7 @@ function mapStateToProps(state) {
         count: state.products.count,
         products: state.products.products,
         types: state.products.types,
+        measurements: state.products.measurements,
         productLoadingStatus: state.products.productLoadingStatus,
         selected_products: state.products.selected_products,
         advancedSearchConfig: state.products.advancedSearchConfig,
@@ -135,7 +161,9 @@ function mapDispatchToProps(dispatch) {
         closeClassifierWindow: (index, id) => dispatch(closeClassifierWindow(index, id)),
         selectProducts: (id, type) => dispatch(selectProducts(id, type)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
-        closeProductActionModal: () => dispatch(closeProductActionModal())
+        closeProductActionModal: () => dispatch(closeProductActionModal()),
+        getProduct: id => dispatch(getProduct(id)),
+        sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index))
     }
 }
 

@@ -7,9 +7,7 @@ import CustomCheckbox from "../../../../../../../../components/UI/input/customCh
 const Data = props => {
 
     const changeHandler = event => {
-        let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-        let name = event.target.name;
-        props.setMainData(name, value);
+        props.setMainData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value)
     };
 
     const blurHandler = event => {
@@ -78,16 +76,16 @@ const Data = props => {
                 <div>
                     <SelectUI
                         required={true}
-                        error={props.errorFields.indexOf('measurement') !== -1}
+                        error={props.errorFields.indexOf('unit_id') !== -1}
                         labelId={'label-point'}
                         id={'point'}
                         label={'Չափման միավոր'}
                         root={classes.selectRoot}
                         formControl={classes.formControl}
                         data={props.measurements}
-                        name={'measurement'}
-                        value={props.data.measurement}
-                        helperText={props.errorFields.indexOf('measurement') === -1 ? '' : '"Չափման միավոր" դաշտը ընտրված չէ'}
+                        name={'unit_id'}
+                        value={props.data.unit_id}
+                        helperText={props.errorFields.indexOf('unit_id') === -1 ? '' : '"Չափման միավոր" դաշտը ընտրված չէ'}
                         // Methods
                         onChange={changeHandler}
                     />
@@ -96,32 +94,32 @@ const Data = props => {
             <div className={`${classes.dataItem} ${classes.flexStart}`}>
                 <div>
                     <CustomCheckbox
-                        id={'active'}
+                        id={'product_active'}
                         className={classes.checkbox}
                         label={'Ակտիվ'}
-                        name={'active'}
                         checked={props.data.active}
-                        onChange={changeHandler}
+                        name={'active'}
+                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
                     />
                 </div>
                 <div>
                     <CustomCheckbox
-                        id={'admissionAllowed'}
+                        id={'can_in'}
                         className={classes.checkbox}
                         label={'Մուտքը թույլատրելի է'}
-                        checked={props.data.access_in}
-                        name={'access_in'}
-                        onChange={changeHandler}
+                        checked={props.data.can_in}
+                        name={'can_in'}
+                        onChange={event => props.setMainData(event.target.name, !event.target.checked)}
                     />
                 </div>
                 <div>
                     <CustomCheckbox
-                        id={'sailAllowed'}
+                        id={'can_sale'}
                         className={classes.checkbox}
                         label={'Վաճառքը թույլատրելի է'}
-                        name={'access_sale'}
-                        checked={props.data.access_sale}
-                        onChange={changeHandler}
+                        name={'can_sale'}
+                        checked={props.data.can_sale}
+                        onChange={event => props.setMainData(event.target.name,!event.target.checked)}
                     />
                 </div>
             </div>

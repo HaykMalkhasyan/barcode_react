@@ -20,9 +20,13 @@ const AddContent = props => {
                     indicator={classes.indicator}
                     tabs={props.modalTabs.am}
                     gallery={props.gallery}
+                    imageData={props.imageData}
+                    type={props.type}
                     tabContent={[MainTab, ClassifiersTab, CodesTab, PricesTab, EmployeesTab, DescriptionTab]}
                     // Methods
                     addPhotoHandler={props.addPhotoHandler}
+                    deleteImageHandler={props.deleteImageHandler}
+                    deleteUploadImagesHandler={props.deleteUploadImagesHandler}
                 />
             </div>
         </>

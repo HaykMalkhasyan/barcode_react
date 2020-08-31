@@ -3,15 +3,13 @@ import classes from './filters.module.css'
 import {Grid} from "@material-ui/core"
 import ClassifiersTree from "../classifiersTree/classifiersTree"
 import SearchWindow from "../searchWindow/searchWindow"
-import CustomButton from "../../../../../components/UI/button/customButton/customButton"
-import LaunchIcon from '@material-ui/icons/Launch'
-import CloseIcon from '@material-ui/icons/Close'
 import {connect} from "react-redux";
 import {
     addGroup,
     addSubgroup,
     deleteSubgroup,
-    editGroup, editGroupSubGroup,
+    editGroup,
+    editGroupSubGroup,
     editSubgroup,
     getAllGroup,
     getGroup,
@@ -31,21 +29,13 @@ import {setProductValues} from "../../../../../Redux/products/actions";
 import ModalContent from "../classificatorModals/modalContent/modalContent";
 import ClassifiersActionModals from "../classificatorModals/addClassifiers/classifiersActionModals";
 import Classifiers from "../classificatorModals/classifiers/classifiers";
+import CollapsedFilters from "./collapsedFilters/collapsedFilters";
 
 class Filters extends Component {
     constructor(props) {
         super(props);
         this.props.getAllGroup();
-        this.state = {
-            open: false
-        }
     }
-
-    openClassifiersWindowHandler = () => {
-        this.setState({
-            open: !this.state.open
-        })
-    };
 
     handleOpen = item => {
         this.props.setGroupValues('newGroup', {id: item.id, name: item.name, required_group: item.required_group});
@@ -117,26 +107,16 @@ class Filters extends Component {
 
         return (
             <div className={classes.filters}>
-                <CustomButton
-                    className={`${classes.launchButton} ${this.state.open ? classes.launchButtonOpen : ''}`}
-                    children={
-                        this.state.open ?
-                            <CloseIcon fontSize='small'/>
-                            :
-                            <LaunchIcon fontSize='small'/>
-                    }
-                    onClick={this.openClassifiersWindowHandler}
-                />
-                <Grid container spacing={2} className={classes.gridContainer}>
-                    <Grid item xs={12} md={4} lg={3}
-                          className={`${classes.gritItem} ${classes.gritItemClassifiers} ${this.state.open ? classes.gritItemClassifiersOpen : ''}`}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={4} lg={3} xl={3}>
                         <ClassifiersTree
                             // Methods
                             handleOpen={this.handleOpen}
                             classifierOpenHandler={this.classifierOpenHandler}
                         />
+                        <CollapsedFilters/>
                     </Grid>
-                    <Grid item xs={12} md={8} lg={9} className={classes.gritItem}>
+                    <Grid item xs={12} md={8} lg={9} xl={9}>
                         <SearchWindow/>
                     </Grid>
                 </Grid>

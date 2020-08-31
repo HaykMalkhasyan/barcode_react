@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 100;
     transition: 500ms;
 }
 
@@ -29,8 +29,8 @@
     width: 100%;
     height: 48px;
     box-sizing: border-box;
-    background: #000022;
-    padding: 0 8px;
+    background: #024059;
+    padding: 0 21px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,7 +43,7 @@
 }
 
 .projectName {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     color: #fff;
     font-family: Montserrat, sans-serif;
@@ -57,23 +57,27 @@
 
 .toolsPanel > div {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .notIcons {
     position: relative;
+    display: block;
 }
 
 .notificationsCount {
     position: absolute;
     top: -6px;
     right: -5px;
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     text-align: center;
-    line-height: 14px;
+    line-height: 15px;
     color: #fff;
     border-radius: 50%;
-    background-color: #3DDC97;
+    background-color: #03D9D9;
     font-size: 10px;
     font-weight: 400;
 }
@@ -82,13 +86,13 @@
     position: absolute;
     top: -6px;
     right: -5px;
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     text-align: center;
-    line-height: 14px;
+    line-height: 15px;
     color: #fff;
     border-radius: 50%;
-    background-color: #FE5233;
+    background-color: #FF8927;
     font-size: 10px;
     font-weight: 400;
 }
@@ -138,7 +142,7 @@
     margin-right: 10px;
 }
 
-.userContnet {
+.userContent {
     position: absolute;
     top: 147%;
     right: -8px;
@@ -149,9 +153,10 @@
     padding: 0;
     box-sizing: border-box;
     z-index: 10;
+    border-radius: 6px;
 }
 
-.userContnet:after {
+.userContent:after {
     content: '';
     width: 0;
     height: 0;
@@ -159,11 +164,11 @@
     border-color: transparent transparent #fff transparent;
     position: absolute;
     bottom: 100%;
-    right: 2px;
+    right: 10px;
     z-index: 10;
 }
 
-.userContnet ul {
+.userContent ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -173,7 +178,7 @@
     /*align-items: flex-start;*/
 }
 
-.userContnet ul  li {
+.userContent ul  li {
     display: block;
     margin: 0;
     padding: 0 14px;
@@ -202,9 +207,9 @@
     width: 95%;
     overflow: hidden;
     text-align: center;
-    font-family:Mardoto-medium;
+    font-family: Mardoto-medium;
     box-sizing: border-box;
-    border-bottom: 1px solid #707070;
+    border-bottom: 1px solid #e4e4e4;
 }
 
 .userName > span {
@@ -247,7 +252,10 @@
 .menu {
     width: 100%;
     box-sizing: border-box;
-    background-color: #FCFCFC;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+    z-index: 2;
 }
 
 .menu > div {
@@ -265,17 +273,41 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: #171717;
-    fill: #b6acab;
+    color: #8b8b8b;
     cursor: pointer;
     font-weight: bold;
+    position: relative;
+    z-index: 1;
 }
 
 .menuListActive {
-    box-shadow: 1px -7px 6px rgba(0, 0, 0, .14), -1px -7px 6px rgba(0, 0, 0, .14);
-    color: #FE5233 !important;
-    fill: #FE5233;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
+    color: #ff8927 !important;
+    fill: #ff8927;
+    transform: scale(1.02);
+    transform-origin: top;
     background-color: #fff;
+}
+
+.showArrow:after {
+    content: '';
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 30px;
+    height: 30px;
+    /* border: 10px solid; */
+    /* border-color: transparent transparent #024059 transparent; */
+    z-index: 10;
+    box-shadow: 0 0 6px rgba(162, 186, 248, 0.29);
+    background-color: #fff;
+}
+
+.icons {fill: #171717;}
+
+.menuListActive .icons {
+    fill: #ff8927;
 }
 
 .menuBtn {
@@ -287,15 +319,27 @@
     display: none;
     position: relative;
     z-index: 100;
+    border-radius: 6px;
     transition: 300ms;
+    cursor: pointer;
 }
 
 .menuBtn:hover {
-    border-color: #fff;
+    color: #ff8927;
 }
 
 .menuBtn:active {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, .7) inset;
+}
+
+.submenuBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background-color: transparent;
 }
 
 @media (min-width: 768px) {
@@ -309,6 +353,9 @@
         display: inline;
     }
 
+    .submenuBackdrop {
+        display: none;
+    }
 
     .menuBtnOpen {
         transform: translateX(240px) !important;
@@ -332,11 +379,10 @@
 }
 
 .menuList:hover {
-    fill: #FE5233;
-    color: #FE5233;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
 }
 
-.minimaze {
+.minimize {
     width: 48px;
     height: 48px;
 }
@@ -355,17 +401,9 @@
 }
 
 .menuList span {
-    font-size: 12px;
+    font-size: 8px;
     font-family: Mardoto-Regular, sans-serif;
 }
-
-.docs {
-    fill: none;
-    stroke: #b6acab;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
 
 .menuListActiveProd {
     border-radius: 0 8px 0 0;
@@ -377,11 +415,15 @@
 
 .subMenu {
     width: 100%;
-    height: 35px;
+    height: 52px;
     padding: 5px 0;
     box-sizing: border-box;
     background-color: #fff;
-    box-shadow: 0 0 6px rgba(0, 0, 0, .14);
+    box-shadow: 0 0 3px rgba(162, 186, 248, 0.28);
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 1;
 }
 
 .subMenuList {
@@ -420,6 +462,6 @@
 
 
 .subMenuActive {
-    border-bottom: .5px solid #FE5233;
+    border-bottom: 1px solid #FE5233;
     font-family: Mardoto-medium, sans-serif;
 }

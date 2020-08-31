@@ -19,8 +19,12 @@ const MainTab = props => {
                         <div className={classes.imagesWindow}>
                             <Gallery
                                 gallery={props.gallery}
-                                addPhoto={props.addPhotoHandler}
+                                product={props.product}
+                                type={props.type}
                                 // Methods
+                                addPhoto={props.addPhotoHandler}
+                                deleteImageHandler={props.deleteImageHandler}
+                                deleteUploadImagesHandler={props.deleteUploadImagesHandler}
                                 setProductValues={props.setProductValues}
                             />
                         </div>
@@ -49,6 +53,7 @@ function mapStateToProps(state) {
     return {
         main: state.products.main,
         types: state.products.types,
+        product: state.products.product,
         measurements: state.products.measurements,
         errorFields: state.products.errorFields,
     }

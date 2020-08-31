@@ -7,11 +7,12 @@ export default function SpringPopper(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
-        setAnchorEl(anchorEl ? null : event.currentTarget);
+        setAnchorEl(props.open ? null : event.currentTarget);
+        props.toggleBackdrop(!props.open)
     };
 
-    const open = Boolean(anchorEl);
-    const id = open ? 'spring-popper' : undefined;
+    // const open = Boolean(anchorEl);
+    const id = props.open ? 'spring-popper' : undefined;
 
     return (
         <div>
@@ -22,7 +23,7 @@ export default function SpringPopper(props) {
                 type={'button'}
                 children={props.label}
             />
-            <Popper id={id} open={open} anchorEl={anchorEl} transition>
+            <Popper style={{zIndex: 4}} id={id} open={props.open} anchorEl={anchorEl} transition>
                 {({ TransitionProps }) => (
                         <div className={props.dropWindow}>{props.children}</div>
 

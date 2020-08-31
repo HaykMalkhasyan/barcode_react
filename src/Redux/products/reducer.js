@@ -1,11 +1,18 @@
-import {ADD_NEW_PRODUCT, CLOSE_PRODUCT_MODAL, ONLY_ADD_PRODUCT, SET_PRODUCT_VALUES, SET_PRODUCTS} from "./actionTypes";
+import {
+    ADD_NEW_PRODUCT,
+    CLOSE_PRODUCT_MODAL,
+    ONLY_ADD_PRODUCT,
+    SET_PRODUCT_MODAL_VALUES,
+    SET_PRODUCT_VALUES,
+    SET_PRODUCTS
+} from "./actionTypes";
 
 const initialState = {
     product: null,
     products: [],
     count: null,
     advancedSearchConfig: {
-        classifiers: []
+        classifiers: null
     },
     collapsedStatus: [],
     open: false,
@@ -52,21 +59,21 @@ const initialState = {
         {id: 3, name: 'Հայտարարություն', value: 3},
     ],
     measurements: [
-        {id: 1, name: 'հատ', value: 'item'},
-        {id: 2, name: 'կիլոգրամ', value: 'kg'},
-        {id: 3, name: 'գրամ', value: 'g'},
-        {id: 4, name: 'միլիգրամ', value: 'mg'},
+        {id: 1, name: 'հատ', value: 1},
+        {id: 2, name: 'կիլոգրամ', value: 2},
+        {id: 3, name: 'գրամ', value: 3},
+        {id: 4, name: 'միլիգրամ', value: 4},
         {id: 5, name: 'լիտր', value: 'l'},
-        {id: 6, name: 'միլիլիտր', value: 'ml'},
+        {id: 6, name: 'միլիլիտր', value: 5},
     ],
     main: {
         name: '',
         short_name: '',
         product_type: '',
-        measurement: '',
+        unit_id: '',
         active: false,
-        access_in: false,
-        access_sale: false
+        can_in: false,
+        can_sale: false
     },
     classifiers: {
         classifiers: []
@@ -77,6 +84,7 @@ const initialState = {
     workers: {
         workers: ''
     },
+    images: [],
     pictures: {
         pictures: []
     },
@@ -88,6 +96,17 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_PRODUCT_MODAL_VALUES:
+            return {
+                ...state,
+                product: action.data,
+                main: action.main,
+                description: action.description,
+                pictures: action.pictures,
+                open: 'edit',
+                productLoadingStatus: false,
+                images: action.images
+            };
         case SET_PRODUCTS:
             return {
                 ...state, products: action.products, count: action.count, productLoadingStatus: false
@@ -103,13 +122,23 @@ export default function productsReducer(state = initialState, action) {
                     name: '',
                     short_name: '',
                     product_type: '',
-                    measurement: '',
+                    unit_id: '',
                     active: false,
-                    access_in: false,
-                    access_sale: false
+                    can_in: false,
+                    can_sale: false
                 },
                 description: {
                     description: '',
+                },
+                classifiers: {
+                    classifiers: []
+                },
+                workers: {
+                    workers: ''
+                },
+                images: [],
+                pictures: {
+                    pictures: []
                 },
                 errorFields: [],
                 open: false
@@ -122,14 +151,21 @@ export default function productsReducer(state = initialState, action) {
                     name: '',
                     short_name: '',
                     product_type: '',
-                    measurement: '',
+                    unit_id: '',
                     active: false,
-                    access_in: false,
-                    access_sale: false
+                    can_in: false,
+                    can_sale: false
                 },
                 description: {
                     description: '',
                 },
+                classifiers: {
+                    classifiers: []
+                },
+                workers: {
+                    workers: ''
+                },
+                images: [],
                 errorFields: [],
                 open: false,
                 pictures: {

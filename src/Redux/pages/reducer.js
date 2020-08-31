@@ -47,7 +47,7 @@ const initialState = {
         {
             id: 5,
             name: 'Աշխատակիցներ',
-            staticName: 'worckers',
+            staticName: 'workers',
             subMenus: [
                 {id: '5-1', name: 'Աշխատակից բաժին 1', url: '/link_5_1'},
                 {id: '5-2', name: 'Աշխատակից բաժին 1', url: '/link_5_2'},
@@ -63,11 +63,11 @@ export default function pageReducer(state = initialState, action) {
         case SET_PAGES_VALUE:
             return {
                 ...state, [action.name]: action.value
-            }
+            };
         case SET_ACTIVE_MENU:
             return {
                 ...state, activeMenu: action.menu
-            }
+            };
         default: return {...state};
     }
 }

@@ -35,10 +35,13 @@ const CustomInput = props => {
                         <label
                             htmlFor={props.id}
                             className={props.classNameLabel}
+                            onClick={props.onClick}
                         >
                             {props.label}
                         </label>
                         <input
+                            readOnly={props.readOnly }
+                            ref={props.inputRef}
                             id={props.id}
                             className={props.classNameInput}
                             // -----

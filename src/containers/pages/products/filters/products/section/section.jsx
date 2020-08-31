@@ -33,10 +33,13 @@ const Section = props => {
                     products={props.products}
                     types={props.types}
                     selected_products={props.selected_products}
+                    measurements={props.measurements}
                     // Methods
                     getAllProducts={props.getAllProducts}
                     selectProducts={props.selectProducts}
                     setProductValues={props.setProductValues}
+                    getProduct={props.getProduct}
+                    sortTableTabs={props.sortTableTabs}
                 />
             </Grid>
         </Grid>

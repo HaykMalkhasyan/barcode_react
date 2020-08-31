@@ -14,8 +14,11 @@ const Submenu = props => {
 
                                 return (
                                     <li key={submenu.id}>
-                                        <NavLink exact to={submenu.url} className={classes.subMenuLink}
-                                                 activeClassName={classes.subMenuActive}>
+                                        <NavLink
+                                            onClick={props.closeSubMenu}
+                                            exact to={submenu.url}
+                                            className={classes.subMenuLink}
+                                            activeClassName={classes.subMenuActive}>
                                             <span>{submenu.name}</span>
                                         </NavLink>
                                     </li>
@@ -28,6 +31,6 @@ const Submenu = props => {
             </ul>
         </div>
     )
-}
+};
 
 export default Submenu

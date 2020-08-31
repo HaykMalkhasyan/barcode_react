@@ -1,5 +1,6 @@
 import React, {lazy, Suspense} from 'react';
 import ReactDOM from 'react-dom';
+import 'dejavu-sans';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";

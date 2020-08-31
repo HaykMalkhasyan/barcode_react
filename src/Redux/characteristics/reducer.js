@@ -3,6 +3,7 @@ import {SET_GROUP_VALUE} from "./actionTypes";
 const initialState = {
     active: 0,
     open: false,
+    advancedSearch: false,
     group: null,
     customGroup: null,
     groups: [{id: 0, name: 'Հիմնական դասակարգիչ', group_type: '1', required_group: true}],

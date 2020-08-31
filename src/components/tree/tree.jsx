@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import classes from './tree.module.css'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import Collapse from "@material-ui/core/Collapse"
 import MovingButton from "./movingButton/movingButton"
 import Icons from "../Icons/icons";
@@ -109,30 +108,19 @@ const Tree = props => {
                             }
                             {
                                 checkSubs(item.id, subgroup, 2) ?
-                                    <span className={classes.chevron}>
-                                        <ChevronRightIcon
-                                            style={
-                                                props.collapsed.includes(item.id) ?
-                                                    {
-                                                        verticalAlign: 'middle',
-                                                        transaction: '300ms',
-                                                        transform: 'rotate(90deg)',
-                                                        fontSize: 20
-                                                    }
-                                                    :
-                                                    {
-                                                        verticalAlign: 'middle',
-                                                        transaction: '300ms',
-                                                        fontSize: 20
-                                                    }
-                                            }
-                                            onClick={event => toggle(event, item.id, false)}
-                                        />
+                                    <span className={classes.chevron} onClick={event => toggle(event, item.id, false)}>
+                                        {
+                                            props.collapsed.includes(item.id) ?
+                                                <Icons type={'tree-arrow-down'}/>
+                                                :
+                                                <Icons type={'tree-arrow-right'}/>
+                                        }
                                     </span>
                                     :
-                                    null
-                            }
-                            <Icons type={'folder'}/>
+                                    <span className={classes.chevron}>
+                                        <Icons type={'tree-arrow-right-empty'}/>
+                                    </span>
+                                }
                             <span className={classes.name}>
                                  <span className={classes.nameSpace}>{item.name}</span>
                                 {
@@ -275,8 +263,8 @@ const Tree = props => {
     };
 
     const checkSelect = (config, item) => {
-        const classifiers = [...config.classifiers];
-        return classifiers.indexOf(item) !== -1;
+        const classifiers = config.classifiers;
+        return classifiers === item;
     };
 
     const drag = (event, item) => {
@@ -425,7 +413,7 @@ const Tree = props => {
                                     <span
                                         onDragOver={props.type === 'edit' ? allowDrop : null}
                                         onDrop={props.type === 'edit' ? event => drop(event, props.group, true) : null}
-                                        onClick={props.type === 'edit' ? event => selectItem(event, props.type, props.group) : null}
+                                        onClick={event => selectItem(event, props.type, props.group)}
                                         style={{marginBottom: 5}}
                                         className={`
                                             ${classes.nameArea}  
@@ -451,30 +439,19 @@ const Tree = props => {
 
                                         {
                                             checkSubs(props.group.id, props.customSubgroup, 1) ?
-                                                <span className={classes.chevron}>
-                                                    <ChevronRightIcon
-                                                        style={
-                                                            openGroup ?
-                                                                {
-                                                                    verticalAlign: 'middle',
-                                                                    transaction: '300ms',
-                                                                    transform: 'rotate(90deg)',
-                                                                    fontSize: 20
-                                                                }
-                                                                :
-                                                                {
-                                                                    verticalAlign: 'middle',
-                                                                    transaction: '300ms',
-                                                                    fontSize: 20
-                                                                }
-                                                        }
-                                                        onClick={() => setOpenGroup(!openGroup)}
-                                                    />
+                                                <span className={classes.chevron} onClick={() => setOpenGroup(!openGroup)}>
+                                                    {
+                                                        openGroup ?
+                                                            <Icons type={'tree-arrow-down'}/>
+                                                            :
+                                                            <Icons type={'tree-arrow-right'}/>
+                                                    }
                                                 </span>
                                                 :
-                                                null
+                                                <span className={classes.chevron}>
+                                                    <Icons type={'tree-arrow-right-empty'}/>
+                                                </span>
                                         }
-                                        <Icons type={'mFolder'}/>
                                         <span className={classes.name}>
                                             {props.label}
                                             {
@@ -544,31 +521,19 @@ const Tree = props => {
                                                                     }
                                                                     {
                                                                         checkSubs(item.id, props.customSubgroup, 2) ?
-                                                                            <span className={classes.chevron}>
-                                                                                <ChevronRightIcon
-
-                                                                                    style={
-                                                                                        props.collapsed.includes(item.id) ?
-                                                                                            {
-                                                                                                verticalAlign: 'middle',
-                                                                                                transaction: '300ms',
-                                                                                                transform: 'rotate(90deg)',
-                                                                                                fontSize: 20
-                                                                                            }
-                                                                                            :
-                                                                                            {
-                                                                                                verticalAlign: 'middle',
-                                                                                                transaction: '300ms',
-                                                                                                fontSize: 20
-                                                                                            }
-                                                                                    }
-                                                                                    onClick={event => toggle(event, item.id, false)}
-                                                                                />
+                                                                            <span className={classes.chevron} onClick={event => toggle(event, item.id, false)}>
+                                                                                {
+                                                                                    props.collapsed.includes(item.id) ?
+                                                                                        <Icons type={'tree-arrow-down'}/>
+                                                                                        :
+                                                                                        <Icons type={'tree-arrow-right'}/>
+                                                                                }
                                                                             </span>
                                                                             :
-                                                                            null
+                                                                            <span className={classes.chevron}>
+                                                                                <Icons type={'tree-arrow-right-empty'}/>
+                                                                            </span>
                                                                     }
-                                                                    <Icons type={'folder'}/>
                                                                     <span className={classes.name}>
                                                                         <span
                                                                             className={classes.nameSpace}>{item.name}</span>

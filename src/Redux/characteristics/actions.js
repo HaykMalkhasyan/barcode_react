@@ -640,7 +640,7 @@ export function searchSubgroup() {
 export function subCollapsed(id, place = null) {
 
     return (dispatch, getState) => {
-        let collapsed = null;
+        let collapsed;
         if (place !== null) {
             collapsed = [...getState().characteristics[place]];
         } else {
@@ -664,7 +664,7 @@ export function subCollapsed(id, place = null) {
 export function subCollapsedGroup(id, place = null) {
 
     return (dispatch, getState) => {
-        let collapsedGroup = null;
+        let collapsedGroup;
         if (place !== null) {
             collapsedGroup = [...getState().characteristics[place]];
         } else {

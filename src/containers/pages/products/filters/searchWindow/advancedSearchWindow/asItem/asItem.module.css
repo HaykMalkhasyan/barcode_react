@@ -1,0 +1,18 @@
+.asItem {
+    width: 100%;
+    height: auto;
+    /*overflow: hidden;*/
+}
+
+.asItem > h5 {
+    margin: 0 0 34px;
+    font-size: 15px;
+    color: #484848;
+}
+
+.filterContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

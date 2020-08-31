@@ -24,14 +24,19 @@ export default function CheckboxList(props) {
     return (
         <List className={classes.root}>
             {
-                props.products.length && props.data && props.data.length ?
+                props.products && props.products.length && props.data && props.data.length ?
                     props.data.map(
                         (item) => {
                             const labelId = `checkbox-list-label-${item.id}`;
 
                             return (
-                                <ListItem key={item.id} role={undefined} dense button
-                                          onClick={() => props.onClick(item.id)}>
+                                <ListItem
+                                    key={item.id}
+                                    role={undefined}
+                                    dense
+                                    button
+                                    onClick={item.required ? null : () => props.onClick(item.id)}
+                                >
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"

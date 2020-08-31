@@ -7,7 +7,6 @@ import {logout} from "../../../../Redux/auth/actions";
 import Menu from "./menu/menu";
 import {setActiveMenu} from "../../../../Redux/pages/actions";
 import MobileMenu from "./mobileMenu/mobileMenu";
-import Submenu from "./submenu/submenu";
 import {withRouter} from "react-router-dom";
 
 const Header = props => {
@@ -15,9 +14,10 @@ const Header = props => {
     const [sticky, setSticky] = useState(false);
     const [hideText, setHideText] = useState(false);
     const [menu, setMenu] = useState(false);
-    const [minimaze, setMinimaze] = useState(false);
+    const [minimize, setMinimize] = useState(false);
     const [user] = useState(JSON.parse(localStorage.getItem('user')));
     const [confWindow, setConfWindow] = useState(true);
+    const [submenu, setSubmenu] = useState(null);
 
     const windowScrolling = () => {
         setScroll(window.pageYOffset);
@@ -29,9 +29,9 @@ const Header = props => {
             }
 
             if (window.pageYOffset > 200) {
-                setMinimaze(true)
+                setMinimize(true)
             } else {
-                setMinimaze(false)
+                setMinimize(false)
             }
 
             if (window.pageYOffset > 400) {
@@ -42,7 +42,7 @@ const Header = props => {
         }
 
         if (scroll > window.pageYOffset) {
-            setMinimaze(false);
+            setMinimize(false);
             setSticky(false);
             setHideText(false)
         }
@@ -71,7 +71,12 @@ const Header = props => {
 
     const showThisSubMenuHandler = menu => {
         setMenu(false);
+        setSubmenu(menu.id === submenu ? null : menu.id);
         props.setActiveMenu(menu)
+    };
+
+    const closeSubMenuHandler = () => {
+        setSubmenu(null)
     };
 
     return (
@@ -89,6 +94,16 @@ const Header = props => {
                     :
                     null
             }
+            {
+                submenu !== null ?
+                    <Backdrop
+                        className={classes.submenuBackdrop}
+                        // Methods
+                        onClick={() => setSubmenu(null)}
+                    />
+                    :
+                    null
+            }
             <UpPanel
                 menu={menu}
                 user={user}
@@ -102,18 +117,18 @@ const Header = props => {
             />
             <Menu
                 menu={menu}
-                minimaze={minimaze}
+                submenu={submenu}
+                minimize={minimize}
                 menus={props.menus}
                 activeMenu={props.activeMenu}
+                // Methods
                 showThisSubMenuHandler={showThisSubMenuHandler}
+                closeSubMenu={closeSubMenuHandler}
             />
             <MobileMenu
                 menus={props.menus}
                 menu={menu}
                 setMenu={setMenu}
-                activeMenu={props.activeMenu}
-            />
-            <Submenu
                 activeMenu={props.activeMenu}
             />
         </div>

@@ -8,8 +8,26 @@ import CustomInput from "../../../../../../../../components/UI/input/customInput
 import AsNavFor from "../../../../../../../../components/asNavFor/asNavFor"
 import CustomButton from "../../../../../../../../components/UI/button/customButton/customButton"
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 
 const Gallery = props => {
+
+    const checkImage = (item, product) => {
+        switch (props.type) {
+            case 'add':
+                return false;
+            case 'edit': {
+                for (let i of product.pictures) {
+                    if (item === i.image) {
+                        return true
+                    }
+                }
+                break;
+            }
+            default: break
+        }
+
+    };
 
     return (
         <div className={classes.galleryWindow}>
@@ -51,7 +69,7 @@ const Gallery = props => {
                             return (
                                 <div tabIndex={-1} key={index + Math.random()}>
                                     <div tabIndex={-1} className={classes.mainImage}>
-                                        <div tabIndex={-1} className={classes.galleryControllers}>
+                                        <div tabIndex={-1} className={checkImage(item, props.product) ? classes.galleryControllers : `${classes.galleryControllers} ${classes.galleryController}`}>
                                             <div tabIndex={-1} className={classes.setToMainImage}>
                                                 <CustomButton
                                                     tabIndex={-1}
@@ -63,19 +81,38 @@ const Gallery = props => {
                                                     }
                                                 />
                                             </div>
-                                            <div className={classes.deleteItemImage}>
-                                                <CustomButton
-                                                    tabIndex={-1}
-                                                    className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
-                                                    children={
-                                                        <Tooltip title="Ջնջել նկարը" placement="right">
-                                                            <DeleteOutlineIcon style={{fontSize: 20}}/>
-                                                        </Tooltip>
-                                                    }
-                                                />
-                                            </div>
+                                            {
+                                                checkImage(item, props.product) ?
+                                                    <div className={classes.deleteItemImage}>
+                                                        <CustomButton
+                                                            tabIndex={-1}
+                                                            className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
+                                                            children={
+                                                                <Tooltip title="Ջնջել նկարը" placement="right">
+                                                                    <DeleteOutlineIcon style={{fontSize: 20}}/>
+                                                                </Tooltip>
+                                                            }
+                                                            // Methods
+                                                            onClick={() => props.deleteImageHandler(item, index)}
+                                                        />
+                                                    </div>
+                                                    :
+                                                    <div className={classes.deleteItemImage}>
+                                                        <CustomButton
+                                                            tabIndex={-1}
+                                                            className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
+                                                            children={
+                                                                <Tooltip title="Ջնջել ավելացռած նկարներըը" placement="right">
+                                                                    <DeleteForeverIcon style={{fontSize: 20}}/>
+                                                                </Tooltip>
+                                                            }
+                                                            // Methods
+                                                            onClick={() => props.deleteUploadImagesHandler(item, index)}
+                                                        />
+                                                    </div>
+                                            }
                                         </div>
-                                        <img tabIndex={-1} src={URL.createObjectURL(item)} alt={item.name}/>
+                                        <img tabIndex={-1} src={item} alt={item.name}/>
                                     </div>
                                 </div>
                             )
@@ -89,7 +126,7 @@ const Gallery = props => {
                             return (
                                 <div key={index + Math.random()}>
                                     <div className={classes.subImage}>
-                                        <img src={URL.createObjectURL(item)} alt={item.name}/>
+                                        <img src={item} alt={item.name}/>
                                     </div>
                                 </div>
                             )

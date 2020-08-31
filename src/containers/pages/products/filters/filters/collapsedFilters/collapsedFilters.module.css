@@ -1,0 +1,12 @@
+.collapsedFilters {
+    margin: 25px 0;
+    background-color: #fff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.collapsedFilters > h5 {
+    color: #323232;
+    font-size: 12px;
+    margin: 0;
+}

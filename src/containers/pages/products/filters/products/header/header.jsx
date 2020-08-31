@@ -15,7 +15,6 @@ const Header = props => {
                     children={
                         <>
                             <Icons type={'left-arrow'} height={15} className={classes.sendIcon}/>
-                            <span>Վերադառնալ նախորդ էջ</span>
                         </>
                     }
                     // Methods
@@ -25,12 +24,10 @@ const Header = props => {
                 <SpringPopper
                     dropWindow={props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
                     className={classes.actionsButton}
-                    label={
-                        <>
-                            <Icons type={'triangle-down'} height={10} width={10} className={classes.sendIcon}/>
-                            <span>Սղյուսակի կարգավորումներ</span>
-                        </>
-                    }
+                    open={props.open}
+                    label={<Icons type={'configuration'} className={classes.sendIcon} width={18} height={18}/>}
+                    // Methods
+                    toggleBackdrop={props.toggleBackdrop}
                 >
                     <CheckboxList
                         emptyStyle={classes.emptyStyle}

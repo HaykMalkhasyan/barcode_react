@@ -75,6 +75,10 @@
     opacity: 1;
 }
 
+.galleryController > div {
+    width: 100% !important;
+}
+
 .galleryControllers > div {
     width: 50%;
     z-index: 2;
