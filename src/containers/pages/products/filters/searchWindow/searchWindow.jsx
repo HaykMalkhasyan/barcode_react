@@ -3,11 +3,17 @@ import classes from '../filters/filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/customButton"
 import ProductModal from "../product/modals/productModal"
 import {connect} from "react-redux"
-import {closeProductActionModal, setProductValues} from "../../../../../Redux/products/actions"
-import Icons from "../../../../../components/Icons/icons"
+import {
+    backToProduct,
+    closeProductActionModal,
+    closeProductAndSubgroupModals, selectSubs,
+    setProductValues
+} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
-import {setGroupValues} from "../../../../../Redux/characteristics/actions";
+import {searchHandler, setGroupValues, subCollapsed} from "../../../../../Redux/characteristics/actions";
+import ModalUI from "../../../../../components/modalUI/modalUI";
+import SubgroupsTreeModal from "../product/modals/subgroupsTreeModal/subgroupsTreeModal";
 
 const SearchWindow = props => {
 
@@ -22,47 +28,36 @@ const SearchWindow = props => {
 
     return (
         <div className={classes.searchWindow}>
-            <div>
-                {/* CUSTOM SEARCH */}
+            {/* CUSTOM SEARCH */}
+            <div className={classes.desktopSearch}>
                 <CustomSearchWindow/>
-                {/* ADVANCED SEARCH */}
-                <AdvancedSearchWindow
-                    open={props.advancedSearch}
+            </div>
+            {/* ADVANCED SEARCH */}
+            <AdvancedSearchWindow
+                mainFilters={props.mainFilters}
+                open={props.advancedSearch}
+                // Methods
+                collapse={collapseHandler}
+            />
+            <div className={classes.finishedButtons}>
+                <CustomButton
+                    className={classes.addButton}
+                    children={'նոր ապրանք'}
                     // Methods
-                    collapse={collapseHandler}
+                    onClick={
+                        () => toggleAddModalHandler('open', 'add', 'body')
+                    }
+                />
+                <CustomButton
+                    className={classes.searchButton}
+                    children={'Փնտրել'}
                 />
             </div>
-            <div>
-                <div className={classes.finishedButtons}>
-                    <CustomButton
-                        className={classes.addButton}
-                        children={
-                            <>
-                                <Icons type={'plus'} className={classes.addBtnIcon}/>
-                                <span>Ավելացնել</span>
-                            </>
-                        }
-                        // Methods
-                        onClick={
-                            () => toggleAddModalHandler('open', 'add', 'body')
-                        }
-                    />
-                    <CustomButton
-                        className={classes.searchButton}
-                        children={
-                            <>
-                                <Icons type={'search'} width={14.349} height={16.61} className={classes.searchBtnIcon}/>
-                                <span>Փնտրել</span>
-                            </>
-                        }
-                    />
-                </div>
-            </div>
-
             {/* Modals */}
             <ProductModal
+                root={classes.root}
                 type={props.open}
-                scroll={props.scroll}
+                scroll={props.scrollB}
                 open={props.open}
                 paper={classes.paper}
                 modalTabs={props.modalTabs}
@@ -73,6 +68,25 @@ const SearchWindow = props => {
                     }
                 }
             />
+            <ModalUI
+                open={props.subgroupsOpen}
+                className={classes.subgroupsModal}
+            >
+                <SubgroupsTreeModal
+                    group={props.group}
+                    customSubgroup={props.customSubgroup}
+                    collapsed={props.classifiersCollapsed}
+                    searchResult={props.searchResult}
+                    initialSub={props.initialSub}
+                    // Methods
+                    searchHandler={props.searchHandler}
+                    subCollapsed={props.subCollapsed}
+                    onBack={props.backToProduct}
+                    onClose={props.closeProductAndSubgroupModals}
+                    select={props.setProductValues}
+                    onClick={props.selectSubs}
+                />
+            </ModalUI>
         </div>
     )
 };
@@ -80,8 +94,15 @@ const SearchWindow = props => {
 function mapStateToProps(state) {
 
     return {
+        searchResult: state.characteristics.searchResult,
+        classifiersCollapsed: state.characteristics.classifiersCollapsed,
+        group: state.characteristics.group,
+        customSubgroup: state.characteristics.customSubgroup,
+        subgroupsOpen: state.products.subgroupsOpen,
         open: state.products.open,
-        scroll: state.products.scroll,
+        mainFilters: state.products.mainFilters,
+        initialSub: state.products.initialSub,
+        scrollB: state.products.scrollB,
         modalTabs: state.products.modalTabs,
         advancedSearch: state.characteristics.advancedSearch,
     }
@@ -92,7 +113,12 @@ function mapDispatchToProps(dispatch) {
     return {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         closeProductActionModal: () => dispatch(closeProductActionModal()),
+        searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
+        subCollapsed: (id, place) => dispatch(subCollapsed(id, place)),
+        backToProduct: () => dispatch(backToProduct()),
+        closeProductAndSubgroupModals: () => dispatch(closeProductAndSubgroupModals()),
+        selectSubs: () => dispatch(selectSubs()),
     }
 }
 

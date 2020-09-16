@@ -32,23 +32,23 @@ export default function registrationReducer(state = initialState, action) {
         case VERIFY_SUCCESS:
             return {
                 ...state, verifySuccess: action.data
-            }
+            };
         case VERIFY_ERROR:
             return {
                 ...state, verifyError: action.error
-            }
+            };
         case REGISTRATION_REQUEST_SUCCESS:
             return {
                 ...state, regSuccess: action.data, regError: null
-            }
+            };
         case REGISTRATION_REQUEST_ERROR:
             return {
                 ...state, regError: action.errorData, regSuccess: null
-            }
+            };
         case SET_REGISTRATION_VALUES:
             return {
                 ...state, [action.name]: action.value
-            }
+            };
         default: return {...state}
     }
 }

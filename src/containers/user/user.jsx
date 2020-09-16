@@ -135,7 +135,7 @@ const User = props => {
             </div>
         )
     }
-}
+};
 
 function mapStateToProps(state) {
 

@@ -3,6 +3,7 @@ import classes from '../header.module.css'
 import Icons from "../../../../../components/Icons/icons";
 import Submenu from "../submenu/submenu";
 import {withRouter} from "react-router-dom";
+import {getLanguage} from "../../../../../controllers/languages/languages";
 
 const Menu = props => {
 
@@ -66,7 +67,7 @@ const Menu = props => {
                         </div>
                         <div
                             className={props.minimize ? `${classes.hiddenElem} ${classes.textElem}` : classes.textElem}>
-                            <span>{menu.name}</span>
+                            <span>{getLanguage('am',menu.staticName)}</span>
                         </div>
                     </div>
                 )

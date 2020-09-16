@@ -283,4 +283,6 @@ ul.tree li:last-child {
     overflow: hidden;
     text-overflow: ellipsis;
     color: #5D5D5D;
+    font-size: 14px;
+    font-weight: 100;
 }

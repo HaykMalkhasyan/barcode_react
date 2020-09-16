@@ -28,11 +28,11 @@ export default function resetPasswordReducer(state = initialState, action) {
                 signature: action.dataObject.signature,
                 timestamp: action.dataObject.timestamp,
                 user_id: action.dataObject.user_id,
-            }
+            };
         case SET_ERROR_DATA:
             return {
                 ...state, error: action.status, success: null
-            }
+            };
         case SET_RECOVER_DATA:
             return {
                 ...state,
@@ -42,15 +42,15 @@ export default function resetPasswordReducer(state = initialState, action) {
                 emailRecover: '',
                 failRecover: false,
                 error: null,
-            }
+            };
         case SET_VALUES:
             return {
                 ...state, [action.name]: action.value
-            }
+            };
         case SEND_RESET_PASSWORD_MAIL_SUCCESS:
             return {
                 ...state, success: action.data
-            }
+            };
         default: return {...state}
     }
 }

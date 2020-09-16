@@ -13,6 +13,9 @@ import {login, setValues} from "../../../Redux/auth/actions";
 import is from 'is_js'
 import Alert from "@material-ui/lab/Alert";
 import Icons from "../../../components/Icons/icons";
+import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";
+import {getLanguage} from "../../../controllers/languages/languages";
+import LanguagesMenu from "../../../controllers/languagesMenu/languagesMenu";
 
 const Login = props => {
 
@@ -72,16 +75,37 @@ const Login = props => {
         props.setValues('showPassword', false)
     };
 
+    const handleClick = event => {
+        props.setLanguageValue('open', event.currentTarget)
+    };
+
+    const handleClose = () => {
+        props.setLanguageValue('open', null)
+    };
+
+    const setLanguage = lang => {
+        props.changeLanguage(lang)
+    };
+
     return (
         <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
+            <LanguagesMenu
+                open={props.open}
+                lang={props.lang}
+                activeLanguage={props.activeLanguage}
+                // Methods
+                handleClick={handleClick}
+                handleClose={handleClose}
+                setLanguage={setLanguage}
+            />
             <div className={classes.backdrop}>
                 <div className={classes.mainWindow}>
                     <span className={classes.name}>Barcode.am</span>
-                    <span className={classes.action}>Մուտք</span>
+                    <span className={classes.action}>{getLanguage(props.activeLanguage, 'login')}</span>
                     {
                         props.text ?
                             <Alert className={classes.alertError} severity="error">
-                                {props.text}
+                                {getLanguage(props.activeLanguage, props.text)}
                             </Alert>
                             :
                             null
@@ -106,7 +130,7 @@ const Login = props => {
                             type={'email'}
                             required={true}
                             name={'email'}
-                            placeholder={'Էլ. հասցե'}
+                            placeholder={getLanguage(props.activeLanguage, 'email')}
                             value={props.email}
                             // Methods
                             onFocus={clickHandler.bind(this, 'email')}
@@ -163,7 +187,7 @@ const Login = props => {
                             }
                             required={true}
                             name={'password'}
-                            placeholder={'Գաղտնաբառ'}
+                            placeholder={getLanguage(props.activeLanguage, 'password')}
                             value={props.password}
                             // Methods
                             onFocus={clickHandler.bind(this, 'password')}
@@ -191,21 +215,21 @@ const Login = props => {
                             }
                         />
                         <NavLink to={'/recover-password'} className={classes.forgetPassword}>
-                            Մոռացե՞լ եք գաղտնաբառը
+                            {getLanguage(props.activeLanguage, 'forget_password')}
                         </NavLink>
                         <CustomButton
                             className={classes.signIn}
-                            children={'Մուտք'}
+                            children={getLanguage(props.activeLanguage, 'login')}
                             //Methods
                             onClick={onSubmit}
                         />
                     </form>
                     <div className={classes.createAccount}>
                         <span>
-                            Գրանցվա՞ծ եք:
+                            {getLanguage(props.activeLanguage, 'registered')}
                         </span>
                         <NavLink to={'/registration'} className={classes.signUp}>
-                            Գրանցվել
+                            {getLanguage(props.activeLanguage, 'register')}
                         </NavLink>
                     </div>
                 </div>
@@ -228,6 +252,9 @@ const Login = props => {
 function mapStateToProps(state) {
 
     return {
+        open: state.language.open,
+        lang: state.language.lang,
+        activeLanguage: state.language.activeLanguage,
         progress: state.auth.progress,
         fail: state.auth.fail,
         showPassword: state.auth.showPassword,
@@ -245,6 +272,8 @@ function mapDispatchToProps(dispatch) {
     return {
         setValues: (name, value) => dispatch(setValues(name, value)),
         login: () => dispatch(login()),
+        setLanguageValue: (name, value) => dispatch(setLanguageValue(name, value)),
+        changeLanguage: language => dispatch(changeLanguage(language))
     }
 }
 

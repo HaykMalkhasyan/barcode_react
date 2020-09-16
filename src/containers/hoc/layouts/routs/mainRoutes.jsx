@@ -18,6 +18,6 @@ const MainLayoutRoute = props => {
             }
         />
     )
-}
+};
 
 export default MainLayoutRoute

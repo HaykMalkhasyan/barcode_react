@@ -119,7 +119,7 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    font-family: Mardoto-Regular;
+    /*font-family: Mardoto-Regular;*/
     border-bottom: 2px solid transparent;
     transition: 300ms;
     position: relative;

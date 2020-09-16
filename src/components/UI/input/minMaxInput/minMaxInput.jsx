@@ -7,7 +7,7 @@ const MinMaxInput = props => {
     return (
         <div className={classes.minMaxInput}>
             <CustomInput
-                id={'start'}
+                id={`${props.id}-start`}
                 // Label
                 classNameLabel={classes.label}
                 inputType={'inner'}
@@ -17,7 +17,7 @@ const MinMaxInput = props => {
                 classNameInput={classes.input}
             />
             <CustomInput
-                id={'end'}
+                id={`${props.id}-end`}
                 // Label
                 classNameLabel={classes.label}
                 inputType={'inner'}

@@ -9,18 +9,49 @@ const Header = props => {
 
     return (
         <div className={classes.header}>
-            <div>
+            <div className={classes.actionsButtonWindow}>
                 <CustomButton
                     className={`${classes.actionsButton}`}
                     children={
                         <>
-                            <Icons type={'left-arrow'} height={15} className={classes.sendIcon}/>
+                            <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Ավելացնել</span>
                         </>
                     }
-                    // Methods
+                />
+                <CustomButton
+                    className={`${classes.actionsButton}`}
+                    children={
+                        <>
+                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span>Ջնջել</span>
+                        </>
+                    }
+                />
+                <CustomButton
+                    className={`${classes.actionsButton}`}
+                    children={
+                        <>
+                            <Icons type={'contained-print'}/> <span>Տպել</span>
+                        </>
+                    }
+                />
+                <CustomButton
+                    className={`${classes.actionsButton}`}
+                    children={
+                        <>
+                            <Icons type={'outline-list'}/> <span>Դասակարգել</span>
+                        </>
+                    }
+                />
+                <CustomButton
+                    className={`${classes.actionsButton}`}
+                    children={
+                        <>
+                            <Icons type={'contained-export'}/> <span>Արտահանել</span>
+                        </>
+                    }
                 />
             </div>
-            <div className={classes.actionsButtonWindow}>
+            <div>
                 <SpringPopper
                     dropWindow={props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
                     className={classes.actionsButton}
@@ -40,34 +71,6 @@ const Header = props => {
                         onClick={props.onClick}
                     />
                 </SpringPopper>
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={<Icons type={'send'} height={15} className={classes.sendIcon}/>}
-                />
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={<Icons type={'print'} height={15} className={classes.printIcon}/>}
-                />
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={<Icons type={'paper-list'} height={15} className={classes.paperListIcon}/>}
-                />
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={<Icons type={'edit'} height={15} className={classes.editIcon}/>}
-                />
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={<Icons type={'export'} height={15} className={classes.exportIcon}/>}
-                />
-                <CustomButton
-                    className={`${classes.actionsButton}`}
-                    children={
-                        <>
-                            <Icons type={'delete'} height={15}/> <span>Ջնջել</span>
-                        </>
-                    }
-                />
             </div>
         </div>
     )

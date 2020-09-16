@@ -1,17 +1,19 @@
-import {SET_ACTIVE_MENU, SET_PAGES_VALUE} from "./actionTypes";
+import {SET_ACTIVE_MENU, SET_PAGES_VALUE, TOGGLE_CHAT, TOGGLE_PEOPLE} from "./actionTypes";
 
 const initialState = {
     activeMenu: null,
     status: false,
+    chat_modal: false,
+    interlocutorWindow: false,
     menus: [
         {
             id: 1,
             name: 'Ապրանքներ',
             staticName: 'products',
             subMenus: [
-                {id: '1-1', name: 'Ապրանքատեսականի', url: '/products/filters'},
-                {id: '1-2', name: 'Գներ', url: '/products/prices'},
-                {id: '1-3', name: 'Բնութագրիչներ', url: '/products/characteristics'}
+                {id: '1-1', name: 'product_range', url: '/products/filters'},
+                {id: '1-2', name: 'prices', url: '/products/prices'},
+                {id: '1-3', name: 'characteristics', url: '/products/characteristics'}
             ]
         },
         {
@@ -60,6 +62,14 @@ const initialState = {
 export default function pageReducer(state = initialState, action) {
 
     switch (action.type) {
+        case TOGGLE_PEOPLE:
+            return {
+                ...state, interlocutorWindow: action.status
+            };
+        case TOGGLE_CHAT:
+            return {
+                ...state, chat_modal: action.status
+            };
         case SET_PAGES_VALUE:
             return {
                 ...state, [action.name]: action.value

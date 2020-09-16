@@ -5,9 +5,10 @@ import Backdrop from "../../../../components/UI/backdrop/backdrop";
 import {connect} from "react-redux";
 import {logout} from "../../../../Redux/auth/actions";
 import Menu from "./menu/menu";
-import {setActiveMenu} from "../../../../Redux/pages/actions";
+import {setActiveMenu, toggleChat, togglePeople} from "../../../../Redux/pages/actions";
 import MobileMenu from "./mobileMenu/mobileMenu";
 import {withRouter} from "react-router-dom";
+import cookie from "../../../../services/cookies";
 
 const Header = props => {
     const [scroll, setScroll] = useState(0);
@@ -15,7 +16,7 @@ const Header = props => {
     const [hideText, setHideText] = useState(false);
     const [menu, setMenu] = useState(false);
     const [minimize, setMinimize] = useState(false);
-    const [user] = useState(JSON.parse(localStorage.getItem('user')));
+    const [user] = useState(cookie.get('user'));
     const [confWindow, setConfWindow] = useState(true);
     const [submenu, setSubmenu] = useState(null);
 
@@ -79,6 +80,16 @@ const Header = props => {
         setSubmenu(null)
     };
 
+    const chatToggleHandler = (status) => {
+
+        if (status) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        props.toggleChat(status)
+    };
+
     return (
         <div className={hideText ? `${classes.hideAppBar} ${classes.appBar}` : classes.appBar}>
             {
@@ -109,10 +120,14 @@ const Header = props => {
                 user={user}
                 sticky={sticky}
                 confWindow={confWindow}
+                chat_modal={props.chat_modal}
+                interlocutorWindow={props.interlocutorWindow}
                 // Methods
                 toggleMenu={toggleMenu}
                 setActiveMenu={props.setActiveMenu}
                 logout={props.logout}
+                togglePeople={props.togglePeople}
+                toggleChat={chatToggleHandler}
                 toggleConfigurationWindow={toggleConfigurationWindow}
             />
             <Menu
@@ -139,6 +154,8 @@ function mapStateToProps(state) {
 
     return {
         menus: state.page.menus,
+        chat_modal: state.page.chat_modal,
+        interlocutorWindow: state.page.interlocutorWindow,
         activeMenu: state.page.activeMenu
     }
 }
@@ -147,7 +164,9 @@ function mapDispatchToProps(dispatch) {
 
     return {
         logout: () => dispatch(logout()),
-        setActiveMenu: menu => dispatch(setActiveMenu(menu))
+        setActiveMenu: menu => dispatch(setActiveMenu(menu)),
+        toggleChat: status => dispatch(toggleChat(status)),
+        togglePeople: status => dispatch(togglePeople(status)),
     }
 }
 

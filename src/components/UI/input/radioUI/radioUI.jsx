@@ -1,42 +1,54 @@
 import React from 'react';
 import Radio from '@material-ui/core/Radio';
-import { withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-
-const GreenRadio = withStyles({
-    root: {
-        color: green[400],
-        '&$checked': {
-            color: green[600],
-        },
-    },
-    checked: {},
-})((props) => <Radio color="default" {...props} />);
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const RadioUI = props => {
-    const [selectedValue, setSelectedValue] = React.useState('a');
+    const [value, setValue] = React.useState(null);
 
     const handleChange = (event) => {
-        setSelectedValue(event.target.value);
+        setValue(+event.target.value);
     };
+
     return (
-        <div>
-            <FormControlLabel
-                value="end"
-                onChange={handleChange}
-                control={
-                    <GreenRadio
-                        checked={selectedValue === 'c'}
-                        name="radio-button-demo"
-                        inputProps={{ 'aria-label': 'C' }}
-                    />
+        <FormControl component="fieldset">
+            <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                {
+                    props.data && props.data.length ?
+                        props.data.map(
+                            item => {
+
+                                return (
+                                    <FormControlLabel
+                                        key={item.id + Math.random()}
+                                        value={item.id}
+                                        classes={{
+                                            label: props.labelStyle
+                                        }}
+                                        control={
+                                            <Radio
+                                                color={'primary'}
+                                                size='small'
+                                                classes={{
+                                                    colorPrimary: props.color
+                                                }}
+                                            />
+                                        }
+                                        label={item.name['am']}
+                                    />
+                                )
+                            }
+                        )
+                        :
+                        <small className={props.emptyStyle}>{props.empty}</small>
                 }
-                label="Start"
-                labelPlacement="end"
-            />
-        </div>
+                {/*<FormControlLabel value="female" control={<Radio />} label="Female" />*/}
+                {/*<FormControlLabel value="male" control={<Radio />} label="Male" />*/}
+                {/*<FormControlLabel value="other" control={<Radio />} label="Other" />*/}
+                {/*<FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />*/}
+            </RadioGroup>
+        </FormControl>
     );
 };
 

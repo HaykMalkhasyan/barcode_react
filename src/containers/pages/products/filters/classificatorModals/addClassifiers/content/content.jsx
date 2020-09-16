@@ -134,19 +134,11 @@ const Content = props => {
             } else {
                 if (props.groupType === 'group') {
                     delete data.image;
-                    if (props.modalType === 'add') {
-                        props.addGroup(data)
-                    } else if (props.modalType === 'edit') {
-                        props.editGroup(data)
-                    }
+                    props.groupAction(data)
                 }
                 if (props.groupType === 'inGroup' || props.groupType === 'subgroup') {
                     data.image = [];
-                    if (props.modalType === 'add') {
-                        props.addSubgroup(data)
-                    } else if (props.modalType === 'edit') {
-                        props.editSubgroup(data)
-                    }
+                    props.subGroupAction(data)
                 }
 
             }
@@ -185,7 +177,7 @@ const Content = props => {
                     <Grid container spacing={4}>
                         {
                             props.groupType === "subgroup" || props.groupType === "inGroup" ?
-                                <Grid item md={5}>
+                                <Grid item xs={12} md={5}>
                                     <div className={classes.imageWindow}>
                                         <CustomInput
                                             id={'classifierImage'}
@@ -215,7 +207,7 @@ const Content = props => {
                                 :
                                 null
                         }
-                        <Grid item md={props.groupType === "subgroup" || props.groupType === "inGroup" ? 7 : 12}>
+                        <Grid item xs={12} md={props.groupType === "subgroup" || props.groupType === "inGroup" ? 7 : 12}>
                             <div className={classes.dataWindow}>
                                 <div>
                                     <div className={classes.dataArea}>
@@ -260,6 +252,7 @@ const Content = props => {
                                 </div>
                                 <footer>
                                     <ConfirmButton
+                                        className={classes.confirmButton}
                                         type={'submit'}
                                         onClick={confirmHandler}
                                     />

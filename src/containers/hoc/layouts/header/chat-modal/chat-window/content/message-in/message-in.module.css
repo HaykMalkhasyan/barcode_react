@@ -1,0 +1,15 @@
+.messageIn {
+    width: 100%;
+    box-sizing: border-box;
+    padding:  0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.inTime {
+    display: block;
+    color: #636161;
+    font-size: 11px;
+    letter-spacing: .2pt;
+}

@@ -90,7 +90,8 @@ class ResizableDragTable extends Component {
                     <div
                         style={{width: JSON.parse(localStorage.getItem(`block_${i}`)) || 'auto'}}
                         key={item.id + Math.random()}
-                        ref={this[`ref_${i}`]} className={classes.productTableTab}
+                        ref={this[`ref_${i}`]}
+                        className={classes.productTableTab}
                         onDragOver={event => this.dragEnter(event, i)}
                         onDragLeave={event => this.dragLeave(event, i)}
                         onDrop={event => this.drop(event, i, i)}
@@ -211,7 +212,7 @@ class ResizableDragTable extends Component {
                             contentArray.push(
                                 <div
                                     className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
-                                    key={item.id + Math.random()}
+                                    key={'array' + item.id}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
                                 >
@@ -224,16 +225,15 @@ class ResizableDragTable extends Component {
                                                     title={
                                                         item[section.key_name].map(
                                                             (i, index) => {
-
                                                                 return (
-                                                                    <div key={index + Math.random()}>{i.name}</div>
+                                                                    <span key={`array-${index}`}>{i[section.key]}</span>
                                                                 )
                                                             }
                                                         )
                                                     }
                                                     placement="right"
                                                 >
-                                                    {item[section.key_name][0].name}
+                                                    <>{item[section.key_name][0][section.key]}</>
                                                 </Tooltip>
                                         }
                                     </span>

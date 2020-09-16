@@ -1,13 +1,14 @@
 import {
-    ADD_NEW_PRODUCT,
-    CLOSE_PRODUCT_MODAL,
+    ADD_NEW_PRODUCT, BACK_TO_PRODUCT, CLOSE_MODALS,
+    CLOSE_PRODUCT_MODAL, IMPORT_GROUP_IN_PRODUCT, IMPORT_GROUP_IN_PRODUCT_CLOSE,
     ONLY_ADD_PRODUCT,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
-    SET_PRODUCTS
+    SET_PRODUCTS, SET_SELECT_GROUP_ITEM, SET_SELECT_SUBS, SET_TAB_VALUE
 } from "./actionTypes";
 import Axios from "axios";
-import {getToken} from "../../services/services";
+import {Compare, createRoad, getToken} from "../../services/services";
+import cookie from "../../services/cookies";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -20,13 +21,13 @@ export function getProduct(id) {
         // const workers = {...getState().products.workers};
         const pictures = {...getState().products.pictures};
         const images = [...getState().products.images];
-        if (localStorage.getItem('access')) {
+        if (cookie.get('access')) {
             try {
                 const response = await Axios.get(`${API_URL}/product/${id}`, {
                     headers: {
                         "lang": "am",
                         "Content-Type": "application/json",
-                        "Authorization": `JWT ${localStorage.getItem('access')}`
+                        "Authorization": `JWT ${cookie.get('access')}`
                     }
                 });
                 const data = response.data;
@@ -48,12 +49,12 @@ export function getProduct(id) {
                 dispatch(setProductModalValues(data, main, description, pictures, images))
             } catch (error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    const refresh_token = localStorage.getItem('refresh');
+                    const refresh_token = cookie.get('refresh');
                     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
                     if ((await new_token_data) === null) {
                         dispatch(setProductValues('error', error.message))
-                    } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
                         dispatch(getProduct(id))
                     }
                 } else {
@@ -66,24 +67,24 @@ export function getProduct(id) {
 
 export function getAllProducts(page) {
     return async dispatch => {
-        if (localStorage.getItem('access')) {
+        if (cookie.get('access')) {
             try {
                 const response = await Axios.get(`${API_URL}/product/?page_size=20&page=${page}`, {
                     headers: {
                         "lang": "am",
                         "Content-Type": "application/json",
-                        "Authorization": `JWT ${localStorage.getItem('access')}`
+                        "Authorization": `JWT ${cookie.get('access')}`
                     }
                 });
                 dispatch(setProducts(response.data.results, response.data.count))
             } catch(error) {
                 if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    const refresh_token = localStorage.getItem('refresh');
+                    const refresh_token = cookie.get('refresh');
                     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
                     if ((await new_token_data) === null) {
                         dispatch(setProductValues('error', error.message))
-                    } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
                         dispatch(getAllProducts(page))
                     }
                 } else {
@@ -185,7 +186,20 @@ export function setProduct(gallery, type) {
         const pictures = {...getState().products.pictures};
         const errorFields = [...getState().products.errorFields];
         const open = getState().products.open;
-        const data = Object.assign({}, main, description, pictures);
+        const classifiers_object = {...getState().products.classifiers};
+        const classifiers = [...classifiers_object.classifiers];
+        const subs = [...getState().products.subs];
+        const barcode = [...getState().products.barcode];
+        const groups = {...getState().products.groups};
+        const data = Object.assign({}, main, description, pictures, groups, {barcode: barcode});
+
+        if (classifiers.length === subs.length && subs.length > 0) {
+            data.groups = subs
+        } else {
+            if (errorFields.indexOf("classifiers") === -1) {
+                errorFields.push("classifiers")
+            }
+        }
         if (data.pictures.length > 0) {
             for (let picture of data.pictures) {
                 picture.name = `${Date.now()}-${picture.name}`
@@ -227,8 +241,7 @@ export function setProduct(gallery, type) {
                 errorFields.splice(errorFields.indexOf("unit_id"), 1)
             }
         }
-        data.barcode = [];
-        data.supplier = "";
+        data.supplier = [];
         dispatch(setProductValues('errorFields', errorFields));
         if (errorFields.length === 0) {
             if (gallery.length > 0) {
@@ -247,18 +260,16 @@ export function setProduct(gallery, type) {
 export function uploadImages(files, data, type) {
 
     return async (dispatch, getState) => {
-        console.log(files)
-        console.log(data)
         const open = getState().products.open;
         let form_data = new FormData();
-        for (let index in files) {
-            form_data.append('file', files[index]);
-            form_data.append('filename', data.pictures[index].name)
+        for (let [key] of Object.entries(files)) {
+            form_data.append('file', files[key]);
+            form_data.append('filename', data.pictures[key].name)
         }
         try {
             const response = await Axios.post(`${API_URL}/product/upload/`, form_data, {
                 headers: {
-                    "Authorization": `JWT ${localStorage.getItem('access')}`
+                    "Authorization": `JWT ${cookie.get('access')}`
                 }
             });
             if (response.status === 201) {
@@ -270,12 +281,12 @@ export function uploadImages(files, data, type) {
             }
         } catch (error) {
             if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = localStorage.getItem('refresh');
+                const refresh_token = cookie.get('refresh');
                 const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
                 if ((await new_token_data) === null) {
                     dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
                     dispatch(uploadImages(files, data))
                 }
             } else {
@@ -292,12 +303,13 @@ export function productDataRequest(data, type) {
         try {
             const response = await Axios.post(`${API_URL}/product/`, data, {
                 headers: {
-                    "Authorization": `JWT ${localStorage.getItem('access')}`
+                    "Authorization": `JWT ${cookie.get('access')}`
                 }
             });
             products.push(response.data);
             switch (type) {
                 case 'save': {
+                    dispatch(setProductValues('open', 'edit'));
                     dispatch(addNewProduct(products));
                     break;
                 }
@@ -309,12 +321,12 @@ export function productDataRequest(data, type) {
             }
         } catch (error) {
             if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = localStorage.getItem('refresh');
+                const refresh_token = cookie.get('refresh');
                 const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
                 if ((await new_token_data) === null) {
                     dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
                     dispatch(productDataRequest(data))
                 }
             } else {
@@ -335,11 +347,10 @@ export function productDataEditRequest(data, type) {
                 delete item.image
             }
         }
-        console.log(data)
         try {
             const response = await Axios.put(`${API_URL}/product/${data.id}`, data, {
                 headers: {
-                    "Authorization": `JWT ${localStorage.getItem('access')}`
+                    "Authorization": `JWT ${cookie.get('access')}`
                 }
             });
             for (let [key, value] of Object.entries(products)) {
@@ -360,12 +371,12 @@ export function productDataEditRequest(data, type) {
             }
         } catch (error) {
             if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = localStorage.getItem('refresh');
+                const refresh_token = cookie.get('refresh');
                 const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
                 if ((await new_token_data) === null) {
                     dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === localStorage.getItem('access') && (await new_token_data).refresh === localStorage.getItem('refresh')) {
+                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
                     dispatch(productDataEditRequest(data))
                 }
             } else {
@@ -403,7 +414,107 @@ export function selectProducts(id = null, type) {
     }
 }
 
+export function importGroupInProduct(condition, status) {
+
+    if (status === "open") {
+        return {
+            type: IMPORT_GROUP_IN_PRODUCT,
+            condition
+        }
+    } else if (status === "close") {
+        return {
+            type: IMPORT_GROUP_IN_PRODUCT_CLOSE,
+            condition
+        }
+    }
+}
+
+export function setTabValue(value) {
+
+    return {
+        type: SET_TAB_VALUE,
+        value
+    }
+}
+
+export function selectGroupItem() {
+
+    return (dispatch, getState) => {
+        const open = getState().products.open;
+        dispatch(setSelectGroupItem(open))
+    }
+}
+
+export function backToProduct() {
+    return (dispatch, getState) => {
+        const initialOpen = getState().products.initialOpen;
+        dispatch(backToProductSet(initialOpen))
+    }
+}
+
+export function selectSubs() {
+
+    return (dispatch, getState) => {
+        const initialSub = getState().products.initialSub;
+        const initialOpen = getState().products.initialOpen;
+        const customSubgroup = [...getState().characteristics.customSubgroup];
+        const roads = [...getState().products.roads];
+        const group = getState().characteristics.group;
+        const subs = [...getState().products.subs];
+        let road = '';
+
+        for (let item of customSubgroup) {
+            if (item.id === initialSub[group.id]) {
+                road = {[group.id]: createRoad(item, group, customSubgroup, item.name)};
+                break;
+            }
+        }
+        if (subs.length) {
+            let index = Compare.objectWithObjectWithKey(subs, initialSub);
+            if (index !== false) {
+                subs[index] = initialSub;
+                roads[index] = road
+            } else {
+                subs.push(initialSub);
+                roads.push(road)
+            }
+        } else {
+            subs.push(initialSub);
+            roads.push(road)
+        }
+        dispatch(setSelectSubs(subs, initialOpen, roads))
+    }
+}
+
 // ------------------------------------------
+
+export function setSelectSubs(subs, initialOpen, roads) {
+
+    return {
+        type: SET_SELECT_SUBS, subs, initialOpen, roads
+    }
+}
+
+export function closeProductAndSubgroupModals() {
+
+    return {
+        type: CLOSE_MODALS
+    }
+}
+
+export function backToProductSet(initialOpen) {
+
+    return {
+        type: BACK_TO_PRODUCT, initialOpen
+    }
+}
+
+export function setSelectGroupItem(open) {
+
+    return {
+        type: SET_SELECT_GROUP_ITEM, open
+    }
+}
 
 export function setProductModalValues(data, main, description, pictures, images) {
 

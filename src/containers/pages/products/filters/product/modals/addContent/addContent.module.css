@@ -1,40 +1,32 @@
 .root {
     background-color: #fff !important;
-    box-shadow: 0 3px 7px rgba(0, 110, 194, 0.18);
+    box-shadow: 0 0 7px rgba(20, 20, 20, 0.19);
+    position: sticky;
+    top: 0;
 }
 
 .selected {
-    color: #FF5019 !important;
+    color: #024059 !important;
+}
+
+.TabScrollRoot {
+    color: #024059 !important;
+}
+
+.scrollButtonsDesktop {
+    display: inline-flex !important;
 }
 
 .indicator {
-    background-color: #FF5019 !important;
+    background-color: #024059 !important;
 }
 
 .tabPanelRoot {
-    height: 485px !important;
-    overflow-y: auto !important;
+    height: 485px;
 }
 
-/* width */
-.tabPanelRoot::-webkit-scrollbar {
-    width: 6px;
-}
-
-/* Track */
-.tabPanelRoot::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-.tabPanelRoot::-webkit-scrollbar-thumb {
-    background: #aaa;
-    border: 2px solid transparent;
-    background-clip: content-box;
-    box-sizing: border-box;
-}
-
-/* Handle on hover */
-.tabPanelRoot::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
+@media (max-width: 600px) {
+    .tabPanelRoot {
+        height: max-content;
+    }
 }

@@ -11,6 +11,9 @@ import {connect} from "react-redux"
 import {recover, setRecoverValues} from "../../../Redux/recoverPassword/action"
 import is from 'is_js'
 import Icons from "../../../components/Icons/icons";
+import LanguagesMenu from "../../../controllers/languagesMenu/languagesMenu";
+import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";
+import {getLanguage} from "../../../controllers/languages/languages";
 
 const RecoverPassword = props => {
 
@@ -51,8 +54,29 @@ const RecoverPassword = props => {
         }
     };
 
+    const handleClick = event => {
+        props.setLanguageValue('open', event.currentTarget)
+    };
+
+    const handleClose = () => {
+        props.setLanguageValue('open', null)
+    };
+
+    const setLanguage = lang => {
+        props.changeLanguage(lang)
+    };
+
     return (
         <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
+            <LanguagesMenu
+                open={props.open}
+                lang={props.lang}
+                activeLanguage={props.activeLanguage}
+                // Methods
+                handleClick={handleClick}
+                handleClose={handleClose}
+                setLanguage={setLanguage}
+            />
             <div className={classes.backdrop}>
                 <div className={classes.mainWindow}>
                     <span className={classes.name}>Barcode.am</span>
@@ -75,19 +99,20 @@ const RecoverPassword = props => {
                             `
                         }
                     >
-                        Վերականգնել գաղտնաբառը
+                        {getLanguage(props.activeLanguage, 'reset_password')}
                     </span>
                     {
                         props.error ?
-                            <Alert className={classes.alertError} severity="error">Հարցումը չհաջողվեց</Alert>
+                            <Alert className={classes.alertError} severity="error">
+                                {getLanguage(props.activeLanguage, 'query_failed')}
+                            </Alert>
                             :
                             null
                     }
                     {
                         props.success ?
                             <div className={classes.regSuccess}>
-                                Դուք շուտով կստանաք էլ․ հաղորդագրություն, անցեք հաղորդագրությանը կից հղմամբ որպեսզի
-                                վերականգնեք գաղտնաբառը, շնորհակալություն․․․
+                                {getLanguage(props.activeLanguage, 'reset_password_success')}
                             </div>
                             :
                             <>
@@ -123,7 +148,7 @@ const RecoverPassword = props => {
                                         type="emailRecover"
                                         required={true}
                                         name="emailRecover"
-                                        placeholder={'Էլ․ հասցե'}
+                                        placeholder={getLanguage(props.activeLanguage, 'email')}
                                         value={props.emailRecover}
                                         // Methods
                                         onFocus={clickHandler.bind(this, 'email')}
@@ -140,20 +165,20 @@ const RecoverPassword = props => {
                                     />
                                     <CustomButton
                                         className={classes.signIn}
-                                        children={'Ուղարկել'}
+                                        children={getLanguage(props.activeLanguage, 'send')}
                                         // Methods
                                         onClick={onSubmit}
                                     />
                                 </form>
                                 <div className={classes.createAccount}>
                                     <NavLink className={classes.signUp} to={'/login'}>
-                                        Մուտք գործել
+                                        {getLanguage(props.activeLanguage, 'login_in')}
                                     </NavLink>
                                     <span>
-                                            կամ
+                                        {getLanguage(props.activeLanguage, 'or')}
                                         </span>
                                     <NavLink className={classes.signUp} to={'/registration'}>
-                                        Գրանցվել
+                                        {getLanguage(props.activeLanguage, 'register')}
                                     </NavLink>
                                 </div>
                             </>
@@ -177,6 +202,9 @@ const RecoverPassword = props => {
 
 function mapStateToProps(state) {
     return {
+        open: state.language.open,
+        lang: state.language.lang,
+        activeLanguage: state.language.activeLanguage,
         error: state.resetPassword.error,
         success: state.resetPassword.success,
         progressRecover: state.resetPassword.progressRecover,
@@ -191,7 +219,9 @@ function mapDispatchToProps(dispatch) {
 
     return {
         setRecoverValues: (name, value) => dispatch(setRecoverValues(name, value)),
-        recover: () => dispatch(recover())
+        recover: () => dispatch(recover()),
+        setLanguageValue: (name, value) => dispatch(setLanguageValue(name, value)),
+        changeLanguage: language => dispatch(changeLanguage(language))
     }
 }
 

@@ -1,4 +1,5 @@
 import {SET_GROUP_VALUE} from "./actionTypes";
+import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
 
 const initialState = {
     active: 0,
@@ -30,6 +31,7 @@ const initialState = {
     error: null,
     allError: null,
     modalGroup: null,
+    initialModalGroup: null,
     groupActiveId: null,
     delete: false,
     collapsedModalStatus: [],
@@ -48,6 +50,18 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_SELECT_SUBS:
+            return {
+                ...state, classifiersCollapsed: []
+            };
+        case CLOSE_MODALS:
+            return {
+                ...state, group: null, customSubgroup: null, classifiersCollapsed: []
+            };
+        case BACK_TO_PRODUCT:
+            return {
+                ...state, group: null, customSubgroup: null, classifiersCollapsed: []
+            };
         case SET_GROUP_VALUE:
             return {
                 ...state, [action.name]: action.value

@@ -6,19 +6,21 @@ const DataItem = props => {
 
     return (
         <CustomButton
-            className={classes.dataItem}
+            className={`${classes.dataItem} ${classes[props.className]}`}
             children={
                 <>
-                    <div>
-                        <div className={`${classes.countNumber} ${classes[props.className]}`}>
-                            25
+                    <div className={classes.countWindow}>
+                        <div className={classes.countNumber}>
+                            {props.count}
                         </div>
                     </div>
                     <div>
-                        4860609300237
+                        {props.barcode}
                     </div>
                 </>
             }
+            // Methods
+            onClick={props.onClick}
         />
     )
 };

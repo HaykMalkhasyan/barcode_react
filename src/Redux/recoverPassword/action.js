@@ -30,11 +30,11 @@ export function recoverRequest(emailRecover) {
     return async dispatch => {
         dispatch(setRecoverValues('progressRecover', true));
         try {
-            const response = await Axios.post(`${API_URL}/accounts/send-reset-password-link/`,{login: emailRecover})
-            dispatch(setRecoverData(response.data))
+            const response = await Axios.post(`${API_URL}/accounts/send-reset-password-link/`,{login: emailRecover});
+            dispatch(setRecoverData(response.data));
             dispatch(setRecoverValues('progressRecover', false));
         } catch (error) {
-            dispatch(setErrorData(true))
+            dispatch(setErrorData(true));
             dispatch(setRecoverValues('progressRecover', false));
         }
     }
@@ -43,19 +43,19 @@ export function recoverRequest(emailRecover) {
 export function createNewPass(data) {
 
     return async dispatch => {
-        dispatch(progressAction(true))
-        dispatch(sendMailError(null))
+        dispatch(progressAction(true));
+        dispatch(sendMailError(null));
         try {
-            const response = await Axios.post(`${API_URL}/accounts/reset-password/`, data)
-            dispatch(progressAction(false))
+            const response = await Axios.post(`${API_URL}/accounts/reset-password/`, data);
+            dispatch(progressAction(false));
             dispatch(sendMailSuccess(response.data))
         } catch (error) {
             if (error.message === 'Request failed with status code 401') {
-                dispatch(setRecoverValues('textRecover', 'Մուտքագրված տվյալները սխալ են'))
+                dispatch(setRecoverValues('textRecover', 'incorrect_value'))
             } else {
-                dispatch(setRecoverValues('textRecover', 'Հարցումը չհաջողվեց'))
+                dispatch(setRecoverValues('textRecover', 'query_failed'))
             }
-            dispatch(sendMailError(true))
+            dispatch(sendMailError(true));
             dispatch(progressAction(false))
         }
     }

@@ -1,0 +1,48 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 90px;
+    box-sizing: border-box;
+}
+
+.dropButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    transition: 300ms;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.dropButton:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dropButton:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    width: 0;
+    height: 0;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    transition: 200ms;
+}
+
+.dropButton:active:after {
+    width: 100%;
+    height: 100%;
+}

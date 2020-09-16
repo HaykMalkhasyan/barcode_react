@@ -1,10 +1,9 @@
 import {SET_USER, SET_VALUES} from "./actionTypes";
+import cookie from "../../services/cookies";
 
 const initialState = {
     progress: false,
-    user: JSON.parse(localStorage.getItem('user')),
-    access_token: localStorage.getItem('access'),
-    refresh_token: localStorage.getItem('refresh'),
+    user: cookie.get('user'),
     fail: false,
     showPassword: false,
     text: null,
@@ -21,9 +20,6 @@ export default function authReducer(state = initialState, action) {
         case SET_USER:
             return {
                 ...state,
-                user: action.user,
-                access_token: action.jwt.access,
-                refresh_token: action.jwt.refresh,
                 fail: false,
                 showPassword: false,
                 text: null,
@@ -32,11 +28,11 @@ export default function authReducer(state = initialState, action) {
                 selected: null,
                 email: '',
                 password: '',
-            }
+            };
         case SET_VALUES:
             return {
                 ...state, [action.name]: action.value
-            }
+            };
         default: return {...state}
     }
 }

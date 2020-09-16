@@ -4,38 +4,14 @@
     padding: 10px 5px;
 }
 
-.header {
-    width: 100%;
-    height: 1px;
-    background-color: #DBDBDB;
-    margin: 0 auto;
-    position: relative;
-}
-
-.header > h3 {
-    text-transform: uppercase;
-    margin: 0;
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 0 10px;
-    font-size: 18px;
-    color: #737373;
-    font-weight: 400;
-    text-align: center;
-}
-
 .content {
     width: 100%;
-    margin-top: 40px;
 }
 
 .information {
     color: #888888;
     font-size: 12px;
+    letter-spacing: .4pt;
     font-weight: 600;
 }
 
@@ -46,159 +22,88 @@
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
-    padding: 4px 55px 4px 0;
+    padding: 4px 55px;
 }
 
-.classifiersButtonsGroup {
-    box-sizing: border-box;
-    padding: 5px;
-    width: 100%;
-    height: 300px;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+.errorFields {
+    margin: 20px auto;
 }
 
-/* width */
-.classifiersButtonsGroup::-webkit-scrollbar {
-    width: 4px;
-}
-
-/* Track */
-.classifiersButtonsGroup::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-.classifiersButtonsGroup::-webkit-scrollbar-thumb {
-    background: #ccc;
-    background-clip: content-box;
-    border: 1px solid transparent;
-}
-
-/* Handle on hover */
-.classifiersButtonsGroup::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
-}
-
-.addButton {
-    width: 45px;
-    height: 45px;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #0077FF;
-    border-radius: 5px;
-    border: none;
-    outline: none !important;
-    position: absolute;
-    top: 5px;
-    right: 0;
-    cursor: pointer;
-    transition: 300ms;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .14);
-}
-
-.addButton:hover {
-    background-color: #0096ff;
-}
-
-.addButton:focus {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .35);
-}
-
-.addButton:active {
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, .4) inset;
-}
-
-.classifiersItem {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-    margin-bottom: 10px;
-    padding: 30px 5px 5px;
-    box-sizing: border-box;
-    position: relative;
-    border-radius: 5px;
-}
-
-.classifiersCloseButton {
-    width: 18px;
-    height: 18px;
-    padding: 3px;
-    box-sizing: border-box;
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    transition: 300ms;
-    cursor: pointer;
-}
-
-.classifiersCloseIcon {
-    fill: #666;
-    stroke: #666;
-    transition: 300ms;
-}
-
-.classifiersCloseButton:hover .classifiersCloseIcon {
-    fill: #ff4a4a;
-    stroke: #ff4a4a;
-}
-
-.classifiersCloseButton:active {
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, .4) inset;
-}
-
-.classifiersItem > header {
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #eee;
-}
-
-.classifiersItem > header > h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.classifiersItem > section {
-    width: 100%;
+.groupAddButton {
+    width: 256px;
     height: auto;
-    padding: 5px;
+    padding: 5px 10px;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.classifiersButtons {
-    height: 45px;
-    box-sizing: border-box;
-    width: auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 0 10px;
-    border-radius: 1px;
+    outline: none !important;
     border: none;
-    color: #0096ff;
+    border-bottom: .5pt solid #a6a6a6;
+    font-family: "DejaVu Sans", sans-serif;
+    font-weight: bold;
+    color: #2C5DFF;
+    font-size: 13px;
+    margin-bottom: 20px;
     background-color: transparent;
+    position: relative;
     cursor: pointer;
     transition: 300ms;
+    z-index: 1;
 }
 
-.classifiersButtons:hover {
-    background-color: #0096ff;
-    color: #fff;
+.groupAddButton:after {
+    content: '';
+    width: 0;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #fafafa;
+    transition: 300ms;
+    z-index: -1;
 }
 
-.classifiersButtons:focus {
-    box-shadow: 0 0 0 4px rgba(0, 150, 255, 0.4);
+.groupAddButton:hover {
+    border-color: #ff8927;
 }
 
-.classifiersItem > section span {
-    font-size: 12px;
+.groupAddButton:focus:after {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .information {
+        font-size: 10px;
+    }
+    .classifiersTab {
+        padding: 5px;
+    }
+    .information {
+        margin: 0;
+    }
+    .classifiersControlWindow {
+        padding: 5px;
+        margin-top: 20px;
+    }
+    .groupAddButton {
+        width: 100%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .information {
+        font-size: 10px;
+    }
+    .classifiersTab {
+        padding: 5px;
+    }
+    .information {
+        margin: 0;
+    }
+    .classifiersControlWindow {
+        padding: 5px;
+        margin-top: 20px;
+    }
+    .groupAddButton {
+        width: 100%;
+    }
 }

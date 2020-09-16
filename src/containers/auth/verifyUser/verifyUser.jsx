@@ -6,6 +6,7 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import ErrorIcon from '@material-ui/icons/Error'
 import {fetchVerifyUser} from "../../../Redux/registration/action"
 import {withRouter} from "react-router-dom"
+import {getLanguage} from "../../../controllers/languages/languages";
 
 class VerifyUser extends Component {
     constructor(props) {
@@ -39,7 +40,7 @@ class VerifyUser extends Component {
             return <VerifiedUserIcon className={cls.iconVerified} fontSize='large'/>
         }
         if (error) {
-            return <><ErrorIcon className={cls.iconError} fontSize='default'/> Ստուգումը չհաջողվեց</>
+            return <><ErrorIcon className={cls.iconError} fontSize='default'/> {getLanguage(this.props.activeLanguage, 'verification_failed')}</>
         }
         return <RecordVoiceOverIcon className={cls.iconAnimated} fontSize='large'/>
     };
@@ -55,7 +56,7 @@ class VerifyUser extends Component {
                     <div className={cls.mainWindow}>
                         <span className={cls.name}>Barcode.am</span>
                         <span className={cls.action}>
-                            Օգտագործողի ստուգում
+                            {getLanguage(this.props.activeLanguage, 'user_check')}
                         </span>
                         <div className={cls.statusView}>
                             {
@@ -71,6 +72,7 @@ class VerifyUser extends Component {
 
 function mapStateToProps(state) {
     return {
+        activeLanguage: state.language.activeLanguage,
         verifySuccess: state.registration.verifySuccess,
         verifyError: state.registration.verifyError,
     }

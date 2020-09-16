@@ -32,10 +32,11 @@ function a11yProps(index) {
 }
 
 export default function ScrollableTabsButtonAuto(props) {
-    const [value, setValue] = React.useState(0);
+    // const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        // setValue(newValue);
+        props.setTabValue(newValue)
     };
 
     const contentRender = (tabContent, value) => {
@@ -65,9 +66,13 @@ export default function ScrollableTabsButtonAuto(props) {
                 position="static"
             >
                 <Tabs
-                    value={value}
+                    value={props.activeTab}
                     onChange={handleChange}
-                    classes={{indicator: props.indicator}}
+                    classes={{
+                        indicator: props.indicator,
+                        root: props.TabScrollRoot,
+                        scrollButtonsDesktop: props.scrollButtonsDesktop,
+                    }}
                     // indicatorColor="primary"
                     textColor="primary"
                     variant="scrollable"
@@ -98,7 +103,7 @@ export default function ScrollableTabsButtonAuto(props) {
 
             {
                 props.tabContent && props.tabContent.length > 0 ?
-                    contentRender(props.tabContent, value)
+                    contentRender(props.tabContent, props.activeTab)
                     :
                     null
             }

@@ -1,45 +1,7 @@
 .leftPanel {
     width: 100%;
     height: auto;
-}
-
-.leftPanel > h1 {
-    color: #F28705;
-    margin: 10px auto;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.classifiers {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0;
-    background-color: #fff;
-}
-
-.classifiers > .classifiersName {
-    width: 100%;
-    height: auto;
-    position: relative;
-}
-
-.classifiers > .classifiersName > .toggleWindow {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: calc(100% + 10px);
-    visibility: hidden;
-    opacity: 0;
-    transition: 300ms;
-}
-
-.classifiers > .classifiersName > .toggleWindowShow {
-    visibility: visible;
-    opacity: 1;
-    left: 100%;
+    margin-top: 20px;
 }
 
 .backdrop {
@@ -50,80 +12,4 @@
     right: 0;
     background-color: rgba(0, 0, 0, 0);
     z-index: 2;
-}
-
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow {
-    width: 300px;
-    max-height: 400px;
-    background-color: #fff;
-    overflow-x: hidden;
-    overflow-y: auto;
-    border-radius: 3px;
-}
-
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow:before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    right: 100%;
-    width: 0;
-    height: 0;
-    border: 10px solid;
-    border-color: transparent #fff transparent transparent;
-    z-index: 1;
-}
-
-    /* width */
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow::-webkit-scrollbar {
-    width: 4px;
-}
-
-/* Track */
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow::-webkit-scrollbar-thumb {
-    background: #ccc;
-    background-clip: content-box;
-    border: 1px solid transparent;
-}
-
-/* Handle on hover */
-.classifiers > .classifiersName > .toggleWindow > .allGroupWindow::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
-    border-color: #aaa;
-}
-
-.classifiers > .classifiersName > h2 {
-    font-size: 13px;
-    color: #091B41;
-    margin: 0;
-    font-weight: 900;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 10px 0;
-    cursor: pointer;
-    transition: 300ms;
-    user-select: none;
-}
-
-.selected {
-    background-color: #eee;
-}
-
-.classifiers > .classifiersName > h2:hover {
-    background-color: #fcfcfc;
-}
-
-.classifiers > .classifiersName > h2:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
-}
-
-.line {
-    width: 95%;
-    margin: 0 auto 0 0;
-    border-color: #eeeeee;
-    border-width: 0 0 1px 0;
 }

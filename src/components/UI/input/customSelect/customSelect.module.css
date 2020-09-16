@@ -1,6 +1,6 @@
 .customSelect {
     width: 200px;
-    box-sizing: border-box;;
+    box-sizing: border-box;
 }
 
 .backdrop {
@@ -13,13 +13,17 @@
     z-index: 101;
 }
 
+.backdropOpened {
+    z-index: 110;
+}
+
 .select {
     position: relative;
-    z-index: 102;
+    z-index: 1;
     background-color: #fff;
     width: 100%;
     height: 22px;
-    border-bottom: .1pt solid #ececec;
+    border-bottom: 1px solid #a9a9a9;
 }
 
 .label {
@@ -96,6 +100,22 @@
     animation: show 200ms linear;
 }
 
+.active:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f7f7f7;
+    width: 100%;
+    height: 101%;
+    z-index: -1;
+}
+
+.top {
+    z-index: 111;
+}
+
 @keyframes show {
     from {width: 0;}
     to {width: 100%}
@@ -107,10 +127,10 @@
     left: 0;
     z-index: 10;
     border-radius: 6px;
-    width: 120%;
+    width: 100%;
     max-height: 100px;
     background-color: #fff;
-    border: .1pt solid #ececec;
+    border: 1px solid #ececec;
     overflow-y: auto;
     visibility: hidden;
     transition: 300ms;
@@ -159,4 +179,14 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .customSelect {
+        width: 100%;
+    }
+
+    .content {
+        width: 100%;
+    }
 }

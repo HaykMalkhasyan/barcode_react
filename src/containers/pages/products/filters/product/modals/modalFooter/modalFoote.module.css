@@ -10,3 +10,34 @@
 .typeAdd {
     justify-content: flex-end;
 }
+
+.finishButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.errorIcon {
+    margin-right: 20px;
+    color: #f44336;
+    border-radius: 50%;
+    transition: 300ms;
+    cursor: help;
+    animation: show 200ms linear;
+}
+
+@keyframes show {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.errorIcon:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 600px) {
+    .modalFooter {
+        align-items: flex-end;
+    }
+}

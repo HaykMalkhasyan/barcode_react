@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from '../header.module.css'
 import {NavLink} from "react-router-dom";
+import {getLanguage} from "../../../../../controllers/languages/languages";
 
 const Submenu = props => {
 
@@ -16,10 +17,11 @@ const Submenu = props => {
                                     <li key={submenu.id}>
                                         <NavLink
                                             onClick={props.closeSubMenu}
-                                            exact to={submenu.url}
+                                            exact
+                                            to={submenu.url}
                                             className={classes.subMenuLink}
                                             activeClassName={classes.subMenuActive}>
-                                            <span>{submenu.name}</span>
+                                            <span>{getLanguage('am', submenu.name)}</span>
                                         </NavLink>
                                     </li>
                                 )

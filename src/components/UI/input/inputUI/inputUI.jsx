@@ -6,7 +6,9 @@ const InputUI = props => {
     return (
         <TextField
             required={props.required}
-            classes={{root: props.root}}
+            classes={{
+                root: props.root
+            }}
             id={props.id}
             error={props.error}
             label={props.label}

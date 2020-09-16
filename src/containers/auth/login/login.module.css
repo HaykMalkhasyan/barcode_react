@@ -8,6 +8,8 @@
     right: 0;
 }
 
+
+
 .backdrop {
     width: 100%;
     height: 100%;
@@ -104,18 +106,19 @@
     font-size: 34px;
     color: #1B5985;
     font-weight: 600;
-    font-family: Montserrat, sans-serif;
+    /*font-family: Montserrat, sans-serif;*/
     text-align: center;
     display: block;
     padding: 10px 0;
 }
 
 .action {
+    text-transform: capitalize;
     display: block;
     margin-bottom: 21px;
     font-size: 21px;
     font-weight: 400;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     color: #444;
     padding: 10px 0;
 }
@@ -209,10 +212,11 @@
 }
 
 .forgetPassword {
+    text-transform: capitalize;
     outline: none !important;
     text-align: right;
     color: #578EE4;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-size: 12px;
     display: block;
     margin-bottom: 27px;
@@ -231,7 +235,7 @@
     height: 43px;
     border: none;
     outline: none;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -255,6 +259,7 @@
 }
 
 .createAccount {
+    text-transform: capitalize;
     display: flex;
     justify-content: center;
 }
@@ -266,12 +271,12 @@
 .createAccount > span {
     color: #878787;
     font-size: 10px;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     margin-right: 5px;
 }
 
 .signUp {
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-size: 12px;
     text-transform: uppercase;
     color: #1790FF;
@@ -306,8 +311,11 @@
 }
 
 .alertError {
+    text-transform: uppercase;
     font-size: 10px;
     text-align: center;
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 

@@ -1,45 +1,57 @@
 import React from 'react'
 import classes from './pricesTab.module.css'
-import SelectUI from "../../../../../../../../../components/UI/input/selectUI/selectUI";
+import CustomSelect from "../../../../../../../../../components/UI/input/customSelect/customSelect";
+import {connect} from "react-redux";
+import {setPriceValue} from "../../../../../../../../../Redux/price/actions";
 
 const PricesTab = props => {
 
+    const toggleFocus = name => {
+        if (props.focus === props.open) {
+            props.setPriceValue('focus', null)
+        } else {
+            props.setPriceValue('focus', name)
+        }
+    };
+
+    const toggle = name => {
+        props.setPriceValue('open', name)
+    };
+
     return (
         <div className={classes.pricesTab}>
-            <div className={classes.header}>
-                <h3>Գներ</h3>
-            </div>
             <div className={classes.content}>
                 <p className={classes.information}>
                     Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։
                 </p>
                 <div className={classes.filters}>
-                    <div className={classes.filtersName}>
-                        <span>Ֆիլտրել</span>
-                    </div>
                     <div>
-                        <SelectUI
-                            labelId={'warehouseLabel'}
-                            id={'warehouse'}
-                            label={'Պահեստ'}
-                            root={classes.selectRoot}
-                            formControl={classes.formControl}
+                        <CustomSelect
+                            open={props.open}
+                            focus={props.focus}
+                            name={'warehouse'}
+                            inputLabel={'Պահեստ'}
+                            // Methods
+                            toggleFocus={toggleFocus}
+                            toggle={toggle}
                         />
                     </div>
                     <div>
-                        <SelectUI
-                            labelId={'price-type-label'}
-                            id={'price-type'}
-                            label={'Գնի տեսակ'}
-                            root={classes.selectRoot}
-                            formControl={classes.formControl}
+                        <CustomSelect
+                            open={props.open}
+                            focus={props.focus}
+                            name={'price_type'}
+                            inputLabel={'Գնի տեսակ'}
+                            // Methods
+                            toggleFocus={toggleFocus}
+                            toggle={toggle}
                         />
                     </div>
                 </div>
                 <div className={classes.priceContent}>
                     <section>
                         <div className={classes.gridContainer}>
-                            <div className={classes.secondItem}>
+                            <div className={`${classes.secondItem} ${classes.mobileSecondItem}`}>
                                 <div className={`${classes.contentItem} ${classes.noBorder}`}>
                                     <div style={{height: 27}} className={classes.mainGrid}/>
                                     <ul className={classes.paramList}>
@@ -57,7 +69,7 @@ const PricesTab = props => {
                                         <div className={classes.mainGrid}>Պահեստ</div>
                                         <ul className={classes.warehouseList}>
                                             <li>
-                                                <span>486060930</span>
+                                                <span className={classes.active}>486060930</span>
                                             </li>
                                             <li>
                                                 <span>486060930</span>
@@ -171,4 +183,19 @@ const PricesTab = props => {
     )
 };
 
-export default PricesTab;
+function mapStateToProps(state) {
+
+    return {
+        open: state.price.open,
+        focus: state.price.focus,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+
+    return {
+        setPriceValue: (name, value) => dispatch(setPriceValue(name, value))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PricesTab);

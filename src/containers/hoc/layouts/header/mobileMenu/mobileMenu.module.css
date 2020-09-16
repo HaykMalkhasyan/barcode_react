@@ -79,6 +79,7 @@
     height: 25px;
     overflow: hidden;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .hiddenElem {
@@ -89,7 +90,7 @@
 
 .menuList span {
     font-size: 12px;
-    font-family: Mardoto-Regular;
+    /*font-family: Mardoto-Regular;*/
 }
 
 .docs {
@@ -99,7 +100,11 @@
     stroke-linejoin: round;
 }
 
+.icons {fill: #171717;}
 
+.menuListActive .icons {
+    fill: #ff8927;
+}
 
 .menuListActiveProd {
     border-radius: 0 8px 0 0;
@@ -121,6 +126,7 @@
 .nested {
     width: 100% !important;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .listText {
@@ -131,7 +137,7 @@
 
 .subMenuLink {
     font-size: 12px;
-    font-family: Mardoto-Regular;
+    /*font-family: Mardoto-Regular;*/
     color: #313131 !important;
 }
 
@@ -143,7 +149,7 @@
 .subMenuActive {
     font-size: 14px;
     border-bottom: .5px solid #FE5233;
-    font-family: Mardoto-medium;
+    /*font-family: Mardoto-medium;*/
 }
 
 @media (min-width: 768px) {

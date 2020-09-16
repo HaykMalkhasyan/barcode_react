@@ -2,7 +2,14 @@
     height: auto;
     width: 100%;
     box-sizing: border-box;
-    padding: 154px 8px 8px;
+    padding: 144px 8px 8px;
+    overflow: hidden;
+}
+
+.mobileMainSearch {
+    display: none;
+    width: 100%;
+    height: auto;
     overflow: hidden;
 }
 
@@ -107,7 +114,7 @@
     text-overflow: ellipsis;
     position: sticky;
     top: 0;
-    z-index: 20;
+    z-index: 1;
 }
 
 .classifiersWindow .controllers > span {
@@ -279,6 +286,7 @@
 .actionModal {
     background-color: #fff;
     width: 960px;
+    height: auto;
     overflow: hidden;
     border-radius: 5px;
 }
@@ -328,10 +336,12 @@
     height: 100%;
     min-height: auto;
     /*background-color: #fff;*/
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+}
+
+.desktopSearch {
+    display: block;
+    width: 100%;
+    overflow: hidden;
 }
 
 @media (max-width: 960px) {
@@ -343,23 +353,27 @@
 }
 
 .finishedButtons {
-    width: 100%;
-    display: flex;
+    display: inline-flex;
     justify-content: flex-end;
     box-sizing: border-box;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10
 }
 
 .addButton {
+    font-family: 'DejaVu Sans', sans-serif;
     outline: none !important;
+    text-transform: capitalize;
     height: 42px;
     width: 170px;
     background-color: #fff;
-    border: 1px solid #FE8A69;
-    border-radius: 3px;
-    margin-left: 23px;
+    border: none;
+    box-shadow: 0 0 6px rgba(2, 64, 89, 0.15);
+    border-radius: 6px;
     font-size: 15px;
-    font-weight: 400;
-    color: #FE8A69;
+    color: #024059;
     transition: 100ms;
     display: flex;
     align-items: center;
@@ -367,74 +381,59 @@
     cursor: pointer;
 }
 
-.addButton:hover {
-    background-color: rgba(254, 138, 105, 0.1);
+.addButton:focus {
+    background-color: rgb(249, 249, 249);
 }
 
-.addButton:focus {
-    background-color: rgba(254, 138, 105, 0.1);
+.addButton:hover {
+    background-color: #024059;
+    color: #fff;
 }
 
 .addButton:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
-    border-color: transparent;
-}
-
-.addButton span {
-    margin-left: 10px;
-}
-
-.addBtnIcon {
-    fill: #FE8A69;
-    stroke: #FE8A69;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8) inset;
 }
 
 .searchButton {
+    font-family: 'DejaVu Sans', sans-serif;
     outline: none !important;
+    text-transform: capitalize;
     height: 42px;
     width: 170px;
-    background-color: #F97F42;
+    background-color: #024059;
     border: none;
-    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(2, 64, 89, 0.15);
+    border-radius: 6px;
     margin-left: 23px;
     font-size: 15px;
-    font-weight: 400;
     color: #fff;
     transition: 100ms;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.searchButton:hover {
-    background-color: rgba(249, 127, 66, 0.80);
+    cursor: pointer;
 }
 
 .searchButton:focus {
-    background-color: rgba(249, 127, 66, 0.60)
+    background-color: rgb(249, 249, 249);
+    color: #024059;
+}
+
+.searchButton:hover {
+    background-color: #fff;
+    color: #024059;
 }
 
 .searchButton:active {
-    /*border-color: #c36939;*/
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
-}
-
-.searchButton span {
-    margin-left: 10px;
-}
-
-.searchBtnIcon {
-    fill: #fff;
 }
 
 .paper {
     width: 60%;
 }
 
-@media (max-width: 576px) {
-    .paper {
-        width: 100%;
-    }
+.root {
+    padding: 8px !important;
 }
 
 ul.mainTree li {
@@ -454,6 +453,97 @@ ul.mainTree li:last-child {
     /*background: #FCFCFC url(http://odyniec.net/articles/turning-lists-into-trees/lastnode.png) no-repeat;*/
 }
 
+.subgroupsModal {
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 5px;
+    width: 600px;
+}
+
+@media (max-width: 576px) {
+    .addButton {
+        width: 120px;
+        font-size: 12px;
+    }
+
+    .searchButton {
+        width: 120px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modalGroup, .modal, .actionModal, .subgroupsModal {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        background-color: #fff;
+    }
+
+    .paper {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 0;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .actionModal {
+        width: 100%;
+    }
+
+    .modalGroup, .modal, .actionModal, .subgroupsModal {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        border-radius: 0;
+        background-color: #fff;
+    }
+
+    .paper {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 0;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+
+    .addButton {
+        width: 140px;
+        font-size: 12px;
+    }
+
+    .searchButton {
+        width: 140px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 959px) {
+    .mobileMainSearch {
+        display: block;
+    }
+    .desktopSearch {
+        display: none;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .actionModal {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+}
 
 
 

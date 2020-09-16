@@ -1,86 +1,62 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classes from './leftPanel.module.css'
-import ListUI from "../../../../../../../components/UI/listUI/listUI";
 import Backdrop from "../../../../../../../components/UI/backdrop/backdrop";
-import TreeFilter from "./treeFilter/treeFilter";
-import MeasurementFilter from "./measurementFilter/measurementFilter";
-import PriceFilter from "./priceFilter/priceFilter";
-import BalanceFilter from "./balanceFilter/balanceFilter";
-import SupplierFilter from "./supplierFilter/supplierFilter";
-import ActiveFilter from "./activeFilter/activeFilter";
+import ClassifiersTree from "../../../classifiersTree/classifiersTree";
+import CollapsedFilters from "../../../filters/collapsedFilters/collapsedFilters";
+import OtherFilters from "../../../filters/otherFilters/otherFilters";
 
-const LeftPanel = props => {
+class LeftPanel extends Component {
 
-    const clickHandler = (id, index) => {
-        props.closeClassifierWindow(index, id);
-        props.getGroup(id)
+    openHandle = group => {
+        this.props.setGroupValues('newGroup', {id: group.id, name: group.name, required_group: group.required_group});
+        this.props.setGroupValues('changeStatus', false);
+        this.props.setGroupValues('modalGroup', null);
+        this.props.getGroup(group.id);
+        this.props.getSubgroupWithGroupId(group.id);
+        this.props.setProductValues('classifiersModal', true)
     };
 
-    return (
-        <div className={classes.leftPanel}>
-            {
-                props.toggleClassifier ?
-                    <Backdrop
-                        className={classes.backdrop}
-                        // Methods
-                        onClick={() => props.setFiltersValue('toggleClassifier', false)}
-                    />
-                    :
-                    null
-            }
-            <h1>Դասակարգիչ</h1>
-            <div className={classes.classifiers}>
-                <div className={classes.classifiersName}>
-                    <div className={props.toggleClassifier ? `${ classes.toggleWindow} ${classes.toggleWindowShow}` : classes.toggleWindow}>
-                        <div className={classes.allGroupWindow}>
-                            <ListUI
-                                data={props.groups}
-                                selectedIndex={props.selectedIndex}
-                                label={'Դասակարգիչների ցանկ'}
-                                empty={'Դատարկ է'}
-                                // Methods
-                                onClick={clickHandler}
-                            />
-                        </div>
-                    </div>
-                    <h2
-                        className={props.toggleClassifier ? classes.selected : ''}
-                        onClick={() => props.setFiltersValue('toggleClassifier', true)}
-                    >
-                        {
-                            props.group ?
-                                props.group.name
-                                :
-                                props.groups[0] ?
-                                    props.groups[0].name
-                                    :
-                                    ''
-                        }
-                    </h2>
-                </div>
-                <TreeFilter
-                    label={'Բոլորը'}
-                    type={'select'}
-                    group={props.group ? props.group : props.groups[0]}
-                    customSubgroup={props.customSubgroup ? props.customSubgroup : []}
-                    collapsed={props.group ? props.collapsed : []}
-                    collapsedGroup={props.group ? props.collapsedGroup : []}
-                    advancedSearchConfig={props.advancedSearchConfig}
-                    // Methods
-                    subCollapsed={props.subCollapsed}
-                    subCollapsedGroup={props.subCollapsedGroup}
-                    // select={classifiersSelectHandler}
+    classifierOpenHandler = id => {
+        this.props.setGroupValues('moveElement', null);
+        this.props.setGroupValues('controllerId', null);
+        this.props.getAllGroup();
+        this.props.setGroupValues('newGroup', {
+            name: '',
+            required_group: false,
+            group_type: '1'
+        });
+        this.props.setProductValues('classifiersModal', false);
+        this.props.setGroupValues('groupActiveId', id);
+        this.props.setGroupValues('modalGroup', "edit");
+    };
+
+    render() {
+
+        return (
+            <div className={classes.leftPanel}>
+                {
+                    this.props.toggleClassifier ?
+                        <Backdrop
+                            className={classes.backdrop}
+                            // Methods
+                            onClick={() => this.props.setFiltersValue('toggleClassifier', false)}
+                        />
+                        :
+                        null
+                }
+                <ClassifiersTree
+                    handleOpen={this.openHandle}
+                    classifierOpenHandler={this.classifierOpenHandler}
                 />
-                {/*<hr className={classes.line}/>*/}
-                <MeasurementFilter/>
-                {/*<hr className={classes.line}/>*/}
-                <PriceFilter/>
-                <BalanceFilter/>
-                <SupplierFilter/>
-                <ActiveFilter/>
+                <CollapsedFilters
+                    measurementsFilters={this.props.measurementsFilters}
+                />
+                <OtherFilters
+                    otherFilters={this.props.otherFilters}
+                />
             </div>
-        </div>
-    )
-};
+        )
+    }
+}
 
 export default LeftPanel;

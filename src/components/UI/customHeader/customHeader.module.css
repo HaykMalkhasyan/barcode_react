@@ -21,7 +21,7 @@
 
 .line {
     border: solid #FF8927;
-    border-width: 0 0 .1pt;
+    border-width: 0 0 1px;
 }
 
 .angle {

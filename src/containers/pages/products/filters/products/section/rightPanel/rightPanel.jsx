@@ -5,6 +5,7 @@ import Pagination from "@material-ui/lab/Pagination"
 import PaginationItem from "@material-ui/lab/PaginationItem";
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../components/Icons/icons";
+import Header from "../../header/header";
 
 const RightPanel = props => {
 
@@ -21,6 +22,15 @@ const RightPanel = props => {
 
     return (
         <div className={classes.rightPanel}>
+            <Header
+                open={props.open}
+                activeTabs={props.activeTabs}
+                tabs={props.tabs}
+                products={props.products}
+                // Methods
+                onClick={props.onClick}
+                toggleBackdrop={props.toggleBackdrop}
+            />
             {
                 props.products && props.products.length ?
                     <>

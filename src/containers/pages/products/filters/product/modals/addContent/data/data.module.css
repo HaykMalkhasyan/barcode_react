@@ -29,9 +29,15 @@
     justify-content: center;
 }
 
-.dataItem:last-child {
-    padding-bottom: 0;
-    margin-bottom: 0;
+/*.dataItem:last-child {*/
+/*    padding-bottom: 0;*/
+/*    margin-bottom: 0;*/
+/*}*/
+
+.customSelect {
+    width: 90%;
+    box-sizing: border-box;
+    color: #666;
 }
 
 .spaceAround > div:first-child {
@@ -52,6 +58,16 @@
     width: 100% !important;
 }
 
+.flexLgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flexLgContainer > div {
+    width: 50%;
+}
+
 .formControl {
     width: 100%;
 }
@@ -66,6 +82,60 @@
 
 .checkbox {
     color: #737373;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
+}
+
+.checkBoxWindow {
+    display: inline-flex;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .dataItem {
+        flex-direction: column;
+    }
+    .dataItem > div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .checkbox {
+        width: 100%;
+        display: flex;
+    }
+    .checkBoxWindow {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        justify-content: space-between;
+    }
+    .labelStyle {
+        width: 100%;
+        float: none;
+    }
+
+    .customSelect {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .spaceAround > div:first-child {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .spaceAround > div:last-child {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .flexLgContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flexLgContainer > div {
+        width: 100%;
+    }
 }

@@ -5,13 +5,15 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 const Spinner = props => {
 
     return (
-        <CircularProgress
-            classes={{
-                root: classes.rootClass
-            }}
-            color={props.color}
-        />
+        <div className={classes.spinnerWindow}>
+            <CircularProgress
+                classes={{
+                    root: classes.rootClass
+                }}
+                color={props.color}
+            />
+        </div>
     )
-}
+};
 
 export default Spinner

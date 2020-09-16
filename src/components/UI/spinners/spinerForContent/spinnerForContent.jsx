@@ -2,10 +2,10 @@ import React from 'react'
 import classes from './spinnerForContent.module.css'
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const SpinnerForContent = () => {
+const SpinnerForContent = props => {
 
     return (
-        <div className={classes.spinnerWindow}>
+        <div className={props.className || classes.spinnerWindow}>
             <CircularProgress disableShrink />
         </div>
     )

@@ -1,14 +1,16 @@
 .confirmButton {
     box-sizing: border-box;
     color: #fff;
+    font-weight: 600;
     background-color: #67CA51;
-    border-radius: 5px;
+    border-radius: 6px;
     padding: 10px 31px;
     border: none;
     outline: none !important;
     cursor: pointer;
     transition: 300ms;
     overflow: hidden;
+    text-transform: capitalize;
 }
 
 .confirmButton:hover {
@@ -16,14 +18,4 @@
 }
 .confirmButton:focus {
     box-shadow: 0 0 0 4px rgba(116, 227, 92, 0.5);
-}
-
-.confirmButtonIcon {
-    fill: #fff;
-}
-
-.confirmButtonName {
-    margin-left: 7px;
-    font-size: 12px;
-    text-transform: uppercase;
 }

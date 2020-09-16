@@ -6,12 +6,26 @@
     /*overflow: hidden;*/
 }
 
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.block {
+    display: block;
+}
+
+.block > label {
+    margin-bottom: 5px !important;
+}
+
 .label {
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    margin-right: 10px;
     display: block;
     font-size: 12px;
-    font-weight: 600;
-    color: #8F8F8F;
+    font-weight: 100;
+    color: #545454;
 }
 
 .input {
@@ -130,3 +144,19 @@
 .light .minusButton {border: 1px solid #eeeeeb;background-color: #fff;}
 .light .minusButton:focus {box-shadow: 0 0 0 3px #eeeeeb;}
 .light .minusButton .minusIcon {fill: #eeeeeb;stroke: #eeeeeb;}
+
+.success .input {border: solid #3EC300;}
+.success .plusButton {border: 1px solid #3EC300;background-color: #3EC300;}
+.success .plusButton:focus {box-shadow: 0 0 0 3px rgba(62, 195, 0, 0.4);}
+.success .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.success .minusButton {border: 1px solid #3EC300;background-color: #fff;}
+.success .minusButton:focus {box-shadow: 0 0 0 3px rgba(62, 195, 0, 0.4);}
+.success .minusButton .minusIcon {fill: #eeeeeb;stroke: #3EC300;}
+
+.error .input {border: solid #ff3f2b;}
+.error .plusButton {border: 1px solid #ff3f2b;background-color: #ff3f2b;}
+.error .plusButton:focus {box-shadow: 0 0 0 3px rgba(255, 63, 43, 0.4);}
+.error .plusButton .plusIcon {fill: #fff;stroke: #fff;}
+.error .minusButton {border: 1px solid #ff3f2b;background-color: #fff;}
+.error .minusButton:focus {box-shadow: 0 0 0 3px rgba(255, 63, 43, 0.4);}
+.error .minusButton .minusIcon {fill: #eeeeeb;stroke: #ff3f2b;}

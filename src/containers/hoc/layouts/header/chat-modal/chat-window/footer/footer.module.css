@@ -1,0 +1,229 @@
+.footer {
+    box-sizing: border-box;
+    padding: 20px;
+    height: 96px;
+    width: 100%;
+}
+
+.contentWindow {
+    height: 56px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.inputWindow {
+    width: calc(100% - 110px);
+    height: 56px;
+    border-radius: 6px 0 0 6px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label {
+    display: none;
+}
+
+.input {
+    display: block;
+    resize: none;
+    border-radius: 6px 0 0 6px;
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding:  10px;
+    color: #2B2B2B;
+    font-size: 14px;
+    letter-spacing: .2pt;
+    transition: 300ms;
+}
+
+.input:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+.input:focus {
+    background-color: #fafafa;
+}
+
+.sendButton {
+    background-color: #FF6F00;
+    border: none;
+    outline: none !important;
+    border-radius: 0 6px 6px 0;
+    width: 110px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: 300ms;
+}
+
+.sendButton:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: rgba(255, 255, 255, .04);
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transition: 300ms;
+}
+
+.sendButton:hover:after {
+    width: 100%;
+    height: 100%;
+    border-radius: 0 6px 6px 0;
+}
+
+.sendButton:focus {
+    box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.4);
+}
+
+.sendButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.sendIcon {
+    fill: #fff;
+    opacity: 1;
+}
+
+.pickerWindow {
+    /*position: absolute;*/
+    z-index: 1;
+    right: 0;
+    top: 0;
+    height: 26px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding: 0 10px 0 3px;
+    border-left: 1px solid #eeeded;
+}
+
+.pickerButton {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: 300ms;
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.pickerButton:hover {
+    background-color: rgba(0, 0, 0, .04);
+}
+
+.pickerButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.pickerButton:focus:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background-color: transparent;
+    box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
+}
+
+.inputFile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 0;
+        height: 50px;
+    }
+    .contentWindow {
+        height: 50px;
+        border-radius: 0;
+    }
+    .inputWindow {
+        width: calc(100% - 80px);
+        height: 50px;
+        border-radius: 0;
+    }
+    .input {
+        border-radius: 0;
+        height: 50px;
+    }
+    .pickerWindow {
+        height: 50px;
+        padding: 0;
+    }
+    .sendButton {
+        border-radius: 0;
+        width: 80px;
+        height: 50px;
+    }
+    .pickerButton {
+        width: 30px;
+        height: 30px;
+        margin: 0;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .footer {
+        padding: 0;
+        height: 50px;
+    }
+    .contentWindow {
+        height: 50px;
+        border-radius: 0;
+    }
+    .inputWindow {
+        width: calc(100% - 80px);
+        height: 50px;
+        border-radius: 0;
+    }
+    .input {
+        border-radius: 0;
+        height: 50px;
+    }
+    .pickerWindow {
+        height: 50px;
+        padding: 0;
+    }
+    .sendButton {
+        border-radius: 0;
+        width: 80px;
+        height: 50px;
+    }
+    .pickerButton {
+        width: 30px;
+        height: 30px;
+        margin: 0;
+    }
+}

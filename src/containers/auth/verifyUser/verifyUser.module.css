@@ -99,24 +99,23 @@
 }
 
 .name {
-    margin: 0;
-    margin-bottom: 24px;
+    margin: 0 0 24px;
     font-size: 34px;
-    font-weight: lighter;
     color: #1B5985;
     font-weight: 600;
-    font-family: Montserrat, sans-serif;
+    /*font-family: Montserrat, sans-serif;*/
     text-align: center;
     display: block;
     padding: 10px 0;
 }
 
 .action {
+    text-transform: capitalize;
     display: block;
     margin-bottom: 50px;
     font-size: 21px;
     font-weight: 400;
-    font-family: 'Mardoto  ', sans-serif;
+    /*font-family: 'Mardoto  ', sans-serif;*/
     color: #444;
     padding: 10px 0;
 }

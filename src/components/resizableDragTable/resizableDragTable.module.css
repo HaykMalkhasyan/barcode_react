@@ -105,6 +105,14 @@
     text-align: left;
     font-size: 13px;
     color: #414141;
+    border-bottom: .1pt solid #e9eaed;
+}
+
+.tBodyItems:nth-child(2n + 1) {
+    background-color: #fff;
+}
+.tBodyItems:nth-child(2n) {
+    background-color: #F5F5F5;
 }
 
 .chkRoot {
@@ -127,6 +135,7 @@
     display: inline-flex;
     overflow-x: auto;
     overflow-y: hidden;
+    border-radius: 6px;
 }
 
 /* width */
@@ -155,11 +164,16 @@
     background-color: #fff;
     border-right: 2px solid #e9eaed;
     box-sizing: border-box;
+    user-select: none;
+}
+
+.productTableTab * {
+    user-select: none;
 }
 
 .productTableTab > header {
     position: relative;
-    background-color: #e9eaed;
+    background-color: #fff;
     height: 39px;
     display: flex;
     align-items: center;
@@ -167,9 +181,9 @@
     padding: 5px 10px;
     color: #5D5D5D;
     font-size: 14px;
-    font-weight: 900;
+    font-weight: 600;
     cursor: default;
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-transform: capitalize;
     text-overflow: ellipsis;
 }
@@ -187,11 +201,11 @@
 .resizing {
     position: absolute;
     top: 50%;
-    right: 0;
-    height: 50%;
+    right: -2px;
+    height: 100%;
     transform: translateY(-50%);
     width: 2px;
-    background-color: #bbbbbb;
+    background-color: #e9eaed;
     cursor: col-resize;
     user-select: none;
     transition: 300ms;
@@ -207,7 +221,7 @@
 }
 
 .resizing:hover {
-    background-color: #666;
+    background-color: #f28705;
 }
 
 .tBodyItems {

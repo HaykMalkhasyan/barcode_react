@@ -6,14 +6,15 @@ import Icons from "../../../Icons/icons";
 const CounterInput = props => {
 
     return (
-        <>
+        <div className={props.type === "flex" ? classes.flex : classes.block}>
             <label className={classes.label} htmlFor={props.id}>{props.label}</label>
             <div className={`${classes.counterInput} ${classes[props.variant] || classes.light}`}>
                 <CustomButton
                     className={classes.minusButton}
                     children={<Icons type={'minus'} className={classes.minusIcon}/>}
+                    name={'subtract'}
                     // Methods
-                    onClick={props.onMinusHandler}
+                    onClick={() => props.changeValue('subtract')}
                 />
                 <input
                     id={props.id}
@@ -28,11 +29,12 @@ const CounterInput = props => {
                 <CustomButton
                     className={classes.plusButton}
                     children={<Icons type={'plus'} className={classes.plusIcon}/>}
+                    name={'add'}
                     // Methods
-                    onClick={props.onPlusHandler}
+                    onClick={() => props.changeValue('add')}
                 />
             </div>
-        </>
+        </div>
     )
 };
 

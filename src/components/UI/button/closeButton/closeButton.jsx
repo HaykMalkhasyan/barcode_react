@@ -8,7 +8,7 @@ const CloseButton = props => {
     return (
         <CustomButton
             className={classes.closeButton}
-            children={<Icons type={'close'} className={classes.closeButtonIcon}/>}
+            children={<Icons type={'close'} width={9} height={9} className={classes.closeButtonIcon}/>}
             // Methods
             onClick={props.onClick}
         />

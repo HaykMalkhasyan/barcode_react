@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import classes from './customSelect.module.css'
 import Backdrop from "../../backdrop/backdrop";
 import CustomInput from "../customInput/customInput";
@@ -9,6 +9,19 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 const CustomSelect = props => {
     const inputRef = useRef();
+    const [value, setValue] = useState('');
+
+    useEffect(
+        () => {
+            if (props.value !== undefined && props.data && props.data.length) {
+                for (let item of props.data) {
+                    if (item.id === parseInt(props.value)) {
+                        setValue(item.name)
+                    }
+                }
+            }
+        }, [props.value, props.data]
+    );
 
     const inputBlurHandler = () => {
         props.toggleFocus(inputRef.current.name);
@@ -20,30 +33,36 @@ const CustomSelect = props => {
         props.toggle(inputRef.current.name);
     };
 
+    const selectItemHandler = (item, name) => {
+        setValue(item.name);
+        props.clickHandler(item, name)
+    };
+
     return (
-        <div className={classes.customSelect}>
+        <div className={props.className || classes.customSelect}>
             {
-                props.open === props.name ?
+                props.open && props.open === props.name ?
                     <Backdrop
-                        className={classes.backdrop}
+                        className={props.open && props.open === props.name ? `${classes.backdrop} ${classes.backdropOpened}` : classes.backdrop}
                         // Methods
                         onClick={inputBlurHandler}
                     />
                     :
                     null
             }
-            <div className={props.focus === props.name ? `${classes.select} ${classes.focused}` : classes.select}>
-                <div className={props.open === props.name ? `${classes.content} ${classes.contentOpened}` : classes.content}>
+            <div
+                className={`${props.focus === props.name ? `${classes.select} ${classes.focused}` : classes.select} ${value.length ? classes.active : ''} ${props.open === props.name ? classes.top : ''}`}>
+                <div
+                    className={props.open && props.open === props.name ? `${classes.content} ${classes.contentOpened}` : classes.content}>
                     {
                         props.data && props.data.length ?
                             props.data.map(
                                 item => {
                                     return (
-                                        <Tooltip key={item.id + Math.random()} title={item.name} placement="right">
-                                            <ListItem button onClick={() => props.clickHandler(item, inputRef.current.name)}>
-                                                <ListItemText classes={{root: classes.root}} primary={item.name} />
-                                            </ListItem>
-                                        </Tooltip>
+                                        <ListItem key={'slect-list-' + item.id} button
+                                                  onClick={() => selectItemHandler(item, inputRef.current.name)}>
+                                            <ListItemText classes={{root: classes.root}} primary={item.name}/>
+                                        </ListItem>
                                     )
                                 }
                             )
@@ -58,7 +77,8 @@ const CustomSelect = props => {
                     id={props.name}
                     // Label
                     label={
-                        <div className={props.value.length ? `${classes.labelWindow} ${classes.labelWindowOpened}` : classes.labelWindow}>{props.inputLabel}</div>
+                        <div
+                            className={value.length ? `${classes.labelWindow} ${classes.labelWindowOpened}` : classes.labelWindow}>{props.inputLabel}</div>
                     }
                     classNameLabel={classes.label}
                     name={props.name}
@@ -68,7 +88,7 @@ const CustomSelect = props => {
                     readOnly={true}
                     inputRef={inputRef}
                     classNameInput={classes.input}
-                    value={props.value}
+                    value={value}
                     // Methods
                 />
             </div>

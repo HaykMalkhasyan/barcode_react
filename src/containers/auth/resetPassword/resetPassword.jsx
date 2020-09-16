@@ -17,6 +17,9 @@ import {
 import CustomInput from "../../../components/UI/input/customInput/customInput"
 import CustomButton from "../../../components/UI/button/customButton/customButton"
 import Icons from "../../../components/Icons/icons";
+import LanguagesMenu from "../../../controllers/languagesMenu/languagesMenu";
+import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";
+import {getLanguage} from "../../../controllers/languages/languages";
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -176,19 +179,40 @@ class ResetPassword extends Component {
         this.props.sendMailError(null)
     }
 
+    handleClick = event => {
+        this.props.setLanguageValue('open', event.currentTarget)
+    };
+
+    handleClose = () => {
+        this.props.setLanguageValue('open', null)
+    };
+
+    setLanguage = lang => {
+        this.props.changeLanguage(lang)
+    };
+
     render() {
 
         return (
             <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
+                <LanguagesMenu
+                    open={this.props.open}
+                    lang={this.props.lang}
+                    activeLanguage={this.props.activeLanguage}
+                    // Methods
+                    handleClick={this.handleClick}
+                    handleClose={this.handleClose}
+                    setLanguage={this.setLanguage}
+                />
                 <div className={cls.backdrop}>
                     <div className={`text-center ${cls.mainWindow}`}>
                         <span className={`${cls.name} ${this.props.success ? cls.nameSecond : ''}`}>Barcode.am</span>
                         <span className={`${cls.action} ${this.props.error ? cls.actionError : ''} ${this.props.success ? cls.actionSuccess : ''}`}>
-                                Վերականգնել գաղտնաբառը
+                            {getLanguage(this.props.activeLanguage, 'reset_password')}
                             </span>
                         {
                             this.props.textRecover ?
-                                <Alert className={classes.alertError} severity="error">{this.props.textRecover}</Alert>
+                                <Alert className={classes.alertError} severity="error">{getLanguage(this.props.activeLanguage, this.props.textRecover)}</Alert>
                                 :
                                 null
 
@@ -196,7 +220,7 @@ class ResetPassword extends Component {
                         {
                             this.props.success ?
                                 <div className={cls.regSuccess}>
-                                    Գաղտնաբառը հաջողությամբ վերականգնված է, շնորհակալություն․․․
+                                    {getLanguage(this.props.activeLanguage, 'recover_password_success')}
                                     {
                                         this.changePage()
                                     }
@@ -218,11 +242,11 @@ class ResetPassword extends Component {
                                             }
                                             label={
                                                 <span className={cls.forIcon}>
-                                                    <Icons type={'ley'} className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}/>
+                                                    <Icons type={'key'} className={`${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? cls.passwordFillError : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? cls.passwordFillError : '' : ''}`}/>
                                                 </span>
                                             }
                                             // for input
-                                            placeholder={'Նոր գաղտնաբառ'}
+                                            placeholder={getLanguage(this.props.activeLanguage, 'new_password')}
                                             classNameInput={cls.input}
                                             type={
                                                 this.state.showPass ?
@@ -291,7 +315,7 @@ class ResetPassword extends Component {
                                                 </span>
                                             }
                                             // for input
-                                            placeholder={'Կրկնել գաղտնաբառ'}
+                                            placeholder={getLanguage(this.props.activeLanguage, 'confirm_password')}
                                             classNameInput={cls.input}
                                             type={
                                                 this.state.showConfPass ?
@@ -331,18 +355,18 @@ class ResetPassword extends Component {
                                         <CustomButton
                                             className={cls.signIn}
                                             onClick={event => this.onSubmit(event)}
-                                            children={'Հաստատել'}
+                                            children={getLanguage(this.props.activeLanguage, 'confirm')}
                                         />
                                     </form>
                                     <div className={cls.createAccount}>
                                         <NavLink className={classes.signUp} to={'/login'}>
-                                            Մուտք գործել &nbsp;
+                                            {getLanguage(this.props.activeLanguage, 'login_in')} &nbsp;
                                         </NavLink>
                                         <span>
-                                            կամ &nbsp;
+                                            {getLanguage(this.props.activeLanguage, 'or')} &nbsp;
                                         </span>
                                         <NavLink className={classes.signUp} to={'/registration'}>
-                                            Գրանցվել
+                                            {getLanguage(this.props.activeLanguage, 'register')}
                                         </NavLink>
                                     </div>
 
@@ -369,6 +393,9 @@ class ResetPassword extends Component {
 
 function mapStateToProps(state) {
     return {
+        open: state.language.open,
+        lang: state.language.lang,
+        activeLanguage: state.language.activeLanguage,
         error: state.resetPassword.error,
         success: state.resetPassword.success,
         progress: state.resetPassword.progress,
@@ -386,7 +413,9 @@ function mapDispatchToProps(dispatch) {
         createNewPass: data => dispatch(createNewPass(data)),
         progressAction: status => dispatch(progressAction(status)),
         sendMailSuccess: data => dispatch(sendMailSuccess(data)),
-        sendMailError: data => dispatch(sendMailError(data))
+        sendMailError: data => dispatch(sendMailError(data)),
+        setLanguageValue: (name, value) => dispatch(setLanguageValue(name, value)),
+        changeLanguage: language => dispatch(changeLanguage(language))
     }
 }
 

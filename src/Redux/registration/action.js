@@ -11,8 +11,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 export function registrationHandler() {
 
     return (dispatch, getState) => {
-        dispatch(setRegValues('regProgress', true))
-        dispatch(setRegValues('regText', null))
+        dispatch(setRegValues('regProgress', true));
+        dispatch(setRegValues('regText', null));
 
         const usagerules = getState().registration.usagerules;
         const regEmailStatus = getState().registration.RegEmailStatus;
@@ -22,8 +22,8 @@ export function registrationHandler() {
             email: getState().registration.regEmail,
             password: getState().registration.regPassword,
             password_confirm: getState().registration.regPassword_confirm,
-        }
-        const isEmpty = {}
+        };
+        const isEmpty = {};
 
         for (let item in registrationData) {
 
@@ -69,11 +69,11 @@ export function registrationHandler() {
             isEmpty['usagerules'] = true
         }
         if (Object.keys(isEmpty).length === 0) {
-            registrationData['username'] = registrationData.email
+            registrationData['username'] = registrationData.email;
             dispatch(registrationRequest(registrationData))
         } else {
-            dispatch(setRegValues('isEmpty', isEmpty))
-            dispatch(setRegValues('regText', 'Մուտքագրված տվյալներ սխալ են կամ բացակայում են'))
+            dispatch(setRegValues('isEmpty', isEmpty));
+            dispatch(setRegValues('regText', 'incorrect_or_missing_value'));
             dispatch(setRegValues('regProgress', false))
         }
     }
@@ -83,11 +83,11 @@ export function registrationRequest(data) {
 
     return async dispatch => {
         try {
-            const response = await Axios.post(`${API_URL}/accounts/register/`, data)
-            dispatch(registrationRequestSuccess(response.data))
+            const response = await Axios.post(`${API_URL}/accounts/register/`, data);
+            dispatch(registrationRequestSuccess(response.data));
             dispatch(setRegValues('regProgress', false))
         } catch (error) {
-            dispatch(registrationRequestError(error.response.data))
+            dispatch(registrationRequestError(error.response.data));
             dispatch(setRegValues('regProgress', false))
         }
     }

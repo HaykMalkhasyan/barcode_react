@@ -1,0 +1,45 @@
+.worker {
+    padding: 5px 5px 5px 14px;
+    box-sizing: border-box;
+    border: 1pt solid #024059;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+    /*width: 100%;*/
+}
+
+.worker > span {
+    color: #024059;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .25pt;
+}
+
+.closeIcon {
+    fill: #024059;
+    stroke: #024059;
+}
+
+.removeButton {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.removeButton:hover {
+    background-color: rgba(2, 64, 89, 0.09);
+}
+
+@media (max-width: 600px) {
+    .worker {margin: 2px;
+    }
+}

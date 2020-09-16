@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
 import classes from './products.module.css'
-import Header from "./header/header"
 import Section from "./section/section";
 import {connect} from "react-redux";
-import {getAllGroup, getGroup, subCollapsed, subCollapsedGroup} from "../../../../../Redux/characteristics/actions";
+import {
+    getAllGroup,
+    getGroup, getSubgroupWithGroupId,
+    setGroupValues,
+    subCollapsed,
+    subCollapsedGroup
+} from "../../../../../Redux/characteristics/actions";
 import {closeClassifierWindow, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {
     closeProductActionModal,
-    getAllProducts, getProduct,
+    getAllProducts,
+    getProduct,
     selectProducts,
     setProductValues
 } from "../../../../../Redux/products/actions";
@@ -69,16 +75,8 @@ class Products extends Component{
                         :
                         null
                 }
-                <Header
-                    tabs={this.props.tabs}
-                    activeTabs={this.props.activeTabs}
-                    products={this.props.products}
-                    open={this.state.open}
-                    // Methods
-                    onClick={this.changeTabsHandler}
-                    toggleBackdrop={this.toggleBackdrop}
-                />
                 <Section
+                    open={this.state.open}
                     groups={this.props.groups}
                     group={this.props.group}
                     customSubgroup={this.props.customSubgroup}
@@ -94,6 +92,8 @@ class Products extends Component{
                     types={this.props.types}
                     selected_products={this.props.selected_products}
                     measurements={this.props.measurements}
+                    measurementsFilters={this.props.measurementsFilters}
+                    otherFilters={this.props.otherFilters}
                     // Methods
                     subCollapsed={this.props.subCollapsed}
                     subCollapsedGroup={this.props.subCollapsedGroup}
@@ -105,8 +105,14 @@ class Products extends Component{
                     setProductValues={this.props.setProductValues}
                     getProduct={this.props.getProduct}
                     sortTableTabs={this.props.sortTableTabs}
+                    setGroupValues={this.props.setGroupValues}
+                    getSubgroupWithGroupId={this.props.getSubgroupWithGroupId}
+                    getAllGroup={this.props.getAllGroup}
+                    changeTabsHandler={this.changeTabsHandler}
+                    toggleBackdrop={this.toggleBackdrop}
                 />
                 <ProductModal
+                    root={classes.root}
                     type={this.props.open}
                     scroll={this.props.scroll}
                     open={this.props.open}
@@ -146,6 +152,8 @@ function mapStateToProps(state) {
         toggleClassifier: state.filters.toggleClassifier,
         tabs: state.filters.tabs,
         activeTabs: state.filters.activeTabs,
+        measurementsFilters: state.products.measurementsFilters,
+        otherFilters: state.products.otherFilters,
     }
 }
 
@@ -163,7 +171,10 @@ function mapDispatchToProps(dispatch) {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         closeProductActionModal: () => dispatch(closeProductActionModal()),
         getProduct: id => dispatch(getProduct(id)),
-        sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index))
+        sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
+
+        setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
+        getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
     }
 }
 

@@ -1,0 +1,49 @@
+.chatOwner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.imageWindow {
+    width: 41px;
+    height: 41px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageWindow > img {
+    height: 41px;
+    display: block;
+}
+
+.ownerWindow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+}
+
+.ownerWindow > h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #3B3B3B;
+    font-weight: 500;
+}
+
+.ownerWindow > span {
+    font-size: 11px;
+    color: #6B6B6B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+    .ownerInformation {
+        display: none;
+    }
+}

@@ -1,0 +1,131 @@
+.smileWindow {
+    position: relative;
+}
+
+.smileContainer {
+    position: absolute;
+    bottom: calc(100% + 25px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 260px;
+    height: auto;
+    background-color: transparent;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.42);
+}
+
+.smileContainer:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border: 10px solid;
+    border-color: rgba(0, 0, 0, 0.42) transparent transparent transparent;
+}
+
+.pickerButton {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: 300ms;
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.pickerButton:hover {
+    background-color: rgba(0, 0, 0, .04);
+}
+
+.pickerButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.pickerButton:focus:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background-color: transparent;
+    box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
+}
+
+.opened {
+    background-color: #ff6f00;
+}
+
+.opened:focus:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background-color: transparent;
+    box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
+}
+
+.smileIcon {
+    fill: #fff;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+@media (min-width: 400px) and (max-width: 600px) {
+    .smileContainer {
+        position: fixed;
+        /*height: 100%;*/
+        top: auto;
+        bottom: 0;
+        right: 20px;
+        left: auto;
+        transform: translate(0);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .pickerButton {
+        width: 30px;
+        height: 30px;
+        margin: 0;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .smileContainer {
+        position: fixed;
+        /*height: 100%;*/
+        top: auto;
+        bottom: 0;
+        right: 20px;
+        left: auto;
+        transform: translate(0);
+    }
+}

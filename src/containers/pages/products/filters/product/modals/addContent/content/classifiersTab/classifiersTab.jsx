@@ -1,124 +1,127 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classes from './classifiersTab.module.css'
-import CustomButton from "../../../../../../../../../components/UI/button/customButton/customButton";
-import Icons from "../../../../../../../../../components/Icons/icons";
 import {connect} from "react-redux";
-import {getAllGroup, setGroupValues} from "../../../../../../../../../Redux/characteristics/actions";
+import {
+    getAllGroup,
+    getGroup,
+    getOnlySubgroupWithGroupId,
+    setGroupValues
+} from "../../../../../../../../../Redux/characteristics/actions";
+import ClassifiersItem from "./classifiersItem/classifiersItem";
+import {
+    importGroupInProduct,
+    selectGroupItem,
+    setProductValues
+} from "../../../../../../../../../Redux/products/actions";
+import CustomButton from "../../../../../../../../../components/UI/button/customButton/customButton";
+import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 
-const ClassifiersTab = props => {
+class ClassifiersTab extends Component {
 
-    return (
-        <div className={classes.classifiersTab}>
-            <div className={classes.header}>
-                <h3>Դասակարգիչների ընտրություն</h3>
-            </div>
-            <div className={classes.content}>
-                <p className={classes.information}>
-                    Հիմնական դասակարգիչ ցանկից կարող եք ընտրել ապրանքին համապատասխան դասակարգիչ կամ ավելացնել նորը և
-                    կցել ապրանքին։ Դասակարգիչներն օգնում են հեշտությամբ առանձնացնել նույն կատեգորիային պատկանող
-                    ապրանքների ցանկը։
-                </p>
-                <div className={classes.classifiersControlWindow}>
-                    <CustomButton
-                        className={classes.addButton}
-                        children={<Icons type={'plus'}/>}
-                        // Methods
-                        onClick={
-                            () => {
-                                props.getAllGroup();
-                                props.setGroupValues('modalGroup', "select")
+    componentDidMount() {
+        if (this.props.groups.length && this.props.classifiers.classifiers.length === 0) {
+            const classifiers = [];
+            for (let group of this.props.groups) {
+                if (group.required_group && group.id !== 0) {
+                    classifiers.push(group)
+                }
+            }
+            this.props.setProductValues('classifiers', {classifiers: classifiers})
+        }
+    }
+
+    selectGroupHandler = id => {
+        if (id !== 0) {
+            this.props.getGroup(id);
+            this.props.getOnlySubgroupWithGroupId(id);
+            this.props.selectGroupItem()
+        }
+    };
+
+    render() {
+
+        return (
+            <div className={classes.classifiersTab}>
+                <div className={classes.content}>
+                    <p className={classes.information}>
+                        Հիմնական դասակարգիչ ցանկից կարող եք ընտրել ապրանքին համապատասխան դասակարգիչ կամ ավելացնել նորը և
+                        կցել ապրանքին։ Դասակարգիչներն օգնում են հեշտությամբ առանձնացնել նույն կատեգորիային պատկանող
+                        ապրանքների ցանկը։
+                    </p>
+                    <div className={classes.classifiersControlWindow}>
+                        <div className={classes.errorFields}>
+                            {
+                                this.props.errorFields.length ?
+                                    this.props.errorFields.indexOf('classifiers') !== -1 ?
+                                        <AlertUI variant="outlined" severity="error" text={'Դասակագիչները ընտրված չեն !'}/>
+                                        :
+                                        null
+                                    :
+                                    null
                             }
+                        </div>
+                        {
+                            this.props.classifiers.classifiers.length ?
+                                this.props.classifiers.classifiers.map(
+                                    item => {
+
+                                        return (
+                                            <ClassifiersItem
+                                                subs={this.props.subs}
+                                                roads={this.props.roads}
+                                                data={item}
+                                                key={`classifiers-item-${item.id}`}
+                                                // Methods
+                                                onClick={this.selectGroupHandler}
+                                            />
+                                        )
+                                    }
+                                )
+                                :
+                                null
                         }
-                    />
-                    <div className={classes.classifiersButtonsGroup}>
-                        <div className={classes.classifiersItem}>
-                            <CustomButton
-                                className={classes.classifiersCloseButton}
-                                children={<Icons type={'close'} className={classes.classifiersCloseIcon} width={10}
-                                                 height={10}/>}
-                            />
-                            <header>
-                                <h4>Դասակարգիչ</h4>
-                                <h4>Դասակարգիչի խումբ</h4>
-                            </header>
-                            <section>
-                                <CustomButton
-                                    className={classes.classifiersButtons}
-                                    children={'Հիմնական դասակարգիչ'}
-                                />
-                            </section>
-                        </div>
-                        <div className={classes.classifiersItem}>
-                            <CustomButton
-                                className={classes.classifiersCloseButton}
-                                children={<Icons type={'close'} className={classes.classifiersCloseIcon} width={10}
-                                                 height={10}/>}
-                            />
-                            <header>
-                                <h4>Դասակարգիչ</h4>
-                                <h4>Դասակարգիչի խումբ</h4>
-                            </header>
-                            <section>
-                                <CustomButton
-                                    className={classes.classifiersButtons}
-                                    children={'Խմիչքներ'}
-                                />
-                                <span>Ալկոհոլային</span>
-                            </section>
-                        </div>
-                        <div className={classes.classifiersItem}>
-                            <CustomButton
-                                className={classes.classifiersCloseButton}
-                                children={<Icons type={'close'} className={classes.classifiersCloseIcon} width={10}
-                                                 height={10}/>}
-                            />
-                            <header>
-                                <h4>Դասակարգիչ</h4>
-                                <h4>Դասակարգիչի խումբ</h4>
-                            </header>
-                            <section>
-                                <CustomButton
-                                    className={classes.classifiersButtons}
-                                    children={'Կահույք'}
-                                />
-                                <span>Հյուրասենյակի կահույքներ</span>
-                            </section>
-                        </div>
-                        <div className={classes.classifiersItem}>
-                            <CustomButton
-                                className={classes.classifiersCloseButton}
-                                children={<Icons type={'close'} className={classes.classifiersCloseIcon} width={10}
-                                                 height={10}/>}
-                            />
-                            <header>
-                                <h4>Դասակարգիչ</h4>
-                                <h4>Դասակարգիչի խումբ</h4>
-                            </header>
-                            <section>
-                                <CustomButton
-                                    className={classes.classifiersButtons}
-                                    children={'Էլեկտրոնիկա'}
-                                />
-                                <span>Համակարգիչներ</span>
-                            </section>
-                        </div>
+                        <CustomButton
+                            className={classes.groupAddButton}
+                            children={'Հիմնական Դասակարգիչ'}
+                            // Methods
+                            onClick={
+                                () => {
+                                    this.props.getAllGroup();
+                                    this.props.importGroupInProduct(this.props.open, 'open');
+                                    this.props.setGroupValues('modalGroup', "select")
+                                }
+                            }
+                        />
                     </div>
                 </div>
             </div>
-        </div>
-    )
-};
+        )
+    }
+}
 
 function mapStateToProps(state) {
 
-    return {}
+    return {
+        errorFields: state.products.errorFields,
+        open: state.products.open,
+        roads: state.products.roads,
+        initialOpen: state.products.initialOpen,
+        groups: state.characteristics.groups,
+        subs: state.products.subs,
+        classifiers: state.products.classifiers,
+    }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
-        getAllGroup: () => dispatch(getAllGroup())
+        getAllGroup: () => dispatch(getAllGroup()),
+        setProductValues: (name, value) => dispatch(setProductValues(name, value)),
+        importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
+        getGroup: (id, place) => dispatch(getGroup(id, place)),
+        getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
+        selectGroupItem: () => dispatch(selectGroupItem()),
     }
 }
 

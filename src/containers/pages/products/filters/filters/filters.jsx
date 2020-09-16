@@ -25,11 +25,13 @@ import {
     uploadImage
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
-import {setProductValues} from "../../../../../Redux/products/actions";
+import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
 import ModalContent from "../classificatorModals/modalContent/modalContent";
 import ClassifiersActionModals from "../classificatorModals/addClassifiers/classifiersActionModals";
 import Classifiers from "../classificatorModals/classifiers/classifiers";
 import CollapsedFilters from "./collapsedFilters/collapsedFilters";
+import OtherFilters from "./otherFilters/otherFilters";
+import CustomSearchWindow from "../searchWindow/customSearchWindow/customSearchWindow";
 
 class Filters extends Component {
     constructor(props) {
@@ -70,15 +72,18 @@ class Filters extends Component {
 
         if (type === 'back') {
             if (this.props.groupType === 'group') {
-                this.props.setGroupValues('modalGroup', "edit")
+                this.props.setGroupValues('modalGroup', this.props.initialModalGroup)
             } else {
                 this.props.setProductValues('classifiersModal', true)
             }
         } else if (type === 'close') {
+            this.props.setGroupValues('newGroup', {name: '', required_group: false, group_type: '1'});
             this.props.setGroupValues('subgroup', null);
             this.props.setGroupValues('group', null);
             this.props.setGroupValues('customSubgroup', null);
-            this.props.setGroupValues('collapsedModalStatus', [])
+            this.props.setGroupValues('collapsedModalStatus', []);
+            this.props.setGroupValues('initialModalGroup', null);
+            this.props.setProductValues('initialOpen', null)
         }
     };
 
@@ -101,12 +106,16 @@ class Filters extends Component {
         this.props.setGroupValues('groupActiveId', null);
         this.props.setGroupValues('classifiersSearch', '');
         this.props.setGroupValues('touched', false);
+        this.props.setGroupValues('initialModalGroup', null)
     };
 
     render() {
 
         return (
             <div className={classes.filters}>
+                <div className={classes.mobileMainSearch}>
+                    <CustomSearchWindow/>
+                </div>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4} lg={3} xl={3}>
                         <ClassifiersTree
@@ -114,7 +123,12 @@ class Filters extends Component {
                             handleOpen={this.handleOpen}
                             classifierOpenHandler={this.classifierOpenHandler}
                         />
-                        <CollapsedFilters/>
+                        <CollapsedFilters
+                            measurementsFilters={this.props.measurementsFilters}
+                        />
+                        <OtherFilters
+                            otherFilters={this.props.otherFilters}
+                        />
                     </Grid>
                     <Grid item xs={12} md={8} lg={9} xl={9}>
                         <SearchWindow/>
@@ -200,11 +214,17 @@ class Filters extends Component {
                         newGroup={this.props.newGroup}
                         classifiersSearch={this.props.classifiersSearch}
                         touched={this.props.touched}
+                        allError={this.props.allError}
+                        initialOpen={this.props.initialOpen}
+                        classifiers={this.props.classifiers}
+                        initialModalGroup={this.props.initialModalGroup}
                         // Methods
                         classifierCloseHandler={this.classifierCloseHandler}
                         handleOpen={this.handleOpen}
                         getGroup={this.props.getGroup}
+                        setProductValues={this.props.setProductValues}
                         setGroupValues={this.props.setGroupValues}
+                        importGroupInProduct={this.props.importGroupInProduct}
                         getOnlySubgroupWithGroupId={this.props.getOnlySubgroupWithGroupId}
                         editModalHandleOpen={this.handleOpen}
                     />
@@ -217,8 +237,14 @@ class Filters extends Component {
 function mapStateToProps(state) {
 
     return {
+        initialOpen: state.products.initialOpen,
+        initialModalGroup: state.characteristics.initialModalGroup,
+        classifiers: state.products.classifiers,
         classifiersModal: state.products.classifiersModal,
+        measurementsFilters: state.products.measurementsFilters,
+        otherFilters: state.products.otherFilters,
         group: state.characteristics.group,
+        allError: state.characteristics.allError,
         groups: state.characteristics.groups,
         customSubgroup: state.characteristics.customSubgroup,
         collapsed: state.characteristics.collapsed,
@@ -250,8 +276,8 @@ function mapDispatchToProps(dispatch) {
 
     return {
         getAllGroup: () => dispatch(getAllGroup()),
-        addGroup: data => dispatch(addGroup(data)),
-        editGroup: data => dispatch(editGroup(data)),
+        addGroup: (data) => dispatch(addGroup(data)),
+        editGroup: (data) => dispatch(editGroup(data)),
         addSubgroup: data => dispatch(addSubgroup(data)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         getGroup: (id, place) => dispatch(getGroup(id, place)),
@@ -268,6 +294,7 @@ function mapDispatchToProps(dispatch) {
         subCollapsed: id => dispatch(subCollapsed(id)),
         subCollapsedGroup: id => dispatch(subCollapsedGroup(id)),
         editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
+        importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status))
     }
 }
 

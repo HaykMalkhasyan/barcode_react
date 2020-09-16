@@ -1,0 +1,35 @@
+.backButton {
+    padding: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none !important;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 300ms;
+}
+
+.backButton:hover {
+    background-color: rgba(77, 163, 225, 0.3);
+}
+
+.backButton:hover .backPage {
+    fill: rgba(77, 163, 225, 1);
+    opacity: 1;
+}
+
+.backButton:focus {
+    box-shadow: 0 0 0 4px rgba(57, 57, 57, 0.05);
+}
+
+.backButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.backPage {
+    transition: 300ms;
+    fill: #4b4b4b;
+    opacity: 0.56;
+}

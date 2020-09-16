@@ -1,0 +1,98 @@
+.chatOwner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 6px;
+    width: 100%;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.chatOwner > div:first-child {
+    width: 30px;
+}
+
+.chatOwner > div:last-child {
+    width: calc(100% - 30px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.imageWindow {
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageWindow > img {
+    height: 25px;
+    display: block;
+}
+
+.ownerWindow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+}
+
+.ownerWindow > h3 {
+    margin: 0 0 3px;
+    font-size: 14px;
+    color: #3B3B3B;
+    font-weight: 500;
+    transition: 300ms;
+}
+
+.ownerWindow > span {
+    font-size: 11px;
+    color: #6B6B6B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    transition: 300ms;
+}
+
+.active {
+    background-color: #f6f6f6;
+    position: relative;
+    border-radius: 0;
+}
+
+.active:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #024059;
+}
+
+.chatOwner:hover {
+    background-color: #024059;
+    border-radius: 6px;
+}
+
+.chatOwner:hover * {
+    color: #fff !important;
+}
+
+.chatOwner:hover:after {
+    content: none;
+}
+
+@media (max-width: 600px) {
+    /*.messageOwnerItem {*/
+    /*    display: none;*/
+    /*}*/
+}

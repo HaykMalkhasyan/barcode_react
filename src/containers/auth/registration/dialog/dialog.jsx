@@ -44,7 +44,7 @@ export default function AlertDialogSlide(props) {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">{"Օգտագործման կանոններ"}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title">{props.dialogTitle}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description" className={cls.textStyle}>
                         Հայտնի է, որ ընթերցողը, կարդալով հասկանալի տեքստ, չի կարողանա կենտրոնանալ տեքստի ձևավորման վրա:

@@ -3,59 +3,56 @@ import Content from "./content/content";
 
 const ClassifiersActionModals = props => {
 
-    switch (props.modalType) {
-        case 'add':
-            return (
-                <>
-                    <Content
-                        newGroup={props.newGroup}
-                        newSubgroup={props.newSubgroup}
-                        label={props.groupType === 'group' ? 'Ավելացնել դասակարգիչ' : 'Ավելացնել խումբ'}
-                        groupType={props.groupType}
-                        subgroup={props.subgroup}
-                        error={props.error}
-                        group={props.group}
-                        modalType={props.modalType}
-                        customSubgroup={props.customSubgroup}
-                        collapsedModalStatus={props.collapsedModalStatus}
-                        // Methods
-                        setGroupValues={props.setGroupValues}
-                        setProductValues={props.setProductValues}
-                        closeHandler={props.closeHandler}
-                        uploadImage={props.uploadImage}
-                        addSubgroup={props.addSubgroup}
-                        addGroup={props.addGroup}
-                        subGroupModalCollapses={props.subGroupModalCollapses}
-                    />
-                </>
-            );
-        case 'edit':
-            return (
-                <>
-                    <Content
-                        newGroup={props.newGroup}
-                        newSubgroup={props.newSubgroup}
-                        label={props.groupType === 'group' ? 'Փոփոխել դասակարգիչը' : 'Փոփոխել խումբը'}
-                        groupType={props.groupType}
-                        subgroup={props.subgroup}
-                        group={props.group}
-                        error={props.error}
-                        modalType={props.modalType}
-                        customSubgroup={props.customSubgroup}
-                        collapsedModalStatus={props.collapsedModalStatus}
-                        // Methods
-                        setGroupValues={props.setGroupValues}
-                        setProductValues={props.setProductValues}
-                        closeHandler={props.closeHandler}
-                        uploadImage={props.uploadImage}
-                        editSubgroup={props.editSubgroup}
-                        editGroup={props.editGroup}
-                        subGroupModalCollapses={props.subGroupModalCollapses}
-                    />
-                </>
-            );
-        default: return null
-    }
+    const labelRender = (modalType, groupType) => {
+
+        switch (modalType) {
+            case 'add':
+                return groupType === 'group' ?
+                    'Ավելացնել դասակարգիչ'
+                    :
+                    'Ավելացնել խումբ';
+            case "edit":
+                return groupType === 'group' ?
+                    'Փոփոխել դասակարգիչը'
+                    :
+                    'Փոփոխել խումբը';
+            default:
+                return 'Դասակարգիչի փոփոխման պատուհան';
+        }
+    };
+
+    const actionRender = (modalType, addAction, editAction) => {
+        switch (modalType) {
+            case "edit":
+                return editAction;
+            case 'add':
+            default:
+                return addAction;
+        }
+    };
+
+    return (
+        <Content
+            newGroup={props.newGroup}
+            newSubgroup={props.newSubgroup}
+            label={labelRender(props.modalType, props.groupType)}
+            groupType={props.groupType}
+            subgroup={props.subgroup}
+            error={props.error}
+            group={props.group}
+            modalType={props.modalType}
+            customSubgroup={props.customSubgroup}
+            collapsedModalStatus={props.collapsedModalStatus}
+            // Methods
+            setGroupValues={props.setGroupValues}
+            setProductValues={props.setProductValues}
+            closeHandler={props.closeHandler}
+            uploadImage={props.uploadImage}
+            subGroupAction={actionRender(props.modalType, props.addSubgroup, props.editSubgroup)}
+            groupAction={actionRender(props.modalType, props.addGroup, props.editGroup)}
+            subGroupModalCollapses={props.subGroupModalCollapses}
+        />
+    );
 };
 
 export default ClassifiersActionModals

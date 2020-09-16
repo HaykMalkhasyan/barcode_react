@@ -15,6 +15,9 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import {registrationHandler, setRegValues} from "../../../Redux/registration/action"
 import is from 'is_js'
 import Icons from "../../../components/Icons/icons";
+import LanguagesMenu from "../../../controllers/languagesMenu/languagesMenu";
+import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";
+import {getLanguage} from "../../../controllers/languages/languages";
 
 const Registration = props => {
 
@@ -37,26 +40,26 @@ const Registration = props => {
 
                         return (
                             <Alert className={classes.alertError} key={index} severity="error">
-                                Նշված էլ.հանցեն արդեն գոյություն ունի.
+                                {getLanguage(props.activeLanguage, 'email_exists')}
                             </Alert>
                         );
                     case 'regName':
                         return (
                             <Alert className={classes.alertError} key={index} severity="error">
-                                Մուտքագրված արժեքը սխալ է
+                                {getLanguage(props.activeLanguage, 'incorrect_value')}
                             </Alert>
                         );
                     case 'regLastName':
                         return (
                             <Alert className={classes.alertError} key={index} severity="error">
-                                Մուտքագրված արժեքը սխալ է
+                                {getLanguage(props.activeLanguage, 'incorrect_value')}
                             </Alert>
                         );
                     case 'regPassword':
                     case 'regPassword_confirm':
                         return (
                             <Alert className={classes.alertError} key={index} severity="error">
-                                Դուք մուտքագրել եք սխալ գաղտնաբառ
+                                {getLanguage(props.activeLanguage, 'incorrect_password')}
                             </Alert>
                         );
                     default: {
@@ -68,7 +71,9 @@ const Registration = props => {
         );
         if (errorStatus) {
             return (
-                <Alert className='my-1' severity="error">Գրանցումը չհաջողվեց</Alert>
+                <Alert className='my-1' severity="error">
+                    {getLanguage(props.activeLanguage, 'registration_failed')}
+                </Alert>
             )
         } else {
             return errorFinish
@@ -167,30 +172,54 @@ const Registration = props => {
         props.registrationHandler()
     };
 
+    const handleClick = event => {
+        props.setLanguageValue('open', event.currentTarget)
+    };
+
+    const handleClose = () => {
+        props.setLanguageValue('open', null)
+    };
+
+    const setLanguage = lang => {
+        props.changeLanguage(lang)
+    };
+
     return (
         <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
+            <LanguagesMenu
+                open={props.open}
+                lang={props.lang}
+                activeLanguage={props.activeLanguage}
+                // Methods
+                handleClick={handleClick}
+                handleClose={handleClose}
+                setLanguage={setLanguage}
+            />
             <div className={classes.backdrop}>
                 <div className={classes.mainWindow}>
                     <span className={`${classes.name} ${props.regSuccess ? classes.nameSecond : ''}`}>Barcode.am</span>
-                    <span className={classes.action}>Գրանցվել</span>
+                    <span className={classes.action}>{getLanguage(props.activeLanguage, 'register')}</span>
                     {
                         props.regText ?
-                            <Alert className={classes.alertError} severity="error">{props.regText}</Alert>
+                            <Alert className={classes.alertError} severity="error">
+                                {getLanguage(props.activeLanguage, props.regText)}
+                            </Alert>
                             :
                             null
 
                     }
-                    {
-                        props.regError ?
-                            errorRender(props.regError)
-                            :
-                            null
-                    }
+                    <div className={classes.errorField}>
+                        {
+                            props.regError ?
+                                errorRender(props.regError)
+                                :
+                                null
+                        }
+                    </div>
                     {
                         props.regSuccess ?
                             <div className={classes.regSuccess}>
-                                Դուք շուտով կստանաք էլ․ հաղորդագրություն, անցեք հաղորդագրությանը կից հղմամբ որպեսզի
-                                հաստատեք գրանցումը, շնորհակալություն․․․
+                                {getLanguage(props.activeLanguage, 'registration_susses')}
                             </div>
                             :
                             <>
@@ -228,7 +257,7 @@ const Registration = props => {
                                         type="text"
                                         required={true}
                                         name="regName"
-                                        placeholder={'Անուն'}
+                                        placeholder={getLanguage(props.activeLanguage, 'name')}
                                         value={props.regName}
                                         // Methods
                                         onFocus={clickHandler.bind(this, 'regName')}
@@ -268,7 +297,7 @@ const Registration = props => {
                                         type="text"
                                         required={true}
                                         name="regLastName"
-                                        placeholder={'Ազգանուն'}
+                                        placeholder={getLanguage(props.activeLanguage, 'last_name')}
                                         value={props.regLastName}
                                         // Methods
                                         onFocus={clickHandler.bind(this, 'regLastName')}
@@ -307,7 +336,7 @@ const Registration = props => {
                                         classNameInput={classes.input}
                                         type="email"
                                         name="regEmail"
-                                        placeholder={'Էլ․ հասցե'}
+                                        placeholder={getLanguage(props.activeLanguage, 'email')}
                                         value={props.regEmail}
                                         // Methods
                                         onFocus={clickHandler.bind(this, 'regEmail')}
@@ -358,7 +387,7 @@ const Registration = props => {
                                         }
                                         //for input
                                         classNameInput={classes.input}
-                                        placeholder={'Նոր գաղտնաբառ'}
+                                        placeholder={getLanguage(props.activeLanguage, 'new_password')}
                                         type={
                                             props.showRegPass ?
                                                 'text'
@@ -430,7 +459,7 @@ const Registration = props => {
                                         }
                                         //for input
                                         classNameInput={classes.input}
-                                        placeholder={'Կրկնել գաղտնաբառ'}
+                                        placeholder={getLanguage(props.activeLanguage, 'confirm_password')}
                                         type={
                                             props.showRegConfPass ?
                                                 'text'
@@ -492,14 +521,15 @@ const Registration = props => {
                                         />
                                         <label htmlFor="check" className={classes.checkLabel}>
                                             <span className={classes.check}>
-                                                Ես համաձայն եմ
+                                                {getLanguage(props.activeLanguage, 'agree')}
                                             </span>
                                             <AlertDialogSlide
+                                                dialogTitle={getLanguage(props.activeLanguage, 'terms_use')}
                                                 type={'button'}
                                                 className={classes.checkLink}
-                                                text={'Օգտագործման կանոններին'}
-                                                agree={'Համաձայն եմ'}
-                                                disagree={'Համաձայն չեմ'}
+                                                text={getLanguage(props.activeLanguage, 'terms_of_use')}
+                                                agree={getLanguage(props.activeLanguage, 'agree')}
+                                                disagree={getLanguage(props.activeLanguage, 'not_agree')}
                                                 usagerulesHandlerAgree={usagerulesHandlerAgree}
                                             />
                                             <span>:</span>
@@ -507,14 +537,16 @@ const Registration = props => {
                                     </div>
                                     <CustomButton
                                         className={classes.signIn}
-                                        children={'Գրանցվել'}
+                                        children={getLanguage(props.activeLanguage, 'register')}
                                         // Methods
                                         onClick={onSubmit}
                                     />
                                 </form>
                                 <div className={classes.createAccount}>
-                                    <span>Գրանցվա՞ծ եք:</span>
-                                    <NavLink to='/login' className={classes.signUp}>Մուտք</NavLink>
+                                    <span>{getLanguage(props.activeLanguage, 'registered')}</span>
+                                    <NavLink to='/login' className={classes.signUp}>
+                                        {getLanguage(props.activeLanguage, 'login')}
+                                    </NavLink>
                                 </div>
                             </>
                     }
@@ -538,6 +570,9 @@ const Registration = props => {
 function mapStateToProps(state) {
 
     return {
+        open: state.language.open,
+        lang: state.language.lang,
+        activeLanguage: state.language.activeLanguage,
         regName: state.registration.regName,
         regLastName: state.registration.regLastName,
         regEmail: state.registration.regEmail,
@@ -561,7 +596,9 @@ function mapDispatchToProps(dispatch) {
 
     return {
         setRegValues: (name, value) => dispatch(setRegValues(name, value)),
-        registrationHandler: () => dispatch(registrationHandler())
+        registrationHandler: () => dispatch(registrationHandler()),
+        setLanguageValue: (name, value) => dispatch(setLanguageValue(name, value)),
+        changeLanguage: language => dispatch(changeLanguage(language))
     }
 }
 

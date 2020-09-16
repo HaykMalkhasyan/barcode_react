@@ -276,7 +276,7 @@ const Icons = props => {
                         transform="translate(33.147 993.333) rotate(180)"
                     />
                 </svg>
-            )
+            );
         case 'check':
             return (
                 <svg width={props.width || 11} height={props.height || 10} viewBox="0 0 11.428 10.35">
@@ -1380,6 +1380,313 @@ const Icons = props => {
                                 />
                             </g>
                         </g>
+                    </g>
+                </svg>
+            );
+        case 'group-arrows':
+            return (
+                <svg width={props.width || 20.63} height={props.height ||20.63} viewBox="0 0 20.63 20.63">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{`.group-arrows{stroke:#000;stroke-width:0.2px;}`}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g  style={{opacity: `${props.opacity || 0.18}`}} transform="translate(0.133 0.101)">
+                        <g transform="translate(0 0)">
+                            <path
+                                className={props.className || "group-arrows"}
+                                d="M16.16,5.991a.464.464,0,0,0-.275.13L13.1,8.9a.464.464,0,1,0,.652.659L15.747,7.57v6.765a.464.464,0,1,0,.927,0V7.57l1.992,1.992a.464.464,0,1,0,.652-.659L16.537,6.121A.464.464,0,0,0,16.16,5.991ZM9.207,12.937a.464.464,0,0,0-.275.145L6.15,15.863a.464.464,0,0,0,0,.652L8.931,19.3a.464.464,0,1,0,.659-.652L7.6,16.653h6.758a.464.464,0,1,0,0-.927H7.6l1.992-1.992a.466.466,0,0,0-.384-.8Zm13.907,0a.464.464,0,0,0-.275.8l1.992,1.992H18.065a.464.464,0,1,0,0,.927h6.765l-1.992,1.992a.464.464,0,1,0,.659.652l2.781-2.782a.466.466,0,0,0,0-.652L23.5,13.082a.464.464,0,0,0-.384-.145ZM16.16,17.573a.48.48,0,0,0-.413.471V24.8L13.756,22.81a.464.464,0,1,0-.652.659l2.781,2.781a.464.464,0,0,0,.652,0l2.781-2.781a.464.464,0,1,0-.652-.659L16.675,24.8V18.044A.484.484,0,0,0,16.16,17.573Z"
+                                transform="translate(-6.016 -5.988)"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'contained-edit':
+            return (
+                <svg width={props.width || 20.63} height={props.height ||20.63} viewBox="0 0 20.59 20.597">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".contained-edit{stroke:#000;stroke-width:0.2px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g style={{opacity: `${props.opacity || 0.18}`}} transform="translate(0.1 0.1)">
+                        <path
+                            className={props.className || "contained-edit"}
+                            d="M20.988,20a1.753,1.753,0,0,1-1.726,1.756H5.447A1.753,1.753,0,0,1,3.72,20V6.181a1.7,1.7,0,0,1,1.726-1.7H13.5V3.332H5.447a2.857,2.857,0,0,0-2.878,2.85V20A2.9,2.9,0,0,0,5.447,22.9H19.26A2.906,2.906,0,0,0,22.138,20v-8.03H20.987V20Z"
+                            transform="translate(-2.569 -2.504)"
+                        />
+                        <path
+                            className={props.className || "contained-edit"}
+                            d="M21.7,3.219a2.357,2.357,0,0,0-3.256,0l-7.722,7.722a.575.575,0,0,0-.151.267l-.813,3.255a.576.576,0,0,0,.558.716.56.56,0,0,0,.139-.017l3.256-.814a.569.569,0,0,0,.267-.151L21.7,6.474a2.3,2.3,0,0,0,0-3.255Zm-8.422,10.05-2.171.543.543-2.171,6.388-6.388,1.628,1.628ZM20.889,5.66l-.406.406L18.855,4.438l.406-.406a1.179,1.179,0,0,1,1.628,0,1.151,1.151,0,0,1,0,1.628Z"
+                            transform="translate(-1.988 -2.566)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'group-add':
+            return (
+                <svg width={props.width || 20.63} height={props.height ||20.63} viewBox="0 0 21.058 20.597">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".group-add{stroke:#000;stroke-width:0.2px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g style={{opacity: `${props.opacity || 0.18}`}} transform="translate(0.1 0.1)">
+                        <path
+                            className={props.className || "group-add"}
+                            d="M23.113,5.42h-9.4a2.744,2.744,0,0,0-2.744,2.744h0a2.744,2.744,0,0,0-2.744,2.744v5.933h1.1V10.92a1.647,1.647,0,0,1,1.647-1.647h8.3v3.189l1.751.027v-1.07l-.653-.027V10.129l1.647,1.992v10.95a1.647,1.647,0,0,1-1.647,1.647H9.314V22.6h3.216V21.5H9.314V18.286h-1.1V21.5H5v1.1H8.216v3.216H20.369a2.744,2.744,0,0,0,2.744-2.744h0a2.744,2.744,0,0,0,2.744-2.744V8.164A2.744,2.744,0,0,0,23.113,5.42Zm1.647,14.9a1.647,1.647,0,0,1-1.647,1.647h0V11.743L20.138,8.175H12.07a1.647,1.647,0,0,1,1.647-1.647h9.4A1.647,1.647,0,0,1,24.76,8.175Z"
+                            transform="translate(-5 -5.42)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'group-delete':
+            return (
+                <svg width={props.width || 20.63} height={props.height ||20.63} viewBox="0 0 18.295 20.597">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".group-delete{stroke:#000;stroke-width:0.2px;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g style={{opacity: `${props.opacity || 0.18}`}} transform="translate(0.1 0.1)">
+                        <g transform="translate(0 0)">
+                            <g transform="translate(0 0)">
+                                <path
+                                    className={props.className || "group-delete"}
+                                    d="M74.776,114.908H61.544a.523.523,0,0,0-.392.131.444.444,0,0,0-.131.392l1.36,11.845a2.589,2.589,0,0,0,2.589,2.275h6.59a2.589,2.589,0,0,0,2.615-2.353L75.3,115.379a.445.445,0,0,0-.131-.34A.523.523,0,0,0,74.776,114.908Zm-1.647,12.238a1.517,1.517,0,0,1-1.569,1.36H64.97a1.491,1.491,0,0,1-1.543-1.334L62.12,115.954H74.2Z"
+                                    transform="translate(-59.113 -109.155)"
+                                />
+                                <path
+                                    className={props.className || "group-delete"}
+                                    d="M40.565,2.354H35.178V1.517A1.464,1.464,0,0,0,33.768,0H30.393A1.464,1.464,0,0,0,28.9,1.437q0,.04,0,.08v.837H23.516a.523.523,0,0,0,0,1.046H40.565a.523.523,0,1,0,0-1.046Zm-6.433-.837v.837H29.949V1.517a.418.418,0,0,1,.444-.471h3.295a.418.418,0,0,1,.447.388A.414.414,0,0,1,34.132,1.517Z"
+                                    transform="translate(-22.993 0)"
+                                />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'rectangle-add':
+            return (
+                <svg width={props.width || 14} height={props.height || 14} viewBox="0 0 14 14">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".rectangle-add{fill:#3ec300;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <path
+                        className={props.className || "rectangle-add"}
+                        d="M12.227,14H1.773A1.775,1.775,0,0,1,0,12.227V1.773A1.775,1.775,0,0,1,1.773,0H12.227A1.775,1.775,0,0,1,14,1.773V12.227A1.775,1.775,0,0,1,12.227,14ZM1.773.734A1.04,1.04,0,0,0,.734,1.773V12.227a1.04,1.04,0,0,0,1.039,1.039H12.227a1.04,1.04,0,0,0,1.039-1.039V1.773A1.04,1.04,0,0,0,12.227.734Z"
+                    />
+                    <path
+                        className={props.className || "rectangle-add"}
+                        d="M30.624,28.573H29.489V27.438a.459.459,0,1,0-.917,0v1.135H27.438a.459.459,0,0,0,0,.917h1.135v1.135a.459.459,0,0,0,.917,0V29.49h1.135a.459.459,0,0,0,0-.917Z"
+                        transform="translate(-22.031 -22.031)"
+                    />
+                </svg>
+            );
+        case 'contained-print':
+            return (
+                <svg width={props.width || 11.21} height={props.height || 14} viewBox="0 0 11.21 14">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".contained-print{fill:#1481ba;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0)">
+                        <path
+                            className={props.className || "contained-print"}
+                            d="M56.265,85.4H49.757a1.107,1.107,0,0,0-1.107,1.107v9.338a1.107,1.107,0,0,0,1.107,1.107h6.508a1.107,1.107,0,0,0,1.107-1.107V86.507A1.111,1.111,0,0,0,56.265,85.4Zm.33,10.442a.333.333,0,0,1-.333.333H49.754a.333.333,0,0,1-.333-.333V86.507a.333.333,0,0,1,.333-.333h6.508a.333.333,0,0,1,.333.333Z"
+                            transform="translate(-48.65 -82.952)"
+                        />
+                        <path
+                            className={props.className || "contained-print"}
+                            d="M143.065,0h-6.508a1.107,1.107,0,0,0-1.107,1.107.387.387,0,1,0,.774,0,.333.333,0,0,1,.333-.333h6.508a.333.333,0,0,1,.333.333v9.338a.333.333,0,0,1-.333.333.387.387,0,0,0,0,.774,1.107,1.107,0,0,0,1.107-1.107V1.107A1.107,1.107,0,0,0,143.065,0Z"
+                            transform="translate(-132.961)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'outline-list':
+            return (
+                <svg width={props.width || 17} height={props.height || 11.283} viewBox="0 0 17 11.283">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>
+                                    {
+                                        ".outline-list{fill:none;stroke:#313131;stroke-linecap:round;stroke-linejoin:round;}"
+                                    }
+                                </style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(-15.94 -21.5)">
+                        <line className={props.className || "outline-list"} x2={9.83} transform="translate(22.61 22)" />
+                        <line className={props.className || "outline-list"} x2={9.83} transform="translate(22.61 27.141)" />
+                        <line className={props.className || "outline-list"} x2={9.83} transform="translate(22.61 32.283)" />
+                        <line className={props.className || "outline-list"} x1={3} transform="translate(16.44 22)" />
+                        <line className={props.className || "outline-list"} x1={3} transform="translate(16.44 27)" />
+                        <line className={props.className || "outline-list"} x1={3} transform="translate(16.44 32)" />
+                    </g>
+                </svg>
+            );
+        case 'contained-export':
+            return (
+                <svg width={props.width || 14} height={props.height || 14} viewBox="0 0 14 14">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".contained-export{fill:#313131;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0 2.333)">
+                        <path
+                            className={props.className || "contained-export"}
+                            d="M12.542,15.667H1.458A1.46,1.46,0,0,1,0,14.208V5.458A1.46,1.46,0,0,1,1.458,4H3.792a.292.292,0,1,1,0,.583H1.458a.876.876,0,0,0-.875.875v8.75a.876.876,0,0,0,.875.875H12.542a.876.876,0,0,0,.875-.875V8.958a.292.292,0,0,1,.583,0v5.25A1.46,1.46,0,0,1,12.542,15.667Z"
+                            transform="translate(0 -4)"
+                        />
+                    </g>
+                    <g transform="translate(3.5 0)">
+                        <path
+                            className={props.className || "contained-export"}
+                            d="M6.292,9.333a.3.3,0,0,1-.067-.008A.291.291,0,0,1,6,9.042V7.292a4.964,4.964,0,0,1,4.958-4.958h.875V.292a.292.292,0,0,1,.5-.207l4.083,4.083a.292.292,0,0,1,0,.412L12.332,8.664a.292.292,0,0,1-.5-.206V6.417H9.914A3.194,3.194,0,0,0,7.042,8.192l-.49.98A.29.29,0,0,1,6.292,9.333Zm4.667-6.417A4.38,4.38,0,0,0,6.583,7.292v.52A3.773,3.773,0,0,1,9.914,5.833h2.211a.292.292,0,0,1,.292.292V7.754L15.8,4.375,12.417,1V2.625a.292.292,0,0,1-.292.292Z"
+                            transform="translate(-6 0)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'drop-list':
+            return (
+                <svg width={props.width || 3.797} height={props.height || 21.857} viewBox="0 0 3.797 21.857">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".drop-list{fill:#3b3b3b;}"}</style>
+                            </defs>
+                            :null
+                    }
+                    <g transform="translate(3.797) rotate(90)">
+                        <g transform="translate(0 0)">
+                            <circle
+                                className={props.className || "drop-list"}
+                                cx={1.899}
+                                cy={1.899}
+                                r={1.899}
+                                transform="translate(18.06)"
+                            />
+                            <circle
+                                className={props.className || "drop-list"}
+                                cx={1.899}
+                                cy={1.899}
+                                r={1.899}
+                                transform="translate(9.03)"
+                            />
+                            <circle className={props.className || "drop-list"} cx={1.899} cy={1.899} r={1.899} />
+                        </g>
+                    </g>
+                </svg>
+            );
+        case 'chat-export':
+            return (
+                <svg width={props.width || 17.473} height={props.height || 17.636} viewBox="0 0 17.473 17.636">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>
+                                    {
+                                        ".chat-export{fill:none;stroke:#4b4b4b;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:1.2px;}"
+                                    }
+                                </style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g style={{opacity: props.opacity || .61}} transform="translate(-15.642 -12.074)">
+                        <line
+                            className={props.className || "chat-export"}
+                            x1={8.819}
+                            y2={8.924}
+                            transform="translate(23.447 12.975)"
+                        />
+                        <path
+                            className={props.className || "chat-export"}
+                            d="M63.978,12.674H69.3v5.287"
+                            transform="translate(-36.87 0)"
+                        />
+                        <path
+                            className={props.className || "chat-export"}
+                            d="M23.554,23.04H16.242V37.116H30.318V29.8"
+                            transform="translate(0 -8.006)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'smile':
+            return (
+                <svg width={props.width || 16.515} height={props.height || 16.515} viewBox="0 0 16.515 16.515">
+                    <path
+                        className={props.className}
+                        d="M12.257,956.362a8.257,8.257,0,1,0,8.257,8.257A8.266,8.266,0,0,0,12.257,956.362Zm0,1.077a7.18,7.18,0,1,1-7.18,7.18A7.172,7.172,0,0,1,12.257,957.439Zm-3.052,3.77a1.257,1.257,0,1,0,1.257,1.257A1.257,1.257,0,0,0,9.206,961.209Zm6.1,0a1.257,1.257,0,1,0,1.257,1.257A1.257,1.257,0,0,0,15.309,961.209Zm-7.057,5.026a.519.519,0,0,0-.426.28.545.545,0,0,0,.034.555,5.235,5.235,0,0,0,8.8,0,.557.557,0,0,0-.146-.746.564.564,0,0,0-.752.146,4.153,4.153,0,0,1-7,0A.619.619,0,0,0,8.252,966.235Z"
+                        transform="translate(-4 -956.362)"
+                    />
+                </svg>
+            );
+        case 'clip':
+            return (
+                <svg width={props.width || 16.251} height={props.height || 16.251} viewBox="0 0 16.251 16.251">
+                    {
+                        !props.className ?
+                            <defs>
+                                <style>{".clip{fill:none;fill-rule:evenodd;}"}</style>
+                            </defs>
+                            :
+                            null
+                    }
+                    <g transform="translate(0 0)">
+                        <path
+                            className={props.className || "clip"}
+                            d="M16.251-7.749H0V-24H16.251Z"
+                            transform="translate(0 24)"
+                        />
+                        <path
+                            d="M3.227,12.746l8.521-8.331a3.7,3.7,0,0,1,5.125-.056,3.478,3.478,0,0,1-.057,4.983l-6.436,6.292L8.825,17.153a2.588,2.588,0,0,1-3.585.041,2.427,2.427,0,0,1,.042-3.478l4.7-4.6,3.129-3.059a1.267,1.267,0,0,1,1.753-.022,1.177,1.177,0,0,1-.024,1.687l-6.5,6.359a.428.428,0,1,0,.6.612l6.5-6.359a2.033,2.033,0,0,0,.024-2.91,2.122,2.122,0,0,0-2.949.022L9.389,8.506l-4.7,4.6a3.282,3.282,0,0,0-.042,4.7,3.443,3.443,0,0,0,4.781-.041l1.554-1.519,6.436-6.292a4.333,4.333,0,0,0,.057-6.206,4.553,4.553,0,0,0-6.32.056L2.629,12.135a.428.428,0,1,0,.6.612Z"
+                            transform="translate(-2.5 -2.5)"
+                        />
+                    </g>
+                </svg>
+            );
+        case 'picture':
+            return (
+                <svg width={props.width || 16.515} height={props.height || 16.515} viewBox="0 0 16.515 16.515">
+                    <g transform="translate(0)">
+                        <path
+                            className={props.className}
+                            d="M16.682,966.325l-.572,2.144H14.339A1.347,1.347,0,0,0,13,969.809v10.727a1.347,1.347,0,0,0,1.339,1.341h10.71a1.347,1.347,0,0,0,1.339-1.292A1.3,1.3,0,0,0,26.73,980l2.74-10.238a1.337,1.337,0,0,0-.941-1.627L18.3,965.389a1.5,1.5,0,0,0-1.618.936Zm1.388-.07,10.222,2.737a.433.433,0,0,1,.314.538l-2.217,8.282v-8a1.347,1.347,0,0,0-1.339-1.341H17.03l.509-1.913a.448.448,0,0,1,.53-.3Zm-3.731,3.108h10.71a.436.436,0,0,1,.446.447v6.746l-2.587-2.591a1.043,1.043,0,0,0-1.485-.021c-.816.668-1.668,1.383-2.371,1.969l-.607-.608a1.043,1.043,0,0,0-1.492-.014c-1.059.918-2.153,1.893-3.061,2.7v-8.178c.093-.26.222-.441.446-.447Zm2.678.9a1.564,1.564,0,1,0,1.562,1.564A1.57,1.57,0,0,0,17.016,970.263Zm0,.894a.67.67,0,1,1-.669.67.663.663,0,0,1,.669-.67Zm5.265,3.443,3.215,3.219v2.717a.436.436,0,0,1-.446.447H14.339a.436.436,0,0,1-.446-.447v-1.362c1.233-1.062,2.421-2.183,3.661-3.233a.2.2,0,0,1,.265,0l3.57,3.576.628-.635-2.336-2.339c.779-.645,1.557-1.3,2.336-1.941a.2.2,0,0,1,.265,0Z"
+                            transform="translate(-13 -965.362)"
+                        />
                     </g>
                 </svg>
             );

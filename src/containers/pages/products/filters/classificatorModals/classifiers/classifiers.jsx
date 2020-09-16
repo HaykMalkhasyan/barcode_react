@@ -1,11 +1,11 @@
 import React from 'react'
 import classes from './classifiers.module.css'
 import CustomButton from "../../../../../../components/UI/button/customButton/customButton"
-import CustomInput from "../../../../../../components/UI/input/customInput/customInput"
 import Grid from "@material-ui/core/Grid"
 import SpinnerForContent from "../../../../../../components/UI/spinners/spinerForContent/spinnerForContent"
 import Icons from "../../../../../../components/Icons/icons";
 import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
+import CustomSearch from "../../../../../../components/customSearch/customSearch";
 
 const Classifiers = props => {
 
@@ -13,7 +13,8 @@ const Classifiers = props => {
 
         props.setGroupValues('modalType', 'add');
         props.setGroupValues('groupType', 'group');
-        props.setGroupValues('modalGroup', false);
+        props.setGroupValues('modalGroup', null);
+        props.setGroupValues('initialModalGroup', props.type);
     };
 
     const editHandler = (event, item) => {
@@ -21,10 +22,19 @@ const Classifiers = props => {
         props.editModalHandleOpen(item);
     };
 
+    const checkItem = (array, elem) => {
+        for (let item of array) {
+            if (item.id === elem.id && item.name === elem.name) {
+               return false
+            }
+        }
+        return true
+    };
+
     const contentRender = (groups, groupActiveId, handleOpen, classifierCloseHandler, touched, searchValue) => {
         const result = [];
 
-        if (groups && groups.length > 0) {
+        if (groups && groups.length > 1) {
 
             for (let [index, item] of Object.entries(props.groups)) {
                 if (item.id !== 0) {
@@ -43,6 +53,16 @@ const Classifiers = props => {
                                                     props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                     props.setGroupValues('active', +index);
                                                     props.setGroupValues('open', `collapse-${item.id}`);
+                                                } else if (props.type === 'select') {
+                                                    const classifiers = {...props.classifiers};
+                                                    const classifiersArray = [...classifiers.classifiers];
+                                                    if (checkItem(classifiersArray, item)) {
+                                                        classifiersArray.push(item)
+                                                    }
+                                                    classifiers.classifiers = classifiersArray;
+                                                    props.setProductValues('classifiers', classifiers);
+                                                    props.importGroupInProduct(props.initialOpen, 'close');
+                                                    classifierCloseHandler();
                                                 }
                                             }
                                         }
@@ -52,7 +72,8 @@ const Classifiers = props => {
                                                 <CustomButton
                                                     className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
                                                     children={
-                                                        <Icons type={'edit'}/>
+                                                        <Icons type={'edit'}
+                                                               className={groupActiveId === item.id ? classes.activeIcon : classes.icon}/>
                                                     }
                                                     // Methods
                                                     onClick={event => editHandler(event, item)}
@@ -82,6 +103,8 @@ const Classifiers = props => {
                                                     props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                     props.setGroupValues('active', +index);
                                                     props.setGroupValues('open', `collapse-${item.id}`);
+                                                } else if (props.type === 'select') {
+                                                    console.log('select')
                                                 }
                                             }
                                         }
@@ -119,6 +142,16 @@ const Classifiers = props => {
                                                     props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
                                                     props.setGroupValues('active', +index);
                                                     props.setGroupValues('open', `collapse-${item.id}`);
+                                                } else if (props.type === 'select') {
+                                                    const classifiers = {...props.classifiers};
+                                                    const classifiersArray = [...classifiers.classifiers];
+                                                    if (checkItem(classifiersArray, item)) {
+                                                        classifiersArray.push(item)
+                                                    }
+                                                    classifiers.classifiers = classifiersArray;
+                                                    props.setProductValues('classifiers', classifiers);
+                                                    props.importGroupInProduct(props.initialOpen, 'close');
+                                                    classifierCloseHandler();
                                                 }
                                             }
                                         }
@@ -148,7 +181,25 @@ const Classifiers = props => {
             }
             return result
         } else {
-            return <SpinnerForContent color={'secondary'}/>
+            if (props.allError === null) {
+                return (
+                    <div className={classes.errorWindow}>
+                        <h6>Դասակարգիչների ցանկը դատարկ է</h6>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className={classes.errorWindow}>
+                        <SpinnerForContent className={classes.spinner} color={'secondary'}/>
+                        <h6>
+                            Հարցումը ձախողվեց, ստուգեք ձեր ինտերնետի կապը։ Ցանցի բացակայության դեպքում կարող եք դիմել
+                            Ձեր ինտերնետ ծառայության մատակարարին (ISP), իսկ առկայության դեպքում դիմեք մեր սպասարկման
+                            կենտրոնին, հայցում ենք Ձեր ներողամտությունը․ Շնորհակալություն,
+                        </h6>
+                    </div>
+                )
+            }
+
         }
     };
 
@@ -168,41 +219,46 @@ const Classifiers = props => {
         <div className={classes.classifiers}>
             <header>
                 <span>Դասակարգիչների ցանկ</span>
-                <CloseButton onClick={props.classifierCloseHandler}/>
+                <CloseButton
+                    onClick={
+                        props.initialOpen === null ?
+                            () => {
+                                props.setGroupValues('initialModalGroup', null);
+                                props.classifierCloseHandler()
+                            }
+                            :
+                            () => {
+                                props.importGroupInProduct(props.initialOpen, 'close');
+                                props.classifierCloseHandler()
+                            }
+                    }
+                />
             </header>
-            <div className={classes.description}>
-                Սեղմելով ցանկի որևէ դասակարգչի վրա կարող եք տեսնել տվյալ դասակարգչի ենթախմբերը և կարող եք ավելացնել նոր դասակարգիչ։
-            </div>
             <section>
                 <header>
-                    <CustomButton
-                        className={classes.newClassifierButton}
-                        children={
-                            <>
-                                <Icons type={'add'} className={classes.newClassifierButtonIcon}/>
-                                <span className={classes.newClassifierButtonName}>Նոր դասակարգիչ</span>
-                            </>
-                        }
-                        // Methods
-                        onClick={addHandler}
-                    />
-                    <CustomInput
-                        id={'classifier-search'}
-                        inputType={'inner'}
-                        type={'search'}
-                        name={'classifiersSearch'}
-                        label={
-                            <span className={classes.searchIcon}>
-                                <Icons type={'search'} className={classes.searchIconSvg}/>
-                            </span>
-                        }
-                        classNameLabel={classes.searchClassifiersLabel}
-                        classNameInput={classes.searchClassifiersInput}
-                        value={props.classifiersSearch}
-                        // Methods
-                        onFocus={classifierSearchFocusHandler}
-                        onChange={classifierSearchHandler}
-                    />
+                    <div>
+                        <CustomButton
+                            className={classes.newClassifierButton}
+                            children={
+                                <Icons type={'add'} width={11} height={11} className={classes.newClassifierButtonIcon}/>
+                            }
+                            // Methods
+                            onClick={addHandler}
+                        />
+                    </div>
+                    <div>
+                        <CustomSearch
+                            drop={true}
+                            withButton={false}
+                            id={'classifier-search'}
+                            type={'search'}
+                            name={'classifiersSearch'}
+                            value={props.classifiersSearch}
+                            // Methods
+                            onFocus={classifierSearchFocusHandler}
+                            onChange={classifierSearchHandler}
+                        />
+                    </div>
                 </header>
                 <section /*ref={currentRef} onMouseMove={props.groups && props.groups.length > 0 ? mouseMoveHandler : null}*/>
                     <div className={classes.section}>
@@ -221,20 +277,20 @@ const Classifiers = props => {
             <footer>
                 <CustomButton
                     className={classes.footerButton}
-                    children={
-                        <>
-                            <svg width={22.432} height={22.432} viewBox="0 0 22.432 22.432">
-                                <path
-                                    className={classes.footerButtonIcon}
-                                    d="M22.892,15.161a.363.363,0,0,0-.363-.363h-7v-7a.363.363,0,0,0-.726,0v7h-7a.363.363,0,0,0,0,.726h7v7a.363.363,0,0,0,.726,0v-7h7A.363.363,0,0,0,22.892,15.161Z"
-                                    transform="translate(11.216 -10.225) rotate(45)"
-                                />
-                            </svg>
-                            <span className={classes.footerButtonName}>Փակել</span>
-                        </>
-                    }
+                    children={'Փակել'}
                     // Methods
-                    onClick={props.classifierCloseHandler}
+                    onClick={
+                        props.initialOpen === null ?
+                            () => {
+                                props.setGroupValues('initialModalGroup', null);
+                                props.classifierCloseHandler()
+                            }
+                            :
+                            () => {
+                                props.importGroupInProduct(props.initialOpen, 'close');
+                                props.classifierCloseHandler()
+                            }
+                    }
                 />
             </footer>
         </div>

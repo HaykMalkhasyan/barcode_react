@@ -69,7 +69,7 @@
     color: #444;
     font-weight: 700;
     font-size: 35px;
-    font-family: cursive, "Segoe UI";
+    /*font-family: cursive, "Segoe UI";*/
     font-style: italic;
 }
 
@@ -96,7 +96,7 @@
     outline: none !important;
     color: #4DA3E1;
     font-weight: 900;
-    font-family: "Adobe Devanagari", sans-serif;
+    /*font-family: "Adobe Devanagari", sans-serif;*/
     text-transform: capitalize;
     transition: 300ms;
 }

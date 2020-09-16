@@ -4,7 +4,7 @@ import DialogUI from "../../../../../../components/dialogUI/dialogUI";
 import ModalHeader from "./modalHeader/modalHeader";
 import ModalFooter from "./modalFooter/modalFooter";
 import {connect} from "react-redux";
-import {setProduct, setProductValues} from "../../../../../../Redux/products/actions";
+import {setProduct, setProductValues, setTabValue} from "../../../../../../Redux/products/actions";
 
 const ProductModal = props => {
     const [gallery, setGallery] = useState([]);
@@ -78,6 +78,7 @@ const ProductModal = props => {
 
     return (
         <DialogUI
+            root={props.root}
             label={
                 <ModalHeader
                     label={labelRender(props.type)}
@@ -102,10 +103,12 @@ const ProductModal = props => {
                     gallery={props.images}
                     imageData={gallery}
                     pictures={props.pictures}
+                    activeTab={props.activeTab}
                     // Methods
                     addPhotoHandler={addPhotoHandler}
                     deleteImageHandler={deleteImageHandler}
                     deleteUploadImagesHandler={deleteUploadImagesHandler}
+                    setTabValue={props.setTabValue}
                 />
             }
             // Methods
@@ -113,6 +116,7 @@ const ProductModal = props => {
             footer={
                 <ModalFooter
                     type={props.type}
+                    errorFields={props.errorFields}
                     // Methods
                     confirmHandler={confirmHandler}
                 />
@@ -125,6 +129,7 @@ function mapStateToProps(state) {
 
     return {
         errorFields: state.products.errorFields,
+        activeTab: state.products.activeTab,
         images: state.products.images,
         pictures: state.products.pictures,
         product: state.products.product,
@@ -137,6 +142,7 @@ function mapDispatchToProps(dispatch) {
     return {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setProduct: (gallery, type) => dispatch(setProduct(gallery, type)),
+        setTabValue: (value) => dispatch(setTabValue(value))
     }
 }
 

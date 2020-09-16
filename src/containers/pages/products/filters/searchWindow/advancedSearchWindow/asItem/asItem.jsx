@@ -25,6 +25,7 @@ const AsItem = props => {
                 </div>
                 <div>
                     <MinMaxInput
+                        id={props.name}
                         minLabel={props.minLabel}
                         minName={props.minName}
                         maxLabel={props.maxLabel}

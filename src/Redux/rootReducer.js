@@ -6,6 +6,9 @@ import pageReducer from "./pages/reducer";
 import characteristicsReducer from "./characteristics/reducer";
 import productsReducer from "./products/reducer";
 import filtersReducer from "./filtersContainer/reducer";
+import languageReducer from "./language/reducer";
+import barcodeReducer from "./barcode/reducer";
+import priceReducer from "./price/reducer";
 
 export default combineReducers({
     auth: authReducer,
@@ -14,5 +17,8 @@ export default combineReducers({
     page: pageReducer,
     characteristics: characteristicsReducer,
     products: productsReducer,
-    filters: filtersReducer
+    filters: filtersReducer,
+    language: languageReducer,
+    barcode: barcodeReducer,
+    price: priceReducer,
 })

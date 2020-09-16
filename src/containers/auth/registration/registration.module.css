@@ -84,6 +84,10 @@
     font-size: 11px;
 }
 
+.errorField {
+    margin-bottom: 5px;
+}
+
 .progres {
     position: absolute !important;
     top: 0;
@@ -120,7 +124,7 @@
     font-size: 34px;
     color: #1B5985;
     font-weight: 600;
-    font-family: Montserrat, sans-serif;
+    /*font-family: Montserrat, sans-serif;*/
     text-align: center;
     display: block;
     padding: 10px 0;
@@ -131,11 +135,12 @@
 }
 
 .action {
+    text-transform: capitalize;
     display: block;
     margin-bottom: 9px;
     font-size: 21px;
     font-weight: 400;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     color: #444;
     padding: 10px 0;
 }
@@ -241,7 +246,7 @@
 .forgetPassword {
     text-align: right;
     color: #4DA3E1;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-size: 12px;
     display: block;
     margin-bottom: 27px;
@@ -260,7 +265,7 @@
     height: 43px;
     border: none;
     outline: none;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -289,7 +294,7 @@
 }
 
 .regSuccess {
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-weight: 400;
 }
 
@@ -300,13 +305,13 @@
 .createAccount > span {
     color: #878787;
     font-size: 10px;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     margin-right: 5px;
 }
 
 .signUp {
     outline: none !important;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     font-size: 12px;
     text-transform: uppercase;
     color: #1790FF;
@@ -348,7 +353,7 @@
 .check {
     display: block;
     font-size: 11px;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     letter-spacing: 1px;
     text-transform: none;
     margin-right: 5px;
@@ -362,7 +367,7 @@
     color: #5B86E5;
     display: block;
     font-size: 11px;
-    font-family: 'Mardoto', sans-serif;
+    /*font-family: 'Mardoto', sans-serif;*/
     letter-spacing: 1px;
     text-transform: none;
     transition: 300ms;

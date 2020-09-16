@@ -10,8 +10,8 @@ const initialState = {
         {id: 3, key_name: 'sku', type: 'string', name: 'ապմ', required: false},
         {id: 4, key_name: 'name', type: 'string', name: 'անվանում', required: true},
         {id: 5, key_name: 'price', type: 'array', name: 'գին', required: false},
-        {id: 6, key_name: 'barcode', type: 'array', name: 'բարկոդ', required: false},
-        {id: 7, key_name: 'supplier', type: 'array', name: 'մատակարար', required: false},
+        {id: 6, key_name: 'barcode', type: 'array', key: 'barcode', name: 'բարկոդ', required: false},
+        {id: 7, key_name: 'supplier', type: 'object', name: 'մատակարար', required: false}, // poxel array erb vor Arseny dzi
         {id: 8, key_name: 'category', type: 'array', name: 'կատեգորիա', required: false},
         {id: 9, key_name: 'short_name', type: 'string', name: 'կարճ անվանում', required: false},
         {id: 10, key_name: 'product_type', type: 'in_string', in_data: 1, name: 'տեսակ', required: false},

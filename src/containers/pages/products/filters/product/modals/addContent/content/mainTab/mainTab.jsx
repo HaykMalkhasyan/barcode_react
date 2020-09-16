@@ -10,9 +10,6 @@ const MainTab = props => {
 
     return (
         <div className={classes.mainTab}>
-            <div className={classes.header}>
-                <h3>Հիմնական պարամետրեր</h3>
-            </div>
             <div className={classes.content}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} lg={5}>

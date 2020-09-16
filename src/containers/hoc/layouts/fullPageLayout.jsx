@@ -7,6 +7,6 @@ const FullPageLayout = props => {
             {props.children}
         </main>
     )
-}
+};
 
 export default FullPageLayout

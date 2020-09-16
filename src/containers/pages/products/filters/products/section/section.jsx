@@ -7,7 +7,7 @@ const Section = props => {
 
     return (
         <Grid container spacing={0}>
-            <Grid item lg={2}>
+            <Grid item lg={3}>
                 <LeftPanel
                     groups={props.groups}
                     group={props.group}
@@ -17,16 +17,23 @@ const Section = props => {
                     advancedSearchConfig={props.advancedSearchConfig}
                     selectedIndex={props.selectedIndex}
                     toggleClassifier={props.toggleClassifier}
+                    measurementsFilters={props.measurementsFilters}
+                    otherFilters={props.otherFilters}
                     // Methods
                     subCollapsed={props.subCollapsed}
                     subCollapsedGroup={props.subCollapsedGroup}
                     setFiltersValue={props.setFiltersValue}
                     getGroup={props.getGroup}
                     closeClassifierWindow={props.closeClassifierWindow}
+                    setGroupValues={props.setGroupValues}
+                    setProductValues={props.setProductValues}
+                    getSubgroupWithGroupId={props.getSubgroupWithGroupId}
+                    getAllGroup={props.getAllGroup}
                 />
             </Grid>
-            <Grid item lg={10}>
+            <Grid item lg={9}>
                 <RightPanel
+                    open={props.open}
                     activeTabs={props.activeTabs}
                     tabs={props.tabs}
                     count={props.count}
@@ -40,6 +47,8 @@ const Section = props => {
                     setProductValues={props.setProductValues}
                     getProduct={props.getProduct}
                     sortTableTabs={props.sortTableTabs}
+                    onClick={props.changeTabsHandler}
+                    toggleBackdrop={props.toggleBackdrop}
                 />
             </Grid>
         </Grid>

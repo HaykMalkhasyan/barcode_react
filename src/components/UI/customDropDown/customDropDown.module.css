@@ -1,0 +1,23 @@
+.customDropDown {
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+}
+
+.dropButton {
+
+}
+.dropWindow {
+    overflow: hidden;
+    display: inline-block;
+    min-width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 300ms;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(2, 64, 89, 0.34);
+    border-radius: 6px;
+    z-index: 1;
+}

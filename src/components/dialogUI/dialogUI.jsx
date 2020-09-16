@@ -2,6 +2,7 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import classes from './dialogUI.module.css'
 
 export default function DialogUI(props) {
 
@@ -28,12 +29,13 @@ export default function DialogUI(props) {
             }}
         >
             <DialogTitle
+                classes={{root: props.root}}
                 id="scroll-dialog-title"
             >
                 {props.label}
             </DialogTitle>
             <div
-                style={{boxSizing: 'border-box', width: '100%',padding: 0, overflow: 'hidden'}}
+                className={classes.scrollWindow}
                 // dividers={props.scroll === 'paper'}
             >
                 <div
@@ -44,7 +46,7 @@ export default function DialogUI(props) {
                     {props.children}
                 </div>
             </div>
-            <DialogActions>
+            <DialogActions classes={{root: classes.dialogRoot}}>
                 {props.footer}
             </DialogActions>
         </Dialog>

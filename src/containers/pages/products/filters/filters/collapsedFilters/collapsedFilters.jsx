@@ -22,7 +22,13 @@ const CollapsedFilters = props => {
             />
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <div>
-                    <RadioUI/>
+                    <RadioUI
+                        emptyStyle={classes.empty}
+                        empty={'դատարկ է'}
+                        data={props.measurementsFilters}
+                        color={classes.radioColor}
+                        labelStyle={classes.labelStyle}
+                    />
                 </div>
             </Collapse>
         </div>

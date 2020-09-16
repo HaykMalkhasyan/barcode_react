@@ -5,11 +5,24 @@ import MenuIcon from '@material-ui/icons/Menu'
 import MenuOpenIcon from '@material-ui/icons/MenuOpen'
 import {NavLink, Redirect, withRouter} from "react-router-dom";
 import Icons from "../../../../../components/Icons/icons";
+import Backdrop from "../../../../../components/UI/backdrop/backdrop";
+import ChatModal from "../chat-modal/chat-modal";
 
 const UpPanel = props => {
 
     return (
         <div className={props.sticky ? `${classes.hidden} ${classes.upPanel}` : classes.upPanel}>
+            {
+                props.chat_modal ?
+                    <ChatModal
+                        interlocutorWindow={props.interlocutorWindow}
+                        // Methods
+                        toggleChat={props.toggleChat}
+                        togglePeople={props.togglePeople}
+                    />
+                    :
+                    null
+            }
             <div className={classes.leftBar}>
                 <CustomButton
                     onClick={props.toggleMenu}
@@ -31,24 +44,46 @@ const UpPanel = props => {
             </div>
             <div className={classes.toolsPanel}>
                 <div>
-                    <span className={classes.notIcons}>
-                        <span className={classes.notificationsCount}>1</span>
-                        <Icons type={'bell'} width={22} height={22}/>
-                    </span>
+                    <CustomButton
+                        className={classes.socButtons}
+                        children={
+                            <>
+                                <span className={classes.notificationsCount}>1</span>
+                                <Icons type={'bell'} width={22} height={22}/>
+                            </>
+                        }
+                    />
                 </div>
                 <div>
-                    <span className={classes.notIcons}>
-                        <span className={classes.messageCount}>2</span>
-                        <Icons type={'chat'} width={22} height={22}/>
-                    </span>
+                    <CustomButton
+                        className={props.chat_modal ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
+                        children={
+                            <>
+                                <span className={classes.messageCount}>2</span>
+                                <Icons type={'chat'} className={classes.chatIcon} width={22} height={22}/>
+                            </>
+                        }
+                        // Methods
+                        onClick={() => props.toggleChat(true)}
+                    />
                 </div>
                 <div className={classes.userWindow}>
-                    <div className={classes.user} onClick={props.toggleConfigurationWindow}>
-                        <Icons type={'person'} width={26} height={26}/>
-                    </div>
+                    <CustomButton
+                        className={!props.confWindow ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
+                        children={<Icons type={'person'} className={classes.personIcon} width={26} height={26}/>}
+                        // Methods
+                        onClick={props.toggleConfigurationWindow}
+                    />
+                    {/*<div className={classes.user} onClick={props.toggleConfigurationWindow}>*/}
+                    {/*    <Icons type={'person'} width={26} height={26}/>*/}
+                    {/*</div>*/}
                     {
                         !props.confWindow ?
-                            <div className={classes.backdrop} onClick={props.toggleConfigurationWindow}/>
+                            <Backdrop
+                                className={classes.backdrop}
+                                // Methods
+                                onClick={props.toggleConfigurationWindow}
+                            />
                             :
                             null
                     }
@@ -67,7 +102,7 @@ const UpPanel = props => {
                                     >
                                         <li className={classes.myPage}>
                                             <Icons type={'own-page'}/>
-                                            <span>Իմ էջը</span>
+                                            <span className={classes.ownerConf}>Իմ էջը</span>
                                         </li>
                                     </NavLink>
                                     :
@@ -80,7 +115,7 @@ const UpPanel = props => {
                             >
                                 <li className={classes.configuration}>
                                     <Icons type={'configuration'}/>
-                                    <span>Կարգավորումներ</span>
+                                    <span className={classes.ownerConf}>Կարգավորումներ</span>
                                 </li>
                             </NavLink>
                             <span
@@ -91,7 +126,7 @@ const UpPanel = props => {
                             >
                                 <li className={classes.logout}>
                                     <Icons type={'exit'}/>
-                                    <span>Ելք</span>
+                                    <span className={classes.ownerConf}>Ելք</span>
                                 </li>
                             </span>
                         </ul>

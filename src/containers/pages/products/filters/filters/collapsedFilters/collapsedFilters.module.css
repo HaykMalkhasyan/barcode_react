@@ -1,6 +1,7 @@
 .collapsedFilters {
     margin: 25px 0;
     background-color: #fff;
+    border-radius: 6px;
     padding: 15px;
     box-sizing: border-box;
 }
@@ -9,4 +10,17 @@
     color: #323232;
     font-size: 12px;
     margin: 0;
+}
+
+.empty {
+    color: #ccc;
+}
+
+.radioColor {
+    color: #3EC300 !important;
+}
+
+.labelStyle {
+    font-size: 12px;
+    color: #5D5D5D;
 }

@@ -1,0 +1,90 @@
+.interlocutor {
+    width: 100%;
+    height: calc(100% - 152px);
+    position: relative;
+    z-index: 1;
+}
+
+.topShadow:after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: calc(100% - 9px);
+    height: 5px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), #fff);
+    transition: 300ms;
+
+}
+
+.bottomShadow:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(100% - 9px);
+    height: 5px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+    transition: 300ms;
+
+}
+
+.interlocutorList {
+    width: 100%;
+    height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* width */
+.interlocutorList::-webkit-scrollbar {
+    width: 9px;
+}
+
+/* Track */
+.interlocutorList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.interlocutorList::-webkit-scrollbar-thumb {
+    background: #707070;
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+.interlocutorList::-webkit-scrollbar-thumb:hover {
+    background: #8d8d8d;
+}
+
+.item {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    padding: 5px 30px;
+}
+
+@media (min-width: 900px) and (max-width: 1600px) {
+    .interlocutorList {
+        height: 400px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .interlocutorList {
+        height: calc(100vh - 152px);
+    }
+    .item {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+    .interlocutorList {
+        height: calc(100vh - 152px);
+    }
+    .item {
+        padding: 5px;
+    }
+}

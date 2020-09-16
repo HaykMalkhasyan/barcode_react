@@ -1,0 +1,91 @@
+.classifiersItem {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.groupButton {
+    width: 256px;
+    height: auto;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    outline: none !important;
+    border: none;
+    border-bottom: .5pt solid #a6a6a6;
+    font-family: "DejaVu Sans", sans-serif;
+    font-weight: bold;
+    color: #484848;
+    font-size: 13px;
+    margin-bottom: 20px;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+    transition: 300ms;
+    z-index: 1;
+}
+
+.groupButton:after {
+    content: '';
+    width: 0;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #fafafa;
+    transition: 300ms;
+    z-index: -1;
+}
+
+.groupButton:hover {
+    border-color: #ff8927;
+}
+
+.groupButton:focus:after {
+    width: 100%;
+}
+
+.road {
+    width: 100%;
+    max-width: 470px;
+    font-size: 13px;
+    color: #484848;
+    letter-spacing: .25pt;
+    border: none;
+    outline: none !important;
+    border-bottom: .5pt solid #a6a6a6;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    font-family: "DejaVu Sans", sans-serif;
+}
+
+.roadLabel {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .classifiersItem {
+        margin-bottom: 20px;
+    }
+    .groupButton {
+        width: 100%;
+    }
+    .road {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px){
+    .classifiersItem {
+        margin-bottom: 20px;
+    }
+    .groupButton {
+        width: 100%;
+    }
+    .road {
+        max-width: 100%;
+    }
+}

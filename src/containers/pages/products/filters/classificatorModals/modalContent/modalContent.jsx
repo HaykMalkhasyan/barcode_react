@@ -1,25 +1,20 @@
 import React, {useState} from 'react'
 import classes from './modalContent.module.css'
 import CustomButton from "../../../../../../components/UI/button/customButton/customButton"
-import CustomInput from "../../../../../../components/UI/input/customInput/customInput"
-import SearchIcon from '@material-ui/icons/Search'
 import SpinnerForContent from "../../../../../../components/UI/spinners/spinerForContent/spinnerForContent";
 import ConfirmButton from "../../../../../../components/UI/button/confirmButton/confirmButton";
 import DeleteModal from "../../../../../../components/deleteModal/deleteModal";
 import Backdrop from "../../../../../../components/UI/backdrop/backdrop";
 import Icons from "../../../../../../components/Icons/icons";
 import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
-import InputUI from "../../../../../../components/UI/input/inputUI/inputUI";
 import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox/customCheckbox";
 import Tree from "../../../../../../components/tree/tree";
+import CustomSearch from "../../../../../../components/customSearch/customSearch";
+import CancelButton from "../../../../../../components/UI/button/cencelButtom/cancelButton";
+import CustomInput from "../../../../../../components/UI/input/customInput/customInput";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
-    const [open, setOpen] = useState(false);
-
-    const openSearchHandler = () => {
-        setOpen(!open);
-    };
 
     const searchChangeHandler = (name, value) => {
         props.searchHandler(name, value)
@@ -112,6 +107,7 @@ const ModalContent = props => {
 
     const moveHandler = (event, id) => {
         event.stopPropagation();
+
         props.setGroupValues('moveElement', id);
         props.getSubgroup(id);
     };
@@ -143,7 +139,8 @@ const ModalContent = props => {
         }
 
         props.editSubgroup(subgroup);
-        props.setGroupValues('moveElement', null)
+        props.setGroupValues('moveElement', null);
+        props.setGroupValues('controllerId', null)
     };
 
     return (
@@ -181,28 +178,28 @@ const ModalContent = props => {
                 />
                 <div className={classes.forOf}>
                     <h3>Դասակարգչի խմբագրում</h3>
-                    <h6>Դասակարգիչը խմբագրելու համար սեղմել համապատասխան տողի վրա։</h6>
                 </div>
-                <CloseButton onClick={props.handleClose}/>
+                <div>
+                    <CloseButton onClick={props.handleClose}/>
+                </div>
             </header>
             <section>
                 <div className={classes.content}>
                     <div className={classes.nameWindow}>
-                        <InputUI
-                            id={error ? 'standard-error-helper-text' : 'group-name'}
-                            error={!!error}
-                            variant={'standard'}
-                            label={'Դասակարգչի անվանում'}
-                            root={classes.nameInput}
+                        <CustomInput
+                            id={'group-name'}
+                            classNameInput={error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}
+                            classNameLabel={classes.nameLabel}
                             name={'name'}
+                            placeholder={'Դասակագիչի անվանում'}
                             value={props.newGroup.name}
-                            helperText={error ? error : null}
                             // Methods
                             onChange={event => groupNameChangeHandler(event, 'name')}
                         />
                         <CustomCheckbox
                             id={'required_group'}
-                            tooltip={'Պարտադիր դասակարգիչ'}
+                            label={'Պարտադիր'}
+                            labelStyle={classes.labelStyle}
                             checked={props.newGroup.required_group}
                             status={props.newGroup.required_group}
                             name={'required_group'}
@@ -211,26 +208,45 @@ const ModalContent = props => {
                         />
                     </div>
                     <div className={classes.searchWindow}>
-
-                        <CustomInput
-                            id={'modalSearch'}
-                            inputType={'inner'}
-                            label={
-                                <CustomButton
-                                    className={open ? `${classes.searchButton} ${classes.searchButtonOpened}` : classes.searchButton}
-                                    children={<SearchIcon/>}
-                                    // Methods
-                                    onClick={openSearchHandler}
-                                />
-                            }
-                            classNameLabel={open ? `${classes.searchLabel} ${classes.searchLabelOpened}` : classes.searchLabel}
-                            classNameInput={classes.searchInput}
-                            name={'search'}
-                            value={props.search}
-                            placeholder={'[1-9, a-z, A-Z]'}
-                            // Methods
-                            onChange={event => searchChangeHandler(event.target.name, event.target.value)}
-                        />
+                        <div>
+                            <CustomButton
+                                className={classes.actionButtons}
+                                children={<Icons type={'group-arrows'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupArrowSelected : classes.iconsInactive}/>}
+                                // Methods
+                                onClick={props.controllerId ? event => moveHandler(event, props.controllerId.id) : null}
+                            />
+                            <CustomButton
+                                className={classes.actionButtons}
+                                children={<Icons type={'contained-edit'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.containedEditSelected : classes.iconsInactive}/>}
+                                // Methods
+                                onClick={props.controllerId ? event => onEditClassifier(event, props.controllerId, 'subgroup') : null}
+                            />
+                            <CustomButton
+                                className={classes.actionButtons}
+                                children={<Icons type={'group-add'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupAddSelected : classes.iconsInactive}/>}
+                                // Methods
+                                onClick={props.controllerId ? event => onAddClassifier(event, props.controllerId.id, 'subgroup') : null}
+                            />
+                            <CustomButton
+                                className={classes.actionButtons}
+                                children={<Icons type={'group-delete'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupDeleteSelected : classes.iconsInactive}/>}
+                                // Methods
+                                onClick={props.controllerId ? event => deleteHandler(event, props.controllerId.id) : null}
+                            />
+                        </div>
+                        <div>
+                            <CustomSearch
+                                drop={false}
+                                withButton={false}
+                                id={'modalSearch'}
+                                type={'search'}
+                                name={'search'}
+                                value={props.search}
+                                placeholder={'Որոնում'}
+                                // Methods
+                                onChange={event => searchChangeHandler(event.target.name, event.target.value)}
+                            />
+                        </div>
                     </div>
                     <div className={classes.treeWindow}>
                         {
@@ -265,6 +281,9 @@ const ModalContent = props => {
                 </div>
             </section>
             <footer>
+                <CancelButton
+                    onClick={() => props.classifierOpenHandler(props.group.id)}
+                />
                 <ConfirmButton
                     // Methods
                     onClick={confirmHandler}

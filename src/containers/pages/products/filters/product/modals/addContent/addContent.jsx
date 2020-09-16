@@ -15,6 +15,8 @@ const AddContent = props => {
             <div>
                 <ScrollableTabsButtonAuto
                     selected={classes.selected}
+                    TabScrollRoot={classes.TabScrollRoot}
+                    scrollButtonsDesktop={classes.scrollButtonsDesktop}
                     root={classes.root}
                     tabPanelRoot={classes.tabPanelRoot}
                     indicator={classes.indicator}
@@ -22,9 +24,11 @@ const AddContent = props => {
                     gallery={props.gallery}
                     imageData={props.imageData}
                     type={props.type}
+                    activeTab={props.activeTab}
                     tabContent={[MainTab, ClassifiersTab, CodesTab, PricesTab, EmployeesTab, DescriptionTab]}
                     // Methods
                     addPhotoHandler={props.addPhotoHandler}
+                    setTabValue={props.setTabValue}
                     deleteImageHandler={props.deleteImageHandler}
                     deleteUploadImagesHandler={props.deleteUploadImagesHandler}
                 />
