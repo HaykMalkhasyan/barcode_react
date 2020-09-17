@@ -164,11 +164,11 @@
 }
 
 .asNavForClass > div:first-child {
-    width: 79%;
+    width: calc(100% - 80px);
 }
 
 .asNavForClass > div:last-child {
-    width: 21%;
+    width: 80px;
 }
 
 .main {
@@ -182,8 +182,8 @@
 }
 
 .subImage {
-    width: 80px;
-    height: 80px;
+    width: 98%;
+    /*height: 80px;*/
     margin: 5px auto;
     padding: 5px;
     overflow: hidden;
@@ -201,7 +201,7 @@
 
 .subImage img {
     display: block;
-    height: 80px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -271,7 +271,7 @@
     }
 }
 
-@media (min-width: 600px) and (max-width: 900px) {
+@media (min-width: 600px) and (max-width: 960px) {
     .mainImage {
         height: 200px;
         width: 100%;
@@ -291,6 +291,12 @@
     }
 }
 
+@media (min-width: 960px) and (max-width: 1360px) {
+    .asNavForClass {
+        height: 284px;
+    }
+}
+
 @media (min-width: 1280px) and (max-width: 1500px) {
     .mainImage {
         height: auto;
@@ -299,14 +305,5 @@
     .main {
         width: 100%;
         height: auto;
-    }
-
-    .subImage {
-        width: 90%;
-        height: 60px;
-    }
-
-    .subImage img {
-        height: 60px;
     }
 }

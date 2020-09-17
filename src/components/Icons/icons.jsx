@@ -1156,7 +1156,7 @@ const Icons = props => {
                     </g>
                 </svg>
             );
-        case 'report:':
+        case 'report':
             return (
                 <svg width={props.height || 26.665} height={props.height || 25.655} viewBox="0 0 28.458 28.427">
                     {

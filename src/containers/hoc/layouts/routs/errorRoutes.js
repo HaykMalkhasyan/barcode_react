@@ -12,6 +12,6 @@ const ErrorLayoutRoute = props => {
             }
         />
     )
-}
+};
 
 export default ErrorLayoutRoute

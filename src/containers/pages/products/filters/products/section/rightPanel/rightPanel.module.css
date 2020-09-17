@@ -90,3 +90,9 @@
     fill: #FE8A69;
     stroke: #FE8A69;
 }
+
+@media (max-width: 600px) {
+    .rightPanel {
+        padding: 5px;
+    }
+}

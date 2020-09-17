@@ -1,5 +1,12 @@
 import Axios from "axios";
-import {SET_GROUP_VALUE} from "./actionTypes";
+import {
+    CLOSE_AND_BACK,
+    CLOSE_CLASSIFIERS,
+    CLOSE_HANDLER,
+    ONLY_CLOSE,
+    OPEN_CLASSIFIERS, OPEN_HANDLER,
+    SET_GROUP_VALUE
+} from "./actionTypes";
 import {getToken, searchUp} from "../../services/services";
 import cookie from "../../services/cookies";
 
@@ -690,5 +697,47 @@ export function setGroupValues(name, value) {
     return {
         type: SET_GROUP_VALUE,
         name, value
+    }
+}
+
+export function closeClassifiers() {
+
+    return {
+        type: CLOSE_CLASSIFIERS
+    }
+}
+
+export function openClassifiers(id) {
+
+    return {
+        type: OPEN_CLASSIFIERS, id
+    }
+}
+
+export function onlyCloseHandler() {
+
+    return {
+        type: ONLY_CLOSE
+    }
+}
+
+export function closeAndBack() {
+
+    return {
+        type: CLOSE_AND_BACK
+    }
+}
+
+export function closeAction() {
+
+    return {
+        type: CLOSE_HANDLER
+    }
+}
+
+export function openAction(data) {
+
+    return {
+        type: OPEN_HANDLER, data
     }
 }

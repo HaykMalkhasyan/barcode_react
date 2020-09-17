@@ -92,6 +92,11 @@ const Content = props => {
                             data.active = 1;
 
                         } else if (props.modalType === 'add') {
+                            if (props.collapsed.indexOf(props.controllerId.id) === -1) {
+                                let newCollapsed = [...props.collapsed];
+                                newCollapsed.push(props.controllerId.id);
+                                props.setGroupValues('collapsed', newCollapsed)
+                            }
                             data.name = props.newSubgroup.name;
                             if (file !== null) {
                                 data.image = [{name: `${Date.now()}_${file.name}`}];
@@ -114,6 +119,11 @@ const Content = props => {
                 }
                 case 'inGroup': {
                     data.name = props.newSubgroup.name;
+                    if (props.collapsed.indexOf(props.controllerId.id) === -1 && props.modalType === 'add') {
+                        let newCollapsed = [...props.collapsed];
+                        newCollapsed.push(props.controllerId.id);
+                        props.setGroupValues('collapsed', newCollapsed)
+                    }
                     if (file !== null) {
                         data.image = [{name: `${Date.now()}_${file.name}`}];
                     }

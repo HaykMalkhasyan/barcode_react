@@ -12,6 +12,8 @@ import Tree from "../../../../../../components/tree/tree";
 import CustomSearch from "../../../../../../components/customSearch/customSearch";
 import CancelButton from "../../../../../../components/UI/button/cencelButtom/cancelButton";
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput";
+import Tooltip from "@material-ui/core/Tooltip";
+import MouseIcon from '@material-ui/icons/Mouse';
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
@@ -135,12 +137,23 @@ const ModalContent = props => {
                 subgroup.parent_id = "";
                 break;
             }
-            default: break;
+            default:
+                break;
         }
 
         props.editSubgroup(subgroup);
         props.setGroupValues('moveElement', null);
         props.setGroupValues('controllerId', null)
+    };
+
+    const toggleMovingStatus = () => {
+        if (props.controllerId !== null) {
+            props.setGroupValues('controllerId', null)
+        }
+        if (props.groupId !== null) {
+            props.setGroupValues('groupId', null)
+        }
+        props.setGroupValues('changePositionStatus', !props.changePositionStatus)
     };
 
     return (
@@ -210,26 +223,134 @@ const ModalContent = props => {
                     <div className={classes.searchWindow}>
                         <div>
                             <CustomButton
+                                className={`${classes.actionButtons} ${props.changePositionStatus ? classes.actionButtonsActive : ''}`}
+                                children={
+                                    <Tooltip
+                                        title={
+                                            <span className={classes.changePositionTooltipContent}>
+                                                <MouseIcon style={{fontSize: 14}}/>
+                                                Փեխել դիրքը
+                                            </span>
+                                        }
+                                        placement="right"
+                                    >
+                                            <span className={classes.contentSpan}>
+                                                <Icons width={10} height={10} type={'triangle-up'}
+                                                       className={props.changePositionStatus ? classes.containedChangePositionUpSelected : classes.iconsChangePositionInactive}/>
+                                                <Icons width={10} height={10} type={'triangle-down'}
+                                                       className={props.changePositionStatus ? classes.containedChangePositionDownSelected : classes.iconsChangePositionInactive}/>
+                                            </span>
+                                    </Tooltip>
+                                }
+                                // Methods
+                                onClick={toggleMovingStatus}
+                            />
+                            <CustomButton
                                 className={classes.actionButtons}
-                                children={<Icons type={'group-arrows'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupArrowSelected : classes.iconsInactive}/>}
+                                children={
+                                    <Tooltip title={'Տեղափոխել'} placement="right">
+                                        <span className={classes.contentSpan}>
+                                            <Icons
+                                                type={'group-arrows'}
+                                                opacity={
+                                                    props.controllerId !== null ?
+                                                        1
+                                                        :
+                                                        0.18
+                                                }
+                                                className={
+                                                    props.controllerId !== null ?
+                                                        classes.groupArrowSelected
+                                                        :
+                                                        classes.iconsInactive
+                                                }
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                }
                                 // Methods
                                 onClick={props.controllerId ? event => moveHandler(event, props.controllerId.id) : null}
                             />
                             <CustomButton
                                 className={classes.actionButtons}
-                                children={<Icons type={'contained-edit'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.containedEditSelected : classes.iconsInactive}/>}
+                                children={
+                                    <Tooltip title={'Փոփոխել'} placement="right">
+                                        <span className={classes.contentSpan}>
+                                            <Icons
+                                                type={'contained-edit'}
+                                                opacity={
+                                                    props.controllerId !== null ?
+                                                        1
+                                                        :
+                                                        0.18
+                                                }
+                                                className={
+                                                    props.controllerId !== null ?
+                                                        classes.containedEditSelected
+                                                        :
+                                                        classes.iconsInactive}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                }
                                 // Methods
                                 onClick={props.controllerId ? event => onEditClassifier(event, props.controllerId, 'subgroup') : null}
                             />
                             <CustomButton
                                 className={classes.actionButtons}
-                                children={<Icons type={'group-add'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupAddSelected : classes.iconsInactive}/>}
+                                children={
+                                    <Tooltip title={'Ավելացնել'} placement="right">
+                                        <span className={classes.contentSpan}>
+                                            <Icons
+                                                type={'group-add'}
+                                                opacity={
+                                                    props.controllerId !== null || props.groupId !== null ?
+                                                        1
+                                                        :
+                                                        0.18
+                                                }
+                                                className={
+                                                    props.controllerId !== null || props.groupId !== null ?
+                                                        classes.groupAddSelected
+                                                        :
+                                                        classes.iconsInactive}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                }
                                 // Methods
-                                onClick={props.controllerId ? event => onAddClassifier(event, props.controllerId.id, 'subgroup') : null}
+                                onClick={
+                                    props.controllerId ?
+                                        event => onAddClassifier(event, props.controllerId.id, 'subgroup')
+                                        :
+                                        props.groupId ?
+                                            event => onAddClassifier(event, props.groupId, 'inGroup')
+                                            :
+                                            null
+                                }
                             />
                             <CustomButton
                                 className={classes.actionButtons}
-                                children={<Icons type={'group-delete'} opacity={props.controllerId !== null ? 1 : 0.18} className={props.controllerId !== null ? classes.groupDeleteSelected : classes.iconsInactive}/>}
+                                children={
+                                    <Tooltip title={'Ջնջել'} placement="right">
+                                        <span className={classes.contentSpan}>
+                                            <Icons
+                                                type={'group-delete'}
+                                                opacity={
+                                                    props.controllerId !== null ?
+                                                        1
+                                                        :
+                                                        0.18
+                                                }
+                                                className={
+                                                    props.controllerId !== null ?
+                                                        classes.groupDeleteSelected
+                                                        :
+                                                        classes.iconsInactive}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                }
                                 // Methods
                                 onClick={props.controllerId ? event => deleteHandler(event, props.controllerId.id) : null}
                             />
@@ -261,6 +382,8 @@ const ModalContent = props => {
                                     moveElement={props.moveElement}
                                     collapsedGroup={props.collapsedGroup}
                                     searchResult={props.searchResult}
+                                    changePositionStatus={props.changePositionStatus}
+                                    groupId={props.groupId}
                                     // Methods
                                     subCollapsed={props.subCollapsed}
                                     subCollapsedGroup={props.subCollapsedGroup}

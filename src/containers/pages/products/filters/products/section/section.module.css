@@ -1,0 +1,105 @@
+.flexContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flexItemMd3 {
+    width: calc(100% / 12 * 3);
+    transition: 500ms;
+}
+
+.flexItemMd9 {
+    width: calc(100% / 12 * 9);
+}
+
+.filtersAction {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px 10px;
+    height: auto;
+    position: sticky;
+    bottom: 0;
+    background-color: transparent;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filtersButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none !important;
+    width: 40px;
+    height: 40px;
+    background-color: #d7d7d7;
+    color: #024059;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.filtersButton:hover {
+    background-color: #024059;
+    color: #fff;
+}
+
+.filtersButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .7) inset;
+}
+
+.filtersSaveButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3EC300;
+    color: #024059;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.filtersSaveButton:hover {
+    background-color: #3db100;
+}
+
+.filtersSaveButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.filtersSaveIcon {
+    fill: #fff;
+}
+
+@media (max-width: 600px) {
+    .filtersAction {
+        display: flex;
+    }
+    .flexItemMd9 {
+        width: 100%;
+    }
+    .flexContainer {
+        display: block;
+    }
+    .flexItemMd3 {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        z-index: 100;
+        background-color: #fff;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        transition: 700ms;
+    }
+    .flexItemMd3::-webkit-scrollbar {width: 0;}
+    .filterOpen {
+        bottom: 0;
+    }
+}

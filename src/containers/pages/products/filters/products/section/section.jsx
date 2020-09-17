@@ -1,13 +1,17 @@
 import React from 'react'
+import classes from './section.module.css'
 import Grid from "@material-ui/core/Grid";
 import LeftPanel from "./leftPanel/leftPanel";
 import RightPanel from "./rightPanel/rightPanel";
+import CustomButton from "../../../../../../components/UI/button/customButton/customButton";
+import Icons from "../../../../../../components/Icons/icons";
+import TuneIcon from "@material-ui/icons/Tune";
 
 const Section = props => {
 
     return (
-        <Grid container spacing={0}>
-            <Grid item lg={3}>
+        <div className={classes.flexContainer}>
+            <div className={props.filterOpen ? `${classes.flexItemMd3} ${classes.filterOpen}` : classes.flexItemMd3}>
                 <LeftPanel
                     groups={props.groups}
                     group={props.group}
@@ -30,8 +34,20 @@ const Section = props => {
                     getSubgroupWithGroupId={props.getSubgroupWithGroupId}
                     getAllGroup={props.getAllGroup}
                 />
-            </Grid>
-            <Grid item lg={9}>
+                <div className={classes.filtersAction}>
+                    <CustomButton
+                        className={classes.filtersButton}
+                        children={<TuneIcon/>}
+                        // Methods
+                        onClick={props.toggleFilters}
+                    />
+                    <CustomButton
+                        className={classes.filtersSaveButton}
+                        children={<Icons type={'save'} className={classes.filtersSaveIcon}/>}
+                    />
+                </div>
+            </div>
+            <div className={classes.flexItemMd9}>
                 <RightPanel
                     open={props.open}
                     activeTabs={props.activeTabs}
@@ -50,8 +66,8 @@ const Section = props => {
                     onClick={props.changeTabsHandler}
                     toggleBackdrop={props.toggleBackdrop}
                 />
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     )
 };
 

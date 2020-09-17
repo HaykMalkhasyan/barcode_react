@@ -75,10 +75,10 @@ const Tree = props => {
                     <li key={item.name + item.id + item.parent_id}>
                         <span
                             id={`inBtn-${item.id}`}
-                            draggable={props.type === "edit"}
-                            onDragStart={props.type === "edit" ? event => drag(event, item) : null}
-                            onDragOver={props.type === "edit" ? allowDrop : null}
-                            onDrop={props.type === "edit" ? event => drop(event, item, false) : null}
+                            draggable={props.type === "edit" && props.changePositionStatus}
+                            onDragStart={props.type === "edit" && props.changePositionStatus ? event => drag(event, item) : null}
+                            // onDragOver={props.type === "edit" ? allowDrop : null}
+                            // onDrop={props.type === "edit" ? event => drop(event, item, false) : null}
                             onClick={event => selectItem(event, props.type, item)}
                             onDoubleClick={checkSubs(item.id, subgroup, 2) ? (event => toggle(event, item.id, false)) : null}
                             className={`
@@ -90,7 +90,7 @@ const Tree = props => {
                             `}
                         >
                             {
-                                props.type === 'edit' ?
+                                props.type === 'edit' && props.changePositionStatus ?
                                     <CustomButton
                                         id={`downBtn-${item.id}`}
                                         className={active === `downBtn-${item.id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
@@ -99,18 +99,6 @@ const Tree = props => {
                                         onDragLeave={props.type === "edit" ? dropLeave : null}
                                         onDrop={props.type === "edit" ? event => dropPosition(event, item) : null}
                                     />
-                                    :
-                                    null
-                            }
-                            {
-                                props.type === 'edit' ?
-                                    props.controllerId && props.controllerId.id === item.id ?
-                                        thisId === item.id ?
-                                            null
-                                            :
-                                            controllersRender('subgroup', item)
-                                        :
-                                        null
                                     :
                                     null
                             }
@@ -160,14 +148,26 @@ const Tree = props => {
 
     const selectItem = (event, type, item) => {
         event.stopPropagation();
-
         switch (type) {
             case 'edit': {
-                props.controllerId && props.controllerId.id === item.id ?
-                    props.setTreeValue('controllerId', null)
-                    :
-                    // props.setTreeValue('controllerId', item.id);
-                    props.setTreeValue('controllerId', item);
+                if (item.hasOwnProperty('parent_id')) {
+                    if (props.groupId !== null) {
+                        props.setTreeValue('groupId', null)
+                    }
+                    props.controllerId && props.controllerId.id === item.id ?
+                        props.setTreeValue('controllerId', null)
+                        :
+                        // props.setTreeValue('controllerId', item.id);
+                        props.setTreeValue('controllerId', item);
+                } else {
+                    if (props.controllerId !== null) {
+                        props.setTreeValue('controllerId', null)
+                    }
+                    props.groupId === item.id ?
+                        props.setTreeValue('groupId', null)
+                        :
+                        props.setTreeValue('groupId', item.id)
+                }
                 break;
             }
             case 'select': {
@@ -176,54 +176,6 @@ const Tree = props => {
             }
             default:
                 break;
-        }
-    };
-
-    const controllersRender = (type, item) => {
-
-        switch (type) {
-            case 'group':
-                return (
-                    <div className={classes.controllers}>
-                        <CustomButton
-                            className={`${classes.controllersButton} ${classes.addButton}`}
-                            children={<Icons type={'add'} className={classes.addIcon}/>}
-                            // Methods
-                            onClick={event => props.onAddClassifier(event, item.id, 'inGroup')}
-                        />
-                    </div>
-                );
-            case 'subgroup':
-                return (
-                    <div className={classes.controllers}>
-                        <CustomButton
-                            className={`${classes.controllersButton} ${classes.arrowsButton}`}
-                            children={<Icons type={'arrows'} className={classes.arrowsIcon}/>}
-                            // Methods
-                            onClick={event => props.moveHandler(event, item.id)}
-                        />
-                        <CustomButton
-                            className={`${classes.controllersButton} ${classes.addButton}`}
-                            children={<Icons type={'add'} className={classes.addIcon}/>}
-                            // Methods
-                            onClick={event => props.onAddClassifier(event, item.id, 'subgroup')}
-                        />
-                        <CustomButton
-                            className={`${classes.controllersButton} ${classes.editButton}`}
-                            children={<Icons type={'edit'} className={classes.editIcon}/>}
-                            // Methods
-                            onClick={event => props.onEditClassifier(event, item, 'subgroup')}
-                        />
-                        <CustomButton
-                            className={`${classes.controllersButton} ${classes.deleteButton}`}
-                            children={<Icons type={'delete'} className={classes.deleteIcon}/>}
-                            // Methods
-                            onClick={event => props.deleteHandler(event, item.id)}
-                        />
-                    </div>
-                );
-            default:
-                return null
         }
     };
 
@@ -312,40 +264,40 @@ const Tree = props => {
         return true;
     };
 
-    const drop = (event, subgroup, type) => {
-        event.stopPropagation();
-        setActive(null);
-        const id = subgroup.id;
-        const data = {...JSON.parse(event.dataTransfer.getData("item"))};
-
-        if (type) {
-            if (checkParent(subgroup, data)) {
-                data['parent_id'] = "";
-                data.active = '1';
-
-                if (data.group_id && (data.group_id.group_type !== null || true)) {
-                    data.group_id.group_type = '1';
-                }
-                if (data.image.length > 0 && data.image[0].hasOwnProperty('image')) {
-                    delete data.image[0].image;
-                }
-                props.editSubgroup(data)
-            }
-        } else {
-            if (id !== data.id && checkParent(subgroup, data)) {
-                data['parent_id'] = id;
-                data.active = '1';
-
-                if (data.group_id && (data.group_id.group_type !== null || true)) {
-                    data.group_id.group_type = '1';
-                }
-                if (data.image.length > 0 && data.image[0].hasOwnProperty('image')) {
-                    delete data.image[0].image;
-                }
-                props.editSubgroup(data)
-            }
-        }
-    };
+    // const drop = (event, subgroup, type) => {
+    //     event.stopPropagation();
+    //     setActive(null);
+    //     const id = subgroup.id;
+    //     const data = {...JSON.parse(event.dataTransfer.getData("item"))};
+    //
+    //     if (type) {
+    //         if (checkParent(subgroup, data)) {
+    //             data['parent_id'] = "";
+    //             data.active = '1';
+    //
+    //             if (data.group_id && (data.group_id.group_type !== null || true)) {
+    //                 data.group_id.group_type = '1';
+    //             }
+    //             if (data.image.length > 0 && data.image[0].hasOwnProperty('image')) {
+    //                 delete data.image[0].image;
+    //             }
+    //             props.editSubgroup(data)
+    //         }
+    //     } else {
+    //         if (id !== data.id && checkParent(subgroup, data)) {
+    //             data['parent_id'] = id;
+    //             data.active = '1';
+    //
+    //             if (data.group_id && (data.group_id.group_type !== null || true)) {
+    //                 data.group_id.group_type = '1';
+    //             }
+    //             if (data.image.length > 0 && data.image[0].hasOwnProperty('image')) {
+    //                 delete data.image[0].image;
+    //             }
+    //             props.editSubgroup(data)
+    //         }
+    //     }
+    // };
 
     const dropPosition = (event, subgroup, type = false) => {
         event.stopPropagation();
@@ -430,19 +382,21 @@ const Tree = props => {
                         >
                             <li className={classes.allName}>
                                     <span
-                                        onDragOver={props.type === 'edit' ? allowDrop : null}
-                                        onDrop={props.type === 'edit' ? event => drop(event, props.group, true) : null}
-                                        onClick={props.type === 'select' ? event => selectItem(event, props.type, props.group) : null}
+                                        // onDragOver={props.type === 'edit' ? allowDrop : null}
+                                        // onDrop={props.type === 'edit' ? event => drop(event, props.group, true) : null}
+                                        // onClick={props.type === 'select' ? event => selectItem(event, props.type, props.group) : null}
+                                        onClick={event => selectItem(event, props.type, props.group)}
                                         style={{marginBottom: 5}}
                                         className={`
                                             ${classes.nameArea}  
                                             ${props.searchResult && props.searchResult.length ? classes.searchSelect : null}
                                             ${props.type === 'select' && props.advancedSearchConfig && checkSelect(props.advancedSearchConfig, props.group) ? classes.classifiersSelected : null}
+                                            ${props.groupId === props.group.id ? classes.classifiersSelected : ''}
                                         `}
-                                        onDoubleClick={checkSubs(props.group.id, props.customSubgroup, 1) ? event => toggle(event, props.group.id, true) : null}
+                                        onDoubleClick={checkSubs(props.group.id, props.customSubgroup, 1) ? () => setOpenGroup(!openGroup) : null}
                                     >
                                         {
-                                            props.type === 'edit' ?
+                                            props.type === 'edit' && props.changePositionStatus ?
                                                 <CustomButton
                                                     id={`downBtn-${props.group.id}`}
                                                     className={active === `group-downBtn-${props.group.id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
@@ -454,13 +408,6 @@ const Tree = props => {
                                                 :
                                                 null
                                         }
-                                        {
-                                            props.type === 'edit' ?
-                                                controllersRender('group', props.group)
-                                                :
-                                                null
-                                        }
-
                                         {
                                             checkSubs(props.group.id, props.customSubgroup, 1) ?
                                                 <span className={classes.chevron} onClick={() => setOpenGroup(!openGroup)}>
@@ -506,14 +453,14 @@ const Tree = props => {
                                                         return item.parent_id === "" ?
                                                             <li
                                                                 key={item.id}
-                                                                className={props.type === "edit" ? classes.borderLine : classes.allName}
+                                                                className={props.type === "edit" && props.changePositionStatus ? classes.borderLine : classes.allName}
                                                             >
                                                                 <span
                                                                     id={`inBtn-${item.id}`}
-                                                                    draggable={props.type === 'edit'}
-                                                                    onDragStart={props.type === 'edit' ? event => drag(event, item) : null}
-                                                                    onDragOver={props.type === 'edit' ? allowDrop : null}
-                                                                    onDrop={props.type === 'edit' ? event => drop(event, item, false) : null}
+                                                                    draggable={props.type === 'edit' && props.changePositionStatus}
+                                                                    onDragStart={props.type === 'edit' && props.changePositionStatus ? event => drag(event, item) : null}
+                                                                    // onDragOver={props.type === 'edit' ? allowDrop : null}
+                                                                    // onDrop={props.type === 'edit' ? event => drop(event, item, false) : null}
                                                                     onClick={event => selectItem(event, props.type, item)}
                                                                     className={`
                                                                         ${props.moveElement && props.moveElement === item.id ? `${classes.nameArea} ${classes.cut}` : classes.nameArea}
@@ -525,7 +472,7 @@ const Tree = props => {
                                                                     onDoubleClick={checkSubs(item.id, props.customSubgroup, 2) ? event => toggle(event, item.id, false) : null}
                                                                 >
                                                                     {
-                                                                        props.type === 'edit' ?
+                                                                        props.type === 'edit' && props.changePositionStatus ?
                                                                             <CustomButton
                                                                                 id={`downBtn-${item.id}`}
                                                                                 className={active === `downBtn-${item.id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
@@ -534,18 +481,6 @@ const Tree = props => {
                                                                                 onDragLeave={props.type === 'edit' ? dropLeave : null}
                                                                                 onDrop={props.type === "edit" ? event => dropPosition(event, item) : null}
                                                                             />
-                                                                            :
-                                                                            null
-                                                                    }
-                                                                    {
-                                                                        props.type === 'edit' ?
-                                                                            props.controllerId && props.controllerId.id === item.id ?
-                                                                                props.moveElement && props.moveElement === item.id ?
-                                                                                    null
-                                                                                    :
-                                                                                    controllersRender('subgroup', item)
-                                                                                :
-                                                                                null
                                                                             :
                                                                             null
                                                                     }

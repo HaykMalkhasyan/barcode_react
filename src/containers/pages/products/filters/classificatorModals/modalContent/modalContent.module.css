@@ -324,9 +324,45 @@
     box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
 }
 
+.contentSpan {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.changePositionTooltipContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.actionButtonsActive {
+    background-color: #ebebeb !important;
+}
+
 .iconsInactive {
     stroke: #000;
     stroke-width: 0.2px;
+}
+
+.iconsChangePositionInactive {
+    fill: black;
+    opacity: .3;
+    transition: 300ms;
+}
+
+.containedChangePositionUpSelected {
+    fill: #70E839;
+    opacity: 1;
+    transition: 300ms;
+}
+
+.containedChangePositionDownSelected {
+    fill: #FF4B63;
+    opacity: 1;
+    transition: 300ms;
 }
 
 .groupArrowSelected {
@@ -640,5 +676,17 @@
         box-sizing: border-box;
         padding: 5px;
         margin: auto 0 0 0;
+    }
+    .searchWindow {
+        flex-direction: column-reverse;
+        height: auto;
+    }
+    .searchWindow > div:first-child{
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .searchWindow > div:last-child{
+        width: 100%;
+        margin-bottom: 10px;
     }
 }

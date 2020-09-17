@@ -6,7 +6,7 @@ import SearchWindow from "../searchWindow/searchWindow"
 import {connect} from "react-redux";
 import {
     addGroup,
-    addSubgroup,
+    addSubgroup, closeAction, closeAndBack, closeClassifiers,
     deleteSubgroup,
     editGroup,
     editGroupSubGroup,
@@ -15,7 +15,7 @@ import {
     getGroup,
     getOnlySubgroupWithGroupId,
     getSubgroup,
-    getSubgroupWithGroupId,
+    getSubgroupWithGroupId, onlyCloseHandler, openAction, openClassifiers,
     searchHandler,
     setGroupValues,
     subCollapsed,
@@ -40,35 +40,19 @@ class Filters extends Component {
     }
 
     handleOpen = item => {
-        this.props.setGroupValues('newGroup', {id: item.id, name: item.name, required_group: item.required_group});
-        this.props.setGroupValues('changeStatus', false);
-        this.props.setGroupValues('modalGroup', null);
         this.props.getGroup(item.id);
         this.props.getSubgroupWithGroupId(item.id);
-        this.props.setProductValues('classifiersModal', true)
+        this.props.setProductValues('classifiersModal', true);
+        this.props.openAction({id: item.id, name: item.name, required_group: item.required_group});
     };
 
     handleClose = () => {
-        this.props.setGroupValues('moveElement', null);
-        this.props.setGroupValues('controllerId', null);
         this.props.setProductValues('classifiersModal', false);
-        this.props.setGroupValues('group', null);
-        this.props.setGroupValues('customSubgroup', null);
-        this.props.setGroupValues('collapsed', []);
-        this.props.setGroupValues('movingStatus', false);
-        this.props.setGroupValues('subgroup', null);
-        this.props.setGroupValues('newGroup', {
-            name: '',
-            required_group: false,
-            group_type: '1'
-        });
+        this.props.closeAction()
     };
 
     closeHandler = (type = 'close') => {
-        this.props.setGroupValues('modalType', false);
-        this.props.setGroupValues('groupType', null);
-        this.props.setGroupValues('newSubgroup', {name: '', image: null});
-        this.props.setGroupValues('error', null);
+        this.props.closeAndBack();
 
         if (type === 'back') {
             if (this.props.groupType === 'group') {
@@ -77,36 +61,18 @@ class Filters extends Component {
                 this.props.setProductValues('classifiersModal', true)
             }
         } else if (type === 'close') {
-            this.props.setGroupValues('newGroup', {name: '', required_group: false, group_type: '1'});
-            this.props.setGroupValues('subgroup', null);
-            this.props.setGroupValues('group', null);
-            this.props.setGroupValues('customSubgroup', null);
-            this.props.setGroupValues('collapsedModalStatus', []);
-            this.props.setGroupValues('initialModalGroup', null);
-            this.props.setProductValues('initialOpen', null)
+            this.props.onlyCloseHandler()
         }
     };
 
     classifierOpenHandler = id => {
-        this.props.setGroupValues('moveElement', null);
-        this.props.setGroupValues('controllerId', null);
         this.props.getAllGroup();
-        this.props.setGroupValues('newGroup', {
-            name: '',
-            required_group: false,
-            group_type: '1'
-        });
         this.props.setProductValues('classifiersModal', false);
-        this.props.setGroupValues('groupActiveId', id);
-        this.props.setGroupValues('modalGroup', "edit");
+        this.props.openClassifiers(id);
     };
 
     classifierCloseHandler = () => {
-        this.props.setGroupValues('modalGroup', null);
-        this.props.setGroupValues('groupActiveId', null);
-        this.props.setGroupValues('classifiersSearch', '');
-        this.props.setGroupValues('touched', false);
-        this.props.setGroupValues('initialModalGroup', null)
+        this.props.closeClassifiers()
     };
 
     render() {
@@ -156,6 +122,8 @@ class Filters extends Component {
                         newSubgroup={this.props.newSubgroup}
                         search={this.props.search}
                         searchResult={this.props.searchResult}
+                        changePositionStatus={this.props.changePositionStatus}
+                        groupId={this.props.groupId}
                         // Methods
                         subCollapsed={this.props.subCollapsed}
                         subCollapsedGroup={this.props.subCollapsedGroup}
@@ -189,6 +157,8 @@ class Filters extends Component {
                         group={this.props.group}
                         error={this.props.error}
                         collapsedModalStatus={this.props.collapsedModalStatus}
+                        controllerId={this.props.controllerId}
+                        collapsed={this.props.collapsed}
                         // Methods
                         setGroupValues={this.props.setGroupValues}
                         setProductValues={this.props.setProductValues}
@@ -253,6 +223,8 @@ function mapStateToProps(state) {
         subgroup: state.characteristics.subgroup,
         search: state.characteristics.search,
         searchResult: state.characteristics.searchResult,
+        changePositionStatus: state.characteristics.changePositionStatus,
+        groupId: state.characteristics.groupId,
         prevGroup: state.characteristics.prevGroup,
         nextGroup: state.characteristics.nextGroup,
         indexKey: state.characteristics.indexKey,
@@ -294,7 +266,14 @@ function mapDispatchToProps(dispatch) {
         subCollapsed: id => dispatch(subCollapsed(id)),
         subCollapsedGroup: id => dispatch(subCollapsedGroup(id)),
         editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
-        importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status))
+        importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
+        closeClassifiers: () => dispatch(closeClassifiers()),
+        openClassifiers: id => dispatch(openClassifiers(id)),
+        onlyCloseHandler: () => dispatch(onlyCloseHandler()),
+        closeAndBack: () => dispatch(closeAndBack()),
+        closeAction: () => dispatch(closeAction()),
+        openAction: data => dispatch(openAction(data))
+
     }
 }
 

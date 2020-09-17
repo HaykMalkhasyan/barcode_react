@@ -157,7 +157,7 @@
     }
 }
 
-@media (min-width: 600px) and (max-width: 900px) {
+@media (min-width: 600px) and (max-width: 960px) {
     .codeGeneration {
         display: block;
     }
@@ -174,6 +174,7 @@
     .codeWindow {
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
     .minMaxInp {
         margin: 20px 0;
@@ -183,5 +184,25 @@
     .createBarcodeWindow {
         display: flex;
         justify-content: flex-end;
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1360px) {
+    .codeGeneration {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .generateWindow {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .createBarcodeWindow {
+        margin-top: 20px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .codeWindow {
+        width: 100%;
     }
 }

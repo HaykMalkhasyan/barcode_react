@@ -117,3 +117,9 @@
 .colorSecondary:hover {
     background-color: rgba(34, 139, 34, 0.04) !important;
 }
+
+@media (max-width: 600px) {
+    .actionsButton span {
+        display: none;
+    }
+}

@@ -12,7 +12,7 @@
     display: block;
     margin: 0;
     position: relative;
-    border: .1pt solid #f5f5f5;
+    border: 1px solid #f5f5f5;
     border-radius: 6px;
     transition: 300ms;
     overflow: hidden;
@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: .1pt solid #f5f5f5;
+    border-left: 1px solid #f5f5f5;
     transition: 300ms;
 }
 

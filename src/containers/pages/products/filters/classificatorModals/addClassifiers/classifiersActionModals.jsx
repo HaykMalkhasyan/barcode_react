@@ -43,6 +43,8 @@ const ClassifiersActionModals = props => {
             modalType={props.modalType}
             customSubgroup={props.customSubgroup}
             collapsedModalStatus={props.collapsedModalStatus}
+            controllerId={props.controllerId}
+            collapsed={props.collapsed}
             // Methods
             setGroupValues={props.setGroupValues}
             setProductValues={props.setProductValues}

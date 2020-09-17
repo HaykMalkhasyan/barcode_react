@@ -89,7 +89,7 @@
     }
 }
 
-@media (min-width: 600px) and (max-width: 900px) {
+@media (min-width: 600px) and (max-width: 960px) {
     .information {
         font-size: 10px;
     }

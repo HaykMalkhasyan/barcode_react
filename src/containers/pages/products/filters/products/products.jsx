@@ -20,12 +20,15 @@ import {
 import ProductModal from "../product/modals/productModal";
 import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
+import CustomButton from "../../../../../components/UI/button/customButton/customButton";
+import TuneIcon from '@material-ui/icons/Tune';
 
 class Products extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            open : false
+            open : false,
+            filter_open: false
         };
         this.props.getAllGroup();
         this.props.getAllProducts(1)
@@ -49,6 +52,10 @@ class Products extends Component{
             localStorage.setItem('activeTabs', JSON.stringify(activeTabs));
             this.props.setFiltersValue('activeTabs', activeTabs)
         }
+    };
+
+    toggleFilters = () => {
+        this.setState({filter_open: !this.state.filter_open})
     };
 
     render() {
@@ -76,6 +83,7 @@ class Products extends Component{
                         null
                 }
                 <Section
+                    filterOpen={this.state.filter_open}
                     open={this.state.open}
                     groups={this.props.groups}
                     group={this.props.group}
@@ -110,6 +118,7 @@ class Products extends Component{
                     getAllGroup={this.props.getAllGroup}
                     changeTabsHandler={this.changeTabsHandler}
                     toggleBackdrop={this.toggleBackdrop}
+                    toggleFilters={this.toggleFilters}
                 />
                 <ProductModal
                     root={classes.root}
@@ -124,6 +133,12 @@ class Products extends Component{
                             this.props.closeProductActionModal()
                         }
                     }
+                />
+                <CustomButton
+                    className={classes.filtersButton}
+                    children={<TuneIcon/>}
+                    // Methods
+                    onClick={this.toggleFilters}
                 />
             </div>
         )

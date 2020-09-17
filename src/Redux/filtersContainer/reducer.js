@@ -1,7 +1,7 @@
 import {CLOSE_CLASSIFIERS_WINDOW, SET_FILTERS_VALUE} from "./actionTypes";
 
 const initialState = {
-    type: 'filters',
+    type: 'products',
     selectedIndex: 0,
     toggleClassifier: false,
     activeTabs: JSON.parse(localStorage.getItem('activeTabs')) || [1, 2, 3, 4, 5, 6, 7, 8],

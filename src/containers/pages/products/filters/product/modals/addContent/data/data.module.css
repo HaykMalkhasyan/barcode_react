@@ -139,3 +139,23 @@
         width: 100%;
     }
 }
+
+@media (min-width: 960px) and (max-width: 1360px) {
+    .flexStart {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    .flexStart > div {
+        margin: 0 3px 5px 0;
+    }
+}
+
+@media (min-width: 1360px) and (max-width: 1760px) {
+    .flexStart {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    .flexStart > div {
+        margin: 0 5px 5px 0;
+    }
+}

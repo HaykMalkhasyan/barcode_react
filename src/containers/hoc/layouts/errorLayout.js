@@ -7,6 +7,6 @@ const ErrorLayout = ({ children, ...rest }) => {
             {children}
         </main>
     )
-}
+};
 
 export default ErrorLayout

@@ -46,7 +46,7 @@
     }
 }
 
-@media (min-width: 600px) and (max-width: 900px) {
+@media (min-width: 600px) and (max-width: 960px) {
     .modalContent {
         height: calc(100% - 105px);
     }
