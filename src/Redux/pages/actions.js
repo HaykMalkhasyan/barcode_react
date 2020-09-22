@@ -1,4 +1,4 @@
-import {SET_ACTIVE_MENU, TOGGLE_CHAT, TOGGLE_PEOPLE} from "./actionTypes";
+import {SET_ACTIVE_MENU, TOGGLE_CHAT, TOGGLE_NOTIFICATION, TOGGLE_PEOPLE} from "./actionTypes";
 
 // -------------------------------------
 export function setActiveMenu(menu) {
@@ -12,6 +12,13 @@ export function toggleChat(status) {
 
     return {
         type: TOGGLE_CHAT, status
+    }
+}
+
+export function toggleNotification(status) {
+
+    return {
+        type: TOGGLE_NOTIFICATION, status
     }
 }
 

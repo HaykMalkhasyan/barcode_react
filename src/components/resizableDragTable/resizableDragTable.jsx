@@ -89,7 +89,7 @@ class ResizableDragTable extends Component {
                 return this.props.activeTabs.indexOf(item.id) !== -1 ?
                     <div
                         style={{width: JSON.parse(localStorage.getItem(`block_${i}`)) || 'auto'}}
-                        key={item.id + Math.random()}
+                        key={`header-${item.id}`}
                         ref={this[`ref_${i}`]}
                         className={classes.productTableTab}
                         onDragOver={event => this.dragEnter(event, i)}
@@ -147,7 +147,7 @@ class ResizableDragTable extends Component {
                     switch (section.type) {
                         case 'checkbox': {
                             contentArray.push(
-                                <div className={classes.tBodyItems} key={item.id + Math.random()}>
+                                <div className={classes.tBodyItems} key={`product-checkbox-${item.id}`}>
                                     <CheckboxesUi
                                         value={item.id}
                                         root={classes.chkRoot}
@@ -165,7 +165,7 @@ class ResizableDragTable extends Component {
                             contentArray.push(
                                 <div
                                     className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
-                                    key={item.id + Math.random()}
+                                    key={`product-string-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
                                 >
@@ -185,7 +185,7 @@ class ResizableDragTable extends Component {
                             contentArray.push(
                                 <div
                                     className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
-                                    key={item.id + Math.random()}
+                                    key={`product-in_string-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
                                 >
@@ -212,7 +212,7 @@ class ResizableDragTable extends Component {
                             contentArray.push(
                                 <div
                                     className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
-                                    key={'array' + item.id}
+                                    key={`product-array-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
                                 >
@@ -245,7 +245,7 @@ class ResizableDragTable extends Component {
                             contentArray.push(
                                 <div
                                     className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
-                                    key={item.id + Math.random()}
+                                    key={`product-boolean-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
                                 >

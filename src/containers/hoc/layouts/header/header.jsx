@@ -5,7 +5,7 @@ import Backdrop from "../../../../components/UI/backdrop/backdrop";
 import {connect} from "react-redux";
 import {logout} from "../../../../Redux/auth/actions";
 import Menu from "./menu/menu";
-import {setActiveMenu, toggleChat, togglePeople} from "../../../../Redux/pages/actions";
+import {setActiveMenu, toggleChat, toggleNotification, togglePeople} from "../../../../Redux/pages/actions";
 import MobileMenu from "./mobileMenu/mobileMenu";
 import {withRouter} from "react-router-dom";
 import cookie from "../../../../services/cookies";
@@ -90,6 +90,15 @@ const Header = props => {
         props.toggleChat(status)
     };
 
+    const notificationToggleHandler = status => {
+        if (status) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        props.toggleNotification(status)
+    };
+
     return (
         <div className={hideText ? `${classes.hideAppBar} ${classes.appBar}` : classes.appBar}>
             {
@@ -121,12 +130,14 @@ const Header = props => {
                 sticky={sticky}
                 confWindow={confWindow}
                 chat_modal={props.chat_modal}
+                notification_modal={props.notification_modal}
                 interlocutorWindow={props.interlocutorWindow}
                 // Methods
                 toggleMenu={toggleMenu}
                 setActiveMenu={props.setActiveMenu}
                 logout={props.logout}
                 togglePeople={props.togglePeople}
+                toggleNotification={notificationToggleHandler}
                 toggleChat={chatToggleHandler}
                 toggleConfigurationWindow={toggleConfigurationWindow}
             />
@@ -155,6 +166,7 @@ function mapStateToProps(state) {
     return {
         menus: state.page.menus,
         chat_modal: state.page.chat_modal,
+        notification_modal: state.page.notification_modal,
         interlocutorWindow: state.page.interlocutorWindow,
         activeMenu: state.page.activeMenu
     }
@@ -166,6 +178,7 @@ function mapDispatchToProps(dispatch) {
         logout: () => dispatch(logout()),
         setActiveMenu: menu => dispatch(setActiveMenu(menu)),
         toggleChat: status => dispatch(toggleChat(status)),
+        toggleNotification: status => dispatch(toggleNotification(status)),
         togglePeople: status => dispatch(togglePeople(status)),
     }
 }

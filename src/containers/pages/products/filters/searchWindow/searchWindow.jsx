@@ -14,6 +14,7 @@ import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues, subCollapsed} from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import SubgroupsTreeModal from "../product/modals/subgroupsTreeModal/subgroupsTreeModal";
+import {setFiltersValue} from "../../../../../Redux/filtersContainer/actions";
 
 const SearchWindow = props => {
 
@@ -24,6 +25,12 @@ const SearchWindow = props => {
 
     const collapseHandler = () => {
         props.setGroupValues('advancedSearch', !props.advancedSearch);
+    };
+
+    const productsSearchHandler = () => {
+        if (Object.keys(props.advancedSearchConfig).length === 1 && props.advancedSearchConfig.classifiers === null) {
+            props.setFiltersValue('type', 'products')
+        }
     };
 
     return (
@@ -51,6 +58,8 @@ const SearchWindow = props => {
                 <CustomButton
                     className={classes.searchButton}
                     children={'Փնտրել'}
+                    // Methods
+                    onClick={productsSearchHandler}
                 />
             </div>
             {/* Modals */}
@@ -105,6 +114,7 @@ function mapStateToProps(state) {
         scrollB: state.products.scrollB,
         modalTabs: state.products.modalTabs,
         advancedSearch: state.characteristics.advancedSearch,
+        advancedSearchConfig: state.products.advancedSearchConfig,
     }
 }
 
@@ -115,6 +125,7 @@ function mapDispatchToProps(dispatch) {
         closeProductActionModal: () => dispatch(closeProductActionModal()),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
+        setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
         subCollapsed: (id, place) => dispatch(subCollapsed(id, place)),
         backToProduct: () => dispatch(backToProduct()),
         closeProductAndSubgroupModals: () => dispatch(closeProductAndSubgroupModals()),

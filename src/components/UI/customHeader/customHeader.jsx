@@ -7,7 +7,7 @@ const CustomHeader = props => {
 
     return (
         <header className={classes.customHeader}>
-            <h3 className={props.type === "collapsed" ? classes.flexed : ''}>
+            <h3 className={props.type === "collapsed" ? classes.flexed : ''} onDoubleClick={props.onClick}>
                 {
                     props.type === "collapsed" ?
                         <>

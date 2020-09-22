@@ -1,9 +1,10 @@
-import {SET_ACTIVE_MENU, SET_PAGES_VALUE, TOGGLE_CHAT, TOGGLE_PEOPLE} from "./actionTypes";
+import {SET_ACTIVE_MENU, SET_PAGES_VALUE, TOGGLE_CHAT, TOGGLE_NOTIFICATION, TOGGLE_PEOPLE} from "./actionTypes";
 
 const initialState = {
     activeMenu: null,
     status: false,
     chat_modal: false,
+    notification_modal: false,
     interlocutorWindow: false,
     menus: [
         {
@@ -62,6 +63,10 @@ const initialState = {
 export default function pageReducer(state = initialState, action) {
 
     switch (action.type) {
+        case TOGGLE_NOTIFICATION:
+            return {
+                ...state, notification_modal: action.status
+            };
         case TOGGLE_PEOPLE:
             return {
                 ...state, interlocutorWindow: action.status

@@ -5,7 +5,6 @@ import CustomInput from "../customInput/customInput";
 import Icons from "../../../Icons/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
 
 const CustomSelect = props => {
     const inputRef = useRef();

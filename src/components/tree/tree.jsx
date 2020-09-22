@@ -249,20 +249,20 @@ const Tree = props => {
         setActive(null);
     };
 
-    const checkParent = (sub, data) => {
-
-        if (parseInt(sub['parent_id']) === data.id) {
-            return false;
-        }
-
-        for (let item of props.customSubgroup) {
-            if (parseInt(sub['parent_id']) === item.id) {
-                return checkParent(item, data);
-            }
-        }
-
-        return true;
-    };
+    // const checkParent = (sub, data) => {
+    //
+    //     if (parseInt(sub['parent_id']) === data.id) {
+    //         return false;
+    //     }
+    //
+    //     for (let item of props.customSubgroup) {
+    //         if (parseInt(sub['parent_id']) === item.id) {
+    //             return checkParent(item, data);
+    //         }
+    //     }
+    //
+    //     return true;
+    // };
 
     // const drop = (event, subgroup, type) => {
     //     event.stopPropagation();

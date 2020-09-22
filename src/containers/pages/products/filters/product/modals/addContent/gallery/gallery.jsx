@@ -9,7 +9,6 @@ import AsNavFor from "../../../../../../../../components/asNavFor/asNavFor"
 import CustomButton from "../../../../../../../../components/UI/button/customButton/customButton"
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import Icons from "../../../../../../../../components/Icons/icons";
 import WallpaperIcon from '@material-ui/icons/Wallpaper';
 
 const Gallery = props => {

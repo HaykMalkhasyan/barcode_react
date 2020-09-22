@@ -19,6 +19,7 @@
     height: auto;
     position: sticky;
     bottom: 0;
+    z-index: 1;
     background-color: transparent;
     display: none;
     align-items: center;
@@ -89,11 +90,11 @@
         position: fixed;
         bottom: -100%;
         left: 0;
-        z-index: 100;
+        z-index: 99;
         background-color: #fff;
         overflow-x: hidden;
         overflow-y: auto;
-        height: 100%;
+        height: calc(100% - 48px);
         width: 100%;
         margin: 0;
         transition: 700ms;
@@ -101,5 +102,40 @@
     .flexItemMd3::-webkit-scrollbar {width: 0;}
     .filterOpen {
         bottom: 0;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 960px) {
+    .filtersAction {
+        display: flex;
+    }
+    .flexItemMd9 {
+        width: 100%;
+    }
+    .flexContainer {
+        display: block;
+    }
+    .flexItemMd3 {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        z-index: 99;
+        background-color: #fff;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: calc(100% - 48px);
+        width: 100%;
+        margin: 0;
+        transition: 700ms;
+    }
+    .flexItemMd3::-webkit-scrollbar {width: 0;}
+    .filterOpen {
+        bottom: 0;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+    .flexItemMd3 {
+        height: calc(100% - 127px);
     }
 }

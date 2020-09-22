@@ -7,11 +7,21 @@ import {NavLink, Redirect, withRouter} from "react-router-dom";
 import Icons from "../../../../../components/Icons/icons";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import ChatModal from "../chat-modal/chat-modal";
+import NotificationModal from "../notification-modal/notification-modal";
 
 const UpPanel = props => {
 
     return (
         <div className={props.sticky ? `${classes.hidden} ${classes.upPanel}` : classes.upPanel}>
+            {
+                props.notification_modal ?
+                    <NotificationModal
+                        // Methods
+                        toggleNotification={props.toggleNotification}
+                    />
+                    :
+                    null
+            }
             {
                 props.chat_modal ?
                     <ChatModal
@@ -45,13 +55,15 @@ const UpPanel = props => {
             <div className={classes.toolsPanel}>
                 <div>
                     <CustomButton
-                        className={classes.socButtons}
+                        className={props.notification_modal ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
                         children={
                             <>
                                 <span className={classes.notificationsCount}>1</span>
-                                <Icons type={'bell'} width={22} height={22}/>
+                                <Icons type={'bell'} className={classes.notificationIcon} width={22} height={22}/>
                             </>
                         }
+                        // Methods
+                        onClick={() => props.toggleNotification(true)}
                     />
                 </div>
                 <div>

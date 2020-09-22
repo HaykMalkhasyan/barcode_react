@@ -11,6 +11,8 @@
     font-size: 18px;
     color: #333;
     font-weight: 500;
+    cursor: pointer;
+    user-select: none;
 }
 
 .flexed {
