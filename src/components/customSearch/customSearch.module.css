@@ -46,7 +46,7 @@
 }
 
 .dropDownBtn:focus {
-    box-shadow: 0 0 0 4px rgba(20, 146, 230, 0.3);
+    background-color: rgba(20, 146, 230, 0.03);
 }
 
 .dropDownBtn span {
@@ -95,7 +95,7 @@
 }
 
 .searchInput:focus {
-    box-shadow: 0 0 0 4px rgba(20, 146, 230, 0.3);
+    background-color: rgba(20, 146, 230, 0.03);
 }
 
 .searchSpecific {
@@ -124,7 +124,7 @@
 }
 
 .customSearchBtn:focus {
-    box-shadow: 0 0 0 4px rgba(20, 146, 230, 0.3);
+    background-color: rgba(20, 146, 230, 0.03);
 }
 
 .customSearchIcon {

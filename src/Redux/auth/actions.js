@@ -13,7 +13,7 @@ export function login() {
             username: getState().auth.email,
             password: getState().auth.password
         };
-        if (user.username.length === 0 || user.password.length < 6 || user.password.length > 32 || (!emailStatus && !passwordStatus)) {
+        if (user.username.length === 0 || user.password.length < 0 || user.password.length > 32 || (!emailStatus && !passwordStatus)) {
             dispatch(setValues('fail', true))
         } else {
             dispatch(loginRequest(user));
@@ -27,8 +27,11 @@ export function loginRequest(user) {
     return async dispatch => {
         dispatch(setValues('progress', true));
         try {
-            const response = await Axios.post(`${API_URL}/token/obtain/`, user);
-            const userData = jwt_decode(response.data.access);
+            const response = await Axios.post(
+                API_URL,
+                JSON.stringify({param: user, path: "Token/Obtain"}),
+                );
+            const userData = jwt_decode(response.data.access).data;
             const createUser = {
                 firstName: userData.firstname,
                 lastName: userData.lastname,

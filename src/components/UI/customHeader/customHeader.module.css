@@ -32,6 +32,10 @@
     stroke-width: 0.6px;
 }
 
+.topAngle {
+    fill: #434343;
+}
+
 .collapseButton {
     border: none;
     outline: none !important;

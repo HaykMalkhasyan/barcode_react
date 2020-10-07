@@ -156,6 +156,19 @@ const ModalContent = props => {
         props.setGroupValues('changePositionStatus', !props.changePositionStatus)
     };
 
+    const backPageHandler = () => {
+        props.setGroupValues(
+            "newGroup", {
+                title_am: '',
+                title_ru: '',
+                title_en: '',
+                required_group: false,
+                group_type: '1'
+            }
+        );
+        props.classifierOpenHandler(props.group.id)
+    };
+
     return (
         <div className={classes.main}>
             {
@@ -187,7 +200,7 @@ const ModalContent = props => {
                     className={classes.backButton}
                     children={<Icons type={'back-page'} className={classes.backButtonIcon}/>}
                     // Methods
-                    onClick={() => props.classifierOpenHandler(props.group.id)}
+                    onClick={backPageHandler}
                 />
                 <div className={classes.forOf}>
                     <h3>Դասակարգչի խմբագրում</h3>
@@ -200,12 +213,13 @@ const ModalContent = props => {
                 <div className={classes.content}>
                     <div className={classes.nameWindow}>
                         <CustomInput
-                            id={'group-name'}
+                            type={'text'}
+                            id={'group-title_am'}
                             classNameInput={error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}
                             classNameLabel={classes.nameLabel}
-                            name={'name'}
+                            name={'title_am'}
                             placeholder={'Դասակագիչի անվանում'}
-                            value={props.newGroup.name}
+                            value={props.newGroup['title_am']}
                             // Methods
                             onChange={event => groupNameChangeHandler(event, 'name')}
                         />

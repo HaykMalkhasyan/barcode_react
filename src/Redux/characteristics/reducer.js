@@ -9,13 +9,14 @@ import {
 import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
 
 const initialState = {
+    progress: false,
     active: 0,
     open: false,
     changePositionStatus: false,
     advancedSearch: false,
     group: null,
     customGroup: null,
-    groups: [{id: 0, name: 'Հիմնական դասակարգիչ', group_type: '1', required_group: true}],
+    groups: [],
     search: '',
     classifiersSearch: '',
     touched: false,
@@ -28,7 +29,9 @@ const initialState = {
     groupType: null,
     modalType: false,
     newGroup: {
-        name: '',
+        title_am: '',
+        title_ru: '',
+        title_en: '',
         required_group: false,
         group_type: '1'
     },

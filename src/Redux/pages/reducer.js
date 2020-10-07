@@ -14,7 +14,8 @@ const initialState = {
             subMenus: [
                 {id: '1-1', name: 'product_range', url: '/products/filters'},
                 {id: '1-2', name: 'prices', url: '/products/prices'},
-                {id: '1-3', name: 'characteristics', url: '/products/characteristics'}
+                {id: '1-3', name: 'characteristics', url: '/products/characteristics'},
+                {id: '1-4', name: 'label_editor', url: '/products/editor'},
             ]
         },
         {

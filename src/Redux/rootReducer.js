@@ -9,6 +9,7 @@ import filtersReducer from "./filtersContainer/reducer";
 import languageReducer from "./language/reducer";
 import barcodeReducer from "./barcode/reducer";
 import priceReducer from "./price/reducer";
+import editorReducer from "./editor/reducer";
 
 export default combineReducers({
     auth: authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
     language: languageReducer,
     barcode: barcodeReducer,
     price: priceReducer,
+    editor: editorReducer
 })

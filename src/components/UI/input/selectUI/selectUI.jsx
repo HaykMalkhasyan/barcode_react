@@ -6,7 +6,7 @@ const SelectUI = props => {
 
     return (
         <FormControl className={props.formControl} error={props.error} required={props.required}>
-            <InputLabel id={props.labelId}>{props.label}</InputLabel>
+            <InputLabel className={props.labelStyle} id={props.labelId}>{props.label}</InputLabel>
             <Select
                 classes={{root: props.root}}
                 labelId={props.labelId}
@@ -21,7 +21,7 @@ const SelectUI = props => {
                             item => {
                                 return (
                                     <MenuItem
-                                        key={item.id + Math.random()}
+                                        key={props.name + '-' + item.id}
                                         value={item.value}
                                     >
                                         {item.name}

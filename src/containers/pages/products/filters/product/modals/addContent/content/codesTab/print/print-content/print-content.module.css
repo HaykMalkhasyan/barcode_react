@@ -1,0 +1,41 @@
+.printContent {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.col8 {
+    width: calc(100% / 12 * 8);
+    height: calc(100vh - 55px);
+}
+
+.col4 {
+    width: calc(100% / 12 * 4);
+    height: calc(100vh - 55px);
+}
+
+.flexContainer {
+    display: flex;
+}
+
+.justifyCenter {
+    justify-content: center;
+}
+
+.alignCenter {
+    align-items: center;
+}
+
+.workWindow {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    margin: 20px;
+    border: 1px solid #666;
+    background-color: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}

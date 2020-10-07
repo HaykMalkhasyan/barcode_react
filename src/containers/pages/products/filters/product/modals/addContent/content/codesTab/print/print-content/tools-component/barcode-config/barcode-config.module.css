@@ -1,0 +1,27 @@
+.barcodeWidthWindow {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.labelStyle {
+    color: #fff;
+    font-size: 12px;
+}
+
+.rangeRoot {
+    color: #3EC300;
+}
+
+.thumb:hover {
+    box-shadow: 0 0 0 8px rgba(62, 195, 0, 0.16) !important;
+}
+
+.formControl {
+    width: 100%;
+    color: #fff !important;
+}
+
+.labelStyle, .selectRoot {
+    color: #fff !important;
+    font-size: 12px;
+}

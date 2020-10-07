@@ -23,7 +23,7 @@ const Login = props => {
         switch (event.target.name) {
             case 'email': {
                 props.setValues(event.target.name, event.target.value);
-                if (is.email(event.target.value)) {
+                if (/*is.email(event.target.value)*/ true) {
                     props.setValues('emailStatus', true)
                 } else {
                     props.setValues('emailStatus', false)
@@ -32,7 +32,7 @@ const Login = props => {
             }
             case 'password': {
                 props.setValues(event.target.name, event.target.value);
-                if (event.target.value.length < 6 || event.target.value.length > 32) {
+                if (event.target.value.length < 0 || event.target.value.length > 32) {
                     props.setValues('passwordStatus', true)
                 } else {
                     props.setValues('passwordStatus', false)

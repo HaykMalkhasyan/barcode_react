@@ -58,8 +58,11 @@ const CustomSelect = props => {
                             props.data.map(
                                 item => {
                                     return (
-                                        <ListItem key={'slect-list-' + item.id} button
-                                                  onClick={() => selectItemHandler(item, inputRef.current.name)}>
+                                        <ListItem
+                                            key={'slect-list-' + item.id}
+                                            button
+                                            onClick={() => selectItemHandler(item, inputRef.current.name)}
+                                        >
                                             <ListItemText classes={{root: classes.root}} primary={item.name}/>
                                         </ListItem>
                                     )

@@ -1,0 +1,60 @@
+.editor {
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 144px 8px 8px;
+    overflow: hidden;
+}
+
+.navigationPanel {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.newLabelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #666;
+    color: #666;
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none !important;
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.newLabelButton:hover {
+    color: #FF6F00;
+    border-color: #FF6F00;
+    background-color: rgba(255, 111, 0, 0.05);
+}
+
+.newLabelButton:focus {
+    box-shadow: 0 0 0 4px rgba(102, 102, 102, 0.4);
+}
+
+.settingsModal {
+    /*max-width: 500px;*/
+    /*width: 100%;*/
+}
+
+.editorContent {
+    width: 100%;;
+}
+
+@media (max-width: 768px) {
+    .editor {
+        overflow: auto;
+        padding: 56px 8px 8px;
+    }
+}

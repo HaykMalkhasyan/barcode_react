@@ -7,6 +7,7 @@ import ConfirmButton from "../../../../../../../../../../components/UI/button/co
 import MenuItem from "@material-ui/core/MenuItem";
 import CustomDropDown from "../../../../../../../../../../components/UI/customDropDown/customDropDown";
 import Backdrop from "../../../../../../../../../../components/UI/backdrop/backdrop";
+import {Barcode} from "../../../../../../../../../../services/services";
 
 const CodeGeneration = props => {
 
@@ -19,6 +20,7 @@ const CodeGeneration = props => {
     };
 
     const selectCodeType = (code) => {
+        props.setDataValues('barcode', Barcode.random(code.name));
         props.setDataValues('barcode_type', code)
     };
 

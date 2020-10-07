@@ -5,13 +5,21 @@ import CodeGeneration from "./codeGeneration/codeGeneration";
 import CodeData from "./codeData/codeData";
 import {connect} from "react-redux";
 import {
-    addBarcode, deleteBarcodeItem,
+    addBarcode, changeElementSizes,
+    deleteBarcodeItem,
     getBarcode,
     getBarcodeItem,
     setBarcodeValue,
-    setDataValues
+    setDataValues, setPaperSize
 } from "../../../../../../../../../Redux/barcode/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
+import PrintModal from "../../../../../../../../../components/printModal/printModal";
+import PrintHeader from "./print/print-header/print-header";
+import PrintContent from "./print/print-content/print-content";
+import PrintComponent from "../../../../../../../../../components/print-component/print-component";
+import IconButton from "@material-ui/core/IconButton";
+import PrintIcon from "@material-ui/icons/Print";
+import ReactToPrint from "react-to-print";
 
 class CodesTab extends Component {
 
@@ -19,73 +27,147 @@ class CodesTab extends Component {
         this.props.getBarcode()
     }
 
+    codeTypeRender = (types, id) => {
+        for (let item of types) {
+            if (item.id === +id) {
+                return item.name
+            }
+        }
+        return null
+    };
+
     render() {
 
         return (
-            <div className={classes.codesTab}>
-                {
-                    this.props.error ?
-                        <div className={classes.errorWindow}>
-                            <AlertUI
-                                severity={'error'}
-                                text={'Հարցումը չհաջողվեց !'}
-                            />
-                        </div>
-                        :
-                        null
-                }
-                {
-                    this.props.notification ?
-                        <div className={classes.errorWindow}>
-                            <AlertUI
-                                severity={'warning'}
-                                text={'Այդպիսի կոդ առդեն գոյություն ունի !'}
-                            />
-                        </div>
-                        :
-                        null
-                }
-                <div className={classes.content}>
-                    <p className={classes.information}>
-                        Այն ապրանքները, որոնք ունեն գծիկավոր կոդ անհրաժեշտ է կոդ դաշտում լրացնել, որպեսզի տվյալ կոդով
-                        հնարավոր լինի վաճառել ապրանքը։ Որոնք կոդեր չունեն կարող եք ծրագրով ստեղծել կոդ՝ սեղմելով
-                        "ԳԵՆԵՐԱՑՆԵԼ" կոճակը։
-                    </p>
-                    <div className={classes.gridContainer}>
-                        <div className={classes.codActions}>
-                            <SectionWindow
-                                label={'Կոդի ավելացում/փոփոխում'}
-                                children={
-                                    <CodeGeneration
-                                        open={this.props.open}
-                                        code={this.props.code}
-                                        codeTypes={this.props.codeTypes}
-                                        errorFields={this.props.errorFields}
-                                        // Methods
-                                        setBarcodeValue={this.props.setBarcodeValue}
-                                        setDataValues={this.props.setDataValues}
-                                        addBarcode={this.props.addBarcode}
-                                    />
-                                }
-                            />
-                        </div>
-                        <div className={classes.attachment}>
-                            <SectionWindow
-                                label={'Ապրանքին կցված կոդերի ցանկ'}
-                                children={
-                                    <CodeData
-                                        barcode={this.props.barcode}
-                                        code_item={this.props.code_item}
-                                        // Methods
-                                        selectBarcodeItem={this.props.getBarcodeItem}
-                                        deleteBarcodeItem={this.props.deleteBarcodeItem}
-                                    />
-                                }
-                            />
+            <>
+                <div className={classes.codesTab}>
+                    {
+                        this.props.error ?
+                            <div className={classes.errorWindow}>
+                                <AlertUI
+                                    severity={'error'}
+                                    text={'Հարցումը չհաջողվեց !'}
+                                />
+                            </div>
+                            :
+                            null
+                    }
+                    {
+                        this.props.notification ?
+                            <div className={classes.errorWindow}>
+                                <AlertUI
+                                    severity={'warning'}
+                                    text={'Այդպիսի կոդ առդեն գոյություն ունի !'}
+                                />
+                            </div>
+                            :
+                            null
+                    }
+                    <div className={classes.content}>
+                        <p className={classes.information}>
+                            Այն ապրանքները, որոնք ունեն գծիկավոր կոդ անհրաժեշտ է կոդ դաշտում լրացնել, որպեսզի տվյալ կոդով
+                            հնարավոր լինի վաճառել ապրանքը։ Որոնք կոդեր չունեն կարող եք ծրագրով ստեղծել կոդ՝ սեղմելով
+                            "ԳԵՆԵՐԱՑՆԵԼ" կոճակը։
+                        </p>
+                        <div className={classes.gridContainer}>
+                            <div className={classes.codActions}>
+                                <SectionWindow
+                                    label={'Կոդի ավելացում/փոփոխում'}
+                                    children={
+                                        <CodeGeneration
+                                            open={this.props.open}
+                                            code={this.props.code}
+                                            codeTypes={this.props.codeTypes}
+                                            errorFields={this.props.errorFields}
+                                            // Methods
+                                            setBarcodeValue={this.props.setBarcodeValue}
+                                            setDataValues={this.props.setDataValues}
+                                            addBarcode={this.props.addBarcode}
+                                        />
+                                    }
+                                />
+                            </div>
+                            <div className={classes.attachment}>
+                                <SectionWindow
+                                    label={'Ապրանքին կցված կոդերի ցանկ'}
+                                    children={
+                                        <CodeData
+                                            barcode={this.props.barcode}
+                                            code_item={this.props.code_item}
+                                            main={this.props.main}
+                                            codeTypes={this.props.codeTypes}
+                                            // Methods
+                                            selectBarcodeItem={this.props.getBarcodeItem}
+                                            deleteBarcodeItem={this.props.deleteBarcodeItem}
+                                            setBarcodeValue={this.props.setBarcodeValue}
+                                        />
+                                    }
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                {
+                    this.props.print_tool ?
+                        <PrintModal>
+                            <PrintHeader
+                                header={'Շտրիխ կոդի կարգավորում'}
+                                // Methods
+                                setBarcodeValue={this.props.setBarcodeValue}
+                            />
+                            <PrintContent
+                                width={this.props.width}
+                                height={this.props.height}
+                                font_data={this.props.font_data}
+                                font={this.props.font}
+                                papers={this.props.papers}
+                                content_data={this.props.content_data}
+                                elem_data={this.props.elem_data}
+                                content={this.props.content}
+                                paper_width={this.props.paper_width}
+                                paper_height={this.props.paper_height}
+                                children={
+                                    <>
+                                        <ReactToPrint
+                                            trigger={
+                                                () => <IconButton aria-label="delete" className={classes.printButton}>
+                                                    <PrintIcon/>
+                                                </IconButton>
+                                            }
+                                            content={
+                                                () => this.componentRef
+                                            }
+                                        />
+                                        <div className={classes.printWindow}>
+                                            <PrintComponent
+                                                ref={el => (this.componentRef = el)}
+                                                active_type={this.props.active_type}
+                                                name={this.props.main.name}
+                                                barcode={this.props.code_item.barcode}
+                                                format={this.codeTypeRender(this.props.codeTypes, this.props.code_item.barcode_type)}
+                                                count={this.props.code_item.count}
+                                                price={'5000$'}
+                                                // Configuration
+                                                width={this.props.width}
+                                                height={this.props.height}
+                                                paper_width={this.props.paper_width}
+                                                paper_height={this.props.paper_height}
+                                                font={this.props.font}
+                                                content_data={this.props.content_data}
+                                            />
+                                        </div>
+                                    </>
+                                }
+                                // Methods
+                                setBarcodeValue={this.props.setBarcodeValue}
+                                setPaperSize={this.props.setPaperSize}
+                                changeElementSizes={this.props.changeElementSizes}
+                            />
+                        </PrintModal>
+                        :
+                        null
+                }
+            </>
         )
     }
 }
@@ -93,8 +175,20 @@ class CodesTab extends Component {
 function mapStateToProps(state) {
 
     return {
+        main: state.products.main,
         open: state.barcode.open,
+        width: state.barcode.width,
+        height: state.barcode.height,
+        font_data: state.barcode.font_data,
+        font: state.barcode.font,
+        papers: state.barcode.papers,
+        content_data: state.barcode.content_data,
+        elem_data: state.barcode.elem_data,
+        content: state.barcode.content,
+        paper_width: state.barcode.paper_width,
+        paper_height: state.barcode.paper_height,
         codeTypes: state.barcode.codeTypes,
+        print_tool: state.barcode.print_tool,
         code: state.barcode.code,
         code_item: state.barcode.code_item,
         errorFields: state.barcode.errorFields,
@@ -112,7 +206,9 @@ function mapDispatchToProps(dispatch) {
         setDataValues: (name, value) => dispatch(setDataValues(name, value)),
         addBarcode: () => dispatch(addBarcode()),
         getBarcodeItem: id => dispatch(getBarcodeItem(id)),
-        deleteBarcodeItem: id => dispatch(deleteBarcodeItem(id))
+        deleteBarcodeItem: id => dispatch(deleteBarcodeItem(id)),
+        setPaperSize: (width, height) => dispatch(setPaperSize(width, height)),
+        changeElementSizes: (name, value) => dispatch(changeElementSizes(name, value))
     }
 }
 

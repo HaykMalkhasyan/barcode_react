@@ -36,6 +36,23 @@
     width: 100%;
 }
 
+.printButton {
+    border: none;
+    background-color: transparent;
+    transition: 300ms;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #fff;
+}
+
+.printWindow {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+}
+
 @media (max-width: 600px) {
     .codesTab {
         padding: 5px;

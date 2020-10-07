@@ -4,10 +4,13 @@ import Collapse from "@material-ui/core/Collapse"
 import MovingButton from "./movingButton/movingButton"
 import Icons from "../Icons/icons";
 import CustomButton from "../UI/button/customButton/customButton";
+import cookie from "../../services/cookies";
+import { FixedSizeList as List } from "react-window";
 
 const Tree = props => {
     const [active, setActive] = useState(null);
     const [openGroup, setOpenGroup] = useState(true);
+    const[ count, setCount] = useState({});
 
     const toggle = (event, id, status) => {
         event.stopPropagation();
@@ -59,91 +62,132 @@ const Tree = props => {
         return false
     };
 
-    const contentRender = (sub, subgroup, moveElement) => {
+    const getOwnData = (sub, subgroup) => {
+        const data = [];
+        for (let [index, item] of Object.entries(subgroup)) {
+            if (parseInt(item.parent_id) === parseInt(sub.id)) {
+                data.push(
+                    ({
+                        index: index,
+                        id: item.id,
+                        parent_id: item.parent_id,
+                        level: item.level,
+                        name_am: item.name_am,
+                        name_ru: item.name_ru,
+                        name_en: item.name_en,
+                        image: item.image,
+                        logo: item.logo,
+                        sort: item.sort,
+                        cat_id: item.cat_id,
+                    })
+                )
+            }
+        }
+        return data;
+    };
+
+    let dataLength = 20;
+
+    const contentRender = (sub, subgroup, moveElement, leng) => {
         let status = null;
         let thisId = null;
-        let array = [];
-        for (let item of subgroup) {
-            if (parseInt(item.parent_id) === sub.id) {
-                if (moveElement !== null && moveElement === item.id) {
-                    status = null;
-                    thisId = item.id
-                } else {
-                    status = moveElement
-                }
-                array.push(
-                    <li key={item.name + item.id + item.parent_id}>
+        let data = getOwnData(sub, subgroup);
+
+        const Row = ({index, style}) => (
+            <li key={'classifiers-tree' + data[index].id} style={style}>
                         <span
-                            id={`inBtn-${item.id}`}
+                            id={`inBtn-${data[index].id}`}
                             draggable={props.type === "edit" && props.changePositionStatus}
-                            onDragStart={props.type === "edit" && props.changePositionStatus ? event => drag(event, item) : null}
+                            onDragStart={props.type === "edit" && props.changePositionStatus ? event => drag(event, data[index]) : null}
                             // onDragOver={props.type === "edit" ? allowDrop : null}
                             // onDrop={props.type === "edit" ? event => drop(event, item, false) : null}
-                            onClick={event => selectItem(event, props.type, item)}
-                            onDoubleClick={checkSubs(item.id, subgroup, 2) ? (event => toggle(event, item.id, false)) : null}
+                            onClick={event => selectItem(event, props.type, data[index])}
+                            onDoubleClick={checkSubs(data[index].id, subgroup, 2) ? (event => toggle(event, data[index].id, false)) : null}
                             className={`
-                                ${thisId === item.id ? `${classes.nameArea} ${classes.cut}` : classes.nameArea} 
-                                ${props.controllerId && props.controllerId.id === item.id ? classes.nameAreaSelected : ''}
-                                ${props.selectSub === item.id ? classes.nameAreaSelected : ''}
-                                ${props.searchResult && props.searchResult.includes(item.id) ? classes.searchSelect : ''}
-                                ${props.type === 'select' && props.advancedSearchConfig && checkSelect(props.advancedSearchConfig, item) ? classes.classifiersSelected : ''}
+                                ${thisId === data[index].id ? `${classes.nameArea} ${classes.cut}` : classes.nameArea} 
+                                ${props.controllerId && props.controllerId.id === data[index].id ? classes.nameAreaSelected : ''}
+                                ${props.selectSub === data[index].id ? classes.nameAreaSelected : ''}
+                                ${props.searchResult && props.searchResult.includes(data[index].id) ? classes.searchSelect : ''}
+                                ${props.type === 'select' && props.advancedSearchConfig && checkSelect(props.advancedSearchConfig, data[index]) ? classes.classifiersSelected : ''}
                             `}
                         >
                             {
                                 props.type === 'edit' && props.changePositionStatus ?
                                     <CustomButton
-                                        id={`downBtn-${item.id}`}
-                                        className={active === `downBtn-${item.id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
+                                        id={`downBtn-${data[index].id}`}
+                                        className={active === `downBtn-${data[index].id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
                                         onDragOver={props.type === "edit" ? allowDrop : null}
                                         onDragEnter={props.type === "edit" ? event => dropEnter(event, 'subgroup') : null}
                                         onDragLeave={props.type === "edit" ? dropLeave : null}
-                                        onDrop={props.type === "edit" ? event => dropPosition(event, item) : null}
+                                        onDrop={props.type === "edit" ? event => dropPosition(event, data[index]) : null}
                                     />
                                     :
                                     null
                             }
                             {
-                                checkSubs(item.id, subgroup, 2) ?
-                                    <span className={classes.chevron} onClick={event => toggle(event, item.id, false)}>
+                                checkSubs(data[index].id, subgroup, 2) ?
+                                    <span
+                                        className={classes.chevron}
+                                        onClick={
+                                            event => {
+                                                let initialCount = {...setCount};
+                                                initialCount[sub.id] = 200;
+                                                setCount(initialCount);
+                                                toggle(event, data[index].id, false)
+                                            }
+                                        }
+                                    >
                                         {
-                                            props.collapsed.includes(item.id) ?
-                                                <Icons type={'tree-arrow-down'}/>
+                                            props.collapsed.includes(data[index].id) ?
+                                                <Icons type={'tree-arrow-down'} className={classes.treeArrowDown}/>
                                                 :
-                                                <Icons type={'tree-arrow-right'}/>
+                                                <Icons type={'tree-arrow-right'} className={classes.treeArrowRight}/>
                                         }
                                     </span>
                                     :
                                     <span className={classes.chevron}>
-                                        <Icons type={'tree-arrow-right-empty'}/>
+                                        <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
                                     </span>
-                                }
+                            }
                             <span className={classes.name}>
-                                 <span className={classes.nameSpace}>{item.name}</span>
+                                 <span className={classes.nameSpace}>{data[index][`name_${cookie.get('language') || 'am'}`]}</span>
                                 {
                                     props.type === 'edit' ?
-                                        movingButtons(item, moveElement, 'inGroup')
+                                        movingButtons(data[index], moveElement, 'inGroup')
                                         :
                                         null
                                 }
                             </span>
                         </span>
-                        <Collapse in={props.collapsed.includes(item.id)} timeout={300} unmountOnExit>
-                            <ul
-                                className={classes.tree}
-                                style={{
-                                    listStyle: 'none',
-                                    marginLeft: 10
-                                }}
-                            >
-                                {contentRender(item, subgroup, status)}
-                            </ul>
-                        </Collapse>
-                    </li>
-                );
+                <ul
+                    className={classes.tree}
+                    style={{
+                        listStyle: 'none',
+                        marginLeft: 10
+                    }}
+                >
+                    <Collapse
+                        timeout={0}
+                        unmountOnExit
+                        in={props.collapsed.includes(data[index].id)}
+                    >
+                        {contentRender(data[index], subgroup, status, leng)}
+                    </Collapse>
+                </ul>
+            </li>
+        );
+        console.log(dataLength)
+        return (
+            <List
+                width={'100%'}
+                height={200}
+                itemCount={data.length}
+                itemSize={count[sub.id] ? count[sub.id] : 20}
+            >
+                {Row}
+            </List>
+        )
 
-            }
-        }
-        return array;
     };
 
     const selectItem = (event, type, item) => {
@@ -420,7 +464,7 @@ const Tree = props => {
                                                 </span>
                                                 :
                                                 <span className={classes.chevron}>
-                                                    <Icons type={'tree-arrow-right-empty'}/>
+                                                    <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
                                                 </span>
                                         }
                                         <span className={classes.name}>
@@ -434,7 +478,7 @@ const Tree = props => {
                                         </span>
                                     </span>
                                 <Collapse
-                                    timeout={300}
+                                    timeout={0}
                                     unmountOnExit
                                     in={openGroup}
                                 >
@@ -450,9 +494,9 @@ const Tree = props => {
                                                 props.customSubgroup.map(
                                                     item => {
 
-                                                        return item.parent_id === "" ?
+                                                        return parseInt(item.parent_id) === 0 ?
                                                             <li
-                                                                key={item.id}
+                                                                key={`first-level-${item.id}`}
                                                                 className={props.type === "edit" && props.changePositionStatus ? classes.borderLine : classes.allName}
                                                             >
                                                                 <span
@@ -496,12 +540,12 @@ const Tree = props => {
                                                                             </span>
                                                                             :
                                                                             <span className={classes.chevron}>
-                                                                                <Icons type={'tree-arrow-right-empty'}/>
+                                                                                <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
                                                                             </span>
                                                                     }
                                                                     <span className={classes.name}>
                                                                         <span
-                                                                            className={classes.nameSpace}>{item.name}</span>
+                                                                            className={classes.nameSpace}>{item[`name_${cookie.get('language') || 'am'}`]}</span>
                                                                         {
                                                                             props.type === 'edit' ?
                                                                                 movingButtons(item, props.moveElement, 'subgroup')
@@ -511,7 +555,7 @@ const Tree = props => {
                                                                     </span>
                                                                 </span>
                                                                 <Collapse in={props.collapsed.includes(item.id)}
-                                                                          timeout={300} unmountOnExit>
+                                                                          timeout={0} unmountOnExit>
                                                                     <ul
                                                                         className={classes.tree}
                                                                         style={{
@@ -520,7 +564,7 @@ const Tree = props => {
                                                                         }}
                                                                     >
                                                                         {
-                                                                            contentRender(item, props.customSubgroup, props.moveElement && props.moveElement !== item.id ? props.moveElement : null)
+                                                                            contentRender(item, props.customSubgroup, props.moveElement && props.moveElement !== item.id ? props.moveElement : null, 20)
                                                                         }
                                                                     </ul>
                                                                 </Collapse>

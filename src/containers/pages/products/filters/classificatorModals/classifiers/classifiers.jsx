@@ -6,6 +6,7 @@ import SpinnerForContent from "../../../../../../components/UI/spinners/spinerFo
 import Icons from "../../../../../../components/Icons/icons";
 import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
 import CustomSearch from "../../../../../../components/customSearch/customSearch";
+import cookies from "../../../../../../services/cookies";
 
 const Classifiers = props => {
 
@@ -25,7 +26,7 @@ const Classifiers = props => {
     const checkItem = (array, elem) => {
         for (let item of array) {
             if (item.id === elem.id && item.name === elem.name) {
-               return false
+                return false
             }
         }
         return true
@@ -37,145 +38,143 @@ const Classifiers = props => {
         if (groups && groups.length > 1) {
 
             for (let [index, item] of Object.entries(props.groups)) {
-                if (item.id !== 0) {
-                    if (touched) {
-                        if (item.name.toLowerCase().search(searchValue.toLowerCase()) !== -1) {
-                            result.push(
-                                <Grid key={item.id} item xs={3}>
-                                    <div
-                                        className={groupActiveId === item.id ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
-                                        // Methods
-                                        onClick={
-                                            event => {
-                                                event.stopPropagation();
-                                                if (props.type === "edit") {
-                                                    classifierCloseHandler();
-                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                    props.setGroupValues('active', +index);
-                                                    props.setGroupValues('open', `collapse-${item.id}`);
-                                                } else if (props.type === 'select') {
-                                                    const classifiers = {...props.classifiers};
-                                                    const classifiersArray = [...classifiers.classifiers];
-                                                    if (checkItem(classifiersArray, item)) {
-                                                        classifiersArray.push(item)
-                                                    }
-                                                    classifiers.classifiers = classifiersArray;
-                                                    props.setProductValues('classifiers', classifiers);
-                                                    props.importGroupInProduct(props.initialOpen, 'close');
-                                                    classifierCloseHandler();
+                if (touched) {
+                    if (item.name.toLowerCase().search(searchValue.toLowerCase()) !== -1) {
+                        result.push(
+                            <Grid key={'classifiers-search-modal-' + item.id} item xs={3}>
+                                <div
+                                    className={groupActiveId === item.id ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
+                                    // Methods
+                                    onClick={
+                                        event => {
+                                            event.stopPropagation();
+                                            if (props.type === "edit") {
+                                                classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            } else if (props.type === 'select') {
+                                                const classifiers = {...props.classifiers};
+                                                const classifiersArray = [...classifiers.classifiers];
+                                                if (checkItem(classifiersArray, item)) {
+                                                    classifiersArray.push(item)
                                                 }
+                                                classifiers.classifiers = classifiersArray;
+                                                props.setProductValues('classifiers', classifiers);
+                                                props.importGroupInProduct(props.initialOpen, 'close');
+                                                classifierCloseHandler();
                                             }
                                         }
-                                    >
-                                        {
-                                            props.type === "edit" ?
-                                                <CustomButton
-                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                                    children={
-                                                        <Icons type={'edit'}
-                                                               className={groupActiveId === item.id ? classes.activeIcon : classes.icon}/>
-                                                    }
-                                                    // Methods
-                                                    onClick={event => editHandler(event, item)}
-                                                />
-                                                :
-                                                null
+                                    }
+                                >
+                                    {
+                                        props.type === "edit" ?
+                                            <CustomButton
+                                                className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                children={
+                                                    <Icons type={'edit'}
+                                                           className={groupActiveId === item.id ? classes.activeIcon : classes.icon}/>
+                                                }
+                                                // Methods
+                                                onClick={event => editHandler(event, item)}
+                                            />
+                                            :
+                                            null
+                                    }
+                                    <p>
+                                        {item[`title_${cookies.get('language') || 'am'}`]}
+                                    </p>
+                                </div>
+                            </Grid>
+                        )
+                    }
+                } else {
+                    if (groupActiveId === item.id) {
+                        result.unshift(
+                            <Grid key={'classifiers--modal-' + item.id} item xs={3}>
+                                <div
+                                    className={`${classes.classifiersItem} ${classes.selected}`}
+                                    // Methods
+                                    onClick={
+                                        event => {
+                                            event.stopPropagation();
+                                            if (props.type === "edit") {
+                                                classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            } else if (props.type === 'select') {
+                                                console.log('select')
+                                            }
                                         }
-                                        <p>
-                                            {item.name}
-                                        </p>
-                                    </div>
-                                </Grid>
-                            )
-                        }
+                                    }
+                                >
+                                    {
+                                        props.type === "edit" ?
+                                            <CustomButton
+                                                className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                children={
+                                                    <Icons type={'edit'}/>
+                                                }
+                                                // Methods
+                                                onClick={event => editHandler(event, item)}
+                                            />
+                                            :
+                                            null
+                                    }
+                                    <p>
+                                        {item[`title_${cookies.get('language') || 'am'}`]}
+                                    </p>
+                                </div>
+                            </Grid>
+                        )
                     } else {
-                        if (groupActiveId === item.id) {
-                            result.unshift(
-                                <Grid key={item.id} item xs={3}>
-                                    <div
-                                        className={`${classes.classifiersItem} ${classes.selected}`}
-                                        // Methods
-                                        onClick={
-                                            event => {
-                                                event.stopPropagation();
-                                                if (props.type === "edit") {
-                                                    classifierCloseHandler();
-                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                    props.setGroupValues('active', +index);
-                                                    props.setGroupValues('open', `collapse-${item.id}`);
-                                                } else if (props.type === 'select') {
-                                                    console.log('select')
+                        result.push(
+                            <Grid key={'classifiers-res-modal-' + item.id} item xs={3}>
+                                <div
+                                    className={classes.classifiersItem}
+                                    // Methods
+                                    onClick={
+                                        event => {
+                                            event.stopPropagation();
+                                            if (props.type === "edit") {
+                                                classifierCloseHandler();
+                                                props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
+                                                props.setGroupValues('active', +index);
+                                                props.setGroupValues('open', `collapse-${item.id}`);
+                                            } else if (props.type === 'select') {
+                                                const classifiers = {...props.classifiers};
+                                                const classifiersArray = [...classifiers.classifiers];
+                                                if (checkItem(classifiersArray, item)) {
+                                                    classifiersArray.push(item)
                                                 }
+                                                classifiers.classifiers = classifiersArray;
+                                                props.setProductValues('classifiers', classifiers);
+                                                props.importGroupInProduct(props.initialOpen, 'close');
+                                                classifierCloseHandler();
                                             }
                                         }
-                                    >
-                                        {
-                                            props.type === "edit" ?
-                                                <CustomButton
-                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                                    children={
-                                                        <Icons type={'edit'}/>
-                                                    }
-                                                    // Methods
-                                                    onClick={event => editHandler(event, item)}
-                                                />
-                                                :
-                                                null
-                                        }
-                                        <p>
-                                            {item.name}
-                                        </p>
-                                    </div>
-                                </Grid>
-                            )
-                        } else {
-                            result.push(
-                                <Grid key={item.id} item xs={3}>
-                                    <div
-                                        className={classes.classifiersItem}
-                                        // Methods
-                                        onClick={
-                                            event => {
-                                                event.stopPropagation();
-                                                if (props.type === "edit") {
-                                                    classifierCloseHandler();
-                                                    props.getOnlySubgroupWithGroupId(item.id, 'classifierSubgroup');
-                                                    props.setGroupValues('active', +index);
-                                                    props.setGroupValues('open', `collapse-${item.id}`);
-                                                } else if (props.type === 'select') {
-                                                    const classifiers = {...props.classifiers};
-                                                    const classifiersArray = [...classifiers.classifiers];
-                                                    if (checkItem(classifiersArray, item)) {
-                                                        classifiersArray.push(item)
-                                                    }
-                                                    classifiers.classifiers = classifiersArray;
-                                                    props.setProductValues('classifiers', classifiers);
-                                                    props.importGroupInProduct(props.initialOpen, 'close');
-                                                    classifierCloseHandler();
+                                    }
+                                >
+                                    {
+                                        props.type === "edit" ?
+                                            <CustomButton
+                                                className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
+                                                children={
+                                                    <Icons type={'edit'}/>
                                                 }
-                                            }
-                                        }
-                                    >
-                                        {
-                                            props.type === "edit" ?
-                                                <CustomButton
-                                                    className={groupActiveId === item.id ? `${classes.editButton} ${classes.editButtonSelected}` : classes.editButton}
-                                                    children={
-                                                        <Icons type={'edit'}/>
-                                                    }
-                                                    // Methods
-                                                    onClick={event => editHandler(event, item)}
-                                                />
-                                                :
-                                                null
-                                        }
-                                        <p>
-                                            {item.name}
-                                        </p>
-                                    </div>
-                                </Grid>
-                            )
-                        }
+                                                // Methods
+                                                onClick={event => editHandler(event, item)}
+                                            />
+                                            :
+                                            null
+                                    }
+                                    <p>
+                                        {item[`title_${cookies.get('language') || 'am'}`]}
+                                    </p>
+                                </div>
+                            </Grid>
+                        )
                     }
                 }
             }

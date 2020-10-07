@@ -5,7 +5,7 @@ import {
     SET_AND_CLOSE,
     SET_BARCODE,
     SET_BARCODE_VALUE,
-    SET_CLEAN_VALUE, SET_DELETE_BARCODE,
+    SET_CLEAN_VALUE, SET_DELETE_BARCODE, SET_PAPER_SIZE,
     SET_PRODUCTS_BARCODE_VALUE
 } from "./actionTypes";
 import is from 'is_js';
@@ -216,7 +216,27 @@ export function deleteBarcodeItem(id) {
     }
 }
 
+export function changeElementSizes(name, value) {
+
+    return (dispatch, getState) => {
+        const content_data = {...getState().barcode.content_data};
+        const content = getState().barcode.content;
+        const initial_stg = {...content_data[content]};
+
+        initial_stg[name] = value;
+        content_data[content] = initial_stg;
+        dispatch(setBarcodeValue('content_data', content_data));
+    }
+}
+
 // ----------------------------------------------------------------
+
+export function setPaperSize(width, height) {
+
+    return {
+        type: SET_PAPER_SIZE, width, height
+    }
+}
 
 export function setDeleteValues(name, barcode, products_barcode) {
 

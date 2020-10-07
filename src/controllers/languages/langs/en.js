@@ -37,4 +37,5 @@ export const en = {
     sales: 'sales',
     suppliers: 'suppliers',
     workers: 'workers',
+    label_editor: 'Label editor',
 };

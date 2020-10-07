@@ -16,7 +16,7 @@ const CustomHeader = props => {
                                 className={classes.collapseButton}
                                 children={
                                     props.open ?
-                                        <Icons type={'top-angle'}/>
+                                        <Icons type={'top-angle'} className={classes.topAngle}/>
                                         :
                                         <Icons type={'bottom-angle'} className={classes.angle}/>
                                 }

@@ -37,4 +37,5 @@ export const am = {
     sales: 'վաճառքներ',
     suppliers: 'գործընկերներ',
     workers: 'աշխատակիցներ',
+    label_editor: 'Պիտակի խմբագիր',
 };

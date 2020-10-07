@@ -88,6 +88,11 @@ ul.tree li:last-child {
     background-color: #eee !important;
 }
 
+.scrollWindow {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .nameArea {
     height: 20px;
     padding-left: 3px;
@@ -285,4 +290,14 @@ ul.tree li:last-child {
     color: #5D5D5D;
     font-size: 14px;
     font-weight: 100;
+}
+
+.treeArrowDown,
+.treeArrowRight {
+    fill: #3b3b3b;
+}
+
+.treeArrowRightEmpty {
+    fill: none;
+    stroke: #3b3b3b;
 }

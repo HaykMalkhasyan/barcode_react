@@ -6,7 +6,10 @@ import SearchWindow from "../searchWindow/searchWindow"
 import {connect} from "react-redux";
 import {
     addGroup,
-    addSubgroup, closeAction, closeAndBack, closeClassifiers,
+    addSubgroup,
+    closeAction,
+    closeAndBack,
+    closeClassifiers,
     deleteSubgroup,
     editGroup,
     editGroupSubGroup,
@@ -15,7 +18,10 @@ import {
     getGroup,
     getOnlySubgroupWithGroupId,
     getSubgroup,
-    getSubgroupWithGroupId, onlyCloseHandler, openAction, openClassifiers,
+    getSubgroupWithGroupId,
+    onlyCloseHandler,
+    openAction,
+    openClassifiers,
     searchHandler,
     setGroupValues,
     subCollapsed,
@@ -32,6 +38,7 @@ import Classifiers from "../classificatorModals/classifiers/classifiers";
 import CollapsedFilters from "./collapsedFilters/collapsedFilters";
 import OtherFilters from "./otherFilters/otherFilters";
 import CustomSearchWindow from "../searchWindow/customSearchWindow/customSearchWindow";
+import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 
 class Filters extends Component {
     constructor(props) {
@@ -43,7 +50,7 @@ class Filters extends Component {
         this.props.getGroup(item.id);
         this.props.getSubgroupWithGroupId(item.id);
         this.props.setProductValues('classifiersModal', true);
-        this.props.openAction({id: item.id, name: item.name, required_group: item.required_group});
+        this.props.openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en, required_group: item.required_group});
     };
 
     handleClose = () => {
@@ -75,10 +82,23 @@ class Filters extends Component {
         this.props.closeClassifiers()
     };
 
+    componentWillUnmount() {
+        this.props.setGroupValues('active', 0)
+    }
+
     render() {
 
         return (
             <div className={classes.filters}>
+                {
+                    this.props.progress ?
+                        <LinearSpinner
+                            progres={classes.progres}
+                            barColorPrimary={classes.barColorPrimary}
+                        />
+                        :
+                        null
+                }
                 <div className={classes.mobileMainSearch}>
                     <CustomSearchWindow/>
                 </div>
@@ -214,6 +234,7 @@ function mapStateToProps(state) {
         measurementsFilters: state.products.measurementsFilters,
         otherFilters: state.products.otherFilters,
         group: state.characteristics.group,
+        progress: state.characteristics.progress,
         allError: state.characteristics.allError,
         groups: state.characteristics.groups,
         customSubgroup: state.characteristics.customSubgroup,

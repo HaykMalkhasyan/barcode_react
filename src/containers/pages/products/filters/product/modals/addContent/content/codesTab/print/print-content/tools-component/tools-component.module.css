@@ -1,0 +1,23 @@
+.toolsComponent {
+    box-sizing: border-box;
+    padding: 20px 0;
+}
+
+.collapseButtonRoot {
+    color: #FF6F00;
+}
+
+.collapseContent {
+    display: flex;
+    align-items: center;
+}
+
+.collapseContent > span {
+    color: #fff;
+}
+
+.line {
+    margin: 0;
+    border-width: 0 0 1px 0;
+    border-color: #444;
+}

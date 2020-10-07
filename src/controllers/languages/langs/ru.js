@@ -37,4 +37,5 @@ export const ru = {
     sales: 'продажи',
     suppliers: 'партнери',
     workers: 'рабочие',
+    label_editor: 'Эдитор этикеток',
 };

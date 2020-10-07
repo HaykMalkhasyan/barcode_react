@@ -1,0 +1,29 @@
+.content {
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 5px 0;
+}
+
+/* width */
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.content::-webkit-scrollbar-thumb {
+    background: transparent;
+    transition: 300ms;
+}
+
+/* Handle on hover */
+.content:hover::-webkit-scrollbar-thumb {
+    background: #8d8d8d;
+}

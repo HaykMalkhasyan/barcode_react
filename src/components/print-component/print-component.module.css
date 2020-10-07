@@ -1,0 +1,63 @@
+.mainContainer {
+    background-color: #fff;
+}
+
+.printComponent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+}
+
+.printComponent * {
+    user-select: none;
+}
+
+.printComponent h1 {
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    font-size: 12px;
+    white-space: nowrap;
+    cursor: all-scroll;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.printComponent h1:hover {
+    background-color: rgba(77, 163, 225, 0.2);
+}
+
+.printComponent  section {
+    margin: 0;
+    cursor: all-scroll;
+}
+
+.printComponent  section:hover {
+    background-color: rgba(77, 163, 225, 0.2);
+}
+
+.printComponent > footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 8px;
+    margin: 0;
+}
+
+.printComponent  footer  span {
+    margin: 0;
+    cursor: all-scroll;
+}
+
+.printComponent  footer  span:hover {
+    background-color: rgba(77, 163, 225, 0.2);
+}
+
+.printComponent  footer b {
+    color: #666;
+}

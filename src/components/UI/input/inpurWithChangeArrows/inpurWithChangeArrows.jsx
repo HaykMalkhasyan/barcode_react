@@ -22,13 +22,13 @@ const InputWithArrow = props => {
             <div className={classes.levelWindow}>
                 <CustomButton
                     className={classes.levelButton}
-                    children={<Icons type={'triangle-up'}/>}
+                    children={<Icons type={'triangle-up'} className={classes.triangleUp}/>}
                     // Methods
                     onClick={props.addValue}
                 />
                 <CustomButton
                     className={classes.levelButton}
-                    children={<Icons type={'triangle-down'}/>}
+                    children={<Icons type={'triangle-down'} className={classes.triangleDown}/>}
                     // Methods
                     onClick={props.subValue}
                 />

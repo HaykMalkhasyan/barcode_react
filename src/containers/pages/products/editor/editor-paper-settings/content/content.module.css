@@ -1,0 +1,113 @@
+.editorPaperSettingsContent {
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.flexEndContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.fexColumnContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 10px;
+}
+
+.flexItemContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.labelStyle {
+    margin: 0 10px 0 0;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e2e2;
+    user-select: none;
+}
+
+.inputStyle {
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    outline: none !important;
+    height: 20px;
+    min-width: 260px;
+    width: 100%;
+    letter-spacing: .4pt;
+    padding: 0 5px;
+    font-weight: 100;
+    font-size: 11px;
+    color: #fff;
+    background-color: #444;
+}
+
+.changeMaxWidth {
+    max-width: 100px;
+    min-width: auto;
+}
+
+.orientationName {
+    margin: 0 0 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+}
+
+.contentCenter {
+    justify-content: center;
+    width: 100%;
+}
+
+.orientationButton {
+    width: 30px;
+    height: 30px;
+    border: none;
+    padding: 0;
+    margin: 0 5px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #e2e2e2;
+    transition: 300ms;
+    position: relative;
+}
+
+.activeOrientation:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #FF6F00;
+}
+
+
+.orientationButton:hover {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.listItem {
+    padding: 0 5px;
+    color: #fff;
+    user-select: none;
+}
+
+.listItemText span {
+    font-size: 12px !important;
+}

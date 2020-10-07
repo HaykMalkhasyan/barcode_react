@@ -1,0 +1,25 @@
+.printHeader {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.printHeader > h1 {
+    color: #fff;
+    margin: 0 10px;
+    width: calc(100% - 20px);
+    font-size: 22px;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #FF6F00;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fff !important;
+    border-radius: 0 !important;
+}

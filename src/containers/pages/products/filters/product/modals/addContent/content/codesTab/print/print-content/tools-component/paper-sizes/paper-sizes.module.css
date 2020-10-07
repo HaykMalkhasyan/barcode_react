@@ -1,0 +1,71 @@
+.paperSizes {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.paperButton {
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 85px;
+    box-sizing: border-box;
+    padding: 10px 5px;
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: 300ms;
+    margin: 0 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 8px;
+}
+
+.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #FF6F00;
+}
+
+.paperButton:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transition: 300ms;
+}
+
+.paperButton:hover:before {
+    box-shadow: 0 0 50px 20px #fff;
+    animation: light 3s ease-in-out alternate infinite;
+}
+
+.paperButton span {
+    margin-top: 5px;
+}
+
+@keyframes light {
+    from {box-shadow: 0 0 50px 10px #fff;}
+    to {box-shadow: 0 0 50px 25px #fff;}
+}
+
+.paperButton:active {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .6) inset;
+}

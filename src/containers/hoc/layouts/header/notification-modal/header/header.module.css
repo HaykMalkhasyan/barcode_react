@@ -1,0 +1,30 @@
+.header {
+    box-sizing: border-box;
+    padding: 5px 0 0;
+    margin: 0 30px;
+    width: auto;
+    height: 70px;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #f4f4f4;
+    overflow: hidden;
+}
+
+.header > h1 {
+    color: #024059;
+    font-size: 20px;
+    letter-spacing: .4pt;
+    text-align: center;
+    font-weight: 500;
+    margin: 0 0 5px;
+}
+
+.header > span {
+    display: block;
+    text-align: left;
+    color: #FF4E4E;
+    font-size: 12px;
+    letter-spacing: .4pt;
+    margin: 0;
+}

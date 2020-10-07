@@ -9,6 +9,7 @@ const CustomButton = props => {
             id={props.id}
             type={props.type}
             name={props.name}
+            style={props.style}
             className={props.className}
             disabled={props.disabled}
             onDragOver={props.onDragOver}

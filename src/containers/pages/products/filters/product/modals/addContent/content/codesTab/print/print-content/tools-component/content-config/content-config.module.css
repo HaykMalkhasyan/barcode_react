@@ -1,0 +1,60 @@
+.contentConfig {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.formControl {
+    width: 100%;
+    color: #fff !important;
+}
+
+.labelStyle, .selectRoot {
+    color: #fff !important;
+    font-size: 12px;
+}
+
+.inputsWindow {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.classNameLabel {
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+    padding: 0;
+}
+
+.classNameInput {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    outline: none !important;
+    border: none;
+    transition: 300ms;
+}
+
+.classNameInput:focus {
+    box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.67);
+}
+
+.classNameLabel:after {
+    content: '';
+    transition: 300ms;
+    position: absolute;
+    left:0;
+    height: 100%;
+    width: 3px;
+    background-color: #FF6F00;
+    opacity: 0;
+}
+
+.classNameLabel:hover:after {
+    left: -10px;
+    opacity: 1;
+}

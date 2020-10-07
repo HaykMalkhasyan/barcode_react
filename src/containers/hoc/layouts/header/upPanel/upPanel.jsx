@@ -11,6 +11,11 @@ import NotificationModal from "../notification-modal/notification-modal";
 
 const UpPanel = props => {
 
+    const logoutHandler = () => {
+        props.history.push('/login');
+        props.logout()
+    };
+
     return (
         <div className={props.sticky ? `${classes.hidden} ${classes.upPanel}` : classes.upPanel}>
             {
@@ -113,7 +118,7 @@ const UpPanel = props => {
                                         activeClassName={classes.dropActive}
                                     >
                                         <li className={classes.myPage}>
-                                            <Icons type={'own-page'}/>
+                                            <Icons type={'own-page'} className={classes.ownPageIcon}/>
                                             <span className={classes.ownerConf}>Իմ էջը</span>
                                         </li>
                                     </NavLink>
@@ -126,18 +131,16 @@ const UpPanel = props => {
                                 activeClassName={classes.dropActive}
                             >
                                 <li className={classes.configuration}>
-                                    <Icons type={'configuration'}/>
+                                    <Icons type={'configuration'} className={classes.configurationIcon}/>
                                     <span className={classes.ownerConf}>Կարգավորումներ</span>
                                 </li>
                             </NavLink>
                             <span
                                 className={classes.dropLinks}
-                                onClick={
-                                    () => props.logout()
-                                }
+                                onClick={logoutHandler}
                             >
                                 <li className={classes.logout}>
-                                    <Icons type={'exit'}/>
+                                    <Icons type={'exit'} className={classes.exitIcon}/>
                                     <span className={classes.ownerConf}>Ելք</span>
                                 </li>
                             </span>

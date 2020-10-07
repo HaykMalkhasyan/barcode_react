@@ -53,3 +53,8 @@
 .levelButton:last-child {
     border-radius: 0 0 5px 0;
 }
+
+.triangleUp,
+.triangleDown {
+    fill: #5d5d5d;
+}

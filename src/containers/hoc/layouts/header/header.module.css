@@ -511,6 +511,12 @@
     /*font-family: Mardoto-medium, sans-serif;*/
 }
 
+.ownPageIcon,
+.configurationIcon,
+.exitIcon {
+    fill: #3b3b3b;
+}
+
 @media (max-width: 600px) {
     .ownerConf {
         font-size: 10px !important;

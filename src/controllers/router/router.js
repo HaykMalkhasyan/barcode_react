@@ -43,6 +43,9 @@ const LazyPrices = lazy(
 const LazyCharacteristics = lazy(
     () => import('../../containers/pages/products/characteristics/characteristics')
 );
+const LazyLabelEditor = lazy(
+    () => import('../../containers/pages/products/editor/editor')
+);
 
 const Router = props => {
 
@@ -82,6 +85,13 @@ const Router = props => {
                 path='/products/characteristics'
                 auth={props.auth}
                 component={LazyCharacteristics}
+            />
+            {/* Label editor */}
+            <PrivateRoute
+                exact
+                path='/products/editor'
+                auth={props.auth}
+                component={LazyLabelEditor}
             />
             {/* Login */}
             <PublicRoute
