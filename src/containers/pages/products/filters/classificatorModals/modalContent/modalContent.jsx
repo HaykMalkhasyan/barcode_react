@@ -10,6 +10,7 @@ import SkeletonUI from "../../../../../../components/skeletion/skeleton";
 import HeaderContent from "./header-content/header-content";
 import ModalActions from "./actions/actions";
 import FooterContent from "./footer-content/footer-content";
+import BodyContent from "./body-content/body-content";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
@@ -248,60 +249,18 @@ const ModalContent = props => {
                             />
                         </div>
                     </div>
-                    <div className={classes.treeWindow}>
-                        {/*{*/}
-                        {/*    props.customSubgroup ?*/}
-                        {/*        <Tree*/}
-                        {/*            label={'Բոլորը'}*/}
-                        {/*            type={'edit'}*/}
-                        {/*            group={props.group}*/}
-                        {/*            customSubgroup={props.customSubgroup}*/}
-                        {/*            collapsed={props.collapsed}*/}
-                        {/*            controllerId={props.controllerId}*/}
-                        {/*            moveElement={props.moveElement}*/}
-                        {/*            collapsedGroup={props.collapsedGroup}*/}
-                        {/*            searchResult={props.searchResult}*/}
-                        {/*            changePositionStatus={props.changePositionStatus}*/}
-                        {/*            groupId={props.groupId}*/}
-                        {/*            // Methods*/}
-                        {/*            subCollapsed={props.subCollapsed}*/}
-                        {/*            subCollapsedGroup={props.subCollapsedGroup}*/}
-                        {/*            setTreeValue={props.setGroupValues}*/}
-                        {/*            moveHandler={moveHandler}*/}
-                        {/*            cancelMoving={cancelMoving}*/}
-                        {/*            onAddClassifier={onAddClassifier}*/}
-                        {/*            onEditClassifier={onEditClassifier}*/}
-                        {/*            editSubgroup={props.editSubgroup}*/}
-                        {/*            deleteHandler={deleteHandler}*/}
-                        {/*            moveIsHer={moveIsHer}*/}
-                        {/*            editGroupSubGroup={props.editGroupSubGroup}*/}
-                        {/*        />*/}
-                        {/*        :*/}
-                        {/*        <SpinnerForContent/>*/}
-                        {/*}*/}
-                        {
-                            props.own_subgroups ?
-                                props.own_subgroups.length ?
-                                    <TreeViewer
-                                        group={props.group}
-                                        own_subgroups={props.own_subgroups}
-                                        own_collapse={props.own_collapse}
-                                        own_move={props.own_move}
-                                        own_select={props.own_select}
-                                        collapseName={"own_collapse"}
-                                        type={'edit'}
-                                        // Methods
-                                        setGroupValues={props.setGroupValues}
-                                        toggleTreeItem={props.toggleTreeItem}
-                                    />
-                                    :
-                                    <SkeletonUI/>
-                                :
-                                <div className={classes.isEmpty}>
-                                    <small>Դատարկ է</small>
-                                </div>
-                        }
-                    </div>
+                    <BodyContent
+                        group={props.group}
+                        own_subgroups={props.own_subgroups}
+                        own_collapse={props.own_collapse}
+                        own_move={props.own_move}
+                        own_select={props.own_select}
+                        collapseName={"own_collapse"}
+                        type={'edit'}
+                        // Methods
+                        setGroupValues={props.setGroupValues}
+                        toggleTreeItem={props.toggleTreeItem}
+                    />
                 </div>
             </section>
             <FooterContent
