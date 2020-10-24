@@ -20,14 +20,14 @@ import {
     getSubgroup,
     getSubgroupWithGroupId,
     onlyCloseHandler,
-    openAction,
     openClassifiers,
+    openModalContent,
     searchHandler,
     setGroupValues,
     subCollapsed,
     subCollapsedGroup,
     subGroupCollapses,
-    subGroupModalCollapses,
+    subGroupModalCollapses, toggleTreeItem,
     uploadImage
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
@@ -47,10 +47,8 @@ class Filters extends Component {
     }
 
     handleOpen = item => {
-        this.props.getGroup(item.id);
-        this.props.getSubgroupWithGroupId(item.id);
+        this.props.openModalContent(item);
         this.props.setProductValues('classifiersModal', true);
-        this.props.openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en, required_group: item.required_group});
     };
 
     handleClose = () => {
@@ -75,6 +73,8 @@ class Filters extends Component {
     classifierOpenHandler = id => {
         this.props.getAllGroup();
         this.props.setProductValues('classifiersModal', false);
+        this.props.setGroupValues('own_subgroups', []);
+        this.props.setGroupValues('own_collapse', []);
         this.props.openClassifiers(id);
     };
 
@@ -144,6 +144,12 @@ class Filters extends Component {
                         searchResult={this.props.searchResult}
                         changePositionStatus={this.props.changePositionStatus}
                         groupId={this.props.groupId}
+                        /* ------- */
+                        own_subgroups={this.props.own_subgroups}
+                        own_collapse={this.props.own_collapse}
+                        own_move={this.props.own_move}
+                        own_select={this.props.own_select}
+                        toggleTreeItem={this.props.toggleTreeItem}
                         // Methods
                         subCollapsed={this.props.subCollapsed}
                         subCollapsedGroup={this.props.subCollapsedGroup}
@@ -229,6 +235,10 @@ function mapStateToProps(state) {
     return {
         initialOpen: state.products.initialOpen,
         initialModalGroup: state.characteristics.initialModalGroup,
+        own_subgroups: state.characteristics.own_subgroups,
+        own_collapse: state.characteristics.own_collapse,
+        own_move: state.characteristics.own_move,
+        own_select: state.characteristics.own_select,
         classifiers: state.products.classifiers,
         classifiersModal: state.products.classifiersModal,
         measurementsFilters: state.products.measurementsFilters,
@@ -293,8 +303,8 @@ function mapDispatchToProps(dispatch) {
         onlyCloseHandler: () => dispatch(onlyCloseHandler()),
         closeAndBack: () => dispatch(closeAndBack()),
         closeAction: () => dispatch(closeAction()),
-        openAction: data => dispatch(openAction(data))
-
+        openModalContent: item => dispatch(openModalContent(item)),
+        toggleTreeItem: (id, colName) => dispatch(toggleTreeItem(id, colName)),
     }
 }
 

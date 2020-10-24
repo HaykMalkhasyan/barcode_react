@@ -1,7 +1,19 @@
 import Axios from "axios"
 import jwt_decode from 'jwt-decode'
 import cookie from "./cookies";
-import {setGroupValues} from "../Redux/characteristics/actions";
+
+export function findItem(data, itemId) {
+    let array = [];
+    for (let item of data) {
+        if (parseInt(item.parent_id) === parseInt(itemId)) {
+            array.push({
+                ...item,
+                children: findItem(data, item.id)
+            })
+        }
+    }
+    return array
+}
 
 export function getHeaders(headers, params) {
 

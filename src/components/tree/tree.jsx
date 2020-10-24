@@ -5,12 +5,10 @@ import MovingButton from "./movingButton/movingButton"
 import Icons from "../Icons/icons";
 import CustomButton from "../UI/button/customButton/customButton";
 import cookie from "../../services/cookies";
-import { FixedSizeList as List } from "react-window";
 
 const Tree = props => {
     const [active, setActive] = useState(null);
     const [openGroup, setOpenGroup] = useState(true);
-    const[ count, setCount] = useState({});
 
     const toggle = (event, id, status) => {
         event.stopPropagation();
@@ -62,132 +60,91 @@ const Tree = props => {
         return false
     };
 
-    const getOwnData = (sub, subgroup) => {
-        const data = [];
-        for (let [index, item] of Object.entries(subgroup)) {
-            if (parseInt(item.parent_id) === parseInt(sub.id)) {
-                data.push(
-                    ({
-                        index: index,
-                        id: item.id,
-                        parent_id: item.parent_id,
-                        level: item.level,
-                        name_am: item.name_am,
-                        name_ru: item.name_ru,
-                        name_en: item.name_en,
-                        image: item.image,
-                        logo: item.logo,
-                        sort: item.sort,
-                        cat_id: item.cat_id,
-                    })
-                )
-            }
-        }
-        return data;
-    };
-
-    let dataLength = 20;
-
-    const contentRender = (sub, subgroup, moveElement, leng) => {
+    const contentRender = (sub, subgroup, moveElement) => {
         let status = null;
         let thisId = null;
-        let data = getOwnData(sub, subgroup);
-
-        const Row = ({index, style}) => (
-            <li key={'classifiers-tree' + data[index].id} style={style}>
+        let array = [];
+        for (let item of subgroup) {
+            if (parseInt(item.parent_id) === sub.id) {
+                if (moveElement !== null && moveElement === item.id) {
+                    status = null;
+                    thisId = item.id
+                } else {
+                    status = moveElement
+                }
+                array.push(
+                    <li key={"subgroup-" + item.name + item.id + item.parent_id}>
                         <span
-                            id={`inBtn-${data[index].id}`}
+                            id={`inBtn-${item.id}`}
                             draggable={props.type === "edit" && props.changePositionStatus}
-                            onDragStart={props.type === "edit" && props.changePositionStatus ? event => drag(event, data[index]) : null}
+                            onDragStart={props.type === "edit" && props.changePositionStatus ? event => drag(event, item) : null}
                             // onDragOver={props.type === "edit" ? allowDrop : null}
                             // onDrop={props.type === "edit" ? event => drop(event, item, false) : null}
-                            onClick={event => selectItem(event, props.type, data[index])}
-                            onDoubleClick={checkSubs(data[index].id, subgroup, 2) ? (event => toggle(event, data[index].id, false)) : null}
+                            onClick={event => selectItem(event, props.type, item)}
+                            onDoubleClick={checkSubs(item.id, subgroup, 2) ? (event => toggle(event, item.id, false)) : null}
                             className={`
-                                ${thisId === data[index].id ? `${classes.nameArea} ${classes.cut}` : classes.nameArea} 
-                                ${props.controllerId && props.controllerId.id === data[index].id ? classes.nameAreaSelected : ''}
-                                ${props.selectSub === data[index].id ? classes.nameAreaSelected : ''}
-                                ${props.searchResult && props.searchResult.includes(data[index].id) ? classes.searchSelect : ''}
-                                ${props.type === 'select' && props.advancedSearchConfig && checkSelect(props.advancedSearchConfig, data[index]) ? classes.classifiersSelected : ''}
+                                ${thisId === item.id ? `${classes.nameArea} ${classes.cut}` : classes.nameArea} 
+                                ${props.controllerId && props.controllerId.id === item.id ? classes.nameAreaSelected : ''}
+                                ${props.selectSub === item.id ? classes.nameAreaSelected : ''}
+                                ${props.searchResult && props.searchResult.includes(item.id) ? classes.searchSelect : ''}
+                                ${props.type === 'select' && props.advancedSearchConfig && checkSelect(props.advancedSearchConfig, item) ? classes.classifiersSelected : ''}
                             `}
                         >
                             {
                                 props.type === 'edit' && props.changePositionStatus ?
                                     <CustomButton
-                                        id={`downBtn-${data[index].id}`}
-                                        className={active === `downBtn-${data[index].id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
+                                        id={`downBtn-${item.id}`}
+                                        className={active === `downBtn-${item.id}` ? `${classes.bottomLineButton} ${classes.bottomLineButtonSelected}` : classes.bottomLineButton}
                                         onDragOver={props.type === "edit" ? allowDrop : null}
                                         onDragEnter={props.type === "edit" ? event => dropEnter(event, 'subgroup') : null}
                                         onDragLeave={props.type === "edit" ? dropLeave : null}
-                                        onDrop={props.type === "edit" ? event => dropPosition(event, data[index]) : null}
+                                        onDrop={props.type === "edit" ? event => dropPosition(event, item) : null}
                                     />
                                     :
                                     null
                             }
                             {
-                                checkSubs(data[index].id, subgroup, 2) ?
-                                    <span
-                                        className={classes.chevron}
-                                        onClick={
-                                            event => {
-                                                let initialCount = {...setCount};
-                                                initialCount[sub.id] = 200;
-                                                setCount(initialCount);
-                                                toggle(event, data[index].id, false)
-                                            }
-                                        }
-                                    >
+                                checkSubs(item.id, subgroup, 2) ?
+                                    <span className={classes.chevron} onClick={event => toggle(event, item.id, false)}>
                                         {
-                                            props.collapsed.includes(data[index].id) ?
-                                                <Icons type={'tree-arrow-down'} className={classes.treeArrowDown}/>
+                                            props.collapsed.includes(item.id) ?
+                                                <Icons type={'tree-arrow-down'}/>
                                                 :
-                                                <Icons type={'tree-arrow-right'} className={classes.treeArrowRight}/>
+                                                <Icons type={'tree-arrow-right'}/>
                                         }
                                     </span>
                                     :
                                     <span className={classes.chevron}>
-                                        <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
+                                        <Icons type={'tree-arrow-right-empty'}/>
                                     </span>
                             }
                             <span className={classes.name}>
-                                 <span className={classes.nameSpace}>{data[index][`name_${cookie.get('language') || 'am'}`]}</span>
+                                 <span className={classes.nameSpace}>{item['name_am']}</span>
                                 {
                                     props.type === 'edit' ?
-                                        movingButtons(data[index], moveElement, 'inGroup')
+                                        movingButtons(item, moveElement, 'inGroup')
                                         :
                                         null
                                 }
                             </span>
                         </span>
-                <ul
-                    className={classes.tree}
-                    style={{
-                        listStyle: 'none',
-                        marginLeft: 10
-                    }}
-                >
-                    <Collapse
-                        timeout={0}
-                        unmountOnExit
-                        in={props.collapsed.includes(data[index].id)}
-                    >
-                        {contentRender(data[index], subgroup, status, leng)}
-                    </Collapse>
-                </ul>
-            </li>
-        );
-        console.log(dataLength)
-        return (
-            <List
-                width={'100%'}
-                height={200}
-                itemCount={data.length}
-                itemSize={count[sub.id] ? count[sub.id] : 20}
-            >
-                {Row}
-            </List>
-        )
+                        <Collapse in={props.collapsed.includes(item.id)} timeout={300} unmountOnExit>
+                            <ul
+                                className={classes.tree}
+                                style={{
+                                    listStyle: 'none',
+                                    marginLeft: 10
+                                }}
+                            >
+                                {contentRender(item, subgroup, status)}
+                            </ul>
+                        </Collapse>
+                    </li>
+                );
 
+            }
+        }
+        return array;
     };
 
     const selectItem = (event, type, item) => {
@@ -496,7 +453,7 @@ const Tree = props => {
 
                                                         return parseInt(item.parent_id) === 0 ?
                                                             <li
-                                                                key={`first-level-${item.id}`}
+                                                                key={`first-level-${item.level}-${item.id}`}
                                                                 className={props.type === "edit" && props.changePositionStatus ? classes.borderLine : classes.allName}
                                                             >
                                                                 <span

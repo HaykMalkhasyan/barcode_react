@@ -1,19 +1,15 @@
 import React, {useState} from 'react'
 import classes from './modalContent.module.css'
-import CustomButton from "../../../../../../components/UI/button/customButton/customButton"
-import SpinnerForContent from "../../../../../../components/UI/spinners/spinerForContent/spinnerForContent";
-import ConfirmButton from "../../../../../../components/UI/button/confirmButton/confirmButton";
 import DeleteModal from "../../../../../../components/deleteModal/deleteModal";
 import Backdrop from "../../../../../../components/UI/backdrop/backdrop";
-import Icons from "../../../../../../components/Icons/icons";
-import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
 import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox/customCheckbox";
-import Tree from "../../../../../../components/tree/tree";
 import CustomSearch from "../../../../../../components/customSearch/customSearch";
-import CancelButton from "../../../../../../components/UI/button/cencelButtom/cancelButton";
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput";
-import Tooltip from "@material-ui/core/Tooltip";
-import MouseIcon from '@material-ui/icons/Mouse';
+import TreeViewer from "../../../../../../components/tree-viewer/tree-viewer";
+import SkeletonUI from "../../../../../../components/skeletion/skeleton";
+import HeaderContent from "./header-content/header-content";
+import ModalActions from "./actions/actions";
+import FooterContent from "./footer-content/footer-content";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
@@ -195,20 +191,11 @@ const ModalContent = props => {
                 closeHandler={deleteModalCloseHandler}
                 deleteHandler={deleteModalConfirmHandler}
             />
-            <header>
-                <CustomButton
-                    className={classes.backButton}
-                    children={<Icons type={'back-page'} className={classes.backButtonIcon}/>}
-                    // Methods
-                    onClick={backPageHandler}
-                />
-                <div className={classes.forOf}>
-                    <h3>Դասակարգչի խմբագրում</h3>
-                </div>
-                <div>
-                    <CloseButton onClick={props.handleClose}/>
-                </div>
-            </header>
+            <HeaderContent
+                // Methods
+                handleClose={props.handleClose}
+                backPageHandler={backPageHandler}
+            />
             <section>
                 <div className={classes.content}>
                     <div className={classes.nameWindow}>
@@ -235,140 +222,18 @@ const ModalContent = props => {
                         />
                     </div>
                     <div className={classes.searchWindow}>
-                        <div>
-                            <CustomButton
-                                className={`${classes.actionButtons} ${props.changePositionStatus ? classes.actionButtonsActive : ''}`}
-                                children={
-                                    <Tooltip
-                                        title={
-                                            <span className={classes.changePositionTooltipContent}>
-                                                <MouseIcon style={{fontSize: 14}}/>
-                                                Փեխել դիրքը
-                                            </span>
-                                        }
-                                        placement="right"
-                                    >
-                                            <span className={classes.contentSpan}>
-                                                <Icons width={10} height={10} type={'triangle-up'}
-                                                       className={props.changePositionStatus ? classes.containedChangePositionUpSelected : classes.iconsChangePositionInactive}/>
-                                                <Icons width={10} height={10} type={'triangle-down'}
-                                                       className={props.changePositionStatus ? classes.containedChangePositionDownSelected : classes.iconsChangePositionInactive}/>
-                                            </span>
-                                    </Tooltip>
-                                }
-                                // Methods
-                                onClick={toggleMovingStatus}
-                            />
-                            <CustomButton
-                                className={classes.actionButtons}
-                                children={
-                                    <Tooltip title={'Տեղափոխել'} placement="right">
-                                        <span className={classes.contentSpan}>
-                                            <Icons
-                                                type={'group-arrows'}
-                                                opacity={
-                                                    props.controllerId !== null ?
-                                                        1
-                                                        :
-                                                        0.18
-                                                }
-                                                className={
-                                                    props.controllerId !== null ?
-                                                        classes.groupArrowSelected
-                                                        :
-                                                        classes.iconsInactive
-                                                }
-                                            />
-                                        </span>
-                                    </Tooltip>
-                                }
-                                // Methods
-                                onClick={props.controllerId ? event => moveHandler(event, props.controllerId.id) : null}
-                            />
-                            <CustomButton
-                                className={classes.actionButtons}
-                                children={
-                                    <Tooltip title={'Փոփոխել'} placement="right">
-                                        <span className={classes.contentSpan}>
-                                            <Icons
-                                                type={'contained-edit'}
-                                                opacity={
-                                                    props.controllerId !== null ?
-                                                        1
-                                                        :
-                                                        0.18
-                                                }
-                                                className={
-                                                    props.controllerId !== null ?
-                                                        classes.containedEditSelected
-                                                        :
-                                                        classes.iconsInactive}
-                                            />
-                                        </span>
-                                    </Tooltip>
-                                }
-                                // Methods
-                                onClick={props.controllerId ? event => onEditClassifier(event, props.controllerId, 'subgroup') : null}
-                            />
-                            <CustomButton
-                                className={classes.actionButtons}
-                                children={
-                                    <Tooltip title={'Ավելացնել'} placement="right">
-                                        <span className={classes.contentSpan}>
-                                            <Icons
-                                                type={'group-add'}
-                                                opacity={
-                                                    props.controllerId !== null || props.groupId !== null ?
-                                                        1
-                                                        :
-                                                        0.18
-                                                }
-                                                className={
-                                                    props.controllerId !== null || props.groupId !== null ?
-                                                        classes.groupAddSelected
-                                                        :
-                                                        classes.iconsInactive}
-                                            />
-                                        </span>
-                                    </Tooltip>
-                                }
-                                // Methods
-                                onClick={
-                                    props.controllerId ?
-                                        event => onAddClassifier(event, props.controllerId.id, 'subgroup')
-                                        :
-                                        props.groupId ?
-                                            event => onAddClassifier(event, props.groupId, 'inGroup')
-                                            :
-                                            null
-                                }
-                            />
-                            <CustomButton
-                                className={classes.actionButtons}
-                                children={
-                                    <Tooltip title={'Ջնջել'} placement="right">
-                                        <span className={classes.contentSpan}>
-                                            <Icons
-                                                type={'group-delete'}
-                                                opacity={
-                                                    props.controllerId !== null ?
-                                                        1
-                                                        :
-                                                        0.18
-                                                }
-                                                className={
-                                                    props.controllerId !== null ?
-                                                        classes.groupDeleteSelected
-                                                        :
-                                                        classes.iconsInactive}
-                                            />
-                                        </span>
-                                    </Tooltip>
-                                }
-                                // Methods
-                                onClick={props.controllerId ? event => deleteHandler(event, props.controllerId.id) : null}
-                            />
-                        </div>
+                        <ModalActions
+                            own_select={props.own_select}
+                            controllerId={props.controllerId}
+                            groupId={props.groupId}
+                            // Methods
+                            changePositionStatus={props.changePositionStatus}
+                            toggleMovingStatus={toggleMovingStatus}
+                            moveHandler={moveHandler}
+                            onEditClassifier={onEditClassifier}
+                            onAddClassifier={onAddClassifier}
+                            deleteHandler={deleteHandler}
+                        />
                         <div>
                             <CustomSearch
                                 drop={false}
@@ -384,48 +249,66 @@ const ModalContent = props => {
                         </div>
                     </div>
                     <div className={classes.treeWindow}>
+                        {/*{*/}
+                        {/*    props.customSubgroup ?*/}
+                        {/*        <Tree*/}
+                        {/*            label={'Բոլորը'}*/}
+                        {/*            type={'edit'}*/}
+                        {/*            group={props.group}*/}
+                        {/*            customSubgroup={props.customSubgroup}*/}
+                        {/*            collapsed={props.collapsed}*/}
+                        {/*            controllerId={props.controllerId}*/}
+                        {/*            moveElement={props.moveElement}*/}
+                        {/*            collapsedGroup={props.collapsedGroup}*/}
+                        {/*            searchResult={props.searchResult}*/}
+                        {/*            changePositionStatus={props.changePositionStatus}*/}
+                        {/*            groupId={props.groupId}*/}
+                        {/*            // Methods*/}
+                        {/*            subCollapsed={props.subCollapsed}*/}
+                        {/*            subCollapsedGroup={props.subCollapsedGroup}*/}
+                        {/*            setTreeValue={props.setGroupValues}*/}
+                        {/*            moveHandler={moveHandler}*/}
+                        {/*            cancelMoving={cancelMoving}*/}
+                        {/*            onAddClassifier={onAddClassifier}*/}
+                        {/*            onEditClassifier={onEditClassifier}*/}
+                        {/*            editSubgroup={props.editSubgroup}*/}
+                        {/*            deleteHandler={deleteHandler}*/}
+                        {/*            moveIsHer={moveIsHer}*/}
+                        {/*            editGroupSubGroup={props.editGroupSubGroup}*/}
+                        {/*        />*/}
+                        {/*        :*/}
+                        {/*        <SpinnerForContent/>*/}
+                        {/*}*/}
                         {
-                            props.customSubgroup ?
-                                <Tree
-                                    label={'Բոլորը'}
-                                    type={'edit'}
-                                    group={props.group}
-                                    customSubgroup={props.customSubgroup}
-                                    collapsed={props.collapsed}
-                                    controllerId={props.controllerId}
-                                    moveElement={props.moveElement}
-                                    collapsedGroup={props.collapsedGroup}
-                                    searchResult={props.searchResult}
-                                    changePositionStatus={props.changePositionStatus}
-                                    groupId={props.groupId}
-                                    // Methods
-                                    subCollapsed={props.subCollapsed}
-                                    subCollapsedGroup={props.subCollapsedGroup}
-                                    setTreeValue={props.setGroupValues}
-                                    moveHandler={moveHandler}
-                                    cancelMoving={cancelMoving}
-                                    onAddClassifier={onAddClassifier}
-                                    onEditClassifier={onEditClassifier}
-                                    editSubgroup={props.editSubgroup}
-                                    deleteHandler={deleteHandler}
-                                    moveIsHer={moveIsHer}
-                                    editGroupSubGroup={props.editGroupSubGroup}
-                                />
+                            props.own_subgroups ?
+                                props.own_subgroups.length ?
+                                    <TreeViewer
+                                        group={props.group}
+                                        own_subgroups={props.own_subgroups}
+                                        own_collapse={props.own_collapse}
+                                        own_move={props.own_move}
+                                        own_select={props.own_select}
+                                        collapseName={"own_collapse"}
+                                        type={'edit'}
+                                        // Methods
+                                        setGroupValues={props.setGroupValues}
+                                        toggleTreeItem={props.toggleTreeItem}
+                                    />
+                                    :
+                                    <SkeletonUI/>
                                 :
-                                <SpinnerForContent/>
+                                <div className={classes.isEmpty}>
+                                    <small>Դատարկ է</small>
+                                </div>
                         }
                     </div>
                 </div>
             </section>
-            <footer>
-                <CancelButton
-                    onClick={() => props.classifierOpenHandler(props.group.id)}
-                />
-                <ConfirmButton
-                    // Methods
-                    onClick={confirmHandler}
-                />
-            </footer>
+            <FooterContent
+                group={props.group}
+                // Methods
+                confirmHandler={confirmHandler}
+            />
         </div>
     )
 };

@@ -2,6 +2,7 @@ import React from 'react'
 import classes from './movingButton.module.css'
 import CustomButton from "../../UI/button/customButton/customButton"
 import Icons from "../../Icons/icons"
+import TimelineIcon from '@material-ui/icons/Timeline';
 
 const MovingButton = props => {
 
@@ -9,7 +10,9 @@ const MovingButton = props => {
         <>
             <CustomButton
                 className={classes.insertButton}
-                children={<Icons type={'left-angle'} className={classes.insertIcon} width={10} height={14}/>}
+                children={
+                    <TimelineIcon style={{fontSize: 20}}/>
+                }
                 // Methods
                 onClick={event => props.moveIsHer(event, props.data)}
             />

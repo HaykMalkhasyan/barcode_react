@@ -1,0 +1,69 @@
+.header {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #fff;
+    position: relative;
+}
+
+.header > .backButton {
+    border: none;
+    padding: 5px;
+    background-color: #F8FAFF;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.header > .backButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
+}
+
+.header > .backButton:hover {
+    background-color: rgba(116, 143, 255, 0.2);
+    fill: red;
+}
+
+.header > .backButton:hover .backButtonIcon {
+    fill: #2c40a7;
+}
+
+.header > .backButton:focus {
+    background-color: rgba(116, 143, 255, 0.2);
+}
+
+.header > .closeButton:focus {
+    background-color: rgba(255, 74, 74, 0.2);
+}
+
+.forOf {
+    width: 100%;
+    padding:  0 21px;
+    box-sizing: border-box;
+}
+
+.backButtonIcon {
+    fill: #666;
+}
+
+.forOf > h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #49525E;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+}

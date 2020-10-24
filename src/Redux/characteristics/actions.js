@@ -5,9 +5,9 @@ import {
     CLOSE_HANDLER,
     ONLY_CLOSE,
     OPEN_CLASSIFIERS, OPEN_HANDLER,
-    SET_GROUP_VALUE
+    SET_GROUP_VALUE, SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
-import {getHeaders, getToken, searchUp, updateToken} from "../../services/services";
+import {findItem, getHeaders, getToken, searchUp, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
 
 
@@ -98,23 +98,11 @@ export function getGroup(id, place = null) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios.get(
-                    API_URL,
-                    JSON.stringify(
-                        {
-                            cols: id,
-                            params: {
-                                deleted: 0
-                            },
-                            path: "Group/Group"
-                        }
-                    ),
-                    getHeaders()
-                );
+                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group", id: id}));
                 if (place && place === 'customGroup') {
-                    dispatch(setGroupValues('customGroup', response.data))
+                    dispatch(setGroupValues('customGroup', response.data.results))
                 } else {
-                    dispatch(setGroupValues('group', response.data))
+                    dispatch(setGroupValues('group', response.data.results))
                 }
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -139,9 +127,11 @@ export function getAllGroup() {
         if (cookie.get('access')) {
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group"}));
+                console.log("show error", response)
                 dispatch(setGroupValues('groups', Object.values(response.data.results)))
             } catch (error) {
-                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllGroup, dispatch,);
+                console.log(error)
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllGroup, dispatch);
                 // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                 //     const refresh_token = cookie.get('refresh');
                 //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
@@ -280,14 +270,14 @@ export function getSubgroup(id) {
     }
 }
 
-export function getSubgroupWithGroupId(id) {
+export function getSubgroupWithGroupId(id, place = null) {
 
     return async dispatch => {
         if (cookie.get('access')) {
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/SubGroup", id: id}));
-                dispatch(setGroupValues('customSubgroup', Object.values(response.data.data)));
-                dispatch(setGroupValues('changeStatus', true))
+                dispatch(renderTree(Object.values(response.data.data), place))
+                // dispatch(setGroupValues('customSubgroup', Object.values(response.data.data)));
             } catch (error) {
                 await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroupWithGroupId, dispatch, id);
                 // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
@@ -306,6 +296,27 @@ export function getSubgroupWithGroupId(id) {
     }
 }
 
+
+
+export function renderTree(data, place) {
+
+    return dispatch => {
+        const own_subgroup = [];
+        for (let item of data) {
+            if (parseInt(item.parent_id) === 0) {
+                let new_data = {
+                    ...item,
+                    children: findItem(data, item.id)
+                }
+                own_subgroup.push(new_data)
+            }
+        }
+        let place_d = place ? place : 'own_subgroups';
+        let value_d = own_subgroup.length ? own_subgroup : null;
+        dispatch(setRenderedTreeValue(place_d, value_d))
+    }
+}
+
 export function getOnlySubgroupWithGroupId(id, place = null) {
 
     return async dispatch => {
@@ -320,17 +331,6 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
                 }
             } catch (error) {
                 await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroupWithGroupId, dispatch, id, place);
-                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                //     const refresh_token = cookie.get('refresh');
-                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-                //     if ((await new_token_data) === null) {
-                //         dispatch(setGroupValues('errors', error.message))
-                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                //         dispatch(getOnlySubgroupWithGroupId(id, place))
-                //     }
-                // } else {
-                //     dispatch(setGroupValues('allError', true))
-                // }
             }
         }
     }
@@ -615,7 +615,36 @@ export function subCollapsedGroup(id, place = null) {
     }
 }
 
+export function openModalContent(item) {
+
+    return (dispatch) => {
+        dispatch(getSubgroupWithGroupId(item.id));
+        dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en, required_group: item.required_group}, item))
+    }
+}
+
+export function toggleTreeItem(id, colName) {
+
+    return (dispatch, getState) => {
+        const data = [...getState().characteristics[colName]];
+        const index = data.indexOf(id);
+        if (index === -1) {
+            data.push(id)
+        } else {
+            data.splice(index, 1)
+        }
+        dispatch(setGroupValues(colName, data))
+    }
+}
+
 // ----------------------------------------------------------------------------------------
+
+export function setRenderedTreeValue(place, value) {
+
+    return {
+        type: SET_RENDERED_TREE_VALUE, place, value
+    }
+}
 
 export function setGroupValues(name, value) {
     return {
@@ -659,9 +688,9 @@ export function closeAction() {
     }
 }
 
-export function openAction(data) {
+export function openAction(data, group) {
 
     return {
-        type: OPEN_HANDLER, data
+        type: OPEN_HANDLER, data, group
     }
 }

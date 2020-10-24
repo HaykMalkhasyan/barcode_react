@@ -10,15 +10,16 @@ import {
 import Icons from "../../../../../components/Icons/icons";
 import CustomButton from "../../../../../components/UI/button/customButton/customButton";
 import {
-    getOnlySubgroupWithGroupId,
+    getOnlySubgroupWithGroupId, getSubgroupWithGroupId,
     setGroupValues,
     subCollapsed,
-    subCollapsedGroup
+    subCollapsedGroup, toggleTreeItem
 } from "../../../../../Redux/characteristics/actions";
 import Tree from "../../../../../components/tree/tree";
 import CustomHeader from "../../../../../components/UI/customHeader/customHeader";
 import Collapse from "@material-ui/core/Collapse";
 import cookies from "../../../../../services/cookies";
+import TreeViewer from "../../../../../components/tree-viewer/tree-viewer";
 
 class ClassifiersTree extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class ClassifiersTree extends Component {
             isOpen: false,
             collapseStatus: true
         };
-        this.props.getOnlySubgroupWithGroupId(0, 'classifierSubgroup')
+        this.props.getSubgroupWithGroupId(0, "filter_subgroups")
     }
 
     collapsed = () => {
@@ -45,12 +46,13 @@ class ClassifiersTree extends Component {
         let length = groups.length;
 
         this.props.setGroupValues('progress', true);
+        this.props.setGroupValues('own_subgroups', []);
         if (active !== 0) {
-            this.props.getOnlySubgroupWithGroupId(groups[active - 1].id, 'classifierSubgroup');
+            this.props.getSubgroupWithGroupId(groups[active - 1].id, "filter_subgroups");
             this.props.setGroupValues('open', `collapse-${groups[active - 1].id}`);
             this.props.setGroupValues('active', active - 1);
         } else {
-            this.props.getOnlySubgroupWithGroupId(groups[length - 1].id, 'classifierSubgroup');
+            this.props.getSubgroupWithGroupId(groups[length - 1].id, "filter_subgroups");
             this.props.setGroupValues('open', `collapse-${groups[length - 1].id}`);
             this.props.setGroupValues('active', length - 1);
         }
@@ -60,14 +62,15 @@ class ClassifiersTree extends Component {
         let length = groups.length;
 
         this.props.setGroupValues('progress', true);
+        this.props.setGroupValues('own_subgroups', []);
         if (active !== length -1) {
             this.props.setGroupValues('open', `collapse-${groups[active + 1].id}`);
             this.props.setGroupValues('active', active + 1);
-            this.props.getOnlySubgroupWithGroupId(groups[active + 1].id, 'classifierSubgroup')
+            this.props.getSubgroupWithGroupId(groups[active + 1].id, "filter_subgroups")
         } else {
             this.props.setGroupValues('open', `collapse-${groups[0].id}`);
             this.props.setGroupValues('active', 0);
-            this.props.getOnlySubgroupWithGroupId(groups[0].id, 'classifierSubgroup')
+            this.props.getSubgroupWithGroupId(groups[0].id, "filter_subgroups")
         }
     };
 
@@ -105,19 +108,28 @@ class ClassifiersTree extends Component {
                                     />
                                 </div>
                                 <div id="scrollableDiv" className={classes.classifBody}>
-                                    <Tree
-                                        parentNodeId={'scrollableDiv'}
-                                        label={'Բոլորը'}
-                                        type={'select'}
+                                    {/*<Tree*/}
+                                    {/*    parentNodeId={'scrollableDiv'}*/}
+                                    {/*    label={'Բոլորը'}*/}
+                                    {/*    type={'select'}*/}
+                                    {/*    group={this.props.groups[this.props.active]}*/}
+                                    {/*    customSubgroup={this.props.classifierSubgroup}*/}
+                                    {/*    collapsed={this.props.classifiersCollapsed}*/}
+                                    {/*    collapsedGroup={this.props.classifiersCollapsedGroup}*/}
+                                    {/*    advancedSearchConfig={this.props.advancedSearchConfig}*/}
+                                    {/*    // Methods*/}
+                                    {/*    subCollapsed={this.props.subCollapsed}*/}
+                                    {/*    subCollapsedGroup={this.props.subCollapsedGroup}*/}
+                                    {/*    select={this.classifiersSelectHandler}*/}
+                                    {/*/>*/}
+                                    <TreeViewer
                                         group={this.props.groups[this.props.active]}
-                                        customSubgroup={this.props.classifierSubgroup}
-                                        collapsed={this.props.classifiersCollapsed}
-                                        collapsedGroup={this.props.classifiersCollapsedGroup}
-                                        advancedSearchConfig={this.props.advancedSearchConfig}
+                                        own_subgroups={this.props.filter_subgroups}
+                                        own_collapse={this.props.filter_collapse}
+                                        collapseName={"filter_collapse"}
                                         // Methods
-                                        subCollapsed={this.props.subCollapsed}
-                                        subCollapsedGroup={this.props.subCollapsedGroup}
-                                        select={this.classifiersSelectHandler}
+                                        setGroupValues={this.props.setGroupValues}
+                                        toggleTreeItem={this.props.toggleTreeItem}
                                     />
                                 </div>
                             </>
@@ -133,6 +145,9 @@ class ClassifiersTree extends Component {
 function mapStateToProps(state) {
 
     return {
+        filter_subgroups: state.characteristics.filter_subgroups,
+        filter_collapse: state.characteristics.filter_collapse,
+
         groups: state.characteristics.groups,
         group: state.characteristics.group,
         active: state.characteristics.active,
@@ -155,9 +170,11 @@ function mapDispatchToProps(dispatch) {
         clearSearchClassifiers: () => dispatch(clearSearchClassifiers()),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
+        getSubgroupWithGroupId: (id, place) => dispatch(getSubgroupWithGroupId(id, place)),
         subCollapsed: (id, place) => dispatch(subCollapsed(id, place)),
         subCollapsedGroup: (id, place) => dispatch(subCollapsedGroup(id, place)),
         advanceSearchHandler: item => dispatch(advanceSearchHandler(item)),
+        toggleTreeItem: (id, colName) => dispatch(toggleTreeItem(id, colName)),
     }
 }
 

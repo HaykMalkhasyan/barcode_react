@@ -4,11 +4,18 @@ import {
     CLOSE_HANDLER,
     ONLY_CLOSE,
     OPEN_CLASSIFIERS, OPEN_HANDLER,
-    SET_GROUP_VALUE
+    SET_GROUP_VALUE, SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
 import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
 
 const initialState = {
+    own_subgroups: null,
+    own_collapse: [],
+    own_move: null,
+    own_select: null,
+    filter_subgroups: [],
+    filter_collapse: [],
+
     progress: false,
     active: 0,
     open: false,
@@ -61,9 +68,17 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_RENDERED_TREE_VALUE:
+            return {
+                ...state,
+                [action.place]: action.value,
+                changeStatus: true,
+                progress: false
+            }
         case OPEN_HANDLER:
             return {
                 ...state,
+                group: action.group,
                 newGroup: action.data,
                 changeStatus: false,
                 modalGroup: null
@@ -71,6 +86,12 @@ export default function characteristicsReducer(state = initialState, action) {
         case CLOSE_HANDLER:
             return {
                 ...state,
+                own_subgroups: null,
+                own_collapse: [],
+                own_move: null,
+                own_select: null,
+                filter_subgroups: [],
+                filter_collapse: [],
                 moveElement: null,
                 controllerId: null,
                 group: null,
@@ -108,6 +129,8 @@ export default function characteristicsReducer(state = initialState, action) {
         case OPEN_CLASSIFIERS:
             return {
                 ...state,
+                own_move: null,
+                own_select: null,
                 moveElement: null,
                 controllerId: null,
                 newGroup: {

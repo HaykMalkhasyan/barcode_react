@@ -41,100 +41,6 @@
     border-color: #aaa;
 }
 
-.main > header {
-    /*height: 48px;*/
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: #fff;
-    position: relative;
-}
-
-.main > header > .backButton {
-    border: none;
-    padding: 5px;
-    background-color: #F8FAFF;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.main > header > .backButton:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
-}
-
-.main > header > .backButton:hover {
-    background-color: rgba(116, 143, 255, 0.2);
-    fill: red;
-}
-
-.main > header > .backButton:hover .backButtonIcon {
-    fill: #2c40a7;
-}
-
-.main > header > .backButton:focus {
-    background-color: rgba(116, 143, 255, 0.2);
-}
-
-.backButtonIcon {
-    fill: #666;
-}
-
-.closeButton {
-    border: none;
-    background-color: #F8FAFF;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.main > header > .closeButton:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .6) inset;
-}
-
-.main > header > .closeButton:hover {
-    background-color: rgba(255, 74, 74, 0.2);
-}
-
-.main > header > .closeButton:hover .closeButtonIcon {
-    fill: #ff4a4a;
-    stroke: #ff4a4a;
-}
-
-.main > header > .closeButton:focus {
-    background-color: rgba(255, 74, 74, 0.2);
-}
-
-.closeButtonIcon {
-    fill: #4b4b4b;
-    stroke: #4b4b4b;
-    transition: 300ms;
-}
-
-.forOf {
-    width: 100%;
-    padding:  0 21px;
-    box-sizing: border-box;
-}
-
-.forOf > h3 {
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    color: #49525E;
-    text-transform: uppercase;
-    font-weight: 500;
-    text-align: center;
-}
-
 .main > section {
     padding: 0;
     width: 100%;
@@ -298,88 +204,6 @@
 }
 .searchWindow > div:last-child{
     width: 60%;
-}
-
-.actionButtons {
-    outline: none !important;
-    background-color: transparent;
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 300ms;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.actionButtons:hover {
-    background-color: #f8f8f8;
-}
-
-.actionButtons:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
-}
-
-.contentSpan {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.changePositionTooltipContent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.actionButtonsActive {
-    background-color: #ebebeb !important;
-}
-
-.iconsInactive {
-    stroke: #000;
-    stroke-width: 0.2px;
-}
-
-.iconsChangePositionInactive {
-    fill: black;
-    opacity: .3;
-    transition: 300ms;
-}
-
-.containedChangePositionUpSelected {
-    fill: #70E839;
-    opacity: 1;
-    transition: 300ms;
-}
-
-.containedChangePositionDownSelected {
-    fill: #FF4B63;
-    opacity: 1;
-    transition: 300ms;
-}
-
-.groupArrowSelected {
-    stroke: #44B1FF;
-    stroke-width: 0.2px;
-}
-
-.containedEditSelected {
-    fill: #3D6AFF;
-}
-
-.groupAddSelected {
-    fill: #70E839;
-}
-
-.groupDeleteSelected {
-    fill: #FF4B63;
 }
 
 .searchInput {
@@ -637,24 +461,16 @@
     align-items: center;
 }
 
-.main > footer {
-    background-color: #fff;
+.isEmpty {
     width: 100%;
-    height: 54px;
-    padding: 0 10px;
-    box-sizing: border-box;
+    height: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
+    color: #ccc;
 }
 
 @media (max-width: 600px) {
-    .main > header {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
     .treeWindow {
         height: auto;
     }
@@ -669,14 +485,6 @@
         align-items: stretch;
     }
 
-    .main > footer {
-        position: sticky;
-        bottom: 0;
-        z-index: 1;
-        box-sizing: border-box;
-        padding: 5px;
-        margin: auto 0 0 0;
-    }
     .searchWindow {
         flex-direction: column-reverse;
         height: auto;
