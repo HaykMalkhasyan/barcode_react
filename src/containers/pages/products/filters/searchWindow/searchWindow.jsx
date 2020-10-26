@@ -6,12 +6,13 @@ import {connect} from "react-redux"
 import {
     backToProduct,
     closeProductActionModal,
-    closeProductAndSubgroupModals, selectSubs,
+    closeProductAndSubgroupModals,
+    selectSubs,
     setProductValues
 } from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
-import {searchHandler, setGroupValues, subCollapsed} from "../../../../../Redux/characteristics/actions";
+import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import SubgroupsTreeModal from "../product/modals/subgroupsTreeModal/subgroupsTreeModal";
 import {setFiltersValue} from "../../../../../Redux/filtersContainer/actions";
@@ -126,7 +127,6 @@ function mapDispatchToProps(dispatch) {
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
-        subCollapsed: (id, place) => dispatch(subCollapsed(id, place)),
         backToProduct: () => dispatch(backToProduct()),
         closeProductAndSubgroupModals: () => dispatch(closeProductAndSubgroupModals()),
         selectSubs: () => dispatch(selectSubs()),

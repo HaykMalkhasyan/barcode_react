@@ -102,11 +102,11 @@ const ModalActions = props => {
                 }
                 // Methods
                 onClick={
-                    props.controllerId ?
-                        event => props.onAddClassifier(event, props.controllerId.id, 'subgroup')
+                    props.own_select ?
+                        event => props.onAddClassifier(event, props.own_select)
                         :
                         props.groupId ?
-                            event => props.onAddClassifier(event, props.groupId, 'inGroup')
+                            event => props.onAddClassifier(event, props.groupId)
                             :
                             null
                 }

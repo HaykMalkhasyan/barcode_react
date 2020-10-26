@@ -1,158 +1,96 @@
 import React, {useState} from "react";
-import classes from './tree-viewer.module.css'
+import classes from "./tree-viewer.module.css";
+import InfiniteTree from "react-infinite-tree";
+import TreeNode from "./tree-node/tree-node";
+import Toggler from "./trigger/toggler";
+import SkeletonUI from "../skeletion/skeleton";
+import Collapse from "@material-ui/core/Collapse";
 import CustomButton from "../UI/button/customButton/customButton";
-import Icons from "../Icons/icons";
-import MovingButton from "../tree/movingButton/movingButton";
-import cookie from "../../services/cookies";
-
-const TreeItem = props => {
-
-    return (
-        <div className={classes.treeWindow}>
-            {
-                props.own_subgroups && props.own_subgroups.length ?
-                    props.own_subgroups.map(
-                        item => {
-
-                            return (
-                                <div key={`classifiers-${item.level}-${item.id}`} className={classes.mainItem}>
-                                    <span className={props.own_select && props.own_select === item.id ? `${classes.nameArea} ${classes.active}` : classes.nameArea}>
-                                        {
-                                            item.children.length ?
-                                                <CustomButton
-                                                    className={classes.chevronButton}
-                                                    children={
-                                                        props.own_collapse.includes(item.id) ?
-                                                            <Icons type={'tree-arrow-down'} className={classes.chevronIcon}/>
-                                                            :
-                                                            <Icons type={'tree-arrow-right'} className={classes.chevronIcon}/>
-                                                    }
-                                                    // Methods
-                                                    onClick={() => props.toggleTreeItem(item.id, props.collapseName)}
-                                                />
-                                                :
-                                                <CustomButton
-                                                    className={classes.chevronButton}
-                                                    children={<Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>}
-                                                    // Methods
-                                                />
-                                            // <span className={classes.chevron}>
-                                            //     <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
-                                            // </span>
-                                        }
-                                        <span className={classes.name}>
-                                            <span className={classes.nameText} onClick={() => props.setGroupValues('own_select', props.own_select === item.id ? null : item.id)} onDoubleClick={() => props.openHandler(item.id)}>{item[`name_${cookie.get('language') || "am"}`]}</span>
-                                            {
-                                                props.type === "edit" ?
-                                                    <span className={props.own_move && props.own_move !== item.id ? `${classes.insertWindow} ${classes.show}` : classes.insertWindow}>
-                                                        <MovingButton
-                                                            data={item}
-                                                        />
-                                                    </span>
-                                                    :
-                                                    null
-                                            }
-                                        </span>
-                                    </span>
-                                    {
-                                        props.own_collapse.includes(item.id) ?
-                                            <div className={classes.collapse}>
-                                                <TreeItem
-                                                    own_subgroups={item.children}
-                                                    own_collapse={props.own_collapse}
-                                                    type={props.type}
-                                                    own_move={props.own_move}
-                                                    own_select={props.own_select}
-                                                    collapseName={props.collapseName}
-                                                    // Methods
-                                                    setGroupValues={props.setGroupValues}
-                                                    toggleTreeItem={props.toggleTreeItem}
-                                                />
-                                            </div>
-                                            :
-                                            null
-                                    }
-                                </div>
-                            )
-                        }
-                    )
-                    :
-                    null
-            }
-        </div>
-    )
-}
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
 const TreeViewer = props => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(true)
 
-    return (
-        <div className={classes.main}>
-            {
-                props.group ?
-                    <div key={`group-${props.group.id}`} className={classes.mainItem}>
-                        <span className={classes.nameArea}>
-                            {
-                                props.own_subgroups && props.own_subgroups.length ?
-                                    <CustomButton
-                                        className={classes.chevronButton}
-                                        children={
-                                            open ?
-                                                <Icons type={'tree-arrow-down'} className={classes.chevronIcon}/>
-                                                :
-                                                <Icons type={'tree-arrow-right'} className={classes.chevronIcon}/>
-                                        }
-                                        // Methods
-                                        onClick={() => setOpen(!open)}
-                                    />
-                                    :
-                                    <CustomButton
-                                        className={classes.chevronButton}
-                                        children={<Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>}
-                                        // Methods
-                                    />
-                                // <span className={classes.chevron}>
-                                //     <Icons type={'tree-arrow-right-empty'} className={classes.treeArrowRightEmpty}/>
-                                // </span>
-                            }
-                            <span className={classes.name}>
-                                <span className={classes.nameText} onDoubleClick={() => setOpen(!open)}>Բոլորը</span>
-                                {
-                                    props.type === "edit" ?
-                                        <span className={classes.insertWindow}>
-                                            <MovingButton
-                                                data={props.group}
-                                            />
-                                        </span>
-                                        :
-                                        null
-                                }
-                            </span>
-                        </span>
-                        {
+    return props.data ?
+        props.data.length ?
+            <>
+                <div
+                    className={classes.toggle}
+                    onClick={() => {
+                        props.selectTreeGroupItem(props.group.id)
+                    }}
+                >
+                    <CustomButton
+                        className={classes.collapseButton}
+                        children={
                             open ?
-                                <div className={classes.collapse}>
-                                    <TreeItem
-                                        own_subgroups={props.own_subgroups}
-                                        own_collapse={props.own_collapse}
-                                        type={props.type}
-                                        own_move={props.own_move}
-                                        own_select={props.own_select}
-                                        collapseName={props.collapseName}
-                                        // Methods
-                                        setGroupValues={props.setGroupValues}
-                                        toggleTreeItem={props.toggleTreeItem}
-                                    />
-                                </div>
+                                <ArrowDropDownIcon/>
                                 :
-                                null
+                                <ArrowRightIcon/>
                         }
-                    </div>
-                    :
-                    null
-            }
-        </div>
-    )
+                        // Methods
+                        onClick={event => {
+                            event.stopPropagation();
+                            setOpen(!open);
+                        }}
+                    />
+                    <span>Բոլորը</span>
+                </div>
+                <Collapse in={open} timeout={0} unmountOnExit className={classes.collapse}>
+                    <InfiniteTree
+                        width="100%"
+                        height={350}
+                        rowHeight={30}
+                        data={props.data}
+                    >
+                        {({ node, tree }) => {
+                            let toggleState = '';
+                            const hasChildren = node.hasChildren();
+
+                            if ((!hasChildren && node.loadOnDemand) || (hasChildren && !node.state.open)) {
+                                toggleState = 'closed';
+                            }
+                            if (hasChildren && node.state.open) {
+                                toggleState = 'opened'
+                            }
+
+                            return (
+                                <TreeNode
+                                    selected={node.state.selected}
+                                    depth={node.state.depth}
+                                    onClick={() => {
+                                        tree.selectNode(node)
+                                        props.select(node.id)
+
+                                    }}
+                                >
+                                    <Toggler
+                                        state={toggleState}
+                                        onClick={event =>{
+                                            event.stopPropagation()
+                                            if (toggleState === "closed") {
+                                                tree.openNode(node);
+                                            } else if (toggleState === "opened") {
+                                                tree.closeNode(node);
+                                            }
+                                        }}
+                                    />
+                                    <span
+                                        className={classes.nodeName}
+                                    >
+                            {node.name}
+                        </span>
+                                </TreeNode>
+                            );
+                        }}
+                    </InfiniteTree>
+                </Collapse>
+            </>
+            :
+            <SkeletonUI/>
+        :
+        <small className={classes.isEmpty}>Դատարկ է</small>
 }
 
 export default TreeViewer

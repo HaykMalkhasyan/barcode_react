@@ -1,7 +1,6 @@
 .treeWindow {
     width: 90%;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     height: 350px;
     margin: 10px auto 0;
     padding: 0 5px;
@@ -10,25 +9,6 @@
 /* width */
 .treeWindow::-webkit-scrollbar {
     width: 6px;
-}
-
-/* Track */
-.treeWindow::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-.treeWindow::-webkit-scrollbar-thumb {
-    background: #ccc;
-    background-clip: content-box;
-    border: 2px solid transparent;
-    transition: 300ms;
-}
-
-/* Handle on hover */
-.treeWindow::-webkit-scrollbar-thumb:hover {
-    background-color: #aaa;
-    border-color: #aaa;
 }
 
 .isEmpty {

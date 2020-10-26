@@ -5,8 +5,6 @@ import Backdrop from "../../../../../../components/UI/backdrop/backdrop";
 import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox/customCheckbox";
 import CustomSearch from "../../../../../../components/customSearch/customSearch";
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput";
-import TreeViewer from "../../../../../../components/tree-viewer/tree-viewer";
-import SkeletonUI from "../../../../../../components/skeletion/skeleton";
 import HeaderContent from "./header-content/header-content";
 import ModalActions from "./actions/actions";
 import FooterContent from "./footer-content/footer-content";
@@ -61,20 +59,10 @@ const ModalContent = props => {
     };
 
     /* Actions */
-    const onAddClassifier = (event, id, type) => {
+    const onAddClassifier = (event, id) => {
         event.stopPropagation();
-
-        if (type === 'group') {
-            props.getGroup(id)
-        } else if (type === 'subgroup') {
-            props.getSubgroup(id)
-        } else if (type === 'inGroup') {
-            props.getGroup(id)
-        }
-
-        props.setGroupValues('modalType', 'add');
-        props.setGroupValues('groupType', type);
-        props.setProductValues('classifiersModal', false)
+        props.getSubgroup(id)
+        props.addClassifierAction()
     };
 
     const onEditClassifier = (event, item, type) => {
@@ -207,7 +195,7 @@ const ModalContent = props => {
                             classNameLabel={classes.nameLabel}
                             name={'title_am'}
                             placeholder={'Դասակագիչի անվանում'}
-                            value={props.newGroup['title_am']}
+                            value={props.classifierName}
                             // Methods
                             onChange={event => groupNameChangeHandler(event, 'name')}
                         />
@@ -250,16 +238,16 @@ const ModalContent = props => {
                         </div>
                     </div>
                     <BodyContent
+                        data={props.own_subgroups}
                         group={props.group}
-                        own_subgroups={props.own_subgroups}
                         own_collapse={props.own_collapse}
                         own_move={props.own_move}
                         own_select={props.own_select}
                         collapseName={"own_collapse"}
                         type={'edit'}
                         // Methods
-                        setGroupValues={props.setGroupValues}
-                        toggleTreeItem={props.toggleTreeItem}
+                        selectTreeItem={props.selectTreeItem}
+                        selectTreeGroupItem={props.selectTreeGroupItem}
                     />
                 </div>
             </section>

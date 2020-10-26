@@ -5,6 +5,7 @@ import ClassifiersTree from "../classifiersTree/classifiersTree"
 import SearchWindow from "../searchWindow/searchWindow"
 import {connect} from "react-redux";
 import {
+    addClassifierAction,
     addGroup,
     addSubgroup,
     closeAction,
@@ -22,12 +23,8 @@ import {
     onlyCloseHandler,
     openClassifiers,
     openModalContent,
-    searchHandler,
+    searchHandler, selectTreeGroupItem, selectTreeItem,
     setGroupValues,
-    subCollapsed,
-    subCollapsedGroup,
-    subGroupCollapses,
-    subGroupModalCollapses, toggleTreeItem,
     uploadImage
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
@@ -74,7 +71,6 @@ class Filters extends Component {
         this.props.getAllGroup();
         this.props.setProductValues('classifiersModal', false);
         this.props.setGroupValues('own_subgroups', []);
-        this.props.setGroupValues('own_collapse', []);
         this.props.openClassifiers(id);
     };
 
@@ -133,10 +129,8 @@ class Filters extends Component {
                         groups={this.props.groups}
                         subgroup={this.props.subgroup}
                         customSubgroup={this.props.customSubgroup}
-                        collapsed={this.props.collapsed}
-                        controllerId={this.props.controllerId}
+                        classifierName={this.props.classifierName}
                         moveElement={this.props.moveElement}
-                        collapsedGroup={this.props.collapsedGroup}
                         newGroup={this.props.newGroup}
                         delete={this.props.delete}
                         newSubgroup={this.props.newSubgroup}
@@ -146,13 +140,9 @@ class Filters extends Component {
                         groupId={this.props.groupId}
                         /* ------- */
                         own_subgroups={this.props.own_subgroups}
-                        own_collapse={this.props.own_collapse}
                         own_move={this.props.own_move}
                         own_select={this.props.own_select}
-                        toggleTreeItem={this.props.toggleTreeItem}
                         // Methods
-                        subCollapsed={this.props.subCollapsed}
-                        subCollapsedGroup={this.props.subCollapsedGroup}
                         setGroupValues={this.props.setGroupValues}
                         handleClose={this.handleClose}
                         handleOpen={this.handleOpen}
@@ -165,6 +155,9 @@ class Filters extends Component {
                         deleteSubgroup={this.props.deleteSubgroup}
                         editGroup={this.props.editGroup}
                         editGroupSubGroup={this.props.editGroupSubGroup}
+                        selectTreeItem={this.props.selectTreeItem}
+                        selectTreeGroupItem={this.props.selectTreeGroupItem}
+                        addClassifierAction={this.props.addClassifierAction}
                     />
                 </ModalUI>
                 <ModalUI
@@ -184,7 +177,6 @@ class Filters extends Component {
                         error={this.props.error}
                         collapsedModalStatus={this.props.collapsedModalStatus}
                         controllerId={this.props.controllerId}
-                        collapsed={this.props.collapsed}
                         // Methods
                         setGroupValues={this.props.setGroupValues}
                         setProductValues={this.props.setProductValues}
@@ -235,8 +227,8 @@ function mapStateToProps(state) {
     return {
         initialOpen: state.products.initialOpen,
         initialModalGroup: state.characteristics.initialModalGroup,
+        classifierName: state.characteristics.classifierName,
         own_subgroups: state.characteristics.own_subgroups,
-        own_collapse: state.characteristics.own_collapse,
         own_move: state.characteristics.own_move,
         own_select: state.characteristics.own_select,
         classifiers: state.products.classifiers,
@@ -248,9 +240,7 @@ function mapStateToProps(state) {
         allError: state.characteristics.allError,
         groups: state.characteristics.groups,
         customSubgroup: state.characteristics.customSubgroup,
-        collapsed: state.characteristics.collapsed,
         moveElement: state.characteristics.moveElement,
-        collapsedGroup: state.characteristics.collapsedGroup,
         subgroup: state.characteristics.subgroup,
         search: state.characteristics.search,
         searchResult: state.characteristics.searchResult,
@@ -287,15 +277,11 @@ function mapDispatchToProps(dispatch) {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
-        subGroupCollapses: id => dispatch(subGroupCollapses(id)),
         getSubgroup: id => dispatch(getSubgroup(id)),
         editSubgroup: data => dispatch(editSubgroup(data)),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         uploadImage: (type, file, data, modalType) => dispatch(uploadImage(type, file, data, modalType)),
-        subGroupModalCollapses: id => dispatch(subGroupModalCollapses(id)),
         deleteSubgroup: id => dispatch(deleteSubgroup(id)),
-        subCollapsed: id => dispatch(subCollapsed(id)),
-        subCollapsedGroup: id => dispatch(subCollapsedGroup(id)),
         editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
         closeClassifiers: () => dispatch(closeClassifiers()),
@@ -304,7 +290,9 @@ function mapDispatchToProps(dispatch) {
         closeAndBack: () => dispatch(closeAndBack()),
         closeAction: () => dispatch(closeAction()),
         openModalContent: item => dispatch(openModalContent(item)),
-        toggleTreeItem: (id, colName) => dispatch(toggleTreeItem(id, colName)),
+        selectTreeItem: id => dispatch(selectTreeItem(id)),
+        selectTreeGroupItem: id => dispatch(selectTreeGroupItem(id)),
+        addClassifierAction: () => dispatch(addClassifierAction()),
     }
 }
 

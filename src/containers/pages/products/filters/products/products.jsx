@@ -4,10 +4,9 @@ import Section from "./section/section";
 import {connect} from "react-redux";
 import {
     getAllGroup,
-    getGroup, getSubgroupWithGroupId,
-    setGroupValues,
-    subCollapsed,
-    subCollapsedGroup
+    getGroup,
+    getSubgroupWithGroupId,
+    setGroupValues
 } from "../../../../../Redux/characteristics/actions";
 import {closeClassifierWindow, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {
@@ -178,8 +177,6 @@ function mapDispatchToProps(dispatch) {
         getAllGroup: () => dispatch(getAllGroup()),
         getAllProducts: page => dispatch(getAllProducts(page)),
         getGroup: id => dispatch(getGroup(id)),
-        subCollapsedGroup: id => dispatch(subCollapsedGroup(id)),
-        subCollapsed: id => dispatch(subCollapsed(id)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
         closeClassifierWindow: (index, id) => dispatch(closeClassifierWindow(index, id)),
         selectProducts: (id, type) => dispatch(selectProducts(id, type)),

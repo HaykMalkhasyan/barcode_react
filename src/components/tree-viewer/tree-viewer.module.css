@@ -1,121 +1,41 @@
-.main {
-    margin-top: 10px;
-}
-
-.treeWindow {
-    width: 100%;
-    overflow: hidden;
-}
-
-.mainItem {
-    margin-left: 10px;
-    padding: 0;
-}
-.nameArea {
-    padding-left: 3px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-    position: relative;
-    user-select: none;
-    transition: 300ms;
-    margin-bottom: 2px;
-    border-radius: 3px;
-}
-
-.nameArea:hover {
-    background-color: #024059;
-    color: #fff;
-}
-
-.active {
-    background-color: #024059;
-    color: #fff;
-}
-
-.active .chevronIcon {
-    fill: #fff;
-}
-
-.active .treeArrowRightEmpty {
-    stroke: #fff;
-}
-
-.nameArea:hover .chevronIcon {
-    fill: #fff;
-}
-
-.nameArea:hover .treeArrowRightEmpty {
-    stroke: #fff;
-}
-
-
-.treeArrowRightEmpty {
-    fill: none;
-    stroke: #3b3b3b;
-}
-
-.chevronButton {
-    height: 25px;
-    border: none;
-    outline: none !important;
-    background-color: transparent;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.chevronIcon {
-    fill: #1f418e;
-    transition: 300ms;
-}
-
-.chevronButton:hover .chevronIcon {
-    fill: #FF8927;
-}
-
-.name {
-    margin-left: 5px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.nameText {
-    overflow: hidden;
-    /*text-overflow: ellipsis;*/
-    /*white-space: nowrap;*/
+.nodeName {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    cursor: pointer;
+    overflow: hidden;
+}
+
+.isEmpty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #ccc;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #024059;
+    transition: 300ms;
+}
+
+.toggle:hover {
+    background: #024059;
+    color: #fff;
+}
+
+.collapseButton {
+    padding-left: 0;
+    border: 0;
+    outline: none !important;
+    background-color: transparent;
+    color: inherit;
 }
 
 .collapse {
-    width: 98%;
-    margin-left: auto;
-}
-
-.collapseOpened {
-    height: auto;
-}
-
-.insertWindow {
-    height: 20px;
-    padding-right: 2px;
+    padding-left: 18px;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    visibility: hidden;
-    opacity: 0;
-    transition: 200ms;
-}
-
-.name:hover .show {
-    visibility: visible;
-    opacity: 1;
 }

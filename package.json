@@ -21,6 +21,7 @@
     "react-column-resizer": "^1.1.9",
     "react-dom": "^16.13.1",
     "react-id-swiper": "^4.0.0",
+    "react-infinite-tree": "^1.0.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -30,6 +31,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^5.2.0",
     "swiper": "^6.0.2"
   },
   "scripts": {

@@ -95,20 +95,6 @@ export function getAllProducts(page) {
     }
 }
 
-export function subGroupCollapses(id) {
-
-    return (dispatch, getState) => {
-        const collapsedStatus = [...getState().products.collapsedStatus];
-        let index = collapsedStatus.indexOf(id);
-        if (index === -1) {
-            collapsedStatus.push(id)
-        } else {
-            collapsedStatus.splice(index, 1)
-        }
-        dispatch(setProductValues('collapsedStatus', collapsedStatus))
-    }
-}
-
 export function advanceSearchHandler(item) {
 
     return (dispatch, getState) => {

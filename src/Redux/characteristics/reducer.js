@@ -1,20 +1,20 @@
 import {
+    ADD_CLASSIFIERS_ACTION,
     CLOSE_AND_BACK,
     CLOSE_CLASSIFIERS,
     CLOSE_HANDLER,
     ONLY_CLOSE,
-    OPEN_CLASSIFIERS, OPEN_HANDLER,
+    OPEN_CLASSIFIERS, OPEN_HANDLER, SELECT_TREE_GROUP_ITEM, SELECT_TREE_ITEM,
     SET_GROUP_VALUE, SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
 import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
+import cookie from "../../services/cookies";
 
 const initialState = {
     own_subgroups: null,
-    own_collapse: [],
     own_move: null,
     own_select: null,
     filter_subgroups: [],
-    filter_collapse: [],
 
     progress: false,
     active: 0,
@@ -35,6 +35,7 @@ const initialState = {
     changeStatus: true,
     groupType: null,
     modalType: false,
+    classifierName: '',
     newGroup: {
         title_am: '',
         title_ru: '',
@@ -53,21 +54,29 @@ const initialState = {
     groupActiveId: null,
     delete: false,
     collapsedModalStatus: [],
-    collapsed: [],
 
     groupId: null,
     controllerId: null,
     moveElement: null,
-    collapsedGroup: [],
 
     classifierSubgroup: null,
-    classifiersCollapsed: [],
-    classifiersCollapsedGroup: [],
 };
 
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case ADD_CLASSIFIERS_ACTION:
+            return {
+                ...state, modalType: 'add', groupType: 'subgroup'
+            }
+        case SELECT_TREE_GROUP_ITEM:
+            return {
+                ...state, groupId: action.id === state.groupId ? null : action.id
+            }
+        case SELECT_TREE_ITEM:
+            return {
+                ...state, own_select: action.id === state.own_select ? null : action.id, groupId: null
+            }
         case SET_RENDERED_TREE_VALUE:
             return {
                 ...state,
@@ -79,6 +88,7 @@ export default function characteristicsReducer(state = initialState, action) {
             return {
                 ...state,
                 group: action.group,
+                classifierName: action.data[`title_${cookie.get('language') || "am"}`],
                 newGroup: action.data,
                 changeStatus: false,
                 modalGroup: null
@@ -87,11 +97,8 @@ export default function characteristicsReducer(state = initialState, action) {
             return {
                 ...state,
                 own_subgroups: null,
-                own_collapse: [],
                 own_move: null,
                 own_select: null,
-                filter_subgroups: [],
-                filter_collapse: [],
                 moveElement: null,
                 controllerId: null,
                 group: null,

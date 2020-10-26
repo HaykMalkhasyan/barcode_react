@@ -1,11 +1,14 @@
 import Axios from "axios";
 import {
+    ADD_CLASSIFIERS_ACTION,
     CLOSE_AND_BACK,
     CLOSE_CLASSIFIERS,
     CLOSE_HANDLER,
     ONLY_CLOSE,
-    OPEN_CLASSIFIERS, OPEN_HANDLER,
-    SET_GROUP_VALUE, SET_RENDERED_TREE_VALUE
+    OPEN_CLASSIFIERS,
+    OPEN_HANDLER, SELECT_TREE_GROUP_ITEM, SELECT_TREE_ITEM,
+    SET_GROUP_VALUE,
+    SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
 import {findItem, getHeaders, getToken, searchUp, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
@@ -127,7 +130,6 @@ export function getAllGroup() {
         if (cookie.get('access')) {
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group"}));
-                console.log("show error", response)
                 dispatch(setGroupValues('groups', Object.values(response.data.results)))
             } catch (error) {
                 console.log(error)
@@ -296,8 +298,6 @@ export function getSubgroupWithGroupId(id, place = null) {
     }
 }
 
-
-
 export function renderTree(data, place) {
 
     return dispatch => {
@@ -305,7 +305,11 @@ export function renderTree(data, place) {
         for (let item of data) {
             if (parseInt(item.parent_id) === 0) {
                 let new_data = {
-                    ...item,
+                    id: item.id,
+                    name: item[`name_${cookie.get('language') || 'am'}`],
+                    state: {
+                        droppable: false
+                    },
                     children: findItem(data, item.id)
                 }
                 own_subgroup.push(new_data)
@@ -498,35 +502,6 @@ export function deleteSubgroup(id) {
     }
 }
 
-export function subGroupCollapses(id) {
-
-    return (dispatch, getState) => {
-        const collapsed = [...getState().characteristics.collapsed];
-        let index = collapsed.indexOf(id);
-        if (index === -1) {
-            collapsed.push(id);
-        } else {
-            collapsed.splice(index, 1)
-        }
-        dispatch(setGroupValues('collapsed', collapsed))
-    }
-}
-
-
-export function subGroupModalCollapses(id) {
-
-    return (dispatch, getState) => {
-        const collapsedModalStatus = [...getState().characteristics.collapsedModalStatus];
-        let index = collapsedModalStatus.indexOf(id);
-        if (index === -1) {
-            collapsedModalStatus.push(id);
-        } else {
-            collapsedModalStatus.splice(index, 1)
-        }
-        dispatch(setGroupValues('collapsedModalStatus', collapsedModalStatus))
-    }
-}
-
 export function addEditedData(data) {
 
     return (dispatch, getState) => {
@@ -575,65 +550,18 @@ export function searchSubgroup() {
     }
 }
 
-export function subCollapsed(id, place = null) {
-
-    return (dispatch, getState) => {
-        let collapsed = place !== null ? [...getState().characteristics[place]] : [...getState().characteristics.collapsed];
-        let index = collapsed.indexOf(id);
-        if (index === -1) {
-            collapsed.push(id);
-        } else {
-            collapsed.splice(index, 1)
-        }
-        place !== null ?
-            dispatch(setGroupValues([place], collapsed))
-            :
-            dispatch(setGroupValues('collapsed', collapsed))
-    }
-}
-
-export function subCollapsedGroup(id, place = null) {
-
-    return (dispatch, getState) => {
-        let collapsedGroup;
-        if (place !== null) {
-            collapsedGroup = [...getState().characteristics[place]];
-        } else {
-            collapsedGroup = [...getState().characteristics.collapsedGroup];
-        }
-        let index = collapsedGroup.indexOf(id);
-        if (index === -1) {
-            collapsedGroup.push(id);
-        } else {
-            collapsedGroup.splice(index, 1)
-        }
-        if (place !== null) {
-            dispatch(setGroupValues([place], collapsedGroup))
-        } else {
-            dispatch(setGroupValues('collapsedGroup', collapsedGroup))
-        }
-    }
-}
-
 export function openModalContent(item) {
 
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(getSubgroupWithGroupId(item.id));
         dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en, required_group: item.required_group}, item))
     }
 }
 
-export function toggleTreeItem(id, colName) {
+export function addClassifierAction() {
 
-    return (dispatch, getState) => {
-        const data = [...getState().characteristics[colName]];
-        const index = data.indexOf(id);
-        if (index === -1) {
-            data.push(id)
-        } else {
-            data.splice(index, 1)
-        }
-        dispatch(setGroupValues(colName, data))
+    return {
+        type: ADD_CLASSIFIERS_ACTION
     }
 }
 
@@ -692,5 +620,19 @@ export function openAction(data, group) {
 
     return {
         type: OPEN_HANDLER, data, group
+    }
+}
+
+export function selectTreeItem(id) {
+
+    return {
+        type: SELECT_TREE_ITEM, id
+    }
+}
+
+export function selectTreeGroupItem(id) {
+
+    return {
+        type: SELECT_TREE_GROUP_ITEM, id
     }
 }

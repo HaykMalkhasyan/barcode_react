@@ -7,7 +7,11 @@ export function findItem(data, itemId) {
     for (let item of data) {
         if (parseInt(item.parent_id) === parseInt(itemId)) {
             array.push({
-                ...item,
+                id: item.id,
+                name: item[`name_${cookie.get('language') || 'am'}`],
+                state: {
+                    droppable: false
+                },
                 children: findItem(data, item.id)
             })
         }
