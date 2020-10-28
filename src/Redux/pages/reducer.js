@@ -57,6 +57,16 @@ const initialState = {
                 {id: '5-2', name: 'Աշխատակից բաժին 1', url: '/link_5_2'},
                 {id: '5-3', name: 'Աշխատակից բաժին 2', url: '/link_5_3'},
             ]
+        },
+        {
+            id: 6,
+            name: 'վաճառակետ',
+            staticName: 'outlets',
+            subMenus: [
+                {id: '6-1', name: 'all', url: '/outlets'},
+                {id: '6-2', name: 'Աշխատակից բաժին 1', url: '/link_6_2'},
+                {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
+            ]
         }
     ],
 };

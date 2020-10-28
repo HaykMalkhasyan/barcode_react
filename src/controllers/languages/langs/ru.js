@@ -38,4 +38,6 @@ export const ru = {
     suppliers: 'партнери',
     workers: 'рабочие',
     label_editor: 'Эдитор этикеток',
+    outlets: 'магазины',
+    all:"все",
 };
