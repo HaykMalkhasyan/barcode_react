@@ -38,4 +38,6 @@ export const en = {
     suppliers: 'suppliers',
     workers: 'workers',
     label_editor: 'Label editor',
+    outlets: 'outlets',
+    all:"all",
 };
