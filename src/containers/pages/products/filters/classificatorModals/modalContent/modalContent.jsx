@@ -9,6 +9,7 @@ import HeaderContent from "./header-content/header-content";
 import ModalActions from "./actions/actions";
 import FooterContent from "./footer-content/footer-content";
 import BodyContent from "./body-content/body-content";
+import cookie from "../../../../../../services/cookies";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
@@ -31,11 +32,13 @@ const ModalContent = props => {
     const groupNameChangeHandler = (event, type) => {
 
         const newGroup = {...props.newGroup};
+        const group = {}
         switch (type) {
-            case "name": {
+            case "title": {
                 setError(null);
-                newGroup[event.target.name] = event.target.value;
-                props.setGroupValues('newGroup', newGroup);
+                group.id = newGroup.id
+                group[event.target.name] = event.target.value;
+                props.editGroupAction(event.target.value, group);
                 break;
             }
             case "required_group": {
@@ -49,47 +52,37 @@ const ModalContent = props => {
     };
 
     const confirmHandler = () => {
-        if (props.newGroup.name.length > 0) {
-            props.editGroup({...props.newGroup});
-            props.handleClose();
-            props.classifierOpenHandler(props.group.id)
+        if (props.classifierName.length > 0) {
+            props.editGroup({...props.newGroup}, props.group.id);
         } else {
             setError('Անվանման դաշտը չպետք է դատարկ լինի')
         }
     };
 
     /* Actions */
-    const onAddClassifier = (event, id) => {
+    const onAddSubgroup = (event, id) => {
         event.stopPropagation();
-        props.getSubgroup(id)
-        props.addClassifierAction()
+        props.addSubgroupAction(id)
     };
 
-    const onEditClassifier = (event, item, type) => {
+    const onAddGroup = (event) => {
         event.stopPropagation();
+        props.addGroupAction()
+    }
 
-        const newSubgroup = {...props.newSubgroup};
-        if (type === 'group') {
-            props.getGroup(item.id);
-            newSubgroup.name = item.name;
-            newSubgroup.required_group = item.required_group;
-            newSubgroup.image = item.image
-        } else if (type === 'subgroup') {
-            props.getSubgroup(item.id);
-            newSubgroup.name = item.name;
-            newSubgroup.image = item.image
+    const onEditSubgroup =  async (event, id) => {
+        event.stopPropagation();
+        await props.getSubgroup(id, props.catId);
+        props.editSubgroupAction();
+    };
+
+    const deleteHandler = (event, type, param, id = null) => {
+        event.stopPropagation();
+        if (id === null) {
+            props.deleteClassifiersAction(type, param)
+        } else {
+            props.deleteClassifiersAction(type, param, id)
         }
-
-        props.setGroupValues('newSubgroup', newSubgroup);
-        props.setGroupValues('modalType', 'edit');
-        props.setGroupValues('groupType', type);
-        props.setProductValues('classifiersModal', false)
-    };
-
-    const deleteHandler = (event, id) => {
-        event.stopPropagation();
-        props.setGroupValues('delete', true);
-        props.getSubgroup(id);
     };
 
     const moveHandler = (event, id) => {
@@ -154,6 +147,13 @@ const ModalContent = props => {
         props.classifierOpenHandler(props.group.id)
     };
 
+    const deleteModalNameRender = (subgroup, group) => {
+        if (subgroup) {
+            return subgroup[`name_${cookie.get('language') || "am"}`]
+        }
+        return group[`title_${cookie.get('language') || "am"}`]
+    }
+
     return (
         <div className={classes.main}>
             {
@@ -168,7 +168,7 @@ const ModalContent = props => {
             }
             <DeleteModal
                 open={props.delete}
-                groupName={props.subgroup ? props.subgroup.name : ''}
+                groupName={deleteModalNameRender(props.subgroup, props.group)}
                 data={props.subgroup}
                 alertText={'Դուք չեք կարող ջնջել տվյալ խումբը, քանի որ այն պարունակում է իրեն կից ապրանքատեսականի'}
                 information={'Եթե տվյալ խումբը պարունակում է ենթախմբեր, ապա ջնջելով այն կջնջվեն նաև իր բոլոր ենթախմբերը․'}
@@ -191,17 +191,19 @@ const ModalContent = props => {
                         <CustomInput
                             type={'text'}
                             id={'group-title_am'}
+                            disabled={props.group && props.group.id === 0}
                             classNameInput={error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}
                             classNameLabel={classes.nameLabel}
-                            name={'title_am'}
+                            name={'title'}
                             placeholder={'Դասակագիչի անվանում'}
                             value={props.classifierName}
                             // Methods
-                            onChange={event => groupNameChangeHandler(event, 'name')}
+                            onChange={event => groupNameChangeHandler(event, 'title')}
                         />
                         <CustomCheckbox
                             id={'required_group'}
                             label={'Պարտադիր'}
+                            disabled={props.group && props.group.id === 0}
                             labelStyle={classes.labelStyle}
                             checked={props.newGroup.required_group}
                             status={props.newGroup.required_group}
@@ -215,12 +217,14 @@ const ModalContent = props => {
                             own_select={props.own_select}
                             controllerId={props.controllerId}
                             groupId={props.groupId}
+                            catId={props.catId}
                             // Methods
                             changePositionStatus={props.changePositionStatus}
                             toggleMovingStatus={toggleMovingStatus}
                             moveHandler={moveHandler}
-                            onEditClassifier={onEditClassifier}
-                            onAddClassifier={onAddClassifier}
+                            onEditSubgroup={onEditSubgroup}
+                            onAddSubgroup={onAddSubgroup}
+                            onAddGroup={onAddGroup}
                             deleteHandler={deleteHandler}
                         />
                         <div>
@@ -239,11 +243,11 @@ const ModalContent = props => {
                     </div>
                     <BodyContent
                         data={props.own_subgroups}
+                        search={props.search}
                         group={props.group}
-                        own_collapse={props.own_collapse}
+                        groupId={props.groupId}
                         own_move={props.own_move}
                         own_select={props.own_select}
-                        collapseName={"own_collapse"}
                         type={'edit'}
                         // Methods
                         selectTreeItem={props.selectTreeItem}
