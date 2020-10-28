@@ -1,0 +1,4 @@
+git checkout -b 'feature/addedSubdomains'
+git add .
+git commit -m 'Added Subdomains'
+git push --set-upstream origin feature/addedSubdomai

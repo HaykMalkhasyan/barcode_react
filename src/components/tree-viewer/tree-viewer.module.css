@@ -5,6 +5,10 @@
     overflow: hidden;
 }
 
+.hasHave {
+    border-bottom: 1px solid #024059;
+}
+
 .isEmpty {
     display: flex;
     justify-content: center;
@@ -19,10 +23,26 @@
     align-items: center;
     justify-content: flex-start;
     color: #024059;
+    border-left: 2px solid transparent;
     transition: 300ms;
 }
 
 .toggle:hover {
+    background: #024059;
+    color: #fff;
+}
+
+.active {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #024059;
+    background-color: #deecfd;
+    border-left: 2px solid #024059;
+    transition: 300ms;
+}
+
+.active:hover {
     background: #024059;
     color: #fff;
 }
