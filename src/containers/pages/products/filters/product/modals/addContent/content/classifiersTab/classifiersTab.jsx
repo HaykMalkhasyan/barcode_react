@@ -119,7 +119,7 @@ function mapDispatchToProps(dispatch) {
         getAllGroup: () => dispatch(getAllGroup()),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
-        getGroup: id => dispatch(getGroup(id)),
+        getGroup: (id, place) => dispatch(getGroup(id, place)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         selectGroupItem: () => dispatch(selectGroupItem()),
     }

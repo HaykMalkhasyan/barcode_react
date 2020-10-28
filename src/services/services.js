@@ -8,11 +8,9 @@ export function findItem(data, itemId) {
         if (parseInt(item.parent_id) === parseInt(itemId)) {
             array.push({
                 id: item.id,
-                cat_id: item.cat_id,
                 name: item[`name_${cookie.get('language') || 'am'}`],
                 state: {
-                    droppable: false,
-                    filtered: true
+                    droppable: false
                 },
                 children: findItem(data, item.id)
             })
@@ -36,7 +34,7 @@ export function getHeaders(headers, params) {
     }
 }
 
-export async function updateToken(API_URL, error, first_error_place, first_error_value, second_error_place, second_error_value, setCallback, requestCallback, dispatch, data = null, catId = null, place = null) {
+export async function updateToken(API_URL, error, first_error_place, first_error_value, second_error_place, second_error_value, setCallback, requestCallback, dispatch, data = null, place = null) {
 
     if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
         const refresh_token = cookie.get('refresh');
@@ -51,9 +49,7 @@ export async function updateToken(API_URL, error, first_error_place, first_error
                     dispatch(requestCallback(place))
                 }
             } else {
-                if (catId !== null) {
-                    dispatch(requestCallback(data, catId))
-                } else if (place === null) {
+                if (place === null) {
                     dispatch(requestCallback(data))
                 } else {
                     dispatch(requestCallback(data, place))

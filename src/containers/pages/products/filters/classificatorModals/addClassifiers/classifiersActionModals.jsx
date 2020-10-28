@@ -33,10 +33,6 @@ const ClassifiersActionModals = props => {
 
     return (
         <Content
-            groupName={props.groupName}
-            own_id={props.own_id}
-            initialModalGroup={props.initialModalGroup}
-            initialStatus={props.initialStatus}
             newGroup={props.newGroup}
             newSubgroup={props.newSubgroup}
             label={labelRender(props.modalType, props.groupType)}
@@ -53,7 +49,6 @@ const ClassifiersActionModals = props => {
             setGroupValues={props.setGroupValues}
             setProductValues={props.setProductValues}
             closeHandler={props.closeHandler}
-            backPage={props.backPage}
             uploadImage={props.uploadImage}
             subGroupAction={actionRender(props.modalType, props.addSubgroup, props.editSubgroup)}
             groupAction={actionRender(props.modalType, props.addGroup, props.editGroup)}

@@ -9,7 +9,6 @@ import Alert from "@material-ui/lab/Alert";
 import CustomCheckbox from "../../../../../../../components/UI/input/customCheckbox/customCheckbox";
 import Icons from "../../../../../../../components/Icons/icons";
 import CloseButton from "../../../../../../../components/UI/button/closeButton/closeButton";
-import cookie from "../../../../../../../services/cookies";
 
 const Content = props => {
     const [file, setFile] = useState(null);
@@ -31,61 +30,130 @@ const Content = props => {
     };
 
     const nameChangeHandler = (name, value) => {
-        props.setGroupValues(name, value);
-    }
+
+        switch (props.groupType) {
+            case 'group': {
+                let newGroup = {...props.newGroup};
+                newGroup[name] = value;
+                props.setGroupValues('newGroup', newGroup);
+                break;
+            }
+            case 'subgroup':
+            case 'inGroup': {
+                let newSubgroup = {...props.newSubgroup};
+                newSubgroup[name] = value;
+                props.setGroupValues('newSubgroup', newSubgroup);
+                break;
+            }
+            default: break;
+        }
+    };
 
     const confirmHandler = event => {
         event.preventDefault();
 
         let data = {};
-        if (props.groupName && props.groupName.length > 0) {
-            setDataError(false);
-            if (props.groupType === "group") {
-                data.title = props.groupName;
-                // data.required_group = props.newGroup.required_group;
-                props.groupAction(data);
-            } else {
-                data.name = props.groupName;
-                if (props.modalType === "add") {
-                    data.cat_id = props.group.id;
-                    if (props.groupType === "inGroup") {
-                        data.parent_id = "0";
-                    } else if (props.groupType === "subgroup") {
-                        data.parent_id = props.own_id;
-                    }
-                } else if (props.modalType === "edit") {
-                    data.id = props.newSubgroup.id;
-                    data.parent_id = props.newSubgroup.parent_id;
-                    data.cat_id = props.newSubgroup.cat_id;
-                }
-                if (file !== null && file.type.split('/')[0] === 'image') {
-                    setFileError(false)
-                    data.image = `${Date.now()}_${file.name}`;
-                } else if (file !== null && file.type.split('/')[0] !== 'image') {
-                    setFileError(true)
-                }
-                if (file !== null && fileError === false) {
-                    props.uploadImage(props.groupType, file, data, props.modalType);
-                } else {
-                    if (props.groupType === 'group') {
-                        delete data.image;
-                        props.groupAction(data)
-                    }
-                    if (props.groupType === 'inGroup' || props.groupType === 'subgroup') {
-                        data.image = '';
-                        props.subGroupAction(data)
-                    }
-                }
-                // props.backPage(props.initialModalGroup, props.initialStatus)
-            }
+
+        if (file !== null && file.type.split('/')[0] !== 'image') {
+            setFileError(true)
         } else {
-            setDataError(true)
-            if (file !== null && file.type.split('/')[0] !== 'image') {
-                setFileError(true)
-            } else {
-                setFileError(false)
-            }
+            setFileError(false)
         }
+
+            switch (props.groupType) {
+                case 'group': {
+                    if (props.newGroup.name.length === 0) {
+                        setDataError(true)
+                    } else {
+                        setDataError(false);
+                        data.name = props.newGroup.name;
+                        data.required_group = props.newGroup.required_group;
+                        if (file !== null && props.modalType === 'add') {
+                            data.image = [{name: `${Date.now()}_${file.name}`}];
+                        }
+                        data.group_type = '1';
+                    }
+                    break;
+                }
+                case 'subgroup': {
+                    if (props.newSubgroup.name.length === 0) {
+                        setDataError(true)
+                    } else {
+                        setDataError(false);
+                        if (props.modalType === 'edit') {
+                            data = props.subgroup;
+                            data.name = props.newSubgroup.name;
+                            if (file !== null) {
+                                data.image = [{name: `${Date.now()}_${file.name}`}];
+                            }
+                            data.group_id = {
+                                group_type: "1",
+                            };
+                            data.active = 1;
+
+                        } else if (props.modalType === 'add') {
+                            if (props.collapsed.indexOf(props.controllerId.id) === -1) {
+                                let newCollapsed = [...props.collapsed];
+                                newCollapsed.push(props.controllerId.id);
+                                props.setGroupValues('collapsed', newCollapsed)
+                            }
+                            data.name = props.newSubgroup.name;
+                            if (file !== null) {
+                                data.image = [{name: `${Date.now()}_${file.name}`}];
+                            } else {
+                                data.image = []
+                            }
+                            if (props.subgroup.parent_id.length > 0 || props.subgroup.parent_id === "") {
+                                data.parent_id = +props.subgroup.id
+                            } else if (props.subgroup.parent_id === undefined) {
+                                data.parent_id = ""
+                            }
+                            data.group_id = {
+                                id: props.group.id,
+                                name: props.group.name,
+                                group_type: "1",
+                            };
+                        }
+                    }
+                    break;
+                }
+                case 'inGroup': {
+                    data.name = props.newSubgroup.name;
+                    if (props.collapsed.indexOf(props.controllerId.id) === -1 && props.modalType === 'add') {
+                        let newCollapsed = [...props.collapsed];
+                        newCollapsed.push(props.controllerId.id);
+                        props.setGroupValues('collapsed', newCollapsed)
+                    }
+                    if (file !== null) {
+                        data.image = [{name: `${Date.now()}_${file.name}`}];
+                    }
+                    data.parent_id = "";
+                    data.group_id = {
+                        id: props.group.id,
+                        name: props.group.name,
+                        group_type: "1",
+                    };
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            if (file !== null) {
+                props.uploadImage(props.groupType, file, data, props.modalType);
+            } else {
+                if (props.groupType === 'group') {
+                    delete data.image;
+                    props.groupAction(data)
+                }
+                if (props.groupType === 'inGroup' || props.groupType === 'subgroup') {
+                    data.image = [];
+                    props.subGroupAction(data)
+                }
+
+            }
+            props.closeHandler('back')
+
     };
     return (
         <div className={classes.main}>
@@ -97,9 +165,7 @@ const Content = props => {
                             <Icons type={'back-page'} className={classes.backButtonIcon}/>
                         }
                         // Methods
-                        onClick={() => {
-                            props.backPage(props.initialModalGroup, props.initialStatus)
-                        }}
+                        onClick={props.closeHandler.bind(this, 'back')}
                     />
                 </div>
                 <div>
@@ -134,7 +200,7 @@ const Content = props => {
                                                     file ?
                                                         <img src={URL.createObjectURL(file)} alt="upload"/>
                                                         :
-                                                        props.subgroup && props.subgroup.image.length > 0 ?
+                                                        props.subgroup &&  props.subgroup.image.length > 0 ?
                                                             <img src={props.subgroup.image[0].image} alt="upload"/>
                                                             :
                                                             <WallpaperIcon style={{fontSize: 100}}/>
@@ -151,17 +217,16 @@ const Content = props => {
                                 :
                                 null
                         }
-                        <Grid item xs={12}
-                              md={props.groupType === "subgroup" || props.groupType === "inGroup" ? 7 : 12}>
+                        <Grid item xs={12} md={props.groupType === "subgroup" || props.groupType === "inGroup" ? 7 : 12}>
                             <div className={classes.dataWindow}>
                                 <div>
                                     <div className={classes.dataArea}>
                                         <CustomInput
                                             id={'name'}
                                             placeholder={'Անվանում'}
-                                            name={'groupName'}
+                                            name={'name'}
                                             classNameInput={classes.nameInput}
-                                            value={props.groupName}
+                                            value={props.groupType === 'group' ? props.newGroup.name : props.newSubgroup.name}
                                             onChange={event => nameChangeHandler(event.target.name, event.target.value)}
                                         />
                                         {
@@ -180,20 +245,15 @@ const Content = props => {
                                         }
                                     </div>
                                     <div className={classes.errorWindow}>
-                                        <div>
-                                            <Alert classes={{root: fileError ? classes.alertShow : classes.alertHidden}}
-                                                   variant="filled" severity="error">
-                                                Ընտրված ֆայլը չի հանդիսանում նկար
-                                            </Alert>
-                                        </div>
-                                        <div>
-                                            <Alert classes={{root: dataError ? classes.alertShow : classes.alertHidden}}
-                                                   variant="filled" severity="error">
-                                                Անվանման դաշտը լրացված չե, որպիսզի կարողանաք ստեղծել նոր դասակարգիչ լրացրեք
-                                                անվանման
-                                                դաշտը և հաստատեք
-                                            </Alert>
-                                        </div>
+                                        <Alert classes={{root: fileError ? classes.alertShow : classes.alertHidden}}
+                                               variant="filled" severity="error">
+                                            Ընտրված ֆայլը չի հանդիսանում նկար
+                                        </Alert>
+                                        <Alert classes={{root: dataError ? classes.alertShow : classes.alertHidden}}
+                                               variant="filled" severity="error">
+                                            Անվանման դաշտը լրացված չե, որպիսզի կարողանաք ստեղծել նոր դասակարգիչ լրացրեք անվանման
+                                            դաշտը և հաստատեք
+                                        </Alert>
                                         <Alert classes={{root: props.error ? classes.alertShow : classes.alertHidden}}
                                                variant="filled" severity="error">
                                             Մուտքագրված արժեքները սխալ են

@@ -10,7 +10,6 @@ const CustomCheckbox = props => {
             id={props.id}
             inputType={'inner'}
             checked={props.checked}
-            disabled={props.disabled}
             value={props.value}
             name={props.name}
             classNameLabel={`${classes.checkboxLabel} ${props.className}`}
@@ -27,8 +26,8 @@ const CustomCheckbox = props => {
                         </div>
                     </Tooltip>
                     :
-                    <div className={`${props.checkBoxWindow || classes.checkBoxWindow} ${props.disabled ? classes.disabled : ''}`}>
-                        <div className={`${props.labelStyle} ${props.disabled ? classes.disabled : ''}`}>{props.label}</div>
+                    <div className={props.checkBoxWindow || classes.checkBoxWindow}>
+                        <div className={props.labelStyle}>{props.label}</div>
                         <div>
                             <div
                                 className={props.checked ? `${classes.checkboxChecked} ${classes.checkbox}` : classes.checkbox}

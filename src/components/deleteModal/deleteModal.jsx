@@ -8,7 +8,7 @@ const DeleteModal = props => {
     return (
         <div className={props.open ? `${classes.deleteModal} ${classes.deleteModalOpened}` : `${classes.deleteModal} ${classes.deleteModalClosed}`}>
             <header>
-                {props.groupName ? props.groupName : ''}
+                {props.groupName}
             </header>
             <section>
                 {
@@ -23,7 +23,7 @@ const DeleteModal = props => {
                         null
                 }
                 <p>
-                    {/*{props.information}*/}
+                    {props.information}
                 </p>
                 <h5>
                     {props.question}

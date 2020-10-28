@@ -1,25 +1,16 @@
 import Axios from "axios";
 import {
-    ACTIONS_TO_GROUPS,
-    ADD_CLASSIFIER_ACTION,
-    ADD_GROUP_ACTION,
-    ADD_GROUP_SET,
-    ADD_SUBGROUP_ACTION,
+    ADD_CLASSIFIERS_ACTION,
     CLOSE_AND_BACK,
     CLOSE_CLASSIFIERS,
     CLOSE_HANDLER,
-    EDIT_GROUP_ACTION,
-    EDIT_GROUP_SET,
-    EDIT_SUBGROUP_ACTION,
     ONLY_CLOSE,
     OPEN_CLASSIFIERS,
-    OPEN_HANDLER,
-    SELECT_TREE_GROUP_ITEM,
-    SELECT_TREE_ITEM,
+    OPEN_HANDLER, SELECT_TREE_GROUP_ITEM, SELECT_TREE_ITEM,
     SET_GROUP_VALUE,
     SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
-import {findItem, getHeaders, getToken, updateToken} from "../../services/services";
+import {findItem, getHeaders, getToken, searchUp, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
 
 
@@ -105,55 +96,29 @@ export function uploadImage(type, file, data, modalType) {
 
 // Groups actions
 
-export function getGroup(id) {
+export function getGroup(id, place = null) {
 
     return async dispatch => {
         if (cookie.get('access')) {
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group", id: id}));
-                dispatch(setGroupValues('group', response.data.results))
-            } catch (error) {
-                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getGroup, dispatch, id);
-            }
-        }
-    }
-}
-
-export function getSubgroup(id, catId) {
-
-    return async dispatch => {
-        if (cookie.get('access')) {
-            try {
-                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/SubGroup", id: catId, param: {id: id}}));
-                dispatch(setGroupValues('subgroup', response.data.data[id]))
-            } catch (error) {
-                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroup, dispatch, id, catId);
-            }
-        }
-    }
-}
-
-/*
-*   NEW ACTION , this function must changed addGroup and subGroup together
-*
-* */
-export function getActionById( requestType, memory, param, id = null) {
-console.log(param)
-    return async dispatch => {
-        if (cookie.get('access')) {
-            try {
-                const response = await Axios({
-                    method: requestType,
-                    url: API_URL,
-                    ...getHeaders({}, {...param})
-                })
-                if (id === null) {
-                    dispatch(setGroupValues('group', response.data.results))
+                if (place && place === 'customGroup') {
+                    dispatch(setGroupValues('customGroup', response.data.results))
                 } else {
-                    dispatch(setGroupValues('subgroup', response.data.data[id]))
+                    dispatch(setGroupValues('group', response.data.results))
                 }
             } catch (error) {
-                console.log("error: ", error);
+                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                    const refresh_token = cookie.get('refresh');
+                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                    if ((await new_token_data) === null) {
+                        dispatch(setGroupValues('errors', error.message))
+                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                        dispatch(getGroup(id))
+                    }
+                } else {
+                    dispatch(setGroupValues('allError', true))
+                }
             }
         }
     }
@@ -167,6 +132,7 @@ export function getAllGroup() {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group"}));
                 dispatch(setGroupValues('groups', Object.values(response.data.results)))
             } catch (error) {
+                console.log(error)
                 await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllGroup, dispatch);
                 // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                 //     const refresh_token = cookie.get('refresh');
@@ -190,9 +156,9 @@ export function addGroup(data) {
         if (cookie.get('access')) {
             const groups = [...getState().characteristics.groups];
             try {
-                const response = await Axios.post(API_URL, {"path": "Group/Group", "param": {...data}}, getHeaders());
-                groups.push(response.data.results);
-                dispatch(addGroupSet(groups))
+                const response = await Axios.post(`${API_URL}/group/`, data, getHeaders());
+                groups.push(response.data);
+                dispatch(setGroupValues('groups', groups))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -213,27 +179,19 @@ export function addGroup(data) {
     }
 }
 
-export function addGroupSet(data) {
-
-    return {
-        type: ADD_GROUP_SET, data
-    }
-}
-
-export function editGroup(data, id) {
+export function editGroup(data) {
 
     return async (dispatch, getState) => {
         if (cookie.get('access')) {
             const groups = [...getState().characteristics.groups];
             try {
-                const response = await Axios.put(API_URL, {path: "Group/Group", param: {...data}}, getHeaders());
-                const results = response.data.results;
+                const response = await Axios.put(`${API_URL}/group/${data.id}`, data, getHeaders());
                 for (let [key, value] of Object.entries(groups)) {
-                    if (value.id === results.id) {
-                        groups[key] = results;
+                    if (value.id === response.data.id) {
+                        groups[key] = response.data;
                     }
                 }
-                dispatch(setEditedGroup(groups, id))
+                dispatch(setGroupValues('groups', groups))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -251,13 +209,6 @@ export function editGroup(data, id) {
                 }
             }
         }
-    }
-}
-
-export function setEditedGroup(groups, id) {
-
-    return {
-        type: EDIT_GROUP_SET, groups, id
     }
 }
 
@@ -296,7 +247,30 @@ export function deleteGroup(data) {
 
 // Sub groups actions
 
+export function getSubgroup(id) {
 
+    return async dispatch => {
+        if (cookie.get('access')) {
+            try {
+                const response = await Axios.get(`${API_URL}/subgroup/${id}`, getHeaders());
+                dispatch(setGroupValues('subgroup', response.data))
+            } catch (error) {
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroup, dispatch, id);
+                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                //     const refresh_token = cookie.get('refresh');
+                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                //     if ((await new_token_data) === null) {
+                //         dispatch(setGroupValues('errors', error.message))
+                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                //         dispatch(getSubgroup(id))
+                //     }
+                // } else {
+                //     dispatch(setGroupValues('allError', true))
+                // }
+            }
+        }
+    }
+}
 
 export function getSubgroupWithGroupId(id, place = null) {
 
@@ -327,17 +301,14 @@ export function getSubgroupWithGroupId(id, place = null) {
 export function renderTree(data, place) {
 
     return dispatch => {
-
         const own_subgroup = [];
         for (let item of data) {
             if (parseInt(item.parent_id) === 0) {
                 let new_data = {
                     id: item.id,
-                    cat_id: item.cat_id,
                     name: item[`name_${cookie.get('language') || 'am'}`],
                     state: {
-                        droppable: false,
-                        filtered: true
+                        droppable: false
                     },
                     children: findItem(data, item.id)
                 }
@@ -396,13 +367,15 @@ export function addSubgroup(data) {
 
     return async (dispatch, getState) => {
         if (cookie.get('access')) {
+            const subgroups = [...getState().characteristics.subgroups];
+            const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
             try {
-                const initialModalGroup = getState().characteristics.initialModalGroup;
-                const initialStatus = getState().characteristics.initialStatus;
-                const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
-                const new_data = Object.values(response.data.data)
-                dispatch(renderTree(new_data));
-                dispatch(actionToGroups(initialModalGroup, initialStatus))
+                const response = await Axios.post(`${API_URL}/subgroup/`, data, getHeaders());
+                subgroups.push(response.data);
+                customSubgroup.push(response.data);
+                dispatch(setGroupValues('customSubgroup', customSubgroup));
+                dispatch(setGroupValues('classifierSubgroup', customSubgroup));
+                dispatch(setGroupValues('subgroups', subgroups))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -425,15 +398,11 @@ export function addSubgroup(data) {
 
 export function editSubgroup(data) {
 
-    return async (dispatch, getState) => {
+    return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const initialModalGroup = getState().characteristics.initialModalGroup;
-                const initialStatus = getState().characteristics.initialStatus;
-                const response = await Axios.put(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
-                const new_data = Object.values(response.data.data)
-                dispatch(renderTree(new_data));
-                dispatch(actionToGroups(initialModalGroup, initialStatus))
+                const response = await Axios.put(`${API_URL}/subgroup/${data.id}`, data, getHeaders());
+                dispatch(addEditedData(response.data))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -556,6 +525,28 @@ export function addEditedData(data) {
 export function searchHandler(name, value) {
     return dispatch => {
         dispatch(setGroupValues(name, value));
+        dispatch(searchSubgroup())
+    }
+}
+
+export function searchSubgroup() {
+
+    return (dispatch, getState) => {
+        const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
+        const search = getState().characteristics.search;
+        let searchResult = [];
+        if (search.length > 0) {
+            for (let item of customSubgroup) {
+                if (item.name.toLowerCase().search(search.toLowerCase()) !== -1) {
+                    searchResult.push(item.id);
+                    searchResult = searchUp(item, customSubgroup, searchResult);
+                }
+            }
+            dispatch(setGroupValues('searchResult', searchResult))
+        } else {
+            dispatch(setGroupValues('searchResult', []))
+        }
+
     }
 }
 
@@ -567,72 +558,10 @@ export function openModalContent(item) {
     }
 }
 
-export function deleteClassifiersAction(type, param, id = null) {
-
-    return dispatch => {
-        if (id === null) {
-            dispatch(getActionById("get", type, param))
-        } else {
-            dispatch(getActionById("get", type, param, id))
-        }
-        dispatch(setGroupValues('delete', true))
-    }
-}
-
-export function editGroupAction(value, newGroup) {
+export function addClassifierAction() {
 
     return {
-        type: EDIT_GROUP_ACTION, value, newGroup
-    }
-}
-
-export function editSubgroupAction() {
-
-    return (dispatch, getState) => {
-        const subgroup = {...getState().characteristics.subgroup};
-        const newSubgroup = {...getState().characteristics.newSubgroup};
-        const groupName = subgroup[`name_${cookie.get('language') || "am"}`];
-        newSubgroup[`name_${cookie.get('language') || "am"}`] = subgroup[`name_${cookie.get('language') || "am"}`];
-        newSubgroup.image = subgroup.image;
-        newSubgroup.id = subgroup.id;
-        newSubgroup.parent_id = subgroup.parent_id;
-        newSubgroup.cat_id = subgroup.cat_id;
-        dispatch(editSubgroupActionSet(newSubgroup, groupName))
-    }
-}
-
-export function editSubgroupActionSet(newSubgroup, groupName) {
-
-    return{
-        type: EDIT_SUBGROUP_ACTION, newSubgroup, groupName
-    }
-}
-
-export function addSubgroupAction(id) {
-
-    return {
-        type: ADD_SUBGROUP_ACTION, id
-    }
-}
-
-export function addGroupAction() {
-
-    return {
-        type: ADD_GROUP_ACTION
-    }
-}
-
-export function onClassifierAction(status) {
-
-    return {
-        type: ADD_CLASSIFIER_ACTION, status
-    }
-}
-
-export function actionToGroups(modalType, status) {
-
-    return {
-        type: ACTIONS_TO_GROUPS, modalType, status
+        type: ADD_CLASSIFIERS_ACTION
     }
 }
 
@@ -694,10 +623,10 @@ export function openAction(data, group) {
     }
 }
 
-export function selectTreeItem(id, path, catId) {
+export function selectTreeItem(id) {
 
     return {
-        type: SELECT_TREE_ITEM, id, path, catId
+        type: SELECT_TREE_ITEM, id
     }
 }
 
