@@ -20,6 +20,7 @@ const CustomInput = props => {
                             hidden={props.hidden}
                             required={props.required}
                             placeholder={props.placeholder}
+                            disabled={props.disabled}
                             value={props.value}
                             multiple={props.multiple}
                             accept={props.accept}
@@ -44,6 +45,7 @@ const CustomInput = props => {
                             ref={props.inputRef}
                             id={props.id}
                             className={props.classNameInput}
+                            disabled={props.disabled}
                             // -----
                             multiple={props.multiple}
                             type={props.type}
