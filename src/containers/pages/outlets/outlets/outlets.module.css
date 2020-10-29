@@ -1,0 +1,130 @@
+.filters{
+    display: flex;
+    justify-content: flex-start;
+    background-color: #fff;
+    width: 100%;
+    padding: 40px 10px;
+}
+.content{
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 144px 18px 8px;
+    overflow: hidden;
+}
+.tabs{
+    width: 100%;
+    height: 60px;
+    background-color:  #1fb5ad;
+    
+}
+.turns{
+    padding: 20px;
+    background-color: inherit;
+    border: 1px solid black;
+    color: #fff;
+    border:none
+}
+
+.turns:hover{
+    background-color: #fff;
+    color:black;
+    cursor: pointer;
+}
+.actieTurn{
+    padding: 20px;
+    border:none;
+    background-color: #fff;
+    color:black;
+    cursor: pointer;
+}
+.totalContainer{
+    width: 30%;
+    float: right;
+}
+
+
+.results{
+
+}
+.cashiers{
+    display: flex;
+    justify-content: flex-start;
+    background-color: transparent;
+    width: 100%;
+    padding: 10px;
+}
+.cashboxes{
+    padding: 10px 35px;
+    color: white;
+    margin: 10px;
+    position: relative;
+    border: none;
+    background-color: lightgray;
+    transition-duration: 0.2s;
+    text-shadow: 0px 0px 3px black;
+}
+.cashboxes:hover{
+    background-color: #ff8927;
+    cursor: pointer;
+}
+
+.activeCashboxes{
+    padding: 10px 35px;
+    color: white;
+    margin: 10px;
+    position: relative;
+    border: none;
+    background-color: #ff8927;
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.cashboxes:hover:after{
+
+}
+.activeCashboxes:after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid#F6F6F6;
+    border-left: 20px solid transparent;
+    border-top: 20px solid#F6F6F6;
+}
+.activeCashboxes:before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid#F6F6F6;
+    border-top: 20px solid transparent;
+}
+
+.cashboxes:after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid#F6F6F6;
+    border-left: 20px solid transparent;
+    border-top: 20px solid#F6F6F6;
+}
+.cashboxes:before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid#F6F6F6;
+    border-top: 20px solid transparent;
+}
