@@ -12,7 +12,7 @@ export default function Total(props) {
 
 
     useEffect(()=>{
-        console.log(props.items)
+        if(props.items){
         let disscount = props.Discount ? props.Discount : 0
         let allTotal = props.items.reduce((total, item)=>{
             let itemtotal = (item.quanty*item.sellingPrice).toFixed(get_float_num_length(item.quanty)+get_float_num_length(item.sellingPrice))
@@ -24,6 +24,7 @@ export default function Total(props) {
         }else{
             setTotalWithDisscount(allTotal.toFixed(2))
         }
+    }
     },[props])
 
     function get_float_num_length(num){
@@ -38,7 +39,6 @@ export default function Total(props) {
 
     useEffect(()=>{
         let delta = (+cash + +card - +totalWithDisscount)
-        console.log(delta, +cash, +card, +totalWithDisscount)
         if(delta>0){
             setDiff(delta.toFixed(2))
             setDebt(0)    

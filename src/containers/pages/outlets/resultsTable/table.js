@@ -25,7 +25,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 export default function BasicTable(props) {
 
-    const {items, setItems} = props
+    const {items, setItems, saveOnLocale} = props
   const classes = useStyles();
 
 
@@ -33,6 +33,7 @@ export default function BasicTable(props) {
     let clone = JSON.parse(JSON.stringify(items)) 
     clone[i].sellingPrice = e.target.value
     setItems(clone)
+    saveOnLocale(clone)
   }
 
 
@@ -40,6 +41,7 @@ export default function BasicTable(props) {
     let clone=JSON.parse(JSON.stringify(items))
     clone.splice(i,1)
     setItems(clone)
+    saveOnLocale(clone)
   }
 
 
