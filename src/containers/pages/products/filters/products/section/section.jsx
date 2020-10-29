@@ -26,7 +26,7 @@ const Section = props => {
                     subCollapsed={props.subCollapsed}
                     subCollapsedGroup={props.subCollapsedGroup}
                     setFiltersValue={props.setFiltersValue}
-                    getGroup={props.getGroup}
+                    getActionById={props.getActionById}
                     closeClassifierWindow={props.closeClassifierWindow}
                     setGroupValues={props.setGroupValues}
                     setProductValues={props.setProductValues}
