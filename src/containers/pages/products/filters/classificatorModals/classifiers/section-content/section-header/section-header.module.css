@@ -1,0 +1,112 @@
+.header {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px 0 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.header > div:first-child {
+    width: 15%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header > div:last-child {
+    width: 85%;
+}
+
+.newClassifierButton {
+    outline: none !important;
+    background: #3EC300;
+    text-transform: uppercase;
+    height: 41px;
+    width: 41px;
+    margin-right: 5px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid #3EC300;
+    transition: 300ms;
+}
+
+.newClassifierButton:hover {
+    background-color: #3dd400;
+}
+
+.newClassifierButton:focus {
+    border: 3px solid #399600;
+}
+
+.newClassifierButton:active {
+    box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, .4) inset;
+}
+
+.newClassifierButtonIcon {
+    fill: #fff;
+    stroke: #fff;
+    stroke-width:2px;
+}
+
+.editMode {
+    outline: none !important;
+    background: transparent;
+    height: 41px;
+    width: 41px;
+    margin-right: 5px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    transition: 300ms;
+}
+
+.editModeTrue {
+    background-color: #efbf10 !important;
+}
+
+.editMode:hover {
+    background-color: #eee;
+}
+
+.editMode:active {
+    box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, .4) inset;
+}
+
+.editModeButtonIcon {
+    stroke: transparent;
+    fill: #7b7979;
+    stroke-width: 0.2px;
+}
+
+.editModeTrue .editModeButtonIcon {
+    stroke: transparent;
+    fill: #fff;
+    stroke-width: 0.2px;
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    .header > div:first-child {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .header > div:last-child {
+        min-width: 205px;
+    }
+}

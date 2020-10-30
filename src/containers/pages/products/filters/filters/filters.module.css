@@ -320,14 +320,6 @@
     margin-bottom: 10px;
 }
 
-.actionModal {
-    background-color: #fff;
-    width: 960px;
-    height: auto;
-    overflow: hidden;
-    border-radius: 5px;
-}
-
 .modalGroup {
     background-color: #fff;
     overflow: hidden;

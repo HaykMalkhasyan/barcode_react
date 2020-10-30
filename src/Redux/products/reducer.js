@@ -14,6 +14,7 @@ import {
     SET_TAB_VALUE
 } from "./actionTypes";
 import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
+import {PROD_GROUP_SET} from "../characteristics/actionTypes";
 
 const initialState = {
     product: null,
@@ -173,6 +174,11 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case PROD_GROUP_SET:
+            return {
+                ...state,
+                classifiers: action.classifiers
+            }
         case SET_DELETE_BARCODE:
             return {
                 ...state, [action.name]: action.products_barcode

@@ -1,0 +1,39 @@
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.actionsButton {
+    box-sizing: border-box;
+    padding: 0 5px;
+    height: 30px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none !important;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.actionsButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.actionsButton:first-child {
+    color: #67CA51;
+}
+
+.actionsButton:first-child:hover {
+    background-color: #d7ffcc;
+}
+
+.actionsButton:last-child {
+    color: #ff4b63;
+}
+
+.actionsButton:last-child:hover {
+    background-color: #ffb8c3;
+}

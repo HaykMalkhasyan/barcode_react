@@ -106,7 +106,7 @@ const ModalActions = props => {
                         event => props.onAddSubgroup(event, props.own_select)
                         :
                         props.groupId !== null ?
-                            event => props.onAddGroup(event/*, props.groupId*/)
+                            event => props.onAddGroup(event, props.groupId)
                             :
                             null
                 }
