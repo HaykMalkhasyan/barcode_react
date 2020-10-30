@@ -9,21 +9,19 @@ import {
     addGroup,
     addGroupAction,
     addSubgroup,
-    addSubgroupAction, changeSubgroupName,
+    addSubgroupAction,
     closeAction,
     closeAndBack,
-    closeClassifiers, deleteAction,
-    deleteClassifiersAction,
-    deleteModalClose,
-    editGroup,
-    editGroupAction,
-    editSubgroup,
-    editSubgroupAction,
-    getActionById,
+    closeClassifiers, deleteClassifiersAction,
+    deleteSubgroup,
+    editGroup, editGroupAction,
+    editGroupSubGroup,
+    editSubgroup, editSubgroupAction,
     getAllGroup,
+    getGroup,
     getOnlySubgroupWithGroupId,
-    getSubgroupWithGroupId,
-    onClassifierAction,
+    getSubgroup,
+    getSubgroupWithGroupId, onClassifierAction,
     onlyCloseHandler,
     openClassifiers,
     openModalContent,
@@ -148,28 +146,26 @@ class Filters extends Component {
                         own_move={this.props.own_move}
                         own_select={this.props.own_select}
                         catId={this.props.catId}
-                        edit={this.props.edit}
-                        subgroupName={this.props.subgroupName}
                         // Methods
                         setGroupValues={this.props.setGroupValues}
-                        changeSubgroupName={this.props.changeSubgroupName}
                         editGroupAction={this.props.editGroupAction}
                         deleteClassifiersAction={this.props.deleteClassifiersAction}
                         handleClose={this.handleClose}
                         handleOpen={this.handleOpen}
                         classifierOpenHandler={this.classifierOpenHandler}
+                        getSubgroup={this.props.getSubgroup}
+                        getGroup={this.props.getGroup}
                         editSubgroup={this.props.editSubgroup}
                         searchHandler={this.props.searchHandler}
                         setProductValues={this.props.setProductValues}
-                        deleteAction={this.props.deleteAction}
+                        deleteSubgroup={this.props.deleteSubgroup}
                         editGroup={this.props.editGroup}
+                        editGroupSubGroup={this.props.editGroupSubGroup}
                         selectTreeItem={this.props.selectTreeItem}
                         selectTreeGroupItem={this.props.selectTreeGroupItem}
                         addSubgroupAction={this.props.addSubgroupAction}
                         addGroupAction={this.props.addGroupAction}
                         editSubgroupAction={this.props.editSubgroupAction}
-                        deleteModalClose={this.props.deleteModalClose}
-                        getActionById={this.props.getActionById}
                     />
                 </ModalUI>
                 <ModalUI
@@ -226,6 +222,7 @@ class Filters extends Component {
                         addGroupAction={this.props.onClassifierAction}
                         classifierCloseHandler={this.classifierCloseHandler}
                         handleOpen={this.handleOpen}
+                        getGroup={this.props.getGroup}
                         setProductValues={this.props.setProductValues}
                         setGroupValues={this.props.setGroupValues}
                         importGroupInProduct={this.props.importGroupInProduct}
@@ -280,8 +277,6 @@ function mapStateToProps(state) {
         classifiersSearch: state.characteristics.classifiersSearch,
         touched: state.characteristics.touched,
         newSubgroup: state.characteristics.newSubgroup,
-        edit: state.characteristics.edit,
-        subgroupName: state.characteristics.subgroupName,
     }
 }
 
@@ -293,13 +288,16 @@ function mapDispatchToProps(dispatch) {
         editGroup: (data, id) => dispatch(editGroup(data, id)),
         addSubgroup: data => dispatch(addSubgroup(data)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
+        getGroup: id => dispatch(getGroup(id)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
+        getSubgroup: (id, catId) => dispatch(getSubgroup(id, catId)),
         editSubgroup: data => dispatch(editSubgroup(data)),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         uploadImage: (type, file, data, modalType) => dispatch(uploadImage(type, file, data, modalType)),
-        deleteAction: (request, id, catId) => dispatch(deleteAction(request, id, catId)),
+        deleteSubgroup: id => dispatch(deleteSubgroup(id)),
+        editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
         closeClassifiers: () => dispatch(closeClassifiers()),
         openClassifiers: id => dispatch(openClassifiers(id)),
@@ -316,9 +314,6 @@ function mapDispatchToProps(dispatch) {
         editSubgroupAction: () => dispatch(editSubgroupAction()),
         editGroupAction: (value, newGroup) => dispatch(editGroupAction(value, newGroup)),
         deleteClassifiersAction: (type, param, id) => dispatch(deleteClassifiersAction(type, param, id)),
-        getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
-        deleteModalClose: () => dispatch(deleteModalClose()),
-        changeSubgroupName: (name, value) => dispatch(changeSubgroupName(name, value)),
     }
 }
 

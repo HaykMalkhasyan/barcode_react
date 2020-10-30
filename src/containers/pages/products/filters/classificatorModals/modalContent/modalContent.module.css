@@ -8,6 +8,16 @@
     position: relative;
 }
 
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 5;
+}
+
 /* width */
 .main::-webkit-scrollbar {
     width: 6px;
@@ -29,6 +39,13 @@
 .main::-webkit-scrollbar-thumb:hover {
     background: #aaa;
     border-color: #aaa;
+}
+
+.main > section {
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
 }
 
 .groupName {
@@ -106,6 +123,13 @@
     fill: #414141;
 }
 
+.main > section > div.content {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 30px 10px 3px;
+    box-sizing: border-box;
+}
+
 
 
 .classifierButton {
@@ -126,6 +150,31 @@
     box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
 }
 
+.searchWindow {
+    width: 90%;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*padding: 15px 17px;*/
+    box-sizing: border-box;
+    transition: 300ms;
+}
+
+.searchWindow > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.searchWindow > div:first-child{
+    width: 40%;
+}
+.searchWindow > div:last-child{
+    width: 60%;
+}
+
 .searchInput {
     width: 100%;
     height: 100%;
@@ -142,9 +191,55 @@
     box-shadow: 0 0 4px rgba(130, 159, 252, 0.75) !important;
 }
 
+.nameWindow {
+    width: 90%;
+    margin: 0 auto 20px;
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nameWindow .nameInput {
+    width: 350px;
+    border: none;
+    border-bottom: .5pt solid #cacaca;
+    font-size: 13px;
+    font-family: 'DejaVu Sans', sans-serif;
+    color: #8F8F8F;
+    padding: 0 3px;
+    box-sizing: border-box;
+    display: block;
+    transition: 300ms;
+}
+
+.nameWindow .nameInput:focus {
+    color: #444;
+    border-color: #666;
+}
+
+.nameWindow .errorField {
+    border-color: #FF4B63;
+    border-width: 2px;
+    animation: error 2s ease-in-out alternate;
+    animation-iteration-count: 4;
+    transform: scale(1)
+}
+
 @keyframes error {
     from {transform: scale(1)}
     to {transform: scale(.9)}
+}
+
+.nameWindow .nameLabel {
+    display: none;
+}
+
+.labelStyle {
+    font-size: 12px;
+    color: #323232;
+    letter-spacing: .4pt;
 }
 
 .mainTreeName {
@@ -345,5 +440,18 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .searchWindow {
+        flex-direction: column-reverse;
+        height: auto;
+    }
+    .searchWindow > div:first-child{
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .searchWindow > div:last-child{
+        width: 100%;
+        margin-bottom: 10px;
     }
 }

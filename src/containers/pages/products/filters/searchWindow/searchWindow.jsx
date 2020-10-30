@@ -66,6 +66,7 @@ const SearchWindow = props => {
             {/* Modals */}
             <ProductModal
                 root={classes.root}
+                type={props.open}
                 scroll={props.scrollB}
                 open={props.open}
                 paper={classes.paper}

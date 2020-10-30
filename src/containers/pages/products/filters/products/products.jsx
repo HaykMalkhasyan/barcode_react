@@ -3,8 +3,8 @@ import classes from './products.module.css'
 import Section from "./section/section";
 import {connect} from "react-redux";
 import {
-    getActionById,
     getAllGroup,
+    getGroup,
     getSubgroupWithGroupId,
     setGroupValues
 } from "../../../../../Redux/characteristics/actions";
@@ -105,7 +105,7 @@ class Products extends Component{
                     subCollapsed={this.props.subCollapsed}
                     subCollapsedGroup={this.props.subCollapsedGroup}
                     setFiltersValue={this.props.setFiltersValue}
-                    getActionById={this.props.getActionById}
+                    getGroup={this.props.getGroup}
                     closeClassifierWindow={this.props.closeClassifierWindow}
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
@@ -176,7 +176,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllGroup: () => dispatch(getAllGroup()),
         getAllProducts: page => dispatch(getAllProducts(page)),
-        getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
+        getGroup: id => dispatch(getGroup(id)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
         closeClassifierWindow: (index, id) => dispatch(closeClassifierWindow(index, id)),
         selectProducts: (id, type) => dispatch(selectProducts(id, type)),
