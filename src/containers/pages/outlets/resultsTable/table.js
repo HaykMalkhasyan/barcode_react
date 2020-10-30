@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,9 +17,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 
 
@@ -73,7 +70,7 @@ export default function BasicTable(props) {
           {items && items.map((row,i) => (
             <TableRow key={row.selected.item_name}>
               <TableCell component="th" scope="row">
-                {row.selected}
+                {row.selected.item_name}
               </TableCell>
               <TableCell align="right">{row.quanty}</TableCell>
               <TableCell align="right">

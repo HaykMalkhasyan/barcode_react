@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -38,7 +37,7 @@ export default function SimpleSelect(props) {
         <em>None</em>
       </MenuItem>
       {props.cashiers && props.cashiers.map(item=>{
-        return <MenuItem value={item}>{item.name}</MenuItem>
+        return <MenuItem key={item.id} value={item}>{item.name}</MenuItem>
       })}
     </Select>
   </FormControl>

@@ -39,8 +39,10 @@
     cursor: pointer;
 }
 .totalContainer{
-    width: 30%;
-    float: right;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 

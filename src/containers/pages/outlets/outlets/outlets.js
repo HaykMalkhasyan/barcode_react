@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useCallback} from 'react'
 import Search from "../search/search"
 import Login from "../modal/login"
 import style from "./outlets.module.css"
@@ -13,6 +13,7 @@ import {useSpring, animated} from 'react-spring'
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton'
 import Total from '../total/total'
+import Confirm from "../confirm/confirm"
 
 
 
@@ -20,6 +21,8 @@ export default function Outlets() {
     let id = Date.now()
     const [selecteds, setSelected] = useState()
     const [openLogin, setOpenLogin] = useState(true)
+    const [quanty, setQuany] = useState("")
+    const [sellingPrice, setSellingPrice] = useState("")
     const [quanty, setQuany] = useState(0)
     const [sellingPrice, setSellingPrice] = useState(0)
     const [cashbox, setCashbox] = useState([])
@@ -28,12 +31,21 @@ export default function Outlets() {
     const [items, setItems] = useState([])
     const [turns, setTurns] = useState([{i:1, id:id, items:[]}])
     const [currentTurn, setCurrentTurn] = useState({i:1, items:[]})
-    const [props, set, stop] = useSpring(() => ({opacity: 1}))
-    const [focus, setFocus] = useState()
+    const [props, set] = useSpring(() => ({opacity: 1}))
     const quantyRef = useRef()
     const sellingPriceRef = useRef()
+    const searchRef = useRef()
+    const [inputValue, setInputValue] = React.useState('');
+    const [keyAutoComplate, setKeyAutoComplate] = useState(1)
 
-    const contentRef = useRef()
+    const [allTotal, setAllTotal] = useState(0)
+    const [totalWithDisscount, setTotalWithDisscount] = useState(0)
+    const [cash, setCash] = useState(0)
+    const [card, setCard] = useState(0)
+    const [diff, setDiff] = useState(0)
+    const [debt, setDebt] = useState(0)
+    const [disscount, setDisscount] = useState("")
+    const [disscountType, setDisscountType] = useState("percent")
 
 
 
@@ -67,17 +79,30 @@ export default function Outlets() {
         }
     },[selectedCahier])
 
-    // useEffect(()=>{
-    //     if(selectedCahier.id && currentTurn.id){
-    //         saveOnLocale()
-    //     }
-    // },[items])
+
+    const getFromLocale = useCallback(()=>{
+        let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
+        if(turns_on_storage){
+            turns_on_storage = JSON.parse(turns_on_storage)
+            let currentTurnID = currentTurn.id ? currentTurn.id : turns_on_storage[0].id
+            let index = turns_on_storage.findIndex(x=>x.id === currentTurnID)
+            // setTurns(turns_on_storage)
+            // setCurrentTurn(turns_on_storage[0])
+            if(index === -1){
+                setItems([])
+            }else{
+                setItems(turns_on_storage[index].items)
+            }
+        }else{
+            setItems([])
+        }
+    },[selectedCahier, currentTurn])
 
     useEffect(()=>{
         if(selectedCahier.id && currentTurn.id){
             getFromLocale()
         }
-    },[currentTurn, selectedCahier])
+    },[currentTurn, selectedCahier, getFromLocale])
 
 
     function saveOnLocale(items){
@@ -100,23 +125,23 @@ export default function Outlets() {
         }
     }
 
-    function getFromLocale(){
-        let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
-        if(turns_on_storage){
-            turns_on_storage = JSON.parse(turns_on_storage)
-            let currentTurnID = currentTurn.id ? currentTurn.id : turns_on_storage[0].id
-            let index = turns_on_storage.findIndex(x=>x.id === currentTurnID)
-            // setTurns(turns_on_storage)
-            // setCurrentTurn(turns_on_storage[0])
-            if(index === -1){
-                setItems([])
-            }else{
-                setItems(turns_on_storage[index].items)
-            }
-        }else{
-            setItems([])
-        }
-    }
+    // function getFromLocale(){
+    //     let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
+    //     if(turns_on_storage){
+    //         turns_on_storage = JSON.parse(turns_on_storage)
+    //         let currentTurnID = currentTurn.id ? currentTurn.id : turns_on_storage[0].id
+    //         let index = turns_on_storage.findIndex(x=>x.id === currentTurnID)
+    //         // setTurns(turns_on_storage)
+    //         // setCurrentTurn(turns_on_storage[0])
+    //         if(index === -1){
+    //             setItems([])
+    //         }else{
+    //             setItems(turns_on_storage[index].items)
+    //         }
+    //     }else{
+    //         setItems([])
+    //     }
+    // }
 
 
 
@@ -140,11 +165,12 @@ export default function Outlets() {
 
 
     function addRow(params) {
-        let index = items.findIndex(x=>x.selected===selecteds.item_name)
+        if(selecteds && quanty && sellingPrice){
+        let index = items.findIndex(x=>x.selected.item_name===selecteds.item_name)
         let clone;
         if(index === -1){
-            clone = [...items, {selected: selecteds.item_name, quanty, sellingPrice}]
-            setItems([...items, {selected: selecteds.item_name, quanty, sellingPrice}])
+            clone = [...items, {selected: selecteds, quanty, sellingPrice}]
+            setItems([...items, {selected: selecteds, quanty, sellingPrice}])
         }else{
             clone = JSON.parse(JSON.stringify(items))
             get_float_num_length(clone[index].quanty)
@@ -153,9 +179,12 @@ export default function Outlets() {
             setItems(clone)
         }
         saveOnLocale(clone)
+        setQuany("")
+        setSellingPrice("")
+        setKeyAutoComplate(Math.random())
+        
     }
-
-
+    }
 
 
     return (
@@ -187,34 +216,50 @@ export default function Outlets() {
                     <AddIcon color="inherit" />
                 </IconButton>
             </div>
-            <animated.div style={props} >
+            <animated.div style={{...props, backgroundColor:"#fff", padding:"8px"}} >
              <div className={style.filters} >
             
-                <Search cashbox={cashbox} reff = {quantyRef} setFocus={setFocus} setCashbox={setCashbox} selecteds={selecteds} setSelected={setSelected}/>
+                <Search 
+                    keyAutoComplate={keyAutoComplate}
+                    inputValue={inputValue} 
+                    setInputValue={setInputValue} 
+                    cashbox={cashbox} 
+                    reff = {quantyRef} 
+                    searchRef={searchRef}
+                    setCashbox={setCashbox} 
+                    selecteds={selecteds} 
+                    setSelected={setSelected}
+                    setQuany={setQuany}
+                    setSellingPrice={setSellingPrice}
+                />
                 <TextField
                     margin="none"
                     style={{margin:"0px 10px"}}
                     size="small"
-                    focused={focus==="quanty"}
                     inputRef={quantyRef}
-                    onKeyUp = {(e)=>{if(e.keyCode===13) {sellingPriceRef.current.focus()} }}
+                    onKeyDown = {(e)=>{if(e.keyCode===13) { quanty && sellingPriceRef.current.focus()} }}
                     label="quanty"
                     type="number"
                     value={quanty}
                     onChange={(e)=>{setQuany(+e.target.value)}}
                     variant="outlined"
+                    onFocus={event => {
+                        event.target.select()
+                    }} 
                 />
                  <TextField
                     size="small"
                     style={{margin:"0px 10px 0px 0px"}}
                     inputRef={sellingPriceRef}
-                    autoFocus={focus==="sellingPrice"}
                     label="selling Price"
                     type="number"
                     value={sellingPrice}
-                    onKeyUp = {(e)=>{if(e.keyCode===13) {addRow()} }}
+                    onKeyDown = {(e)=>{if(e.keyCode===13) {addRow()} }}
                     onChange={(e)=>{setSellingPrice(+e.target.value)}}
                     variant="outlined"
+                    onFocus={event => {
+                        event.target.select()
+                    }} 
                 />
                 <Button 
                     variant="outlined"
@@ -229,9 +274,36 @@ export default function Outlets() {
             </div>
             <div className={style.totalContainer} >
                 <Total 
+                    cash={cash} 
+                    setCash={setCash}
+                    card={card} 
+                    setCard={setCard}
+                    diff={diff} 
+                    setDiff={setDiff}
+                    debt={debt} 
+                    setDebt={setDebt}
                     items={items}
+                    allTotal={allTotal}
+                    setAllTotal={setAllTotal}
+                    disscount={disscount}
+                    setDisscount={setDisscount}
+                    disscountType={disscountType} 
+                    setDisscountType={setDisscountType}
+                    totalWithDisscount={totalWithDisscount} 
+                    setTotalWithDisscount={setTotalWithDisscount}
                 />
             </div>
+            <Confirm 
+                cash={cash} 
+                card={card} 
+                diff={diff} 
+                debt={debt} 
+                items={items}
+                allTotal={allTotal}
+                disscount={disscount}
+                disscountType={disscountType} 
+                totalWithDisscount={totalWithDisscount} 
+            />
             </animated.div>
         </div>
     )
