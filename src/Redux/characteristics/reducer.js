@@ -1,33 +1,41 @@
 import {
-    ACTIONS_TO_GROUPS,
-    ADD_CLASSIFIER_ACTION,
     ADD_GROUP_ACTION,
     ADD_GROUP_SET,
     ADD_SUBGROUP_ACTION,
-    CLOSE_AND_BACK,
+    CHANGE_SUBGROUP_NAME,
+    CHECK_GROUP_SET,
     CLOSE_CLASSIFIERS,
     CLOSE_HANDLER,
+    DELETE_MODAL_CLOSE,
     EDIT_GROUP_ACTION,
     EDIT_GROUP_SET,
     EDIT_SUBGROUP_ACTION,
-    ONLY_CLOSE,
+    END_EDITING,
     OPEN_CLASSIFIERS,
     OPEN_HANDLER,
+    PROD_GROUP_SET,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
     SET_GROUP_VALUE,
-    SET_RENDERED_TREE_VALUE
+    SET_RENDERED_FILTER_TREE_VALUE,
+    SET_RENDERED_TREE_VALUE,
+    SET_WITHOUT_DELETED_GROUP
 } from "./actionTypes";
 import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
 import cookie from "../../services/cookies";
 
 const initialState = {
+    groupsEditMode: false,
     own_subgroups: null,
     own_move: null,
     own_select: null,
     own_id: null,
-    filter_subgroups: [],
+    edit: null,
+    add: null,
     catId: null,
+    subgroupName: '',
+    newSubgroup: {},
+    filter_subgroups: [],
     path: "",
     progress: false,
     active: 0,
@@ -39,7 +47,6 @@ const initialState = {
     groups: [],
     search: '',
     classifiersSearch: '',
-    touched: false,
     subgroup: null,
     customSubgroup: null,
     subgroups: [],
@@ -55,12 +62,6 @@ const initialState = {
         title_en: '',
         required_group: false,
         group_type: '1'
-    },
-    newSubgroup: {
-        name_am: '',
-        name_ru: '',
-        name_en: '',
-        image: ""
     },
     error: null,
     allError: null,
@@ -80,6 +81,23 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_WITHOUT_DELETED_GROUP:
+            return {
+                ...state,
+                classifiersModal: false,
+                modalGroup: 'edit',
+                delete: false,
+                subgroup: null,
+                own_select: null,
+                groupId: null,
+                group: null,
+                active: 0,
+                groups: action.groups,
+            }
+        case DELETE_MODAL_CLOSE:
+            return {
+                ...state, delete: false, subgroup: null, own_select: null, groupId: null
+            }
         case EDIT_GROUP_SET:
             return {
                 ...state,
@@ -106,51 +124,31 @@ export default function characteristicsReducer(state = initialState, action) {
             return {
                 ...state, classifierName: action.value, newGroup: action.newGroup
             }
-        case ACTIONS_TO_GROUPS:
+        case CHANGE_SUBGROUP_NAME:
+            return {
+                ...state, [action.name]: action.value
+            }
+        case END_EDITING:
             return {
                 ...state,
-                [action.modalType]: action.status,
-                modalType: false,
-                groupType: null,
-                newGroup: {},
-                newSubgroup: {
-                    name: '',
-                    image: []
-                },
-                groupName: '',
-                own_select: null,
-                catId: null,
-                groupId: null,
-                subgroup: null,
+                edit: null,
+                add: null,
+                subgroupName: '',
+                newSubgroup: {},
             }
         case EDIT_SUBGROUP_ACTION:
             return {
                 ...state,
+                edit: action.newSubgroup.id,
+                add: null,
+                subgroupName: action.subgroupName,
                 newSubgroup: action.newSubgroup,
-                groupName: action.groupName,
-                modalType: 'edit',
-                groupType: 'subgroup',
-                classifiersModal: false,
-                initialModalGroup: 'classifiersModal',
-                initialStatus: state.classifiersModal,
-            }
-        case ADD_CLASSIFIER_ACTION:
-            return {
-                ...state,
-                modalType: 'add',
-                groupType: 'group',
-                initialModalGroup: 'modalGroup',
-                initialStatus: action.status,
-                modalGroup: null
             }
         case ADD_GROUP_ACTION:
             return {
                 ...state,
-                modalType: 'add',
-                groupType: 'inGroup',
-                initialModalGroup: 'classifiersModal',
-                initialStatus: state.classifiersModal,
-                classifiersModal: false
+                add: 0,
+                catId: action.id
             }
         case ADD_GROUP_SET:
             return {
@@ -172,12 +170,10 @@ export default function characteristicsReducer(state = initialState, action) {
         case ADD_SUBGROUP_ACTION:
             return {
                 ...state,
-                modalType: 'add',
-                groupType: 'subgroup',
-                own_id: action.id,
-                initialModalGroup: 'classifiersModal',
-                initialStatus: state.classifiersModal,
-                classifiersModal: false
+                edit: null,
+                add: action.id,
+                subgroupName: '',
+                newSubgroup: {},
             }
         case SELECT_TREE_GROUP_ITEM:
             return {
@@ -192,12 +188,27 @@ export default function characteristicsReducer(state = initialState, action) {
                 own_cat_id: action.catId === state.own_cat_id ? null : action.catId,
                 groupId: null,
             }
+        case SET_RENDERED_FILTER_TREE_VALUE:
+            return {
+                ...state,
+                filter_subgroups: action.value,
+                changeStatus: true,
+                progress: false,
+
+            }
         case SET_RENDERED_TREE_VALUE:
             return {
                 ...state,
-                [action.place]: action.value,
                 changeStatus: true,
-                progress: false
+                progress: false,
+                newSubgroup: {},
+                subgroupName: '',
+                catId: null,
+                edit: null,
+                add: null,
+                own_select: null,
+                path: null,
+                own_subgroups: action.value,
             }
         case OPEN_HANDLER:
             return {
@@ -230,30 +241,11 @@ export default function characteristicsReducer(state = initialState, action) {
                     group_type: '1'
                 }
             };
-        case CLOSE_AND_BACK:
-            return {
-                ...state,
-                modalType: false,
-                groupType: null,
-                newSubgroup: {name: '', image: null},
-                error: null
-            };
-        case ONLY_CLOSE:
-            return {
-                ...state,
-                newGroup: {name: '', required_group: false, group_type: '1'},
-                subgroup: null,
-                group: null,
-                customSubgroup: null,
-                collapsedModalStatus: [],
-                initialModalGroup: null,
-                initialOpen: null
-            };
         case OPEN_CLASSIFIERS:
             return {
                 ...state,
                 classifiersModal: false,
-                own_subgroups: [],
+                own_subgroups: null,
                 own_move: null,
                 own_select: null,
                 moveElement: null,
@@ -264,13 +256,23 @@ export default function characteristicsReducer(state = initialState, action) {
                 groupId: null,
                 changePositionStatus: false,
             };
+        case CHECK_GROUP_SET:
+            return {
+                ...state,
+                modalGroup: null,
+                groupActiveId: null,
+                classifiersSearch: '',
+                initialModalGroup: null,
+                active: action.index,
+                open: `collapse-${action.id}`
+            }
+        case PROD_GROUP_SET:
         case CLOSE_CLASSIFIERS:
             return {
                 ...state,
                 modalGroup: null,
                 groupActiveId: null,
                 classifiersSearch: '',
-                touched: false,
                 initialModalGroup: null
             };
         case SET_SELECT_SUBS:

@@ -5,36 +5,36 @@ import ClassifiersTree from "../classifiersTree/classifiersTree"
 import SearchWindow from "../searchWindow/searchWindow"
 import {connect} from "react-redux";
 import {
-    actionToGroups,
     addGroup,
     addGroupAction,
     addSubgroup,
     addSubgroupAction,
+    cancelEditing,
+    changeSubgroupName,
+    checkGroup,
     closeAction,
-    closeAndBack,
-    closeClassifiers, deleteClassifiersAction,
-    deleteSubgroup,
-    editGroup, editGroupAction,
-    editGroupSubGroup,
-    editSubgroup, editSubgroupAction,
+    closeClassifiers,
+    deleteAction,
+    deleteClassifiersAction,
+    deleteModalClose,
+    editGroup,
+    editGroupAction,
+    editSubgroup,
+    editSubgroupAction,
+    getActionById,
     getAllGroup,
-    getGroup,
     getOnlySubgroupWithGroupId,
-    getSubgroup,
-    getSubgroupWithGroupId, onClassifierAction,
-    onlyCloseHandler,
+    getSubgroupWithGroupId,
     openClassifiers,
     openModalContent,
     searchHandler,
     selectTreeGroupItem,
     selectTreeItem,
-    setGroupValues,
-    uploadImage
+    setGroupValues
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
 import ModalContent from "../classificatorModals/modalContent/modalContent";
-import ClassifiersActionModals from "../classificatorModals/addClassifiers/classifiersActionModals";
 import Classifiers from "../classificatorModals/classifiers/classifiers";
 import CollapsedFilters from "./collapsedFilters/collapsedFilters";
 import OtherFilters from "./otherFilters/otherFilters";
@@ -53,24 +53,6 @@ class Filters extends Component {
 
     handleClose = () => {
         this.props.closeAction()
-    };
-
-    backPage = (modalType, modalStatus) => {
-        this.props.actionToGroups(modalType, modalStatus)
-    }
-
-    closeHandler = (type = 'close') => {
-        this.props.closeAndBack();
-
-        if (type === 'back') {
-            if (this.props.groupType === 'group') {
-                this.props.setGroupValues('modalGroup', this.props.initialModalGroup)
-            } else {
-                this.props.setProductValues('classifiersModal', true)
-            }
-        } else if (type === 'close') {
-            this.props.onlyCloseHandler()
-        }
     };
 
     classifierOpenHandler = id => {
@@ -146,88 +128,52 @@ class Filters extends Component {
                         own_move={this.props.own_move}
                         own_select={this.props.own_select}
                         catId={this.props.catId}
+                        edit={this.props.edit}
+                        add={this.props.add}
+                        subgroupName={this.props.subgroupName}
                         // Methods
                         setGroupValues={this.props.setGroupValues}
+                        changeSubgroupName={this.props.changeSubgroupName}
                         editGroupAction={this.props.editGroupAction}
                         deleteClassifiersAction={this.props.deleteClassifiersAction}
                         handleClose={this.handleClose}
                         handleOpen={this.handleOpen}
                         classifierOpenHandler={this.classifierOpenHandler}
-                        getSubgroup={this.props.getSubgroup}
-                        getGroup={this.props.getGroup}
                         editSubgroup={this.props.editSubgroup}
                         searchHandler={this.props.searchHandler}
                         setProductValues={this.props.setProductValues}
-                        deleteSubgroup={this.props.deleteSubgroup}
+                        deleteAction={this.props.deleteAction}
                         editGroup={this.props.editGroup}
-                        editGroupSubGroup={this.props.editGroupSubGroup}
                         selectTreeItem={this.props.selectTreeItem}
                         selectTreeGroupItem={this.props.selectTreeGroupItem}
                         addSubgroupAction={this.props.addSubgroupAction}
+                        addSubgroup={this.props.addSubgroup}
                         addGroupAction={this.props.addGroupAction}
                         editSubgroupAction={this.props.editSubgroupAction}
-                    />
-                </ModalUI>
-                <ModalUI
-                    open={this.props.modalType === 'add' || this.props.modalType === 'edit'}
-                    className={classes.actionModal}
-                    // Methods
-                    // handleClose={this.closeHandler}
-                >
-                    <ClassifiersActionModals
-                        modalType={this.props.modalType}
-                        groupName={this.props.groupName}
-                        own_id={this.props.own_id}
-                        newGroup={this.props.newGroup}
-                        initialModalGroup={this.props.initialModalGroup}
-                        initialStatus={this.props.initialStatus}
-                        newSubgroup={this.props.newSubgroup}
-                        groupType={this.props.groupType}
-                        subgroup={this.props.subgroup}
-                        customSubgroup={this.props.customSubgroup}
-                        group={this.props.group}
-                        error={this.props.error}
-                        collapsedModalStatus={this.props.collapsedModalStatus}
-                        // Methods
-                        setGroupValues={this.props.setGroupValues}
-                        setProductValues={this.props.setProductValues}
-                        uploadImage={this.props.uploadImage}
-                        addSubgroup={this.props.addSubgroup}
-                        editSubgroup={this.props.editSubgroup}
-                        addGroup={this.props.addGroup}
-                        editGroup={this.props.editGroup}
-                        subGroupModalCollapses={this.props.subGroupModalCollapses}
-                        closeHandler={this.closeHandler}
-                        backPage={this.backPage}
+                        deleteModalClose={this.props.deleteModalClose}
+                        getActionById={this.props.getActionById}
+                        cancelEditing={this.props.cancelEditing}
                     />
                 </ModalUI>
                 <ModalUI
                     open={this.props.modalGroup !== null}
                     className={classes.modalGroup}
-                    // Methods
-                    // handleClose={this.classifierCloseHandler}
                 >
                     <Classifiers
                         type={this.props.modalGroup}
                         groups={this.props.groups}
                         groupActiveId={this.props.groupActiveId}
-                        newGroup={this.props.newGroup}
                         classifiersSearch={this.props.classifiersSearch}
-                        touched={this.props.touched}
                         allError={this.props.allError}
                         initialOpen={this.props.initialOpen}
-                        classifiers={this.props.classifiers}
-                        initialModalGroup={this.props.initialModalGroup}
+                        groupsEditMode={this.props.groupsEditMode}
                         // Methods
-                        addGroupAction={this.props.onClassifierAction}
                         classifierCloseHandler={this.classifierCloseHandler}
-                        handleOpen={this.handleOpen}
-                        getGroup={this.props.getGroup}
-                        setProductValues={this.props.setProductValues}
+                        editModalHandleOpen={this.handleOpen}
                         setGroupValues={this.props.setGroupValues}
                         importGroupInProduct={this.props.importGroupInProduct}
-                        getOnlySubgroupWithGroupId={this.props.getOnlySubgroupWithGroupId}
-                        editModalHandleOpen={this.handleOpen}
+                        checkGroup={this.props.checkGroup}
+                        addGroup={this.props.addGroup}
                     />
                 </ModalUI>
             </div>
@@ -275,8 +221,11 @@ function mapStateToProps(state) {
         delete: state.characteristics.delete,
         collapsedModalStatus: state.characteristics.collapsedModalStatus,
         classifiersSearch: state.characteristics.classifiersSearch,
-        touched: state.characteristics.touched,
         newSubgroup: state.characteristics.newSubgroup,
+        edit: state.characteristics.edit,
+        add: state.characteristics.add,
+        subgroupName: state.characteristics.subgroupName,
+        groupsEditMode: state.characteristics.groupsEditMode,
     }
 }
 
@@ -288,32 +237,29 @@ function mapDispatchToProps(dispatch) {
         editGroup: (data, id) => dispatch(editGroup(data, id)),
         addSubgroup: data => dispatch(addSubgroup(data)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
-        getGroup: id => dispatch(getGroup(id)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
-        getSubgroup: (id, catId) => dispatch(getSubgroup(id, catId)),
         editSubgroup: data => dispatch(editSubgroup(data)),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
-        uploadImage: (type, file, data, modalType) => dispatch(uploadImage(type, file, data, modalType)),
-        deleteSubgroup: id => dispatch(deleteSubgroup(id)),
-        editGroupSubGroup: data => dispatch(editGroupSubGroup(data)),
+        deleteAction: (request, id, catId) => dispatch(deleteAction(request, id, catId)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
         closeClassifiers: () => dispatch(closeClassifiers()),
         openClassifiers: id => dispatch(openClassifiers(id)),
-        onlyCloseHandler: () => dispatch(onlyCloseHandler()),
-        closeAndBack: () => dispatch(closeAndBack()),
         closeAction: () => dispatch(closeAction()),
         openModalContent: item => dispatch(openModalContent(item)),
         selectTreeItem: (id, path, catId) => dispatch(selectTreeItem(id, path, catId)),
         selectTreeGroupItem: id => dispatch(selectTreeGroupItem(id)),
         addSubgroupAction: id => dispatch(addSubgroupAction(id)),
-        addGroupAction: () => dispatch(addGroupAction()),
-        actionToGroups: (modalType, status) => dispatch(actionToGroups(modalType, status)),
-        onClassifierAction: (type) => dispatch(onClassifierAction(type)),
+        addGroupAction: (id) => dispatch(addGroupAction(id)),
         editSubgroupAction: () => dispatch(editSubgroupAction()),
         editGroupAction: (value, newGroup) => dispatch(editGroupAction(value, newGroup)),
         deleteClassifiersAction: (type, param, id) => dispatch(deleteClassifiersAction(type, param, id)),
+        getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
+        deleteModalClose: () => dispatch(deleteModalClose()),
+        changeSubgroupName: (name, value) => dispatch(changeSubgroupName(name, value)),
+        cancelEditing: () => dispatch(cancelEditing()),
+        checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
     }
 }
 
