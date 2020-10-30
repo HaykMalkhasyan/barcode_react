@@ -12,7 +12,6 @@ export default function AlertDialog(props) {
   const {open, setOpen} = props
   const [password, setPassword] = useState("")
 
-
   const handleClose = () => {
     setOpen(false);
   };

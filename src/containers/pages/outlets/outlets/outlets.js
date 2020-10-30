@@ -23,6 +23,8 @@ export default function Outlets() {
     const [openLogin, setOpenLogin] = useState(true)
     const [quanty, setQuany] = useState("")
     const [sellingPrice, setSellingPrice] = useState("")
+    const [quanty, setQuany] = useState(0)
+    const [sellingPrice, setSellingPrice] = useState(0)
     const [cashbox, setCashbox] = useState([])
     const [cashiers, setCashiers] = useState()
     const [selectedCahier, setSelectedCashier] = useState({})
@@ -44,7 +46,6 @@ export default function Outlets() {
     const [debt, setDebt] = useState(0)
     const [disscount, setDisscount] = useState("")
     const [disscountType, setDisscountType] = useState("percent")
-
 
 
 
@@ -97,8 +98,6 @@ export default function Outlets() {
         }
     },[selectedCahier, currentTurn])
 
-
-
     useEffect(()=>{
         if(selectedCahier.id && currentTurn.id){
             getFromLocale()
@@ -144,8 +143,6 @@ export default function Outlets() {
     //     }
     // }
 
-    
-
 
 
     function changeTurn(item, i) {
@@ -188,8 +185,6 @@ export default function Outlets() {
         
     }
     }
-
- 
 
 
     return (
