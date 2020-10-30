@@ -1365,7 +1365,7 @@ const Icons = props => {
                     {
                         !props.className ?
                             <defs>
-                                <style>{".tree-arrow-right-empty{fill:none;stroke:#024059;}"}</style>
+                                <style>{".tree-arrow-right-empty{fill:none;stroke:#3b3b3b;}"}</style>
                             </defs>
                             :
                             null

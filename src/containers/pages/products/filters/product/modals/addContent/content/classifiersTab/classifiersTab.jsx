@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import classes from './classifiersTab.module.css'
 import {connect} from "react-redux";
 import {
-    getActionById,
     getAllGroup,
+    getGroup,
     getOnlySubgroupWithGroupId,
     setGroupValues
 } from "../../../../../../../../../Redux/characteristics/actions";
@@ -32,7 +32,7 @@ class ClassifiersTab extends Component {
 
     selectGroupHandler = id => {
         if (id !== 0) {
-            this.props.getActionById("get", "group", {path: "Group/Group", id: id});
+            this.props.getGroup(id);
             this.props.getOnlySubgroupWithGroupId(id);
             this.props.selectGroupItem()
         }
@@ -119,9 +119,9 @@ function mapDispatchToProps(dispatch) {
         getAllGroup: () => dispatch(getAllGroup()),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
+        getGroup: id => dispatch(getGroup(id)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         selectGroupItem: () => dispatch(selectGroupItem()),
-        getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
     }
 }
 

@@ -4,10 +4,10 @@ import {
     ADD_CLASSIFIER_ACTION,
     ADD_GROUP_ACTION,
     ADD_GROUP_SET,
-    ADD_SUBGROUP_ACTION, CHANGE_SUBGROUP_NAME,
+    ADD_SUBGROUP_ACTION,
     CLOSE_AND_BACK,
     CLOSE_CLASSIFIERS,
-    CLOSE_HANDLER, DELETE_MODAL_CLOSE,
+    CLOSE_HANDLER,
     EDIT_GROUP_ACTION,
     EDIT_GROUP_SET,
     EDIT_SUBGROUP_ACTION,
@@ -16,8 +16,8 @@ import {
     OPEN_HANDLER,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE, SET_RENDERED_FILTER_TREE_VALUE,
-    SET_RENDERED_TREE_VALUE, SET_WITHOUT_DELETED_GROUP
+    SET_GROUP_VALUE,
+    SET_RENDERED_TREE_VALUE
 } from "./actionTypes";
 import {findItem, getHeaders, getToken, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
@@ -103,24 +103,42 @@ export function uploadImage(type, file, data, modalType) {
     }
 }
 
-// GET groups
-export function getAllGroup() {
+// Groups actions
+
+export function getGroup(id) {
 
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group"}));
-                dispatch(setGroupValues('groups', Object.values(response.data.results)))
+                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group", id: id}));
+                dispatch(setGroupValues('group', response.data.results))
             } catch (error) {
-                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllGroup, dispatch);
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getGroup, dispatch, id);
             }
         }
     }
 }
 
-// GET groups or subgroups by Id
-export function getActionById(requestType, memory, param, id = null) {
+export function getSubgroup(id, catId) {
 
+    return async dispatch => {
+        if (cookie.get('access')) {
+            try {
+                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/SubGroup", id: catId, param: {id: id}}));
+                dispatch(setGroupValues('subgroup', response.data.data[id]))
+            } catch (error) {
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroup, dispatch, id, catId);
+            }
+        }
+    }
+}
+
+/*
+*   NEW ACTION , this function must changed addGroup and subGroup together
+*
+* */
+export function getActionById( requestType, memory, param, id = null) {
+console.log(param)
     return async dispatch => {
         if (cookie.get('access')) {
             try {
@@ -136,6 +154,31 @@ export function getActionById(requestType, memory, param, id = null) {
                 }
             } catch (error) {
                 console.log("error: ", error);
+            }
+        }
+    }
+}
+
+export function getAllGroup() {
+
+    return async dispatch => {
+        if (cookie.get('access')) {
+            try {
+                const response = await Axios.get(API_URL, getHeaders({}, {path: "Group/Group"}));
+                dispatch(setGroupValues('groups', Object.values(response.data.results)))
+            } catch (error) {
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllGroup, dispatch);
+                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                //     const refresh_token = cookie.get('refresh');
+                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                //     if ((await new_token_data) === null) {
+                //         dispatch(setGroupValues('errors', error.message))
+                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                //         dispatch(getAllGroup())
+                //     }
+                // } else {
+                //     dispatch(setGroupValues('allError', true))
+                // }
             }
         }
     }
@@ -218,50 +261,42 @@ export function setEditedGroup(groups, id) {
     }
 }
 
-export function deleteAction(request, id, catId = null) {
+export function deleteGroup(data) {
 
-    return async dispatch => {
+    return async (dispatch, getState) => {
         if (cookie.get('access')) {
+            const groups = [...getState().characteristics.groups];
             try {
-                const response = await Axios({
-                    method: 'delete',
-                    url: API_URL,
-                    data: {path: request, param: catId === null ? {id: id} : {id: id, cat_id: catId}},
-                    ...getHeaders({}, {})
-                })
-                if (catId !== null) {
-                    dispatch(getSubgroupWithGroupId(catId))
-                } else {
-                    dispatch(deleteActionSet(id))
+                const response = await Axios.delete(`${API_URL}/group/${data.id}`, getHeaders());
+                if (groups.length > 0) {
+                    for (let [key, value] of Object.keys(groups)) {
+                        if (value.id === response.data.id) {
+                            groups.splice(key, 1);
+                        }
+                    }
                 }
-                dispatch(deleteModalClose())
+                dispatch(setGroupValues('groups', groups))
             } catch (error) {
-                console.log(error)
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, deleteGroup, dispatch, data);
+                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                //     const refresh_token = cookie.get('refresh');
+                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                //     if ((await new_token_data) === null) {
+                //         dispatch(setGroupValues('errors', error.message))
+                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                //         dispatch(deleteGroup(data))
+                //     }
+                // } else {
+                //     dispatch(setGroupValues('allError', true))
+                // }
             }
         }
     }
 }
 
-export function deleteActionSet(id) {
+// Sub groups actions
 
-    return (dispatch, getState) => {
-        const groups = [...getState().characteristics.groups];
-        for (let [key, value] of Object.entries(groups)) {
-            console.log(value)
-            if (value.id === id) {
-                groups.splice(+key, 1);
-            }
-        }
-        dispatch(setWithoutDeletedGroup(groups))
-    }
-}
 
-export function setWithoutDeletedGroup(groups) {
-
-    return {
-        type: SET_WITHOUT_DELETED_GROUP, groups
-    }
-}
 
 export function getSubgroupWithGroupId(id, place = null) {
 
@@ -292,7 +327,7 @@ export function getSubgroupWithGroupId(id, place = null) {
 export function renderTree(data, place) {
 
     return dispatch => {
-        dispatch(setGroupValues('own_subgroups', []))
+
         const own_subgroup = [];
         for (let item of data) {
             if (parseInt(item.parent_id) === 0) {
@@ -309,27 +344,9 @@ export function renderTree(data, place) {
                 own_subgroup.push(new_data)
             }
         }
-
-        if (place) {
-            dispatch(setRenderedFilterTreeValue(own_subgroup))
-        } else {
-            dispatch(setRenderedOwnTreeValue(own_subgroup))
-        }
-
-    }
-}
-
-export function setRenderedOwnTreeValue(value) {
-
-    return {
-        type: SET_RENDERED_TREE_VALUE, value
-    }
-}
-
-export function setRenderedFilterTreeValue(value) {
-
-    return {
-        type: SET_RENDERED_FILTER_TREE_VALUE, value
+        let place_d = place ? place : 'own_subgroups';
+        let value_d = own_subgroup.length ? own_subgroup : null;
+        dispatch(setRenderedTreeValue(place_d, value_d))
     }
 }
 
@@ -347,6 +364,29 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
                 }
             } catch (error) {
                 await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroupWithGroupId, dispatch, id, place);
+            }
+        }
+    }
+}
+
+export function getAllSubgroup() {
+
+    return async dispatch => {
+        if (cookie.get('access')) {
+            try {
+                const response = await Axios.get(`${API_URL}/subgroup/?page_size=10000`, getHeaders());
+                dispatch(setGroupValues('subgroups', response.data.results))
+            } catch (error) {
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getAllSubgroup, dispatch);
+                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                //     const refresh_token = cookie.get('refresh');
+                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                //     if ((await new_token_data) === null) {
+                //         dispatch(setGroupValues('errors', error.message))
+                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                //         dispatch(getAllSubgroup())
+                //     }
+                // }
             }
         }
     }
@@ -385,12 +425,15 @@ export function addSubgroup(data) {
 
 export function editSubgroup(data) {
 
-    return async dispatch => {
+    return async (dispatch, getState) => {
         if (cookie.get('access')) {
             try {
+                const initialModalGroup = getState().characteristics.initialModalGroup;
+                const initialStatus = getState().characteristics.initialStatus;
                 const response = await Axios.put(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
                 const new_data = Object.values(response.data.data)
                 dispatch(renderTree(new_data));
+                dispatch(actionToGroups(initialModalGroup, initialStatus))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -411,6 +454,105 @@ export function editSubgroup(data) {
     }
 }
 
+export function editGroupSubGroup(data) {
+
+    return async dispatch => {
+        if (cookie.get('access')) {
+            let subs = data.map(
+                item => {
+                    return Axios.put(`${API_URL}/subgroup/${item.id}`, item, getHeaders());
+                }
+            );
+
+            Promise.all(subs).then(
+                value => {
+                    value.forEach(
+                        item => dispatch(addEditedData(item.data))
+                    )
+                }
+            ).catch(
+                async error => {
+                    if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                        const refresh_token = cookie.get('refresh');
+                        const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+
+                        if ((await new_token_data) === null) {
+                            dispatch(setGroupValues('errors', error.message))
+                        } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                            dispatch(editSubgroup(data))
+                        }
+                    } else if (error.response && error.response.status === 400) {
+                        dispatch(setGroupValues('error', true))
+                    } else {
+                        dispatch(setGroupValues('allError', true))
+                    }
+                }
+            )
+        }
+    }
+}
+
+export function deleteSubgroup(id) {
+
+    return async (dispatch, getState) => {
+        if (cookie.get('access')) {
+            const subgroups = [...getState().characteristics.subgroups];
+            const customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
+            try {
+                await Axios.delete(`${API_URL}/subgroup/${id}`, getHeaders());
+                if (subgroups.length > 0) {
+                    for (let [key, value] of Object.entries(subgroups)) {
+                        if (value.id === id) {
+                            console.log(key, value);
+                            subgroups.splice(key, 1);
+                        }
+                    }
+                    for (let [key, value] of Object.entries(customSubgroup)) {
+                        if (value.id === id) {
+                            customSubgroup.splice(+key, 1);
+                        }
+                    }
+                }
+                dispatch(setGroupValues('subgroups', subgroups));
+                dispatch(setGroupValues('customSubgroup', customSubgroup))
+            } catch (error) {
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, deleteSubgroup, dispatch, id);
+                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                //     const refresh_token = cookie.get('refresh');
+                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+                //     if ((await new_token_data) === null) {
+                //         dispatch(setGroupValues('errors', error.message))
+                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                //         dispatch(deleteSubgroup(id))
+                //     }
+                // } else {
+                //     dispatch(setGroupValues('allError', true))
+                // }
+            }
+        }
+    }
+}
+
+export function addEditedData(data) {
+
+    return (dispatch, getState) => {
+        let customSubgroup = getState().characteristics.customSubgroup ? [...getState().characteristics.customSubgroup] : [];
+        for (let [key, value] of Object.entries(customSubgroup)) {
+            if (value.id === data.id) {
+                customSubgroup[key] = data;
+                break
+            }
+        }
+        customSubgroup = customSubgroup.sort(
+            (a, b) => {
+                return parseInt(a.sort) - parseInt(b.sort);
+            }
+        );
+        dispatch(setGroupValues('customSubgroup', customSubgroup));
+        dispatch(setGroupValues('classifierSubgroup', customSubgroup));
+    }
+}
+
 export function searchHandler(name, value) {
     return dispatch => {
         dispatch(setGroupValues(name, value));
@@ -419,15 +561,9 @@ export function searchHandler(name, value) {
 
 export function openModalContent(item) {
 
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(getSubgroupWithGroupId(item.id));
-        dispatch(openAction({
-            id: item.id,
-            title_am: item.title_am,
-            title_ru: item.title_ru,
-            title_en: item.title_en,
-            required_group: item.required_group
-        }, item))
+        dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en, required_group: item.required_group}, item))
     }
 }
 
@@ -439,7 +575,7 @@ export function deleteClassifiersAction(type, param, id = null) {
         } else {
             dispatch(getActionById("get", type, param, id))
         }
-        dispatch(setGroupValues('delete', type))
+        dispatch(setGroupValues('delete', true))
     }
 }
 
@@ -455,26 +591,20 @@ export function editSubgroupAction() {
     return (dispatch, getState) => {
         const subgroup = {...getState().characteristics.subgroup};
         const newSubgroup = {...getState().characteristics.newSubgroup};
-        const subgroupName = subgroup[`name_${cookie.get('language') || "am"}`];
-        newSubgroup.name = subgroup[`name_${cookie.get('language') || "am"}`];
+        const groupName = subgroup[`name_${cookie.get('language') || "am"}`];
+        newSubgroup[`name_${cookie.get('language') || "am"}`] = subgroup[`name_${cookie.get('language') || "am"}`];
         newSubgroup.image = subgroup.image;
         newSubgroup.id = subgroup.id;
         newSubgroup.parent_id = subgroup.parent_id;
         newSubgroup.cat_id = subgroup.cat_id;
-        dispatch(editSubgroupActionSet(newSubgroup, subgroupName))
+        dispatch(editSubgroupActionSet(newSubgroup, groupName))
     }
 }
 
-export function editSubgroupActionSet(newSubgroup, subgroupName) {
-    return {
-        type: EDIT_SUBGROUP_ACTION, newSubgroup, subgroupName
-    }
-}
+export function editSubgroupActionSet(newSubgroup, groupName) {
 
-export function changeSubgroupName(name, value) {
-
-    return {
-        type: CHANGE_SUBGROUP_NAME, name, value
+    return{
+        type: EDIT_SUBGROUP_ACTION, newSubgroup, groupName
     }
 }
 
@@ -506,10 +636,12 @@ export function actionToGroups(modalType, status) {
     }
 }
 
-export function deleteModalClose() {
+// ----------------------------------------------------------------------------------------
+
+export function setRenderedTreeValue(place, value) {
 
     return {
-        type: DELETE_MODAL_CLOSE
+        type: SET_RENDERED_TREE_VALUE, place, value
     }
 }
 

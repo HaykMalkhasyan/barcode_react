@@ -81,7 +81,7 @@ const ProductModal = props => {
             root={props.root}
             label={
                 <ModalHeader
-                    label={labelRender(props.open)}
+                    label={labelRender(props.type)}
                     // Methods
                     confirmHandler={confirmHandler}
                     closeHandler={
