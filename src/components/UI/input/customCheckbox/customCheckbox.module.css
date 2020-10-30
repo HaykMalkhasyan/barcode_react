@@ -13,6 +13,14 @@
     font-size: 14px;
 }
 
+.disabled .checkbox {
+    background-color: #eeeeee !important;
+}
+
+.disabled {
+    color: #eee !important;
+}
+
 .checkbox {
     margin-left: 10px;
     width: 42px;

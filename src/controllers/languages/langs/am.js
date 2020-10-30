@@ -38,4 +38,6 @@ export const am = {
     suppliers: 'գործընկերներ',
     workers: 'աշխատակիցներ',
     label_editor: 'Պիտակի խմբագիր',
+    outlets: 'վաճառակետեր',
+    all:"բոլորը",
 };

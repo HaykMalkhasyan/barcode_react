@@ -85,7 +85,7 @@ const ModalActions = props => {
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.controllerId ? event => props.onEditClassifier(event, props.controllerId, 'subgroup') : null}
+                onClick={props.own_select ? event => props.onEditSubgroup(event, props.own_select) : null}
             />
             <CustomButton
                 className={classes.actionButtons}
@@ -102,11 +102,11 @@ const ModalActions = props => {
                 }
                 // Methods
                 onClick={
-                    props.own_select ?
-                        event => props.onAddClassifier(event, props.own_select)
+                    props.own_select !== null ?
+                        event => props.onAddSubgroup(event, props.own_select)
                         :
-                        props.groupId ?
-                            event => props.onAddClassifier(event, props.groupId)
+                        props.groupId !== null ?
+                            event => props.onAddGroup(event/*, props.groupId*/)
                             :
                             null
                 }
@@ -118,14 +118,22 @@ const ModalActions = props => {
                         <span className={classes.contentSpan}>
                             <Icons
                                 type={'group-delete'}
-                                opacity={props.own_select !== null ? 1 : 0.18}
-                                className={props.own_select !== null ? classes.groupDeleteSelected : classes.iconsInactive}
+                                opacity={props.own_select !== null || props.groupId !== null ? 1 : 0.18}
+                                className={props.own_select !== null || props.groupId !== null ? classes.groupDeleteSelected : classes.iconsInactive}
                             />
                         </span>
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.controllerId ? event => props.deleteHandler(event, props.controllerId.id) : null}
+                onClick={
+                    props.own_select !== null ?
+                        event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
+                        :
+                        props.groupId !== null ?
+                            event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
+                            :
+                            null
+                }
             />
         </div>
     )

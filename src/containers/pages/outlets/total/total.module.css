@@ -1,0 +1,35 @@
+.totalContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+.item{
+    width: 100%;
+    margin: 5px 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgba(211, 211, 211, 0.289);
+    text-align: right;
+    border-radius: 5px;
+}
+.input{
+    padding: 10px;
+    width: 100px;
+    border: none;
+    margin: 0px 10px;
+    font-size: 15px;
+    border-radius: 9px;
+}
+
+.darkBackGround{
+    background-color: #1fb5ad;
+    color: white;
+}
+
+.lightBackGround{
+    background-color: rgba(66,193,197,.3)!important;
+}
+.diff{
+    background-color: rgba(255,255,0,.3)!important;
+}

@@ -1,13 +1,19 @@
 import {
-    ADD_NEW_PRODUCT, BACK_TO_PRODUCT, CLOSE_MODALS,
-    CLOSE_PRODUCT_MODAL, IMPORT_GROUP_IN_PRODUCT, IMPORT_GROUP_IN_PRODUCT_CLOSE,
+    ADD_NEW_PRODUCT,
+    BACK_TO_PRODUCT,
+    CLOSE_MODALS,
+    CLOSE_PRODUCT_MODAL,
+    IMPORT_GROUP_IN_PRODUCT,
+    IMPORT_GROUP_IN_PRODUCT_CLOSE,
     ONLY_ADD_PRODUCT,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
-    SET_PRODUCTS, SET_SELECT_GROUP_ITEM, SET_SELECT_SUBS, SET_TAB_VALUE
+    SET_PRODUCTS,
+    SET_SELECT_GROUP_ITEM,
+    SET_SELECT_SUBS,
+    SET_TAB_VALUE
 } from "./actionTypes";
 import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
-import {ADD_CLASSIFIERS_ACTION} from "../characteristics/actionTypes";
 
 const initialState = {
     product: null,
@@ -22,7 +28,6 @@ const initialState = {
     subgroupsOpen: false,
     scroll: 'paper',
     scrollB: 'paper',
-    classifiersModal: false,
     measurementsFilters: [
         {id: 1, name: {am: 'Քաշային', ru: 'по весу', eng: 'by weight'}},
         {id: 2, name: {am: 'Հատային', ru: 'по количеству', eng: 'by weight'}},
@@ -168,10 +173,6 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
-        case ADD_CLASSIFIERS_ACTION:
-            return {
-                ...state, classifiersModal: false
-            }
         case SET_DELETE_BARCODE:
             return {
                 ...state, [action.name]: action.products_barcode

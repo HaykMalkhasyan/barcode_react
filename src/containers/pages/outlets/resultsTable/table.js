@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,15 +17,12 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 
 
 export default function BasicTable(props) {
 
-    const {items, setItems} = props
+    const {items, setItems, saveOnLocale} = props
   const classes = useStyles();
 
 
@@ -33,6 +30,7 @@ export default function BasicTable(props) {
     let clone = JSON.parse(JSON.stringify(items)) 
     clone[i].sellingPrice = e.target.value
     setItems(clone)
+    saveOnLocale(clone)
   }
 
 
@@ -40,6 +38,7 @@ export default function BasicTable(props) {
     let clone=JSON.parse(JSON.stringify(items))
     clone.splice(i,1)
     setItems(clone)
+    saveOnLocale(clone)
   }
 
 

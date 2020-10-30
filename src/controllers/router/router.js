@@ -46,6 +46,9 @@ const LazyCharacteristics = lazy(
 const LazyLabelEditor = lazy(
     () => import('../../containers/pages/products/editor/editor')
 );
+const LazyOutlets = lazy(
+    () => import('../../containers/pages/outlets/outlets/outlets')
+);
 
 const Router = props => {
 
@@ -92,6 +95,13 @@ const Router = props => {
                 path='/products/editor'
                 auth={props.auth}
                 component={LazyLabelEditor}
+            />
+             {/* MainTab page */}
+             <PrivateRoute
+                exact
+                path='/outlets'
+                auth={props.auth}
+                component={LazyOutlets}
             />
             {/* Login */}
             <PublicRoute

@@ -4,6 +4,7 @@ import Icons from "../../../../../components/Icons/icons";
 import Submenu from "../submenu/submenu";
 import {withRouter} from "react-router-dom";
 import {getLanguage} from "../../../../../controllers/languages/languages";
+import StoreIcon from '@material-ui/icons/Store';
 
 const Menu = props => {
 
@@ -29,6 +30,11 @@ const Menu = props => {
             case 'workers':
                 return (
                     <Icons type={'workers'} className={classes.icons}/>
+                );
+            case 'outlets':
+                return (
+                    <StoreIcon/>
+                    // <Icons type={'marketing'}  />
                 );
             default:
                 return null;

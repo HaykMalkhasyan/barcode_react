@@ -11,11 +11,7 @@ import cookies from "../../../../../../services/cookies";
 const Classifiers = props => {
 
     const addHandler = () => {
-
-        props.setGroupValues('modalType', 'add');
-        props.setGroupValues('groupType', 'group');
-        props.setGroupValues('modalGroup', null);
-        props.setGroupValues('initialModalGroup', props.type);
+        props.addGroupAction(props.type)
     };
 
     const editHandler = (event, item) => {

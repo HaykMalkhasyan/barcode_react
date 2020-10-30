@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useCallback} from 'react'
 import Search from "../search/search"
 import Login from "../modal/login"
 import style from "./outlets.module.css"
@@ -27,13 +27,13 @@ export default function Outlets() {
     const [selectedCahier, setSelectedCashier] = useState({})
     const [items, setItems] = useState([])
     const [turns, setTurns] = useState([{i:1, id:id, items:[]}])
-    const [currentTurn, setCurrentTurn] = useState(id)
-    const [props, set, stop] = useSpring(() => ({opacity: 1}))
+    const [currentTurn, setCurrentTurn] = useState({i:1, items:[]})
+    const [props, set] = useSpring(() => ({opacity: 1}))
     const [focus, setFocus] = useState()
     const quantyRef = useRef()
     const sellingPriceRef = useRef()
+    const [inputValue, setInputValue] = React.useState('');
 
-    const contentRef = useRef()
 
 
 
@@ -51,54 +51,94 @@ export default function Outlets() {
         })
     },[])
 
-
-
-
     useEffect(()=>{
-        if(selectedCahier){
-            let cashier = localStorage.getItem(`${selectedCahier.id}`)
-            if(cashier){
-                    cashier = JSON.parse(cashier)
-                    console.log(cashier)
-                    if(cashier.items){
-                        setItems(cashier.items)
-                    }
+        if(selectedCahier.id){
+            let allTurns = localStorage.getItem(`${selectedCahier.id}`)
+            if(allTurns){
+                allTurns = JSON.parse(allTurns)
+                setTurns(allTurns)
+                setCurrentTurn(allTurns[0])
+                // setItems(allTurns[0].items)
+            }else{
+                let id = Date.now()
+                setTurns([{i:1, id:id, items:[]}])
+                setCurrentTurn({i:1, id:id, items:[]})
             }
         }
     },[selectedCahier])
 
+    // useEffect(()=>{
+    //     if(selectedCahier.id && currentTurn.id){
+    //         saveOnLocale()
+    //     }
+    // },[items])
 
-
-    useEffect(()=>{
-        let clone = JSON.parse(JSON.stringify(turns))
-        clone.map(item=>{
-            if(item.id === currentTurn){
-                return {
-                    ...item,
-                    items:items
-                }
+    const getFromLocale = useCallback(()=>{
+        let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
+        if(turns_on_storage){
+            turns_on_storage = JSON.parse(turns_on_storage)
+            let currentTurnID = currentTurn.id ? currentTurn.id : turns_on_storage[0].id
+            let index = turns_on_storage.findIndex(x=>x.id === currentTurnID)
+            // setTurns(turns_on_storage)
+            // setCurrentTurn(turns_on_storage[0])
+            if(index === -1){
+                setItems([])
+            }else{
+                setItems(turns_on_storage[index].items)
             }
-            return {...item} 
-        })
-    },[items])
-
-    useEffect(()=>{
-        let items = turns.find(x=>x.id === currentTurn)
-        setItems(items.items)
-    },[currentTurn])
-
-
-    useEffect(()=>{
-        if(cashiers && selectedCahier){
-            let allTurns = turns.map(item=>{
-                if(item.id === currentTurn){
-                    return {...item, items:items}
-                }
-                return {...item}
-            })
-            localStorage.setItem(`${selectedCahier.id}`, JSON.stringify(allTurns))
+        }else{
+            setItems([])
         }
-    },[items, cashiers])
+    },[selectedCahier, currentTurn])
+
+
+
+    useEffect(()=>{
+        if(selectedCahier.id && currentTurn.id){
+            getFromLocale()
+        }
+    },[currentTurn, selectedCahier, getFromLocale])
+
+
+    function saveOnLocale(items){
+        let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
+        if(turns_on_storage){
+            turns_on_storage = JSON.parse(turns_on_storage)
+            let index = turns_on_storage.findIndex(x=>x.id === currentTurn.id)
+            if(index === -1){
+                let obj = JSON.parse(JSON.stringify(currentTurn))
+                obj.items = items
+                turns_on_storage.push(obj)    
+            }else{
+                turns_on_storage[index].items = items
+            }
+            localStorage.setItem(`${selectedCahier.id}`, JSON.stringify(turns_on_storage))
+        }else{
+            let obj = JSON.parse(JSON.stringify(currentTurn))
+            obj.items.push(...items)
+            localStorage.setItem(`${selectedCahier.id}`, JSON.stringify([obj]))
+        }
+    }
+
+    // function getFromLocale(){
+    //     let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`)
+    //     if(turns_on_storage){
+    //         turns_on_storage = JSON.parse(turns_on_storage)
+    //         let currentTurnID = currentTurn.id ? currentTurn.id : turns_on_storage[0].id
+    //         let index = turns_on_storage.findIndex(x=>x.id === currentTurnID)
+    //         // setTurns(turns_on_storage)
+    //         // setCurrentTurn(turns_on_storage[0])
+    //         if(index === -1){
+    //             setItems([])
+    //         }else{
+    //             setItems(turns_on_storage[index].items)
+    //         }
+    //     }else{
+    //         setItems([])
+    //     }
+    // }
+
+    
 
 
 
@@ -107,7 +147,7 @@ export default function Outlets() {
         setTimeout(()=>{
             set({opacity: 1})
         },200)
-        setCurrentTurn(item.id)
+        setCurrentTurn(item)
     }
 
     function get_float_num_length(num){
@@ -123,16 +163,21 @@ export default function Outlets() {
 
     function addRow(params) {
         let index = items.findIndex(x=>x.selected===selecteds.item_name)
+        let clone;
         if(index === -1){
+            clone = [...items, {selected: selecteds.item_name, quanty, sellingPrice}]
             setItems([...items, {selected: selecteds.item_name, quanty, sellingPrice}])
         }else{
-            let clone = JSON.parse(JSON.stringify(items))
-            // console.log(typeof(quanty), typeof(clone[index].quanty))
+            clone = JSON.parse(JSON.stringify(items))
             get_float_num_length(clone[index].quanty)
             get_float_num_length(quanty)
             clone[index].quanty = (+clone[index].quanty + +quanty).toFixed(Math.max( get_float_num_length(clone[index].quanty), get_float_num_length(quanty)))
             setItems(clone)
         }
+        saveOnLocale(clone)
+        setQuany("")
+        setSellingPrice("")
+        setSelected(null)
     }
 
 
@@ -157,27 +202,36 @@ export default function Outlets() {
                  {turns.map((item, i)=>{
                      return <button 
                      key={i}
-                     className={ item.id===currentTurn ? style.actieTurn : style.turns}
+                     className={ item.id===currentTurn.id ? style.actieTurn : style.turns}
                      onClick={()=>{changeTurn(item,i)}}
                  >
                      {`TURN ${i+1}`}
                  </button>
                  })}
-                 <IconButton style={{color:"white"}} onClick={()=>{setTurns([...turns, {i:turns.length, id:Date.now()}])}} >
+                 <IconButton style={{color:"white"}} onClick={()=>{setTurns([...turns, {i:turns.length, id:Date.now(), items:[]}])}} >
                     <AddIcon color="inherit" />
                 </IconButton>
             </div>
             <animated.div style={props} >
              <div className={style.filters} >
             
-                <Search cashbox={cashbox} reff = {quantyRef} setFocus={setFocus} setCashbox={setCashbox} selecteds={selecteds} setSelected={setSelected}/>
+                <Search 
+                    inputValue={inputValue} 
+                    setInputValue={setInputValue} 
+                    cashbox={cashbox} 
+                    reff = {quantyRef} 
+                    setFocus={setFocus} 
+                    setCashbox={setCashbox} 
+                    selecteds={selecteds} 
+                    setSelected={setSelected}
+                />
                 <TextField
                     margin="none"
                     style={{margin:"0px 10px"}}
                     size="small"
                     focused={focus==="quanty"}
                     inputRef={quantyRef}
-                    onKeyUp = {(e)=>{if(e.keyCode===13) {sellingPriceRef.current.focus()} }}
+                    onKeyUp = {(e)=>{if(e.keyCode===13) { quanty && sellingPriceRef.current.focus()} }}
                     label="quanty"
                     type="number"
                     value={quanty}
@@ -205,7 +259,7 @@ export default function Outlets() {
                 </Button>
             </div>
             <div className={style.results} >
-                <Table items={items} setItems={setItems} />
+                <Table saveOnLocale={saveOnLocale} items={items} setItems={setItems} />
             </div>
             <div className={style.totalContainer} >
                 <Total 
