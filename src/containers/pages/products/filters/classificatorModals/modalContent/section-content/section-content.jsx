@@ -55,6 +55,7 @@ const SectionContent = props => {
                     own_move={props.own_move}
                     own_select={props.own_select}
                     edit={props.edit}
+                    add={props.add}
                     catId={props.catId}
                     newSubgroup={props.newSubgroup}
                     subgroupName={props.subgroupName}
@@ -62,9 +63,11 @@ const SectionContent = props => {
                     // Methods
                     selectTreeItem={props.selectTreeItem}
                     editSubgroup={props.editSubgroup}
+                    addSubgroup={props.addSubgroup}
                     setGroupValues={props.setGroupValues}
                     changeSubgroupName={props.changeSubgroupName}
                     selectTreeGroupItem={props.selectTreeGroupItem}
+                    cancelEditing={props.cancelEditing}
                 />
             </div>
         </section>

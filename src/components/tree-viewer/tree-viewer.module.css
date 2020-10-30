@@ -19,40 +19,43 @@
 }
 
 .toggle {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     color: #024059;
     border-left: 2px solid transparent;
     transition: 300ms;
 }
 
 .toggle:hover {
-    background: #024059;
-    color: #fff;
+    border-left-color: #024059;
 }
 
 .active {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     color: #024059;
     background-color: #deecfd;
     border-left: 2px solid #024059;
     transition: 300ms;
 }
 
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .active:hover {
-    background: #024059;
-    color: #fff;
+    border-left-color: #024059;
 }
 
 .collapseButton {
+    width: 30px;
+    height: 30px;
     padding-left: 0;
     border: 0;
     outline: none !important;
     background-color: transparent;
     color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .collapse {
@@ -71,7 +74,7 @@
     height: 30px;
     box-sizing: border-box;
     padding: 0 5px;
-    background-color: #fff;
+    background-color: transparent;
     border: none;
     color: #666;
     border-bottom: 2px solid #FF8927;
@@ -83,42 +86,10 @@
     display: none;
 }
 
-.actions {
+.nodeContent {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
 }
 
-.actionsButton {
-    box-sizing: border-box;
-    padding: 0 5px;
-    height: 30px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none !important;
-    background-color: #fff;
-    cursor: pointer;
-    transition: 300ms;
-}
 
-.actionsButton:active {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
-}
 
-.actionsButton:first-child {
-    color: #67CA51;
-}
-
-.actionsButton:first-child:hover {
-    background-color: #d7ffcc;
-}
-
-.actionsButton:last-child {
-    color: #ff4b63;
-}
-
-.actionsButton:last-child:hover {
-    background-color: #ffb8c3;
-}

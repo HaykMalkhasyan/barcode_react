@@ -9,8 +9,9 @@ import CustomButton from "../UI/button/customButton/customButton";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import CustomInput from "../UI/input/customInput/customInput";
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
+import CoupleButtons from "../couple-action-buttons/couple-action-buttons";
+import AddContent from "./add-content/add-content";
+import Icons from "../Icons/icons";
 
 const TreeViewer = props => {
     const [open, setOpen] = useState(true);
@@ -41,119 +42,159 @@ const TreeViewer = props => {
             <div
                 className={props.group && props.group.id === props.groupId ? classes.active : classes.toggle}
                 onClick={() => {
-                    ref.current.tree.selectNode()
+                    if (ref.current) {
+                        ref.current["tree"].selectNode()
+                    }
                     props.selectTreeGroupItem(props.group.id)
                 }}
             >
-                {
-                    props.own_subgroups && props.own_subgroups.length ?
-                        <CustomButton
-                            className={classes.collapseButton}
-                            children={
-                                open ?
-                                    <ArrowDropDownIcon/>
-                                    :
-                                    <ArrowRightIcon/>
-                            }
-                            // Methods
-                            onClick={event => {
-                                event.stopPropagation();
-                                if (open) {
-                                    props.setGroupValues('own_select', null)
+                <div className={classes.content}>
+                    {
+                        props.own_subgroups && props.own_subgroups.length ?
+                            <CustomButton
+                                className={classes.collapseButton}
+                                children={
+                                    open ?
+                                        <ArrowDropDownIcon/>
+                                        :
+                                        <ArrowRightIcon/>
                                 }
-                                setOpen(!open);
-                            }}
+                                // Methods
+                                onClick={event => {
+                                    event.stopPropagation();
+                                    if (open) {
+                                        props.setGroupValues('own_select', null)
+                                    }
+                                    setOpen(!open);
+                                }}
+                            />
+                            :
+                            <CustomButton
+                                className={classes.collapseButton}
+                                children={<Icons type={'tree-arrow-right-empty'}/>}
+                            />
+
+                    }
+                    <span>Բոլորը</span>
+                </div>
+                {
+                    parseInt(props.add) === 0 ?
+                        <AddContent
+                            subgroupName={props.subgroupName}
+                            newSubgroup={props.newSubgroup}
+                            add={props.add}
+                            catId={props.catId}
+                            // Methods
+                            changeSubgroupName={props.changeSubgroupName}
+                            addSubgroup={props.addSubgroup}
+                            cancelEditing={props.cancelEditing}
                         />
                         :
                         null
                 }
-                <span>Բոլորը</span>
             </div>
             {
-                props.own_subgroups && props.own_subgroups.length ?
-                    <Collapse in={open} timeout={0} unmountOnExit className={classes.collapse}>
-                        <InfiniteTree
-                            autoOpen={false}
-                            ref={ref}
-                            width="100%"
-                            height={317}
-                            rowHeight={30}
-                            data={[...props.own_subgroups]}
-                        >
-                            {({node, tree}) => {
-                                let toggleState = '';
-                                const hasChildren = node.hasChildren();
+                props.own_subgroups ?
+                    props.own_subgroups.length ?
+                        <Collapse in={open} timeout={0} unmountOnExit className={classes.collapse}>
+                            <InfiniteTree
+                                autoOpen={false}
+                                ref={ref}
+                                width="100%"
+                                height={317}
+                                rowHeight={props.add ? 60 : 30}
+                                data={[...props.own_subgroups]}
+                            >
+                                {({node, tree}) => {
+                                    let toggleState = '';
+                                    const hasChildren = node.hasChildren();
 
-                                if ((!hasChildren && node.loadOnDemand) || (hasChildren && !node.state.open)) {
-                                    toggleState = 'closed';
-                                }
-                                if (hasChildren && node.state.open) {
-                                    toggleState = 'opened'
-                                }
+                                    if ((!hasChildren && node.loadOnDemand) || (hasChildren && !node.state.open)) {
+                                        toggleState = 'closed';
+                                    }
+                                    if (hasChildren && node.state.open) {
+                                        toggleState = 'opened'
+                                    }
 
-                                return (
-                                    <TreeNode
-                                        groupId={props.groupId}
-                                        selected={node.state.selected}
-                                        depth={node.state.depth}
-                                        onClick={() => {
-                                            if (props.edit === null) {
-                                                tree.selectNode(node)
-                                                props.select(node.id, node.state.path, node.cat_id)
-                                            }
-                                        }}
-                                    >
-                                        <Toggler
-                                            state={toggleState}
-                                            onClick={event => {
-                                                event.stopPropagation()
-                                                if (toggleState === "closed") {
-                                                    tree.openNode(node);
-                                                } else if (toggleState === "opened") {
-                                                    tree.closeNode(node);
+                                    return (
+                                        <TreeNode
+                                            groupId={props.groupId}
+                                            selected={node.state.selected}
+                                            depth={node.state.depth}
+                                            onClick={() => {
+                                                if (props.edit === null) {
+                                                    tree.selectNode(node)
+                                                    props.select(node.id, node.state.path, node.cat_id)
                                                 }
                                             }}
-                                        />
-                                        {
-                                            parseInt(props.edit) === parseInt(node.id) && parseInt(props.catId) === parseInt(node.cat_id) ?
-                                                <div className={classes.changeControllerWindow}>
-                                                    <CustomInput
-                                                        classNameInput={classes.subgroupNameInput}
-                                                        classNameLabel={classes.subgroupNameLabel}
-                                                        value={props.subgroupName}
-                                                        name={'subgroupName'}
-                                                        // Methods
-                                                        onChange={event => {
-                                                            props.changeSubgroupName(event.target.name, event.target.value)
-                                                        }}
-                                                    />
-                                                    <div className={classes.actions}>
-                                                        <CustomButton
-                                                            className={classes.actionsButton}
-                                                            children={<CheckIcon/>}
-                                                            // Methods
-                                                            onClick={() => {
-                                                                const newSubgroup = {...props.newSubgroup}
-                                                                newSubgroup.name = props.subgroupName;
-                                                                props.editSubgroup(newSubgroup)
-                                                            }}
-                                                        />
-                                                        <CustomButton
-                                                            className={classes.actionsButton}
-                                                            children={<CloseIcon/>}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                :
-                                                <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
+                                        >
+                                            <div className={classes.nodeContent}>
+                                                <Toggler
+                                                    state={toggleState}
+                                                    onClick={event => {
+                                                        event.stopPropagation()
+                                                        if (toggleState === "closed") {
+                                                            tree.openNode(node);
+                                                        } else if (toggleState === "opened") {
+                                                            tree.closeNode(node);
+                                                        }
+                                                    }}
+                                                />
+                                                {
+                                                    parseInt(props.edit) === parseInt(node.id) && parseInt(props.catId) === parseInt(node.cat_id) ?
+                                                        <div className={classes.changeControllerWindow}>
+                                                            <CustomInput
+                                                                classNameInput={classes.subgroupNameInput}
+                                                                classNameLabel={classes.subgroupNameLabel}
+                                                                value={props.subgroupName}
+                                                                name={'subgroupName'}
+                                                                // Methods
+                                                                onChange={event => {
+                                                                    props.changeSubgroupName(event.target.name, event.target.value)
+                                                                }}
+                                                            />
+                                                            <CoupleButtons
+                                                                // Methods
+                                                                checkSuccess={event => {
+                                                                    event.stopPropagation();
+                                                                    const newSubgroup = {...props.newSubgroup};
+                                                                    newSubgroup.name = props.subgroupName;
+                                                                    props.editSubgroup(newSubgroup)
+                                                                }}
+                                                                checkClose={event => {
+                                                                    event.stopPropagation();
+                                                                    props.cancelEditing();
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        :
+                                                        <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
                                                         {node.name}
                                                     </span>
-                                        }
-                                    </TreeNode>
-                                );
-                            }}
-                        </InfiniteTree>
-                    </Collapse>
+                                                }
+                                            </div>
+                                            {
+                                                parseInt(props.add) === parseInt(node.id) && parseInt(props.catId) === parseInt(node.cat_id) ?
+                                                    <AddContent
+                                                        subgroupName={props.subgroupName}
+                                                        newSubgroup={props.newSubgroup}
+                                                        add={props.add}
+                                                        catId={props.catId}
+                                                        // Methods
+                                                        changeSubgroupName={props.changeSubgroupName}
+                                                        addSubgroup={props.addSubgroup}
+                                                        cancelEditing={props.cancelEditing}
+                                                    />
+                                                    :
+                                                    null
+                                            }
+                                        </TreeNode>
+                                    );
+                                }}
+                            </InfiniteTree>
+                        </Collapse>
+                        :
+                        <small className={classes.isEmpty}>Դատարկ</small>
                     :
                     <SkeletonUI/>
             }

@@ -62,9 +62,9 @@ const ModalContent = props => {
         props.addSubgroupAction(id)
     };
 
-    const onAddGroup = (event) => {
+    const onAddGroup = (event, id) => {
         event.stopPropagation();
-        props.addGroupAction()
+        props.addGroupAction(id)
     }
 
     const onEditSubgroup =  async (event, id) => {
@@ -132,15 +132,6 @@ const ModalContent = props => {
     };
 
     const backPageHandler = () => {
-        props.setGroupValues(
-            "newGroup", {
-                title_am: '',
-                title_ru: '',
-                title_en: '',
-                required_group: false,
-                group_type: '1'
-            }
-        );
         props.classifierOpenHandler(props.group.id)
     };
 
@@ -172,10 +163,12 @@ const ModalContent = props => {
                 own_move={props.own_move}
                 search={props.search}
                 edit={props.edit}
+                add={props.add}
                 subgroupName={props.subgroupName}
                 // Methods
                 groupNameChangeHandler={groupNameChangeHandler}
                 changePositionStatus={props.changePositionStatus}
+                addSubgroup={props.addSubgroup}
                 setGroupValues={props.setGroupValues}
                 editSubgroup={props.editSubgroup}
                 changeSubgroupName={props.changeSubgroupName}
@@ -188,6 +181,7 @@ const ModalContent = props => {
                 searchChangeHandler={searchChangeHandler}
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
+                cancelEditing={props.cancelEditing}
             />
             <FooterContent
                 group={props.group}

@@ -14,6 +14,7 @@ const BodyContent = props => {
                 groupId={props.groupId}
                 own_subgroups={props.own_subgroups}
                 edit={props.edit}
+                add={props.add}
                 catId={props.catId}
                 newSubgroup={props.newSubgroup}
                 subgroupName={props.subgroupName}
@@ -22,7 +23,9 @@ const BodyContent = props => {
                 changeSubgroupName={props.changeSubgroupName}
                 setGroupValues={props.setGroupValues}
                 editSubgroup={props.editSubgroup}
+                addSubgroup={props.addSubgroup}
                 selectTreeGroupItem={props.selectTreeGroupItem}
+                cancelEditing={props.cancelEditing}
             />
         </div>
     )

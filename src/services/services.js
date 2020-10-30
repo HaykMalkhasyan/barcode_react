@@ -21,6 +21,15 @@ export function findItem(data, itemId) {
     return array
 }
 
+export function checkItem(array, elem) {
+    for (let item of array) {
+        if (item.id === elem.id && item.name === elem.name) {
+            return false
+        }
+    }
+    return true
+}
+
 export function getHeaders(headers, params) {
 
     return {

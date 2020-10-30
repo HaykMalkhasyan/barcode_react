@@ -1,26 +1,29 @@
 import Axios from "axios";
 import {
-    ACTIONS_TO_GROUPS,
-    ADD_CLASSIFIER_ACTION,
     ADD_GROUP_ACTION,
     ADD_GROUP_SET,
-    ADD_SUBGROUP_ACTION, CHANGE_SUBGROUP_NAME,
-    CLOSE_AND_BACK,
+    ADD_SUBGROUP_ACTION,
+    CHANGE_SUBGROUP_NAME,
+    CHECK_GROUP_SET,
     CLOSE_CLASSIFIERS,
-    CLOSE_HANDLER, DELETE_MODAL_CLOSE,
+    CLOSE_HANDLER,
+    DELETE_MODAL_CLOSE,
     EDIT_GROUP_ACTION,
     EDIT_GROUP_SET,
     EDIT_SUBGROUP_ACTION,
-    ONLY_CLOSE,
+    END_EDITING,
     OPEN_CLASSIFIERS,
     OPEN_HANDLER,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE, SET_RENDERED_FILTER_TREE_VALUE,
-    SET_RENDERED_TREE_VALUE, SET_WITHOUT_DELETED_GROUP
+    SET_GROUP_VALUE,
+    SET_RENDERED_FILTER_TREE_VALUE,
+    SET_RENDERED_TREE_VALUE,
+    SET_WITHOUT_DELETED_GROUP
 } from "./actionTypes";
-import {findItem, getHeaders, getToken, updateToken} from "../../services/services";
+import {checkItem, findItem, getHeaders, getToken, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
+import {importGroupInProduct} from "../products/actions";
 
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -148,6 +151,7 @@ export function addGroup(data) {
             const groups = [...getState().characteristics.groups];
             try {
                 const response = await Axios.post(API_URL, {"path": "Group/Group", "param": {...data}}, getHeaders());
+                dispatch(openModalContent(response.data.results))
                 groups.push(response.data.results);
                 dispatch(addGroupSet(groups))
             } catch (error) {
@@ -223,7 +227,7 @@ export function deleteAction(request, id, catId = null) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios({
+                await Axios({
                     method: 'delete',
                     url: API_URL,
                     data: {path: request, param: catId === null ? {id: id} : {id: id, cat_id: catId}},
@@ -319,6 +323,13 @@ export function renderTree(data, place) {
     }
 }
 
+export function cancelEditing() {
+
+    return {
+        type: END_EDITING
+    }
+}
+
 export function setRenderedOwnTreeValue(value) {
 
     return {
@@ -354,15 +365,12 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
 
 export function addSubgroup(data) {
 
-    return async (dispatch, getState) => {
+    return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const initialModalGroup = getState().characteristics.initialModalGroup;
-                const initialStatus = getState().characteristics.initialStatus;
                 const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
                 const new_data = Object.values(response.data.data)
                 dispatch(renderTree(new_data));
-                dispatch(actionToGroups(initialModalGroup, initialStatus))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -450,6 +458,33 @@ export function editGroupAction(value, newGroup) {
     }
 }
 
+export function checkGroup(type, item, id, place, index) {
+
+    return (dispatch, getState) => {
+        if (type === "edit") {
+            dispatch(getOnlySubgroupWithGroupId(id, place))
+            dispatch(checkGroupSet(id, index,))
+        } else if (type === "select") {
+            const classifiers = {...getState().products.classifiers};
+            const classifiersArray = [...classifiers.classifiers];
+            const initialOpen = getState().products.initialOpen;
+            if (checkItem(classifiersArray, item)) {
+                classifiersArray.push(item)
+            }
+            classifiers.classifiers = classifiersArray;
+            dispatch(importGroupInProduct(initialOpen, "close"))
+            dispatch(checkGroupSet(id, index))
+        }
+    }
+}
+
+export function checkGroupSet(id, index) {
+
+    return {
+        type: CHECK_GROUP_SET, id, index
+    }
+}
+
 export function editSubgroupAction() {
 
     return (dispatch, getState) => {
@@ -485,24 +520,9 @@ export function addSubgroupAction(id) {
     }
 }
 
-export function addGroupAction() {
-
+export function addGroupAction(id) {
     return {
-        type: ADD_GROUP_ACTION
-    }
-}
-
-export function onClassifierAction(status) {
-
-    return {
-        type: ADD_CLASSIFIER_ACTION, status
-    }
-}
-
-export function actionToGroups(modalType, status) {
-
-    return {
-        type: ACTIONS_TO_GROUPS, modalType, status
+        type: ADD_GROUP_ACTION, id
     }
 }
 
@@ -531,20 +551,6 @@ export function openClassifiers(id) {
 
     return {
         type: OPEN_CLASSIFIERS, id
-    }
-}
-
-export function onlyCloseHandler() {
-
-    return {
-        type: ONLY_CLOSE
-    }
-}
-
-export function closeAndBack() {
-
-    return {
-        type: CLOSE_AND_BACK
     }
 }
 
