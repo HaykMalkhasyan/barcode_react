@@ -37,7 +37,7 @@ export default function SimpleSelect(props) {
         <em>None</em>
       </MenuItem>
       {props.cashiers && props.cashiers.map(item=>{
-        return <MenuItem value={item}>{item.name}</MenuItem>
+        return <MenuItem key={item.id} value={item}>{item.name}</MenuItem>
       })}
     </Select>
   </FormControl>

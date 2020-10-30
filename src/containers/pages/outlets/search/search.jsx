@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import style from "./search.module.css"
@@ -20,9 +20,10 @@ export default function ComboBox(props) {
     const [loading, setLoading] = useState(false)
     const product = useSelector(s=>s.products)
     const dispatch = useDispatch()
+    const searchRef = useRef()
 
     useEffect(()=>{
-      if(inputValue.length>2){
+      if(inputValue && inputValue.length>2){
         setLoading(true)
         Axios.get(`${process.env.REACT_APP_API_URL}?path=Products/Search&param={"item_name":"${inputValue}"}`, {
             headers: {
@@ -40,7 +41,13 @@ export default function ComboBox(props) {
       }
     },[inputValue])
 
-    
+  
+useEffect(()=>{
+  setSearchs([]); 
+  setSelected(); 
+  setInputValue()
+  searchRef.current.focus()
+},[props.keyAutoComplate, setSelected, setInputValue])
 
 
 
@@ -59,19 +66,26 @@ export default function ComboBox(props) {
         
       />
       <Autocomplete
+        key={props.keyAutoComplate} 
+        autoFocus
+        selectOnFocus
         id="combo-box-demo"
         loading={loading}
         loadingText={<Spinner />}
         options={searchs}
         onClick={()=>{return}}
         getOptionLabel={(option) => option.item_name}
-        noOptionsText={<NoOption charsLength={inputValue.length} />}
+        noOptionsText={<NoOption charsLength={inputValue ? inputValue.length : 0} />}
         onChange={(event, newValue) => {
           // setOptions(newValue ? [newValue, ...options] : options);
           setSelected(newValue);
           setSearchs([])
           // setValue(newValue);
-          props.reff.current.focus()
+          props.setQuany(1)
+          props.setSellingPrice(1)
+          // if(event.keyCode!==13){
+            props.reff.current.focus()
+          // }
         }}
         // onChange={(e,v)=>{setSelected(v); console.log(v); props.reff.current.focus()}}
         style={{ width: 300 }}
@@ -80,7 +94,7 @@ export default function ComboBox(props) {
         onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
               }}
-        renderInput={(params) => <TextField {...params} label="search" variant="outlined" />}
+        renderInput={(params) => <TextField inputRef={input => {searchRef.current = input;}} {...params} label="search" variant="outlined" />}
       />
     </div>
   );
@@ -88,14 +102,7 @@ export default function ComboBox(props) {
 
 
 function NoOption(props){
-  // setProductValues
-
-  const product = useSelector(s=>s.products)
   const dispatch = useDispatch()
- console.log(product)
- let clone = JSON.parse(JSON.stringify(product))
- clone.open="add"
- console.log(clone,"clone")
  function  OpenAddProducts() {
   dispatch(setProductValues('open',"add"))
   dispatch(setProductValues('scroll',"paper"))

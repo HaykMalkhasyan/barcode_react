@@ -70,7 +70,7 @@ export default function BasicTable(props) {
           {items && items.map((row,i) => (
             <TableRow key={row.selected.item_name}>
               <TableCell component="th" scope="row">
-                {row.selected}
+                {row.selected.item_name}
               </TableCell>
               <TableCell align="right">{row.quanty}</TableCell>
               <TableCell align="right">
