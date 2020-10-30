@@ -19,77 +19,43 @@
 }
 
 .toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     color: #024059;
     border-left: 2px solid transparent;
     transition: 300ms;
 }
 
 .toggle:hover {
-    border-left-color: #024059;
+    background: #024059;
+    color: #fff;
 }
 
 .active {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     color: #024059;
     background-color: #deecfd;
     border-left: 2px solid #024059;
     transition: 300ms;
 }
 
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
 .active:hover {
-    border-left-color: #024059;
+    background: #024059;
+    color: #fff;
 }
 
 .collapseButton {
-    width: 30px;
-    height: 30px;
     padding-left: 0;
     border: 0;
     outline: none !important;
     background-color: transparent;
     color: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .collapse {
     padding-left: 18px;
     box-sizing: border-box;
 }
-
-.changeControllerWindow {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.subgroupNameInput {
-    height: 30px;
-    box-sizing: border-box;
-    padding: 0 5px;
-    background-color: transparent;
-    border: none;
-    color: #666;
-    border-bottom: 2px solid #FF8927;
-    width: 100%;
-    outline: none !important;
-}
-
-.subgroupNameLabel {
-    display: none;
-}
-
-.nodeContent {
-    display: flex;
-    align-items: center;
-}
-
-
-

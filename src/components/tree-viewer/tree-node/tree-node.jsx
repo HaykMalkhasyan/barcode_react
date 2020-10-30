@@ -5,18 +5,20 @@ const defaultRowHeight = "auto";
 const TreeNode = styled.div`
     cursor: default;
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
     color: #024059;
     transition: 300ms;
     line-height: ${({ rowHeight = defaultRowHeight }) => rowHeight - 2}px;
-    background: ${props => props.selected ? '#deecfd' : 'transparent'};
-    border-left: ${props => props.selected ? '2px solid #024059' : '2px solid #fff'};
+    background: ${props => props.selected && props.groupId === null ? '#deecfd' : 'transparent'};
+    border-left: ${props => props.selected && props.groupId === null ? '2px solid #024059' : '2px solid transparent'};
     padding-left: ${props => props.depth * 22}px;
     .dropdown {
         visibility: hidden;
     }
     &:hover {
-    border-left-color: #024059;
+        background: #024059;
+        color: #fff;
         .dropdown {
             visibility: inherit;
         }
