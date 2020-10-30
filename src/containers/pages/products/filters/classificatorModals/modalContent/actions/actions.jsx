@@ -5,25 +5,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import MouseIcon from "@material-ui/icons/Mouse";
 import Icons from "../../../../../../../components/Icons/icons";
 
-/*
-*   PROPS LIST
-*
-*   1: changePositionStatus
-*   2: toggleMovingStatus
-*   3: own_select
-*   4: controllerId
-*   5: moveHandler
-*   6: onEditClassifier
-*   7: groupId
-*   8: onAddClassifier
-*   9: deleteHandler
-*
-* */
-
 const ModalActions = props => {
 
     return (
         <div>
+            {/* subgroup CHANGE POSITION */}
             <CustomButton
                 className={`${classes.actionButtons} ${props.changePositionStatus ? classes.actionButtonsActive : ''}`}
                 children={
@@ -55,6 +41,8 @@ const ModalActions = props => {
                 // Methods
                 onClick={props.toggleMovingStatus}
             />
+
+            {/* subgroup CHANGE LOCATION */}
             <CustomButton
                 className={classes.actionButtons}
                 children={
@@ -71,6 +59,8 @@ const ModalActions = props => {
                 // Methods
                 onClick={props.controllerId ? event => props.moveHandler(event, props.controllerId.id) : null}
             />
+
+            {/* subgroup EDIT */}
             <CustomButton
                 className={classes.actionButtons}
                 children={
@@ -87,6 +77,8 @@ const ModalActions = props => {
                 // Methods
                 onClick={props.own_select ? event => props.onEditSubgroup(event, props.own_select) : null}
             />
+
+            {/* subgroup ADD */}
             <CustomButton
                 className={classes.actionButtons}
                 children={
@@ -111,6 +103,8 @@ const ModalActions = props => {
                             null
                 }
             />
+
+            {/* group or subgroup DELETE */}
             <CustomButton
                 className={classes.actionButtons}
                 children={

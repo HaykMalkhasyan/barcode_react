@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import Icons from "../../Icons/icons";
 
 const Toggler = styled(({state, ...props}) => (
     <a {...props}>
@@ -12,7 +12,7 @@ const Toggler = styled(({state, ...props}) => (
         {(state === "opened") &&
             <ArrowDropDownIcon/>
         }{(state !== "opened" && state !== "closed") &&
-            <> </>
+            <Icons type={'tree-arrow-right-empty'}/>
         }
     </a>
 ))`
