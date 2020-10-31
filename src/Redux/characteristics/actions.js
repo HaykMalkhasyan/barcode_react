@@ -277,19 +277,16 @@ export function getSubgroupWithGroupId(id, place = null) {
                 // dispatch(setGroupValues('customSubgroup', Object.values(response.data.data)));
             } catch (error) {
                 await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroupWithGroupId, dispatch, id);
-                // if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                //     const refresh_token = cookie.get('refresh');
-                //     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-                //     if ((await new_token_data) === null) {
-                //         dispatch(setGroupValues('errors', error.message))
-                //     } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                //         dispatch(getSubgroupWithGroupId(id))
-                //     }
-                // } else {
-                //     dispatch(setGroupValues('allError', true))
-                // }
             }
         }
+    }
+}
+
+export function openModalContent(item) {
+
+    return dispatch => {
+        dispatch(getSubgroupWithGroupId(item.id));
+        dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
     }
 }
 
@@ -298,17 +295,19 @@ export function renderTree(data, place) {
     return dispatch => {
         dispatch(setGroupValues('own_subgroups', []))
         const own_subgroup = [];
-        for (let item of data) {
+        const sort_data = data.sort((a, b) => a.sort - b.sort)
+        for (let item of sort_data) {
             if (parseInt(item.parent_id) === 0) {
                 let new_data = {
                     id: item.id,
                     cat_id: item.cat_id,
+                    sort: item.sort,
                     name: item[`name_${cookie.get('language') || 'am'}`],
                     state: {
                         droppable: false,
                         filtered: true
                     },
-                    children: findItem(data, item.id)
+                    children: findItem(sort_data, item.id)
                 }
                 own_subgroup.push(new_data)
             }
@@ -357,7 +356,7 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
                     dispatch(setGroupValues('customSubgroup', Object.values(response.data.data)));
                 }
             } catch (error) {
-                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getSubgroupWithGroupId, dispatch, id, place);
+                await updateToken(API_URL, error, "errors", error.message, 'allError', true, setGroupValues, getOnlySubgroupWithGroupId, dispatch, id, place);
             }
         }
     }
@@ -422,20 +421,6 @@ export function editSubgroup(data) {
 export function searchHandler(name, value) {
     return dispatch => {
         dispatch(setGroupValues(name, value));
-    }
-}
-
-export function openModalContent(item) {
-
-    return dispatch => {
-        dispatch(getSubgroupWithGroupId(item.id));
-        dispatch(openAction({
-            id: item.id,
-            title_am: item.title_am,
-            title_ru: item.title_ru,
-            title_en: item.title_en,
-            required_group: item.required_group
-        }, item))
     }
 }
 
@@ -568,10 +553,10 @@ export function openAction(data, group) {
     }
 }
 
-export function selectTreeItem(id, path, catId) {
+export function selectTreeItem(node, id, path, catId) {
 
     return {
-        type: SELECT_TREE_ITEM, id, path, catId
+        type: SELECT_TREE_ITEM, node, id, path, catId
     }
 }
 

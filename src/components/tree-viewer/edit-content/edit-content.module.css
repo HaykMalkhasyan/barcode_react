@@ -1,0 +1,22 @@
+.changeControllerWindow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.subgroupNameInput {
+    height: 30px;
+    box-sizing: border-box;
+    padding: 0 5px;
+    background-color: transparent;
+    border: none;
+    color: #666;
+    border-bottom: 2px solid #FF8927;
+    width: 100%;
+    outline: none !important;
+}
+
+.subgroupNameLabel {
+    display: none;
+}

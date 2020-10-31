@@ -62,7 +62,7 @@ const ModalActions = props => {
 
             {/* subgroup EDIT */}
             <CustomButton
-                className={classes.actionButtons}
+                className={props.activeAction === "edit" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}
                 children={
                     <Tooltip title={'Փոփոխել'} placement="right">
                         <span className={classes.contentSpan}>
@@ -75,12 +75,12 @@ const ModalActions = props => {
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.own_select ? event => props.onEditSubgroup(event, props.own_select) : null}
+                onClick={props.own_select && props.activeAction === null ? event => props.onEditSubgroup(event, props.own_select) : null}
             />
 
             {/* subgroup ADD */}
             <CustomButton
-                className={classes.actionButtons}
+                className={props.activeAction === "add" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}
                 children={
                     <Tooltip title={'Ավելացնել'} placement="right">
                         <span className={classes.contentSpan}>
@@ -94,13 +94,16 @@ const ModalActions = props => {
                 }
                 // Methods
                 onClick={
-                    props.own_select !== null ?
-                        event => props.onAddSubgroup(event, props.own_select)
-                        :
-                        props.groupId !== null ?
-                            event => props.onAddGroup(event, props.groupId)
+                    props.activeAction === null ?
+                        props.own_select !== null ?
+                            event => props.onAddSubgroup(event, props.own_select)
                             :
-                            null
+                            props.groupId !== null ?
+                                event => props.onAddGroup(event, props.groupId)
+                                :
+                                null
+                        :
+                        null
                 }
             />
 

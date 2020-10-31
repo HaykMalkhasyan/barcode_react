@@ -25,6 +25,9 @@ import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/action
 import cookie from "../../services/cookies";
 
 const initialState = {
+    activeAction: null,
+    nodeStatus: true,
+    node: null,
     groupsEditMode: false,
     own_subgroups: null,
     own_move: null,
@@ -133,12 +136,17 @@ export default function characteristicsReducer(state = initialState, action) {
                 ...state,
                 edit: null,
                 add: null,
+                node: null,
+                nodeStatus: true,
+                activeAction: null,
+                own_select: null,
                 subgroupName: '',
                 newSubgroup: {},
             }
         case EDIT_SUBGROUP_ACTION:
             return {
                 ...state,
+                activeAction: "edit",
                 edit: action.newSubgroup.id,
                 add: null,
                 subgroupName: action.subgroupName,
@@ -170,6 +178,8 @@ export default function characteristicsReducer(state = initialState, action) {
         case ADD_SUBGROUP_ACTION:
             return {
                 ...state,
+                activeAction: "add",
+                nodeStatus: false,
                 edit: null,
                 add: action.id,
                 subgroupName: '',
@@ -182,6 +192,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case SELECT_TREE_ITEM:
             return {
                 ...state,
+                node: action.node,
                 catId: action.catId,
                 path: action.path,
                 own_select: action.id === state.own_select ? null : action.id,
@@ -206,6 +217,9 @@ export default function characteristicsReducer(state = initialState, action) {
                 catId: null,
                 edit: null,
                 add: null,
+                node: null,
+                nodeStatus: true,
+                activeAction: null,
                 own_select: null,
                 path: null,
                 own_subgroups: action.value,

@@ -3,7 +3,7 @@
     height: 30px;
     /*background-color: #fff;*/
     display: flex;
-    padding: 0 0 0 40px;
+    padding: 0;
     box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
@@ -13,8 +13,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 70%;
-    position: relative;
+    width: 80%;
 }
 
 .addWindow > div:last-child {
@@ -41,12 +40,5 @@
 }
 
 .addLabel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    color: #024059 !important;
-    transform: translateY(-50%);
+    display: none;
 }

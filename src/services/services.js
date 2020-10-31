@@ -9,6 +9,7 @@ export function findItem(data, itemId) {
             array.push({
                 id: item.id,
                 cat_id: item.cat_id,
+                sort: item.sort,
                 name: item[`name_${cookie.get('language') || 'am'}`],
                 state: {
                     droppable: false,
