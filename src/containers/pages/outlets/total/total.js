@@ -14,6 +14,10 @@ export default function Total(props) {
         debt, setDebt,
         disscount, setDisscount,
         disscountType, setDisscountType,
+        disscountCash,
+        setDisscountCash,
+        disscountPercent,
+        setDisscountPercent,
     } = props
 
     // const [allTotal, setAllTotal] = useState(0)
@@ -35,8 +39,12 @@ export default function Total(props) {
         let disscountCash = 0
         if(disscountType==="percent"){
             disscountCash = (allTotal * (+disscountCopy)/100).toFixed(get_float_num_length(allTotal)+get_float_num_length((+disscountCopy)/100))
+            setDisscountPercent(disscountCopy)
+            setDisscountCash(disscountCash)
         }else if((disscountType==="cash")){
             disscountCash = disscountCopy
+            setDisscountPercent(disscountCopy*100/allTotal)
+            setDisscountCash(disscountCopy)
         }
         setAllTotal(allTotal.toFixed(2))
         if(disscountCopy){
