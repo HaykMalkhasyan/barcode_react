@@ -2,12 +2,13 @@ import React from "react";
 import classes from "./body-content.module.css";
 import TreeViewer from "../../../../../../../components/tree-viewer/tree-viewer";
 
-const BodyContent = props => {
+const BodyContent = React.forwardRef((props, ref) => {
 
 
     return (
         <div className={classes.treeWindow}>
             <TreeViewer
+                ref={ref}
                 type={props.type}
                 search={props.search}
                 group={props.group}
@@ -18,6 +19,7 @@ const BodyContent = props => {
                 catId={props.catId}
                 newSubgroup={props.newSubgroup}
                 subgroupName={props.subgroupName}
+                nodeStatus={props.nodeStatus}
                 // Methods
                 select={props.selectTreeItem}
                 changeSubgroupName={props.changeSubgroupName}
@@ -29,6 +31,6 @@ const BodyContent = props => {
             />
         </div>
     )
-}
+})
 
 export default BodyContent

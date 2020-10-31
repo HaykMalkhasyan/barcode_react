@@ -130,6 +130,9 @@ class Filters extends Component {
                         catId={this.props.catId}
                         edit={this.props.edit}
                         add={this.props.add}
+                        node={this.props.node}
+                        nodeStatus={this.props.nodeStatus}
+                        activeAction={this.props.activeAction}
                         subgroupName={this.props.subgroupName}
                         // Methods
                         setGroupValues={this.props.setGroupValues}
@@ -226,6 +229,9 @@ function mapStateToProps(state) {
         add: state.characteristics.add,
         subgroupName: state.characteristics.subgroupName,
         groupsEditMode: state.characteristics.groupsEditMode,
+        node: state.characteristics.node,
+        nodeStatus: state.characteristics.nodeStatus,
+        activeAction: state.characteristics.activeAction,
     }
 }
 
@@ -248,7 +254,7 @@ function mapDispatchToProps(dispatch) {
         openClassifiers: id => dispatch(openClassifiers(id)),
         closeAction: () => dispatch(closeAction()),
         openModalContent: item => dispatch(openModalContent(item)),
-        selectTreeItem: (id, path, catId) => dispatch(selectTreeItem(id, path, catId)),
+        selectTreeItem: (node, id, path, catId) => dispatch(selectTreeItem(node, id, path, catId)),
         selectTreeGroupItem: id => dispatch(selectTreeGroupItem(id)),
         addSubgroupAction: id => dispatch(addSubgroupAction(id)),
         addGroupAction: (id) => dispatch(addGroupAction(id)),

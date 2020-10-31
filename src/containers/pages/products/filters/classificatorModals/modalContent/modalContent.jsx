@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import classes from './modalContent.module.css'
 import HeaderContent from "./header-content/header-content";
 import FooterContent from "./footer-content/footer-content";
@@ -7,6 +7,27 @@ import DeleteContent from "./delete-content/delete-content";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
+    const [touch, setTouch] = useState(false);
+    const ref = useRef();
+
+    useEffect(() => {
+        if (ref.current) {
+            const { tree } = ref.current
+            if (props.search && props.search.length > 0) {
+                tree.filter(
+                    props.search,
+                    {
+                        includeAncestors: true,
+                        includeDescendants: true
+                    }
+                )
+                setTouch(true);
+            } else if (props.search.length === 0 && touch) {
+                tree.unfilter();
+                setTouch(false)
+            }
+        }
+    }, [props.search, touch])
 
     const searchChangeHandler = (name, value) => {
         props.searchHandler(name, value)
@@ -59,12 +80,39 @@ const ModalContent = props => {
     /* Actions */
     const onAddSubgroup = (event, id) => {
         event.stopPropagation();
-        props.addSubgroupAction(id)
+        if (ref.current && props.nodeStatus) {
+            const { tree } = ref.current;
+
+            tree.appendChildNode({id: "add", name: 'test'}, props.node)
+            tree.scrollToNode(props.node.getLastChild())
+            props.addSubgroupAction(id)
+        }
     };
 
     const onAddGroup = (event, id) => {
         event.stopPropagation();
         props.addGroupAction(id)
+    }
+
+    const cancelAdding = (node, subLevel) => {
+        if (ref.current && props.node && !subLevel && props.add !== null) {
+            const {tree} = ref.current;
+            tree.selectNode()
+            tree.removeNode(node)
+            props.cancelEditing()
+        } else {
+            props.cancelEditing()
+        }
+    }
+
+    const successAdding = (subgroup, node, subLevel) => {
+        if (ref.current && props.node && !subLevel) {
+            const {tree} = ref.current;
+            tree.removeNode(node)
+            props.addSubgroup(subgroup)
+        } else {
+            props.addSubgroup(subgroup)
+        }
     }
 
     const onEditSubgroup =  async (event, id) => {
@@ -151,6 +199,7 @@ const ModalContent = props => {
                 backPageHandler={backPageHandler}
             />
             <SectionContent
+                ref={ref}
                 error={error}
                 group={props.group}
                 groupId={props.groupId}
@@ -165,10 +214,11 @@ const ModalContent = props => {
                 edit={props.edit}
                 add={props.add}
                 subgroupName={props.subgroupName}
+                nodeStatus={props.nodeStatus}
+                activeAction={props.activeAction}
                 // Methods
                 groupNameChangeHandler={groupNameChangeHandler}
                 changePositionStatus={props.changePositionStatus}
-                addSubgroup={props.addSubgroup}
                 setGroupValues={props.setGroupValues}
                 editSubgroup={props.editSubgroup}
                 changeSubgroupName={props.changeSubgroupName}
@@ -181,7 +231,8 @@ const ModalContent = props => {
                 searchChangeHandler={searchChangeHandler}
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
-                cancelEditing={props.cancelEditing}
+                addSubgroup={successAdding}
+                cancelEditing={cancelAdding}
             />
             <FooterContent
                 group={props.group}

@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./add-content.module.css";
 import CustomInput from "../../UI/input/customInput/customInput";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
 
 const AddContent = props => {
@@ -12,7 +11,6 @@ const AddContent = props => {
                 <CustomInput
                     classNameInput={classes.addInput}
                     classNameLabel={classes.addLabel}
-                    label={<TrendingDownIcon fontSize="small"/>}
                     placeholder={'Ենթախմբի անվանում'}
                     value={props.subgroupName}
                     name={'subgroupName'}
@@ -29,12 +27,12 @@ const AddContent = props => {
                         newSubgroup.name = props.subgroupName;
                         newSubgroup.parent_id = props.add;
                         newSubgroup.cat_id = props.catId;
-                        props.addSubgroup(newSubgroup);
+                        props.addSubgroup(newSubgroup, props.node, props.subLevel);
                         event.stopPropagation()
                     }}
                     checkClose={event => {
                         event.stopPropagation()
-                        props.cancelEditing()
+                        props.cancelEditing(props.node, props.subLevel)
                     }}
                 />
             </div>
