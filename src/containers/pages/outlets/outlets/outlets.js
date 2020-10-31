@@ -21,8 +21,6 @@ export default function Outlets() {
     let id = Date.now()
     const [selecteds, setSelected] = useState()
     const [openLogin, setOpenLogin] = useState(true)
-    const [quanty, setQuany] = useState("")
-    const [sellingPrice, setSellingPrice] = useState("")
     const [quanty, setQuany] = useState(0)
     const [sellingPrice, setSellingPrice] = useState(0)
     const [cashbox, setCashbox] = useState([])
