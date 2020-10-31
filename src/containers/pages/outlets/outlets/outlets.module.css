@@ -49,12 +49,19 @@
 .results{
 
 }
+.fullScreen{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}
+
 .cashiers{
     display: flex;
     justify-content: flex-start;
     background-color: transparent;
     width: 100%;
     padding: 10px;
+    position: relative;
 }
 .cashboxes{
     padding: 10px 35px;
@@ -129,4 +136,16 @@
     border-bottom: 20px solid transparent;
     border-left: 20px solid#F6F6F6;
     border-top: 20px solid transparent;
+}
+
+
+
+:fullscreen,
+:-webkit-full-screen,
+:-moz-full-screen,
+:-ms-fullscreen .content{
+ background-color: #F6F6F6;
+ padding: 8px;
+ overflow: auto;
+overflow-x: hidden;
 }

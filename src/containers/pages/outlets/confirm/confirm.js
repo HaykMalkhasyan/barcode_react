@@ -7,8 +7,9 @@ import {get_float_num_length} from "../helpers/functions"
 
 export default function Confirm(props) {
 
-
+    
     function handleConfirm() {
+        console.log(props)
         let clone = JSON.parse(JSON.stringify(props.items))
         clone = clone.map(item=>{
             return {
@@ -19,7 +20,7 @@ export default function Confirm(props) {
                     "discount_percent": `${item.discount_percent ? item.discount_percent : 0}`,
                     "id": 37778,
                     "position": 1,
-                    "product_id": +item.selected.product_id,
+                    "product_id": +item.selected.id,
                     "tax_amount": "70",
                     "tax_id": 1,
                     "tax_percent": "16.666667",
@@ -35,11 +36,14 @@ export default function Confirm(props) {
         //     discount_percent: props.disscountType==="percent" ? props.disscount : "0",
         //     items: clone,
         // }
-        exampleObj.data[0].discount_amount = props.disscountType==="cash" && props.disscount ? props.disscount : "0"
-        exampleObj.data[0].discount_percent = props.disscountType==="percent" && props.disscount ? props.disscount : "0"
+        exampleObj.data[0].discount_amount = props.disscountPercent
+        exampleObj.data[0].discount_percent = props.disscountCash
         exampleObj.data[0].items = JSON.parse(JSON.stringify(clone))
 
         console.log('exampleObj', exampleObj)
+        let allAccepteds = JSON.parse(localStorage.getItem('accepteds')) 
+        if(!allAccepteds) {allAccepteds = []}
+        localStorage.setItem("accepteds", JSON.stringify([...allAccepteds,exampleObj]))
     }
 
 
