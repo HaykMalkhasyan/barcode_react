@@ -2,6 +2,9 @@ import React, {useEffect} from 'react'
 import style from './total.module.css'
 import {get_float_num_length} from "../helpers/functions"
 import Percent from "./percent"
+import SearchCostomer from "../search/searchCostomer"
+import TextField from '@material-ui/core/TextField';
+
 
 export default function Total(props) {
 
@@ -14,10 +17,11 @@ export default function Total(props) {
         debt, setDebt,
         disscount, setDisscount,
         disscountType, setDisscountType,
-        disscountCash,
+        // disscountCash,
         setDisscountCash,
-        disscountPercent,
+        // disscountPercent,
         setDisscountPercent,
+        
     } = props
 
     // const [allTotal, setAllTotal] = useState(0)
@@ -54,7 +58,7 @@ export default function Total(props) {
             setTotalWithDisscount(allTotal)
         }
     }
-    },[props, disscount, disscountType, setAllTotal, setTotalWithDisscount])
+    },[props, disscount, disscountType, setAllTotal, setTotalWithDisscount, setDisscountPercent, setDisscountCash])
 
 
 
@@ -72,7 +76,25 @@ export default function Total(props) {
 
     return <>
         <div className={style.inputsCont} >
+        <SearchCostomer
+            path="Clients/Search"
+            param="first_name"
+            product={true}
+            inputValue={props.custmerValue} setInputValue={props.setCustomerValue}
+            selecteds={props.selectedCustomer} setSelected={props.setSelectedCustomer}
+            
+          />
             <Percent disscount={disscount} setDisscount={setDisscount} disscountType={disscountType} setDisscountType={setDisscountType} />
+            <TextField 
+                variant="outlined"
+                size="small"
+                value={props.description}
+                onChange={(e)=>{props.setDescription(e.target.value)}}
+                fullWidth
+                style={{margin:"10px 0px"}}
+                multiline
+                rows={5}
+                placeholder="Նկարագրություն" />
         </div>
         <div className={style.totalContainer}>
             <div className={style.item} >

@@ -1,14 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './confirm.module.css'
 import Button from "@material-ui/core/Button"
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import {exampleObj} from './example'
 import {get_float_num_length} from "../helpers/functions"
+import { makeStyles } from '@material-ui/core/styles';
+import LoadingButton from '@material-ui/lab/LoadingButton';
+
+import SaveIcon from '@material-ui/icons/Save';
+
 
 export default function Confirm(props) {
+    const {
+        cash,
+        card,
+        diff,
+        debt,
+        items,
+        allTotal,
+        disscount,
+        currentTurn,
+        disscountType,
+        disscountCash,
+        disscountPercent,
+        totalWithDisscount,
+        deleteTurn,
+        success,
+        setSuccess,
+        selectedCustomer
+    } = props
 
+    const [pending, setPending] = useState(false)
     
     function handleConfirm() {
+        setPending(true)
+        if(!props.items.length){
+            setSuccess({open:true, message:"Կտրոնը դատարկ է", status:"error"})
+            setPending(false)
+            return
+        }
+        if(!selectedCustomer){
+            setSuccess({open:true, message:"Հաճածորդը ընտրված չէ", status:"error"})
+            setPending(false)
+            return
+        }
         console.log(props)
         let clone = JSON.parse(JSON.stringify(props.items))
         clone = clone.map(item=>{
@@ -36,27 +71,42 @@ export default function Confirm(props) {
         //     discount_percent: props.disscountType==="percent" ? props.disscount : "0",
         //     items: clone,
         // }
-        exampleObj.data[0].discount_amount = props.disscountPercent
-        exampleObj.data[0].discount_percent = props.disscountCash
+
+        var date = new Date();
+
+        exampleObj.data[0].discount_amount = disscountCash
+        exampleObj.data[0].discount_percent = disscountPercent
         exampleObj.data[0].items = JSON.parse(JSON.stringify(clone))
+        exampleObj.data[0].close_date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        exampleObj.data[0].sum_amount = allTotal
+        exampleObj.data[0].total_amount = totalWithDisscount
+        exampleObj.data[0].selectedCustomer = selectedCustomer
 
         console.log('exampleObj', exampleObj)
         let allAccepteds = JSON.parse(localStorage.getItem('accepteds')) 
         if(!allAccepteds) {allAccepteds = []}
         localStorage.setItem("accepteds", JSON.stringify([...allAccepteds,exampleObj]))
+        setTimeout(()=>{
+            setPending(false)
+        },1000)
+        deleteTurn()
+        setSuccess({status:"success" , message:"Հաջողությամբ Հաստատվեց!", open:true})
     }
 
 
     return (
         <div className={style.container} >
-            <Button
+            <LoadingButton
                 color="primary"
                 variant="outlined"
                 size="large"
-                onClick={()=>{handleConfirm()}}
+                onClick={handleConfirm}
+                pending={pending}
+                pendingPosition="start"
+                startIcon={<PlaylistAddCheckIcon />}
             >
-               <PlaylistAddCheckIcon /> &nbsp; Հաստատել
-            </Button>
+                Հաստատել
+            </LoadingButton>
         </div>
     )
 }

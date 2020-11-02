@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 // import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import "./paperAnchorBottom.css"
 import style from "./CouponsHistory.module.css"
-import { Button } from '@material-ui/core';
-
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import PrintIcon from '@material-ui/icons/Print';
 
 const useStyles = makeStyles({
   list: {
@@ -26,11 +20,51 @@ const useStyles = makeStyles({
 
 export default function SwipeableTemporaryDrawer(props) {
   const classes = useStyles();
-  const [date, setDate] = React.useState(new Date());
+  const [date] = React.useState(new Date());
+  const [accepted, setAccepted] = useState([])
 
-  function handleClose(){
-    props.setOpen(false)
-}
+
+  useEffect(()=>{
+    let today = new Date()
+    let accepteds = localStorage.getItem("accepteds")
+    if(accepteds){
+      accepteds = JSON.parse(accepteds)
+      let arr = []
+      
+      accepteds.map(item=>item.data[0]).forEach(obj=>{
+        let itemInArr = {} 
+          itemInArr.date = obj.close_date
+          itemInArr.quanty = obj.items.length
+          itemInArr.disscount = obj.discount_amount
+          itemInArr.total = obj.total_amount
+          arr.push(itemInArr)
+      })
+      arr = arr.map((item,i)=>{
+         let couponDate = new Date(item.date)
+         if(today.getTime() - couponDate.getTime() < 86400000){
+          let time = item.date.split(" ") 
+          return {
+              ...item,
+              time: time[1],
+              coupon:`b1000${i}`
+           }
+         }else{
+           return null
+         }
+
+      })
+      setAccepted(arr)
+
+    }
+  },[props])
+
+
+
+
+
+    function handleClose(){
+        props.setOpen(false)
+    }
 
   const list = (anchor) => (
     
@@ -44,16 +78,22 @@ export default function SwipeableTemporaryDrawer(props) {
       onKeyDown={handleClose}
     >
         <div className={style.historyContainer} >
+
             <div className={style.header} >
                 Կտրոնների պատմություն: { `${(date).getFullYear()}/${(date).getMonth()+1}/${(date).getDate()}`}
+                <div className={style.downButton} onClick={handleClose} >
+                  <ArrowDownwardIcon />
+                </div>
             </div>
-            <div className={style.table} >
-                {[
-                    {coupon:"b10002", time:"12:55:29", quanty:1, disscount:"0 դրամ", total:"26000 դրամ"},
-                    {coupon:"b10001", time:"12:54:33", quanty:1, disscount:"0 դրամ", total:"1000 դրամ"},
-                ]
+            {
+                accepted.length ? <div className={style.table} >
+               {accepted
+                // [
+                //     {coupon:"b10002", time:"12:55:29", quanty:1, disscount:"0 դրամ", total:"26000 դրամ"},
+                //     {coupon:"b10001", time:"12:54:33", quanty:1, disscount:"0 դրամ", total:"1000 դրամ"},
+                // ]
                 .map((row)=>{
-                    return <div className={style.tableRow}>
+                    return <div key={row.time} className={style.tableRow}>
                                 <div className={style.tableCell} > 
                                     {row.coupon}
                                 </div>
@@ -70,14 +110,33 @@ export default function SwipeableTemporaryDrawer(props) {
                                     {row.total}
                                 </div>
                                 <div className={`${style.tableCell} ${style.TableButtons}`} > 
-                                    buttons
+                                    <button className={`${style.tableCellButton} ${style.tableCellLook}`}>
+                                      <div className={style.tableCellIcons}>
+                                      <VisibilityIcon />
+                                      </div>
+                                    </button>
+                                    <button className={`${style.tableCellButton} ${style.tableCellPrint}`}>
+                                      <div className={style.tableCellIcons}>
+                                      <PrintIcon />
+                                      </div>
+                                    </button>
                                 </div>
                         </div>
                 })}
+              
             </div>
+            :
+            <div className={style.emptyTextCont}>
+              <div className={style.emptyTextSmollCont} >
+                <div className={style.emptyText} >
+                  Այսօր վաճառք դեռ չի իրականացվել
+                </div>
+              </div>
+            </div>
+            }
             <div className={style.footer} >
                 {["Կտրոն", "Ժամ", "ապ․ քանակ", "Զեղչ", "ընդ․ գումար"].map((item)=>{
-                    return <span className={style.footerItems} >
+                    return <span key={item} className={style.footerItems} >
                     {item}
                 </span>
                 })}
@@ -86,18 +145,16 @@ export default function SwipeableTemporaryDrawer(props) {
         </div>
     </div>
   );
-  function handleClose(){
-    props.setOpen(false)
-}
 
   return (
     <div>
         <React.Fragment>
           <SwipeableDrawer
+            
             anchor={"bottom"}
             open={props.open}
             onClose={()=>{props.setOpen(false)}}
-            // onOpen={toggleDrawer(anchor, true)}
+            onOpen={()=>{}}
           >
             {list("bottom")}
           </SwipeableDrawer>
