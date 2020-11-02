@@ -7,10 +7,6 @@ import cookie from "../../../../../../../../services/cookies";
 
 const SectionBody = props => {
 
-    const editHandler = item => {
-        props.editModalHandleOpen(item);
-    };
-
     const contentRender = (groups, groupActiveId, classifierCloseHandler, searchValue) => {
         const result = [];
 
@@ -29,7 +25,7 @@ const SectionBody = props => {
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
 
                             />
@@ -47,7 +43,7 @@ const SectionBody = props => {
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
                             />
                         )
@@ -61,7 +57,7 @@ const SectionBody = props => {
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
                             />
                         )

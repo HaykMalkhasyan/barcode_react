@@ -16,7 +16,7 @@ import {
     OPEN_HANDLER,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE,
+    SET_GROUP_VALUE, SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
     SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
@@ -294,7 +294,7 @@ export function openModalContent(item) {
 export function renderTree(data, place) {
 
     return dispatch => {
-        dispatch(setGroupValues('own_subgroups', []))
+        // dispatch(setGroupValues('own_subgroups', []))
         const own_subgroup = [];
         const sort_data = data.sort((a, b) => a.sort - b.sort)
         for (let item of sort_data) {
@@ -302,6 +302,7 @@ export function renderTree(data, place) {
                 let new_data = {
                     id: item.id,
                     cat_id: item.cat_id,
+                    parent_id: item.parent_id,
                     sort: item.sort,
                     name: item[`name_${cookie.get('language') || 'am'}`],
                     state: {
@@ -348,6 +349,13 @@ export function startMoveAction(id) {
 
     return {
         type: START_MOVE_ACTION, id
+    }
+}
+
+export function setMoveAction() {
+
+    return {
+        type: SET_MOVE_ACTION
     }
 }
 

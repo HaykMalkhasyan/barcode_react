@@ -4,6 +4,7 @@ import HeaderContent from "./header-content/header-content";
 import FooterContent from "./footer-content/footer-content";
 import SectionContent from "./section-content/section-content";
 import DeleteContent from "./delete-content/delete-content";
+import cookie from "../../../../../../services/cookies";
 
 const ModalContent = props => {
     const [error, setError] = useState(null);
@@ -34,6 +35,10 @@ const ModalContent = props => {
     };
 
     const deleteModalCloseHandler = () => {
+        if (ref.current) {
+            const { tree } = ref.current
+            tree.selectNode();
+        }
         props.deleteModalClose();
     };
 
@@ -135,18 +140,49 @@ const ModalContent = props => {
 
     const moveHandler = async (event, node) => {
         event.stopPropagation();
-        await props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
+        /*await */props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
         props.startMoveAction(node.id);
     };
 
-    const moveIsHere = node => {
+    const moveIsHere = async (node, move = null) => {
         if (ref.current) {
             const {tree} = ref.current;
-            if (!props.node.contains(node)) {
-                console.log("from: ", props.node)
-                console.log("to: ", node)
-            }
             tree.selectNode();
+            const subgroup = {...props.subgroup};
+            const data = [];
+            if (move === "move") {
+                const nods = [...tree.getChildNodes(node.getParent())];
+                const nodeIndex = nods.indexOf(node);
+                const initIndex = nods.indexOf(props.node);
+                for (let [index, item] of Object.entries(nods)) {
+                    if (nods.hasOwnProperty(index) && index > nodeIndex) {
+                        const init = {
+                            id: item.id,
+                            name: item.name,
+                            cat_id: item.cat_id,
+                            sort: item.sort + 1,
+                        }
+                        data.push(init)
+                    } else {
+                        let init = {
+                            id: item.id,
+                            name: item.name,
+                            cat_id: item.cat_id,
+                            sort: item.sort,
+                        }
+                        data.push(init)
+                    }
+                    // console.log(item.sort)
+                }
+                console.log(initIndex)
+                // props.node.sort += (nods[nodeIndex].sort +1);
+                data[initIndex].sort = data[nodeIndex].sort + 1
+                console.log(data)
+                // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
+            } else {
+                await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
+            }
+            props.setMoveAction();
         }
     }
 

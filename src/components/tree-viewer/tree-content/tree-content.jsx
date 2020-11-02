@@ -23,9 +23,11 @@ const TreeContent = props => {
        return (
            <MoveContent
                node={props.node}
+               selectNode={props.selectNode}
                // Methods
                cancelEditing={props.cancelEditing}
                moveIsHere={props.moveIsHere}
+               checkMoveSuccess={props.checkMoveSuccess}
            />
        )
    } else {

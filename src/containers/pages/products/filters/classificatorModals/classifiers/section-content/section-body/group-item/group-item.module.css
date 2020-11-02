@@ -82,6 +82,10 @@
     fill: #024059;
 }
 
+.hide {
+    display: none;
+}
+
 .loading {
     position: absolute;
     bottom: 0;

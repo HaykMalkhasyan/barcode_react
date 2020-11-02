@@ -22,6 +22,8 @@ const AddContent = props => {
             </div>
             <div>
                 <CoupleButtons
+                    type={"add"}
+                    // Methods
                     checkSuccess={event => {
                         const newSubgroup = {...props.newSubgroup};
                         newSubgroup.name = props.subgroupName;

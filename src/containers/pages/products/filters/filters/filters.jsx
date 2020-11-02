@@ -30,7 +30,7 @@ import {
     searchHandler,
     selectTreeGroupItem,
     selectTreeItem,
-    setGroupValues, startMoveAction
+    setGroupValues, setMoveAction, startMoveAction
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
@@ -44,6 +44,7 @@ import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/li
 class Filters extends Component {
     constructor(props) {
         super(props);
+        this.props.getSubgroupWithGroupId(0, "filter_subgroups")
         this.props.getAllGroup();
     }
 
@@ -152,6 +153,7 @@ class Filters extends Component {
                         getActionById={this.props.getActionById}
                         cancelEditing={this.props.cancelEditing}
                         startMoveAction={this.props.startMoveAction}
+                        setMoveAction={this.props.setMoveAction}
                     />
                 </ModalUI>
                 <ModalUI
@@ -264,6 +266,7 @@ function mapDispatchToProps(dispatch) {
         cancelEditing: () => dispatch(cancelEditing()),
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
         startMoveAction: id => dispatch(startMoveAction(id)),
+        setMoveAction: () => dispatch(setMoveAction()),
     }
 }
 

@@ -59,6 +59,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     catId={props.catId}
                     newSubgroup={props.newSubgroup}
                     subgroupName={props.subgroupName}
+                    node={props.node}
                     nodeStatus={props.nodeStatus}
                     moveElement={props.moveElement}
                     type={'edit'}

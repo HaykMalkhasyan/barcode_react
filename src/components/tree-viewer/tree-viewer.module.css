@@ -11,6 +11,8 @@
     color: #024059;
     border-left: 2px solid transparent;
     transition: 300ms;
+    display: flex;
+    justify-content: space-between;
 }
 
 .toggle:hover {
@@ -22,6 +24,8 @@
     background-color: #deecfd;
     border-left: 2px solid #024059;
     transition: 300ms;
+    display: flex;
+    justify-content: space-between;
 }
 
 .content {

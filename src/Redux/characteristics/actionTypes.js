@@ -20,3 +20,4 @@ export const END_EDITING = 'END_EDITING';
 export const CHECK_GROUP_SET = 'CHECK_GROUP_SET';
 export const PROD_GROUP_SET = 'PROD_GROUP_SET';
 export const START_MOVE_ACTION = 'START_MOVE_ACTION';
+export const SET_MOVE_ACTION = 'SET_MOVE_ACTION';

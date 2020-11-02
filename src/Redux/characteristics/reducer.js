@@ -16,7 +16,7 @@ import {
     PROD_GROUP_SET,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE,
+    SET_GROUP_VALUE, SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
     SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
@@ -84,6 +84,10 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_MOVE_ACTION:
+            return {
+                ...state, moveElement: null, activeAction: null, node: null, own_select: null,
+            }
         case START_MOVE_ACTION:
             return {
                 ...state, moveElement: action.id, activeAction: "move"

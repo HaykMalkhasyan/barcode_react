@@ -15,7 +15,12 @@
     outline: none !important;
     background-color: transparent;
     cursor: pointer;
+    color: #4172ce;
     transition: 300ms;
+}
+
+.actionsButton:hover {
+    background-color: rgba(65, 114, 206, 0.2);
 }
 
 .actionsButton:active {
@@ -23,11 +28,11 @@
 }
 
 .actionsButton:first-child {
-    color: #67CA51;
+    color: #67ca51;
 }
 
 .actionsButton:first-child:hover {
-    background-color: #d7ffcc;
+    background-color: rgba(103, 202, 81, 0.2);
 }
 
 .actionsButton:last-child {
@@ -35,5 +40,5 @@
 }
 
 .actionsButton:last-child:hover {
-    background-color: #ffb8c3;
+    background-color: rgba(255, 75, 99, 0.2);
 }
