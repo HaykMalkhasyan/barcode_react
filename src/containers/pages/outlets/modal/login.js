@@ -22,6 +22,9 @@ export default function AlertDialog(props) {
         open={open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        classes={{
+          root: props.root
+        }}
       >
         <DialogTitle id="alert-dialog-title">{"Select Cashier"}</DialogTitle>
         <DialogContent>

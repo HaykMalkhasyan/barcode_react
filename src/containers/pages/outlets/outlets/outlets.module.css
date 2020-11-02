@@ -12,6 +12,18 @@
     padding: 144px 18px 8px;
     overflow: hidden;
 }
+.fullScreenContent{
+    position: fixed;
+    /* padding-right: 8px; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150;
+    background-color: #F6F6F6;
+    overflow: auto;
+    overflow-x: hidden;
+}
 .tabs{
     width: 100%;
     height: 60px;
@@ -139,13 +151,6 @@
 }
 
 
-
-:fullscreen,
-:-webkit-full-screen,
-:-moz-full-screen,
-:-ms-fullscreen .content{
- background-color: #F6F6F6;
- padding: 8px;
- overflow: auto;
-overflow-x: hidden;
+.backdrop{
+    z-index: 50 !important;
 }

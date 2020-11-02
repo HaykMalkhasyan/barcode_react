@@ -14,11 +14,12 @@ import Confirm from "../confirm/confirm";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
 import CouponsHistory from "../history_coupons/CouponsHistory";
+import SnackbarMessage from "./snackbar"
 
 export default function Outlets() {
   let id = Date.now();
   const [selecteds, setSelected] = useState();
-  const [openLogin, setOpenLogin] = useState(false);
+  const [openLogin, setOpenLogin] = useState(true);
   const [quanty, setQuany] = useState(0);
   const [sellingPrice, setSellingPrice] = useState(0);
   const [cashbox, setCashbox] = useState([]);
@@ -45,11 +46,43 @@ export default function Outlets() {
   const [disscountCash, setDisscountCash] = useState("");
 
   const [disscountType, setDisscountType] = useState("percent");
-  const [isFullScreen, setIsFullScreen] = useState(false);
-
+  const [isFullScreen, setIsFullScreen] = useState(true);
+  const [success, setSuccess] = useState({})
   const contentRef = useRef();
+  const [selectedCustomer, setSelectedCustomer] = useState()
+  const [custmerValue, setCustomerValue] = useState("")
+  const [description, setDescription] = useState("")
+  const [screenChange, setScreenChange] = useState("")
+  const getFromLocale = useCallback(() => {
+    let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`);
+    if (turns_on_storage) {
+      turns_on_storage = JSON.parse(turns_on_storage);
+      let currentTurnID = currentTurn.id
+        ? currentTurn.id
+        : turns_on_storage[0].id;
+      let index = turns_on_storage.findIndex((x) => x.id === currentTurnID);
+      // setTurns(turns_on_storage)
+      // setCurrentTurn(turns_on_storage[0])
+      if (index === -1) {
+        setItems([]);
+      } else {
+        setItems(turns_on_storage[index].items);
+      }
+    } else {
+      setItems([]);
+    }
+  }, [selectedCahier, currentTurn]);
+
+  useEffect(()=>{
+    setIsFullScreen(!isFullScreen)
+  },[screenChange])
+
 
   useEffect(() => {
+    function handleEscKey(e){
+      setScreenChange(Math.random())
+    }
+    window.addEventListener("fullscreenchange", handleEscKey)
     Axios.get(
       `${process.env.REACT_APP_API_URL}?path=Cashboxes/Cashboxes&addons=1&cols=id,name,cashier_stay_time,cashbox_version_id`,
       {
@@ -84,25 +117,28 @@ export default function Outlets() {
     }
   }, [selectedCahier]);
 
-  const getFromLocale = useCallback(() => {
+  const deleteTurn = ()=>{
     let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`);
     if (turns_on_storage) {
       turns_on_storage = JSON.parse(turns_on_storage);
-      let currentTurnID = currentTurn.id
-        ? currentTurn.id
-        : turns_on_storage[0].id;
-      let index = turns_on_storage.findIndex((x) => x.id === currentTurnID);
-      // setTurns(turns_on_storage)
-      // setCurrentTurn(turns_on_storage[0])
-      if (index === -1) {
-        setItems([]);
-      } else {
-        setItems(turns_on_storage[index].items);
+      let index = turns_on_storage.findIndex(item=>item.id===currentTurn.id)
+      if(index!==-1){
+        let newId = Date.now()
+        turns_on_storage.splice(index, 1)
+        if(turns_on_storage.length){
+          localStorage.setItem(`${selectedCahier.id}`, JSON.stringify(turns_on_storage))
+          setTurns(turns_on_storage)
+        }else{
+          localStorage.setItem(`${selectedCahier.id}`, JSON.stringify([{ i: 0, id: newId, items: [] }]))
+          setTurns([{ i: 0, id: newId, items: [] }])
+        }
+        let nextTurn = turns_on_storage[index] ? turns_on_storage[index] : turns_on_storage[index-1] ? turns_on_storage[index-1] : { i: 0, id: newId, items: [] }
+        setCurrentTurn(nextTurn)
       }
-    } else {
-      setItems([]);
     }
-  }, [selectedCahier, currentTurn]);
+  }
+
+  
 
   useEffect(() => {
     if (selectedCahier.id && currentTurn.id) {
@@ -206,18 +242,18 @@ export default function Outlets() {
         document.mozFullScreenElement !== null) ||
       (document.msFullscreenElement && document.msFullscreenElement !== null);
     if (!isInFullScreen) {
-      setIsFullScreen(true);
-      if (contentRef.current.requestFullscreen) {
-        contentRef.current.requestFullscreen();
-      } else if (contentRef.current.webkitRequestFullscreen) {
+      // setIsFullScreen(true);
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
         /* Safari */
-        contentRef.current.webkitRequestFullscreen();
-      } else if (contentRef.current.msRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) {
         /* IE11 */
-        contentRef.current.msRequestFullscreen();
+        document.documentElement.msRequestFullscreen();
       }
     } else {
-      setIsFullScreen(false);
+      // setIsFullScreen(false);
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
@@ -231,7 +267,8 @@ export default function Outlets() {
   }
 
   return (
-    <div className={style.content} id="contents" ref={contentRef}>
+    <div className={ isFullScreen ? style.fullScreenContent : style.content} id="contents" ref={contentRef}>
+      <SnackbarMessage open={success} setOpen={setSuccess} />
       <div className={style.cashiers}>
         {cashiers &&
           cashiers.map((item, i) => {
@@ -258,6 +295,7 @@ export default function Outlets() {
         </span>
       </div>
       <Login
+        root={style.backdrop}
         setSelectedCashier={setSelectedCashier}
         cashiers={cashiers}
         open={openLogin}
@@ -296,6 +334,9 @@ export default function Outlets() {
       >
         <div className={style.filters}>
           <Search
+            path="Products"
+            param="item_name"
+            product={true}
             keyAutoComplate={keyAutoComplate}
             inputValue={inputValue}
             setInputValue={setInputValue}
@@ -368,27 +409,20 @@ export default function Outlets() {
         </div>
         <div className={style.totalContainer}>
           <Total
-            cash={cash}
-            setCash={setCash}
-            card={card}
-            setCard={setCard}
-            diff={diff}
-            setDiff={setDiff}
-            debt={debt}
-            setDebt={setDebt}
-            items={items}
-            allTotal={allTotal}
-            setAllTotal={setAllTotal}
-            disscount={disscount}
-            setDisscount={setDisscount}
-            disscountType={disscountType}
-            setDisscountType={setDisscountType}
-            disscountCash={disscountCash}
-            setDisscountCash={setDisscountCash}
-            disscountPercent={disscountPercent}
-            setDisscountPercent={setDisscountPercent}
-            totalWithDisscount={totalWithDisscount}
-            setTotalWithDisscount={setTotalWithDisscount}
+            cash={cash} setCash={setCash}
+            card={card} setCard={setCard}
+            diff={diff} setDiff={setDiff}
+            debt={debt} setDebt={setDebt}
+            items={items} 
+            allTotal={allTotal} setAllTotal={setAllTotal}
+            disscount={disscount} setDisscount={setDisscount}
+            description={description} setDescription={setDescription}
+            custmerValue={custmerValue} setCustomerValue={setCustomerValue}
+            disscountCash={disscountCash} setDisscountCash={setDisscountCash}
+            disscountType={disscountType} setDisscountType={setDisscountType}
+            selectedCustomer={selectedCustomer} setSelectedCustomer={setSelectedCustomer}
+            disscountPercent={disscountPercent} setDisscountPercent={setDisscountPercent}
+            totalWithDisscount={totalWithDisscount} setTotalWithDisscount={setTotalWithDisscount}
           />
         </div>
         <Confirm
@@ -399,12 +433,17 @@ export default function Outlets() {
           items={items}
           allTotal={allTotal}
           disscount={disscount}
+          currentTurn={currentTurn}
           disscountType={disscountType}
           disscountCash={disscountCash}
+          success={success}
+          selectedCustomer={selectedCustomer}
+          setSuccess={setSuccess}
           disscountPercent={disscountPercent}
           totalWithDisscount={totalWithDisscount}
+          deleteTurn={deleteTurn}
         />
-        <CouponsHistory />
+        {/* <CouponsHistory /> */}
       </animated.div>
     </div>
   );
