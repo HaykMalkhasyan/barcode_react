@@ -7,8 +7,7 @@ import cookie from "../../../../../../../../services/cookies";
 
 const SectionBody = props => {
 
-    const editHandler = (event, item) => {
-        event.stopPropagation();
+    const editHandler = item => {
         props.editModalHandleOpen(item);
     };
 
@@ -25,6 +24,7 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 selected={groupActiveId === item.id}
                                 item={item}
                                 index={index}
@@ -42,6 +42,7 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 selected={groupActiveId === item.id}
                                 item={item}
                                 index={index}
@@ -56,6 +57,7 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 item={item}
                                 index={index}
                                 // Methods

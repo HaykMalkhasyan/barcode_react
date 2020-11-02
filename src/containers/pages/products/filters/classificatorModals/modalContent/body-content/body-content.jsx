@@ -20,13 +20,15 @@ const BodyContent = React.forwardRef((props, ref) => {
                 newSubgroup={props.newSubgroup}
                 subgroupName={props.subgroupName}
                 nodeStatus={props.nodeStatus}
+                moveElement={props.moveElement}
                 // Methods
                 select={props.selectTreeItem}
+                selectTreeGroupItem={props.selectTreeGroupItem}
                 changeSubgroupName={props.changeSubgroupName}
                 setGroupValues={props.setGroupValues}
                 editSubgroup={props.editSubgroup}
                 addSubgroup={props.addSubgroup}
-                selectTreeGroupItem={props.selectTreeGroupItem}
+                moveIsHere={props.moveIsHere}
                 cancelEditing={props.cancelEditing}
             />
         </div>

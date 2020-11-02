@@ -11,6 +11,7 @@ import AddContent from "./add-content/add-content";
 import Icons from "../Icons/icons";
 import SpinnerForContent from "../UI/spinners/spinerForContent/spinnerForContent";
 import EditContent from "./edit-content/edit-content";
+import TreeContent from "./tree-content/tree-content";
 
 const TreeViewer = React.forwardRef((props, ref) => {
     const [open, setOpen] = useState(true);
@@ -139,7 +140,9 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                         state={toggleState}
                                                         onClick={event => {
                                                             event.stopPropagation()
-                                                            props.cancelEditing(node.getLastChild(), false)
+                                                            if (props.moveElement === null) {
+                                                                props.cancelEditing(node.getLastChild(), false)
+                                                            }
                                                             if (toggleState === "closed") {
                                                                 tree.openNode(node);
                                                             } else if (toggleState === "opened") {
@@ -148,21 +151,20 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                         }}
                                                     />
                                                 </div>
-                                                {
-                                                    parseInt(props.edit) === parseInt(node.id) && parseInt(props.catId) === parseInt(node.cat_id) ?
-                                                        <EditContent
-                                                            subgroupName={props.subgroupName}
-                                                            newSubgroup={props.newSubgroup}
-                                                            // Methods
-                                                            changeSubgroupName={props.changeSubgroupName}
-                                                            editSubgroup={props.editSubgroup}
-                                                            cancelEditing={props.cancelEditing}
-                                                        />
-                                                        :
-                                                        <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
-                                                        {node.name}
-                                                    </span>
-                                                }
+                                                <TreeContent
+                                                    node={node}
+                                                    search={props.search}
+                                                    catId={props.catId}
+                                                    edit={props.edit}
+                                                    moveElement={props.moveElement}
+                                                    subgroupName={props.subgroupName}
+                                                    newSubgroup={props.newSubgroup}
+                                                    // Methods
+                                                    changeSubgroupName={props.changeSubgroupName}
+                                                    editSubgroup={props.editSubgroup}
+                                                    moveIsHere={props.moveIsHere}
+                                                    cancelEditing={props.cancelEditing}
+                                                />
                                             </div>
                                         </TreeNode>
                                 }}

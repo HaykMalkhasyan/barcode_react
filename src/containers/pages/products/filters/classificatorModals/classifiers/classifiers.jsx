@@ -27,6 +27,7 @@ const Classifiers = props => {
             <SectionContent
                 classifiersSearch={props.classifiersSearch}
                 groupsEditMode={props.groupsEditMode}
+                groupLoader={props.groupLoader}
                 // Methods
                 groups={props.groups}
                 groupActiveId={props.groupActiveId}

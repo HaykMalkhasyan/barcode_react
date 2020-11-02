@@ -19,7 +19,7 @@ import {
     SET_GROUP_VALUE,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
-    SET_WITHOUT_DELETED_GROUP
+    SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
 } from "./actionTypes";
 import {checkItem, findItem, getHeaders, getToken, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
@@ -284,8 +284,9 @@ export function getSubgroupWithGroupId(id, place = null) {
 
 export function openModalContent(item) {
 
-    return dispatch => {
-        dispatch(getSubgroupWithGroupId(item.id));
+    return async dispatch => {
+        dispatch(setGroupValues("groupLoader", item.id))
+        await dispatch(getSubgroupWithGroupId(item.id));
         dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
     }
 }
@@ -340,6 +341,13 @@ export function setRenderedFilterTreeValue(value) {
 
     return {
         type: SET_RENDERED_FILTER_TREE_VALUE, value
+    }
+}
+
+export function startMoveAction(id) {
+
+    return {
+        type: START_MOVE_ACTION, id
     }
 }
 

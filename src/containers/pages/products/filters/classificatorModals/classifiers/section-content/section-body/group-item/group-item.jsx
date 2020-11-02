@@ -25,10 +25,9 @@ const GroupItem = props => {
                 className={props.selected ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
                 // Methods
                 onClick={
-                    event => {
-                        event.stopPropagation();
+                    () => {
                         props.groupsEditMode ?
-                            props.editHandler(event, props.item)
+                            props.editHandler(props.item)
                             :
                             props.checkGroup(props.type, props.item, props.item.id, 'classifierSubgroup', +props.index)
                     }
@@ -48,6 +47,12 @@ const GroupItem = props => {
                 <p>
                     {props.item[`title_${cookies.get('language') || 'am'}`]}
                 </p>
+                {
+                    props.groupLoader === props.item.id ?
+                        <div className={classes.loading}/>
+                        :
+                        null
+                }
             </div>
         </Grid>
     )

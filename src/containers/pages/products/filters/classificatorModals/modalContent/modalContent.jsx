@@ -95,13 +95,15 @@ const ModalContent = props => {
     }
 
     const cancelAdding = (node, subLevel) => {
-        if (ref.current && props.node && !subLevel && props.add !== null) {
+        if (ref.current) {
             const {tree} = ref.current;
-            tree.selectNode()
-            tree.removeNode(node)
-            props.cancelEditing()
-        } else {
-            props.cancelEditing()
+            tree.selectNode();
+            if (props.node && !subLevel && props.add !== null) {
+                tree.removeNode(node)
+                props.cancelEditing()
+            } else {
+                props.cancelEditing()
+            }
         }
     }
 
@@ -131,53 +133,22 @@ const ModalContent = props => {
         }
     };
 
-    const moveHandler = async (event, id) => {
+    const moveHandler = async (event, node) => {
         event.stopPropagation();
-        await props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: id}}, id)
-        props.setGroupValues('moveElement', id);
+        await props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
+        props.startMoveAction(node.id);
     };
 
-    const cancelMoving = event => {
-        event.stopPropagation();
-        props.setGroupValues('moveElement', null)
-    };
-
-    const moveIsHer = (event, item) => {
-        event.stopPropagation();
-
-        const subgroup = {...props.subgroup};
-        subgroup.active = '1';
-        subgroup['group_id'].group_type = '1';
-        if (subgroup.image.length > 0 && subgroup.image[0].hasOwnProperty('image')) {
-            delete subgroup.image[0].image;
-        }
-        switch (item.hasOwnProperty('parent_id')) {
-            case true: {
-                subgroup.parent_id = item.id;
-                break;
+    const moveIsHere = node => {
+        if (ref.current) {
+            const {tree} = ref.current;
+            if (!props.node.contains(node)) {
+                console.log("from: ", props.node)
+                console.log("to: ", node)
             }
-            case false: {
-                subgroup.parent_id = "";
-                break;
-            }
-            default:
-                break;
+            tree.selectNode();
         }
-
-        props.editSubgroup(subgroup);
-        props.setGroupValues('moveElement', null);
-        props.setGroupValues('controllerId', null)
-    };
-
-    const toggleMovingStatus = () => {
-        if (props.controllerId !== null) {
-            props.setGroupValues('controllerId', null)
-        }
-        if (props.groupId !== null) {
-            props.setGroupValues('groupId', null)
-        }
-        props.setGroupValues('changePositionStatus', !props.changePositionStatus)
-    };
+    }
 
     const backPageHandler = () => {
         props.classifierOpenHandler(props.group.id)
@@ -209,30 +180,30 @@ const ModalContent = props => {
                 classifierName={props.classifierName}
                 own_select={props.own_select}
                 own_subgroups={props.own_subgroups}
-                own_move={props.own_move}
                 search={props.search}
                 edit={props.edit}
                 add={props.add}
                 subgroupName={props.subgroupName}
                 nodeStatus={props.nodeStatus}
+                node={props.node}
                 activeAction={props.activeAction}
+                moveElement={props.moveElement}
                 // Methods
                 groupNameChangeHandler={groupNameChangeHandler}
-                changePositionStatus={props.changePositionStatus}
-                setGroupValues={props.setGroupValues}
-                editSubgroup={props.editSubgroup}
-                changeSubgroupName={props.changeSubgroupName}
-                toggleMovingStatus={toggleMovingStatus}
                 moveHandler={moveHandler}
                 onEditSubgroup={onEditSubgroup}
                 onAddSubgroup={onAddSubgroup}
                 onAddGroup={onAddGroup}
                 deleteHandler={deleteHandler}
                 searchChangeHandler={searchChangeHandler}
+                addSubgroup={successAdding}
+                moveIsHere={moveIsHere}
+                cancelEditing={cancelAdding}
+                setGroupValues={props.setGroupValues}
+                editSubgroup={props.editSubgroup}
+                changeSubgroupName={props.changeSubgroupName}
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
-                addSubgroup={successAdding}
-                cancelEditing={cancelAdding}
             />
             <FooterContent
                 group={props.group}
