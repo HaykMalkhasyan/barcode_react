@@ -16,10 +16,10 @@ import {
     OPEN_HANDLER,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE,
+    SET_GROUP_VALUE, SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
-    SET_WITHOUT_DELETED_GROUP
+    SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
 } from "./actionTypes";
 import {checkItem, findItem, getHeaders, getToken, updateToken} from "../../services/services";
 import cookie from "../../services/cookies";
@@ -284,8 +284,9 @@ export function getSubgroupWithGroupId(id, place = null) {
 
 export function openModalContent(item) {
 
-    return dispatch => {
-        dispatch(getSubgroupWithGroupId(item.id));
+    return async dispatch => {
+        dispatch(setGroupValues("groupLoader", item.id))
+        await dispatch(getSubgroupWithGroupId(item.id));
         dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
     }
 }
@@ -293,7 +294,7 @@ export function openModalContent(item) {
 export function renderTree(data, place) {
 
     return dispatch => {
-        dispatch(setGroupValues('own_subgroups', []))
+        // dispatch(setGroupValues('own_subgroups', []))
         const own_subgroup = [];
         const sort_data = data.sort((a, b) => a.sort - b.sort)
         for (let item of sort_data) {
@@ -301,6 +302,7 @@ export function renderTree(data, place) {
                 let new_data = {
                     id: item.id,
                     cat_id: item.cat_id,
+                    parent_id: item.parent_id,
                     sort: item.sort,
                     name: item[`name_${cookie.get('language') || 'am'}`],
                     state: {
@@ -340,6 +342,20 @@ export function setRenderedFilterTreeValue(value) {
 
     return {
         type: SET_RENDERED_FILTER_TREE_VALUE, value
+    }
+}
+
+export function startMoveAction(id) {
+
+    return {
+        type: START_MOVE_ACTION, id
+    }
+}
+
+export function setMoveAction() {
+
+    return {
+        type: SET_MOVE_ACTION
     }
 }
 

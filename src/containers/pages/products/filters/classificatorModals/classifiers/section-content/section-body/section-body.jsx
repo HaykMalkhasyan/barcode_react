@@ -7,11 +7,6 @@ import cookie from "../../../../../../../../services/cookies";
 
 const SectionBody = props => {
 
-    const editHandler = (event, item) => {
-        event.stopPropagation();
-        props.editModalHandleOpen(item);
-    };
-
     const contentRender = (groups, groupActiveId, classifierCloseHandler, searchValue) => {
         const result = [];
 
@@ -25,11 +20,12 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 selected={groupActiveId === item.id}
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
 
                             />
@@ -42,11 +38,12 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 selected={groupActiveId === item.id}
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
                             />
                         )
@@ -56,10 +53,11 @@ const SectionBody = props => {
                                 key={`group-item-${item.id}`}
                                 type={props.type}
                                 groupsEditMode={props.groupsEditMode}
+                                groupLoader={props.groupLoader}
                                 item={item}
                                 index={index}
                                 // Methods
-                                editHandler={editHandler}
+                                editHandler={props.editModalHandleOpen}
                                 checkGroup={props.checkGroup}
                             />
                         )

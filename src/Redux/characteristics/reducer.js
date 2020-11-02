@@ -16,15 +16,16 @@ import {
     PROD_GROUP_SET,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE,
+    SET_GROUP_VALUE, SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
-    SET_WITHOUT_DELETED_GROUP
+    SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
 } from "./actionTypes";
 import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
 import cookie from "../../services/cookies";
 
 const initialState = {
+    groupLoader: null,
     activeAction: null,
     nodeStatus: true,
     node: null,
@@ -43,7 +44,6 @@ const initialState = {
     progress: false,
     active: 0,
     open: false,
-    changePositionStatus: false,
     advancedSearch: false,
     group: null,
     customGroup: null,
@@ -84,6 +84,14 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_MOVE_ACTION:
+            return {
+                ...state, moveElement: null, activeAction: null, node: null, own_select: null,
+            }
+        case START_MOVE_ACTION:
+            return {
+                ...state, moveElement: action.id, activeAction: "move"
+            }
         case SET_WITHOUT_DELETED_GROUP:
             return {
                 ...state,
@@ -116,10 +124,8 @@ export default function characteristicsReducer(state = initialState, action) {
                 movingStatus: false,
                 subgroup: null,
                 groupId: null,
-                changePositionStatus: false,
                 classifierName: "",
                 newGroup: {},
-                controllerId: null,
                 groupActiveId: action.id,
                 modalGroup: 'edit',
             }
@@ -137,6 +143,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 edit: null,
                 add: null,
                 node: null,
+                moveElement: null,
                 nodeStatus: true,
                 activeAction: null,
                 own_select: null,
@@ -149,6 +156,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 activeAction: "edit",
                 edit: action.newSubgroup.id,
                 add: null,
+                moveElement: null,
                 subgroupName: action.subgroupName,
                 newSubgroup: action.newSubgroup,
             }
@@ -181,6 +189,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 activeAction: "add",
                 nodeStatus: false,
                 edit: null,
+                moveElement: null,
                 add: action.id,
                 subgroupName: '',
                 newSubgroup: {},
@@ -210,7 +219,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case SET_RENDERED_TREE_VALUE:
             return {
                 ...state,
-                changeStatus: true,
+                own_subgroups: action.value,
                 progress: false,
                 newSubgroup: {},
                 subgroupName: '',
@@ -222,17 +231,18 @@ export default function characteristicsReducer(state = initialState, action) {
                 activeAction: null,
                 own_select: null,
                 path: null,
-                own_subgroups: action.value,
+                changeStatus: true,
             }
         case OPEN_HANDLER:
             return {
                 ...state,
-                classifiersModal: true,
+                groupLoader: null,
                 group: action.group,
                 classifierName: action.data[`title_${cookie.get('language') || "am"}`],
                 newGroup: action.data,
                 changeStatus: false,
-                modalGroup: null
+                modalGroup: null,
+                classifiersModal: true
             };
         case CLOSE_HANDLER:
             return {
@@ -248,7 +258,6 @@ export default function characteristicsReducer(state = initialState, action) {
                 movingStatus: false,
                 subgroup: null,
                 groupId: null,
-                changePositionStatus: false,
                 newGroup: {
                     name: '',
                     required_group: false,
@@ -263,12 +272,10 @@ export default function characteristicsReducer(state = initialState, action) {
                 own_move: null,
                 own_select: null,
                 moveElement: null,
-                controllerId: null,
                 newGroup: {},
                 groupActiveId: action.id,
                 modalGroup: 'edit',
                 groupId: null,
-                changePositionStatus: false,
             };
         case CHECK_GROUP_SET:
             return {

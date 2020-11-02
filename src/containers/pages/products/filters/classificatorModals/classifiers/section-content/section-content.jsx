@@ -22,6 +22,7 @@ const SectionContent = props => {
                 type={props.type}
                 allError={props.allError}
                 groupsEditMode={props.groupsEditMode}
+                groupLoader={props.groupLoader}
                 // Methods
                 classifierCloseHandler={props.classifierCloseHandler}
                 editModalHandleOpen={props.editModalHandleOpen}

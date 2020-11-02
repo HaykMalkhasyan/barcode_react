@@ -10,10 +10,50 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import AddContent from "./add-content/add-content";
 import Icons from "../Icons/icons";
 import SpinnerForContent from "../UI/spinners/spinerForContent/spinnerForContent";
-import EditContent from "./edit-content/edit-content";
+import TreeContent from "./tree-content/tree-content";
+import CoupleButtons from "../couple-action-buttons/couple-action-buttons";
 
 const TreeViewer = React.forwardRef((props, ref) => {
     const [open, setOpen] = useState(true);
+
+    const groupActionsRender = () => {
+
+        if (props.moveElement !== null) {
+
+            if (props.node && props.node.parent_id === "0") {
+                return (
+                    <CoupleButtons
+                        type={"move"}
+                        checkSuccess={event => {
+                            event.stopPropagation();
+                            props.moveIsHere({id: 0})
+                        }}
+                        checkMoveSuccess={event => {
+                            event.stopPropagation();
+                            props.moveIsHere({sort: 0}, "move")
+                        }}
+                        checkClose={event => {
+                            event.stopPropagation();
+                            props.cancelEditing();
+                        }}
+                    />
+                )
+            }
+            return (
+                <CoupleButtons
+                    type={"only-move"}
+                    checkSuccess={event => {
+                        event.stopPropagation();
+                        props.moveIsHere({id: 0})
+                    }}
+                    checkClose={event => {
+                        event.stopPropagation();
+                        props.cancelEditing();
+                    }}
+                />
+            )
+        }
+    }
 
     return (
         <>
@@ -55,6 +95,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                     }
                     <span>Բոլորը</span>
                 </div>
+                {groupActionsRender()}
             </div>
             <div>
                 {
@@ -126,7 +167,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             onClick={() => {
                                                 if (props.nodeStatus) {
                                                     tree.openNode(node);
-                                                    if (props.edit === null) {
+                                                    if (props.edit === null && props.moveElement === null) {
                                                         tree.selectNode(node)
                                                         props.select(node, node.id, node.state.path, node.cat_id)
                                                     }
@@ -139,7 +180,9 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                         state={toggleState}
                                                         onClick={event => {
                                                             event.stopPropagation()
-                                                            props.cancelEditing(node.getLastChild(), false)
+                                                            if (props.moveElement === null) {
+                                                                props.cancelEditing(node.getLastChild(), false)
+                                                            }
                                                             if (toggleState === "closed") {
                                                                 tree.openNode(node);
                                                             } else if (toggleState === "opened") {
@@ -148,21 +191,22 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                         }}
                                                     />
                                                 </div>
-                                                {
-                                                    parseInt(props.edit) === parseInt(node.id) && parseInt(props.catId) === parseInt(node.cat_id) ?
-                                                        <EditContent
-                                                            subgroupName={props.subgroupName}
-                                                            newSubgroup={props.newSubgroup}
-                                                            // Methods
-                                                            changeSubgroupName={props.changeSubgroupName}
-                                                            editSubgroup={props.editSubgroup}
-                                                            cancelEditing={props.cancelEditing}
-                                                        />
-                                                        :
-                                                        <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
-                                                        {node.name}
-                                                    </span>
-                                                }
+                                                <TreeContent
+                                                    node={node}
+                                                    selectNode={props.node}
+                                                    search={props.search}
+                                                    catId={props.catId}
+                                                    edit={props.edit}
+                                                    moveElement={props.moveElement}
+                                                    subgroupName={props.subgroupName}
+                                                    newSubgroup={props.newSubgroup}
+                                                    // Methods
+                                                    changeSubgroupName={props.changeSubgroupName}
+                                                    editSubgroup={props.editSubgroup}
+                                                    moveIsHere={props.moveIsHere}
+                                                    checkMoveSuccess={props.moveIsHere}
+                                                    cancelEditing={props.cancelEditing}
+                                                />
                                             </div>
                                         </TreeNode>
                                 }}

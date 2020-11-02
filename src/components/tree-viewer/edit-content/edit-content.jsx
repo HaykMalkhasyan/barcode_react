@@ -18,6 +18,7 @@ const EditContent = props => {
                 }}
             />
             <CoupleButtons
+                type={"edit"}
                 // Methods
                 checkSuccess={event => {
                     event.stopPropagation();

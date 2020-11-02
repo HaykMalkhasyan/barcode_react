@@ -25,29 +25,24 @@ const GroupItem = props => {
                 className={props.selected ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
                 // Methods
                 onClick={
-                    event => {
-                        event.stopPropagation();
-                        props.groupsEditMode ?
-                            props.editHandler(event, props.item)
-                            :
-                            props.checkGroup(props.type, props.item, props.item.id, 'classifierSubgroup', +props.index)
-                    }
+                    props.groupsEditMode ?
+                        () => props.editHandler(props.item)
+                        :
+                        ()=> props.checkGroup(props.type, props.item, props.item.id, 'classifierSubgroup', +props.index)
                 }
             >
                 {
                     props.type === "edit" ?
-                        <CustomButton
-                            className={cls.join(' ')}
-                            children={
-                                <Icons type={'edit'} className={props.selected ? classes.activeIcon : classes.icon}/>
-                            }
-                        />
+                        <span className={cls.join(" ")}>
+                            <Icons type={'edit'} className={props.selected ? classes.activeIcon : classes.icon}/>
+                        </span>
                         :
                         null
                 }
                 <p>
                     {props.item[`title_${cookies.get('language') || 'am'}`]}
                 </p>
+                <div className={props.groupLoader === props.item.id ? classes.loading : classes.hide}/>
             </div>
         </Grid>
     )

@@ -30,7 +30,7 @@ import {
     searchHandler,
     selectTreeGroupItem,
     selectTreeItem,
-    setGroupValues
+    setGroupValues, setMoveAction, startMoveAction
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
@@ -44,6 +44,7 @@ import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/li
 class Filters extends Component {
     constructor(props) {
         super(props);
+        this.props.getSubgroupWithGroupId(0, "filter_subgroups")
         this.props.getAllGroup();
     }
 
@@ -112,20 +113,14 @@ class Filters extends Component {
                     <ModalContent
                         // Data
                         group={this.props.group}
-                        groups={this.props.groups}
                         subgroup={this.props.subgroup}
-                        customSubgroup={this.props.customSubgroup}
                         classifierName={this.props.classifierName}
-                        moveElement={this.props.moveElement}
                         newGroup={this.props.newGroup}
                         delete={this.props.delete}
                         newSubgroup={this.props.newSubgroup}
                         search={this.props.search}
-                        changePositionStatus={this.props.changePositionStatus}
                         groupId={this.props.groupId}
-                        /* ------- */
                         own_subgroups={this.props.own_subgroups}
-                        own_move={this.props.own_move}
                         own_select={this.props.own_select}
                         catId={this.props.catId}
                         edit={this.props.edit}
@@ -134,17 +129,18 @@ class Filters extends Component {
                         nodeStatus={this.props.nodeStatus}
                         activeAction={this.props.activeAction}
                         subgroupName={this.props.subgroupName}
+                        // is worked
+                        moveElement={this.props.moveElement}
+                        /* ------- */
                         // Methods
+                        handleClose={this.handleClose}
+                        classifierOpenHandler={this.classifierOpenHandler}
                         setGroupValues={this.props.setGroupValues}
                         changeSubgroupName={this.props.changeSubgroupName}
                         editGroupAction={this.props.editGroupAction}
                         deleteClassifiersAction={this.props.deleteClassifiersAction}
-                        handleClose={this.handleClose}
-                        handleOpen={this.handleOpen}
-                        classifierOpenHandler={this.classifierOpenHandler}
                         editSubgroup={this.props.editSubgroup}
                         searchHandler={this.props.searchHandler}
-                        setProductValues={this.props.setProductValues}
                         deleteAction={this.props.deleteAction}
                         editGroup={this.props.editGroup}
                         selectTreeItem={this.props.selectTreeItem}
@@ -156,6 +152,8 @@ class Filters extends Component {
                         deleteModalClose={this.props.deleteModalClose}
                         getActionById={this.props.getActionById}
                         cancelEditing={this.props.cancelEditing}
+                        startMoveAction={this.props.startMoveAction}
+                        setMoveAction={this.props.setMoveAction}
                     />
                 </ModalUI>
                 <ModalUI
@@ -170,6 +168,7 @@ class Filters extends Component {
                         allError={this.props.allError}
                         initialOpen={this.props.initialOpen}
                         groupsEditMode={this.props.groupsEditMode}
+                        groupLoader={this.props.groupLoader}
                         // Methods
                         classifierCloseHandler={this.classifierCloseHandler}
                         editModalHandleOpen={this.handleOpen}
@@ -209,7 +208,6 @@ function mapStateToProps(state) {
         moveElement: state.characteristics.moveElement,
         subgroup: state.characteristics.subgroup,
         search: state.characteristics.search,
-        changePositionStatus: state.characteristics.changePositionStatus,
         groupId: state.characteristics.groupId,
         prevGroup: state.characteristics.prevGroup,
         nextGroup: state.characteristics.nextGroup,
@@ -232,6 +230,7 @@ function mapStateToProps(state) {
         node: state.characteristics.node,
         nodeStatus: state.characteristics.nodeStatus,
         activeAction: state.characteristics.activeAction,
+        groupLoader: state.characteristics.groupLoader,
     }
 }
 
@@ -266,6 +265,8 @@ function mapDispatchToProps(dispatch) {
         changeSubgroupName: (name, value) => dispatch(changeSubgroupName(name, value)),
         cancelEditing: () => dispatch(cancelEditing()),
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
+        startMoveAction: id => dispatch(startMoveAction(id)),
+        setMoveAction: () => dispatch(setMoveAction()),
     }
 }
 

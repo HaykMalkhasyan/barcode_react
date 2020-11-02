@@ -2,49 +2,15 @@ import React from "react";
 import classes from "./actions.module.css";
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import MouseIcon from "@material-ui/icons/Mouse";
 import Icons from "../../../../../../../components/Icons/icons";
 
 const ModalActions = props => {
 
     return (
         <div>
-            {/* subgroup CHANGE POSITION */}
-            <CustomButton
-                className={`${classes.actionButtons} ${props.changePositionStatus ? classes.actionButtonsActive : ''}`}
-                children={
-                    <Tooltip
-                        title={
-                            <span className={classes.changePositionTooltipContent}>
-                                <MouseIcon style={{fontSize: 14}}/>
-                                Փեխել դիրքը
-                            </span>
-                        }
-                        placement="right"
-                    >
-                        <span className={classes.contentSpan}>
-                            <Icons
-                                width={10}
-                                height={10}
-                                type={'triangle-up'}
-                                className={props.changePositionStatus ? classes.containedChangePositionUpSelected : classes.iconsChangePositionInactive}
-                            />
-                            <Icons
-                                width={10}
-                                height={10}
-                                type={'triangle-down'}
-                                className={props.changePositionStatus ? classes.containedChangePositionDownSelected : classes.iconsChangePositionInactive}
-                            />
-                        </span>
-                    </Tooltip>
-                }
-                // Methods
-                onClick={props.toggleMovingStatus}
-            />
-
             {/* subgroup CHANGE LOCATION */}
             <CustomButton
-                className={classes.actionButtons}
+                className={props.activeAction === "move" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}
                 children={
                     <Tooltip title={'Տեղափոխել'} placement="right">
                         <span className={classes.contentSpan}>
@@ -57,7 +23,7 @@ const ModalActions = props => {
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.controllerId ? event => props.moveHandler(event, props.controllerId.id) : null}
+                onClick={props.node && props.activeAction === null ? event => props.moveHandler(event, props.node) : null}
             />
 
             {/* subgroup EDIT */}
@@ -123,13 +89,16 @@ const ModalActions = props => {
                 }
                 // Methods
                 onClick={
-                    props.own_select !== null ?
-                        event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
-                        :
-                        props.groupId !== null ?
-                            event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
+                    props.activeAction === null ?
+                        props.own_select !== null ?
+                            event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
                             :
-                            null
+                            props.groupId !== null ?
+                                event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
+                                :
+                                null
+                        :
+                        null
                 }
             />
         </div>

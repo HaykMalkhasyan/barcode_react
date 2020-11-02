@@ -22,7 +22,6 @@ class ClassifiersTree extends Component {
             isOpen: false,
             collapseStatus: true
         };
-        this.props.getSubgroupWithGroupId(0, "filter_subgroups")
     }
 
     collapsed = () => {
