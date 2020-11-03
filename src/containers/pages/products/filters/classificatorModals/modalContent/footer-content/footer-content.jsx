@@ -8,7 +8,7 @@ const FooterContent = props => {
     return (
         <footer className={classes.footer}>
             <CancelButton
-                onClick={() => props.classifierOpenHandler(props.group.id)}
+                onClick={props.cencel}
             />
             <ConfirmButton
                 // Methods

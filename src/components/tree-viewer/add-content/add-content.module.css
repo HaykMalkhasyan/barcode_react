@@ -9,6 +9,10 @@
     justify-content: space-between;
 }
 
+.first {
+    padding-left: 22px;
+}
+
 .addWindow > div:first-child {
     display: flex;
     justify-content: flex-start;
@@ -29,16 +33,24 @@
     justify-content: center;
     align-items: center;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
     height: 30px;
     border: none;
     outline: none !important;
     background-color: transparent;
-    color: #666;
-    border-bottom: 2px solid #FF8927;
-    text-indent: 20px;
+    color: #024059;
+    letter-spacing: .4pt;
+    font-size: 15px;
+    /*border-bottom: 2px solid #FF8927;*/
 }
 
 .addLabel {
-    display: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }

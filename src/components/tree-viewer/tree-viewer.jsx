@@ -20,17 +20,32 @@ const TreeViewer = React.forwardRef((props, ref) => {
 
         if (props.moveElement !== null) {
 
-            if (props.node && props.node.parent_id === "0") {
+            if (props.node) {
+                if (parseInt(props.node.parent_id) === 0) {
+                    return (
+                        <CoupleButtons
+                            type={"move"}
+                            checkSuccess={event => {
+                                event.stopPropagation();
+                                props.moveIsHere({parent_id: 0})
+                            }}
+                            checkMoveSuccess={event => {
+                                event.stopPropagation();
+                                props.moveIsHere({sort: 0}, "move")
+                            }}
+                            checkClose={event => {
+                                event.stopPropagation();
+                                props.cancelEditing();
+                            }}
+                        />
+                    )
+                }
                 return (
                     <CoupleButtons
-                        type={"move"}
+                        type={"only-move"}
                         checkSuccess={event => {
                             event.stopPropagation();
                             props.moveIsHere({id: 0})
-                        }}
-                        checkMoveSuccess={event => {
-                            event.stopPropagation();
-                            props.moveIsHere({sort: 0}, "move")
                         }}
                         checkClose={event => {
                             event.stopPropagation();
@@ -39,19 +54,6 @@ const TreeViewer = React.forwardRef((props, ref) => {
                     />
                 )
             }
-            return (
-                <CoupleButtons
-                    type={"only-move"}
-                    checkSuccess={event => {
-                        event.stopPropagation();
-                        props.moveIsHere({id: 0})
-                    }}
-                    checkClose={event => {
-                        event.stopPropagation();
-                        props.cancelEditing();
-                    }}
-                />
-            )
         }
     }
 
@@ -101,6 +103,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                 {
                     parseInt(props.add) === 0 ?
                         <AddContent
+                            type={"first"}
                             subgroupName={props.subgroupName}
                             newSubgroup={props.newSubgroup}
                             add={props.add}

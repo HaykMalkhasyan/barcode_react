@@ -8,6 +8,7 @@ const EditContent = props => {
     return (
         <div className={classes.changeControllerWindow}>
             <CustomInput
+                autoFocus={true}
                 classNameInput={classes.subgroupNameInput}
                 classNameLabel={classes.subgroupNameLabel}
                 value={props.subgroupName}

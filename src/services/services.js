@@ -39,8 +39,8 @@ export function getHeaders(headers, params) {
             ...params
         },
         headers: {
-            "lang": cookie.get('language') || "am",
             "Content-Type": "application/json",
+            "lang": cookie.get('language') || "am",
             "Authorization": `JWT ${cookie.get('access')}`,
             ...headers,
         }

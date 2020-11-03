@@ -126,6 +126,7 @@
 .nested {
     width: 100% !important;
     font-weight: bold;
+    overflow: hidden;
     text-transform: capitalize;
 }
 

@@ -294,7 +294,7 @@ export function openModalContent(item) {
 export function renderTree(data, place) {
 
     return dispatch => {
-        // dispatch(setGroupValues('own_subgroups', []))
+        dispatch(setGroupValues('own_subgroups', []))
         const own_subgroup = [];
         const sort_data = data.sort((a, b) => a.sort - b.sort)
         for (let item of sort_data) {
@@ -444,9 +444,9 @@ export function deleteClassifiersAction(type, param, id = null) {
 
     return dispatch => {
         if (id === null) {
-            dispatch(getActionById("get", type, param))
+            dispatch(getActionById("GET", type, param))
         } else {
-            dispatch(getActionById("get", type, param, id))
+            dispatch(getActionById("GET", type, param, id))
         }
         dispatch(setGroupValues('delete', type))
     }

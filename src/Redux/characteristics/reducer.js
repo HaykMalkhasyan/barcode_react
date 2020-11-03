@@ -291,6 +291,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case CLOSE_CLASSIFIERS:
             return {
                 ...state,
+                groupsEditMode: false,
                 modalGroup: null,
                 groupActiveId: null,
                 classifiersSearch: '',
