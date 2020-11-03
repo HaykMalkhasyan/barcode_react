@@ -73,6 +73,7 @@
     background-color: transparent;
     width: 100%;
     padding: 10px;
+    min-height: 58px;
     position: relative;
 }
 .cashboxes{

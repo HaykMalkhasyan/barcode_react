@@ -39,5 +39,6 @@ export const am = {
     workers: 'աշխատակիցներ',
     label_editor: 'Պիտակի խմբագիր',
     outlets: 'վաճառակետեր',
+    sale:"վաճառք",
     all:"բոլորը",
 };

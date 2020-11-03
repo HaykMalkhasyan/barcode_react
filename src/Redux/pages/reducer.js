@@ -60,10 +60,10 @@ const initialState = {
         },
         {
             id: 6,
-            name: 'վաճառակետ',
-            staticName: 'outlets',
+            name: 'վաճառք',
+            staticName: 'sale',
             subMenus: [
-                {id: '6-1', name: 'all', url: '/outlets'},
+                {id: '6-1', name: 'outlets', url: '/outlets'},
                 {id: '6-2', name: 'Աշխատակից բաժին 1', url: '/link_6_2'},
                 {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
             ]

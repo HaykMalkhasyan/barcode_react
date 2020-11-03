@@ -1,32 +1,33 @@
 import React, { useState } from 'react'
 import style from './confirm.module.css'
-import Button from "@material-ui/core/Button"
+// import Button from "@material-ui/core/Button"
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import {exampleObj} from './example'
 import {get_float_num_length} from "../helpers/functions"
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import LoadingButton from '@material-ui/lab/LoadingButton';
 
-import SaveIcon from '@material-ui/icons/Save';
+// import SaveIcon from '@material-ui/icons/Save';
 
 
 export default function Confirm(props) {
     const {
-        cash,
-        card,
+        // cash,
+        // card,
         diff,
         debt,
-        items,
+        // items,
         allTotal,
-        disscount,
-        currentTurn,
-        disscountType,
+        // disscount,
+        // currentTurn,
+        // disscountType,
         disscountCash,
         disscountPercent,
         totalWithDisscount,
         deleteTurn,
-        success,
+        // success,
         setSuccess,
+        paymentTypes,
         selectedCustomer
     } = props
 
@@ -34,13 +35,26 @@ export default function Confirm(props) {
     
     function handleConfirm() {
         setPending(true)
+
+        console.log('openLogin', props.openLogin)
+        if(`${props.keyCashBox}` !== localStorage.getItem("keyCashbox") ){
+            window.location.reload()
+            setSuccess({open:true, message:"Մուտքագրեք տվյալները", status:"error"})
+            setPending(false)
+            return
+        }
         if(!props.items.length){
             setSuccess({open:true, message:"Կտրոնը դատարկ է", status:"error"})
             setPending(false)
             return
         }
         if(!selectedCustomer){
-            setSuccess({open:true, message:"Հաճածորդը ընտրված չէ", status:"error"})
+            setSuccess({open:true, message:"Հաճախորդը ընտրված չէ", status:"error"})
+            setPending(false)
+            return
+        }
+        if(debt!==0){
+            setSuccess({open:true, message:`Վճարումը կատարված չէ (պարտք ${debt} Դրամ)`, status:"error"})
             setPending(false)
             return
         }
@@ -71,9 +85,8 @@ export default function Confirm(props) {
         //     discount_percent: props.disscountType==="percent" ? props.disscount : "0",
         //     items: clone,
         // }
-
         var date = new Date();
-
+        let unixtime = Date.now()
         exampleObj.data[0].discount_amount = disscountCash
         exampleObj.data[0].discount_percent = disscountPercent
         exampleObj.data[0].items = JSON.parse(JSON.stringify(clone))
@@ -81,7 +94,27 @@ export default function Confirm(props) {
         exampleObj.data[0].sum_amount = allTotal
         exampleObj.data[0].total_amount = totalWithDisscount
         exampleObj.data[0].selectedCustomer = selectedCustomer
+        exampleObj.data[0].payments = paymentTypes.map(item=>{
+            return {
+                "amount": item.value,
+                "direction": 1,
+                "is_change": false,
+                "payment_id": item.id,
+                "unique_id": "6417",
+                "unixtime": unixtime
+            }
+        }).filter(item=>item.amount)
+        if(diff!==0){
+            exampleObj.data[0].payments.push({
+                "amount": diff,
+                "direction": 2,
+                "is_change": true,
+                "unixtime": unixtime
+            })
+        }
+///////////////////////////////////////////////////////////
 
+        console.log('paymentTypes', paymentTypes)
         console.log('exampleObj', exampleObj)
         let allAccepteds = JSON.parse(localStorage.getItem('accepteds')) 
         if(!allAccepteds) {allAccepteds = []}
