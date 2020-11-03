@@ -32,7 +32,7 @@ class ClassifiersTab extends Component {
 
     selectGroupHandler = id => {
         if (id !== 0) {
-            this.props.getActionById("get", "group", {path: "Group/Group", id: id})
+            this.props.getActionById("GET", "group", {path: "Group/Group", id: id})
             this.props.getOnlySubgroupWithGroupId(id);
             this.props.selectGroupItem()
         }

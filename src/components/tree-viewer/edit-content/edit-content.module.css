@@ -6,15 +6,17 @@
 }
 
 .subgroupNameInput {
-    height: 30px;
-    box-sizing: border-box;
-    padding: 0 5px;
-    background-color: transparent;
-    border: none;
-    color: #666;
-    border-bottom: 2px solid #FF8927;
     width: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 30px;
+    border: none;
     outline: none !important;
+    background-color: transparent;
+    color: #024059;
+    letter-spacing: .4pt;
+    font-size: 15px;
 }
 
 .subgroupNameLabel {

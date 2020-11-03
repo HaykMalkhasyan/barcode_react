@@ -11,7 +11,7 @@ class LeftPanel extends Component {
         this.props.setGroupValues('newGroup', {id: group.id, name: group.name, required_group: group.required_group});
         this.props.setGroupValues('changeStatus', false);
         this.props.setGroupValues('modalGroup', null);
-        this.props.getActionById("get", "group", {path: "Group/Group", id: group.id});
+        this.props.getActionById("GET", "group", {path: "Group/Group", id: group.id});
         this.props.getSubgroupWithGroupId(group.id);
         this.props.setProductValues('classifiersModal', true)
     };

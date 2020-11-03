@@ -2,15 +2,18 @@ import React from "react";
 import classes from "./add-content.module.css";
 import CustomInput from "../../UI/input/customInput/customInput";
 import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
+import Icons from "../../Icons/icons";
 
 const AddContent = props => {
 
     return (
-        <div className={classes.addWindow}>
+        <div className={`${classes.addWindow} ${props.type === "first" ? classes.first : ''}`}>
             <div>
                 <CustomInput
+                    autoFocus={true}
                     classNameInput={classes.addInput}
                     classNameLabel={classes.addLabel}
+                    label={<Icons type={'tree-arrow-right-empty'}/>}
                     placeholder={'Ենթախմբի անվանում'}
                     value={props.subgroupName}
                     name={'subgroupName'}

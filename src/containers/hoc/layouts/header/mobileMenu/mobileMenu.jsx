@@ -80,7 +80,7 @@ const MobileMenu = props => {
                                 {open === menu.id ? <ExpandLess/> : <ExpandMore/>}
                             </div>
                         </ListItem>
-                        <Collapse classes={{container: classes.nested}} in={open === menu.id} timeout="auto" unmountOnExit>
+                        <Collapse classes={{root: classes.nested}} in={open === menu.id} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 {
                                     menu.subMenus.length ?

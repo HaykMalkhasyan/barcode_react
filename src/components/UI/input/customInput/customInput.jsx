@@ -15,6 +15,7 @@ const CustomInput = props => {
                             id={props.id}
                             className={props.classNameInput}
                             // -----
+                            autoFocus={props.autoFocus}
                             type={props.type}
                             name={props.name}
                             hidden={props.hidden}
@@ -42,6 +43,7 @@ const CustomInput = props => {
                         </label>
                         <input
                             readOnly={props.readOnly }
+                            autoFocus={props.autoFocus}
                             ref={props.inputRef}
                             id={props.id}
                             className={props.classNameInput}

@@ -112,7 +112,7 @@ const ModalContent = props => {
         }
     }
 
-    const successAdding = (subgroup, node, subLevel) => {
+    const successAdding =  async (subgroup, node, subLevel) => {
         if (ref.current && props.node && !subLevel) {
             const {tree} = ref.current;
             tree.removeNode(node)
@@ -124,7 +124,7 @@ const ModalContent = props => {
 
     const onEditSubgroup =  async (event, id) => {
         event.stopPropagation();
-        await props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: id}}, id)
+        await props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: id}}, id)
         props.editSubgroupAction();
     };
 
@@ -140,7 +140,7 @@ const ModalContent = props => {
 
     const moveHandler = async (event, node) => {
         event.stopPropagation();
-        /*await */props.getActionById("get", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
+        /*await */props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
         props.startMoveAction(node.id);
     };
 
@@ -151,33 +151,62 @@ const ModalContent = props => {
             const subgroup = {...props.subgroup};
             const data = [];
             if (move === "move") {
-                const nods = [...tree.getChildNodes(node.getParent())];
-                const nodeIndex = nods.indexOf(node);
-                const initIndex = nods.indexOf(props.node);
-                for (let [index, item] of Object.entries(nods)) {
-                    if (nods.hasOwnProperty(index) && index > nodeIndex) {
-                        const init = {
+                if (Object.keys(node).length > 1) {
+                    const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
+                    const nodeIndex = parseInt(node.id) !== parseInt(props.node.parent_id) ?nods.indexOf(node) : -1;
+                    const initIndex = nods.indexOf(props.node);
+                    let init;
+                    for (let [index, item] of Object.entries(nods)) {
+                        init = {
                             id: item.id,
                             name: item.name,
                             cat_id: item.cat_id,
-                            sort: item.sort + 1,
+                            sort: index,
+                        }
+                        if (+initIndex === +index) {
+                            init = {
+                                id: subgroup.id,
+                                name: subgroup[`name_${cookie.get("language") || "am"}`],
+                                cat_id: subgroup.cat_id,
+                                sort: nodeIndex + 1,
+                            }
+                        }
+                        if (+index > nodeIndex && +index !== initIndex) {
+                            init = {
+                                id: item.id,
+                                name: item.name,
+                                cat_id: item.cat_id,
+                                sort: +index + 1,
+                            }
                         }
                         data.push(init)
-                    } else {
-                        let init = {
-                            id: item.id,
-                            name: item.name,
-                            cat_id: item.cat_id,
-                            sort: item.sort,
+                        // console.log(item.sort)
+                    }
+                    console.log(data)
+                } else {
+                    const nods = props.own_subgroups;
+                    const initId = props.node.id;
+                    let init;
+                    for (let [index, item] of Object.entries(nods)) {
+                        if (+item.id === initId) {
+                            init = {
+                                id: subgroup.id,
+                                name: subgroup[`name_${cookie.get("language") || "am"}`],
+                                cat_id: subgroup.cat_id,
+                                sort: 0,
+                            }
+                        } else {
+                            init = {
+                                id: item.id,
+                                name: item.name,
+                                cat_id: item.cat_id,
+                                sort: +index + 1,
+                            }
                         }
                         data.push(init)
                     }
-                    // console.log(item.sort)
+                    console.log(data)
                 }
-                console.log(initIndex)
-                // props.node.sort += (nods[nodeIndex].sort +1);
-                data[initIndex].sort = data[nodeIndex].sort + 1
-                console.log(data)
                 // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
             } else {
                 await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
@@ -245,6 +274,7 @@ const ModalContent = props => {
                 group={props.group}
                 // Methods
                 confirmHandler={confirmHandler}
+                cencel={backPageHandler}
             />
         </div>
     )
