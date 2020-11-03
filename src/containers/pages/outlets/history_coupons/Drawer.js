@@ -41,7 +41,7 @@ export default function SwipeableTemporaryDrawer(props) {
       })
       arr = arr.map((item,i)=>{
          let couponDate = new Date(item.date)
-         if(today.getTime() - couponDate.getTime() < 86400000){
+         if(`${today.getFullYear()}${today.getDate()}${today.getMonth()}` === `${couponDate.getFullYear()}${couponDate.getDate()}${couponDate.getMonth()}`){
           let time = item.date.split(" ") 
           return {
               ...item,
@@ -93,7 +93,7 @@ export default function SwipeableTemporaryDrawer(props) {
                 //     {coupon:"b10001", time:"12:54:33", quanty:1, disscount:"0 դրամ", total:"1000 դրամ"},
                 // ]
                 .map((row)=>{
-                    return <div key={row.time} className={style.tableRow}>
+                    if(row){ return <div key={row.time} className={style.tableRow}>
                                 <div className={style.tableCell} > 
                                     {row.coupon}
                                 </div>
@@ -121,7 +121,9 @@ export default function SwipeableTemporaryDrawer(props) {
                                       </div>
                                     </button>
                                 </div>
-                        </div>
+                        </div>}else{
+                          return null
+                        }
                 })}
               
             </div>

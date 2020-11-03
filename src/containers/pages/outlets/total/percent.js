@@ -17,7 +17,20 @@ function SimpleSelect(props) {
     const { classes } = props;
 
     function handleChange(e) {
-        props.setDisscount(+e.target.value)
+        if(props.disscountType==="percent"){
+          if(+e.target.value > 99 || +e.target.value < 0){
+            props.setSuccess({open:true, message:"Մուտքագրեք թիվ 0-99 միջակայքում", status:"error"})
+          }else{
+            props.setDisscount(+e.target.value)
+          }
+        }else if(props.disscountType==="cash"){
+          if(+e.target.value >= props.allTotal || +e.target.value <0 ){
+            props.setSuccess({open:true, message:"Մուտքագրեք թիվ սահմանված միջակայքում", status:"error"})
+          }else{
+            props.setDisscount(+e.target.value)
+          }
+        }
+
     }
 
     return (
@@ -37,7 +50,7 @@ function SimpleSelect(props) {
           }}
         style={{width:"190px"}}
           value={props.disscountType}
-          onChange={(e)=>{props.setDisscountType(e.target.value)}}
+          onChange={(e)=>{props.setDisscountType(e.target.value); props.setDisscount(0)}}
           className={classes.root}
           input={<OutlinedInput classes={{ input: classes.input }} />}
         >

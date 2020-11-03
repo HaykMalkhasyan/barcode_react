@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/core/Autocomplete';
 import style from "./search.module.css"
 import Axios from 'axios';
 import cookie from "../../../../services/cookies";
@@ -30,7 +30,6 @@ export default function ComboBox(props) {
                 "Authorization": `JWT ${cookie.get('access')}`
             }
         }).then(res=>{
-          console.log(res.data.data)
             setSearchs(res.data.data)
             setLoading(false)
         }).catch(err=>{
@@ -38,7 +37,7 @@ export default function ComboBox(props) {
             console.log(err)
         })
       }
-    },[inputValue])
+    },[inputValue, props.path, props.param])
 
   
 useEffect(()=>{
@@ -64,6 +63,7 @@ useEffect(()=>{
         loading={loading}
         loadingText={<Spinner />}
         options={searchs}
+        getOptionSelected={(option, value)=>option.id===value.id}
         onClick={()=>{return}}
         getOptionLabel={(option) => option.first_name + " " + option.last_name}
         noOptionsText={<NoOption charsLength={inputValue ? inputValue.length : 0} />}

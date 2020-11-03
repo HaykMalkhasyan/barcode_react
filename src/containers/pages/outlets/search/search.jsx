@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, {useState, useEffect, useRef} from 'react';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/core/Autocomplete';
 import style from "./search.module.css"
 import Axios from 'axios';
 import cookie from "../../../../services/cookies";
@@ -39,7 +39,7 @@ export default function ComboBox(props) {
             console.log(err)
         })
       }
-    },[inputValue])
+    },[inputValue, props.path, props.param])
 
   
 useEffect(()=>{
@@ -69,7 +69,7 @@ useEffect(()=>{
         key={props.keyAutoComplate} 
         autoFocus
         selectOnFocus
-        id="combo-box-demo"
+        id="combo-box"
         loading={loading}
         loadingText={<Spinner />}
         options={searchs}
@@ -77,15 +77,11 @@ useEffect(()=>{
         getOptionLabel={(option) => option.item_name}
         noOptionsText={<NoOption product={props.product} charsLength={inputValue ? inputValue.length : 0} />}
         onChange={(event, newValue) => {
-          // setOptions(newValue ? [newValue, ...options] : options);
           setSelected(newValue);
           setSearchs([])
-          // setValue(newValue);
           props.setQuany(1)
           props.setSellingPrice(1)
-          // if(event.keyCode!==13){
-            props.reff.current.focus()
-          // }
+          props.reff.current.focus()
         }}
         // onChange={(e,v)=>{setSelected(v); console.log(v); props.reff.current.focus()}}
         style={{ width: 300 }}

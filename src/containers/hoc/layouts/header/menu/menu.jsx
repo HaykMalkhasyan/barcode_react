@@ -31,7 +31,7 @@ const Menu = props => {
                 return (
                     <Icons type={'workers'} className={classes.icons}/>
                 );
-            case 'outlets':
+            case 'sale':
                 return (
                     <StoreIcon/>
                     // <Icons type={'marketing'}  />

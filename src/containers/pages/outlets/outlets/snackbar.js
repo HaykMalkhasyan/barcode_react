@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -18,7 +18,7 @@ export default function PositionedSnackbar(props) {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={props.open.open}
-        autoHideDuration={1200}
+        autoHideDuration={1500}
         onClose={handleClose}
         key={{ vertical: 'top', horizontal: 'right' }}
       >

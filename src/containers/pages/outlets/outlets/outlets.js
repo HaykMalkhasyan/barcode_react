@@ -32,7 +32,7 @@ export default function Outlets() {
   const quantyRef = useRef();
   const sellingPriceRef = useRef();
   const searchRef = useRef();
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
   const [keyAutoComplate, setKeyAutoComplate] = useState(1);
 
   const [allTotal, setAllTotal] = useState(0);
@@ -46,13 +46,31 @@ export default function Outlets() {
   const [disscountCash, setDisscountCash] = useState("");
 
   const [disscountType, setDisscountType] = useState("percent");
-  const [isFullScreen, setIsFullScreen] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [success, setSuccess] = useState({})
   const contentRef = useRef();
   const [selectedCustomer, setSelectedCustomer] = useState()
   const [custmerValue, setCustomerValue] = useState("")
   const [description, setDescription] = useState("")
-  const [screenChange, setScreenChange] = useState("")
+  const [paymentTypes, setPaymentTypes] = useState([])
+  const [keyCashBox, setKeyCashBox] = useState(null)
+  const [key, setKey] = useState(Math.random())
+
+  useEffect(()=>{
+    Axios.get(`${process.env.REACT_APP_API_URL}?path=Payments/Payment&cols=id,name`,{
+      headers: {
+        lang: cookie.get("language") || "am",
+        "Content-Type": "application/json",
+        Authorization: `JWT ${cookie.get("access")}`,
+      },
+    })
+    .then(res=>{
+      res.data.results && setPaymentTypes(res.data.results.map(item=>{return {...item,value:0}}))
+    })
+  },[])
+
+
+
   const getFromLocale = useCallback(() => {
     let turns_on_storage = localStorage.getItem(`${selectedCahier.id}`);
     if (turns_on_storage) {
@@ -73,18 +91,14 @@ export default function Outlets() {
     }
   }, [selectedCahier, currentTurn]);
 
-  useEffect(()=>{
-    setIsFullScreen(!isFullScreen)
-  },[screenChange])
-
 
   useEffect(() => {
     function handleEscKey(e){
-      setScreenChange(Math.random())
+      setIsFullScreen(isFullScreen=>!isFullScreen)
     }
     window.addEventListener("fullscreenchange", handleEscKey)
     Axios.get(
-      `${process.env.REACT_APP_API_URL}?path=Cashboxes/Cashboxes&addons=1&cols=id,name,cashier_stay_time,cashbox_version_id`,
+      `${process.env.REACT_APP_API_URL}?path=Cashiers/Cashier&cols=id,firstname,secondname,nickname`,
       {
         headers: {
           lang: cookie.get("language") || "am",
@@ -99,6 +113,9 @@ export default function Outlets() {
       .catch((err) => {
         console.log(err);
       });
+      return ()=>{
+        window.removeEventListener("fullscreenchange", handleEscKey)
+      }
   }, []);
 
   useEffect(() => {
@@ -267,7 +284,7 @@ export default function Outlets() {
   }
 
   return (
-    <div className={ isFullScreen ? style.fullScreenContent : style.content} id="contents" ref={contentRef}>
+    <div key={key} className={ isFullScreen ? style.fullScreenContent : style.content} id="contents" ref={contentRef}>
       <SnackbarMessage open={success} setOpen={setSuccess} />
       <div className={style.cashiers}>
         {cashiers &&
@@ -284,7 +301,7 @@ export default function Outlets() {
                   setSelectedCashier(item);
                 }}
               >
-                {item.name}
+                {item.nickname}
               </button>
             );
           })}
@@ -295,7 +312,10 @@ export default function Outlets() {
         </span>
       </div>
       <Login
+        keyCashBox={keyCashBox}
+        setKeyCashBox={setKeyCashBox}
         root={style.backdrop}
+        selectedCahier={selectedCahier}
         setSelectedCashier={setSelectedCashier}
         cashiers={cashiers}
         open={openLogin}
@@ -330,7 +350,7 @@ export default function Outlets() {
         </IconButton>
       </div>
       <animated.div
-        style={{ ...props, backgroundColor: "#fff", padding: "8px", position:"relative" }}
+        style={{ ...props, backgroundColor: "#fff", padding: "8px", position:"relative", minHeight:"707px" }}
       >
         <div className={style.filters}>
           <Search
@@ -409,14 +429,15 @@ export default function Outlets() {
         </div>
         <div className={style.totalContainer}>
           <Total
+            items={items} 
             cash={cash} setCash={setCash}
             card={card} setCard={setCard}
-            diff={diff} setDiff={setDiff}
             debt={debt} setDebt={setDebt}
-            items={items} 
+            diff={diff} setDiff={setDiff}
             allTotal={allTotal} setAllTotal={setAllTotal}
             disscount={disscount} setDisscount={setDisscount}
             description={description} setDescription={setDescription}
+            paymentTypes={paymentTypes} setPaymentTypes={setPaymentTypes}
             custmerValue={custmerValue} setCustomerValue={setCustomerValue}
             disscountCash={disscountCash} setDisscountCash={setDisscountCash}
             disscountType={disscountType} setDisscountType={setDisscountType}
@@ -426,6 +447,9 @@ export default function Outlets() {
           />
         </div>
         <Confirm
+          setKey={setKey}
+          keyCashBox={keyCashBox}
+          setKeyCashBox={setKeyCashBox}
           cash={cash}
           card={card}
           diff={diff}
@@ -438,12 +462,13 @@ export default function Outlets() {
           disscountCash={disscountCash}
           success={success}
           selectedCustomer={selectedCustomer}
+          paymentTypes={paymentTypes}
           setSuccess={setSuccess}
           disscountPercent={disscountPercent}
           totalWithDisscount={totalWithDisscount}
           deleteTurn={deleteTurn}
         />
-        {/* <CouponsHistory /> */}
+        <CouponsHistory />
       </animated.div>
     </div>
   );

@@ -14,6 +14,7 @@ const UpPanel = props => {
     const logoutHandler = () => {
         props.history.push('/login');
         props.logout()
+        localStorage.clear();
     };
 
     return (

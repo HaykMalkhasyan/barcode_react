@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import style from './total.module.css'
 import {get_float_num_length} from "../helpers/functions"
 import Percent from "./percent"
 import SearchCostomer from "../search/searchCostomer"
 import TextField from '@material-ui/core/TextField';
+import SnackbarMessage from "../outlets/snackbar"
 
 
 export default function Total(props) {
@@ -11,8 +12,8 @@ export default function Total(props) {
     const {
         allTotal, setAllTotal,
         totalWithDisscount, setTotalWithDisscount,
-        cash, setCash,
-        card, setCard,
+        // cash, setCash,
+        // card, setCard,
         diff, setDiff,
         debt, setDebt,
         disscount, setDisscount,
@@ -21,9 +22,11 @@ export default function Total(props) {
         setDisscountCash,
         // disscountPercent,
         setDisscountPercent,
-        
+        paymentTypes,
+        setPaymentTypes,
     } = props
 
+    const [success, setSuccess] = useState({})
     // const [allTotal, setAllTotal] = useState(0)
     // const [totalWithDisscount, setTotalWithDisscount] = useState(0)
     // const [cash, setCash] = useState(0)
@@ -31,6 +34,7 @@ export default function Total(props) {
     // const [diff, setDiff] = useState(0)
     // const [debt, setDebt] = useState(0)
 
+  
 
     useEffect(()=>{
         if(props.items){
@@ -63,7 +67,12 @@ export default function Total(props) {
 
 
     useEffect(()=>{
-        let delta = (+cash + +card - +totalWithDisscount).toFixed(Math.max(get_float_num_length(+cash), get_float_num_length(+card), get_float_num_length(+totalWithDisscount)))
+        let sum = paymentTypes.reduce((total, item)=>{
+            let sum = (parseFloat(total) + parseFloat(item.value)).toFixed(Math.max(get_float_num_length(+total), get_float_num_length(+item.value)))
+            total = sum
+            return total
+        },0)
+        let delta = (+sum - +totalWithDisscount).toFixed(Math.max(get_float_num_length(+sum), get_float_num_length(+totalWithDisscount)))
         if(delta>0){
             setDiff(delta)
             setDebt(0)    
@@ -71,20 +80,34 @@ export default function Total(props) {
             setDebt(-delta)
             setDiff(0)
         }
-    },[cash, card, totalWithDisscount, setDebt, setDiff])
+    },[paymentTypes, totalWithDisscount, setDebt, setDiff])
 
+
+    function handlePayChange(e, i, arr){
+        let clone = JSON.parse(JSON.stringify(arr))
+        clone[i].value = e.target.value >= 0 ? e.target.value : 0
+        setPaymentTypes(clone)
+    }
 
     return <>
+    {paymentTypes && !!paymentTypes.length && <>
+        <SnackbarMessage open={success} setOpen={setSuccess} />
         <div className={style.inputsCont} >
-        <SearchCostomer
-            path="Clients/Search"
-            param="first_name"
-            product={true}
-            inputValue={props.custmerValue} setInputValue={props.setCustomerValue}
-            selecteds={props.selectedCustomer} setSelected={props.setSelectedCustomer}
-            
-          />
-            <Percent disscount={disscount} setDisscount={setDisscount} disscountType={disscountType} setDisscountType={setDisscountType} />
+            <SearchCostomer
+                path="Clients/Search"
+                param="first_name"
+                inputValue={props.custmerValue} 
+                setInputValue={props.setCustomerValue}
+                selecteds={props.selectedCustomer} 
+                setSelected={props.setSelectedCustomer}
+            />
+            <Percent success={success} setSuccess={setSuccess} 
+                disscount={disscount} 
+                setDisscount={setDisscount} 
+                disscountType={disscountType} 
+                setDisscountType={setDisscountType} 
+                allTotal={allTotal}
+            />
             <TextField 
                 variant="outlined"
                 size="small"
@@ -94,7 +117,8 @@ export default function Total(props) {
                 style={{margin:"10px 0px"}}
                 multiline
                 rows={5}
-                placeholder="Նկարագրություն" />
+                placeholder="Նկարագրություն" 
+            />
         </div>
         <div className={style.totalContainer}>
             <div className={style.item} >
@@ -106,7 +130,20 @@ export default function Total(props) {
             <div className={` ${style.darkBackGround} ${style.item}`} >
                 {`Վերջնական գումար՝ ${totalWithDisscount ? totalWithDisscount : 0} դրամ`}
             </div>
-            <div className={` ${style.lightBackGround} ${style.item}`} >
+            {paymentTypes.map((item, i, arr)=>{
+                return <div key={item.id} className={` ${style.lightBackGround} ${style.item}`} >
+                {item.name}
+                <input
+                    onFocus={(e)=>{e.target.select()}}
+                    // type="number"
+                    className={style.input}
+                    value={item.value}
+                    onChange={(e)=>{handlePayChange(e, i, arr)}}
+                />
+                {` դրամ`}
+            </div>
+            })}
+            {/* <div className={` ${style.lightBackGround} ${style.item}`} >
                 {`Կանխիկ՝`}
                 <input
                     className={style.input}
@@ -123,13 +160,14 @@ export default function Total(props) {
                     onChange={(e)=>{setCard(e.target.value)}}
                 />
                 {`դրամ`}
-            </div>
+            </div> */}
             <div className={` ${style.lightBackGround} ${style.item}`} >
-                {`Պարտք՝ ${debt ? debt : 0} դրամ`}
+                {`Մնացորդ՝ ${debt ? debt : 0} դրամ`}
             </div>
             <div className={` ${style.diff} ${style.item}`} >
                 {`Մանր՝ ${diff ? diff : 0} դրամ`}
             </div>
         </div>
+    </>}
     </>
 }
