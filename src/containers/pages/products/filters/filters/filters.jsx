@@ -30,7 +30,10 @@ import {
     searchHandler,
     selectTreeGroupItem,
     selectTreeItem,
-    setGroupValues, setMoveAction, startMoveAction
+    setGroupValues,
+    setMoveAction,
+    sortTree,
+    startMoveAction
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
 import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
@@ -47,10 +50,6 @@ class Filters extends Component {
         this.props.getSubgroupWithGroupId(0, "filter_subgroups")
         this.props.getAllGroup();
     }
-
-    handleOpen = item => {
-        this.props.openModalContent(item);
-    };
 
     handleClose = () => {
         this.props.closeAction()
@@ -89,7 +88,6 @@ class Filters extends Component {
                     <Grid item xs={12} md={4} lg={3} xl={3}>
                         <ClassifiersTree
                             // Methods
-                            handleOpen={this.handleOpen}
                             classifierOpenHandler={this.classifierOpenHandler}
                         />
                         <CollapsedFilters
@@ -108,7 +106,7 @@ class Filters extends Component {
                     className={classes.modal}
                     // Methods
                     // handleClose={this.handleClose}
-                    handleOpen={this.handleOpen}
+                    handleOpen={this.props.openModalContent}
                 >
                     <ModalContent
                         // Data
@@ -154,6 +152,7 @@ class Filters extends Component {
                         cancelEditing={this.props.cancelEditing}
                         startMoveAction={this.props.startMoveAction}
                         setMoveAction={this.props.setMoveAction}
+                        sortTree={this.props.sortTree}
                     />
                 </ModalUI>
                 <ModalUI
@@ -171,7 +170,7 @@ class Filters extends Component {
                         groupLoader={this.props.groupLoader}
                         // Methods
                         classifierCloseHandler={this.classifierCloseHandler}
-                        editModalHandleOpen={this.handleOpen}
+                        editModalHandleOpen={this.props.openModalContent}
                         setGroupValues={this.props.setGroupValues}
                         importGroupInProduct={this.props.importGroupInProduct}
                         checkGroup={this.props.checkGroup}
@@ -244,7 +243,7 @@ function mapDispatchToProps(dispatch) {
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
-        getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
+        getSubgroupWithGroupId: (id, place) => dispatch(getSubgroupWithGroupId(id, place)),
         editSubgroup: data => dispatch(editSubgroup(data)),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         deleteAction: (request, id, catId) => dispatch(deleteAction(request, id, catId)),
@@ -267,6 +266,7 @@ function mapDispatchToProps(dispatch) {
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
         startMoveAction: id => dispatch(startMoveAction(id)),
         setMoveAction: () => dispatch(setMoveAction()),
+        sortTree: (data, ref, node, paren, level) => dispatch(sortTree(data, ref, node, paren, level))
     }
 }
 

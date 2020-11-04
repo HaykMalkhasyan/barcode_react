@@ -149,63 +149,13 @@ const ModalContent = props => {
             const {tree} = ref.current;
             tree.selectNode();
             const subgroup = {...props.subgroup};
-            const data = [];
             if (move === "move") {
                 if (Object.keys(node).length > 1) {
                     const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
-                    const nodeIndex = parseInt(node.id) !== parseInt(props.node.parent_id) ?nods.indexOf(node) : -1;
-                    const initIndex = nods.indexOf(props.node);
-                    let init;
-                    for (let [index, item] of Object.entries(nods)) {
-                        init = {
-                            id: item.id,
-                            name: item.name,
-                            cat_id: item.cat_id,
-                            sort: index,
-                        }
-                        if (+initIndex === +index) {
-                            init = {
-                                id: subgroup.id,
-                                name: subgroup[`name_${cookie.get("language") || "am"}`],
-                                cat_id: subgroup.cat_id,
-                                sort: nodeIndex + 1,
-                            }
-                        }
-                        if (+index > nodeIndex && +index !== initIndex) {
-                            init = {
-                                id: item.id,
-                                name: item.name,
-                                cat_id: item.cat_id,
-                                sort: +index + 1,
-                            }
-                        }
-                        data.push(init)
-                        // console.log(item.sort)
-                    }
-                    console.log(data)
+                    props.sortTree(nods, tree, node, node.getParent() || null, true);
                 } else {
                     const nods = props.own_subgroups;
-                    const initId = props.node.id;
-                    let init;
-                    for (let [index, item] of Object.entries(nods)) {
-                        if (+item.id === initId) {
-                            init = {
-                                id: subgroup.id,
-                                name: subgroup[`name_${cookie.get("language") || "am"}`],
-                                cat_id: subgroup.cat_id,
-                                sort: 0,
-                            }
-                        } else {
-                            init = {
-                                id: item.id,
-                                name: item.name,
-                                cat_id: item.cat_id,
-                                sort: +index + 1,
-                            }
-                        }
-                        data.push(init)
-                    }
-                    console.log(data)
+                    props.sortTree(nods, tree, node, node.getParent() || null, false);
                 }
                 // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
             } else {
@@ -271,6 +221,7 @@ const ModalContent = props => {
                 selectTreeGroupItem={props.selectTreeGroupItem}
             />
             <FooterContent
+                newGroup={props.newGroup}
                 group={props.group}
                 // Methods
                 confirmHandler={confirmHandler}

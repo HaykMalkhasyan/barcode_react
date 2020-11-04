@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './user.module.css'
 import {Redirect, withRouter} from "react-router-dom"
 import {connect} from "react-redux"
-import SlickSlider from "../../components/slickSlider/slickSlider"
+import SlickSlider from "../../../components/slickSlider/slickSlider"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import PieChartIcon from '@material-ui/icons/PieChart'

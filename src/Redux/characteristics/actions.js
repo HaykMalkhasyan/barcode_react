@@ -284,17 +284,22 @@ export function getSubgroupWithGroupId(id, place = null) {
 
 export function openModalContent(item) {
 
-    return async dispatch => {
+    return dispatch => {
         dispatch(setGroupValues("groupLoader", item.id))
-        await dispatch(getSubgroupWithGroupId(item.id));
-        dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
+        dispatch(getSubgroupWithGroupId(item.id));
+        setTimeout(() => {
+                dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
+            },
+            150
+        )
+        // clearTimeout(outOpen)
     }
 }
 
 export function renderTree(data, place) {
 
     return dispatch => {
-        dispatch(setGroupValues('own_subgroups', []))
+        dispatch(setGroupValues(place || 'own_subgroups', []))
         const own_subgroup = [];
         const sort_data = data.sort((a, b) => a.sort - b.sort)
         for (let item of sort_data) {
@@ -321,6 +326,66 @@ export function renderTree(data, place) {
             dispatch(setRenderedOwnTreeValue(own_subgroup))
         }
 
+    }
+}
+
+function find(data, changed, parent, path, index) {
+
+    if (index < path.length && data[path[index]].id === parent.id) {
+        data[path[index]].children = changed
+        return true;
+    }
+
+    return find(data[path[index]].children, changed, parent, path, ++index)
+}
+
+export function sortTree(data, ref, node, parent, level) {
+
+    return (dispatch, getState) => {
+        const own_subgroups = [...getState().characteristics.own_subgroups];
+        let path = parent.state.path.split('.').splice(1, parent.state.path.length)
+        const selected_node = getState().characteristics.node;
+        const initial_sort_data = [];
+        const sort = {};
+
+        if (level) {
+            const nodeIndex = parseInt(node.id) !== parseInt(selected_node.parent_id) ? data.indexOf(node) : -1;
+            const initIndex = data.indexOf(selected_node);
+
+            for (let [index, item] of Object.entries(data)) {
+                sort[item.id] = +initIndex === +index ? nodeIndex + 1 : +index > nodeIndex && +index !== initIndex ? +index + 1 : +index;
+                initial_sort_data.push({
+                    id: item.id,
+                    cat_id: item.cat_id,
+                    parent_id: item.parent_id,
+                    sort: +initIndex === +index ? nodeIndex + 1 : +index > nodeIndex && +index !== initIndex ? +index + 1 : +index,
+                    name: item.name,
+                    children: [...item.children]
+                })
+            }
+
+            if (parent !== null) {
+                find(own_subgroups, initial_sort_data, parent, path,0);
+            }
+            console.log(own_subgroups)
+            dispatch(setRenderedOwnTreeValue(own_subgroups))
+            ref.removeNode(selected_node)
+            ref.insertNodeAfter(selected_node, node)
+        } else {
+            const id = selected_node.id;
+
+            for (let [index, item] of Object.entries(data)) {
+                sort[item.id] = parseInt(item.id) === parseInt(id) ? 0 : +index + 1;
+                initial_sort_data.push({
+                    id: item.id,
+                    cat_id: item.cat_id,
+                    parent_id: item.parent_id,
+                    sort: parseInt(item.id) === parseInt(id) ? 0 : +index + 1,
+                    name: item.name,
+                    children: [...item.children]
+                })
+            }
+        }
     }
 }
 

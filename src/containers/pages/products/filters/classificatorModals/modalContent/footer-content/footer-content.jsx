@@ -12,7 +12,12 @@ const FooterContent = props => {
             />
             <ConfirmButton
                 // Methods
-                onClick={props.confirmHandler}
+                onClick={
+                    props.newGroup.title_am ?
+                        props.cencel
+                        :
+                        props.confirmHandler
+                }
             />
         </footer>
     )

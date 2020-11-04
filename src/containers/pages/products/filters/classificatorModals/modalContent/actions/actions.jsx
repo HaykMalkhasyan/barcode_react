@@ -81,22 +81,25 @@ const ModalActions = props => {
                         <span className={classes.contentSpan}>
                             <Icons
                                 type={'group-delete'}
-                                opacity={props.own_select !== null || props.groupId !== null ? 1 : 0.18}
-                                className={props.own_select !== null || props.groupId !== null ? classes.groupDeleteSelected : classes.iconsInactive}
+                                opacity={props.groupId !== 0 && (props.own_select !== null || props.groupId !== null) ? 1 : 0.18}
+                                className={props.groupId !== 0 && (props.own_select !== null || props.groupId !== null) ? classes.groupDeleteSelected : classes.iconsInactive}
                             />
                         </span>
                     </Tooltip>
                 }
                 // Methods
                 onClick={
-                    props.activeAction === null ?
-                        props.own_select !== null ?
-                            event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
-                            :
-                            props.groupId !== null ?
-                                event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
+                    props.groupId !== 0 ?
+                        props.activeAction === null ?
+                            props.own_select !== null ?
+                                event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
                                 :
-                                null
+                                props.groupId !== null ?
+                                    event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
+                                    :
+                                    null
+                            :
+                            null
                         :
                         null
                 }

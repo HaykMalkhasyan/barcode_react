@@ -118,10 +118,11 @@ const TreeViewer = React.forwardRef((props, ref) => {
                         null
                 }
             </div>
-            {
-                props.own_subgroups ?
-                    props.own_subgroups.length ?
-                        <Collapse in={open} timeout={0} unmountOnExit className={classes.collapse}>
+            <Collapse in={open} timeout={0} unmountOnExit className={classes.collapse}>
+                {
+                    props.own_subgroups ?
+                        props.own_subgroups.length ?
+
                             <InfiniteTree
                                 autoOpen={false}
                                 ref={ref}
@@ -214,12 +215,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                         </TreeNode>
                                 }}
                             </InfiniteTree>
-                        </Collapse>
+                            :
+                            <small className={classes.isEmpty}>Դատարկ</small>
                         :
-                        <small className={classes.isEmpty}>Դատարկ</small>
-                    :
-                    <SpinnerForContent/>
-            }
+                        <SpinnerForContent/>
+                }
+            </Collapse>
         </>
     )
 })

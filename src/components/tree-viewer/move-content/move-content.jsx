@@ -74,7 +74,7 @@ const MoveContent = props => {
 
     return (
         <div className={classes.changeControllerWindow}>
-            <span className={classes.nodeName}>
+            <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && props.node.name.search(props.search) !== -1 ? classes.hasHave : ''}`}>
                 {props.node.name}
             </span>
             {contentRender()}

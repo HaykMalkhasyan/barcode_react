@@ -102,9 +102,10 @@ class ClassifiersTree extends Component {
                                 <div id="scrollableDiv" className={classes.classifBody}>
                                     <TreeViewer
                                         group={this.props.groups[this.props.active]}
-                                        data={this.props.filter_subgroups}
+                                        own_subgroups={this.props.filter_subgroups}
                                         type={'select'}
                                         // Methods
+                                        setGroupValues={this.props.setGroupValues}
                                     />
                                 </div>
                             </>
