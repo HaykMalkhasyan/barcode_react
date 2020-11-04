@@ -1,0 +1,134 @@
+.errorPage {
+    width: 100%;
+    padding: 200px 200px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    /*background: linear-gradient(180deg, #dbdce8, #FBFCFF);*/
+}
+
+.gameWindow {
+    width: 300px;
+    height: 300px;
+    box-shadow: 0 0 0 4px rgba(2, 64, 89, 0.63);
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.gameButtonWindow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .6) inset;
+}
+
+.gameButton {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    outline: none;
+    border: none;
+    background-color: rgba(255, 137, 39, 0.89);
+    color: #fff;
+    font-size: 40px;
+    font-family: "Curlz MT", sans-serif;
+    cursor: pointer;
+    transition: 300ms;
+    box-shadow: 0 0 0 0 rgba(255, 137, 39, 1);
+    animation: shadow 2000ms linear infinite alternate;
+}
+
+@keyframes shadow {
+    from {box-shadow: 0 0 0 0 rgba(255, 255, 255, 1);}
+    to {box-shadow: 0 0 30px 0 rgba(255, 137, 39, 1);}
+}
+
+.gameButton:hover {
+    background-color: #fff;
+    color: rgba(255, 137, 39, 1);
+}
+
+.gameItem {
+    width: 100px;
+    height: 100px;
+    box-sizing: border-box;
+    background-clip: content-box;
+    border: 1px solid transparent;
+    background-color: #024059;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: 100;
+    font-family: "Curlz MT", sans-serif;
+    transition: 300ms;
+    user-select: none;
+}
+
+.controllers {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: -4px;
+    height: 30px;
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.controllersButton {
+    padding: 0;
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #444;
+    background-color: transparent;
+    border: none;
+    outline: none !important;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.controllersButton:hover {
+    color: rgba(255, 137, 39, 1);
+}
+
+.emptyItem {
+    background-color: transparent;
+}
+
+.elemActive {
+    background-color: #FF8927 !important;
+}
+
+.gameItem:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.gameItem:hover {
+    background-color: rgba(2, 64, 89, 0.63);
+}
+
+.puzzle {
+    height: 300px;
+}
+
+.puzzle img {
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}

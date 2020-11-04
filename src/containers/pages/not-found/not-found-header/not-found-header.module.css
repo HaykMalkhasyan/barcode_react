@@ -1,0 +1,54 @@
+.header {
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header > ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header > ul > li {
+    padding: 5px 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.header > span.projectName {
+    font-size: 20px;
+    color: #024059;
+    font-weight: 600;
+}
+
+.header > ul > li:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    height: 50%;
+    width: 0;
+    border-left: 1px solid #ccc;
+}
+
+.header > ul > li:last-child:after {
+    content: none;
+}
+
+.headerLink {
+    text-decoration: none;
+    color: #024059;
+    transition: 300ms;
+}
+
+.headerLink:hover {
+    text-decoration: underline;
+}

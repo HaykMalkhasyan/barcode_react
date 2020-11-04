@@ -24,14 +24,14 @@ const LazyResetPassword = lazy(
 );
 // For user
 const LazyUserPage = lazy(
-    () => import('../../containers/user/user')
+    () => import('../../containers/pages/user/user')
 );
 // Pages
 const LazyMainPage = lazy(
     () => import('../../containers/pages/main/main')
 );
 const LazyErrorPage = lazy(
-    () => import('../../containers/pages/error')
+    () => import('../../containers/pages/not-found/error')
 );
 // Products and characteristics
 const LazyFiltersContainer = lazy(

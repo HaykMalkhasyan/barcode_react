@@ -59,13 +59,7 @@ const initialState = {
     modalType: false,
     classifierName: '',
     groupName: '',
-    newGroup: {
-        title_am: '',
-        title_ru: '',
-        title_en: '',
-        required_group: false,
-        group_type: '1'
-    },
+    newGroup: {},
     error: null,
     allError: null,
     modalGroup: null,

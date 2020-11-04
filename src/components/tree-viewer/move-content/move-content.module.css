@@ -12,3 +12,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.hasHave {
+    border-bottom: 1px solid #024059;
+}
