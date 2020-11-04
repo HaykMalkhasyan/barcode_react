@@ -67,6 +67,16 @@ const initialState = {
                 {id: '6-2', name: 'Աշխատակից բաժին 1', url: '/link_6_2'},
                 {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
             ]
+        },
+        {
+            id: 7,
+            name: `Մուտքեր / Ելքեր`,
+            staticName: 'income_outcome',
+            subMenus: [
+                {id: '6-1', name: 'income', url: '/income'},
+                {id: '6-2', name: 'outcome', url: '/link_6_2'},
+                {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
+            ]
         }
     ],
 };

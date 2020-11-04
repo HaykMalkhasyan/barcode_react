@@ -1,0 +1,39 @@
+.table{
+    width: 90%;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+}
+.tableHeaderRow{
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tableHeaderCell{
+    padding: 9px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgba(212, 212, 212, 0.5);
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+}
+
+
+.tableRow{
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tableCell{
+    padding: 9px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgba(212, 212, 212, 0.5);
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+}

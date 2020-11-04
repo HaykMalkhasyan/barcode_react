@@ -40,4 +40,7 @@ export const en = {
     label_editor: 'Label editor',
     outlets: 'outlets',
     all:"all",
+    income_outcome:"income / outcome",
+    income:"income",
+    outcome:"outcome",
 };

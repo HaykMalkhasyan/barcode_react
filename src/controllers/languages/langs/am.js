@@ -41,4 +41,7 @@ export const am = {
     outlets: 'վաճառակետեր',
     sale:"վաճառք",
     all:"բոլորը",
+    income_outcome:"մուտքեր / ելքեր",
+    income:"մուտքեր",
+    outcome:"ելքեր",
 };
