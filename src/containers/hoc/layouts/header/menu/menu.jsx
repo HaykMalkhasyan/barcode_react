@@ -5,6 +5,7 @@ import Submenu from "../submenu/submenu";
 import {withRouter} from "react-router-dom";
 import {getLanguage} from "../../../../../controllers/languages/languages";
 import StoreIcon from '@material-ui/icons/Store';
+import InputIcon from '@material-ui/icons/Input';
 
 const Menu = props => {
 
@@ -34,6 +35,11 @@ const Menu = props => {
             case 'sale':
                 return (
                     <StoreIcon/>
+                    // <Icons type={'marketing'}  />
+                );
+                case 'income_outcome':
+                return (
+                    <InputIcon/>
                     // <Icons type={'marketing'}  />
                 );
             default:

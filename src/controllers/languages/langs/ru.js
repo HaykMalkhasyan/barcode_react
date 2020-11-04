@@ -40,4 +40,7 @@ export const ru = {
     label_editor: 'Эдитор этикеток',
     outlets: 'магазины',
     all:"все",
+    income_outcome:"доход / результат",
+    income:"доход",
+    outcome:"результат",
 };

@@ -49,6 +49,9 @@ const LazyLabelEditor = lazy(
 const LazyOutlets = lazy(
     () => import('../../containers/pages/outlets/outlets/outlets')
 );
+const LazyIncome = lazy(
+    () => import('../../containers/pages/income/income/income')
+);
 
 const Router = props => {
 
@@ -96,12 +99,19 @@ const Router = props => {
                 auth={props.auth}
                 component={LazyLabelEditor}
             />
-             {/* MainTab page */}
+             {/* outlets */}
              <PrivateRoute
                 exact
                 path='/outlets'
                 auth={props.auth}
                 component={LazyOutlets}
+            />
+              {/* Income */}
+              <PrivateRoute
+                exact
+                path='/income'
+                auth={props.auth}
+                component={LazyIncome}
             />
             {/* Login */}
             <PublicRoute
