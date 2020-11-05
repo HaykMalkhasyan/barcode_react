@@ -299,7 +299,9 @@ export function openModalContent(item) {
 export function renderTree(data, place) {
 
     return dispatch => {
-        dispatch(setGroupValues(place || 'own_subgroups', []))
+        if (place !== null) {
+            dispatch(setGroupValues(place, []))
+        }
         const own_subgroup = [];
         const sort_data = data.sort((a, b) => a.sort - b.sort)
         for (let item of sort_data) {
@@ -329,21 +331,10 @@ export function renderTree(data, place) {
     }
 }
 
-function find(data, changed, parent, path, index) {
-
-    if (index < path.length && data[path[index]].id === parent.id) {
-        data[path[index]].children = changed
-        return true;
-    }
-
-    return find(data[path[index]].children, changed, parent, path, ++index)
-}
-
-export function sortTree(data, ref, node, parent, level) {
+export function sortTree(data, ref, node, level) {
 
     return (dispatch, getState) => {
         const own_subgroups = [...getState().characteristics.own_subgroups];
-        let path = parent.state.path.split('.').splice(1, parent.state.path.length)
         const selected_node = getState().characteristics.node;
         const initial_sort_data = [];
         const sort = {};
@@ -354,23 +345,33 @@ export function sortTree(data, ref, node, parent, level) {
 
             for (let [index, item] of Object.entries(data)) {
                 sort[item.id] = +initIndex === +index ? nodeIndex + 1 : +index > nodeIndex && +index !== initIndex ? +index + 1 : +index;
-                initial_sort_data.push({
-                    id: item.id,
-                    cat_id: item.cat_id,
-                    parent_id: item.parent_id,
-                    sort: +initIndex === +index ? nodeIndex + 1 : +index > nodeIndex && +index !== initIndex ? +index + 1 : +index,
-                    name: item.name,
-                    children: [...item.children]
-                })
+                if (selected_node.getParent().id === null) {
+                    initial_sort_data.push({
+                        id: item.id,
+                        cat_id: item.cat_id,
+                        parent_id: item.parent_id,
+                        sort: +initIndex === +index ? nodeIndex + 1 : +index > nodeIndex && +index !== initIndex ? +index + 1 : +index,
+                        name: item.name,
+                        children: [...item.children]
+                    })
+                }
+            }
+            if (selected_node.getParent().id === null) {
+                dispatch(setRenderedOwnTreeValue(initial_sort_data.sort((a, b) => {
+                    return a.sort - b.sort
+                })))
+            } else {
+                dispatch(setRenderedOwnTreeValue(own_subgroups))
             }
 
-            if (parent !== null) {
-                find(own_subgroups, initial_sort_data, parent, path,0);
-            }
-            console.log(own_subgroups)
-            dispatch(setRenderedOwnTreeValue(own_subgroups))
             ref.removeNode(selected_node)
-            ref.insertNodeAfter(selected_node, node)
+            if (parseInt(selected_node.parent_id) === parseInt(node.id)) {
+                ref.insertNodeBefore(selected_node, node.getFirstChild())
+            } else {
+                ref.insertNodeAfter(selected_node, node)
+            }
+            ref.update()
+
         } else {
             const id = selected_node.id;
 
@@ -385,6 +386,11 @@ export function sortTree(data, ref, node, parent, level) {
                     children: [...item.children]
                 })
             }
+            dispatch(setRenderedOwnTreeValue(initial_sort_data.sort((a, b) => {
+                return a.sort - b.sort
+            })))
+            ref.insertNodeBefore(selected_node, selected_node.getParent().getFirstChild())
+            ref.update()
         }
     }
 }
@@ -443,31 +449,34 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
     }
 }
 
-export function addSubgroup(data) {
+export function addSubgroup(data, node, ref) {
 
     return async dispatch => {
-        if (cookie.get('access')) {
-            try {
-                const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
-                const new_data = Object.values(response.data.data)
-                dispatch(renderTree(new_data));
-            } catch (error) {
-                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    const refresh_token = cookie.get('refresh');
-                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                    if ((await new_token_data) === null) {
-                        dispatch(setGroupValues('errors', error.message))
-                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                        dispatch(addSubgroup(data))
-                    }
-                } else if (error.response && error.response.status === 400) {
-                    dispatch(setGroupValues('error', true))
-                } else {
-                    dispatch(setGroupValues('allError', true))
-                }
-            }
-        }
+        console.log(data)
+        console.log(node)
+        console.log(ref)
+        // if (cookie.get('access')) {
+        //     try {
+        //         const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
+        //         const new_data = Object.values(response.data.data)
+        //         dispatch(renderTree(new_data));
+        //     } catch (error) {
+        //         if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+        //             const refresh_token = cookie.get('refresh');
+        //             const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+        //
+        //             if ((await new_token_data) === null) {
+        //                 dispatch(setGroupValues('errors', error.message))
+        //             } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+        //                 dispatch(addSubgroup(data))
+        //             }
+        //         } else if (error.response && error.response.status === 400) {
+        //             dispatch(setGroupValues('error', true))
+        //         } else {
+        //             dispatch(setGroupValues('allError', true))
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -560,6 +569,7 @@ export function editSubgroupAction() {
         newSubgroup.name = subgroup[`name_${cookie.get('language') || "am"}`];
         newSubgroup.image = subgroup.image;
         newSubgroup.id = subgroup.id;
+        newSubgroup.sort = subgroup.sort;
         newSubgroup.parent_id = subgroup.parent_id;
         newSubgroup.cat_id = subgroup.cat_id;
         dispatch(editSubgroupActionSet(newSubgroup, subgroupName))

@@ -88,7 +88,7 @@ const ModalContent = props => {
         if (ref.current && props.nodeStatus) {
             const { tree } = ref.current;
 
-            tree.appendChildNode({id: "add", name: 'test'}, props.node)
+            tree.appendChildNode({id: "add", name: 'test', sort: 0}, props.node)
             tree.scrollToNode(props.node.getLastChild())
             props.addSubgroupAction(id)
         }
@@ -113,12 +113,16 @@ const ModalContent = props => {
     }
 
     const successAdding =  async (subgroup, node, subLevel) => {
+        if (ref.current) {
+            const {tree} = ref.current;
+            tree.appendChildNode(subgroup, node.getParent())
+        }
         if (ref.current && props.node && !subLevel) {
             const {tree} = ref.current;
             tree.removeNode(node)
-            props.addSubgroup(subgroup)
+            props.addSubgroup(subgroup, node, ref.current)
         } else {
-            props.addSubgroup(subgroup)
+            props.addSubgroup(subgroup, node, ref.current)
         }
     }
 
@@ -128,6 +132,18 @@ const ModalContent = props => {
         props.editSubgroupAction();
     };
 
+    const editHandler = (newSubgroup, node) => {
+        if (ref.current) {
+            const {tree} = ref.current;
+            const changeNode = node;
+            node.name = newSubgroup.name;
+            tree.swapNodes(changeNode, node)
+            props.editSubgroup(newSubgroup);
+            tree.openNode(node.getParent());
+            tree.update();
+            tree.selectNode();
+        }
+    }
 
     const deleteHandler = (event, type, param, id = null) => {
         event.stopPropagation();
@@ -155,7 +171,7 @@ const ModalContent = props => {
                     props.sortTree(nods, tree, node, node.getParent() || null, true);
                 } else {
                     const nods = props.own_subgroups;
-                    props.sortTree(nods, tree, node, node.getParent() || null, false);
+                    props.sortTree(nods, tree, node, false);
                 }
                 // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
             } else {
@@ -215,7 +231,7 @@ const ModalContent = props => {
                 moveIsHere={moveIsHere}
                 cancelEditing={cancelAdding}
                 setGroupValues={props.setGroupValues}
-                editSubgroup={props.editSubgroup}
+                editSubgroup={editHandler}
                 changeSubgroupName={props.changeSubgroupName}
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}

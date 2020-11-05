@@ -239,7 +239,7 @@ function mapDispatchToProps(dispatch) {
         getAllGroup: () => dispatch(getAllGroup()),
         addGroup: (data) => dispatch(addGroup(data)),
         editGroup: (data, id) => dispatch(editGroup(data, id)),
-        addSubgroup: data => dispatch(addSubgroup(data)),
+        addSubgroup: (data, node, ref) => dispatch(addSubgroup(data, node, ref)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
@@ -266,7 +266,7 @@ function mapDispatchToProps(dispatch) {
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
         startMoveAction: id => dispatch(startMoveAction(id)),
         setMoveAction: () => dispatch(setMoveAction()),
-        sortTree: (data, ref, node, paren, level) => dispatch(sortTree(data, ref, node, paren, level))
+        sortTree: (data, ref, node, level) => dispatch(sortTree(data, ref, node, level))
     }
 }
 

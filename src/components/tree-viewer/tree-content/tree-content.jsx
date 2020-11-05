@@ -12,6 +12,7 @@ const TreeContent = props => {
                subgroupName={props.subgroupName}
                newSubgroup={props.newSubgroup}
                name={props.node.name}
+               node={props.node}
                // Methods
                changeSubgroupName={props.changeSubgroupName}
                editSubgroup={props.editSubgroup}

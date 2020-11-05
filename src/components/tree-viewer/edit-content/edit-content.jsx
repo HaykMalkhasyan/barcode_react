@@ -5,34 +5,48 @@ import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
 
 const EditContent = props => {
 
+    const submitHandler = (event, node) => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopPropagation();
+        const newSubgroup = {...props.newSubgroup};
+        newSubgroup.name = props.subgroupName;
+        props.editSubgroup(newSubgroup, node)
+    }
+
     return (
-        <div className={classes.changeControllerWindow}>
-            <CustomInput
-                autoFocus={true}
-                classNameInput={classes.subgroupNameInput}
-                classNameLabel={classes.subgroupNameLabel}
-                value={props.subgroupName}
-                name={'subgroupName'}
-                // Methods
-                onChange={event => {
-                    props.changeSubgroupName(event.target.name, event.target.value)
-                }}
-            />
-            <CoupleButtons
-                type={"edit"}
-                // Methods
-                checkSuccess={event => {
-                    event.stopPropagation();
-                    const newSubgroup = {...props.newSubgroup};
-                    newSubgroup.name = props.subgroupName;
-                    props.editSubgroup(newSubgroup)
-                }}
-                checkClose={event => {
-                    event.stopPropagation();
-                    props.cancelEditing();
-                }}
-            />
-        </div>
+        <form
+            className={classes.form}
+            // Methods
+            onSubmit={event => {
+                submitHandler(event, props.node)
+            }}
+        >
+            <div className={classes.changeControllerWindow}>
+                <CustomInput
+                    autoFocus={true}
+                    classNameInput={classes.subgroupNameInput}
+                    classNameLabel={classes.subgroupNameLabel}
+                    value={props.subgroupName}
+                    name={'subgroupName'}
+                    // Methods
+                    onChange={event => {
+                        props.changeSubgroupName(event.target.name, event.target.value)
+                    }}
+                />
+                <CoupleButtons
+                    type={"edit"}
+                    // Methods
+                    checkSuccess={event => {
+                        submitHandler(event, props.node)
+                    }}
+                    checkClose={event => {
+                        event.stopPropagation();
+                        props.cancelEditing();
+                    }}
+                />
+            </div>
+        </form>
     )
 }
 
