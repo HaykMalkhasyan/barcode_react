@@ -2,6 +2,26 @@ import Axios from "axios"
 import jwt_decode from 'jwt-decode'
 import cookie from "./cookies";
 
+export const getFullDate = (milliseconds) => {
+    let strDate = new Date(Date.now())
+    if(milliseconds){
+        strDate = new Date(milliseconds)
+    }
+    let year = strDate.getFullYear()
+    let month = strDate.getMonth()+1
+    let day = strDate.getDate()
+    let hour = strDate.getHours()
+    let minutes = strDate.getMinutes()
+    let seconds = strDate.getSeconds()
+    day = day < 10 ? "0" + day : day
+    hour = hour < 10 ? "0" + hour : hour
+    minutes = minutes < 10 ? "0" + minutes : minutes
+    seconds = seconds < 10 ? "0" + seconds : seconds
+
+    return `${year}-${month+1}-${day} ${hour}:${minutes}:${seconds}`
+
+}
+
 export function findItem(data, itemId) {
     let array = [];
     for (let item of data) {
