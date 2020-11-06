@@ -165,6 +165,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                         </TreeNode>
                                         :
                                         <TreeNode
+                                            draggable={true}
                                             groupId={props.groupId}
                                             selected={node.state.selected}
                                             depth={node.state.depth}

@@ -32,10 +32,6 @@ export function findItem(data, itemId) {
                 parent_id: item.parent_id,
                 sort: item.sort,
                 name: item[`name_${cookie.get('language') || 'am'}`],
-                state: {
-                    droppable: false,
-                    filtered: true
-                },
                 children: findItem(data, item.id)
             })
         }
