@@ -11,7 +11,7 @@ import CustomButton from "../../../components/UI/button/customButton/customButto
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {login, setValues} from "../../../Redux/auth/actions";
 import is from 'is_js'
-import Alert from "@material-ui/lab/Alert";
+import {Alert} from "@material-ui/core";
 import Icons from "../../../components/Icons/icons";
 import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";
 import {getLanguage} from "../../../controllers/languages/languages";

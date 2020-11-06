@@ -1,6 +1,5 @@
 import React from "react";
 import classes from "./group-item.module.css";
-import CustomButton from "../../../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../../../components/Icons/icons";
 import cookies from "../../../../../../../../../services/cookies";
 import Grid from "@material-ui/core/Grid";
@@ -28,7 +27,7 @@ const GroupItem = props => {
                     props.groupsEditMode ?
                         () => props.editHandler(props.item)
                         :
-                        ()=> props.checkGroup(props.type, props.item, props.item.id, 'classifierSubgroup', +props.index)
+                        ()=> props.checkGroup(props.type, props.item, props.item.id, 'filter_subgroups', +props.index)
                 }
             >
                 {

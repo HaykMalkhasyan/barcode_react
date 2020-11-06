@@ -312,10 +312,6 @@ export function renderTree(data, place) {
                     parent_id: item.parent_id,
                     sort: item.sort,
                     name: item[`name_${cookie.get('language') || 'am'}`],
-                    state: {
-                        droppable: false,
-                        filtered: true
-                    },
                     children: findItem(sort_data, item.id)
                 }
                 own_subgroup.push(new_data)
@@ -373,6 +369,7 @@ export function sortTree(data, ref, node, level) {
             ref.update()
 
         } else {
+            console.log('asdasd')
             const id = selected_node.id;
 
             for (let [index, item] of Object.entries(data)) {
@@ -389,7 +386,9 @@ export function sortTree(data, ref, node, level) {
             dispatch(setRenderedOwnTreeValue(initial_sort_data.sort((a, b) => {
                 return a.sort - b.sort
             })))
-            ref.insertNodeBefore(selected_node, selected_node.getParent().getFirstChild())
+            let sNode = {...selected_node}
+            ref.removeNode(selected_node)
+            ref.insertNodeBefore(sNode, selected_node.getParent().getFirstChild())
             ref.update()
         }
     }
@@ -452,31 +451,32 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
 export function addSubgroup(data, node, ref) {
 
     return async dispatch => {
-        console.log(data)
-        console.log(node)
-        console.log(ref)
-        // if (cookie.get('access')) {
-        //     try {
-        //         const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
-        //         const new_data = Object.values(response.data.data)
-        //         dispatch(renderTree(new_data));
-        //     } catch (error) {
-        //         if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-        //             const refresh_token = cookie.get('refresh');
-        //             const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-        //
-        //             if ((await new_token_data) === null) {
-        //                 dispatch(setGroupValues('errors', error.message))
-        //             } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-        //                 dispatch(addSubgroup(data))
-        //             }
-        //         } else if (error.response && error.response.status === 400) {
-        //             dispatch(setGroupValues('error', true))
-        //         } else {
-        //             dispatch(setGroupValues('allError', true))
-        //         }
-        //     }
-        // }
+        if (cookie.get('access')) {
+            try {
+                ref.appendChildNode(data, node.getParent())
+                ref.removeNode(node)
+                delete data.parent
+                const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
+                const new_data = Object.values(response.data.data)
+                console.log(new_data)
+                dispatch(renderTree(new_data));
+            } catch (error) {
+                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                    const refresh_token = cookie.get('refresh');
+                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
+
+                    if ((await new_token_data) === null) {
+                        dispatch(setGroupValues('errors', error.message))
+                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
+                        dispatch(addSubgroup(data))
+                    }
+                } else if (error.response && error.response.status === 400) {
+                    dispatch(setGroupValues('error', true))
+                } else {
+                    dispatch(setGroupValues('allError', true))
+                }
+            }
+        }
     }
 }
 
@@ -537,7 +537,7 @@ export function checkGroup(type, item, id, place, index) {
 
     return (dispatch, getState) => {
         if (type === "edit") {
-            dispatch(getOnlySubgroupWithGroupId(id, place))
+            dispatch(getSubgroupWithGroupId(id, place))
             dispatch(checkGroupSet(id, index,))
         } else if (type === "select") {
             const classifiers = {...getState().products.classifiers};

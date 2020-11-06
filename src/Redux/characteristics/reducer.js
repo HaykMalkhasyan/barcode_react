@@ -241,6 +241,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case CLOSE_HANDLER:
             return {
                 ...state,
+                groupsEditMode: false,
                 classifiersModal: false,
                 own_subgroups: null,
                 own_move: null,

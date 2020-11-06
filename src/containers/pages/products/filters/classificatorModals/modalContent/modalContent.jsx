@@ -42,11 +42,15 @@ const ModalContent = props => {
         props.deleteModalClose();
     };
 
-    const deleteModalConfirmHandler = id => {
+    const deleteModalConfirmHandler =  async id => {
         if (props.delete === "group") {
             props.deleteAction("Group/Group", id);
         } else if (props.delete === "subgroup") {
-            props.deleteAction("Group/SubGroup", id, props.catId);
+            await props.deleteAction("Group/SubGroup", id, props.catId);
+            if (ref.current) {
+                const {tree} = ref.current;
+                tree.removeNode(props.node);
+            }
         }
     };
 
@@ -113,14 +117,9 @@ const ModalContent = props => {
     }
 
     const successAdding =  async (subgroup, node, subLevel) => {
-        if (ref.current) {
-            const {tree} = ref.current;
-            tree.appendChildNode(subgroup, node.getParent())
-        }
         if (ref.current && props.node && !subLevel) {
             const {tree} = ref.current;
-            tree.removeNode(node)
-            props.addSubgroup(subgroup, node, ref.current)
+            props.addSubgroup(subgroup, node, tree)
         } else {
             props.addSubgroup(subgroup, node, ref.current)
         }

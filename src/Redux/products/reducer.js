@@ -30,6 +30,7 @@ const initialState = {
     scroll: 'paper',
     scrollB: 'paper',
     measurementsFilters: [
+        {id: 0, name: {am: 'Բոլորը', ru: 'все', eng: 'all'}},
         {id: 1, name: {am: 'Քաշային', ru: 'по весу', eng: 'by weight'}},
         {id: 2, name: {am: 'Հատային', ru: 'по количеству', eng: 'by weight'}},
     ],
