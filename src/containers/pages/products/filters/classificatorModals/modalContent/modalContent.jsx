@@ -117,11 +117,13 @@ const ModalContent = props => {
     }
 
     const successAdding =  async (subgroup, node, subLevel) => {
-        if (ref.current && props.node && !subLevel) {
+        if (ref.current) {
             const {tree} = ref.current;
-            props.addSubgroup(subgroup, node, tree)
-        } else {
-            props.addSubgroup(subgroup, node, ref.current)
+            if (props.node && !subLevel) {
+                props.addSubgroup(subgroup, node, tree)
+            } else {
+                props.addSubgroup(subgroup, node, tree)
+            }
         }
     }
 
@@ -175,6 +177,20 @@ const ModalContent = props => {
                 // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
             } else {
                 await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
+                const movingNode = {...props.node};
+                if (Object.keys(node).length > 1) {
+                    tree.removeNode(props.node)
+                    movingNode.parent_id = parseInt(node.id)
+                    movingNode.sort = 0;
+                    tree.addChildNodes(movingNode, 0, node)
+                    tree.openNode(node)
+                } else {
+                    movingNode.parent_id = 0;
+                    movingNode.sort = 0;
+                    tree.removeNode(props.node)
+                    tree.addChildNodes(props.node, 0)
+                }
+
             }
             props.setMoveAction();
         }

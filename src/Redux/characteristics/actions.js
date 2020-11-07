@@ -453,12 +453,21 @@ export function addSubgroup(data, node, ref) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                ref.appendChildNode(data, node.getParent())
-                ref.removeNode(node)
                 delete data.parent
                 const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
                 const new_data = Object.values(response.data.data)
-                console.log(new_data)
+                data.id = +response.data["last_inserted_id"]
+                data.sort = 0;
+                if (node) {
+                    ref.removeNode(node)
+                    ref.appendChildNode(data, node.getParent())
+                    ref.openNode(node.getParent())
+                } else {
+                    data.children = []
+                    dispatch(setGroupValues("add", null))
+                    ref.addChildNodes(data, 0)
+                }
+                ref.selectNode();
                 dispatch(renderTree(new_data));
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
