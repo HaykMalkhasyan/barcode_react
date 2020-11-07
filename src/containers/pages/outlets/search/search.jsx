@@ -79,9 +79,9 @@ useEffect(()=>{
         onChange={(event, newValue) => {
           setSelected(newValue);
           setSearchs([])
-          props.setQuany(1)
-          props.setSellingPrice(1)
-          props.reff.current.focus()
+          props.setQuany && props.setQuany(1)
+          props.setSellingPrice && props.setSellingPrice(1)
+          props.reff && props.reff.current && props.reff.current.focus()
         }}
         // onChange={(e,v)=>{setSelected(v); console.log(v); props.reff.current.focus()}}
         style={{ width: 300 }}
@@ -90,7 +90,7 @@ useEffect(()=>{
         onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
               }}
-        renderInput={(params) => <TextField inputRef={input => {searchRef.current = input;}} {...params} label="search" variant="outlined" />}
+        renderInput={(params) => <TextField inputRef={input => {searchRef.current = input;}} {...params} label="Փնտրել Ապրանք" variant="outlined" />}
       />
     </div>
   );

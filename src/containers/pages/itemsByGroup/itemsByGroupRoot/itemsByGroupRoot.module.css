@@ -1,0 +1,39 @@
+.addProduct{
+    width: 100%;
+    display: flex;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.table{
+    width: 100%;
+    /* display: flex; */
+    background-color: #fff;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.contentSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+    height: 200px;
+}
+.buttonsCont{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.downButtons{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}

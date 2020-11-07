@@ -3,28 +3,28 @@ import style from "./income.module.css"
 import Table from "../../../../components/table/table"
 import { Button, Collapse } from '@material-ui/core';
 import cookie from "../../../../services/cookies";
-import Login from "../addDocument/addDocument"
+import AddDocument from "../addDocument/addDocument"
 import Axios from "axios"
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import SaveIcon from '@material-ui/icons/Save';
+import PrintIcon from '@material-ui/icons/Print';
+
 export default function Income() {
     const [openAddDocument, setOpenAddDocument] = useState(false)
-    const [selectedTab, setSelectedTab] = useState({})
+    const [selectedTab, setSelectedTab] = useState({id:"documents"})
     const [selectedSubTab, setSelectedSubTab] = useState({})
     const [collapse, setCollapse] = useState(false)
-    const [openLogin, setOpenLogin] = useState(true);
-    const [supliers, setSupliers] = useState();
-    const [selectedSuplier, setSelectedSuplier] = useState({});
-    const [keyCashBox, setKeyCashBox] = useState(null)
+    const [exportStatus, setExportStatus] = useState({bool:false, type:""})
   
 
     const initialData =[
-        {"#":1, Մատակարար: "", Պահեստ: "", Ամսաթիվ: 0, Քանակ: 0, Նկարագիր: 0, "Գին առանց ԱԱՀ-ի": 0, "ԱԱՀ Գում․": 0, "Առքի գումար": 0, "Վճարված է": 0, "Հաշիվ-Ապրանքագիր":0, "ՀՎՀՀ": 0, },
+        {"#":1, Մատակարար: "", Պահեստ: "", Ամսաթիվ: 0, Քանակ: 0, Նկարագիր: "---", "Գին առանց ԱԱՀ-ի": 0, "ԱԱՀ Գում․": 0, "Առքի գումար": 0, "Վճարված է": 0, "Հաշիվ-Ապրանքագիր":"Դեռ ուղարկված չէ", "ՀՎՀՀ": 0, },
     ]
 
 
     useEffect(() => {
-      
+        
      
-        setSupliers([{name:"Գրանդ Քենդի", id:1256}, {name:"789789", id:2666}]);
          
       }, []);
 
@@ -45,18 +45,52 @@ export default function Income() {
             }
     },[selectedTab])
 
+    function exportTo(type){
+        setExportStatus({bool:true, type})
+    }
+
+    function print(){
+        return
+    }
+
     const [rowData, setRowData] = useState(initialData);
     return (
         <div className={style.fullContainer} >
-            <Login  
+            <AddDocument  
                 root={style.backdrop}
-                selected={selectedSuplier}
-                setSelected={setSelectedSuplier}
-                values={supliers}
-                open={openLogin}
-                setOpen={setOpenLogin}
+                open={openAddDocument}
+                setOpen={setOpenAddDocument}
+                setRowData={setRowData}
             />
-            <Button variant="outlined" size="large" color="primary" onClick={()=>{setOpenAddDocument(true)}} >Ավելացնել փաստաթուղթ</Button>
+            <div style={{minHeight:"41px"}} >
+            {selectedTab.id==="documents" && 
+                <Button variant="outlined" size="large" color="primary" onClick={()=>{setOpenAddDocument(true)}} >Ավելացնել փաստաթուղթ</Button>
+            }
+            </div>
+            <div style={{display:"flex", margin:"5px"}} >
+            <Button 
+                    variant="contained"
+                    onClick={()=>{exportTo("print")}}
+                    style={{margin:"5px"}}
+                >
+                    Տպել &nbsp; <PrintIcon />
+                </Button>
+                <Button 
+                    variant="contained"
+                    onClick={()=>{exportTo("excel")}}
+                    style={{margin:"5px"}}
+                >
+                    Excel &nbsp; <ViewComfyIcon />
+                </Button>
+
+                <Button 
+                    variant="contained"
+                    style={{margin:"5px"}}
+                    onClick={()=>{exportTo("csv")}}
+                >
+                    CSV &nbsp; <SaveIcon />
+                </Button>
+            </div>
             <div className={style.tabsFullContainer} >
                 <div className={style.tabsContainer}>
                     <Tab 
@@ -90,7 +124,10 @@ export default function Income() {
                             })}
                         </div>
                 </Collapse>
-                <Table rowData={rowData} />
+                <Table
+                    rowData={rowData} 
+                    exportStatus={exportStatus}
+                />
             </div>
         </div>
     )

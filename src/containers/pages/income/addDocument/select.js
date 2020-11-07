@@ -33,9 +33,11 @@ function SimpleSelect(props) {
         MenuProps={{
             disableScrollLock: true
           }}
+          error={props.error}
           label="Cashier"
-        style={{width:"100%", margin:"10px 0px"}}
+        style={{width:"100%", margin:"0px"}}
           value={age}
+          margin="none"
           onChange={handleChange}
           className={classes.root}
           input={<OutlinedInput classes={{ input: classes.input }} />}
@@ -43,7 +45,7 @@ function SimpleSelect(props) {
       <MenuItem value={null}>
         <em>None</em>
       </MenuItem>
-      {props.cashiers && props.cashiers.map(item=>{
+      {props.values && props.values.map(item=>{
         return <MenuItem key={item.id} value={item}>{item.name}</MenuItem>
       })}
       </Select>
