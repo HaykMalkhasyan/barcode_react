@@ -221,6 +221,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 edit: null,
                 add: null,
                 node: null,
+                groupId: null,
                 nodeStatus: true,
                 activeAction: null,
                 own_select: null,
