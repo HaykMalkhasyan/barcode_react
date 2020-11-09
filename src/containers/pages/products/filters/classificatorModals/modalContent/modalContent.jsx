@@ -50,6 +50,7 @@ const ModalContent = props => {
             if (ref.current) {
                 const {tree} = ref.current;
                 tree.removeNode(props.node);
+                tree.selectNode();
             }
         }
     };
@@ -124,6 +125,8 @@ const ModalContent = props => {
             } else {
                 props.addSubgroup(subgroup, node, tree)
             }
+        } else if (props.own_subgroups.length === 0) {
+            props.addSubgroup(subgroup)
         }
     }
 

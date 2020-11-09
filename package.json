@@ -41,7 +41,8 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",
-    "swiper": "^6.3.5"
+    "swiper": "^6.3.5",
+    "virtual-list": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

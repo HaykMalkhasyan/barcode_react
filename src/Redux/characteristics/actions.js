@@ -369,7 +369,6 @@ export function sortTree(data, ref, node, level) {
             ref.update()
 
         } else {
-            console.log('asdasd')
             const id = selected_node.id;
 
             for (let [index, item] of Object.entries(data)) {
@@ -390,6 +389,21 @@ export function sortTree(data, ref, node, level) {
             ref.removeNode(selected_node)
             ref.insertNodeBefore(sNode, selected_node.getParent().getFirstChild())
             ref.update()
+        }
+        dispatch(subgroupsSort({param: {sort: {...sort}}, path: "Group/SubGroupSort"}));
+    }
+}
+
+export function subgroupsSort(object) {
+
+    return async dispatch => {
+        if (cookie.get('access')) {
+            try {
+                const response = await Axios.post(API_URL, {...object}, getHeaders({}, {}));
+                console.log(response.data)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }
@@ -458,16 +472,17 @@ export function addSubgroup(data, node, ref) {
                 const new_data = Object.values(response.data.data)
                 data.id = +response.data["last_inserted_id"]
                 data.sort = 0;
-                if (node) {
-                    ref.removeNode(node)
-                    ref.appendChildNode(data, node.getParent())
-                    ref.openNode(node.getParent())
-                } else {
-                    data.children = []
-                    dispatch(setGroupValues("add", null))
-                    ref.addChildNodes(data, 0)
+                if (ref) {
+                    if (node) {
+                        ref.removeNode(node)
+                        ref.appendChildNode(data, node.getParent())
+                        ref.openNode(node.getParent())
+                    } else {
+                        data.children = []
+                        ref.addChildNodes(data, 0)
+                    }
+                    ref.selectNode();
                 }
-                ref.selectNode();
                 dispatch(renderTree(new_data));
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
