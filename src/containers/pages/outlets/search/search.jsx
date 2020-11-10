@@ -72,7 +72,7 @@ useEffect(()=>{
         id="combo-box"
         loading={loading}
         loadingText={<Spinner />}
-        options={searchs}
+        options={Array.isArray(searchs) ? searchs : []}
         onClick={()=>{return}}
         getOptionLabel={(option) => option.item_name}
         noOptionsText={<NoOption product={props.product} charsLength={inputValue ? inputValue.length : 0} />}

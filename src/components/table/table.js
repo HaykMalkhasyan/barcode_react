@@ -7,7 +7,8 @@ import 'ag-grid-enterprise';
 import { useReactToPrint } from "react-to-print";
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button'
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { IconButton } from '@material-ui/core';
 
 const App = (props) => {
     const history = useHistory()
@@ -16,7 +17,7 @@ const App = (props) => {
     const [floatingFilter, setFloatingFilter] = useState(true)
 
     const {
-        rowData, setRowData
+        rowData, setRowData, setOpenDelete
     } = props
     const tableRef = useRef()
 
@@ -48,6 +49,18 @@ const App = (props) => {
           )
         }
       }
+
+      function DeleteButton(props) {
+          return <IconButton
+          size="small"
+          color="secondary"
+            onClick={()=>{
+                setOpenDelete({bool:true, index:props.rowIndex})
+            }}
+          >
+              <DeleteForeverIcon />
+          </IconButton>
+      }
       
 
 
@@ -77,7 +90,13 @@ const App = (props) => {
             }
         }
     },[props.exportStatus])
-
+function handleCellChange(params) {
+    const {
+        rowIndex,
+        data,
+    } = params
+    props.dataUpdater && props.dataUpdater(rowIndex, data)
+}
 
 
     const onButtonClick = e => {
@@ -89,10 +108,10 @@ const App = (props) => {
     
 
     return (
-            <div className="ag-theme-alpine" ref={tableRef} style={ { height: 600, width: 2000, margin:"0 auto" } }>
+            <div className="ag-theme-alpine" ref={tableRef} style={ { height: 557, width: 2000, margin:"0 auto" } }>
             {/* <button onClick={onButtonClick}>Get selected rows</button> */}
                 <AgGridReact
-                    onGridReady={ params => setGridApi(params.api) } 
+                    onGridReady={ params => {setGridApi(params.api); setGridColumnApi(params.columnApi);}} 
                     rowData={rowData}
                     rowSelection="multiple"
                     groupSelectsChildren={true}
@@ -104,6 +123,7 @@ const App = (props) => {
                             checkbox: true
                         }
                     }}
+                    onCellEditingStopped={handleCellChange}
                     animateRows
                         // setting grid wide date component
                         // setting default column properties
@@ -131,20 +151,40 @@ const App = (props) => {
                                     sortable: true,
                                     resizable: true,
                                     floatingFilter: floatingFilter,
+                                    
                                 }
                             }else{
                                return {
-                                   field: item,
+                                    field: item,
                                     flex: 1,
                                     minWidth: 100,
                                     filter: typeof(rowData[0][item])==="number" ? "agNumberColumnFilter" : "agTextColumnFilter",
                                     sortable: true,
                                     resizable: true,
                                     floatingFilter: floatingFilter,
+                                    editable: !!props.editabeFields && !!Array.isArray(props.editabeFields) && !!props.editabeFields.includes(item)
                                 }
                             }
                               }),
-                            {
+                            
+                            props.settings === "delete" ? 
+                            { 
+                                field: 'delete',
+                                flex: 1.2,
+                                minWidth: 300,
+                                sortable: true,
+                                resizable: true,
+                                floatingFilter: floatingFilter,
+                                cellRenderer: 'deleteButton',
+                                minWidth: 100,
+                                cellRendererParams: {
+                                clicked: function(field) {
+                                    console.log('field', field)
+                                    },
+                                },
+                            } 
+                            :
+                             {
                                 field: 'settings',
                                 flex: 1.2,
                                 minWidth: 300,
@@ -162,6 +202,7 @@ const App = (props) => {
                           ]}
                     frameworkComponents={ {
                         btnCellRenderer: BtnCellRenderer,
+                        deleteButton : DeleteButton,
                     }}
                     pagination={true}
                     paginationPageSize={10}
