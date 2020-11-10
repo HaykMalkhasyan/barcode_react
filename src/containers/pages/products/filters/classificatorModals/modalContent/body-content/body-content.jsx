@@ -22,6 +22,7 @@ const BodyContent = React.forwardRef((props, ref) => {
                 node={props.node}
                 nodeStatus={props.nodeStatus}
                 moveElement={props.moveElement}
+                own_status={props.own_status}
                 // Methods
                 select={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}

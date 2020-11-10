@@ -78,12 +78,18 @@ const ModalContent = props => {
     };
 
     const confirmHandler = () => {
-        if (props.classifierName.length > 0) {
-            const newGroup = {...props.newGroup};
-            newGroup.id = props.group.id;
-            props.editGroup({...newGroup}, props.group.id);
+        if (!props.own_status) {
+            if (props.classifierName.length > 0) {
+                const newGroup = {...props.newGroup};
+                newGroup.id = props.group.id;
+                props.editGroup({...newGroup}, props.group.id);
+            } else {
+                setError('Անվանման դաշտը չպետք է դատարկ լինի')
+            }
         } else {
-            setError('Անվանման դաշտը չպետք է դատարկ լինի')
+            if (props.node) {
+                props.selectSubgroup(props.node)
+            }
         }
     };
 
@@ -172,10 +178,10 @@ const ModalContent = props => {
             if (move === "move") {
                 if (Object.keys(node).length > 1) {
                     const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
-                    props.sortTree(nods, tree, node, node.getParent() || null, true);
+                    props.sortTree(nods, tree, props.catId, node, node.getParent() || null, true);
                 } else {
                     const nods = props.own_subgroups;
-                    props.sortTree(nods, tree, node, false);
+                    props.sortTree(nods, tree, props.catId, node, false);
                 }
                 // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
             } else {
@@ -216,7 +222,12 @@ const ModalContent = props => {
             <HeaderContent
                 // Methods
                 handleClose={props.handleClose}
-                backPageHandler={backPageHandler}
+                backPageHandler={
+                    !props.own_status ?
+                        backPageHandler
+                        :
+                        props.handleClose
+                }
             />
             <SectionContent
                 ref={ref}
@@ -229,6 +240,7 @@ const ModalContent = props => {
                 classifierName={props.classifierName}
                 own_select={props.own_select}
                 own_subgroups={props.own_subgroups}
+                own_status={props.own_status}
                 search={props.search}
                 edit={props.edit}
                 add={props.add}
@@ -257,9 +269,15 @@ const ModalContent = props => {
             <FooterContent
                 newGroup={props.newGroup}
                 group={props.group}
+                own_status={props.own_status}
                 // Methods
                 confirmHandler={confirmHandler}
-                cencel={backPageHandler}
+                cencel={
+                    !props.own_status ?
+                        backPageHandler
+                        :
+                        props.handleClose
+                }
             />
         </div>
     )

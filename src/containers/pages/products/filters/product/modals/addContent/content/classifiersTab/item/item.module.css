@@ -1,0 +1,44 @@
+.classifiersItem {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: 300ms;
+    margin-bottom: 10px;
+    border-left: 2px solid transparent;
+}
+
+.classifiersItem:hover {
+    border-left-color: #024059;
+    background-color: rgba(246, 246, 246, 0.4);
+}
+
+.active {
+    border-left-color: #024059;
+    background-color: rgba(246, 246, 246, 0.4);
+}
+
+.groupButton {
+    width: 30%;
+    height: auto;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    outline: none !important;
+    border: none;
+    font-family: "DejaVu Sans", sans-serif;
+    font-weight: bold;
+    color: #024059;
+    font-size: 13px;
+    background-color: transparent;
+    position: relative;
+    transition: 300ms;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+.groupButtonInactive {
+    color: #bababa;
+}

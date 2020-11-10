@@ -10,7 +10,7 @@ const GroupContent = props => {
             <CustomInput
                 type={'text'}
                 id={'group-title_am'}
-                disabled={props.group && props.group.id === 0}
+                disabled={(props.group && props.group.id === 0) || props.own_status}
                 classNameInput={props.error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}
                 classNameLabel={classes.nameLabel}
                 name={'title'}

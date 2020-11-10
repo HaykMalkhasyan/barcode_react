@@ -1,36 +1,45 @@
 import React from 'react'
 import classes from './classifiersItem.module.css'
 import CustomButton from "../../../../../../../../../../components/UI/button/customButton/customButton";
-import CustomInput from "../../../../../../../../../../components/UI/input/customInput/customInput";
+import cookie from "../../../../../../../../../../services/cookies";
+import Icons from "../../../../../../../../../../components/Icons/icons";
+import {createRoad} from "../../../../../../../../../../services/services";
 
 const ClassifiersItem = props => {
 
-    const valueRender = (roads, data) => {
-
-        if (roads.length) {
-            for (let item of roads) {
-                if (+Object.keys(item)[0] === data.id) {
-                    return item[data.id]
-                }
-            }
-        }
-        return 'Հիմնական դասակարգիչ'
-    };
+    // const valueRender = (roads, data) => {
+    //
+    //     if (roads.length) {
+    //         for (let item of roads) {
+    //             if (+Object.keys(item)[0] === data.id) {
+    //                 return item[data.id]
+    //             }
+    //         }
+    //     }
+    //     return 'Հիմնական դասակարգիչ'
+    // };
 
     return (
         <div className={classes.classifiersItem}>
-            <CustomButton
-                className={classes.groupButton}
-                children={props.data.name}
-                // Methods
-                onClick={() => props.onClick(props.data.id)}
-            />
-            <CustomInput
-                readOnly={true}
-                classNameInput={classes.road}
-                classNameLabel={classes.roadLabel}
-                value={valueRender(props.roads, props.data)}
-            />
+            <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
+                {props.data[`title_${cookie.get("language") || "am"}`]}
+            </span>
+            <div className={classes.road}>
+                {
+                    props.subgroup && Object.keys(props.subgroup).length > 0 && props.subgroup[props.data.id] ?
+                        <div className={classes.roadContent}>
+                            {createRoad(props.subgroup[props.data.id])}
+                        </div>
+                        :
+                        null
+                }
+                <CustomButton
+                    className={classes.roadButton}
+                    children={<Icons type={"add"}/>}
+                    // Methods
+                    onClick={() => props.onClick(props.data, true)}
+                />
+            </div>
         </div>
     )
 };

@@ -9,8 +9,7 @@ import {
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
-    SET_SELECT_GROUP_ITEM,
-    SET_SELECT_SUBS,
+    SET_SELECT_GROUP_ITEM, SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
 import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
@@ -147,9 +146,7 @@ const initialState = {
         can_sale: false
     },
     initialSub: null,
-    classifiers: {
-        classifiers: [],
-    },
+    classifiers: {},
     subs: [],
     roads: [],
     groups: {
@@ -175,6 +172,11 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_SUBGROUP:
+            return {
+                ...state,
+                classifiers: action.classifiers,
+            }
         case PROD_GROUP_SET:
             return {
                 ...state,
@@ -187,16 +189,6 @@ export default function productsReducer(state = initialState, action) {
         case SET_PRODUCTS_BARCODE_VALUE:
             return {
                 ...state, [action.name]: action.value
-            };
-        case SET_SELECT_SUBS:
-            return {
-                ...state,
-                subs: action.subs,
-                open: action.initialOpen,
-                roads: action.roads,
-                initialOpen: null,
-                subgroupsOpen: false,
-                initialSub: false
             };
         case CLOSE_MODALS:
             return {

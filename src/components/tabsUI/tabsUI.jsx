@@ -16,7 +16,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Box sx={{p: 3}}>
                     <div>{children}</div>
                 </Box>
             )}
@@ -71,7 +71,7 @@ export default function ScrollableTabsButtonAuto(props) {
                     classes={{
                         indicator: props.indicator,
                         root: props.TabScrollRoot,
-                        scrollButtonsDesktop: props.scrollButtonsDesktop,
+                        scrollButtons: props.scrollButtonsDesktop,
                     }}
                     // indicatorColor="primary"
                     textColor="primary"

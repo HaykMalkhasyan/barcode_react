@@ -4,39 +4,32 @@ import {connect} from "react-redux";
 import {
     getActionById,
     getAllGroup,
-    getOnlySubgroupWithGroupId,
+    getOnlySubgroupWithGroupId, openModalContent,
     setGroupValues
 } from "../../../../../../../../../Redux/characteristics/actions";
 import ClassifiersItem from "./classifiersItem/classifiersItem";
-import {
-    importGroupInProduct,
-    selectGroupItem,
-    setProductValues
-} from "../../../../../../../../../Redux/products/actions";
-import CustomButton from "../../../../../../../../../components/UI/button/customButton/customButton";
+import {importGroupInProduct, setProductValues} from "../../../../../../../../../Redux/products/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
+import Item from "./item/item";
 
 class ClassifiersTab extends Component {
-
-    componentDidMount() {
-        if (this.props.groups.length && this.props.classifiers.classifiers.length === 0) {
-            const classifiers = [];
-            for (let group of this.props.groups) {
-                if (group.required_group && group.id !== 0) {
-                    classifiers.push(group)
-                }
-            }
-            this.props.setProductValues('classifiers', {classifiers: classifiers})
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: null
         }
     }
 
-    selectGroupHandler = id => {
-        if (id !== 0) {
-            this.props.getActionById("GET", "group", {path: "Group/Group", id: id})
-            this.props.getOnlySubgroupWithGroupId(id);
-            this.props.selectGroupItem()
-        }
-    };
+    toggleWindow = currentOpen => {
+        console.log(currentOpen, this.state.open)
+        this.setState({
+            open: currentOpen === this.state.open ? null : currentOpen
+        })
+    }
+
+    componentDidMount() {
+        this.props.getAllGroup();
+    }
 
     render() {
 
@@ -49,49 +42,50 @@ class ClassifiersTab extends Component {
                         ապրանքների ցանկը։
                     </p>
                     <div className={classes.classifiersControlWindow}>
-                        <div className={classes.errorFields}>
-                            {
-                                this.props.errorFields.length ?
-                                    this.props.errorFields.indexOf('classifiers') !== -1 ?
-                                        <AlertUI variant="outlined" severity="error" text={'Դասակագիչները ընտրված չեն !'}/>
-                                        :
-                                        null
+                        {
+                            this.props.errorFields.length ?
+                                this.props.errorFields.indexOf('classifiers') !== -1 ?
+                                    <div className={classes.errorFields}>
+                                        <AlertUI
+                                            variant="outlined"
+                                            severity="error"
+                                            text={'Դասակագիչները ընտրված չեն !'}
+                                        />
+                                    </div>
                                     :
                                     null
-                            }
-                        </div>
-                        {
-                            this.props.classifiers.classifiers.length ?
-                                this.props.classifiers.classifiers.map(
-                                    item => {
-
-                                        return (
-                                            <ClassifiersItem
-                                                subs={this.props.subs}
-                                                roads={this.props.roads}
-                                                data={item}
-                                                key={`classifiers-item-${item.id}`}
-                                                // Methods
-                                                onClick={this.selectGroupHandler}
-                                            />
-                                        )
-                                    }
-                                )
                                 :
                                 null
                         }
-                        <CustomButton
-                            className={classes.groupAddButton}
-                            children={'Հիմնական Դասակարգիչ'}
-                            // Methods
-                            onClick={
-                                () => {
-                                    this.props.getAllGroup();
-                                    this.props.importGroupInProduct(this.props.open, 'open');
-                                    this.props.setGroupValues('modalGroup', "select")
-                                }
-                            }
-                        />
+                        {
+                            this.props.groups ?
+                                this.props.groups.length ?
+                                    this.props.groups.map(
+                                        item => {
+
+                                            return (
+                                                // <ClassifiersItem
+                                                //     key={`classifiers-item-${item.id}`}
+                                                //     data={item}
+                                                //     subgroup={this.props.classifiers}
+                                                //     // Methods
+                                                //     onClick={this.props.openModalContent}
+                                                // />
+                                                <Item
+                                                    key={`classifiers-item-${item.id}`}
+                                                    data={item}
+                                                    open={this.state.open === item.id}
+                                                    // Methods
+                                                    toggleWindow={this.toggleWindow}
+                                                />
+                                            )
+                                        }
+                                    )
+                                    :
+                                    <span>empty</span>
+                                :
+                                <span>Loading...</span>
+                        }
                     </div>
                 </div>
             </div>
@@ -121,7 +115,7 @@ function mapDispatchToProps(dispatch) {
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
         getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
-        selectGroupItem: () => dispatch(selectGroupItem()),
+        openModalContent: (item, status) => dispatch(openModalContent(item, status))
     }
 }
 
