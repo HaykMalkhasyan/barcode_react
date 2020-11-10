@@ -3,67 +3,80 @@
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     flex-wrap: wrap;
+    transition: 300ms;
+    margin-bottom: 10px;
+}
+
+.classifiersItem:hover {
+    background-color: rgba(0, 0, 0, .04);
 }
 
 .groupButton {
-    width: 256px;
+    /*width: 256px;*/
     height: auto;
     padding: 5px 10px;
     box-sizing: border-box;
     outline: none !important;
     border: none;
-    border-bottom: .5pt solid #a6a6a6;
     font-family: "DejaVu Sans", sans-serif;
     font-weight: bold;
-    color: #484848;
+    color: #024059;
     font-size: 13px;
-    margin-bottom: 20px;
     background-color: transparent;
     position: relative;
-    cursor: pointer;
     transition: 300ms;
     z-index: 1;
+    display: flex;
+    align-items: center;
 }
 
-.groupButton:after {
-    content: '';
-    width: 0;
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    background-color: #fafafa;
-    transition: 300ms;
-    z-index: -1;
-}
-
-.groupButton:hover {
-    border-color: #ff8927;
-}
-
-.groupButton:focus:after {
-    width: 100%;
+.groupButtonInactive {
+    color: #bababa;
 }
 
 .road {
-    width: 100%;
-    max-width: 470px;
+    /*width: 100%;*/
+    /*max-width: 470px;*/
     font-size: 13px;
+    padding: 0 0 0 20px;
     color: #484848;
     letter-spacing: .25pt;
     border: none;
     outline: none !important;
-    border-bottom: .5pt solid #a6a6a6;
-    margin-bottom: 20px;
+    background-color: transparent;
     box-sizing: border-box;
     font-family: "DejaVu Sans", sans-serif;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.roadLabel {
-    display: none;
+.roadContent {
+    width: 100%;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.roadButton {
+    padding: 0;
+    border: none;
+    outline: none !important;
+    margin: 0;
+    width: 21px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.roadButton:hover {
+    background-color: rgba(14, 177, 57, 0.2);
 }
 
 @media (max-width: 600px) {

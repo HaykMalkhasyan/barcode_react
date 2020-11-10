@@ -174,17 +174,12 @@ export class deleteInArray {
     }
 }
 
-export function createRoad(sub, group, data, road) {
+export function createRoad(data, road) {
 
-    if (sub.parent_id === "") {
-        return `${group.name} / ${road}`;
-    } else {
-        for (let item of data) {
-            if (item.id === +sub.parent_id) {
-                return createRoad(item, group, data, `${item.name} / ${road}`)
-            }
-        }
+    if (data.parent.id === null) {
+        return road ? `/ ${data.name} / ${road}` : `/ ${data.name}`;
     }
+    return road ?`${createRoad(data.parent, `${data.name} `)} / ${road}` : createRoad(data.parent, `${data.name} `)
 }
 
 export class Barcode {

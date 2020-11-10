@@ -36,7 +36,7 @@ import {
     startMoveAction
 } from "../../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../../components/modalUI/modalUI";
-import {importGroupInProduct, setProductValues} from "../../../../../Redux/products/actions";
+import {importGroupInProduct, selectSubgroup, setProductValues} from "../../../../../Redux/products/actions";
 import ModalContent from "../classificatorModals/modalContent/modalContent";
 import Classifiers from "../classificatorModals/classifiers/classifiers";
 import CollapsedFilters from "./collapsedFilters/collapsedFilters";
@@ -119,6 +119,7 @@ class Filters extends Component {
                         search={this.props.search}
                         groupId={this.props.groupId}
                         own_subgroups={this.props.own_subgroups}
+                        own_status={this.props.own_status}
                         own_select={this.props.own_select}
                         catId={this.props.catId}
                         edit={this.props.edit}
@@ -153,6 +154,7 @@ class Filters extends Component {
                         startMoveAction={this.props.startMoveAction}
                         setMoveAction={this.props.setMoveAction}
                         sortTree={this.props.sortTree}
+                        selectSubgroup={this.props.selectSubgroup}
                     />
                 </ModalUI>
                 <ModalUI
@@ -189,6 +191,7 @@ function mapStateToProps(state) {
         initialModalGroup: state.characteristics.initialModalGroup,
         classifierName: state.characteristics.classifierName,
         own_subgroups: state.characteristics.own_subgroups,
+        own_status: state.characteristics.own_status,
         own_move: state.characteristics.own_move,
         own_select: state.characteristics.own_select,
         initialStatus: state.characteristics.initialStatus,
@@ -266,7 +269,8 @@ function mapDispatchToProps(dispatch) {
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
         startMoveAction: id => dispatch(startMoveAction(id)),
         setMoveAction: () => dispatch(setMoveAction()),
-        sortTree: (data, ref, node, level) => dispatch(sortTree(data, ref, node, level))
+        sortTree: (data, ref, catId, node, level) => dispatch(sortTree(data, ref, catId, node, level)),
+        selectSubgroup: subgroup => dispatch(selectSubgroup(subgroup)),
     }
 }
 

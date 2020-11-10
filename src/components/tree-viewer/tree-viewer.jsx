@@ -172,8 +172,13 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             onClick={() => {
                                                 if (props.nodeStatus) {
                                                     tree.openNode(node);
-                                                    if (props.edit === null && props.moveElement === null) {
-                                                        tree.selectNode(node)
+                                                    if (!props.own_status) {
+                                                        if (props.edit === null && props.moveElement === null) {
+                                                            tree.selectNode(node)
+                                                            props.select(node, node.id, node.state.path, node.cat_id)
+                                                        }
+                                                    } else {
+                                                        tree.selectNode(node);
                                                         props.select(node, node.id, node.state.path, node.cat_id)
                                                     }
                                                 }

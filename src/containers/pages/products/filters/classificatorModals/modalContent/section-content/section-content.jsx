@@ -14,6 +14,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     error={props.error}
                     group={props.group}
                     newGroup={props.newGroup}
+                    own_status={props.own_status}
                     classifierName={props.classifierName}
                     // Methods
                     groupNameChangeHandler={props.groupNameChangeHandler}
@@ -59,6 +60,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     catId={props.catId}
                     newSubgroup={props.newSubgroup}
                     subgroupName={props.subgroupName}
+                    own_status={props.own_status}
                     node={props.node}
                     nodeStatus={props.nodeStatus}
                     moveElement={props.moveElement}

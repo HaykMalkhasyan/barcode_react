@@ -16,12 +16,14 @@ import {
     PROD_GROUP_SET,
     SELECT_TREE_GROUP_ITEM,
     SELECT_TREE_ITEM,
-    SET_GROUP_VALUE, SET_MOVE_ACTION,
+    SET_GROUP_VALUE,
+    SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
-    SET_WITHOUT_DELETED_GROUP, START_MOVE_ACTION
+    SET_WITHOUT_DELETED_GROUP,
+    START_MOVE_ACTION
 } from "./actionTypes";
-import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SELECT_SUBS} from "../products/actionTypes";
+import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SUBGROUP} from "../products/actionTypes";
 import cookie from "../../services/cookies";
 
 const initialState = {
@@ -31,6 +33,7 @@ const initialState = {
     node: null,
     groupsEditMode: false,
     own_subgroups: null,
+    own_status: false,
     own_move: null,
     own_select: null,
     own_id: null,
@@ -78,6 +81,13 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_SUBGROUP:
+            return {
+                ...state,
+                own_status: false,
+                own_subgroups: null,
+                classifiersModal: false
+            }
         case SET_MOVE_ACTION:
             return {
                 ...state, moveElement: null, activeAction: null, node: null, own_select: null,
@@ -231,6 +241,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case OPEN_HANDLER:
             return {
                 ...state,
+                own_status: action.status,
                 groupLoader: null,
                 group: action.group,
                 classifierName: action.data[`title_${cookie.get('language') || "am"}`],
@@ -292,10 +303,6 @@ export default function characteristicsReducer(state = initialState, action) {
                 groupActiveId: null,
                 classifiersSearch: '',
                 initialModalGroup: null
-            };
-        case SET_SELECT_SUBS:
-            return {
-                ...state, classifiersCollapsed: []
             };
         case CLOSE_MODALS:
             return {

@@ -13,7 +13,7 @@ const FooterContent = props => {
             <ConfirmButton
                 // Methods
                 onClick={
-                    props.newGroup.title_am ?
+                    props.newGroup.title_am && !props.own_status ?
                         props.cencel
                         :
                         props.confirmHandler

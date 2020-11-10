@@ -3,18 +3,10 @@ import classes from '../filters/filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/customButton"
 import ProductModal from "../product/modals/productModal"
 import {connect} from "react-redux"
-import {
-    backToProduct,
-    closeProductActionModal,
-    closeProductAndSubgroupModals,
-    selectSubs,
-    setProductValues
-} from "../../../../../Redux/products/actions"
+import {closeProductActionModal, setProductValues} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
-import ModalUI from "../../../../../components/modalUI/modalUI";
-import SubgroupsTreeModal from "../product/modals/subgroupsTreeModal/subgroupsTreeModal";
 import {setFiltersValue} from "../../../../../Redux/filtersContainer/actions";
 
 const SearchWindow = props => {
@@ -78,25 +70,6 @@ const SearchWindow = props => {
                     }
                 }
             />
-            <ModalUI
-                open={props.subgroupsOpen}
-                className={classes.subgroupsModal}
-            >
-                <SubgroupsTreeModal
-                    group={props.group}
-                    customSubgroup={props.customSubgroup}
-                    collapsed={props.classifiersCollapsed}
-                    searchResult={props.searchResult}
-                    initialSub={props.initialSub}
-                    // Methods
-                    searchHandler={props.searchHandler}
-                    subCollapsed={props.subCollapsed}
-                    onBack={props.backToProduct}
-                    onClose={props.closeProductAndSubgroupModals}
-                    select={props.setProductValues}
-                    onClick={props.selectSubs}
-                />
-            </ModalUI>
         </div>
     )
 };
@@ -127,9 +100,6 @@ function mapDispatchToProps(dispatch) {
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
-        backToProduct: () => dispatch(backToProduct()),
-        closeProductAndSubgroupModals: () => dispatch(closeProductAndSubgroupModals()),
-        selectSubs: () => dispatch(selectSubs()),
     }
 }
 

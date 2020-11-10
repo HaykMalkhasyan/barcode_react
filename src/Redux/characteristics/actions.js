@@ -282,17 +282,16 @@ export function getSubgroupWithGroupId(id, place = null) {
     }
 }
 
-export function openModalContent(item) {
+export function openModalContent(item, status = false) {
 
     return dispatch => {
         dispatch(setGroupValues("groupLoader", item.id))
         dispatch(getSubgroupWithGroupId(item.id));
         setTimeout(() => {
-                dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item))
+                dispatch(openAction({id: item.id, title_am: item.title_am, title_ru: item.title_ru, title_en: item.title_en}, item, status))
             },
             150
         )
-        // clearTimeout(outOpen)
     }
 }
 
@@ -327,7 +326,7 @@ export function renderTree(data, place) {
     }
 }
 
-export function sortTree(data, ref, node, level) {
+export function sortTree(data, ref, catId, node, level) {
 
     return (dispatch, getState) => {
         const own_subgroups = [...getState().characteristics.own_subgroups];
@@ -390,7 +389,7 @@ export function sortTree(data, ref, node, level) {
             ref.insertNodeBefore(sNode, selected_node.getParent().getFirstChild())
             ref.update()
         }
-        dispatch(subgroupsSort({param: {sort: {...sort}}, path: "Group/SubGroupSort"}));
+        dispatch(subgroupsSort({param: {sort: {...sort}, cat_id: catId}, path: "Group/SubGroupSort"}));
     }
 }
 
@@ -661,10 +660,10 @@ export function closeAction() {
     }
 }
 
-export function openAction(data, group) {
+export function openAction(data, group, status) {
 
     return {
-        type: OPEN_HANDLER, data, group
+        type: OPEN_HANDLER, data, group, status
     }
 }
 

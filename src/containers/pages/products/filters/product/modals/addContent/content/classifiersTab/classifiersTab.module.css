@@ -29,47 +29,6 @@
     margin: 20px auto;
 }
 
-.groupAddButton {
-    width: 256px;
-    height: auto;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    outline: none !important;
-    border: none;
-    border-bottom: .5pt solid #a6a6a6;
-    font-family: "DejaVu Sans", sans-serif;
-    font-weight: bold;
-    color: #2C5DFF;
-    font-size: 13px;
-    margin-bottom: 20px;
-    background-color: transparent;
-    position: relative;
-    cursor: pointer;
-    transition: 300ms;
-    z-index: 1;
-}
-
-.groupAddButton:after {
-    content: '';
-    width: 0;
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    background-color: #fafafa;
-    transition: 300ms;
-    z-index: -1;
-}
-
-.groupAddButton:hover {
-    border-color: #ff8927;
-}
-
-.groupAddButton:focus:after {
-    width: 100%;
-}
-
 @media (max-width: 600px) {
     .information {
         font-size: 10px;
@@ -83,9 +42,6 @@
     .classifiersControlWindow {
         padding: 5px;
         margin-top: 20px;
-    }
-    .groupAddButton {
-        width: 100%;
     }
 }
 
@@ -102,8 +58,5 @@
     .classifiersControlWindow {
         padding: 5px;
         margin-top: 20px;
-    }
-    .groupAddButton {
-        width: 100%;
     }
 }

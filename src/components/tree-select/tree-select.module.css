@@ -1,0 +1,47 @@
+.treeSelect {
+    width: 70%;
+    height: 28px;
+    /*border: 1px solid #ccc;*/
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    transition: 300ms;
+    background-color: rgba(0, 0, 0, .04);
+}
+
+.treeSelect:hover {
+    border-color: #aaa;
+}
+
+.angleButton {
+    outline: none !important;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+.angleIcon {
+    fill: #FF8927;
+    stroke: #FF8927;
+    stroke-width:0.6px;
+}
+
+.content {
+    /*position: absolute;*/
+    /*left: -1px;*/
+    /*top: 100%;*/
+    width: 70%;
+    height: 200px;
+    background-color: rgba(0, 0, 0, .02);
+    z-index: 1101;
+    cursor: default;
+    box-sizing: border-box;
+    margin-left: auto;
+}

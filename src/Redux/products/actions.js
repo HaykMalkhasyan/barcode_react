@@ -1,13 +1,19 @@
 import {
-    ADD_NEW_PRODUCT, BACK_TO_PRODUCT, CLOSE_MODALS,
-    CLOSE_PRODUCT_MODAL, IMPORT_GROUP_IN_PRODUCT, IMPORT_GROUP_IN_PRODUCT_CLOSE,
+    ADD_NEW_PRODUCT,
+    BACK_TO_PRODUCT,
+    CLOSE_MODALS,
+    CLOSE_PRODUCT_MODAL,
+    IMPORT_GROUP_IN_PRODUCT,
+    IMPORT_GROUP_IN_PRODUCT_CLOSE,
     ONLY_ADD_PRODUCT,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
-    SET_PRODUCTS, SET_SELECT_GROUP_ITEM, SET_SELECT_SUBS, SET_TAB_VALUE
+    SET_PRODUCTS,
+    SET_SELECT_GROUP_ITEM, SET_SUBGROUP,
+    SET_TAB_VALUE
 } from "./actionTypes";
 import Axios from "axios";
-import {Compare, createRoad, getToken} from "../../services/services";
+import {createRoad, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -423,6 +429,27 @@ export function setTabValue(value) {
     }
 }
 
+export function selectSubgroup(subgroup) {
+
+    return (dispatch, getState) => {
+        const classifiers = {...getState().products.classifiers}
+        const data = {...subgroup};
+        const road = createRoad(subgroup)
+        delete data.state;
+        delete data.children;
+        classifiers[data.cat_id] = data;
+        console.log(road, classifiers)
+        dispatch(setSubgroup(classifiers));
+    }
+}
+
+export function setSubgroup(classifiers) {
+
+    return {
+        type:  SET_SUBGROUP, classifiers
+    }
+}
+
 export function selectGroupItem() {
 
     return (dispatch, getState) => {
@@ -438,48 +465,7 @@ export function backToProduct() {
     }
 }
 
-export function selectSubs() {
-
-    return (dispatch, getState) => {
-        const initialSub = getState().products.initialSub;
-        const initialOpen = getState().products.initialOpen;
-        const customSubgroup = [...getState().characteristics.customSubgroup];
-        const roads = [...getState().products.roads];
-        const group = getState().characteristics.group;
-        const subs = [...getState().products.subs];
-        let road = '';
-
-        for (let item of customSubgroup) {
-            if (item.id === initialSub[group.id]) {
-                road = {[group.id]: createRoad(item, group, customSubgroup, item.name)};
-                break;
-            }
-        }
-        if (subs.length) {
-            let index = Compare.objectWithObjectWithKey(subs, initialSub);
-            if (index !== false) {
-                subs[index] = initialSub;
-                roads[index] = road
-            } else {
-                subs.push(initialSub);
-                roads.push(road)
-            }
-        } else {
-            subs.push(initialSub);
-            roads.push(road)
-        }
-        dispatch(setSelectSubs(subs, initialOpen, roads))
-    }
-}
-
 // ------------------------------------------
-
-export function setSelectSubs(subs, initialOpen, roads) {
-
-    return {
-        type: SET_SELECT_SUBS, subs, initialOpen, roads
-    }
-}
 
 export function closeProductAndSubgroupModals() {
 
