@@ -1,32 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button"
 import SnackbarMessage from "../../outlets/outlets/snackbar"
-import {useHistory} from "react-router-dom"
 import SelectForAll from "../../income/addDocument/select"
 import DatePicker from "../../../../components/datePicker/datePicker"
+import { getFullDate } from '../../../../services/services';
 
 export default function AlertDialog(props) {
   const {open, setOpen} = props
-  const [password, setPassword] = useState("")
   const [selected, setSelected] = useState(null)
-  const [pending, setPending] = useState(false)
   const [success, setSuccess] = useState({})
+  const [date, setDate] = useState("2020-12-10T17:45:13")
 
-  const history = useHistory()
   
 
-
+  useEffect(() => {
+    
+    props.document && props.document["Ամսաթիվ"] && setDate(getFullDate(props.document["Ամսաթիվ"], false))
+    
+  }, [props])
 
 
 
   const handleConfirm = () => {
-    //   console.log('props', selected)
       let clone = JSON.parse(JSON.stringify(props.document))
-      clone[open.type]=selected.name
+      clone[open.type] = open.type==="Ամսաթիվ" ? date : selected.name
       props.setDocument(clone)
       setOpen({bool:false})
       let allDocuments = localStorage.getItem("documents")
@@ -43,6 +44,8 @@ export default function AlertDialog(props) {
       }
       return
   }
+
+  
 
   return (
     <div>
@@ -61,6 +64,8 @@ export default function AlertDialog(props) {
             {`Ընտրեք ${open.type}`}
            {open.type === "Ամսաթիվ" ? 
            <DatePicker 
+            value={date}
+            setValue={setDate}
             date={props.document["Ամսաթիվ"]}
            />
            :
@@ -70,14 +75,14 @@ export default function AlertDialog(props) {
             />}
         </DialogContent>
         <DialogActions>
-        <Button
-                color="primary"
-                variant="outlined"
-                onClick={handleConfirm}
-                fullWidth
-                >
-                Հաստատել
-            </Button>
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={handleConfirm}
+            fullWidth
+            >
+            Հաստատել
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
