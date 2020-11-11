@@ -1,6 +1,6 @@
 .rightPanel {
     box-sizing: border-box;
-    padding: 0 0 0 20px;
+    width: 100%;
 }
 
 .showCount {

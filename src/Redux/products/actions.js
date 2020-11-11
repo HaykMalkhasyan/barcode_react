@@ -9,11 +9,12 @@ import {
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
-    SET_SELECT_GROUP_ITEM, SET_SUBGROUP,
+    SET_SELECT_GROUP_ITEM,
+    SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
 import Axios from "axios";
-import {createRoad, getToken} from "../../services/services";
+import {getToken} from "../../services/services";
 import cookie from "../../services/cookies";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -178,15 +179,13 @@ export function setProduct(gallery, type) {
         const pictures = {...getState().products.pictures};
         const errorFields = [...getState().products.errorFields];
         const open = getState().products.open;
-        const classifiers_object = {...getState().products.classifiers};
-        const classifiers = [...classifiers_object.classifiers];
-        const subs = [...getState().products.subs];
+        const classifiers = {...getState().products.classifiers};
         const barcode = [...getState().products.barcode];
         const groups = {...getState().products.groups};
         const data = Object.assign({}, main, description, pictures, groups, {barcode: barcode});
 
-        if (classifiers.length === subs.length && subs.length > 0) {
-            data.groups = subs
+        if (Object.keys(classifiers).length) {
+            data.groups = {...classifiers}
         } else {
             if (errorFields.indexOf("classifiers") === -1) {
                 errorFields.push("classifiers")
@@ -235,6 +234,7 @@ export function setProduct(gallery, type) {
         }
         data.supplier = [];
         dispatch(setProductValues('errorFields', errorFields));
+        console.log(data)
         if (errorFields.length === 0) {
             if (gallery.length > 0) {
                 dispatch(uploadImages(gallery, data, type))
@@ -434,11 +434,9 @@ export function selectSubgroup(subgroup) {
     return (dispatch, getState) => {
         const classifiers = {...getState().products.classifiers}
         const data = {...subgroup};
-        const road = createRoad(subgroup)
         delete data.state;
         delete data.children;
         classifiers[data.cat_id] = data;
-        console.log(road, classifiers)
         dispatch(setSubgroup(classifiers));
     }
 }

@@ -1,9 +1,8 @@
 import React from 'react'
-import classes from '../filters/filters.module.css'
+import classes from '../filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/customButton"
-import ProductModal from "../product/modals/productModal"
 import {connect} from "react-redux"
-import {closeProductActionModal, setProductValues} from "../../../../../Redux/products/actions"
+import {setProductValues} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
@@ -55,21 +54,6 @@ const SearchWindow = props => {
                     onClick={productsSearchHandler}
                 />
             </div>
-            {/* Modals */}
-            <ProductModal
-                root={classes.root}
-                type={props.open}
-                scroll={props.scrollB}
-                open={props.open}
-                paper={classes.paper}
-                modalTabs={props.modalTabs}
-                // Methods
-                handleClose={
-                    () => {
-                        props.closeProductActionModal()
-                    }
-                }
-            />
         </div>
     )
 };
@@ -82,13 +66,11 @@ function mapStateToProps(state) {
         group: state.characteristics.group,
         customSubgroup: state.characteristics.customSubgroup,
         subgroupsOpen: state.products.subgroupsOpen,
-        open: state.products.open,
         mainFilters: state.products.mainFilters,
         initialSub: state.products.initialSub,
-        scrollB: state.products.scrollB,
-        modalTabs: state.products.modalTabs,
         advancedSearch: state.characteristics.advancedSearch,
         advancedSearchConfig: state.products.advancedSearchConfig,
+
     }
 }
 
@@ -96,7 +78,6 @@ function mapDispatchToProps(dispatch) {
 
     return {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
-        closeProductActionModal: () => dispatch(closeProductActionModal()),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),

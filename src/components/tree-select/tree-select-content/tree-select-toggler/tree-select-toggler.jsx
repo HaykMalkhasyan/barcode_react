@@ -11,9 +11,10 @@ const TreeSelectToggler = styled(({state, ...props}) => (
         }
         {(state === "opened") &&
         <ArrowDropDownIcon/>
-        }{(state !== "opened" && state !== "closed") &&
-    <Icons type={'tree-arrow-right-empty'}/>
-    }
+        }
+        {(state !== "opened" && state !== "closed") &&
+        <Icons type={'tree-arrow-right-empty'}/>
+        }
     </a>
 ))`
     height 30px;
@@ -22,6 +23,7 @@ const TreeSelectToggler = styled(({state, ...props}) => (
     align-items: center;
     justify-content: center;
     margin-right: 2px;
+    cursor: pointer;
 `;
 
 export default TreeSelectToggler;
