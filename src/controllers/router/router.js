@@ -35,7 +35,7 @@ const LazyErrorPage = lazy(
 );
 // Products and characteristics
 const LazyFiltersContainer = lazy(
-    () => import('../../containers/pages/products/filters/filtersContainer')
+    () => import('../../containers/pages/products/filters/filters')
 );
 const LazyPrices = lazy(
     () => import('../../containers/pages/products/prices/prices')

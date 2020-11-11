@@ -4,11 +4,15 @@ import {connect} from "react-redux";
 import {
     getActionById,
     getAllGroup,
-    getOnlySubgroupWithGroupId, openModalContent,
+    getSubgroupWithGroupId,
+    openModalContent,
     setGroupValues
 } from "../../../../../../../../../Redux/characteristics/actions";
-import ClassifiersItem from "./classifiersItem/classifiersItem";
-import {importGroupInProduct, setProductValues} from "../../../../../../../../../Redux/products/actions";
+import {
+    importGroupInProduct,
+    selectSubgroup,
+    setProductValues
+} from "../../../../../../../../../Redux/products/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 import Item from "./item/item";
 
@@ -21,10 +25,25 @@ class ClassifiersTab extends Component {
     }
 
     toggleWindow = currentOpen => {
-        console.log(currentOpen, this.state.open)
+        if (currentOpen === this.state.open) {
+            this.setState({
+                open: null
+            })
+            this.props.setGroupValues("own_subgroups", null);
+        } else {
+            this.props.setGroupValues("own_subgroups", null);
+            this.setState({
+                open: currentOpen
+            })
+            this.props.getSubgroupWithGroupId(currentOpen)
+        }
+    }
+
+    select = node => {
         this.setState({
-            open: currentOpen === this.state.open ? null : currentOpen
+            open: null
         })
+        this.props.selectSubgroup(node)
     }
 
     componentDidMount() {
@@ -75,8 +94,12 @@ class ClassifiersTab extends Component {
                                                     key={`classifiers-item-${item.id}`}
                                                     data={item}
                                                     open={this.state.open === item.id}
+                                                    classifiers={this.props.classifiers}
+                                                    own_subgroups={this.props.own_subgroups}
                                                     // Methods
                                                     toggleWindow={this.toggleWindow}
+                                                    select={this.select}
+                                                    setProductValues={this.props.setProductValues}
                                                 />
                                             )
                                         }
@@ -101,8 +124,8 @@ function mapStateToProps(state) {
         roads: state.products.roads,
         initialOpen: state.products.initialOpen,
         groups: state.characteristics.groups,
-        subs: state.products.subs,
         classifiers: state.products.classifiers,
+        own_subgroups: state.characteristics.own_subgroups,
     }
 }
 
@@ -114,8 +137,9 @@ function mapDispatchToProps(dispatch) {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         importGroupInProduct: (condition, status) => dispatch(importGroupInProduct(condition, status)),
         getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
-        getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
-        openModalContent: (item, status) => dispatch(openModalContent(item, status))
+        getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
+        openModalContent: (item, status) => dispatch(openModalContent(item, status)),
+        selectSubgroup: subgroup => dispatch(selectSubgroup(subgroup)),
     }
 }
 

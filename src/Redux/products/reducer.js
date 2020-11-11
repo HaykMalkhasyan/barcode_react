@@ -147,7 +147,6 @@ const initialState = {
     },
     initialSub: null,
     classifiers: {},
-    subs: [],
     roads: [],
     groups: {
         groups: []
@@ -265,6 +264,7 @@ export default function productsReducer(state = initialState, action) {
             return {
                 ...state,
                 initialOpen: null,
+                errorFields: [],
                 main: {
                     name: '',
                     short_name: '',
@@ -277,9 +277,7 @@ export default function productsReducer(state = initialState, action) {
                 description: {
                     description: '',
                 },
-                classifiers: {
-                    classifiers: []
-                },
+                classifiers: {},
                 workers: {
                     workers: ''
                 },
@@ -287,7 +285,6 @@ export default function productsReducer(state = initialState, action) {
                 pictures: {
                     pictures: []
                 },
-                errorFields: [],
                 open: false
             };
         case ADD_NEW_PRODUCT:

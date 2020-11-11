@@ -23,7 +23,7 @@ import {
     SET_WITHOUT_DELETED_GROUP,
     START_MOVE_ACTION
 } from "./actionTypes";
-import {BACK_TO_PRODUCT, CLOSE_MODALS, SET_SUBGROUP} from "../products/actionTypes";
+import {BACK_TO_PRODUCT, CLOSE_MODALS, CLOSE_PRODUCT_MODAL, SET_SUBGROUP} from "../products/actionTypes";
 import cookie from "../../services/cookies";
 
 const initialState = {
@@ -81,6 +81,10 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case CLOSE_PRODUCT_MODAL:
+            return {
+                ...state, own_subgroups: null
+            }
         case SET_SUBGROUP:
             return {
                 ...state,

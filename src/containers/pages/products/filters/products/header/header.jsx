@@ -53,7 +53,7 @@ const Header = props => {
             </div>
             <div>
                 <SpringPopper
-                    dropWindow={props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
+                    dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
                     className={classes.actionsButton}
                     open={props.open}
                     label={<Icons type={'configuration'} className={classes.sendIcon} width={18} height={18}/>}

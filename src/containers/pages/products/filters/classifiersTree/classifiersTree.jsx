@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import classes from '../filters/filters.module.css'
+import classes from '../filters.module.css'
 import {connect} from "react-redux"
 import {advanceSearchHandler, clearSearchClassifiers, toggleCheckBoxValue} from "../../../../../Redux/products/actions"
 import Icons from "../../../../../components/Icons/icons";

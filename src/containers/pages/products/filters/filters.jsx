@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import classes from './filters.module.css'
 import {Grid} from "@material-ui/core"
-import ClassifiersTree from "../classifiersTree/classifiersTree"
-import SearchWindow from "../searchWindow/searchWindow"
+import ClassifiersTree from "./classifiersTree/classifiersTree"
+import SearchWindow from "./searchWindow/searchWindow"
 import {connect} from "react-redux";
 import {
     addGroup,
@@ -34,15 +34,22 @@ import {
     setMoveAction,
     sortTree,
     startMoveAction
-} from "../../../../../Redux/characteristics/actions";
-import ModalUI from "../../../../../components/modalUI/modalUI";
-import {importGroupInProduct, selectSubgroup, setProductValues} from "../../../../../Redux/products/actions";
-import ModalContent from "../classificatorModals/modalContent/modalContent";
-import Classifiers from "../classificatorModals/classifiers/classifiers";
-import CollapsedFilters from "./collapsedFilters/collapsedFilters";
-import OtherFilters from "./otherFilters/otherFilters";
-import CustomSearchWindow from "../searchWindow/customSearchWindow/customSearchWindow";
-import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
+} from "../../../../Redux/characteristics/actions";
+import ModalUI from "../../../../components/modalUI/modalUI";
+import {
+    closeProductActionModal,
+    importGroupInProduct,
+    selectSubgroup,
+    setProductValues
+} from "../../../../Redux/products/actions";
+import ModalContent from "./classificatorModals/modalContent/modalContent";
+import Classifiers from "./classificatorModals/classifiers/classifiers";
+import CollapsedFilters from "./filters/collapsedFilters/collapsedFilters";
+import OtherFilters from "./filters/otherFilters/otherFilters";
+import CustomSearchWindow from "./searchWindow/customSearchWindow/customSearchWindow";
+import LinearSpinner from "../../../../components/UI/spinners/linearSpiner/linearSpinner";
+import Products from "./products/products";
+import ProductModal from "./product/modals/productModal";
 
 class Filters extends Component {
     constructor(props) {
@@ -66,6 +73,20 @@ class Filters extends Component {
 
     componentWillUnmount() {
         this.props.setGroupValues('active', 0)
+    }
+
+    contentRender = () => {
+        switch (this.props.type) {
+            case 'filters':
+                return (
+                    <SearchWindow/>
+                );
+            case 'products':
+                return (
+                    <Products/>
+                );
+            default: return null;
+        }
     }
 
     render() {
@@ -98,7 +119,7 @@ class Filters extends Component {
                         />
                     </Grid>
                     <Grid item xs={12} md={8} lg={9} xl={9}>
-                        <SearchWindow/>
+                        {this.contentRender()}
                     </Grid>
                 </Grid>
                 <ModalUI
@@ -179,6 +200,20 @@ class Filters extends Component {
                         addGroup={this.props.addGroup}
                     />
                 </ModalUI>
+                <ProductModal
+                    root={classes.root}
+                    type={this.props.open}
+                    scroll={this.props.scrollB}
+                    open={this.props.open}
+                    paper={classes.paper}
+                    modalTabs={this.props.modalTabs}
+                    // Methods
+                    handleClose={
+                        () => {
+                            this.props.closeProductActionModal()
+                        }
+                    }
+                />
             </div>
         )
     }
@@ -187,58 +222,66 @@ class Filters extends Component {
 function mapStateToProps(state) {
 
     return {
+        type: state.filters.type,
+
         initialOpen: state.products.initialOpen,
         initialModalGroup: state.characteristics.initialModalGroup,
-        classifierName: state.characteristics.classifierName,
-        own_subgroups: state.characteristics.own_subgroups,
-        own_status: state.characteristics.own_status,
-        own_move: state.characteristics.own_move,
-        own_select: state.characteristics.own_select,
         initialStatus: state.characteristics.initialStatus,
         own_id: state.characteristics.own_id,
-        catId: state.characteristics.catId,
         groupName: state.characteristics.groupName,
         classifiers: state.products.classifiers,
         classifiersModal: state.characteristics.classifiersModal,
         measurementsFilters: state.products.measurementsFilters,
         otherFilters: state.products.otherFilters,
-        group: state.characteristics.group,
         progress: state.characteristics.progress,
         allError: state.characteristics.allError,
         groups: state.characteristics.groups,
         customSubgroup: state.characteristics.customSubgroup,
-        moveElement: state.characteristics.moveElement,
-        subgroup: state.characteristics.subgroup,
-        search: state.characteristics.search,
-        groupId: state.characteristics.groupId,
         prevGroup: state.characteristics.prevGroup,
         nextGroup: state.characteristics.nextGroup,
         indexKey: state.characteristics.indexKey,
         changeStatus: state.characteristics.changeStatus,
         modalType: state.characteristics.modalType,
-        newGroup: state.characteristics.newGroup,
         groupType: state.characteristics.groupType,
         error: state.characteristics.error,
         modalGroup: state.characteristics.modalGroup,
         groupActiveId: state.characteristics.groupActiveId,
-        delete: state.characteristics.delete,
         collapsedModalStatus: state.characteristics.collapsedModalStatus,
         classifiersSearch: state.characteristics.classifiersSearch,
+        groupLoader: state.characteristics.groupLoader,
+        groupsEditMode: state.characteristics.groupsEditMode,
+        // Modal content
+        classifierName: state.characteristics.classifierName,
+        moveElement: state.characteristics.moveElement,
+        own_subgroups: state.characteristics.own_subgroups,
+        own_status: state.characteristics.own_status,
+        own_select: state.characteristics.own_select,
+        catId: state.characteristics.catId,
+        group: state.characteristics.group,
+        subgroup: state.characteristics.subgroup,
+        search: state.characteristics.search,
+        groupId: state.characteristics.groupId,
+        newGroup: state.characteristics.newGroup,
+        delete: state.characteristics.delete,
         newSubgroup: state.characteristics.newSubgroup,
         edit: state.characteristics.edit,
         add: state.characteristics.add,
         subgroupName: state.characteristics.subgroupName,
-        groupsEditMode: state.characteristics.groupsEditMode,
         node: state.characteristics.node,
         nodeStatus: state.characteristics.nodeStatus,
         activeAction: state.characteristics.activeAction,
-        groupLoader: state.characteristics.groupLoader,
+        // Products modal
+        modalTabs: state.products.modalTabs,
+        open: state.products.open,
+        scrollB: state.products.scrollB,
     }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
+        closeProductActionModal: () => dispatch(closeProductActionModal()),
+
         getAllGroup: () => dispatch(getAllGroup()),
         addGroup: (data) => dispatch(addGroup(data)),
         editGroup: (data, id) => dispatch(editGroup(data, id)),

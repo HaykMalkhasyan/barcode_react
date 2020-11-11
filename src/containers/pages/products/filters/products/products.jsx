@@ -2,21 +2,8 @@ import React, {Component} from 'react'
 import classes from './products.module.css'
 import Section from "./section/section";
 import {connect} from "react-redux";
-import {
-    getActionById,
-    getAllGroup,
-    getSubgroupWithGroupId,
-    setGroupValues
-} from "../../../../../Redux/characteristics/actions";
-import {closeClassifierWindow, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
-import {
-    closeProductActionModal,
-    getAllProducts,
-    getProduct,
-    selectProducts,
-    setProductValues
-} from "../../../../../Redux/products/actions";
-import ProductModal from "../product/modals/productModal";
+import {setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
+import {getAllProducts, getProduct, selectProducts, setProductValues} from "../../../../../Redux/products/actions";
 import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import CustomButton from "../../../../../components/UI/button/customButton/customButton";
@@ -29,7 +16,6 @@ class Products extends Component{
             open : false,
             filter_open: false
         };
-        this.props.getAllGroup();
         this.props.getAllProducts(1)
     }
 
@@ -84,14 +70,6 @@ class Products extends Component{
                 <Section
                     filterOpen={this.state.filter_open}
                     open={this.state.open}
-                    groups={this.props.groups}
-                    group={this.props.group}
-                    customSubgroup={this.props.customSubgroup}
-                    collapsed={this.props.collapsed}
-                    collapsedGroup={this.props.collapsedGroup}
-                    advancedSearchConfig={this.props.advancedSearchConfig}
-                    selectedIndex={this.props.selectedIndex}
-                    toggleClassifier={this.props.toggleClassifier}
                     activeTabs={this.props.activeTabs}
                     tabs={this.props.tabs}
                     count={this.props.count}
@@ -99,39 +77,15 @@ class Products extends Component{
                     types={this.props.types}
                     selected_products={this.props.selected_products}
                     measurements={this.props.measurements}
-                    measurementsFilters={this.props.measurementsFilters}
-                    otherFilters={this.props.otherFilters}
                     // Methods
-                    subCollapsed={this.props.subCollapsed}
-                    subCollapsedGroup={this.props.subCollapsedGroup}
-                    setFiltersValue={this.props.setFiltersValue}
-                    getActionById={this.props.getActionById}
-                    closeClassifierWindow={this.props.closeClassifierWindow}
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
                     setProductValues={this.props.setProductValues}
                     getProduct={this.props.getProduct}
                     sortTableTabs={this.props.sortTableTabs}
-                    setGroupValues={this.props.setGroupValues}
-                    getSubgroupWithGroupId={this.props.getSubgroupWithGroupId}
-                    getAllGroup={this.props.getAllGroup}
                     changeTabsHandler={this.changeTabsHandler}
                     toggleBackdrop={this.toggleBackdrop}
                     toggleFilters={this.toggleFilters}
-                />
-                <ProductModal
-                    root={classes.root}
-                    type={this.props.open}
-                    scroll={this.props.scroll}
-                    open={this.props.open}
-                    paper={classes.paper}
-                    modalTabs={this.props.modalTabs}
-                    // Methods
-                    handleClose={
-                        () => {
-                            this.props.closeProductActionModal()
-                        }
-                    }
                 />
                 <CustomButton
                     className={classes.filtersButton}
@@ -147,46 +101,26 @@ class Products extends Component{
 function mapStateToProps(state) {
 
     return {
-        open: state.products.open,
-        scroll: state.products.scroll,
-        modalTabs: state.products.modalTabs,
-        groups: state.characteristics.groups,
-        group: state.characteristics.group,
-        customSubgroup: state.characteristics.customSubgroup,
-        collapsed: state.characteristics.collapsed,
-        collapsedGroup: state.characteristics.collapsedGroup,
         count: state.products.count,
         products: state.products.products,
         types: state.products.types,
         measurements: state.products.measurements,
         productLoadingStatus: state.products.productLoadingStatus,
         selected_products: state.products.selected_products,
-        advancedSearchConfig: state.products.advancedSearchConfig,
-        selectedIndex: state.filters.selectedIndex,
-        toggleClassifier: state.filters.toggleClassifier,
         tabs: state.filters.tabs,
         activeTabs: state.filters.activeTabs,
-        measurementsFilters: state.products.measurementsFilters,
-        otherFilters: state.products.otherFilters,
     }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
-        getAllGroup: () => dispatch(getAllGroup()),
         getAllProducts: page => dispatch(getAllProducts(page)),
-        getActionById: (requestType, memory, param, id) => dispatch(getActionById(requestType, memory, param, id)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
-        closeClassifierWindow: (index, id) => dispatch(closeClassifierWindow(index, id)),
         selectProducts: (id, type) => dispatch(selectProducts(id, type)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
-        closeProductActionModal: () => dispatch(closeProductActionModal()),
         getProduct: id => dispatch(getProduct(id)),
         sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
-
-        setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
-        getSubgroupWithGroupId: id => dispatch(getSubgroupWithGroupId(id)),
     }
 }
 
