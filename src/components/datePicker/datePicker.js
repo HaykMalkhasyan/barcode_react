@@ -1,37 +1,28 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import "date-fns";
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
+import { getFullDate } from "../../services/services";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "100%",
-  },
-}));
-
-export default function DateAndTimePickers(props) {
-  const classes = useStyles();
+export default function MaterialUIPickers(props) {
+  const handleDateChange = (date) => {
+    let datestr = getFullDate(date, false);
+    props.setValue(datestr);
+  };
 
   return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="datetime-local"
-        variant="outlined"
-        size="small"
-        type="datetime-local"
-        defaultValue="2017-05-24T10:30"
-        // value={props.selected}
-        // onChange={props.onChange}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Grid container justify="space-around">
+        <DateTimePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Ամսաթիվ"
+          format="MM/dd/yyyy HH:mm"
+          value={props.value}
+          onChange={handleDateChange}
+        />
+      </Grid>
+    </MuiPickersUtilsProvider>
   );
 }

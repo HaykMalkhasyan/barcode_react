@@ -2,7 +2,7 @@ import Axios from "axios"
 import jwt_decode from 'jwt-decode'
 import cookie from "./cookies";
 
-export const getFullDate = (milliseconds) => {
+export const getFullDate = (milliseconds, addMonth=true) => {
     let strDate = new Date(Date.now())
     if(milliseconds){
         strDate = new Date(milliseconds)
@@ -18,7 +18,7 @@ export const getFullDate = (milliseconds) => {
     minutes = minutes < 10 ? "0" + minutes : minutes
     seconds = seconds < 10 ? "0" + seconds : seconds
 
-    return `${year}-${month+1}-${day} ${hour}:${minutes}:${seconds}`
+    return `${year}-${month+addMonth}-${day} ${hour}:${minutes}:${seconds}`
 
 }
 
