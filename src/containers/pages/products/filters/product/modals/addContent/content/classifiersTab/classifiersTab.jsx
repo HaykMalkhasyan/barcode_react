@@ -22,6 +22,7 @@ class ClassifiersTab extends Component {
         this.state = {
             open: null
         }
+        this.props.getAllGroup();
     }
 
     toggleWindow = currentOpen => {
@@ -44,10 +45,6 @@ class ClassifiersTab extends Component {
             open: null
         })
         this.props.selectSubgroup(node)
-    }
-
-    componentDidMount() {
-        this.props.getAllGroup();
     }
 
     render() {

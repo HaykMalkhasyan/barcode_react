@@ -1,0 +1,3 @@
+export const SET_ALL_SUPPLIERS = 'SET_ALL_SUPPLIERS';
+export const SET_PROGRESS = 'SET_PROGRESS';
+export const SET_SELECTED = 'SET_SELECTED';

@@ -10,6 +10,7 @@ import languageReducer from "./language/reducer";
 import barcodeReducer from "./barcode/reducer";
 import priceReducer from "./price/reducer";
 import editorReducer from "./editor/reducer";
+import suppliersReducer from "./suppliers/reducer";
 
 export default combineReducers({
     auth: authReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
     language: languageReducer,
     barcode: barcodeReducer,
     price: priceReducer,
-    editor: editorReducer
+    editor: editorReducer,
+    suppliers: suppliersReducer,
 })

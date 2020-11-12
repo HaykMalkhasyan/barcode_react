@@ -5,12 +5,11 @@ import CodeGeneration from "./codeGeneration/codeGeneration";
 import CodeData from "./codeData/codeData";
 import {connect} from "react-redux";
 import {
-    addBarcode, changeElementSizes,
+    changeElementSizes,
     deleteBarcodeItem,
-    getBarcode,
-    getBarcodeItem,
     setBarcodeValue,
-    setDataValues, setPaperSize
+    setDataValues,
+    setPaperSize
 } from "../../../../../../../../../Redux/barcode/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 import PrintModal from "../../../../../../../../../components/printModal/printModal";
@@ -22,10 +21,6 @@ import PrintIcon from "@material-ui/icons/Print";
 import ReactToPrint from "react-to-print";
 
 class CodesTab extends Component {
-
-    componentDidMount() {
-        this.props.getBarcode()
-    }
 
     codeTypeRender = (types, id) => {
         for (let item of types) {
@@ -77,12 +72,12 @@ class CodesTab extends Component {
                                         <CodeGeneration
                                             open={this.props.open}
                                             code={this.props.code}
+                                            barcode={this.props.barcode}
                                             codeTypes={this.props.codeTypes}
                                             errorFields={this.props.errorFields}
                                             // Methods
                                             setBarcodeValue={this.props.setBarcodeValue}
                                             setDataValues={this.props.setDataValues}
-                                            addBarcode={this.props.addBarcode}
                                         />
                                     }
                                 />
@@ -97,7 +92,6 @@ class CodesTab extends Component {
                                             main={this.props.main}
                                             codeTypes={this.props.codeTypes}
                                             // Methods
-                                            selectBarcodeItem={this.props.getBarcodeItem}
                                             deleteBarcodeItem={this.props.deleteBarcodeItem}
                                             setBarcodeValue={this.props.setBarcodeValue}
                                         />
@@ -194,18 +188,15 @@ function mapStateToProps(state) {
         errorFields: state.barcode.errorFields,
         error: state.barcode.error,
         notification: state.barcode.notification,
-        barcode: state.products.barcode,
+        barcode: state.barcode.barcode,
     }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
-        getBarcode: () => dispatch(getBarcode()),
         setBarcodeValue: (name, value) => dispatch(setBarcodeValue(name, value)),
         setDataValues: (name, value) => dispatch(setDataValues(name, value)),
-        addBarcode: () => dispatch(addBarcode()),
-        getBarcodeItem: id => dispatch(getBarcodeItem(id)),
         deleteBarcodeItem: id => dispatch(deleteBarcodeItem(id)),
         setPaperSize: (width, height) => dispatch(setPaperSize(width, height)),
         changeElementSizes: (name, value) => dispatch(changeElementSizes(name, value))

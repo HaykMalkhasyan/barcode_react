@@ -55,7 +55,9 @@ const CodeGeneration = props => {
     };
 
     const addBarcodeHandler = () => {
-        props.addBarcode()
+        const barcode = [...props.barcode];
+        barcode.push(props.code)
+        props.setBarcodeValue("barcode", barcode)
     };
 
     return (

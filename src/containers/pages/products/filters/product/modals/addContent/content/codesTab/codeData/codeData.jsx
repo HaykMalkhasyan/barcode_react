@@ -23,17 +23,17 @@ class CodeData extends Component{
                 {
                     this.props.barcode.length ?
                         this.props.barcode.map(
-                            item => {
+                            (item, index) => {
 
                                 return (
                                     <DataItem
-                                        key={`barcode-item-${item.id}`}
+                                        key={`barcode-item-${index}`}
                                         className={this.props.code_item && this.props.code_item.id === item.id ? 'active' : ''}
 
                                         count={item.count}
                                         barcode={item.barcode}
                                         // Methods
-                                        onClick={() => this.props.selectBarcodeItem(item.id)}
+                                        onClick={() => console.log(item)}
                                     />
                                 )
                             }

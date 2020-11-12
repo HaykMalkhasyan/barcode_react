@@ -31,6 +31,30 @@
     padding: 10px;
 }
 
+.progress {
+    height: 1px;
+    background-color: transparent;
+}
+
+.progresBgColor {
+    background-color: #FF8927 !important;
+}
+
+.suppliersContent {
+    width: 100%;
+    position: relative;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 10000;
+}
+
 @media (max-width: 600px) {
     .employeesTab {
         padding: 5px;

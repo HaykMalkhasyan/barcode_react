@@ -12,36 +12,6 @@ import is from 'is_js';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export function getBarcode() {
-    return async dispatch => {
-        if (cookie.get('access')) {
-            try {
-                const response = await Axios.get(`${API_URL}/barcode/`, {
-                    headers: {
-                        "lang": cookie.get('language') || "am",
-                        "Content-Type": "application/json",
-                        "Authorization": `JWT ${cookie.get('access')}`
-                    }
-                });
-                dispatch(setBarcodeValue('barcode', response.data.results))
-            } catch (error) {
-                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    const refresh_token = cookie.get('refresh');
-                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                    if ((await new_token_data) === null) {
-                        dispatch(setBarcodeValue('error', error.message))
-                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                        dispatch(getBarcode())
-                    }
-                } else {
-                    dispatch(setBarcodeValue('error', error.message))
-                }
-            }
-        }
-    }
-}
-
 export function setDataValues(name, value) {
 
     return (dispatch, getState) => {
@@ -103,80 +73,6 @@ export function setDataValues(name, value) {
             }
             default: {
                 break;
-            }
-        }
-    }
-}
-
-export function addBarcode() {
-
-    return async (dispatch, getState) => {
-        const code = {...getState().barcode.code};
-        const barcode = [...getState().barcode.barcode];
-        const product_barcode = [...getState().products.barcode];
-        let index = true;
-        for (let item of barcode) {
-            if (item.barcode === code.barcode) {
-                index = false
-            }
-        }
-        if (index) {
-            try {
-                const response = await Axios.post(`${API_URL}/barcode/`, code, {
-                    headers: {
-                        "lang": cookie.get('language') || "am",
-                        "Content-Type": "application/json",
-                        "Authorization": `JWT ${cookie.get('access')}`
-                    }
-                });
-                barcode.push(response.data);
-                product_barcode.push(response.data);
-                dispatch(setBarcode('barcode', barcode));
-                dispatch(setProductsBarcodeValue('barcode', product_barcode))
-            } catch (error) {
-                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                    const refresh_token = cookie.get('refresh');
-                    const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                    if ((await new_token_data) === null) {
-                        dispatch(setBarcodeValue('error', error.message))
-                    } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                        dispatch(addBarcode())
-                    }
-                } else {
-                    dispatch(setBarcodeValue('error', error.message))
-                }
-            }
-        } else {
-            dispatch(setBarcodeValue('notification', true))
-        }
-    }
-}
-
-export function getBarcodeItem(id) {
-
-    return async dispatch => {
-        try {
-            const response = await Axios.get(`${API_URL}/barcode/${id}`, {
-                headers: {
-                    "lang": cookie.get('language') || "am",
-                    "Content-Type": "application/json",
-                    "Authorization": `JWT ${cookie.get('access')}`
-                }
-            });
-            dispatch(setBarcodeValue('code_item', response.data))
-        } catch (error) {
-            if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = cookie.get('refresh');
-                const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                if ((await new_token_data) === null) {
-                    dispatch(setBarcodeValue('error', error.message))
-                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                    dispatch(getBarcodeItem(id))
-                }
-            } else {
-                dispatch(setBarcodeValue('error', error.message))
             }
         }
     }

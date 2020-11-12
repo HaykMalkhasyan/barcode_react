@@ -9,22 +9,22 @@ import {setProduct, setProductValues, setTabValue} from "../../../../../../Redux
 const ProductModal = props => {
     const [gallery, setGallery] = useState([]);
 
-    const deleteUploadImagesHandler = (item, index) => {
-        const images = [];
-        const old_images = [...props.images];
-
-        setGallery([]);
-        if (props.open === 'edit') {
-            props.product['pictures'].forEach(
-                image => old_images.indexOf(image.image) !== -1 ?
-                    images.push(image['image'])
-                    :
-                    null
-            );
-            props.setProductValues('pictures', {pictures: props.product.pictures});
-        }
-        props.setProductValues('images', images);
-    };
+    // const deleteUploadImagesHandler = (item, index) => {
+    //     const images = [];
+    //     const old_images = [...props.images];
+    //
+    //     setGallery([]);
+    //     if (props.open === 'edit') {
+    //         props.product['pictures'].forEach(
+    //             image => old_images.indexOf(image.image) !== -1 ?
+    //                 images.push(image['image'])
+    //                 :
+    //                 null
+    //         );
+    //         props.setProductValues('pictures', {pictures: props.product.pictures});
+    //     }
+    //     props.setProductValues('images', images);
+    // };
 
     const deleteImageHandler = (image, index) => {
 
@@ -107,7 +107,7 @@ const ProductModal = props => {
                     // Methods
                     addPhotoHandler={addPhotoHandler}
                     deleteImageHandler={deleteImageHandler}
-                    deleteUploadImagesHandler={deleteUploadImagesHandler}
+                    // deleteUploadImagesHandler={deleteUploadImagesHandler}
                     setTabValue={props.setTabValue}
                 />
             }

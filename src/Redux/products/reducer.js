@@ -161,7 +161,6 @@ const initialState = {
     pictures: {
         pictures: []
     },
-    barcode: [],
     error: null,
     selected_products: [],
     productLoadingStatus: true,

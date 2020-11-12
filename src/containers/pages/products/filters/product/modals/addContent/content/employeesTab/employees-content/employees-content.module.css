@@ -1,0 +1,26 @@
+.workersWindow {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    min-height: 75px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.empty {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aaa;
+    letter-spacing: .4pt;
+}
+
+@media (max-width: 600px) {
+    .workersWindow {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
