@@ -1,0 +1,26 @@
+.content {
+    width: 200px;
+    /*height: 250px;*/
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0, 110, 194, 0.18);
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10001;
+    overflow: hidden;
+}
+
+.listContent {
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*.withAction {*/
+/*    height: 210px;*/
+/*}*/
+
+/*.withoutAction {*/
+/*    height: 250px;*/
+/*}*/

@@ -43,11 +43,10 @@ export default function ScrollableTabsButtonAuto(props) {
 
         return tabContent.map(
             (Item, index) => {
-
                 return (
                     <TabPanel
                         className={props.tabPanelRoot}
-                        key={index + Math.random()}
+                        key={`tabs-${index}`}
                         value={value}
                         index={index}
                     >
