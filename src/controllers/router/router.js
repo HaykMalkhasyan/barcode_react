@@ -55,6 +55,9 @@ const LazyIncome = lazy(
 const LazyItemsByGroup = lazy(
     () => import('../../containers/pages/itemsByGroup/itemsByGroupRoot/itemsByGroupRoot')
 );
+const LazyFormulatedItem = lazy(
+    () => import('../../containers/pages/formulateditem/formulatedItem')
+);
 
 const Router = props => {
 
@@ -116,12 +119,19 @@ const Router = props => {
                 auth={props.auth}
                 component={LazyIncome}
             />
-            {/* Income */}
+            {/* itemsByGroup */}
             <PrivateRoute
                 exact
                 path='/itemsByGroup/:id'
                 auth={props.auth}
                 component={LazyItemsByGroup}
+            />
+            {/* FormulatedItem */}
+            <PrivateRoute
+                exact
+                path='/formulatedItem/:id'
+                auth={props.auth}
+                component={LazyFormulatedItem}
             />
             {/* Login */}
             <PublicRoute

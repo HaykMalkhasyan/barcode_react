@@ -15,6 +15,9 @@ export default function MaterialUIPickers(props) {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
         <DateTimePicker
+          inputVariant={props.variant ? props.variant : "standard"}
+          fullWidth={props.fullWidth}
+          size="small"
           margin="normal"
           id="date-picker-dialog"
           label="Ամսաթիվ"

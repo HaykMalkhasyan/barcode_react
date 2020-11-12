@@ -1,0 +1,98 @@
+.circleBack{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    color: #fff;
+}
+.contentGrid{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.docId{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0px 15px;
+}
+.caption{
+    font-size: 12px;
+    margin: 0px 15px;
+}
+.applyToggleButtons{
+    display: flex;
+
+}
+.applyButtons{
+    width: 50%;
+    background-color: #57c8f1;
+    color: #fff;
+    border:none;
+    transition-duration: 0.1s;
+    cursor: pointer;
+    padding: 8px 10px;
+    font-size: 18px;
+    
+}
+.applyButtons:hover{
+    background-color: #2e7a96;
+}
+.applyButtonsActive {
+    width: 50%;
+    background-color: #2e7a96;
+    color: #fff;
+    border:none;
+    padding: 8px 10px;
+    font-size: 18px;
+}
+.captionType1{
+    font-size: 14px;
+    padding-top: 40px;
+    margin: 5px;
+}
+.captionType2{
+    font-size: 14px;
+    padding: 0px;
+    margin: 5px;
+}
+.captionType3{
+    margin-bottom: -10px;
+}
+.select{
+    background-color: #2e7a96;
+    color: #fff;
+    border-radius: 9px;
+    padding: 3px;
+    font-size: 18px;
+}
+.selectValue{
+    
+    display: flex;
+    justify-content: center;
+}
+.icon{
+    color: #fff;
+}
+.paySizeInput{
+    border:1px solid rgba(211, 211, 211);
+    width: 100px;
+    margin:0px 10px;
+    padding:10px ;
+    border-radius: 9px;
+
+}
+.describtion{
+    width: 100%;
+    border-radius: 5px;
+}
+.closeButton{
+    position: absolute;
+    top:0;
+    right: 0;
+}

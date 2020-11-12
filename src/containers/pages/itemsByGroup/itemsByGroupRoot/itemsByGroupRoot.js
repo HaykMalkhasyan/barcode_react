@@ -15,6 +15,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import SnackbarMessage from "../../outlets/outlets/snackbar";
 import Editor from "./editor";
 import GenerateSellPrices from "./generateSellPrices";
+import Axios from "axios";
+import cookie from '../../../../services/cookies'
+import FormulateDialog from "./FormulateDocument"
 
 export default function ItemsByGroup() {
   const initialData = [
@@ -56,15 +59,40 @@ export default function ItemsByGroup() {
   const [openDelete, setOpenDelete] = useState({ bool: false, index: null });
   const [success, setSuccess] = useState({});
   const [editorOpen, setEditorOpen] = useState({ bool: false, type: null });
+  const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
 
-  const [supliers] = useState([
+
+  const [supliers, setSupliers] = useState([
     { name: "Գրանդ Քենդի", id: 1256 },
     { name: "789789", id: 2666 },
   ]);
-  const [storeHouses] = useState([
+  const [storeHouses, setStoreHouses] = useState([
     { name: "Հիմնական", id: 1256 },
     { name: "Պահեստ 2", id: 2666 },
   ]);
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API_URL}?path=Stores/Store&cols=id,name`,{
+      headers: {
+        lang: cookie.get("language") || "am",
+        "Content-Type": "application/json",
+        Authorization: `JWT ${cookie.get("access")}`,
+      },
+    })
+    .then((res)=>{
+      setStoreHouses(res.data.data)
+    })
+    Axios.get(`${process.env.REACT_APP_API_URL}?path=Providers/Provider&cols=id,name`,{
+      headers: {
+        lang: cookie.get("language") || "am",
+        "Content-Type": "application/json",
+        Authorization: `JWT ${cookie.get("access")}`,
+      },
+    })
+    .then((res)=>{
+      setSupliers(res.data.data)
+    })
+  }, []);
 
   const [openSellGen, setOpenSellGen] = useState(false);
 
@@ -73,7 +101,7 @@ export default function ItemsByGroup() {
       let documents = localStorage.getItem("documents");
       if (documents) {
         documents = JSON.parse(documents);
-        let item = documents.find((x) => +x["#"] === +id);
+        let item = documents.find((x) => x["#"] == id);
         if (item) {
           setDocument(item);
           let rowdata = localStorage.getItem(`document_${id}`);
@@ -100,10 +128,10 @@ export default function ItemsByGroup() {
         JSON.stringify(initialData) === JSON.stringify(rowData)
           ? 1
           : rowData.length + 1,
-      ԱՊՄ: "",
+      ԱՊՄ: selecteds.articul,
       Անվանում: selecteds.item_name,
       Մնացորդ: 0,
-      ԱՏԳ: 0,
+      ԱՏԳ: selecteds.adgt,
       Քանակ: quanty,
       "Մատակարարի գին": buyPrice,
       Զեղչ: 0,
@@ -273,6 +301,14 @@ export default function ItemsByGroup() {
 
   return (
     <div style={{ padding: "144px 18px 8px" }}>
+      <FormulateDialog 
+        open={openFormulateDialog}
+        setOpen={setOpenFormulateDialog}
+        document={document}
+        id={id}
+        rowData={rowData}
+        
+      />
       <GenerateSellPrices
         generateSellingPrices={generateSellingPrices}
         open={openSellGen}
@@ -408,10 +444,6 @@ export default function ItemsByGroup() {
           <Grid item xs={6}>
             <div className={style.contentSection}>
               <span>{`Փաստաթուղթ՝ #${id}`}</span>{" "}
-              {console.log(
-                'document["Ամսաթիվ"]',
-                document && document["Ամսաթիվ"]
-              )}
               <span className={style.infoSpan}>
                 {`Ամսաթիվ՝ ${
                   document && document["Ամսաթիվ"]
@@ -514,7 +546,7 @@ export default function ItemsByGroup() {
             color="primary"
             size="large"
             fullWidth
-            style={{ margin: "10px" }}
+            style={{ margin: "0px" }}
             onClick={saveAll}
           >
             Պահպանել Փոփոխությունները
@@ -524,7 +556,7 @@ export default function ItemsByGroup() {
             color="secondary"
             size="large"
             fullWidth
-            style={{ margin: "10px" }}
+            style={{ margin: "5px 0px" }}
             onClick={() => {
               setOpenDelete({ bool: true, index: "document", documentId: id });
             }}
@@ -536,7 +568,8 @@ export default function ItemsByGroup() {
             color="inherit"
             size="large"
             fullWidth
-            style={{ margin: "10px" }}
+            style={{ margin: "0px" }}
+            onClick={()=>{setOpenFormulateDialog(true)}}
           >
             Ձևակերպել Թաստաթուղթը
           </Button>

@@ -31,7 +31,6 @@ export default function Income() {
     },
   ];
 
-  useEffect(() => {}, []);
 
   useEffect(() => {
     if (selectedTab.submenus && selectedTab.submenus.length) {
@@ -47,7 +46,7 @@ export default function Income() {
     } else {
       setRowData(initialData);
     }
-  }, [selectedTab, initialData]);
+  }, [selectedTab]);
 
   function exportTo(type) {
     setExportStatus({ bool: true, type });
