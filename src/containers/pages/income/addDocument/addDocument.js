@@ -11,6 +11,8 @@ import SnackbarMessage from "../../outlets/outlets/snackbar";
 import AddIcon from "@material-ui/icons/Add";
 import { getFullDate } from "../../../../services/services";
 import { useHistory } from "react-router-dom";
+import Axios from "axios";
+import cookie from '../../../../services/cookies'
 
 export default function AlertDialog(props) {
   const { open, setOpen } = props;
@@ -28,14 +30,35 @@ export default function AlertDialog(props) {
     setOpen(false);
   };
   useEffect(() => {
-    setSupliers([
-      { name: "Գրանդ Քենդի", id: 1256 },
-      { name: "789789", id: 2666 },
-    ]);
-    setStoreHouses([
-      { name: "Հիմնական", id: 1256 },
-      { name: "Պահեստ 2", id: 2666 },
-    ]);
+    Axios.get(`${process.env.REACT_APP_API_URL}?path=Stores/Store&cols=id,name`,{
+      headers: {
+        lang: cookie.get("language") || "am",
+        "Content-Type": "application/json",
+        Authorization: `JWT ${cookie.get("access")}`,
+      },
+    })
+    .then((res)=>{
+      setStoreHouses(res.data.data)
+    })
+    // setSupliers([
+    //   { name: "Գրանդ Քենդի", id: 1256 },
+    //   { name: "789789", id: 2666 },
+    // ]);
+    Axios.get(`${process.env.REACT_APP_API_URL}?path=Providers/Provider&cols=id,name`,{
+      headers: {
+        lang: cookie.get("language") || "am",
+        "Content-Type": "application/json",
+        Authorization: `JWT ${cookie.get("access")}`,
+      },
+    })
+    .then((res)=>{
+      console.log('res.data.data', res)
+      setSupliers(res.data.data)
+    })
+    // setStoreHouses([
+    //   { name: "Հիմնական", id: 1256 },
+    //   { name: "Պահեստ 2", id: 2666 },
+    // ]);
   }, []);
 
   const handleCheck = () => {
