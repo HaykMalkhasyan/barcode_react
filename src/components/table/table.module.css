@@ -37,3 +37,15 @@
     color: rgba(0, 0, 0, 0.7);
     white-space: nowrap;
 }
+
+
+.formulatedRow{
+    background-color: #f2dede !important;
+}
+
+.unformulatedRow{
+    background-color: #dff0d8 !important;
+}
+
+
+

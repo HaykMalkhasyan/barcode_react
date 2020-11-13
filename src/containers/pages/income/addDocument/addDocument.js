@@ -52,7 +52,6 @@ export default function AlertDialog(props) {
       },
     })
     .then((res)=>{
-      console.log('res.data.data', res)
       setSupliers(res.data.data)
     })
     // setStoreHouses([
@@ -60,6 +59,23 @@ export default function AlertDialog(props) {
     //   { name: "Պահեստ 2", id: 2666 },
     // ]);
   }, []);
+
+  function getMissing(arr){
+    if(!arr.length){
+      return 1
+    }
+      let length = arr.length
+      arr.sort((x,y)=>x-y)
+      if(arr[0]!==1){
+        return 1
+      }
+      for(let i=0; i<length; i++){
+          if(arr[i+1]-arr[i]!==1){
+          return arr[i] + 1
+      }
+    }
+      return arr.length
+  }
 
   const handleCheck = () => {
     setPending(true);
@@ -91,11 +107,12 @@ export default function AlertDialog(props) {
     } else {
       documents = [];
     }
+    let docNum = getMissing(documents.map(item=>+item["#"]))
     let newDocument = {
-      "#": documents.length + 1,
+      "#": docNum,
       Մատակարար: selectedSuplier.name,
       Պահեստ: selectedStoreHouse.name,
-      Ամսաթիվ: getFullDate(),
+      Ամսաթիվ: getFullDate(null, false),
       Քանակ: 0,
       Նկարագիր: "---",
       "Գին առանց ԱԱՀ-ի": 0,
@@ -110,7 +127,7 @@ export default function AlertDialog(props) {
     props.setRowData(documents);
     setPending(false);
     // setTimeout(()=>{
-    history.push(`/itemsByGroup/${documents.length}`);
+    history.push(`/itemsByGroup/${docNum}`);
     // },2000)
     handleClose();
     return;
@@ -175,3 +192,5 @@ export default function AlertDialog(props) {
     </div>
   );
 }
+
+

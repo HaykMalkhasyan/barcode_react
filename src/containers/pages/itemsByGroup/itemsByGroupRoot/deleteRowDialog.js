@@ -38,6 +38,13 @@ export default function AlertDialog(props) {
           }
         }
       }
+      let formulated_documents = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
+      let index = formulated_documents.indexOf(+props.id)
+      if(index!==-1){
+        formulated_documents.splice(index, 1)
+        localStorage.setItem("formulated_documents", JSON.stringify(formulated_documents))
+      }
+      
       history.push("/income");
     }
   };

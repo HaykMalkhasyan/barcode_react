@@ -18,6 +18,7 @@ import GenerateSellPrices from "./generateSellPrices";
 import Axios from "axios";
 import cookie from '../../../../services/cookies'
 import FormulateDialog from "./FormulateDocument"
+import SupliersProductsDialog from "./supliersProductsDialog"
 
 export default function ItemsByGroup() {
   const initialData = [
@@ -53,13 +54,14 @@ export default function ItemsByGroup() {
   const buyPriceRef = useRef();
   const [inputValue, setInputValue] = useState("");
   const [keyAutoComplate] = useState(1);
-  const [rowData, setRowData] = useState(initialData);
+  const [rowData, setRowData] = useState([]);
   const [document, setDocument] = useState();
   const id = location.pathname.split("/")[2];
   const [openDelete, setOpenDelete] = useState({ bool: false, index: null });
   const [success, setSuccess] = useState({});
   const [editorOpen, setEditorOpen] = useState({ bool: false, type: null });
   const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
+  const [openSupliersProductsDialog, setOpenSupliersProductsDialog] = useState(false)
 
 
   const [supliers, setSupliers] = useState([
@@ -98,6 +100,13 @@ export default function ItemsByGroup() {
 
   useEffect(() => {
     if (id) {
+      let formulated_documents = localStorage.getItem("formulated_documents")
+        ? JSON.parse(localStorage.getItem("formulated_documents"))
+        : [];
+      let formulated_ids = formulated_documents.map((item) => item["#"]);
+      if (formulated_ids.includes(+id)) {
+        history.replace(`/formulatedItem/${id}`);
+      }
       let documents = localStorage.getItem("documents");
       if (documents) {
         documents = JSON.parse(documents);
@@ -154,6 +163,10 @@ export default function ItemsByGroup() {
     return;
   }
 
+  useEffect(()=>{
+    localStorage.setItem(`document_${id}`, JSON.stringify(rowData));
+  },[rowData])
+
   function saveAll() {
     localStorage.setItem(`document_${id}`, JSON.stringify(rowData));
     setSuccess({
@@ -166,7 +179,7 @@ export default function ItemsByGroup() {
   function updateRowData(index, data, params) {
     console.log("params", params);
     let changedField = params.colDef.field;
-    setRowData(initialData);
+    setRowData([]);
     let clone = JSON.parse(JSON.stringify(rowData));
     data["Մատակարարի գին"] = +data["Մատակարարի գին"];
     data["Առքի գին"] = +data["Առքի գին"];
@@ -177,6 +190,15 @@ export default function ItemsByGroup() {
 
     switch (changedField) {
       case "Մատակարարի գին":
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
         data["Առքի գին"] =
           data["Զեղչ"] > 0
             ? data["Մատակարարի գին"] -
@@ -186,6 +208,15 @@ export default function ItemsByGroup() {
         break;
 
       case "Առքի գին":
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
         if (data["Առքի գին"] > data["Մատակարարի գին"]) {
           setSuccess({
             status: "error",
@@ -200,6 +231,15 @@ export default function ItemsByGroup() {
         break;
 
       case "Առքի գումար":
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
         data["Առքի գին"] = data["Առքի գումար"] / data["Քանակ"];
         if (data["Առքի գին"] > data["Մատակարարի գին"]) {
           setSuccess({
@@ -233,16 +273,42 @@ export default function ItemsByGroup() {
         break;
 
       case "Վաճ գին Վաճառքի գին" || "Մատակարարի գին":
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
         data["Վաճ գումար Վաճառքի գին"] =
           data["Վաճ գին Վաճառքի գին"] * data["Քանակ"];
         break;
       case "Վաճ գումար Վաճառքի գին":
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
         data["Վաճ գին Վաճառքի գին"] =
           data["Վաճ գումար Վաճառքի գին"] / data["Քանակ"];
         break;
       case "Քանակ":
-        data["Վաճ գումար Վաճառքի գին"] =
-          data["Վաճ գին Վաճառքի գին"] * data["Քանակ"];
+        if (data[changedField] < 0) {
+          setSuccess({
+            status: "error",
+            message: "Արժեքը պետք է լինի 0-ից մեծ",
+            open: true,
+          });
+          data[changedField] = params.oldValue;
+          break;
+        }
+        data["Վաճ գումար Վաճառքի գին"] = data["Վաճ գին Վաճառքի գին"] * data["Քանակ"];
         data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
         break;
 
@@ -307,7 +373,10 @@ export default function ItemsByGroup() {
         document={document}
         id={id}
         rowData={rowData}
-        
+      />
+      <SupliersProductsDialog
+        open={openSupliersProductsDialog}
+        setOpen={setOpenSupliersProductsDialog}
       />
       <GenerateSellPrices
         generateSellingPrices={generateSellingPrices}
@@ -464,7 +533,9 @@ export default function ItemsByGroup() {
               </span>
               <div className={style.buttonsCont}>
                 <span style={{ marginRight: "40px" }}>{`Գործողութ․ `} </span>
-                <Button variant="contained" style={{ marginRight: "20px" }}>
+                <Button variant="contained" style={{ marginRight: "20px" }}
+                  onClick={()=>{setOpenSupliersProductsDialog(true)}}
+                >
                   Մատակարարի Ապրանքներ &nbsp;
                   <ViewComfyIcon />
                 </Button>
@@ -526,7 +597,7 @@ export default function ItemsByGroup() {
             </div>
           </Grid>
         </Grid>
-        <Table
+        {!!rowData.length && <Table
           rowData={rowData}
           editabeFields={[
             "Քանակ",
@@ -539,9 +610,9 @@ export default function ItemsByGroup() {
           dataUpdater={updateRowData}
           settings={"delete"}
           setOpenDelete={setOpenDelete}
-        />
+        />}
         <div className={style.downButtons}>
-          <Button
+          {!!rowData.length && <Button
             variant="contained"
             color="primary"
             size="large"
@@ -550,7 +621,7 @@ export default function ItemsByGroup() {
             onClick={saveAll}
           >
             Պահպանել Փոփոխությունները
-          </Button>
+          </Button>}
           <Button
             variant="contained"
             color="secondary"
@@ -563,7 +634,7 @@ export default function ItemsByGroup() {
           >
             Ջնջել Թաստաթուղթը
           </Button>
-          <Button
+          {!!rowData.length && <Button
             variant="contained"
             color="inherit"
             size="large"
@@ -572,7 +643,7 @@ export default function ItemsByGroup() {
             onClick={()=>{setOpenFormulateDialog(true)}}
           >
             Ձևակերպել Թաստաթուղթը
-          </Button>
+          </Button>}
         </div>
       </div>
     </div>

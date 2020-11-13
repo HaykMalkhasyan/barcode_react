@@ -8,7 +8,9 @@ import { useReactToPrint } from "react-to-print";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import PrintIcon from '@material-ui/icons/Print';
 import { IconButton } from "@material-ui/core";
+import style from "./table.module.css"
 
 const App = (props) => {
   const history = useHistory();
@@ -23,8 +25,13 @@ const App = (props) => {
   });
 
   function btnClickedHandler(props) {
-    console.log("params", props);
-    history.push(`/itemsByGroup/${props.rowIndex + 1}`);
+    console.log("rowData", props);
+    if(allFormulateds.map(item=>item["#"]).includes(+props.data["#"])){
+      history.push(`/formulatedItem/${props.data["#"]}`);  
+      return
+    }
+    history.push(`/itemsByGroup/${props.data["#"]}`);
+    return
   }
 
   function BtnCellRenderer(props) {
@@ -57,6 +64,20 @@ const App = (props) => {
     );
   }
 
+  function PrintButton(props) {
+    return (
+      <IconButton
+        size="small"
+        color="primary"
+        onClick={() => {
+          return
+        }}
+      >
+        <PrintIcon />
+      </IconButton>
+    );
+  }
+
   useEffect(() => {
     if (props.exportStatus && props.exportStatus.bool) {
       if (props.exportStatus.type === "excel") {
@@ -85,20 +106,35 @@ const App = (props) => {
     const { rowIndex, data } = params;
     props.dataUpdater && props.dataUpdater(rowIndex, data, params);
   }
+  const allFormulateds= localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
 
   return (
     <div
       className="ag-theme-alpine"
       ref={tableRef}
-      style={{ height: 557, width: 2000, margin: "0 auto" }}
+      style={{ height: 557, width: "100%", margin: "0 auto" }}
     >
       {/* <button onClick={onButtonClick}>Get selected rows</button> */}
       <AgGridReact
         onGridReady={(params) => {
           setGridApi(params.api);
         }}
+     
+        
         rowData={rowData}
         rowSelection="multiple"
+        rowClassRules={{
+          [style.formulatedRow]: function (params) {
+            console.log("params",params)
+            console.log('allFormulateds', allFormulateds.includes(+params.data['#']))
+            return allFormulateds.map(item=>item["#"]).includes(params.data['#']) && window.location.pathname === "/income"
+          },
+          [style.unformulatedRow]: function (params) {
+            console.log("params",params)
+            console.log('allFormulateds', allFormulateds.includes(+params.data['#']))
+            return !allFormulateds.map(item=>item["#"]).includes(params.data['#']) && window.location.pathname === "/income"
+          },
+        }}
         groupSelectsChildren={true}
         autoGroupColumnDef={{
           headerName: "Model",
@@ -151,11 +187,24 @@ const App = (props) => {
                   !!Array.isArray(props.editabeFields) &&
                   !!props.editabeFields.includes(item),
               };
+            } else if (item === "Զեղչ") {
+              return {
+                field: "Զեղչ",
+                width: 85,
+                filter: "agNumberColumnFilter",
+                sortable: true,
+                resizable: true,
+                floatingFilter: floatingFilter,
+                editable:
+                  !!props.editabeFields &&
+                  !!Array.isArray(props.editabeFields) &&
+                  !!props.editabeFields.includes(item),
+              };
             } else {
               return {
                 field: item,
                 flex: 1,
-                minWidth: item === "Անվանում" ? 376 : 100,
+                minWidth: item === "Անվանում" ? 306 : 100,
                 filter:
                   typeof rowData[0][item] === "number"
                     ? "agNumberColumnFilter"
@@ -181,7 +230,7 @@ const App = (props) => {
                 // floatingFilter: floatingFilter,
                 cellRenderer: "deleteButton",
               }
-            : {
+            : props.settings === "settings" ? {
                 field: "settings",
                 flex: 1.2,
                 pinned: "right",
@@ -195,11 +244,26 @@ const App = (props) => {
                     console.log("field", field);
                   },
                 },
-              },
+              } : props.settings === "print" ?  {
+                  field: "",
+                  width: 63,
+                  pinned: "right",
+                  sortable: false,
+                  resizable: false,
+                  // floatingFilter: floatingFilter,
+                  cellRenderer: "printButton",
+                  
+                  cellRendererParams: {
+                    clicked: function (field) {
+                      console.log("field", field);
+                    },
+                  },
+              } : {}
         ]}
         frameworkComponents={{
           btnCellRenderer: BtnCellRenderer,
           deleteButton: DeleteButton,
+          printButton: PrintButton,
         }}
         pagination={true}
         paginationPageSize={10}
