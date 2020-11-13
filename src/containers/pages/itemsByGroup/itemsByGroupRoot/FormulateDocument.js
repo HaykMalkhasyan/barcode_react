@@ -93,6 +93,7 @@ export default function AlertDialog(props) {
   const handleConfirm = () => {
 
     let obj = {
+        "#":+props.id,
         total,
         apply,
         selectedCashbox,
@@ -114,6 +115,12 @@ export default function AlertDialog(props) {
     }
     console.log('obj', obj)
     setOpen(false)
+    let formulated_documents = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
+    let indexID=formulated_documents.indexOf(+props.id)
+    if(indexID === -1){
+      formulated_documents.push(obj)
+    }
+    localStorage.setItem("formulated_documents", JSON.stringify(formulated_documents))
     history.replace(`/formulatedItem/${props.id}`)
     return;
   };

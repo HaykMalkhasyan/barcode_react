@@ -44,7 +44,7 @@ export default function Income() {
       data = JSON.parse(data);
       setRowData(data);
     } else {
-      setRowData(initialData);
+      setRowData([]);
     }
   }, [selectedTab]);
 
@@ -145,7 +145,7 @@ export default function Income() {
               })}
           </div>
         </Collapse>
-        <Table rowData={rowData} exportStatus={exportStatus} />
+        {!!rowData.length && <Table settings={"settings"} rowData={rowData} exportStatus={exportStatus} />}
       </div>
     </div>
   );

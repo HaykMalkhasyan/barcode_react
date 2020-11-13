@@ -1,0 +1,83 @@
+.title{
+    background: #1fb5ad;
+    color: #fff;
+    display: inline-block;
+    width: fit-content;
+    padding: 20px;
+    font-size: 50px;
+    font-weight: lighter;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px 100px 0px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-sizing: border-box;
+    
+}
+.gridlarge{
+    
+    font-size: 24px;
+}
+.gridsmall{
+    
+    font-size: 18px;
+}
+.infoCont{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.itemdiv{
+    width: 40%;
+}
+
+.totalContainer{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    margin-top: 50px;
+
+}
+.ButtonsCont{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.inputsCont{
+    width: 60%;
+    margin: 0 auto;
+}
+.item{
+    width: 100%;
+    margin: 5px 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgba(211, 211, 211, 0.289);
+    text-align: right;
+    border-radius: 5px;
+}
+.input{
+    padding: 10px;
+    width: 100px;
+    border: none;
+    margin: 0px 10px;
+    font-size: 15px;
+    border-radius: 9px;
+}
+
+.darkBackGround{
+    background-color: #1fb5ad;
+    color: white;
+}
+
+.lightBackGround{
+    background-color: rgba(66,193,197,.3)!important;
+}
+.diff{
+    background-color: rgba(255,255,0,.3)!important;
+}

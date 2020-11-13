@@ -18,7 +18,7 @@ export default function PositionedSnackbar(props) {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={props.open.open}
-        autoHideDuration={1500}
+        autoHideDuration={1900}
         onClose={handleClose}
         key={{ vertical: 'top', horizontal: 'right' }}
       >
