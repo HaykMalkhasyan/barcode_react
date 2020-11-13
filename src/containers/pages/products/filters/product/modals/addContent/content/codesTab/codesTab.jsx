@@ -6,7 +6,7 @@ import CodeData from "./codeData/codeData";
 import {connect} from "react-redux";
 import {
     changeElementSizes,
-    deleteBarcodeItem,
+    deleteBarcodeItem, setBarcode,
     setBarcodeValue,
     setDataValues,
     setPaperSize
@@ -64,6 +64,21 @@ class CodesTab extends Component {
                             հնարավոր լինի վաճառել ապրանքը։ Որոնք կոդեր չունեն կարող եք ծրագրով ստեղծել կոդ՝ սեղմելով
                             "ԳԵՆԵՐԱՑՆԵԼ" կոճակը։
                         </p>
+                        {
+                            this.props.eFields.length ?
+                                this.props.eFields.indexOf('barcode') !== -1 ?
+                                    <div className={classes.errorFields}>
+                                        <AlertUI
+                                            variant="outlined"
+                                            severity="error"
+                                            text={'Ապրանքին կցված չեն շտրիխ-կոդ(եր) !'}
+                                        />
+                                    </div>
+                                    :
+                                    null
+                                :
+                                null
+                        }
                         <div className={classes.gridContainer}>
                             <div className={classes.codActions}>
                                 <SectionWindow
@@ -77,6 +92,7 @@ class CodesTab extends Component {
                                             errorFields={this.props.errorFields}
                                             // Methods
                                             setBarcodeValue={this.props.setBarcodeValue}
+                                            setBarcode={this.props.setBarcode}
                                             setDataValues={this.props.setDataValues}
                                         />
                                     }
@@ -186,6 +202,7 @@ function mapStateToProps(state) {
         code: state.barcode.code,
         code_item: state.barcode.code_item,
         errorFields: state.barcode.errorFields,
+        eFields: state.products.errorFields,
         error: state.barcode.error,
         notification: state.barcode.notification,
         barcode: state.barcode.barcode,
@@ -196,6 +213,7 @@ function mapDispatchToProps(dispatch) {
 
     return {
         setBarcodeValue: (name, value) => dispatch(setBarcodeValue(name, value)),
+        setBarcode: (name, value) => dispatch(setBarcode(name, value)),
         setDataValues: (name, value) => dispatch(setDataValues(name, value)),
         deleteBarcodeItem: id => dispatch(deleteBarcodeItem(id)),
         setPaperSize: (width, height) => dispatch(setPaperSize(width, height)),

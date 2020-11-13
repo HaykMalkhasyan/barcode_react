@@ -20,6 +20,10 @@
     letter-spacing: .4pt;
 }
 
+.errorFields {
+    margin: 0 auto 40px;
+}
+
 .gridContainer {
     display: flex;
     flex-direction: column;

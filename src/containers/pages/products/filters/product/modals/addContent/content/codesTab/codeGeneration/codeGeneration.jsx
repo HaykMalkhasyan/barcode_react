@@ -56,8 +56,22 @@ const CodeGeneration = props => {
 
     const addBarcodeHandler = () => {
         const barcode = [...props.barcode];
-        barcode.push(props.code)
-        props.setBarcodeValue("barcode", barcode)
+        let index = true;
+        for (let item of barcode) {
+            console.log(item)
+            if (item.barcode === props.code.barcode) {
+                index = false;
+                break
+            }
+        }
+        if (index) {
+            barcode.push(props.code)
+            props.setBarcode("barcode", barcode)
+        } else {
+            const errorFields = [...props.errorFields];
+            errorFields.push("barcode")
+            props.setBarcodeValue("errorFields", errorFields)
+        }
     };
 
     return (
@@ -72,6 +86,7 @@ const CodeGeneration = props => {
                 <div className={classes.codArea}>
                     <div className={classes.codeWindow}>
                         <CustomInput
+                            readOnly={true}
                             label={'Կոդ'}
                             classNameLabel={classes.codLabel}
                             classNameInput={props.errorFields.indexOf('barcode') === -1 ? classes.codInput : `${classes.codInput} ${classes.errorFields}`}

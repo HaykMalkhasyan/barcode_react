@@ -5,7 +5,7 @@ import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
 const MoveContent = props => {
 
     const contentRender = () => {
-
+        // console.log(props.node, props.selectNode)
         if (props.selectNode && !props.selectNode.contains(props.node) /*&& !props.node.contains(props.selectNode)*/ && parseInt(props.selectNode.parent_id) !== parseInt(props.node.parent_id) && parseInt(props.selectNode.parent_id) !== parseInt(props.node.id)) {
 
             return (

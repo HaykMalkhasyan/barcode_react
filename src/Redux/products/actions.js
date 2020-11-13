@@ -14,7 +14,7 @@ import {
     SET_TAB_VALUE
 } from "./actionTypes";
 import Axios from "axios";
-import {getToken} from "../../services/services";
+import {getHeaders, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -55,7 +55,7 @@ export function getProduct(id) {
 
                 dispatch(setProductModalValues(data, main, description, pictures, images))
             } catch (error) {
-                if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
                     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
@@ -84,8 +84,8 @@ export function getAllProducts(page) {
                     }
                 });
                 dispatch(setProducts(response.data.results, response.data.count))
-            } catch(error) {
-                if (error.response  && error.response.status === 401 && error.response.statusText === "Unauthorized") {
+            } catch (error) {
+                if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
                     const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
 
@@ -179,60 +179,115 @@ export function setProduct(gallery, type) {
         const pictures = {...getState().products.pictures};
         const errorFields = [...getState().products.errorFields];
         const open = getState().products.open;
-        const classifiers = {...getState().products.classifiers};
-        const barcode = [...getState().products.barcode];
-        const groups = {...getState().products.groups};
-        const data = Object.assign({}, main, description, pictures, groups, {barcode: barcode});
+        const init_classifiers = {...getState().products.classifiers};
+        const classifiers = {};
+        for (let index of Object.keys(init_classifiers)) {
+            console.log("classifiers: ", index, init_classifiers[index])
+            classifiers[index] = {value: init_classifiers[index].id, type_id: init_classifiers[index].cat_id};
+        }
+        const barcode = [...getState().barcode.barcode];
+        // const data = Object.assign({}, /*description,*/ /*pictures,*/ );
+        const data = {};
+        const init_supplier = getState().suppliers.selected;
+        const supplier = init_supplier ? [...init_supplier] : [];
 
-        if (Object.keys(classifiers).length) {
-            data.groups = {...classifiers}
+        // Details (barcode)
+        if (barcode.length > 0) {
+            data.details = [...barcode];
+            if (errorFields.indexOf("barcode") !== -1) {
+                errorFields.splice(errorFields.indexOf("barcode"), 1)
+            }
+        } else {
+            if (errorFields.indexOf("barcode") === -1) {
+                errorFields.push("barcode")
+            }
+        }
+
+        // Suppliers
+        if (Object.keys(supplier).length) {
+            data.firms = ""
+            supplier.forEach(item => {
+                if (data.firms.length) {
+                    data.firms += `,${item.id}`;
+                } else {
+                    data.firms += item.id
+                }
+            })
+        } else {
+            if (errorFields.indexOf("suppliers") === -1) {
+                errorFields.push("suppliers")
+            }
+        }
+
+        // Classifiers
+        if (Object.keys(classifiers).length && classifiers[0]) {
+            data["catedory_id"] = classifiers[0].value;
+            delete classifiers[0];
+            data["custom_category"] = {...classifiers};
         } else {
             if (errorFields.indexOf("classifiers") === -1) {
                 errorFields.push("classifiers")
             }
         }
-        if (data.pictures.length > 0) {
-            for (let picture of data.pictures) {
-                picture.name = `${Date.now()}-${picture.name}`
-            }
-        }
-        if (data.name.length === 0) {
-            if (errorFields.indexOf("name") === -1) {
-                errorFields.push("name")
-            }
-        } else {
-            if (errorFields.indexOf("name") !== -1) {
-                errorFields.splice(errorFields.indexOf("name"), 1)
-            }
-        }
-        if (data.short_name.length === 0) {
-            if (errorFields.indexOf("short_name") === -1) {
-                errorFields.push("short_name")
+
+        // Pictures
+        // if (data.pictures.length > 0) {
+        //     for (let picture of data.pictures) {
+        //         picture.name = `${Date.now()}-${picture.name}`
+        //     }
+        // }
+        // Item name
+        if (main.item_name !== "") {
+            data.item_name = main.item_name;
+            if (errorFields.indexOf("item_name") !== -1) {
+                errorFields.splice(errorFields.indexOf("item_name"), 1)
             }
         } else {
-            if (errorFields.indexOf("short_name") !== -1) {
-                errorFields.splice(errorFields.indexOf("short_name"), 1)
+            if (errorFields.indexOf("item_name") === -1) {
+                errorFields.push("item_name")
             }
         }
-        if (data.product_type.length === 0) {
-            if (errorFields.indexOf("product_type") === -1) {
-                errorFields.push("product_type")
-            }
-        } else {
+        // Short name, don't used
+        // if (data.short_name.length === 0) {
+        //     if (errorFields.indexOf("short_name") === -1) {
+        //         errorFields.push("short_name")
+        //     }
+        // } else {
+        //     if (errorFields.indexOf("short_name") !== -1) {
+        //         errorFields.splice(errorFields.indexOf("short_name"), 1)
+        //     }
+        // }
+
+        // Service (product type)
+        if (main.product_type !== "") {
+            data.service = main["product_type"];
             if (errorFields.indexOf("product_type") !== -1) {
                 errorFields.splice(errorFields.indexOf("product_type"), 1)
             }
-        }
-        if (data.unit_id.length === 0) {
-            if(errorFields.indexOf("unit_id") === -1) {
-                errorFields.push("unit_id")
-            }
         } else {
+            if (errorFields.indexOf("product_type") === -1) {
+                errorFields.push("product_type")
+            }
+        }
+
+        data.item_type = "piece";
+        data.articul = Math.floor(1000 * Math.random());
+        data.details = [];
+        data.prices = [];
+        data.images = {};
+        data.active = main.active;
+
+        // Unit (unit_id)
+        if (main.unit_id !== "") {
+            data.unit = main["unit_id"]
             if (errorFields.indexOf("unit_id") !== -1) {
                 errorFields.splice(errorFields.indexOf("unit_id"), 1)
             }
+        } else {
+            if (errorFields.indexOf("unit_id") === -1) {
+                errorFields.push("unit_id")
+            }
         }
-        data.supplier = [];
         dispatch(setProductValues('errorFields', errorFields));
         console.log(data)
         if (errorFields.length === 0) {
@@ -293,11 +348,8 @@ export function productDataRequest(data, type) {
     return async (dispatch, getState) => {
         const products = [...getState().products.products];
         try {
-            const response = await Axios.post(`${API_URL}/product/`, data, {
-                headers: {
-                    "Authorization": `JWT ${cookie.get('access')}`
-                }
-            });
+            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}}, getHeaders({}, {}));
+            console.log(response.data)
             products.push(response.data);
             switch (type) {
                 case 'save': {
@@ -312,18 +364,7 @@ export function productDataRequest(data, type) {
                 }
             }
         } catch (error) {
-            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = cookie.get('refresh');
-                const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                if ((await new_token_data) === null) {
-                    dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                    dispatch(productDataRequest(data))
-                }
-            } else {
-                dispatch(setProductValues('error', error.message))
-            }
+            console.log("Product add error")
         }
     }
 }
@@ -444,7 +485,7 @@ export function selectSubgroup(subgroup) {
 export function setSubgroup(classifiers) {
 
     return {
-        type:  SET_SUBGROUP, classifiers
+        type: SET_SUBGROUP, classifiers
     }
 }
 

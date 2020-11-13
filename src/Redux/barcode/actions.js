@@ -78,37 +78,12 @@ export function setDataValues(name, value) {
     }
 }
 
-export function deleteBarcodeItem(id) {
+export function deleteBarcodeItem(index) {
 
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         let barcode = [...getState().barcode.barcode];
-        let products_barcode = [...getState().products.barcode];
-
-        try {
-            await Axios.delete(`${API_URL}/barcode/${id}`, {
-                headers: {
-                    "lang": cookie.get('language') || "am",
-                    "Content-Type": "application/json",
-                    "Authorization": `JWT ${cookie.get('access')}`
-                }
-            });
-            barcode = deleteInArray.deleteObject(barcode, id);
-            products_barcode = deleteInArray.deleteObject(products_barcode, id);
-            dispatch(setDeleteValues('barcode', barcode, products_barcode));
-        } catch (error) {
-            if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = cookie.get('refresh');
-                const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                if ((await new_token_data) === null) {
-                    dispatch(setBarcodeValue('error', error.message))
-                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                    dispatch(deleteBarcodeItem(id))
-                }
-            } else {
-                dispatch(setBarcodeValue('error', error.message))
-            }
-        }
+        barcode.splice(index, 1);
+        dispatch(setDeleteValues("barcode", barcode))
     }
 }
 
@@ -134,13 +109,12 @@ export function setPaperSize(width, height) {
     }
 }
 
-export function setDeleteValues(name, barcode, products_barcode) {
+export function setDeleteValues(name, barcode) {
 
     return {
         type: SET_DELETE_BARCODE,
         name,
         barcode,
-        products_barcode
     }
 }
 

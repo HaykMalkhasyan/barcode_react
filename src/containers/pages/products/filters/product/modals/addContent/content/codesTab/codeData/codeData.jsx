@@ -28,12 +28,12 @@ class CodeData extends Component{
                                 return (
                                     <DataItem
                                         key={`barcode-item-${index}`}
-                                        className={this.props.code_item && this.props.code_item.id === item.id ? 'active' : ''}
+                                        className={this.props.code_item && this.props.code_item[index] && this.props.code_item[index].barcode === item.barcode ? 'active' : ''}
 
                                         count={item.count}
                                         barcode={item.barcode}
                                         // Methods
-                                        onClick={() => console.log(item)}
+                                        onClick={() => this.props.setBarcodeValue("code_item", {[index]: item})}
                                     />
                                 )
                             }
@@ -45,10 +45,10 @@ class CodeData extends Component{
                     this.props.code_item ?
                         <div className={classes.barcodeActionButtons}>
 
-                            <IconButton aria-label="delete" className={classes.deleteButton} onClick={() => this.props.setBarcodeValue('print_tool', true)}>
+                            <IconButton aria-label="print" className={classes.deleteButton} onClick={() => this.props.setBarcodeValue('print_tool', true)}>
                                 <PrintIcon/>
                             </IconButton>
-                            <IconButton aria-label="delete" className={classes.deleteButton} onClick={() => this.props.deleteBarcodeItem(this.props.code_item.id)}>
+                            <IconButton aria-label="delete" className={classes.deleteButton} onClick={() => this.props.deleteBarcodeItem(Object.keys(this.props.code_item)[0])}>
                                 <Icons width={18} height={18} type={'group-delete'} className={classes.groupDelete} opacity={1}/>
                             </IconButton>
                         </div>
