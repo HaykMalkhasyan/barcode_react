@@ -53,13 +53,13 @@ const Data = props => {
             <div className={classes.dataItem}>
                 <InputUI
                     required={true}
-                    error={props.errorFields.indexOf('name') !== -1}
+                    error={props.errorFields.indexOf('item_name') !== -1}
                     root={classes.textField}
                     id={'long-name'}
                     label={'Անվանում'}
-                    name={'name'}
+                    name={'item_name'}
                     value={props.data.name}
-                    helperText={props.errorFields.indexOf('name') === -1 ? '' : '"Անվանում" դաշտը լրացրած չէ'}
+                    helperText={props.errorFields.indexOf('item_name') === -1 ? '' : '"Անվանում" դաշտը լրացրած չէ'}
                     // Methods
                     onChange={changeHandler}
                     onBlur={blurHandler}

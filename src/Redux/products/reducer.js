@@ -126,7 +126,6 @@ const initialState = {
     types: [
         {id: 0, name: 'Ապրանք', value: 0},
         {id: 1, name: 'Ծառայություն', value: 1},
-        {id: 2, name: 'Հայտարարություն', value: 2},
     ],
     measurements: [
         {id: 0, name: 'հատ', value: 0},
@@ -137,7 +136,7 @@ const initialState = {
         {id: 5, name: 'միլիլիտր', value: 5},
     ],
     main: {
-        name: '',
+        item_name: '',
         short_name: '',
         product_type: '',
         unit_id: '',
@@ -197,7 +196,7 @@ export default function productsReducer(state = initialState, action) {
                 roads: [],
                 subgroupsOpen: false,
                 main: {
-                    name: '',
+                    item_name: '',
                     short_name: '',
                     product_type: '',
                     unit_id: '',
@@ -265,7 +264,7 @@ export default function productsReducer(state = initialState, action) {
                 initialOpen: null,
                 errorFields: [],
                 main: {
-                    name: '',
+                    item_name: '',
                     short_name: '',
                     product_type: '',
                     unit_id: '',
@@ -291,7 +290,7 @@ export default function productsReducer(state = initialState, action) {
                 ...state,
                 products: action.products,
                 main: {
-                    name: '',
+                    item_name: '',
                     short_name: '',
                     product_type: '',
                     unit_id: '',
@@ -302,9 +301,7 @@ export default function productsReducer(state = initialState, action) {
                 description: {
                     description: '',
                 },
-                classifiers: {
-                    classifiers: []
-                },
+                classifiers: {},
                 workers: {
                     workers: ''
                 },

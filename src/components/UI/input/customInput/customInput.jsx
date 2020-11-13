@@ -23,6 +23,7 @@ const CustomInput = props => {
                             placeholder={props.placeholder}
                             disabled={props.disabled}
                             value={props.value}
+                            readOnly={props.readOnly}
                             multiple={props.multiple}
                             accept={props.accept}
                             // Methods

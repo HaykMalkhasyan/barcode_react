@@ -173,6 +173,7 @@ const ModalContent = props => {
     const moveIsHere = async (node, move = null) => {
         if (ref.current) {
             const {tree} = ref.current;
+            tree.update();
             tree.selectNode();
             const subgroup = {...props.subgroup};
             if (move === "move") {
@@ -187,6 +188,7 @@ const ModalContent = props => {
             } else {
                 await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
                 const movingNode = {...props.node};
+                console.log(Object.keys(node).length)
                 if (Object.keys(node).length > 1) {
                     tree.removeNode(props.node)
                     movingNode.parent_id = parseInt(node.id)
@@ -197,7 +199,7 @@ const ModalContent = props => {
                     movingNode.parent_id = 0;
                     movingNode.sort = 0;
                     tree.removeNode(props.node)
-                    tree.addChildNodes(props.node, 0)
+                    tree.addChildNodes(movingNode, 0)
                 }
 
             }

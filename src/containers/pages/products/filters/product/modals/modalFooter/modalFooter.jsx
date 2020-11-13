@@ -8,31 +8,37 @@ import Tooltip from "@material-ui/core/Tooltip";
 const ModalFooter = props => {
 
     const titleRender = () => {
-      let errors = [];
-      if (props.errorFields.indexOf('name') !== -1) {
-          errors.push('"Անվանում" դաշտը լրացրած չէ');
-      }
-      if (props.errorFields.indexOf('short_name') !== -1) {
-          errors.push('"Կրճատ անվանում" դաշտը լրացրած չէ');
-      }
-      if (props.errorFields.indexOf('product_type') !== -1) {
-          errors.push('"Տեսակ" դաշտը լրացրած չէ');
-      }
-      if (props.errorFields.indexOf('unit_id') !== -1) {
-          errors.push('"Չափման միաոր" դաշտը լրացրած չէ');
-      }
+        let errors = [];
+        if (props.errorFields.indexOf('name') !== -1) {
+            errors.push('"Անվանում" դաշտը լրացրած չէ');
+        }
+        if (props.errorFields.indexOf('short_name') !== -1) {
+            errors.push('"Կրճատ անվանում" դաշտը լրացրած չէ');
+        }
+        if (props.errorFields.indexOf('product_type') !== -1) {
+            errors.push('"Տեսակ" դաշտը լրացրած չէ');
+        }
+        if (props.errorFields.indexOf('unit_id') !== -1) {
+            errors.push('"Չափման միաոր" դաշտը լրացրած չէ');
+        }
         if (props.errorFields.indexOf('classifiers') !== -1) {
             errors.push('Դասակագիչները ընտրված չեն');
         }
+        if (props.errorFields.indexOf('barcode') !== -1) {
+            errors.push('Ապրանքին կցված չեն շտրիխ-կոդ(եր)');
+        }
+        if (props.errorFields.indexOf('suppliers') !== -1) {
+            errors.push('Մատակարարները նշված չեն');
+        }
 
-      return errors.map(
-          (error, index) => {
+        return errors.map(
+            (error, index) => {
 
-              return (
-                  <p key={`error-${index}`}>{error}</p>
-              )
-          }
-      )
+                return (
+                    <p key={`error-${index}`}>{error}</p>
+                )
+            }
+        )
     };
 
     return (

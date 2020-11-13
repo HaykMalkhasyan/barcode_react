@@ -8,6 +8,7 @@ import EmployeesContent from "./employees-content/employees-content";
 import Icons from "../../../../../../../../../components/Icons/icons";
 import SuppliersAddContent from "./suppliers-add-content/suppliers-add-content";
 import Backdrop from "../../../../../../../../../components/UI/backdrop/backdrop";
+import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 
 class EmployeesTab extends Component {
     constructor(props) {
@@ -51,6 +52,21 @@ class EmployeesTab extends Component {
                         Գործընկերոջ ընտրելու կամ փոփոխելու համար անրաժեշտ է սեղմել "Գործընկերներ" տողի վրա և ընտրել
                         համապատասխան գործընկերոջը։
                     </p>
+                    {
+                        this.props.errorFields.length ?
+                            this.props.errorFields.indexOf('suppliers') !== -1 ?
+                                <div className={classes.errorFields}>
+                                    <AlertUI
+                                        variant="outlined"
+                                        severity="error"
+                                        text={'Մատակարարները նշված չեն !'}
+                                    />
+                                </div>
+                                :
+                                null
+                            :
+                            null
+                    }
                     <div className={classes.textFieldWindow}>
                         <SectionWindow
                             label={'Գործընկերներ'}
@@ -111,7 +127,8 @@ function mapStateToProps(state) {
     return {
         progress: state.suppliers.progress,
         suppliers: state.suppliers.suppliers,
-        selected: state.suppliers.selected
+        selected: state.suppliers.selected,
+        errorFields: state.products.errorFields,
     }
 }
 
