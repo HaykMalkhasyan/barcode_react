@@ -1,193 +1,85 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classes from './pricesTab.module.css'
-import CustomSelect from "../../../../../../../../../components/UI/input/customSelect/customSelect";
 import {connect} from "react-redux";
+import SectionWindow from "../../../../../../../../../components/sectionWindow/sectionWindow";
+import CustomInput from "../../../../../../../../../components/UI/input/customInput/customInput";
 import {setPriceValue} from "../../../../../../../../../Redux/price/actions";
+import is  from "is_js"
 
-const PricesTab = props => {
-
-    const toggleFocus = name => {
-        if (props.focus === props.open) {
-            props.setPriceValue('focus', null)
-        } else {
-            props.setPriceValue('focus', name)
+class PricesTab extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null
         }
-    };
+    }
 
-    const toggle = name => {
-        props.setPriceValue('open', name)
-    };
+    valueChangeHandler = (name, value) => {
+        if (is.number(+value)) {
+            this.props.setPriceValue(name, value);
+        } else {
+            this.setState({error: name})
+            setTimeout(() => this.setState({error: null}), 100)
+        }
+    }
 
-    return (
-        <div className={classes.pricesTab}>
-            <div className={classes.content}>
-                <p className={classes.information}>
-                    Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։
-                </p>
-                <div className={classes.filters}>
-                    <div>
-                        <CustomSelect
-                            open={props.open}
-                            focus={props.focus}
-                            name={'warehouse'}
-                            inputLabel={'Պահեստ'}
-                            // Methods
-                            toggleFocus={toggleFocus}
-                            toggle={toggle}
-                        />
-                    </div>
-                    <div>
-                        <CustomSelect
-                            open={props.open}
-                            focus={props.focus}
-                            name={'price_type'}
-                            inputLabel={'Գնի տեսակ'}
-                            // Methods
-                            toggleFocus={toggleFocus}
-                            toggle={toggle}
-                        />
-                    </div>
-                </div>
-                <div className={classes.priceContent}>
-                    <section>
-                        <div className={classes.gridContainer}>
-                            <div className={`${classes.secondItem} ${classes.mobileSecondItem}`}>
-                                <div className={`${classes.contentItem} ${classes.noBorder}`}>
-                                    <div style={{height: 27}} className={classes.mainGrid}/>
-                                    <ul className={classes.paramList}>
-                                        <li>Մատակարարի գին</li>
-                                        <li>Առքի գին</li>
-                                        <li>Վաճառքի գին</li>
-                                        <li>Մեծածախ</li>
-                                        <li>Մեծածախ 2</li>
-                                    </ul>
-                                </div>
+    render() {
+
+        return (
+            <div className={classes.pricesTab}>
+                <div className={classes.content}>
+                    <p className={classes.information}>
+                        Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։
+                    </p>
+                    <SectionWindow
+                        label={'Գներ'}
+                    >
+                        <div className={classes.priceContent}>
+                            <div className={classes.exchangeWindow}>
+                                <span>Փոխարժեք:</span>
+                                <b>ՀՀ Դրամ</b>
                             </div>
-                            <div className={classes.warehouseContent}>
-                                <div className={classes.secondItem}>
-                                    <div className={classes.contentItem}>
-                                        <div className={classes.mainGrid}>Պահեստ</div>
-                                        <ul className={classes.warehouseList}>
-                                            <li>
-                                                <span className={classes.active}>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className={classes.secondItem}>
-                                    <div className={classes.contentItem}>
-                                        <div className={classes.mainGrid}>Պահեստ</div>
-                                        <ul className={classes.warehouseList}>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className={classes.secondItem}>
-                                    <div className={classes.contentItem}>
-                                        <div className={classes.mainGrid}>Պահեստ</div>
-                                        <ul className={classes.warehouseList}>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className={classes.secondItem}>
-                                    <div className={classes.contentItem}>
-                                        <div className={classes.mainGrid}>Պահեստ</div>
-                                        <ul className={classes.warehouseList}>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className={classes.secondItem}>
-                                    <div className={classes.contentItem}>
-                                        <div className={classes.mainGrid}>Պահեստ</div>
-                                        <ul className={classes.warehouseList}>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                            <li>
-                                                <span>486060930</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                this.props.data && this.props.data.length ?
+                                    this.props.data.map(item => {
+
+                                        return (
+                                            <p key={`price-item-${item.id}`}>
+                                                <CustomInput
+                                                    id={item.id}
+                                                    name={item.name}
+                                                    classNameLabel={classes.label}
+                                                    classNameInput={this.state.error === item.name ? `${classes.input} ${classes.error}` : classes.input}
+                                                    label={item.label}
+                                                    placeholder={item.placeholder}
+                                                    value={this.props[item.name]}
+                                                    // Methods
+                                                    onChange={event => {
+                                                        this.valueChangeHandler(event.target.name, event.target.value)
+                                                    }}
+                                                />
+                                            </p>
+                                        )
+                                    })
+                                    :
+                                    null
+                            }
                         </div>
-                    </section>
+                    </SectionWindow>
                 </div>
             </div>
-        </div>
-    )
-};
+        )
+    }
+}
 
 function mapStateToProps(state) {
 
     return {
-        open: state.price.open,
-        focus: state.price.focus,
+        data: state.price.data,
+        supplier_price: state.price.supplier_price,
+        buy_price: state.price.buy_price,
+        sell_price: state.price.sell_price,
+        wholesale_price: state.price.wholesale_price,
     }
 }
 
