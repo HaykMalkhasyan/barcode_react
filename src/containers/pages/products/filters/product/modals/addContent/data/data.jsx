@@ -123,28 +123,28 @@ const Data = props => {
                         onChange={event => props.setMainData(event.target.name, event.target.checked)}
                     />
                 </div>
-                <div>
-                    <CustomCheckbox
-                        checkBoxWindow={classes.checkBoxWindow}
-                        id={'can_in'}
-                        className={classes.checkbox}
-                        label={'Մուտքը թույլատրելի է'}
-                        checked={props.data.can_in}
-                        name={'can_in'}
-                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
-                    />
-                </div>
-                <div>
-                    <CustomCheckbox
-                        checkBoxWindow={classes.checkBoxWindow}
-                        id={'can_sale'}
-                        className={classes.checkbox}
-                        label={'Վաճառքը թույլատրելի է'}
-                        name={'can_sale'}
-                        checked={props.data.can_sale}
-                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <CustomCheckbox*/}
+                {/*        checkBoxWindow={classes.checkBoxWindow}*/}
+                {/*        id={'can_in'}*/}
+                {/*        className={classes.checkbox}*/}
+                {/*        label={'Մուտքը թույլատրելի է'}*/}
+                {/*        checked={props.data.can_in}*/}
+                {/*        name={'can_in'}*/}
+                {/*        onChange={event => props.setMainData(event.target.name, event.target.checked)}*/}
+                {/*    />*/}
+                {/*</div>*/}
+                {/*<div>*/}
+                {/*    <CustomCheckbox*/}
+                {/*        checkBoxWindow={classes.checkBoxWindow}*/}
+                {/*        id={'can_sale'}*/}
+                {/*        className={classes.checkbox}*/}
+                {/*        label={'Վաճառքը թույլատրելի է'}*/}
+                {/*        name={'can_sale'}*/}
+                {/*        checked={props.data.can_sale}*/}
+                {/*        onChange={event => props.setMainData(event.target.name, event.target.checked)}*/}
+                {/*    />*/}
+                {/*</div>*/}
             </div>
         </>
     )

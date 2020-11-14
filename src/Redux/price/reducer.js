@@ -1,8 +1,38 @@
 import {SET_PRICE_VALUE} from "./actionTypes";
 
 const initialState = {
-    open: false,
-    focus: null
+    // data
+    data: [
+        {
+            id: 1,
+            name: "supplier_price",
+            label: "Մատակարար",
+            placeholder: "Գին",
+        },
+        {
+            id: 2,
+            name: "buy_price",
+            label: "Առք",
+            placeholder: "Գին",
+        },
+        {
+            id: 3,
+            name: "sell_price",
+            label: "Վաճառք",
+            placeholder: "Գին",
+        },
+        {
+            id: 4,
+            name: "wholesale_price",
+            label: "Մեծածախ",
+            placeholder: "Գին",
+        }
+    ],
+    // data values
+    supplier_price: "",
+    buy_price: "",
+    sell_price: "",
+    wholesale_price: "",
 };
 
 export default function priceReducer(state = initialState, action) {

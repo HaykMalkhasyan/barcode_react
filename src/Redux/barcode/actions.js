@@ -1,16 +1,13 @@
-import cookie from "../../services/cookies";
-import Axios from "axios";
-import {deleteInArray, getToken} from "../../services/services";
 import {
     SET_AND_CLOSE,
     SET_BARCODE,
     SET_BARCODE_VALUE,
-    SET_CLEAN_VALUE, SET_DELETE_BARCODE, SET_PAPER_SIZE,
+    SET_CLEAN_VALUE,
+    SET_DELETE_BARCODE,
+    SET_PAPER_SIZE,
     SET_PRODUCTS_BARCODE_VALUE
 } from "./actionTypes";
 import is from 'is_js';
-
-const API_URL = process.env.REACT_APP_API_URL;
 
 export function setDataValues(name, value) {
 
