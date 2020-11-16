@@ -7,6 +7,7 @@ import Table from "../../../components/table/table";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SendIcon from '@material-ui/icons/Send';
 import PrintIcon from '@material-ui/icons/Print';
+import SendToChange from "./sendToChange"
 
 
 
@@ -23,6 +24,7 @@ export default function FormulatedItem() {
   const [paid, setPaid] = useState(0);
   const [debt, setDebt] = useState(0);
   const [alarmDate, setAlarmDate] = useState("")
+  const [openSendToChange, setOpenSendToChange] = useState({bool:false, index:null})
 
   useEffect(() => {
     if (id) {
@@ -46,7 +48,7 @@ export default function FormulatedItem() {
         let item = documents.find((x) => x["#"] == id);
         if (item) {
           setDocument(item);
-          let rowdata = localStorage.getItem(`document_${id}`);
+          let rowdata = localStorage.getItem(`document_buy_${id}`);
           if (rowdata) {
             setRowData(JSON.parse(rowdata));
           }
@@ -60,8 +62,8 @@ export default function FormulatedItem() {
   }, [id]);
 
   useEffect(() => {
-    let document = localStorage.getItem(`document_${id}`)
-      ? JSON.parse(localStorage.getItem(`document_${id}`))
+    let document = localStorage.getItem(`document_buy_${id}`)
+      ? JSON.parse(localStorage.getItem(`document_buy_${id}`))
       : [];
     let docinfo = localStorage.getItem(`documents`)
       ? JSON.parse(localStorage.getItem(`documents`))
@@ -73,7 +75,7 @@ export default function FormulatedItem() {
       "docinfo",
       docinfo.find((x) => x["#"] === id)
     );
-    let rowdata = localStorage.getItem(`document_${id}`);
+    let rowdata = localStorage.getItem(`document_buy_${id}`);
     if (rowdata) {
       setRowData(JSON.parse(rowdata));
     }
@@ -82,13 +84,8 @@ export default function FormulatedItem() {
 
 
   function  handleChange(){
-    let formulated_documents = localStorage.getItem("formulated_documents")
-    ? JSON.parse(localStorage.getItem("formulated_documents"))
-    : [];
-    let index = formulated_documents.findIndex(x=>x["#"]===+id)
-    formulated_documents.splice(index,1)
-    localStorage.setItem("formulated_documents", JSON.stringify(formulated_documents))
-    history.replace(`/itemsByGroup/${id}`)
+    setOpenSendToChange({bool:true, index:true})
+    
   }
 
 
@@ -106,6 +103,11 @@ export default function FormulatedItem() {
         padding: "18px",
       }}
     >
+      <SendToChange
+        open={openSendToChange}
+        setOpen={setOpenSendToChange}
+        id={id}
+        />
       <div className={style.title}>
         <span>#ԳՓ - ՄՈՒՏՔ ԳՈՐԾ. #{id}</span>
       </div>

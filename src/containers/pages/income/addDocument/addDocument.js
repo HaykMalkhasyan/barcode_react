@@ -102,12 +102,19 @@ export default function AlertDialog(props) {
     }
 
     let documents = localStorage.getItem("documents");
+    let fullDocuments = localStorage.getItem("Full_Documents");
+    if (fullDocuments) {
+      fullDocuments = JSON.parse(fullDocuments);
+    } else {
+      fullDocuments = [];
+    }
     if (documents) {
       documents = JSON.parse(documents);
     } else {
       documents = [];
     }
     let docNum = getMissing(documents.map(item=>+item["#"]))
+    
     let newDocument = {
       "#": docNum,
       Մատակարար: selectedSuplier.name,
@@ -122,7 +129,15 @@ export default function AlertDialog(props) {
       "Հաշիվ-Ապրանքագիր": "Դեռ ուղարկված չէ",
       ՀՎՀՀ: 0,
     };
+    let newFullDocument = {
+      "#": docNum,
+      Մատակարար: {[selectedSuplier.id]:selectedSuplier.name},
+      Պահեստ: {[selectedStoreHouse.id]:selectedStoreHouse.name},
+    };
     documents.push(newDocument);
+    fullDocuments.push(newFullDocument);
+    localStorage.setItem("Full_Documents", JSON.stringify(fullDocuments));
+
     localStorage.setItem("documents", JSON.stringify(documents));
     props.setRowData(documents);
     setPending(false);

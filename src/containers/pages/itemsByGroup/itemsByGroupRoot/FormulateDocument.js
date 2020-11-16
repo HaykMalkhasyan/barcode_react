@@ -81,14 +81,14 @@ export default function AlertDialog(props) {
         setCashbox(res.data.results)
         setSelectedCashbox(res.data.results[0])
       })
-
-
+  }, []);
+  useEffect(()=>{
     let { rowData } = props;
     let total = rowData.reduce((tot, item) => {
       return (tot += item["Առքի գումար"]);
     }, 0);
     setTotal(total);
-  }, [props]);
+  },[props])
 
   const handleConfirm = () => {
 

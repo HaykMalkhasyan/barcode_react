@@ -24,7 +24,7 @@ export default function AlertDialog(props) {
       }
       setOpen({ bool: false, index: null });
     } else {
-      localStorage.removeItem(`document_${open.documentId}`);
+      localStorage.removeItem(`document_buy_${open.documentId}`);
       let allDocuments = localStorage.getItem("documents");
       if (allDocuments) {
         allDocuments = JSON.parse(allDocuments);

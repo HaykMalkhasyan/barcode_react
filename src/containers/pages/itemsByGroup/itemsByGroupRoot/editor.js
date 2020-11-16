@@ -11,7 +11,7 @@ import { getFullDate } from '../../../../services/services';
 
 export default function AlertDialog(props) {
   const {open, setOpen} = props
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState({})
   const [success, setSuccess] = useState({})
   const [date, setDate] = useState("2020-12-10T17:45:13")
 
@@ -29,7 +29,7 @@ export default function AlertDialog(props) {
       let clone = JSON.parse(JSON.stringify(props.document))
       clone[open.type] = open.type==="Ամսաթիվ" ? date : selected.name
       props.setDocument(clone)
-      setOpen({bool:false})
+      setOpen({...open, bool:false})
       let allDocuments = localStorage.getItem("documents")
       if(allDocuments){
           allDocuments = JSON.parse(allDocuments)
@@ -40,7 +40,18 @@ export default function AlertDialog(props) {
                   return item
               }
           })
+          if(open.type==="Մատակարար"){
           localStorage.setItem("documents", JSON.stringify(allDocuments))
+          let fullDocuments = localStorage.getItem("Full_Documents")
+          if(fullDocuments){
+            fullDocuments = JSON.parse(fullDocuments)
+            let index = fullDocuments.findIndex(x=>x["#"]==props.id)
+            if(index!==-1){
+              fullDocuments[index]["Մատակարար"] = {[selected.id]:selected.name}
+              localStorage.setItem("Full_Documents", JSON.stringify(fullDocuments))
+            }
+          }
+        }
       }
       return
   }
@@ -58,6 +69,8 @@ export default function AlertDialog(props) {
         classes={{
           root: props.root
         }}
+        fullWidth
+        maxWidth="sm"
       >
         <DialogTitle id="alert-dialog-title"> {open.type}</DialogTitle>
         <DialogContent>
@@ -72,6 +85,7 @@ export default function AlertDialog(props) {
            <SelectForAll 
               setSelected={setSelected} 
               values={props.values} 
+              label={open.type}
             />}
         </DialogContent>
         <DialogActions>
