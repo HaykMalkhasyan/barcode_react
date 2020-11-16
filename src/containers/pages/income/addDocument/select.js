@@ -6,6 +6,8 @@ import { withStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -21,15 +23,16 @@ function SimpleSelect(props) {
 
     const [age, setAge] = React.useState(null);
 
-    const handleChange = (event) => {
-      setAge(event.target.value);
-      props.setSelected(event.target.value)
+    const handleChange = (event, newValue) => {
+      console.log('newValue', newValue)
+      setAge(newValue);
+      props.setSelected(newValue)
     };
   
 
     return (
-      <div style={{display:"flex", width:"100%"}} >
-        <Select
+      <div style={{display:"flex", width:"100%", flexDirection:"column"}} >
+        {/* <Select
         MenuProps={{
             disableScrollLock: true
           }}
@@ -48,7 +51,20 @@ function SimpleSelect(props) {
       {props.values && props.values.map(item=>{
         return <MenuItem key={item.id} value={item}>{item.name}</MenuItem>
       })}
-      </Select>
+      </Select> */}
+      <Autocomplete
+      MenuProps={{
+        disableScrollLock: true
+      }}
+      error={props.error}
+      style={{width:"100%", margin:"0px"}}
+      value={age}
+      onChange={handleChange}
+      id="combo-box-demo"
+      options={props.values ? props.values : []}
+      getOptionLabel={(option) => option.name}
+      renderInput={(params) => <TextField {...params} label={props.label} variant="outlined" />}
+    />
       </div>
     );
 

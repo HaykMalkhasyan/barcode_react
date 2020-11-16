@@ -47,5 +47,19 @@
     background-color: #dff0d8 !important;
 }
 
+.editableInput{
+    border:1px solid black;
+    overflow:hidden;
+    text-overflow: elipsis;
+    background-color:white;
+    padding:0px 0px 0px 10px;
+    border-radius:9px;
+    width: 80%;
+    margin: 0px 10px;
+    height: 80%;
+    box-sizing:border-box
+
+}
+
 
 

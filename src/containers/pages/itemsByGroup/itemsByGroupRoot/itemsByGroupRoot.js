@@ -57,9 +57,9 @@ export default function ItemsByGroup() {
   const [rowData, setRowData] = useState([]);
   const [document, setDocument] = useState();
   const id = location.pathname.split("/")[2];
-  const [openDelete, setOpenDelete] = useState({ bool: false, index: null });
+  const [openDelete, setOpenDelete] = useState({ bool: false, index: {} });
   const [success, setSuccess] = useState({});
-  const [editorOpen, setEditorOpen] = useState({ bool: false, type: null });
+  const [editorOpen, setEditorOpen] = useState({ bool: false, type: {} });
   const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
   const [openSupliersProductsDialog, setOpenSupliersProductsDialog] = useState(false)
 
@@ -113,7 +113,7 @@ export default function ItemsByGroup() {
         let item = documents.find((x) => x["#"] == id);
         if (item) {
           setDocument(item);
-          let rowdata = localStorage.getItem(`document_${id}`);
+          let rowdata = localStorage.getItem(`document_buy_${id}`);
           if (rowdata) {
             setRowData(JSON.parse(rowdata));
           }
@@ -164,11 +164,11 @@ export default function ItemsByGroup() {
   }
 
   useEffect(()=>{
-    localStorage.setItem(`document_${id}`, JSON.stringify(rowData));
+    localStorage.setItem(`document_buy_${id}`, JSON.stringify(rowData));
   },[rowData])
 
   function saveAll() {
-    localStorage.setItem(`document_${id}`, JSON.stringify(rowData));
+    localStorage.setItem(`document_buy_${id}`, JSON.stringify(rowData));
     setSuccess({
       status: "success",
       message: "Փոփոխությունները հաջողությամբ պահպանվել են",
@@ -177,9 +177,11 @@ export default function ItemsByGroup() {
   }
 
   function updateRowData(index, data, params) {
-    console.log("params", params);
+    // console.log("params", params);
     let changedField = params.colDef.field;
-    setRowData([]);
+    // setRowData(initialData);
+    console.log('params', params)
+    console.log('data', data)
     let clone = JSON.parse(JSON.stringify(rowData));
     data["Մատակարարի գին"] = +data["Մատակարարի գին"];
     data["Առքի գին"] = +data["Առքի գին"];
@@ -227,6 +229,7 @@ export default function ItemsByGroup() {
           break;
         }
         data["Զեղչ"] = 100 - (data["Առքի գին"] * 100) / data["Մատակարարի գին"];
+        data["Զեղչ"] = data["Զեղչ"].toFixed(2)
         data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
         break;
 
@@ -249,9 +252,11 @@ export default function ItemsByGroup() {
           });
           data[changedField] = params.oldValue;
           data["Առքի գին"] = data["Առքի գումար"] / data["Քանակ"];
+          data["Առքի գին"] = data["Առքի գին"].toFixed(2)
           break;
         }
         data["Զեղչ"] = 100 - (data["Առքի գին"] * 100) / data["Մատակարարի գին"];
+        data["Զեղչ"] = data["Զեղչ"].toFixed(2)
         break;
 
       case "Զեղչ":
@@ -270,6 +275,9 @@ export default function ItemsByGroup() {
               (data["Մատակարարի գին"] * data["Զեղչ"]) / 100
             : data["Մատակարարի գին"];
         data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
+        data["Առքի գին"] = data["Առքի գին"].toFixed(2)
+        data["Առքի գումար"] = data["Առքի գումար"].toFixed(2)
+
         break;
 
       case "Վաճ գին Վաճառքի գին" || "Մատակարարի գին":
@@ -324,8 +332,10 @@ export default function ItemsByGroup() {
       : percent.toFixed(2) + "%";
     console.log("data", data);
     clone[index] = data;
-    localStorage.setItem(`document_${id}`, JSON.stringify(clone));
-    setRowData([...clone]);
+    localStorage.setItem(`document_buy_${id}`, JSON.stringify(clone));
+    setTimeout(()=>{
+      setRowData(clone);
+    },1)
   }
 
   function generateSellingPrices(percent, byWhom, fixBy) {
@@ -377,6 +387,8 @@ export default function ItemsByGroup() {
       <SupliersProductsDialog
         open={openSupliersProductsDialog}
         setOpen={setOpenSupliersProductsDialog}
+        id={id}
+        document={document}
       />
       <GenerateSellPrices
         generateSellingPrices={generateSellingPrices}
