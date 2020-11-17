@@ -23,6 +23,7 @@ const Section = props => {
                 sortTableTabs={props.sortTableTabs}
                 onClick={props.changeTabsHandler}
                 toggleBackdrop={props.toggleBackdrop}
+                backFiltersPage={props.backFiltersPage}
             />
         </div>
     )

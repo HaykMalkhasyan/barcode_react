@@ -1,4 +1,4 @@
-import {CLOSE_CLASSIFIERS_WINDOW, SET_FILTERS_VALUE} from "./actionTypes";
+import {BACK_FILTERS, CLOSE_CLASSIFIERS_WINDOW, SET_FILTERS_VALUE} from "./actionTypes";
 import {getOnlySubgroupWithGroupId} from "../characteristics/actions";
 
 export function sortTableTabs(in_index, out_index) {
@@ -28,6 +28,13 @@ export function closeClassifierWindow(index, id) {
     return dispatch => {
         dispatch(getOnlySubgroupWithGroupId(id));
         dispatch(setClassifiersWindowValue(index))
+    }
+}
+
+export function backFiltersPage() {
+
+    return {
+        type: BACK_FILTERS
     }
 }
 

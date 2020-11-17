@@ -7,6 +7,12 @@ import {createRoad} from "../../../../../../../../../../services/services";
 
 const ClassifiersItem = props => {
 
+    const removeSelectedClassifiersHandler = (classifiers, id) => {
+        const initialClassifier = {...classifiers};
+        delete initialClassifier[id];
+        props.setProductValues("classifiers", initialClassifier);
+    }
+
     // const valueRender = (roads, data) => {
     //
     //     if (roads.length) {
@@ -21,10 +27,10 @@ const ClassifiersItem = props => {
 
     return (
         <div className={classes.classifiersItem}>
-            <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
-                {props.data[`title_${cookie.get("language") || "am"}`]}
-            </span>
-            <div className={classes.road}>
+            <div className={classes.classifiersSelectedItem}>
+                <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
+                    {props.data[`title_${cookie.get("language") || "am"}`]}
+                </span>
                 {
                     props.subgroup && Object.keys(props.subgroup).length > 0 && props.subgroup[props.data.id] ?
                         <div className={classes.roadContent}>
@@ -33,12 +39,29 @@ const ClassifiersItem = props => {
                         :
                         null
                 }
+            </div>
+            <div className={classes.road}>
                 <CustomButton
                     className={classes.roadButton}
                     children={<Icons type={"add"}/>}
                     // Methods
                     onClick={() => props.onClick(props.data, true)}
                 />
+                {
+                    props.classifiers && Object.keys(props.classifiers).length > 0 && props.classifiers[props.data.id] ?
+                        <CustomButton
+                            className={classes.removeButton}
+                            children={<Icons type={'group-delete'} width={14} height={14} className={classes.removeIcon} opacity={1}/>}
+                            // events
+                            onClick={event => {
+                                event.stopPropagation();
+                                removeSelectedClassifiersHandler(props.classifiers, props.id)
+
+                            }}
+                        />
+                        :
+                        null
+                }
             </div>
         </div>
     )

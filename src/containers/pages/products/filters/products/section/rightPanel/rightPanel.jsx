@@ -6,6 +6,7 @@ import PaginationItem from "@material-ui/lab/PaginationItem";
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../components/Icons/icons";
 import Header from "../../header/header";
+import {setProductValues} from "../../../../../../../Redux/products/actions";
 
 const RightPanel = props => {
 
@@ -30,6 +31,7 @@ const RightPanel = props => {
                 // Methods
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
+                backFiltersPage={props.backFiltersPage}
             />
             {
                 props.products && props.products.length ?
