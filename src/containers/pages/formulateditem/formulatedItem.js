@@ -70,11 +70,6 @@ export default function FormulatedItem() {
       : [];
     setDocument(document);
     setDocInfo(docinfo.find((x) => x["#"] === id));
-    console.log("document", document);
-    console.log(
-      "docinfo",
-      docinfo.find((x) => x["#"] === id)
-    );
     let rowdata = localStorage.getItem(`document_buy_${id}`);
     if (rowdata) {
       setRowData(JSON.parse(rowdata));

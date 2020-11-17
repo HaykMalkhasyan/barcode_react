@@ -24,7 +24,6 @@ function SimpleSelect(props) {
     const [age, setAge] = React.useState(null);
 
     const handleChange = (event, newValue) => {
-      console.log('newValue', newValue)
       setAge(newValue);
       props.setSelected(newValue)
     };
@@ -53,7 +52,7 @@ function SimpleSelect(props) {
       })}
       </Select> */}
       <Autocomplete
-      MenuProps={{
+      menuprops={{
         disableScrollLock: true
       }}
       error={props.error}

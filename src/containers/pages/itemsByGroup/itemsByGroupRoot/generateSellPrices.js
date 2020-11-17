@@ -81,7 +81,7 @@ export default function AlertDialog(props) {
           variant="outlined"
           inputProps={{
             name: 'Հաշվարկել ըստ',
-            id: 'outlined-age-native-simple',
+            id: 'outlined-age-native-simple2',
           }}
         >
           <MenuItem value={"Առքի գին"}>Առքի Գնի</MenuItem>

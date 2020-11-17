@@ -61,7 +61,7 @@ export default function AlertDialog(props) {
   const [apply, setApply] = useState(false);
   const [cashbox, setCashbox] = useState([])
   const [selectedCashbox, setSelectedCashbox] = useState({})
-  const [payType, setPayType] = useState("")
+  const [payType, setPayType] = useState(JSON.stringify({type:"debt"}))
   const [date, setDate] = useState()
   const [describtion, setDescribtion] = useState("")
   const [paySize, setPaySize] = useState("")
@@ -85,7 +85,7 @@ export default function AlertDialog(props) {
   useEffect(()=>{
     let { rowData } = props;
     let total = rowData.reduce((tot, item) => {
-      return (tot += item["Առքի գումար"]);
+      return (tot += +item["Առքի գումար"]);
     }, 0);
     setTotal(total);
   },[props])
@@ -110,10 +110,8 @@ export default function AlertDialog(props) {
         documents[documentIndex]["Գին առանց ԱԱՀ-ի"] = total
         documents[documentIndex]["Առքի գումար"] = total
         documents[documentIndex]["Նկարագիր"] = describtion
-        console.log('document', documents)
         localStorage.setItem("documents", JSON.stringify(documents))
     }
-    console.log('obj', obj)
     setOpen(false)
     let formulated_documents = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
     let indexID=formulated_documents.indexOf(+props.id)
@@ -204,7 +202,7 @@ export default function AlertDialog(props) {
                     onChange={(e)=>{setSelectedCashbox(e.target.value)}}
                 >
                     {cashbox && !!cashbox.length && cashbox.map(item=>{
-                        return <MenuItem value={item}>{item.name}</MenuItem>
+                        return <MenuItem key={item.id} value={item}>{item.name}</MenuItem>
                     })}
                 </Select>
               </div>

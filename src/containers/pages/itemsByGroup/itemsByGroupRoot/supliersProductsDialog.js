@@ -23,7 +23,6 @@ export default function AlertDialog(props) {
   const history = useHistory();
   useEffect(()=>{
     setRowData([])
-    console.log('props.perPage', perPage)
     setRowData(table)
     },[perPage])
 
@@ -45,7 +44,6 @@ export default function AlertDialog(props) {
       },
     })
     .then((res)=>{
-      console.log('res', res)
       let tableData = res.data.data
       tableData = tableData.map(item=>{
         return {

@@ -36,7 +36,6 @@ export default function Confirm(props) {
     function handleConfirm() {
         setPending(true)
 
-        console.log('openLogin', props.openLogin)
         if(`${props.keyCashBox}` !== localStorage.getItem("keyCashbox") ){
             window.location.reload()
             setSuccess({open:true, message:"Մուտքագրեք տվյալները", status:"error"})
@@ -58,7 +57,6 @@ export default function Confirm(props) {
             setPending(false)
             return
         }
-        console.log(props)
         let clone = JSON.parse(JSON.stringify(props.items))
         clone = clone.map(item=>{
             return {
@@ -114,8 +112,6 @@ export default function Confirm(props) {
         }
 ///////////////////////////////////////////////////////////
 
-        console.log('paymentTypes', paymentTypes)
-        console.log('exampleObj', exampleObj)
         let allAccepteds = JSON.parse(localStorage.getItem('accepteds')) 
         if(!allAccepteds) {allAccepteds = []}
         localStorage.setItem("accepteds", JSON.stringify([...allAccepteds,exampleObj]))

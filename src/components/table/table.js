@@ -32,7 +32,6 @@ const App = (props) => {
   });
 
   function btnClickedHandler(props) {
-    console.log("rowData", props);
     if(allFormulateds.map(item=>item["#"]).includes(+props.data["#"])){
       history.push(`/formulatedItem/${props.data["#"]}`);  
       return
@@ -58,7 +57,9 @@ const App = (props) => {
   }
 
   function isCharNumeric(charStr) {
-    return !!/\d/.test(charStr);
+    console.log('charStr', charStr)
+    
+    return !!/^[0-9]{0,}[.]{0,1}?[0-9]{1,}$/.test(charStr);
 }
 function getCharCodeFromEvent(event) {
   event = event || window.event;
@@ -68,18 +69,15 @@ function getCharCodeFromEvent(event) {
 function isKeyPressedNumeric(event) {
   var charCode = getCharCodeFromEvent(event);
   var charStr = String.fromCharCode(charCode);
-  return isCharNumeric(charStr);
+  return isCharNumeric(event.target.value);
 }
 
   function NumericCellEditor() {
   }
 
   NumericCellEditor.prototype.init = function (params) {
-    // create the cell
     this.eInput = document.createElement('input');
     this.eInput.className=style.editableInput
-    // this.eInput.parentNode.style={...this.eInput.parentNode.style, display:"flex", justifyContent:"center", alignItems:"center"}
-    // console.log('this.eInput', {a:this.eInput.parentElement})
 
     if (isCharNumeric(params.charPress)) {
         this.eInput.value = params.charPress;
@@ -98,9 +96,10 @@ function isKeyPressedNumeric(event) {
             event.stopPropagation();
         }
     });
+    this.eInput.addEventListener('keyup', (e)=>{handleKeyPress(e,params)})
 
     // only start edit if key pressed is a number, not a letter
-    var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+    var charPressIsNotANumber = params.charPress && ('1234567890.'.indexOf(params.charPress) < 0);
     this.cancelBeforeStart = charPressIsNotANumber;
 };
 
@@ -110,47 +109,36 @@ NumericCellEditor.prototype.isKeyPressedNavigation = function (event){
 };
 
 
-// gets called once when grid ready to insert the element
 NumericCellEditor.prototype.getGui = function () {
   return this.eInput;
 };
 
-// focus and select can be done after the gui is attached
 NumericCellEditor.prototype.afterGuiAttached = function () {
   this.eInput.focus();
 };
 
-// returns the new value after editing
 NumericCellEditor.prototype.isCancelBeforeStart = function () {
   return this.cancelBeforeStart;
 };
 
-// example - will reject the number if it contains the value 007
-// - not very practical, but demonstrates the method.
 NumericCellEditor.prototype.isCancelAfterEnd = function () {
   var value = this.getValue();
   return value.indexOf('007') >= 0;
 };
 
-// returns the new value after editing
 NumericCellEditor.prototype.getValue = function () {
   return this.eInput.value;
 };
 
-// any cleanup we need to be done here
 NumericCellEditor.prototype.destroy = function () {
-  // but this example is simple, no cleanup, we could  even leave this method out as it's optional
 };
 
-// if true, then this editor will appear in a popup 
 NumericCellEditor.prototype.isPopup = function () {
-  // and we could leave this method out also, false is the default
   return false;
 };
 
   function EditableRender(props){
-    // console.log('props', props)
-    return <div onClick={()=>{console.log('props', props)}} style={{padding:"5px", lineHeight:"28px", boxSizing:"border-box"}} >
+    return <div style={{padding:"5px", lineHeight:"28px", boxSizing:"border-box"}} >
         <div style={{border:"1px solid black",overflow:"hidden", textOverflow:"elipsis", backgroundColor:"white",padding:"0px 0px 0px 10px", borderRadius:"9px", boxSizing:"border-box"}} >
         {props.colDef.field=== "Զեղչ" ? 
         props.value + "%":
@@ -229,13 +217,28 @@ NumericCellEditor.prototype.isPopup = function () {
 
 
 
+function handleKeyPress(e, params){
+  e.preventDefault()
+  let currentFocused = params.api.getFocusedCell()
+  if(e.keyCode===40){
+    params.api.setFocusedCell(currentFocused.rowIndex+1, currentFocused.column, null)
+    params.api.startEditingCell(currentFocused.rowIndex+1, currentFocused.column)
+  }else if(e.keyCode===38){
+    params.api.setFocusedCell(currentFocused.rowIndex-1, currentFocused.column, null)
+    params.api.startEditingCell(currentFocused.rowIndex-1, currentFocused.column)
+  }else{
+    return
+  }
+  
+}
 
 
   function handleCellChange(params) {
     const { rowIndex, data } = params;
     props.dataUpdater && props.dataUpdater(rowIndex, data, params);
   }
-  const allFormulateds= localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
+
+  const allFormulateds = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
 
   return (
     <div
@@ -248,8 +251,6 @@ NumericCellEditor.prototype.isPopup = function () {
         onGridReady={(params) => {
           setGridApi(params.api);
         }}
-        
-        
         rowData={rowData}
         rowSelection="multiple"
         rowClassRules={{
@@ -357,7 +358,9 @@ NumericCellEditor.prototype.isPopup = function () {
             } else {
               return {
                 field: item,
-                width: item === "Անվանում" ? 306 : window.innerWidth / 16,
+                flex:1,
+                maxWidth: item === "Անվանում" ? 306 : window.innerWidth / rowData[0].length,
+                minWidth: 140,
                 filter:
                   typeof rowData[0][item] === "number"
                     ? "agNumberColumnFilter"
@@ -410,11 +413,6 @@ NumericCellEditor.prototype.isPopup = function () {
                 // floatingFilter: floatingFilter,
                 cellRenderer: "btnCellRenderer",
                 minWidth: 100,
-                cellRendererParams: {
-                  clicked: function (field) {
-                    console.log("field", field);
-                  },
-                },
               } : props.settings === "print" ?  {
                   field: "",
                   width: 63,
@@ -423,12 +421,6 @@ NumericCellEditor.prototype.isPopup = function () {
                   resizable: false,
                   // floatingFilter: floatingFilter,
                   cellRenderer: "printButton",
-                  
-                  cellRendererParams: {
-                    clicked: function (field) {
-                      console.log("field", field);
-                    },
-                  },
               } : props.settings === "add" ? {
                 field: "",
                   width: 63,
@@ -458,7 +450,7 @@ NumericCellEditor.prototype.isPopup = function () {
         pagination={true}
         paginationAutoPageSize={true}
       >
-        {Object.keys(rowData[0]).map((item) => {
+        {/* {Object.keys(rowData[0]).map((item) => {
           if (item === "Ամսաթիվ") {
             return (
               <AgGridColumn
@@ -476,7 +468,7 @@ NumericCellEditor.prototype.isPopup = function () {
             );
           }
           return <AgGridColumn field={item}></AgGridColumn>;
-        })}
+        })} */}
         {/* <AgGridColumn  field={"settings"} >
                                 
                             </AgGridColumn> */}
