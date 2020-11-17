@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import classes from './products.module.css'
 import Section from "./section/section";
 import {connect} from "react-redux";
-import {setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
+import {backFiltersPage, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {getAllProducts, getProduct, selectProducts, setProductValues} from "../../../../../Redux/products/actions";
 import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
@@ -86,6 +86,7 @@ class Products extends Component{
                     changeTabsHandler={this.changeTabsHandler}
                     toggleBackdrop={this.toggleBackdrop}
                     toggleFilters={this.toggleFilters}
+                    backFiltersPage={this.props.backFiltersPage}
                 />
                 <CustomButton
                     className={classes.filtersButton}
@@ -121,6 +122,7 @@ function mapDispatchToProps(dispatch) {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         getProduct: id => dispatch(getProduct(id)),
         sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
+        backFiltersPage: () => dispatch(backFiltersPage()),
     }
 }
 

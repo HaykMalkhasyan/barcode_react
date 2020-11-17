@@ -14,6 +14,7 @@ import {
 } from "./actionTypes";
 import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
 import {PROD_GROUP_SET} from "../characteristics/actionTypes";
+import {BACK_FILTERS} from "../filtersContainer/actionTypes";
 
 const initialState = {
     product: null,
@@ -169,6 +170,13 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case BACK_FILTERS:
+            return {
+                ...state,
+                advancedSearchConfig: {
+                    classifiers: null
+                },
+            }
         case SET_SUBGROUP:
             return {
                 ...state,

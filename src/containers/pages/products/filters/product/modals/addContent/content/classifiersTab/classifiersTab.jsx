@@ -15,6 +15,7 @@ import {
 } from "../../../../../../../../../Redux/products/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 import Item from "./item/item";
+import ClassifiersItem from "./classifiersItem/classifiersItem";
 
 class ClassifiersTab extends Component {
     constructor(props) {
@@ -80,24 +81,26 @@ class ClassifiersTab extends Component {
                                         item => {
 
                                             return (
-                                                // <ClassifiersItem
-                                                //     key={`classifiers-item-${item.id}`}
-                                                //     data={item}
-                                                //     subgroup={this.props.classifiers}
-                                                //     // Methods
-                                                //     onClick={this.props.openModalContent}
-                                                // />
-                                                <Item
+                                                <ClassifiersItem
                                                     key={`classifiers-item-${item.id}`}
                                                     data={item}
-                                                    open={this.state.open === item.id}
+                                                    subgroup={this.props.classifiers}
                                                     classifiers={this.props.classifiers}
-                                                    own_subgroups={this.props.own_subgroups}
                                                     // Methods
-                                                    toggleWindow={this.toggleWindow}
-                                                    select={this.select}
+                                                    onClick={this.props.openModalContent}
                                                     setProductValues={this.props.setProductValues}
                                                 />
+                                                // <Item
+                                                //     key={`classifiers-item-${item.id}`}
+                                                //     data={item}
+                                                //     open={this.state.open === item.id}
+                                                //     classifiers={this.props.classifiers}
+                                                //     own_subgroups={this.props.own_subgroups}
+                                                //     // Methods
+                                                //     toggleWindow={this.toggleWindow}
+                                                //     select={this.select}
+                                                //     setProductValues={this.props.setProductValues}
+                                                // />
                                             )
                                         }
                                     )

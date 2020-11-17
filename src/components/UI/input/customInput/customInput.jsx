@@ -1,6 +1,13 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 
 const CustomInput = props => {
+    const ref = useRef()
+
+    useEffect(() => {
+        if (props.checkRef) {
+            ref.current.focus()
+        }
+    })
 
     return (
         <>
@@ -13,6 +20,7 @@ const CustomInput = props => {
                         {props.label}
                         <input
                             id={props.id}
+                            ref={ref}
                             className={props.classNameInput}
                             // -----
                             autoFocus={props.autoFocus}
@@ -45,7 +53,7 @@ const CustomInput = props => {
                         <input
                             readOnly={props.readOnly }
                             autoFocus={props.autoFocus}
-                            ref={props.inputRef}
+                            ref={props.inputRef || ref}
                             id={props.id}
                             className={props.classNameInput}
                             disabled={props.disabled}

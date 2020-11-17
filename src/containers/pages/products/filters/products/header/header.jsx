@@ -14,6 +14,16 @@ const Header = props => {
                     className={`${classes.actionsButton}`}
                     children={
                         <>
+                            <Icons type={'back-page'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Լրացուցիչ ֆիլտրեր</span>
+                        </>
+                    }
+                    // Method
+                    onClick={props.backFiltersPage}
+                />
+                <CustomButton
+                    className={`${classes.actionsButton}`}
+                    children={
+                        <>
                             <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Ավելացնել</span>
                         </>
                     }
