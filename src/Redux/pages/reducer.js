@@ -23,7 +23,7 @@ const initialState = {
             name: 'Փաստաթղթեր',
             staticName: 'documents',
             subMenus: [
-                {id: '2-1', name: 'Հաշիվներ', url: '/documents/accounts'},
+                {id: '2-1', name: 'income', url: '/income'},
                 {id: '2-2', name: 'Պայմանագրեր', url: '/documents/contracts'},
                 {id: '2-3', name: 'Չեկեր', url: '/documents/checks'}
             ]
@@ -33,7 +33,7 @@ const initialState = {
             name: 'Վաճառքներ',
             staticName: 'sales',
             subMenus: [
-                {id: '3-1', name: 'Վաճառք բաժին 1', url: '/link_3_1'},
+                {id: '3-1', name: 'outlets', url: '/outlets'},
                 {id: '3-2', name: 'Վաճառք բաժին 1', url: '/link_3_2'},
                 {id: '3-3', name: 'Վաճառք բաժին 2', url: '/link_3_3'},
             ]
@@ -58,26 +58,7 @@ const initialState = {
                 {id: '5-3', name: 'Աշխատակից բաժին 2', url: '/link_5_3'},
             ]
         },
-        {
-            id: 6,
-            name: 'վաճառք',
-            staticName: 'sale',
-            subMenus: [
-                {id: '6-1', name: 'outlets', url: '/outlets'},
-                {id: '6-2', name: 'Աշխատակից բաժին 1', url: '/link_6_2'},
-                {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
-            ]
-        },
-        {
-            id: 7,
-            name: `Մուտքեր / Ելքեր`,
-            staticName: 'income_outcome',
-            subMenus: [
-                {id: '6-1', name: 'income', url: '/income'},
-                {id: '6-2', name: 'outcome', url: '/link_6_2'},
-                {id: '6-3', name: 'Աշխատակից բաժին 2', url: '/link_6_3'},
-            ]
-        }
+       
     ],
 };
 

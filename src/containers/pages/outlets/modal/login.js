@@ -47,7 +47,6 @@ export default function AlertDialog(props) {
     .catch(err=>{
       setPending(false)
       setSuccess({open:true, message:"Գախտնաբառը սխալ է", status:"error"})
-      console.log(err)
     })
   }
 

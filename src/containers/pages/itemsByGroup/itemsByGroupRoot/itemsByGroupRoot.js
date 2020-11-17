@@ -177,11 +177,7 @@ export default function ItemsByGroup() {
   }
 
   function updateRowData(index, data, params) {
-    // console.log("params", params);
     let changedField = params.colDef.field;
-    // setRowData(initialData);
-    console.log('params', params)
-    console.log('data', data)
     let clone = JSON.parse(JSON.stringify(rowData));
     data["Մատակարարի գին"] = +data["Մատակարարի գին"];
     data["Առքի գին"] = +data["Առքի գին"];
@@ -330,7 +326,6 @@ export default function ItemsByGroup() {
     data["Տոկոս Վաճառքի գին"] = Number.isInteger(percent)
       ? percent + "%"
       : percent.toFixed(2) + "%";
-    console.log("data", data);
     clone[index] = data;
     localStorage.setItem(`document_buy_${id}`, JSON.stringify(clone));
     setTimeout(()=>{
@@ -359,12 +354,6 @@ export default function ItemsByGroup() {
       percentTotal = Number.isInteger(percentTotal)
         ? percentTotal
         : percentTotal.toFixed(2);
-      console.log("obj", {
-        ...item,
-        "Վաճ գումար Վաճառքի գին": sellingPrice * quanty,
-        "Վաճ գին Վաճառքի գին": sellingPrice,
-        "Տոկոս Վաճառքի գին": percentTotal,
-      });
       return {
         ...item,
         "Վաճ գումար Վաճառքի գին": sellingPrice * quanty,
