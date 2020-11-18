@@ -7,8 +7,8 @@ import LinearSpinner from "../../../../../../../../../components/UI/spinners/lin
 import EmployeesContent from "./employees-content/employees-content";
 import Icons from "../../../../../../../../../components/Icons/icons";
 import SuppliersAddContent from "./suppliers-add-content/suppliers-add-content";
-import Backdrop from "../../../../../../../../../components/UI/backdrop/backdrop";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
+import Collapse from "@material-ui/core/Collapse";
 
 class EmployeesTab extends Component {
     constructor(props) {
@@ -71,7 +71,7 @@ class EmployeesTab extends Component {
                         <SectionWindow
                             label={'Գործընկերներ'}
                             withButton={this.props.suppliers}
-                            button={<Icons type={"add"}/>}
+                            button={<Icons type={this.state.open ? "close" : "add"}/>}
                             // Methods
                             onClick={() =>{
                                 this.setState({
@@ -91,28 +91,15 @@ class EmployeesTab extends Component {
                                     // Methods
                                     removeItem={this.removeItem}
                                 />
-                                {
-                                    this.state.open ?
-                                        <>
-                                            <Backdrop
-                                                className={classes.backdrop}
-                                                onClick={() => {
-                                                    this.setState({
-                                                        open: false
-                                                    })
-                                                }}
-                                            />
-                                            <SuppliersAddContent
-                                                suppliers={this.props.suppliers}
-                                                selected={this.props.selected}
-                                                // Methods
-                                                setSelectSupplier={this.setSelectSupplier}
-                                                setSelectCheckedSupplier={this.setSelectCheckedSupplier}
-                                            />
-                                        </>
-                                        :
-                                        null
-                                }
+                                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                                    <SuppliersAddContent
+                                        suppliers={this.props.suppliers}
+                                        selected={this.props.selected}
+                                        // Methods
+                                        setSelectSupplier={this.setSelectSupplier}
+                                        setSelectCheckedSupplier={this.setSelectCheckedSupplier}
+                                    />
+                                </Collapse>
                             </div>
                         </SectionWindow>
                     </div>

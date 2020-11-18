@@ -34,7 +34,7 @@ const initialState = {
     groupsEditMode: false,
     own_subgroups: null,
     own_status: false,
-    own_move: null,
+    own_move: false,
     own_select: null,
     own_id: null,
     edit: null,
@@ -98,7 +98,7 @@ export default function characteristicsReducer(state = initialState, action) {
             }
         case START_MOVE_ACTION:
             return {
-                ...state, moveElement: action.id, activeAction: "move"
+                ...state, own_move: !state.own_move
             }
         case SET_WITHOUT_DELETED_GROUP:
             return {
@@ -123,7 +123,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 groups: action.groups,
                 classifiersModal: false,
                 own_subgroups: null,
-                own_move: null,
+                own_move: false,
                 own_select: null,
                 moveElement: null,
                 group: null,
@@ -260,7 +260,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 groupsEditMode: false,
                 classifiersModal: false,
                 own_subgroups: null,
-                own_move: null,
+                own_move: false,
                 own_select: null,
                 moveElement: null,
                 group: null,
@@ -280,7 +280,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 ...state,
                 classifiersModal: false,
                 own_subgroups: null,
-                own_move: null,
+                own_move: false,
                 own_select: null,
                 moveElement: null,
                 newGroup: {},

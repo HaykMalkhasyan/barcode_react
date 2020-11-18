@@ -2,6 +2,9 @@ import React from "react";
 import classes from "./tree-content.module.css";
 import EditContent from "../edit-content/edit-content";
 import MoveContent from "../move-content/move-content";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from '@material-ui/core/Button';
+import CloseIcon from "@material-ui/icons/Close";
 
 const TreeContent = props => {
    if (parseInt(props.edit) === parseInt(props.node.id) && parseInt(props.catId) === parseInt(props.node.cat_id)) {
@@ -19,7 +22,7 @@ const TreeContent = props => {
                cancelEditing={props.cancelEditing}
            />
        )
-   } else  if (props.moveElement !== null && parseInt(props.moveElement) !== parseInt(props.node.id)) {
+   }/* else  if (props.moveElement !== null && parseInt(props.moveElement) !== parseInt(props.node.id)) {
 
        return (
            <MoveContent
@@ -31,8 +34,29 @@ const TreeContent = props => {
                checkMoveSuccess={props.checkMoveSuccess}
            />
        )
-   } else {
+   }*/ else if (props.moveElement !== null && parseInt(props.moveElement) === parseInt(props.node.id)) {
 
+       return (
+           <div className={classes.currentItem}>
+               <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && props.node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
+                {props.node.name}
+               </span>
+               <div>
+                   <Tooltip title="Չեղարկել" placement="bottom">
+                       <Button
+                           className={classes.cutBtn}
+                           onClick={event => {
+                               event.stopPropagation();
+                               props.cancelEditing();
+                           }}
+                       >
+                           <CloseIcon style={{fontSize: 16}}/>
+                       </Button>
+                   </Tooltip>
+               </div>
+           </div>
+       )
+   } else {
        return (
            <span className={`${classes.nodeName} ${props.search && props.search.length > 0 && props.node.name.search(props.search) !== -1 ? classes.hasHave : ''}`} >
                {props.node.name}

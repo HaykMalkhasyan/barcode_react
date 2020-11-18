@@ -1,4 +1,4 @@
-    import React from 'react'
+import React from 'react'
 import classes from './customSearch.module.css'
 import CustomButton from "../UI/button/customButton/customButton";
 import Icons from "../Icons/icons";
@@ -7,7 +7,7 @@ import CustomInput from "../UI/input/customInput/customInput";
 const CustomSearch = props => {
 
     return (
-        <div className={classes.searchBorder}>
+        <div className={props.className || classes.searchBorder}>
             {
                 !props.withButton && !props.drop ?
                     <span className={classes.searchIcon}>

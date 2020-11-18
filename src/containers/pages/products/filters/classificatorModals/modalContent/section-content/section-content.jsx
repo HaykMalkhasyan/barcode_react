@@ -10,30 +10,41 @@ const SectionContent = React.forwardRef((props, ref) => {
     return (
         <section className={classes.section}>
             <div className={classes.content}>
-                <GroupContent
-                    error={props.error}
-                    group={props.group}
-                    newGroup={props.newGroup}
-                    own_status={props.own_status}
-                    classifierName={props.classifierName}
-                    // Methods
-                    groupNameChangeHandler={props.groupNameChangeHandler}
-                />
-                <div className={classes.searchWindow}>
-                    <ModalActions
-                        own_select={props.own_select}
-                        controllerId={props.controllerId}
-                        groupId={props.groupId}
-                        catId={props.catId}
-                        activeAction={props.activeAction}
-                        node={props.node}
-                        // Methods
-                        moveHandler={props.moveHandler}
-                        onEditSubgroup={props.onEditSubgroup}
-                        onAddSubgroup={props.onAddSubgroup}
-                        onAddGroup={props.onAddGroup}
-                        deleteHandler={props.deleteHandler}
-                    />
+                {
+                    !props.own_status ?
+                        <GroupContent
+                            error={props.error}
+                            group={props.group}
+                            newGroup={props.newGroup}
+                            own_status={props.own_status}
+                            classifierName={props.classifierName}
+                            // Methods
+                            groupNameChangeHandler={props.groupNameChangeHandler}
+                        />
+                        :
+                        null
+                }
+                <div className={props.own_status ? `${classes.searchWindow} ${classes.hide}` : classes.searchWindow}>
+                    {
+                        !props.own_status ?
+                            <ModalActions
+                                own_select={props.own_select}
+                                controllerId={props.controllerId}
+                                groupId={props.groupId}
+                                catId={props.catId}
+                                activeAction={props.activeAction}
+                                own_move={props.own_move}
+                                node={props.node}
+                                // Methods
+                                moveHandler={props.moveHandler}
+                                onEditSubgroup={props.onEditSubgroup}
+                                onAddSubgroup={props.onAddSubgroup}
+                                onAddGroup={props.onAddGroup}
+                                deleteHandler={props.deleteHandler}
+                            />
+                            :
+                            null
+                    }
                     <div>
                         <CustomSearch
                             drop={false}
@@ -64,6 +75,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     node={props.node}
                     nodeStatus={props.nodeStatus}
                     moveElement={props.moveElement}
+                    own_move={props.own_move}
                     type={'edit'}
                     // Methods
                     selectTreeItem={props.selectTreeItem}
@@ -74,6 +86,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     changeSubgroupName={props.changeSubgroupName}
                     selectTreeGroupItem={props.selectTreeGroupItem}
                     cancelEditing={props.cancelEditing}
+                    getActionById={props.getActionById}
                 />
             </div>
         </section>

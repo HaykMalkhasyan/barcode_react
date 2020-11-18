@@ -1,4 +1,34 @@
+.currentItem {
+    width: 100%;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.currentItem > div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.cutBtn {
+    width: 19px;
+    min-width: auto;
+    height: 19px;
+    border-radius: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #ff4b63;
+}
+
+.cutBtn:hover {
+    background-color: rgb(255, 196, 206);
+}
+
 .nodeName {
+    width: 100%;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;

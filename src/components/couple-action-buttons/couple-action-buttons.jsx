@@ -5,6 +5,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
 
 const CoupleButtons = props => {
 
@@ -18,12 +20,6 @@ const CoupleButtons = props => {
                         // Methods
                         onClick={props.checkSuccess}
                     />
-                    <CustomButton
-                        className={classes.actionsButton}
-                        children={<CloseIcon fontSize="small"/>}
-                        // Methods
-                        onClick={props.checkClose}
-                    />
                 </div>
             )
         case "only-move":
@@ -34,12 +30,6 @@ const CoupleButtons = props => {
                         children={<SubdirectoryArrowLeftIcon fontSize="small"/>}
                         // Methods
                         onClick={props.checkSuccess}
-                    />
-                    <CustomButton
-                        className={classes.actionsButton}
-                        children={<CloseIcon fontSize="small"/>}
-                        // Methods
-                        onClick={props.checkClose}
                     />
                 </div>
             )
@@ -58,29 +48,33 @@ const CoupleButtons = props => {
                         // Methods
                         onClick={props.checkMoveSuccess}
                     />
-                    <CustomButton
-                        className={classes.actionsButton}
-                        children={<CloseIcon fontSize="small"/>}
-                        // Methods
-                        onClick={props.checkClose}
-                    />
                 </div>
             )
         default:
             return (
                 <div className={classes.actions}>
-                    <CustomButton
-                        className={classes.actionsButton}
-                        children={<CheckIcon fontSize="small"/>}
-                        // Methods
-                        onClick={props.checkSuccess}
-                    />
-                    <CustomButton
-                        className={classes.actionsButton}
-                        children={<CloseIcon fontSize="small"/>}
-                        // Methods
-                        onClick={props.checkClose}
-                    />
+                    {/*<CustomButton*/}
+                    {/*    className={classes.actionsButton}*/}
+                    {/*    children={<CheckIcon fontSize="small"/>}*/}
+                    {/*    // Methods*/}
+                    {/*    onClick={props.checkSuccess}*/}
+                    {/*/>*/}
+                    <Tooltip title="Հաստատել" placement="bottom">
+                        <Button
+                            className={classes.successButton}
+                            onClick={props.checkSuccess}
+                        >
+                            <CheckIcon style={{fontSize: 16}}/>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Չեղարկել" placement="bottom">
+                        <Button
+                            className={classes.cutBtn}
+                            onClick={props.checkClose}
+                        >
+                            <CloseIcon style={{fontSize: 16}}/>
+                        </Button>
+                    </Tooltip>
                 </div>
             )
     }

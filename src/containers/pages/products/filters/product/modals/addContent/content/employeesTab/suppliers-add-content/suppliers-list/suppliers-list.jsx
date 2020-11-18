@@ -14,22 +14,25 @@ const SuppliersList = props => {
                     props.suppliers.length ?
                         props.suppliers.map(item => {
 
-                            return props.selected.indexOf(item) === -1 ?
-                                <SuppliersListItem
-                                    key={`supplier-${item.id}`}
-                                    item={item}
-                                    checked={props.checked}
-                                    // Methods
-                                    selectSupplier={props.selectSupplier}
-                                    handleToggle={props.handleToggle}
-                                />
+                            return props.selected !== null && props.selected.indexOf(item) === -1 ?
+                                item.name.search(props.search) !== -1 ?
+                                    <SuppliersListItem
+                                        key={`supplier-${item.id}`}
+                                        item={item}
+                                        checked={props.checked}
+                                        // Methods
+                                        selectSupplier={props.selectSupplier}
+                                        handleToggle={props.handleToggle}
+                                    />
+                                    :
+                                    null
                                 :
                                 <ListItem
                                     key={`supplier-${item.id}`}
                                     className={classes.listItem}
                                     button
                                 >
-                                    <ListItemText primary={item.name} />
+                                    <ListItemText primary={item.name}/>
                                     <ListItemSecondaryAction>
                                         <DoneIcon fontSize="small" style={{color: "#67CA51"}}/>
                                     </ListItemSecondaryAction>
