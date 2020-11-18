@@ -149,6 +149,7 @@ class Filters extends Component {
                         nodeStatus={this.props.nodeStatus}
                         activeAction={this.props.activeAction}
                         subgroupName={this.props.subgroupName}
+                        own_move={this.props.own_move}
                         // is worked
                         moveElement={this.props.moveElement}
                         /* ------- */
@@ -270,6 +271,7 @@ function mapStateToProps(state) {
         node: state.characteristics.node,
         nodeStatus: state.characteristics.nodeStatus,
         activeAction: state.characteristics.activeAction,
+        own_move: state.characteristics.own_move,
         // Products modal
         modalTabs: state.products.modalTabs,
         open: state.products.open,
@@ -310,7 +312,7 @@ function mapDispatchToProps(dispatch) {
         changeSubgroupName: (name, value) => dispatch(changeSubgroupName(name, value)),
         cancelEditing: () => dispatch(cancelEditing()),
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
-        startMoveAction: id => dispatch(startMoveAction(id)),
+        startMoveAction: () => dispatch(startMoveAction()),
         setMoveAction: () => dispatch(setMoveAction()),
         sortTree: (data, ref, catId, node, level) => dispatch(sortTree(data, ref, catId, node, level)),
         selectSubgroup: subgroup => dispatch(selectSubgroup(subgroup)),

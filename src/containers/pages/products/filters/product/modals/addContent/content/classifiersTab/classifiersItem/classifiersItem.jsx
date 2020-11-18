@@ -13,18 +13,6 @@ const ClassifiersItem = props => {
         props.setProductValues("classifiers", initialClassifier);
     }
 
-    // const valueRender = (roads, data) => {
-    //
-    //     if (roads.length) {
-    //         for (let item of roads) {
-    //             if (+Object.keys(item)[0] === data.id) {
-    //                 return item[data.id]
-    //             }
-    //         }
-    //     }
-    //     return 'Հիմնական դասակարգիչ'
-    // };
-
     return (
         <div className={classes.classifiersItem}>
             <div className={classes.classifiersSelectedItem}>
@@ -55,7 +43,7 @@ const ClassifiersItem = props => {
                             // events
                             onClick={event => {
                                 event.stopPropagation();
-                                removeSelectedClassifiersHandler(props.classifiers, props.id)
+                                removeSelectedClassifiersHandler(props.classifiers, props.data.id)
 
                             }}
                         />

@@ -1,11 +1,17 @@
 .workersWindow {
     width: 100%;
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-sizing: border-box;
-    padding: 10px;
-    min-height: 75px;
+    padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+}
+
+.workersWindow::-webkit-scrollbar {
+    height: 4px;
 }
 
 .empty {
@@ -18,9 +24,5 @@
 }
 
 @media (max-width: 600px) {
-    .workersWindow {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+
 }

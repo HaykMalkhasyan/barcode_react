@@ -14,7 +14,6 @@ import {
     setProductValues
 } from "../../../../../../../../../Redux/products/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
-import Item from "./item/item";
 import ClassifiersItem from "./classifiersItem/classifiersItem";
 
 class ClassifiersTab extends Component {
@@ -90,17 +89,6 @@ class ClassifiersTab extends Component {
                                                     onClick={this.props.openModalContent}
                                                     setProductValues={this.props.setProductValues}
                                                 />
-                                                // <Item
-                                                //     key={`classifiers-item-${item.id}`}
-                                                //     data={item}
-                                                //     open={this.state.open === item.id}
-                                                //     classifiers={this.props.classifiers}
-                                                //     own_subgroups={this.props.own_subgroups}
-                                                //     // Methods
-                                                //     toggleWindow={this.toggleWindow}
-                                                //     select={this.select}
-                                                //     setProductValues={this.props.setProductValues}
-                                                // />
                                             )
                                         }
                                     )

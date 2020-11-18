@@ -168,4 +168,7 @@
     .pricesTab {
         padding: 0;
     }
+    .label {
+        font-size: 12px;
+    }
 }

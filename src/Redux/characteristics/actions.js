@@ -428,10 +428,10 @@ export function setRenderedFilterTreeValue(value) {
     }
 }
 
-export function startMoveAction(id) {
+export function startMoveAction() {
 
     return {
-        type: START_MOVE_ACTION, id
+        type: START_MOVE_ACTION
     }
 }
 

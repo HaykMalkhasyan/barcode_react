@@ -164,10 +164,17 @@ const ModalContent = props => {
         }
     };
 
-    const moveHandler = async (event, node) => {
+    const moveHandler = event => {
         event.stopPropagation();
-        /*await */props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
-        props.startMoveAction(node.id);
+        if (props.own_move) {
+            if (ref.current) {
+                const {tree} = ref.current;
+                tree.selectNode();
+                props.setGroupValues("node", null)
+                props.setGroupValues("own_select", null)
+            }
+        }
+        props.startMoveAction();
     };
 
     const moveIsHere = async (node, move = null) => {
@@ -251,6 +258,7 @@ const ModalContent = props => {
                 node={props.node}
                 activeAction={props.activeAction}
                 moveElement={props.moveElement}
+                own_move={props.own_move}
                 // Methods
                 groupNameChangeHandler={groupNameChangeHandler}
                 moveHandler={moveHandler}
@@ -267,6 +275,7 @@ const ModalContent = props => {
                 changeSubgroupName={props.changeSubgroupName}
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
+                getActionById={props.getActionById}
             />
             <FooterContent
                 newGroup={props.newGroup}

@@ -3,11 +3,14 @@
     box-sizing: border-box;
     border: 1pt solid #024059;
     border-radius: 6px;
-    display: flex;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
     align-items: center;
     justify-content: space-between;
-    margin: 10px;
-    /*width: 100%;*/
+    margin: 5px;
+    width: max-content;
+    height: 30px;
 }
 
 .worker > span {
@@ -40,6 +43,7 @@
 }
 
 @media (max-width: 600px) {
-    .worker {margin: 2px;
+    .worker {
+        margin: 2px;
     }
 }

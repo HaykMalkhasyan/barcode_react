@@ -57,6 +57,61 @@ const TreeViewer = React.forwardRef((props, ref) => {
         }
     }
 
+    // Drag&Drop
+
+    const dragStart = (event, tree, node) => {
+        tree.selectNode(node)
+        props.select(node, node.id, node.state.path, node.cat_id)
+        event.dataTransfer.setData("object", JSON.stringify({id: node.id, parent_id: node.parent_id, cat_id: node.cat_id, sort: node.sort, name: node.name}))
+        props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
+    }
+
+    const dragOver = event => {
+        event.preventDefault();
+    }
+
+    const dragEnter = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.style.color = "#FF8927";
+    }
+
+    const dragLeave = event => {
+        event.preventDefault();
+        event.target.style.color = "";
+    }
+
+    const drop = event => {
+        event.preventDefault();
+        console.log(event.dataTransfer.getData("object"))
+    }
+
+    const dragEnd = event => {
+        event.preventDefault();
+        event.target.style.color = "";
+    }
+
+    const onDragTogglerEnter = (event, t, n) => {
+        event.target.style.color = "#FF8927";
+        t.openNode(n);
+    }
+
+    const onDragTogglerLeave = event => {
+        event.target.style.color = "";
+    }
+
+    const dragLineEnter = event => {
+        event.target.style.background = "#0da3e0";
+        event.target.style.borderLeftColor = "#0da3e0";
+        event.target.style.borderRightColor = "#0da3e0";
+    }
+
+    const dragLineLeave = event => {
+        event.target.style.background = "";
+        event.target.style.borderLeftColor = "";
+        event.target.style.borderRightColor = "";
+    }
+
     return (
         <>
             <div
@@ -165,7 +220,15 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                         </TreeNode>
                                         :
                                         <TreeNode
-                                            draggable={true}
+                                            draggable={props.own_move}
+                                            onDragStart={event => {
+                                                dragStart(event, tree, node)
+                                            }}
+                                            onDragOver={dragOver}
+                                            onDragLeave={dragLeave}
+                                            onDragEnter={dragEnter}
+                                            onDrop={drop}
+                                            onDragEnd={dragEnd}
                                             groupId={props.groupId}
                                             selected={node.state.selected}
                                             depth={node.state.depth}
@@ -187,6 +250,10 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             <div className={classes.nodeContent}>
                                                 <div>
                                                     <Toggler
+                                                        onDragEnter={event => {
+                                                            onDragTogglerEnter(event, tree, node)
+                                                        }}
+                                                        onDragLeave={onDragTogglerLeave}
                                                         state={toggleState}
                                                         onClick={event => {
                                                             event.stopPropagation()
@@ -218,6 +285,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                     cancelEditing={props.cancelEditing}
                                                 />
                                             </div>
+                                            <div
+                                                className={classes.line}
+                                                onDragOver={dragOver}
+                                                onDragLeave={dragLineLeave}
+                                                onDragEnter={dragLineEnter}
+                                            />
                                         </TreeNode>
                                 }}
                             </InfiniteTree>
