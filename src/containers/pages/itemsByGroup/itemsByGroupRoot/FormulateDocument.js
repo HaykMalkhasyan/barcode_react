@@ -81,6 +81,9 @@ export default function AlertDialog(props) {
         setCashbox(res.data.results)
         setSelectedCashbox(res.data.results[0])
       })
+      .catch(err=>{
+        console.log('err', err)
+      })
   }, []);
   useEffect(()=>{
     let { rowData } = props;
