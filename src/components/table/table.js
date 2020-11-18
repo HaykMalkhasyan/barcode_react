@@ -13,13 +13,14 @@ import PrintIcon from '@material-ui/icons/Print';
 import { IconButton } from "@material-ui/core";
 import style from "./table.module.css"
 import AddIcon from '@material-ui/icons/Add';
+import { getMissing, mult } from "../../services/services";
 
 const App = (props) => {
   const history = useHistory();
   const [gridApi, setGridApi] = useState(null);
   const [floatingFilter, setFloatingFilter] = useState(true);
 
-  const { rowData, setOpenDelete, perPage } = props;
+  const { rowData, setOpenDelete, perPage, fullData, setParentRowData, parentRowData, setOpenSulierProductDialog } = props;
   const tableRef = useRef();
 
 
@@ -55,11 +56,22 @@ const App = (props) => {
       </Button>
     );
   }
+  const regExp = new RegExp(/^([0-9]{0,})([.]{0,1}?)([0-9]{1,})$/)
 
-  function isCharNumeric(charStr) {
-    console.log('charStr', charStr)
-    
-    return !!/^[0-9]{0,}[.]{0,1}?[0-9]{1,}$/.test(charStr);
+  function isCharNumeric(input, charStr) {
+    let isCharTruty = !!/\d/.test(charStr) ? true : charStr==="."
+    if(charStr==="." && input.includes(".")){
+        return false
+    }
+    if(!input && isCharTruty){
+      return true
+    }
+    if(!isCharTruty){
+      return false
+    }else{
+      let isInputTruty = !!input.match(regExp) ? true : input[input.length-1] === "."
+      return isInputTruty;
+    }
 }
 function getCharCodeFromEvent(event) {
   event = event || window.event;
@@ -69,7 +81,7 @@ function getCharCodeFromEvent(event) {
 function isKeyPressedNumeric(event) {
   var charCode = getCharCodeFromEvent(event);
   var charStr = String.fromCharCode(charCode);
-  return isCharNumeric(event.target.value);
+  return isCharNumeric(event.target.value, charStr);
 }
 
   function NumericCellEditor() {
@@ -78,7 +90,8 @@ function isKeyPressedNumeric(event) {
   NumericCellEditor.prototype.init = function (params) {
     this.eInput = document.createElement('input');
     this.eInput.className=style.editableInput
-
+    // this.eInput.focus();
+    // this.eInput.select();
     if (isCharNumeric(params.charPress)) {
         this.eInput.value = params.charPress;
     } else {
@@ -90,16 +103,16 @@ function isKeyPressedNumeric(event) {
     var that = this;
     this.eInput.addEventListener('keypress', function (event) {
         if (!isKeyPressedNumeric(event)) {
-            that.eInput.focus();
             if (event.preventDefault) event.preventDefault();
         } else if (that.isKeyPressedNavigation(event)){
             event.stopPropagation();
-        }
+        } 
     });
     this.eInput.addEventListener('keyup', (e)=>{handleKeyPress(e,params)})
-
-    // only start edit if key pressed is a number, not a letter
     var charPressIsNotANumber = params.charPress && ('1234567890.'.indexOf(params.charPress) < 0);
+    if(!charPressIsNotANumber){
+      this.eInput.value = params.charPress ? params.charPress : params.value
+    }
     this.cancelBeforeStart = charPressIsNotANumber;
 };
 
@@ -162,12 +175,41 @@ NumericCellEditor.prototype.isPopup = function () {
     );
   }
   
+  
   function AddButton(props) {
     return (
       <IconButton
         size="small"
         color="primary"
         onClick={() => {
+          console.log('fullData', fullData)
+          console.log('propsAddButton', props)
+          if(props.data["Քանակ"] > 0){
+            let itemFullData = fullData.find(x=>x.id==props.data["#"])
+            let tableObj = {
+              "#": getMissing(parentRowData.map(item=>+item["#"])),
+              ԱՊՄ: itemFullData.articul,
+              Անվանում: itemFullData.item_name,
+              Մնացորդ: itemFullData.in_stores,
+              ԱՏԳ: itemFullData.adgt,
+              Քանակ: props.data["Քանակ"],
+              "Մատակարարի գին": 0,
+              Զեղչ: 0,
+              "Առքի գին": props.data["Առքի գին"],
+              "Առքի գումար": mult(props.data["Առքի գին"], props.data["Քանակ"]),
+              "Վաճ գին Վաճառքի գին": 0,
+              "Վաճ գումար Վաճառքի գին": 0,
+              "Տոկոս Վաճառքի գին": 0,
+              Բարկոդ: "",
+            }
+            console.log('} = props', [...parentRowData, tableObj])
+            if(itemFullData){
+              let clone = JSON.parse(JSON.stringify(parentRowData))
+              clone.push(tableObj)
+              setParentRowData(clone)
+              setOpenSulierProductDialog(false)
+            }
+          }
           return
         }}
       >

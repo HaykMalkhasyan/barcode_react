@@ -2,6 +2,118 @@ import Axios from "axios"
 import jwt_decode from 'jwt-decode'
 import cookie from "./cookies";
 
+
+export function getMissing(arr){
+    if(!arr.length){
+      return 1
+    }
+      let length = arr.length
+      arr.sort((x,y)=>x-y)
+      if(arr[0]!==1){
+        return 1
+      }
+      for(let i=0; i<length; i++){
+          if(arr[i+1]-arr[i]!==1){
+          return arr[i] + 1
+      }
+    }
+      return arr.length
+  }
+
+export const get_float_num_length = (num) => {
+    num = num.toString()
+    if(num.includes(".")){
+        let arr = num.split(".")
+        if(arr[1].includes("e-")){
+            let arrn = arr[1].split("e-")
+            return +arrn[1]+arrn[0].length
+        }else if(num.includes("e+")){
+            let arrn = arr[1].split("e+")
+            return +arrn[1]+arrn[0].length
+        }
+        return arr[1].length
+    }else if(num.includes("e-")){
+        let arr = num.split("e-")
+        return arr[1]
+    }else if(num.includes("e+")){
+        let arr = num.split("e+")
+        return arr[1]
+    }else{
+        return 0 
+    }
+ }
+
+export function add(x, y){
+    x=+x;
+    y=+y;
+    if(x!==x || y!==y){
+        return NaN
+    }
+    if(Number.isInteger(x) && Number.isInteger(y)){
+        return x + y
+    }else{
+        return +(x+y).toFixed(Math.max(get_float_num_length(x), get_float_num_length(y)))
+    }
+}
+
+export function mult(x, y){
+    x=+x;
+    y=+y;
+    if(x!==x || y!==y){
+        return NaN
+    }
+    if(Number.isInteger(x) && Number.isInteger(y)){
+        return x * y
+    }else{
+        let length = get_float_num_length(x) + get_float_num_length(y)
+        length = length > 4 ? 4 : length  
+        return +(x*y).toFixed(get_float_num_length(x) + get_float_num_length(y))
+    }
+}
+
+export function div(x, y){
+    x=+x;
+    y=+y;
+    if(x!==x || y!==y){
+        return NaN
+    }
+    let res = x / y;
+    if(Number.isInteger(res)){
+        return res
+    }else{
+        let length = Math.max(get_float_num_length(res))
+        length = length > 4 ? 4 : length  
+        return +res.toFixed(length)
+    }
+}
+
+export function sub(x, y){
+    x=+x;
+    y=+y;
+    if(x!==x || y!==y){
+        return NaN
+    }
+    if(Number.isInteger(x) && Number.isInteger(y)){
+        return x - y
+    }else{
+        return +(x-y).toFixed(Math.max(get_float_num_length(x), get_float_num_length(y)))
+    }
+}
+
+
+
+
+ export const fixNumber = (num) => {
+    num = +num
+     if(Number.isInteger(num)){
+         return num
+     }else if(num===num){
+         return num
+     }
+ }
+
+
+
 export const getFullDate = (milliseconds, addMonth=true) => {
     let strDate = new Date(Date.now())
     if(milliseconds){
@@ -19,7 +131,6 @@ export const getFullDate = (milliseconds, addMonth=true) => {
     seconds = seconds < 10 ? "0" + seconds : seconds
 
     return `${year}-${month+addMonth}-${day} ${hour}:${minutes}:${seconds}`
-
 }
 
 export function findItem(data, itemId) {

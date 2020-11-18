@@ -19,6 +19,7 @@ import Axios from "axios";
 import cookie from '../../../../services/cookies'
 import FormulateDialog from "./FormulateDocument"
 import SupliersProductsDialog from "./supliersProductsDialog"
+import { add, mult, div, sub, getMissing } from "../../../../services/services"
 
 export default function ItemsByGroup() {
   const initialData = [
@@ -132,11 +133,7 @@ export default function ItemsByGroup() {
     }
 
     let data = {
-      "#":
-        rowData.length === 1 &&
-        JSON.stringify(initialData) === JSON.stringify(rowData)
-          ? 1
-          : rowData.length + 1,
+      "#": getMissing(rowData.map(item=>+item["#"])),
       ԱՊՄ: selecteds.articul,
       Անվանում: selecteds.item_name,
       Մնացորդ: 0,
@@ -145,13 +142,13 @@ export default function ItemsByGroup() {
       "Մատակարարի գին": buyPrice,
       Զեղչ: 0,
       "Առքի գին": buyPrice,
-      "Առքի գումար": +buyPrice * +quanty,
+      "Առքի գումար": mult(+buyPrice, +quanty),
       "Վաճ գին Վաճառքի գին": sellingPrice,
-      "Վաճ գումար Վաճառքի գին": +sellingPrice * +quanty,
+      "Վաճ գումար Վաճառքի գին": mult(+sellingPrice, +quanty),
       "Տոկոս Վաճառքի գին": percent.toFixed() + "%",
       Բարկոդ: "",
     };
-    //
+    
     if (
       rowData.length === 1 &&
       JSON.stringify(initialData) === JSON.stringify(rowData)
@@ -198,11 +195,10 @@ export default function ItemsByGroup() {
           break;
         }
         data["Առքի գին"] =
-          data["Զեղչ"] > 0
-            ? data["Մատակարարի գին"] -
-              (data["Մատակարարի գին"] * data["Զեղչ"]) / 100
+          data["Զեղչ"] > 0 ? 
+          sub(data["Մատակարարի գին"], div(mult(data["Մատակարարի գին"], data["Զեղչ"]), 100))
             : data["Մատակարարի գին"];
-        data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
+        data["Առքի գումար"] = mult(data["Առքի գին"], data["Քանակ"]);
         break;
 
       case "Առքի գին":
@@ -224,9 +220,9 @@ export default function ItemsByGroup() {
           data[changedField] = params.oldValue;
           break;
         }
-        data["Զեղչ"] = 100 - (data["Առքի գին"] * 100) / data["Մատակարարի գին"];
-        data["Զեղչ"] = data["Զեղչ"].toFixed(2)
-        data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
+        data["Զեղչ"] = sub(100, div(mult(data["Առքի գին"], 100), data["Մատակարարի գին"]));
+        // data["Զեղչ"] = div(sub(100, mult(data["Առքի գին"], 100)), data["Մատակարարի գին"]);
+        data["Առքի գումար"] = mult(data["Առքի գին"], data["Քանակ"]);
         break;
 
       case "Առքի գումար":
@@ -239,7 +235,7 @@ export default function ItemsByGroup() {
           data[changedField] = params.oldValue;
           break;
         }
-        data["Առքի գին"] = data["Առքի գումար"] / data["Քանակ"];
+        data["Առքի գին"] = div(data["Առքի գումար"], data["Քանակ"]);
         if (data["Առքի գին"] > data["Մատակարարի գին"]) {
           setSuccess({
             status: "error",
@@ -247,12 +243,11 @@ export default function ItemsByGroup() {
             open: true,
           });
           data[changedField] = params.oldValue;
-          data["Առքի գին"] = data["Առքի գումար"] / data["Քանակ"];
-          data["Առքի գին"] = data["Առքի գին"].toFixed(2)
+          data["Առքի գին"] = div(data["Առքի գումար"], data["Քանակ"]);
           break;
         }
-        data["Զեղչ"] = 100 - (data["Առքի գին"] * 100) / data["Մատակարարի գին"];
-        data["Զեղչ"] = data["Զեղչ"].toFixed(2)
+        data["Զեղչ"] = sub(100, div(mult(data["Առքի գին"], 100), data["Մատակարարի գին"]));
+        // data["Զեղչ"] = div(sub(100, mult(data["Առքի գին"], 100)), data["Մատակարարի գին"]);
         break;
 
       case "Զեղչ":
@@ -265,15 +260,10 @@ export default function ItemsByGroup() {
           data[changedField] = params.oldValue;
           break;
         }
-        data["Առքի գին"] =
-          data["Զեղչ"] > 0
-            ? data["Մատակարարի գին"] -
-              (data["Մատակարարի գին"] * data["Զեղչ"]) / 100
-            : data["Մատակարարի գին"];
-        data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
-        data["Առքի գին"] = data["Առքի գին"].toFixed(2)
-        data["Առքի գումար"] = data["Առքի գումար"].toFixed(2)
-
+        data["Առքի գին"] = data["Զեղչ"] > 0 ? 
+          sub(data["Մատակարարի գին"], div(mult(data["Մատակարարի գին"], data["Զեղչ"]), 100)) : 
+          data["Մատակարարի գին"];
+        data["Առքի գումար"] = mult(data["Առքի գին"], data["Քանակ"]);
         break;
 
       case "Վաճ գին Վաճառքի գին" || "Մատակարարի գին":
@@ -287,7 +277,7 @@ export default function ItemsByGroup() {
           break;
         }
         data["Վաճ գումար Վաճառքի գին"] =
-          data["Վաճ գին Վաճառքի գին"] * data["Քանակ"];
+          mult(data["Վաճ գին Վաճառքի գին"], data["Քանակ"]);
         break;
       case "Վաճ գումար Վաճառքի գին":
         if (data[changedField] < 0) {
@@ -300,7 +290,7 @@ export default function ItemsByGroup() {
           break;
         }
         data["Վաճ գին Վաճառքի գին"] =
-          data["Վաճ գումար Վաճառքի գին"] / data["Քանակ"];
+          div(data["Վաճ գումար Վաճառքի գին"], data["Քանակ"]);
         break;
       case "Քանակ":
         if (data[changedField] < 0) {
@@ -312,20 +302,14 @@ export default function ItemsByGroup() {
           data[changedField] = params.oldValue;
           break;
         }
-        data["Վաճ գումար Վաճառքի գին"] = data["Վաճ գին Վաճառքի գին"] * data["Քանակ"];
-        data["Առքի գումար"] = data["Առքի գին"] * data["Քանակ"];
+        data["Վաճ գումար Վաճառքի գին"] = mult(data["Վաճ գին Վաճառքի գին"], data["Քանակ"]);
+        data["Առքի գումար"] = mult(data["Առքի գին"], data["Քանակ"]);
         break;
 
       default:
         break;
     }
-
-    let percent =
-      ((data["Վաճ գին Վաճառքի գին"] - data["Առքի գին"]) * 100) /
-      data["Առքի գին"];
-    data["Տոկոս Վաճառքի գին"] = Number.isInteger(percent)
-      ? percent + "%"
-      : percent.toFixed(2) + "%";
+    data["Տոկոս Վաճառքի գին"] = div(mult(sub(data["Վաճ գին Վաճառքի գին"], data["Առքի գին"]), 100), data["Առքի գին"]) + "%";
     clone[index] = data;
     localStorage.setItem(`document_buy_${id}`, JSON.stringify(clone));
     setTimeout(()=>{
@@ -374,6 +358,8 @@ export default function ItemsByGroup() {
         rowData={rowData}
       />
       <SupliersProductsDialog
+        parentRowData={rowData}
+        setParentRowData={setRowData}
         open={openSupliersProductsDialog}
         setOpen={setOpenSupliersProductsDialog}
         id={id}

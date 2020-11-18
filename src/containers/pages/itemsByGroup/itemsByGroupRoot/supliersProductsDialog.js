@@ -11,6 +11,7 @@ import Table from "../../../../components/table/table";
 import Axios from "axios";
 import cookie from "../../../../services/cookies";
 import { setTabValue } from "../../../../Redux/products/actions";
+import { getMissing, mult } from "../../../../services/services";
 
 
 export default function AlertDialog(props) {
@@ -19,6 +20,7 @@ export default function AlertDialog(props) {
   const [perPage, setPerPage] = useState(50)
   const [rowData, setRowData] = useState([])
   const [table, setTable] = useState([])
+  const [fullData, setFullData] = useState([])
 
   const history = useHistory();
   useEffect(()=>{
@@ -34,6 +36,8 @@ export default function AlertDialog(props) {
       fullDocumentData = []
     }
     
+    
+
     let fullData = fullDocumentData.find(x=>x["#"]==props.id)
     let suplierId = fullData["Մատակարար"] && Object.keys(fullData["Մատակարար"])[0]
     Axios.get(`${process.env.REACT_APP_API_URL}?path=Products/Search&param={"firms":"${suplierId}"}`,{
@@ -44,7 +48,9 @@ export default function AlertDialog(props) {
       },
     })
     .then((res)=>{
+      console.log('res', res)
       let tableData = res.data.data
+      setFullData(tableData)
       tableData = tableData.map(item=>{
         return {
           "#": item.id,
@@ -60,10 +66,42 @@ export default function AlertDialog(props) {
       setTable(tableData)
       setRowData(tableData)
     })
+    .catch(err=>{
+      console.log('err', err)
+    })
   },[props.document])
 
-
   const handleConfirm = () => {
+    console.log('rowData', rowData)
+    let getAddRows = rowData.reduce((total, item)=>{
+      if(+item["Քանակ"]){
+        let itemFullData = fullData.find(x=>x.id==item["#"])
+        console.log('itemFullData', itemFullData)
+        total.push({
+          "#": getMissing(props.parentRowData.map(item=>+item["#"])),
+          ԱՊՄ: itemFullData.articul,
+          Անվանում: itemFullData.item_name,
+          Մնացորդ: itemFullData.in_stores,
+          ԱՏԳ: itemFullData.adgt,
+          Քանակ: item["Քանակ"],
+          "Մատակարարի գին": 0,
+          Զեղչ: 0,
+          "Առքի գին": item["Առքի գին"],
+          "Առքի գումար": mult(item["Առքի գին"], item["Քանակ"]),
+          "Վաճ գին Վաճառքի գին": 0,
+          "Վաճ գումար Վաճառքի գին": 0,
+          "Տոկոս Վաճառքի գին": 0,
+          Բարկոդ: "",
+        })
+      }
+      return total
+    },[])
+    console.log('getAddRows', getAddRows)
+
+    if(getAddRows.length){
+      props.setParentRowData([...props.parentRowData, ...getAddRows])
+    }
+    setOpen(false);
    return
   };
 
@@ -112,6 +150,10 @@ export default function AlertDialog(props) {
         </Select>
       </FormControl> */}
       {!!rowData.length && <Table
+          setOpenSulierProductDialog={setOpen}
+          setParentRowData={props.setParentRowData}
+          parentRowData={props.parentRowData}
+          fullData={fullData}
           rowData={rowData}
           editabeFields={[
             "Քանակ",
