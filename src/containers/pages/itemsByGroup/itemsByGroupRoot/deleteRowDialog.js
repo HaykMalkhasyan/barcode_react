@@ -12,41 +12,70 @@ export default function AlertDialog(props) {
   const [success, setSuccess] = useState({});
 
   const history = useHistory();
-
   const handleDelete = () => {
-    if (Number.isInteger(open.index)) {
+    if (open.multiple && open.multiple.length) {
       let clone = JSON.parse(JSON.stringify(props.rowData));
-      clone.splice(open.index, 1);
+      let deletingIds = open.multiple.map(item=>item["#"])
+      for(let i=0; i<clone.length; i++){
+        let index = clone.findIndex(item=>deletingIds.includes(item["#"]))
+        if(index!==-1){
+          clone.splice(index,1)
+          --i;
+        }
+      }
       if (clone.length === 0) {
-        props.setRowData(props.initialData);
+        props.setRowData([]);
       } else {
         props.setRowData(clone);
       }
-      setOpen({ bool: false, index: null });
-    } else {
-      localStorage.removeItem(`document_buy_${open.documentId}`);
-      let allDocuments = localStorage.getItem("documents");
-      if (allDocuments) {
-        allDocuments = JSON.parse(allDocuments);
-        let index = allDocuments.findIndex((x) => x["#"] === +open.documentId);
-        if (index !== -1) {
-          allDocuments.splice(index, 1);
-          if (allDocuments.length === 0) {
-            localStorage.removeItem(`documents`);
-          } else {
-            localStorage.setItem("documents", JSON.stringify(allDocuments));
-          }
+      var selectedData = props.gridApi.getSelectedRows();
+    props.gridApi.applyTransaction({ remove: selectedData });
+      setOpen({ bool: false, multiple: null });
+    }else if(open.clicked){
+      let clone = JSON.parse(JSON.stringify(props.rowData));
+      let deletingIds = [open.clicked["#"]]
+      for(let i=0; i<clone.length; i++){
+        let index = clone.findIndex(item=>deletingIds.includes(item["#"]))
+        if(index!==-1){
+          clone.splice(index,1)
+          --i;
         }
       }
-      let formulated_documents = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
-      let index = formulated_documents.indexOf(+props.id)
-      if(index!==-1){
-        formulated_documents.splice(index, 1)
-        localStorage.setItem("formulated_documents", JSON.stringify(formulated_documents))
+      if (clone.length === 0) {
+        props.setRowData([]);
+      } else {
+        props.setRowData(clone);
       }
+      var selectedData = props.gridApi.getSelectedRows();
+      props.gridApi.applyTransaction({ remove: [open.clicked] });
+      setOpen({ bool: false, multiple: null });
+    } 
+    
+
+    // else {
+    //   localStorage.removeItem(`document_buy_${open.documentId}`);
+    //   let allDocuments = localStorage.getItem("documents");
+    //   if (allDocuments) {
+    //     allDocuments = JSON.parse(allDocuments);
+    //     let index = allDocuments.findIndex((x) => x["#"] === +open.documentId);
+    //     if (index !== -1) {
+    //       allDocuments.splice(index, 1);
+    //       if (allDocuments.length === 0) {
+    //         localStorage.removeItem(`documents`);
+    //       } else {
+    //         localStorage.setItem("documents", JSON.stringify(allDocuments));
+    //       }
+    //     }
+    //   }
+    //   let formulated_documents = localStorage.getItem("formulated_documents") ? JSON.parse(localStorage.getItem("formulated_documents")) : []
+    //   let index = formulated_documents.indexOf(+props.id)
+    //   if(index!==-1){
+    //     formulated_documents.splice(index, 1)
+    //     localStorage.setItem("formulated_documents", JSON.stringify(formulated_documents))
+    //   }
       
-      history.push("/income");
-    }
+    //   history.push("/income");
+    // }
   };
 
   return (

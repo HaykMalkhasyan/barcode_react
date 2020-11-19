@@ -14,14 +14,17 @@ import { IconButton } from "@material-ui/core";
 import style from "./table.module.css"
 import AddIcon from '@material-ui/icons/Add';
 import { getMissing, mult } from "../../services/services";
+// import ClickableStatusBarComponent from './tableStatusBar';
+
 
 const App = (props) => {
   const history = useHistory();
   const [gridApi, setGridApi] = useState(null);
   const [floatingFilter, setFloatingFilter] = useState(true);
 
-  const { rowData, setOpenDelete, perPage, fullData, setParentRowData, parentRowData, setOpenSulierProductDialog } = props;
+  const { rowData, setOpenDelete, perPage, fullData, setParentRowData, parentRowData, setOpenSulierProductDialog, parentGridApi } = props;
   const tableRef = useRef();
+  const [opacity, setOpacity] = useState(0)
 
 
   useEffect(()=>{
@@ -166,8 +169,10 @@ NumericCellEditor.prototype.isPopup = function () {
       <IconButton
         size="small"
         color="secondary"
-        onClick={() => {
-          setOpenDelete({ bool: true, index: props.rowIndex });
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setOpenDelete({ bool: true, clicked:props.data, multiple: props.api.getSelectedRows() });
         }}
       >
         <DeleteForeverIcon />
@@ -182,8 +187,9 @@ NumericCellEditor.prototype.isPopup = function () {
         size="small"
         color="primary"
         onClick={() => {
-          console.log('fullData', fullData)
-          console.log('propsAddButton', props)
+          // console.log('fullData', fullData)
+          console.log('props', props)
+          console.log('props.parentGridApi', parentGridApi)
           if(props.data["Քանակ"] > 0){
             let itemFullData = fullData.find(x=>x.id==props.data["#"])
             let tableObj = {
@@ -202,12 +208,19 @@ NumericCellEditor.prototype.isPopup = function () {
               "Տոկոս Վաճառքի գին": 0,
               Բարկոդ: "",
             }
-            console.log('} = props', [...parentRowData, tableObj])
+            // console.log('} = props', [...parentRowData, tableObj])
             if(itemFullData){
               let clone = JSON.parse(JSON.stringify(parentRowData))
               clone.push(tableObj)
               setParentRowData(clone)
+              var newItems = [tableObj];
+              
+              setTimeout(()=>{parentGridApi && parentGridApi.applyTransaction({
+                add: newItems,
+                addIndex: parentRowData.length,
+              })},200)
               setOpenSulierProductDialog(false)
+
             }
           }
           return
@@ -286,15 +299,28 @@ function handleKeyPress(e, params){
     <div
       className="ag-theme-alpine"
       ref={tableRef}
-      style={{ height: 557, width: "100%", margin: "0 auto" }}
+      style={{ height: 557, width: "100%", margin: "0 auto", opacity: `${opacity}`,transitionDuration:"0.1s" }}
     >
-      {/* <button onClick={onButtonClick}>Get selected rows</button> */}
       <AgGridReact
+        // immutableData={true}
+        immutableData={true}
+        suppressRowClickSelection={true}
+        rowData={rowData}
+        onCellEditingStopped={handleCellChange}
+        animateRows
+        rowSelection="multiple"
+        pagination={true}
+        paginationAutoPageSize={true}
+        enableRangeSelection={true}
+        rowMultiSelectWithClick={true}
         onGridReady={(params) => {
           setGridApi(params.api);
+          props.setGridApi && props.setGridApi(params.api)
+          setTimeout(()=>{
+            setOpacity(1)
+          },10)
         }}
-        rowData={rowData}
-        rowSelection="multiple"
+       
         rowClassRules={{
           [style.formulatedRow]: function (params) {
             return allFormulateds.map(item=>item["#"]).includes(params.data['#']) && window.location.pathname === "/income"
@@ -312,23 +338,7 @@ function handleKeyPress(e, params){
             checkbox: true,
           },
         }}
-        onCellEditingStopped={handleCellChange}
-        animateRows
-        // setting grid wide date component
-        // setting default column properties
-        //    defaultColDef={{
-        //        headerComponentParams: {
-        //            menuIcon: 'fa-bars'
-        //        }
-        //    }}
-        // defaultColDef={{
-        // flex: 1,
-        // minWidth: 100,
-        // filter: "agTextColumnFilter",
-        // sortable: true,
-        // resizable: true,
-        // floatingFilter: floatingFilter,
-        // }}
+        
         columnDefs={[
           ...Object.keys(rowData[0]).map((item) => {
             if (item === "Ամսաթիվ") {
@@ -343,22 +353,12 @@ function handleKeyPress(e, params){
             } else if (item === "#") {
               return {
                 field: "#",
+                checkboxSelection: true,
                 pinned: "left",
-                width: 70,
+                width: 90,
                 filter: "agNumberColumnFilter",
                 sortable: true,
                 resizable: true,
-              //   cellStyle: function(params) {
-              //     if (!!props.editabeFields &&
-              //       !!Array.isArray(props.editabeFields) &&
-              //       !!props.editabeFields.includes(item)) {
-              //         //mark police cells as red
-              //         return {color: 'red', backgroundColor: 'green'};
-              //     } else {
-              //         return null;
-              //     }
-              // },
-                // floatingFilter: floatingFilter,
                 editable:
                   !!props.editabeFields &&
                   !!Array.isArray(props.editabeFields) &&
@@ -378,16 +378,6 @@ function handleKeyPress(e, params){
                   },
                 floatingFilter: floatingFilter,
                 valueFormatter: function(params) { return params.value + "%"; },
-              //   cellStyle: function(params) {
-              //     if (!!props.editabeFields &&
-              //       !!Array.isArray(props.editabeFields) &&
-              //       !!props.editabeFields.includes(item)) {
-              //         //mark police cells as red
-              //         return {border: '1px solid black', borderRadius:"9px"};
-              //     } else {
-              //         return null;
-              //     }
-              // },
               enableCellChangeFlash:true,
               cellRenderer:!!props.editabeFields &&
                 !!Array.isArray(props.editabeFields) &&
@@ -419,16 +409,6 @@ function handleKeyPress(e, params){
                       component: 'numericCellEditor'
                   };
               },
-              //   cellStyle: function(params) {
-              //     if (!!props.editabeFields &&
-              //       !!Array.isArray(props.editabeFields) &&
-              //       !!props.editabeFields.includes(item)) {
-              //         //mark police cells as red
-              //         return {border: '1px solid black', borderRadius:"9px", boxSizing:"border-box"};
-              //     } else {
-              //         return null;
-              //     }
-              // },
                 editable:
                   !!props.editabeFields &&
                   !!Array.isArray(props.editabeFields) &&
@@ -482,41 +462,38 @@ function handleKeyPress(e, params){
         components={{
           numericCellEditor:NumericCellEditor,
         }}
+        // pinnedBottomRowData={createData(1, 'Bottom')}
         frameworkComponents={{
           btnCellRenderer: BtnCellRenderer,
           deleteButton: DeleteButton,
           printButton: PrintButton,
           addButton: AddButton,
           editableRender:EditableRender,
+          // statusBarComponent: ClickableStatusBarComponent,
         }}
-        pagination={true}
-        paginationAutoPageSize={true}
-      >
-        {/* {Object.keys(rowData[0]).map((item) => {
-          if (item === "Ամսաթիվ") {
-            return (
-              <AgGridColumn
-                filter="agDateColumnFilter"
-                field={item}
-              ></AgGridColumn>
-            );
-          }
-          if (item === "#") {
-            return (
-              <AgGridColumn
-                filter="agNumberColumnFilter"
-                field={item}
-              ></AgGridColumn>
-            );
-          }
-          return <AgGridColumn field={item}></AgGridColumn>;
-        })} */}
-        {/* <AgGridColumn  field={"settings"} >
-                                
-                            </AgGridColumn> */}
+        
+        // statusBar={{
+        //   statusPanels: [
+        //     {
+        //       statusPanel: 'statusBarComponent',
+        //       key: 'statusBarCompKey',
+        //     },
+        //     {
+        //       statusPanel: 'agAggregationComponent',
+        //       statusPanelParams: {
+        //           aggFuncs: ['min', 'max', 'sum']
+        //       }
+        //   }
+        //   ],
+        // }}
+
+      >                            
       </AgGridReact>
     </div>
   );
 };
+
+
+
 
 export default App;

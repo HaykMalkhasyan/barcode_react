@@ -19,6 +19,7 @@ import Axios from "axios";
 import cookie from '../../../../services/cookies'
 import FormulateDialog from "./FormulateDocument"
 import SupliersProductsDialog from "./supliersProductsDialog"
+import QuantiesToZeroDialog from "./quantiesToZeroDialog"
 import { add, mult, div, sub, getMissing } from "../../../../services/services"
 
 export default function ItemsByGroup() {
@@ -63,6 +64,8 @@ export default function ItemsByGroup() {
   const [editorOpen, setEditorOpen] = useState({ bool: false, type: {} });
   const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
   const [openSupliersProductsDialog, setOpenSupliersProductsDialog] = useState(false)
+  const [openQuantiesToZeroDialog, setOpenQuantiesToZeroDialog] = useState(false)
+  const [gridApi, setGridApi] = useState(null)
 
 
   const [supliers, setSupliers] = useState([
@@ -127,6 +130,8 @@ export default function ItemsByGroup() {
     }
   }, [id]);
 
+ 
+
   function addRow() {
     if (!selecteds) {
       return;
@@ -156,6 +161,11 @@ export default function ItemsByGroup() {
       setRowData([data]);
     } else {
       setRowData([...rowData, data]);
+      var newItems = [data];
+      gridApi && gridApi.applyTransaction({
+        add: newItems,
+        addIndex: rowData.length,
+      });
     }
     return;
   }
@@ -312,10 +322,16 @@ export default function ItemsByGroup() {
     data["Տոկոս Վաճառքի գին"] = div(mult(sub(data["Վաճ գին Վաճառքի գին"], data["Առքի գին"]), 100), data["Առքի գին"]) + "%";
     clone[index] = data;
     localStorage.setItem(`document_buy_${id}`, JSON.stringify(clone));
-    setTimeout(()=>{
+    // setTimeout(()=>{
+     
+      gridApi.setRowData(clone)
       setRowData(clone);
-    },1)
+    // },1)
   }
+
+  useEffect(()=>{
+    console.log('gridApi', gridApi) 
+  },[gridApi])
 
   function generateSellingPrices(percent, byWhom, fixBy) {
     let clone = JSON.parse(JSON.stringify(rowData));
@@ -346,6 +362,34 @@ export default function ItemsByGroup() {
       };
     });
     setRowData(clone);
+    var itemsToUpdate = [];
+    gridApi.forEachNodeAfterFilterAndSort(function (rowNode, index) {
+      var data = rowNode.data;
+      let sellingPrice = data["Վաճ գումար Վաճառքի գին"];
+      let quanty = data["Քանակ"];
+      if (byWhom === "Առքի գին") {
+        sellingPrice = data["Առքի գին"] + (data["Առքի գին"] * percent) / 100;
+      } else {
+        sellingPrice =
+          data["Մատակարարի գին"] + (data["Մատակարարի գին"] * percent) / 100;
+      }
+      if (fixBy === 5) {
+        sellingPrice = Math.ceil(sellingPrice / 5) * 5;
+      } else {
+        sellingPrice = Math.ceil(sellingPrice / 10) * 10;
+      }
+      let percentTotal =
+        ((sellingPrice - data["Առքի գին"]) * 100) / data["Առքի գին"];
+      percentTotal = Number.isInteger(percentTotal)
+        ? percentTotal
+        : percentTotal.toFixed(2);
+        data["Վաճ գումար Վաճառքի գին"] = sellingPrice * quanty;
+        data["Վաճ գին Վաճառքի գին"] = sellingPrice;
+        data["Տոկոս Վաճառքի գին"] = percentTotal + "%";
+      
+      itemsToUpdate.push(data);
+    });
+    gridApi.applyTransaction({ update: itemsToUpdate });
   }
 
   return (
@@ -362,12 +406,14 @@ export default function ItemsByGroup() {
         setParentRowData={setRowData}
         open={openSupliersProductsDialog}
         setOpen={setOpenSupliersProductsDialog}
+        gridApi={gridApi}
         id={id}
         document={document}
       />
       <GenerateSellPrices
         generateSellingPrices={generateSellingPrices}
         open={openSellGen}
+        gridApi={gridApi}
         setOpen={setOpenSellGen}
       />
       <Editor
@@ -386,11 +432,21 @@ export default function ItemsByGroup() {
       />
       <SnackbarMessage open={success} setOpen={setSuccess} />
 
+      <QuantiesToZeroDialog
+        open={openQuantiesToZeroDialog}
+        setOpen={setOpenQuantiesToZeroDialog}
+        setRowData={setRowData}
+        rowData={rowData}
+        gridApi={gridApi}
+        initialData={initialData}
+      />
+      
       <DeleteRowDialog
         open={openDelete}
         setOpen={setOpenDelete}
         setRowData={setRowData}
         rowData={rowData}
+        gridApi={gridApi}
         initialData={initialData}
       />
       <div className={style.addProduct}>
@@ -567,7 +623,7 @@ export default function ItemsByGroup() {
                   ՈՒղարկել &nbsp;
                   <TelegramIcon />
                 </Button>
-                <Button style={{ marginRight: "20px" }} variant="contained">
+                <Button onClick={()=>{setOpenQuantiesToZeroDialog(true)}} style={{ marginRight: "20px" }} variant="contained">
                   Զրոյացնել քան․ &nbsp;
                   <RemoveIcon />
                 </Button>
@@ -585,6 +641,7 @@ export default function ItemsByGroup() {
           </Grid>
         </Grid>
         {!!rowData.length && <Table
+          setGridApi={setGridApi}
           rowData={rowData}
           editabeFields={[
             "Քանակ",
