@@ -10,12 +10,12 @@ import {
     EDIT_GROUP_ACTION,
     EDIT_GROUP_SET,
     EDIT_SUBGROUP_ACTION,
-    END_EDITING,
+    END_EDITING, MOVING_START,
     OPEN_CLASSIFIERS,
     OPEN_HANDLER,
     PROD_GROUP_SET,
     SELECT_TREE_GROUP_ITEM,
-    SELECT_TREE_ITEM,
+    SELECT_TREE_ITEM, SET_BUFFER_COPY, SET_CUT_PASTE,
     SET_GROUP_VALUE,
     SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
@@ -36,6 +36,7 @@ const initialState = {
     own_status: false,
     own_move: false,
     own_select: null,
+    buffer: null,
     own_id: null,
     edit: null,
     add: null,
@@ -81,6 +82,33 @@ const initialState = {
 export default function characteristicsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case MOVING_START:
+            return {
+                ...state,
+                buffer: null,
+                activeAction: null,
+                own_select: null,
+                node: null,
+                subgroup: null
+
+            }
+        case SET_CUT_PASTE:
+            return {
+                ...state,
+                buffer: null,
+                activeAction: null,
+                own_select: null,
+                node: null,
+                subgroup: null
+            }
+        case SET_BUFFER_COPY:
+            return {
+                ...state,
+                buffer: action.node,
+                node: null,
+                activeAction: action.act,
+                own_select: null
+            }
         case CLOSE_PRODUCT_MODAL:
             return {
                 ...state, own_subgroups: null
@@ -98,7 +126,13 @@ export default function characteristicsReducer(state = initialState, action) {
             }
         case START_MOVE_ACTION:
             return {
-                ...state, own_move: !state.own_move
+                ...state,
+                own_move: !state.own_move,
+                buffer: null,
+                activeAction: null,
+                own_select: null,
+                node: null,
+                subgroup: null
             }
         case SET_WITHOUT_DELETED_GROUP:
             return {
@@ -209,7 +243,7 @@ export default function characteristicsReducer(state = initialState, action) {
         case SELECT_TREE_ITEM:
             return {
                 ...state,
-                node: action.node,
+                node: action.id === state.own_select && state.node && action.catId === state.own_cat_id ? null : action.node,
                 catId: action.catId,
                 path: action.path,
                 own_select: action.id === state.own_select ? null : action.id,

@@ -11,51 +11,9 @@ import AddContent from "./add-content/add-content";
 import Icons from "../Icons/icons";
 import SpinnerForContent from "../UI/spinners/spinerForContent/spinnerForContent";
 import TreeContent from "./tree-content/tree-content";
-import CoupleButtons from "../couple-action-buttons/couple-action-buttons";
 
 const TreeViewer = React.forwardRef((props, ref) => {
     const [open, setOpen] = useState(true);
-
-    const groupActionsRender = () => {
-
-        if (props.moveElement !== null) {
-
-            if (props.node) {
-                if (parseInt(props.node.parent_id) === 0) {
-                    return (
-                        <CoupleButtons
-                            type={"move"}
-                            checkSuccess={event => {
-                                event.stopPropagation();
-                                props.moveIsHere({parent_id: 0})
-                            }}
-                            checkMoveSuccess={event => {
-                                event.stopPropagation();
-                                props.moveIsHere({sort: 0}, "move")
-                            }}
-                            checkClose={event => {
-                                event.stopPropagation();
-                                props.cancelEditing();
-                            }}
-                        />
-                    )
-                }
-                return (
-                    <CoupleButtons
-                        type={"only-move"}
-                        checkSuccess={event => {
-                            event.stopPropagation();
-                            props.moveIsHere({id: 0})
-                        }}
-                        checkClose={event => {
-                            event.stopPropagation();
-                            props.cancelEditing();
-                        }}
-                    />
-                )
-            }
-        }
-    }
 
     // Drag&Drop
 
@@ -63,17 +21,27 @@ const TreeViewer = React.forwardRef((props, ref) => {
         tree.selectNode(node)
         props.select(node, node.id, node.state.path, node.cat_id)
         event.dataTransfer.setData("object", JSON.stringify({id: node.id, parent_id: node.parent_id, cat_id: node.cat_id, sort: node.sort, name: node.name}))
-        props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.catId, param: {id: node.id}}, node.id)
+        props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: node.cat_id, param: {id: node.id}}, node.id)
     }
 
     const dragOver = event => {
         event.preventDefault();
     }
 
-    const dragEnter = event => {
+    const dragAllItemEnter = event => {
         event.preventDefault();
         event.stopPropagation();
-        event.target.style.color = "#FF8927";
+        if (parseInt(props.node.parent_id) !== 0) {
+            event.target.style.color = "#FF8927";
+        }
+    }
+
+    const dragEnter = (event, node) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!props.node.contains(node) && props.node.id !== node.id) {
+            event.target.style.color = "#FF8927";
+        }
     }
 
     const dragLeave = event => {
@@ -81,14 +49,29 @@ const TreeViewer = React.forwardRef((props, ref) => {
         event.target.style.color = "";
     }
 
-    const drop = event => {
+    const drop = (event, t, n) => {
         event.preventDefault();
-        console.log(event.dataTransfer.getData("object"))
+        const moving_data = JSON.parse(event.dataTransfer.getData("object"))
+        if (n) {
+            if (!props.node.contains(n) && props.node.id !== n.id) {
+                props.dropInside(moving_data, n)
+            }
+        } else {
+            if (parseInt(props.node.parent_id) !== 0) {
+                props.dropInside(moving_data)
+            }
+        }
+        event.target.style.color = "";
     }
 
     const dragEnd = event => {
         event.preventDefault();
         event.target.style.color = "";
+        if (ref.current) {
+            const {tree} = ref.current;
+            tree.selectNode()
+            props.setMovingStart()
+        }
     }
 
     const onDragTogglerEnter = (event, t, n) => {
@@ -100,16 +83,22 @@ const TreeViewer = React.forwardRef((props, ref) => {
         event.target.style.color = "";
     }
 
-    const dragLineEnter = event => {
-        event.target.style.background = "#0da3e0";
-        event.target.style.borderLeftColor = "#0da3e0";
-        event.target.style.borderRightColor = "#0da3e0";
+    const dragLineEnter = (event, node) => {
+        if ((parseInt(props.node.parent_id) === parseInt(node.parent_id) || parseInt(props.node.parent_id) === node.id) && props.node.id !== node.id) {
+            event.target.style.background = "#0da3e0";
+        }
     }
 
     const dragLineLeave = event => {
         event.target.style.background = "";
-        event.target.style.borderLeftColor = "";
-        event.target.style.borderRightColor = "";
+    }
+
+    const dropLine = (event, t, n) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const moving_data = JSON.parse(event.dataTransfer.getData("object"))
+        props.sortInside(moving_data, n)
+        event.target.style.background = "";
     }
 
     return (
@@ -123,7 +112,16 @@ const TreeViewer = React.forwardRef((props, ref) => {
                     props.selectTreeGroupItem(props.group.id)
                 }}
             >
-                <div className={classes.content}>
+                <div
+                    className={classes.content}
+                    onDragOver={dragOver}
+                    onDragLeave={dragLeave}
+                    onDragEnter={dragAllItemEnter}
+                    onDrop={event => {
+                        drop(event)
+                    }}
+                    onDragEnd={dragEnd}
+                >
                     {
                         props.own_subgroups && props.own_subgroups.length ?
                             <CustomButton
@@ -152,7 +150,6 @@ const TreeViewer = React.forwardRef((props, ref) => {
                     }
                     <span>Բոլորը</span>
                 </div>
-                {groupActionsRender()}
             </div>
             <div>
                 {
@@ -226,8 +223,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             }}
                                             onDragOver={dragOver}
                                             onDragLeave={dragLeave}
-                                            onDragEnter={dragEnter}
-                                            onDrop={drop}
+                                            onDragEnter={event => {
+                                                dragEnter(event, node)
+                                            }}
+                                            onDrop={event => {
+                                                drop(event, tree, node)
+                                            }}
                                             onDragEnd={dragEnd}
                                             groupId={props.groupId}
                                             selected={node.state.selected}
@@ -277,11 +278,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                     moveElement={props.moveElement}
                                                     subgroupName={props.subgroupName}
                                                     newSubgroup={props.newSubgroup}
+                                                    activeAction={props.activeAction}
+                                                    buffer={props.buffer}
+                                                    own_select={props.own_select}
                                                     // Methods
                                                     changeSubgroupName={props.changeSubgroupName}
                                                     editSubgroup={props.editSubgroup}
-                                                    moveIsHere={props.moveIsHere}
-                                                    checkMoveSuccess={props.moveIsHere}
                                                     cancelEditing={props.cancelEditing}
                                                 />
                                             </div>
@@ -289,7 +291,13 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                 className={classes.line}
                                                 onDragOver={dragOver}
                                                 onDragLeave={dragLineLeave}
-                                                onDragEnter={dragLineEnter}
+                                                onDragEnter={event => {
+                                                    dragLineEnter(event, node)
+                                                }}
+                                                onDrop={event => {
+                                                    dropLine(event, tree, node)
+                                                }}
+                                                onDragEnd={dragEnd}
                                             />
                                         </TreeNode>
                                 }}

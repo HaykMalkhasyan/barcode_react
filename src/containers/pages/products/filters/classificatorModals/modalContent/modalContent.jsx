@@ -147,9 +147,11 @@ const ModalContent = props => {
             const {tree} = ref.current;
             const changeNode = node;
             node.name = newSubgroup.name;
-            tree.swapNodes(changeNode, node)
+            tree.swapNodes(changeNode, node);
             props.editSubgroup(newSubgroup);
-            tree.openNode(node.getParent());
+            if (node.getParent()) {
+                tree.openNode(node.getParent());
+            }
             tree.update();
             tree.selectNode();
         }
@@ -166,50 +168,46 @@ const ModalContent = props => {
 
     const moveHandler = event => {
         event.stopPropagation();
-        if (props.own_move) {
-            if (ref.current) {
-                const {tree} = ref.current;
-                tree.selectNode();
-                props.setGroupValues("node", null)
-                props.setGroupValues("own_select", null)
-            }
-        }
-        props.startMoveAction();
-    };
-
-    const moveIsHere = async (node, move = null) => {
         if (ref.current) {
             const {tree} = ref.current;
-            tree.update();
             tree.selectNode();
-            const subgroup = {...props.subgroup};
-            if (move === "move") {
-                if (Object.keys(node).length > 1) {
-                    const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
-                    props.sortTree(nods, tree, props.catId, node, node.getParent() || null, true);
-                } else {
-                    const nods = props.own_subgroups;
-                    props.sortTree(nods, tree, props.catId, node, false);
-                }
-                // await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, sort: (parseInt(node.sort) + 1), name: subgroup[`name_${cookie.get("language") || "am"}`]});
-            } else {
-                await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
-                const movingNode = {...props.node};
-                console.log(Object.keys(node).length)
-                if (Object.keys(node).length > 1) {
-                    tree.removeNode(props.node)
-                    movingNode.parent_id = parseInt(node.id)
-                    movingNode.sort = 0;
-                    tree.addChildNodes(movingNode, 0, node)
-                    tree.openNode(node)
-                } else {
-                    movingNode.parent_id = 0;
-                    movingNode.sort = 0;
-                    tree.removeNode(props.node)
-                    tree.addChildNodes(movingNode, 0)
-                }
+            props.startMoveAction();
+        }
+    };
 
+    // Drop inside (change place)
+    const dropInside = async (mData, node) => {
+        if (ref.current) {
+            const {tree} = ref.current;
+            const subgroup = {...props.subgroup};
+            const movingNode = {...props.node};
+            if (node) {
+                await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]});
+                tree.selectNode();
+                tree.removeNode(props.node)
+                movingNode.parent_id = parseInt(node.id)
+                movingNode.sort = 0;
+                tree.addChildNodes(movingNode, 0, node)
+                tree.openNode(node)
+            } else {
+                await props.editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: 0, name: subgroup[`name_${cookie.get("language") || "am"}`]});
+                movingNode.parent_id = 0;
+                movingNode.sort = 0;
+                tree.removeNode(props.node)
+                tree.addChildNodes(movingNode, 0)
             }
+            props.setMoveAction();
+        }
+    }
+
+    // Drop line (change sort)
+    const sortInside = (mData, node) => {
+        if (ref.current) {
+            const {tree} = ref.current;
+            tree.selectNode();
+            console.log(mData, node)
+            const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
+            props.sortTree(nods, tree, props.catId, node, node.getParent() || null, true);
             props.setMoveAction();
         }
     }
@@ -217,6 +215,33 @@ const ModalContent = props => {
     const backPageHandler = () => {
         props.classifierOpenHandler(props.group.id)
     };
+
+    const copyHandler = (act) => {
+        props.getActionById("GET", "subgroup", {path: "Group/SubGroup", id: props.node.cat_id, param: {id: props.node.id}}, props.node.id)
+        if (ref.current) {
+            const {tree} = ref.current;
+            tree.selectNode();
+            props.subgroupCopy(props.node, act)
+        }
+    }
+
+    const pasteHandler = async () => {
+        if (ref.current) {
+            const {tree} = ref.current;
+
+            switch (props.activeAction) {
+                case "copy": {
+                    props.copyPaste(tree)
+                    break;
+                }
+                case "cut": {
+                    props.cutPaste(tree);
+                    break;
+                }
+                default: break;
+            }
+        }
+    }
 
     return (
         <div className={classes.main}>
@@ -259,16 +284,18 @@ const ModalContent = props => {
                 activeAction={props.activeAction}
                 moveElement={props.moveElement}
                 own_move={props.own_move}
+                buffer={props.buffer}
                 // Methods
                 groupNameChangeHandler={groupNameChangeHandler}
                 moveHandler={moveHandler}
+                copyHandler={copyHandler}
+                pasteHandler={pasteHandler}
                 onEditSubgroup={onEditSubgroup}
                 onAddSubgroup={onAddSubgroup}
                 onAddGroup={onAddGroup}
                 deleteHandler={deleteHandler}
                 searchChangeHandler={searchChangeHandler}
                 addSubgroup={successAdding}
-                moveIsHere={moveIsHere}
                 cancelEditing={cancelAdding}
                 setGroupValues={props.setGroupValues}
                 editSubgroup={editHandler}
@@ -276,6 +303,10 @@ const ModalContent = props => {
                 selectTreeItem={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
                 getActionById={props.getActionById}
+                setMovingStart={props.setMovingStart}
+                //***********************************
+                dropInside={dropInside}
+                sortInside={sortInside}
             />
             <FooterContent
                 newGroup={props.newGroup}

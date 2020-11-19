@@ -35,8 +35,11 @@ const SectionContent = React.forwardRef((props, ref) => {
                                 activeAction={props.activeAction}
                                 own_move={props.own_move}
                                 node={props.node}
+                                buffer={props.buffer}
                                 // Methods
                                 moveHandler={props.moveHandler}
+                                copyHandler={props.copyHandler}
+                                pasteHandler={props.pasteHandler}
                                 onEditSubgroup={props.onEditSubgroup}
                                 onAddSubgroup={props.onAddSubgroup}
                                 onAddGroup={props.onAddGroup}
@@ -75,18 +78,23 @@ const SectionContent = React.forwardRef((props, ref) => {
                     node={props.node}
                     nodeStatus={props.nodeStatus}
                     moveElement={props.moveElement}
+                    activeAction={props.activeAction}
+                    buffer={props.buffer}
                     own_move={props.own_move}
                     type={'edit'}
                     // Methods
                     selectTreeItem={props.selectTreeItem}
                     editSubgroup={props.editSubgroup}
                     addSubgroup={props.addSubgroup}
-                    moveIsHere={props.moveIsHere}
                     setGroupValues={props.setGroupValues}
                     changeSubgroupName={props.changeSubgroupName}
                     selectTreeGroupItem={props.selectTreeGroupItem}
                     cancelEditing={props.cancelEditing}
                     getActionById={props.getActionById}
+                    setMovingStart={props.setMovingStart}
+                    //*****************
+                    dropInside={props.dropInside}
+                    sortInside={props.sortInside}
                 />
             </div>
         </section>
