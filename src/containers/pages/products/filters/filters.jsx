@@ -13,7 +13,7 @@ import {
     changeSubgroupName,
     checkGroup,
     closeAction,
-    closeClassifiers,
+    closeClassifiers, copyPaste, cutPaste,
     deleteAction,
     deleteClassifiersAction,
     deleteModalClose,
@@ -31,9 +31,9 @@ import {
     selectTreeGroupItem,
     selectTreeItem,
     setGroupValues,
-    setMoveAction,
+    setMoveAction, setMovingStart,
     sortTree,
-    startMoveAction
+    startMoveAction, subgroupCopy
 } from "../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../components/modalUI/modalUI";
 import {
@@ -150,8 +150,8 @@ class Filters extends Component {
                         activeAction={this.props.activeAction}
                         subgroupName={this.props.subgroupName}
                         own_move={this.props.own_move}
-                        // is worked
                         moveElement={this.props.moveElement}
+                        buffer={this.props.buffer}
                         /* ------- */
                         // Methods
                         handleClose={this.handleClose}
@@ -177,6 +177,10 @@ class Filters extends Component {
                         setMoveAction={this.props.setMoveAction}
                         sortTree={this.props.sortTree}
                         selectSubgroup={this.props.selectSubgroup}
+                        subgroupCopy={this.props.subgroupCopy}
+                        setMovingStart={this.props.setMovingStart}
+                        cutPaste={this.props.cutPaste}
+                        copyPaste={this.props.copyPaste}
                     />
                 </ModalUI>
                 <ModalUI
@@ -272,6 +276,7 @@ function mapStateToProps(state) {
         nodeStatus: state.characteristics.nodeStatus,
         activeAction: state.characteristics.activeAction,
         own_move: state.characteristics.own_move,
+        buffer: state.characteristics.buffer,
         // Products modal
         modalTabs: state.products.modalTabs,
         open: state.products.open,
@@ -316,6 +321,10 @@ function mapDispatchToProps(dispatch) {
         setMoveAction: () => dispatch(setMoveAction()),
         sortTree: (data, ref, catId, node, level) => dispatch(sortTree(data, ref, catId, node, level)),
         selectSubgroup: subgroup => dispatch(selectSubgroup(subgroup)),
+        subgroupCopy: (node, act) => dispatch(subgroupCopy(node, act)),
+        cutPaste: tree => dispatch(cutPaste(tree)),
+        copyPaste: tree => dispatch(copyPaste(tree)),
+        setMovingStart: () => dispatch(setMovingStart()),
     }
 }
 

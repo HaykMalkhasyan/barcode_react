@@ -31,10 +31,10 @@
 }
 
 .searchWindow > div:first-child{
-    width: 30%;
+    width: 55%;
 }
 .searchWindow > div:last-child{
-    width: 70%;
+    width: 45%;
 }
 
 .hide > div {

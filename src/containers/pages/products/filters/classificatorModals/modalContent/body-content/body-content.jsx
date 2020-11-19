@@ -23,7 +23,10 @@ const BodyContent = React.forwardRef((props, ref) => {
                 nodeStatus={props.nodeStatus}
                 moveElement={props.moveElement}
                 own_status={props.own_status}
+                activeAction={props.activeAction}
+                buffer={props.buffer}
                 own_move={props.own_move}
+                own_select={props.own_select}
                 // Methods
                 select={props.selectTreeItem}
                 selectTreeGroupItem={props.selectTreeGroupItem}
@@ -31,9 +34,12 @@ const BodyContent = React.forwardRef((props, ref) => {
                 setGroupValues={props.setGroupValues}
                 editSubgroup={props.editSubgroup}
                 addSubgroup={props.addSubgroup}
-                moveIsHere={props.moveIsHere}
                 cancelEditing={props.cancelEditing}
                 getActionById={props.getActionById}
+                setMovingStart={props.setMovingStart}
+                //*************
+                dropInside={props.dropInside}
+                sortInside={props.sortInside}
             />
         </div>
     )

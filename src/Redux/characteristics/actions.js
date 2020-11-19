@@ -11,11 +11,11 @@ import {
     EDIT_GROUP_ACTION,
     EDIT_GROUP_SET,
     EDIT_SUBGROUP_ACTION,
-    END_EDITING,
+    END_EDITING, MOVING_START,
     OPEN_CLASSIFIERS,
     OPEN_HANDLER,
     SELECT_TREE_GROUP_ITEM,
-    SELECT_TREE_ITEM,
+    SELECT_TREE_ITEM, SET_BUFFER_COPY, SET_CUT_PASTE,
     SET_GROUP_VALUE, SET_MOVE_ACTION,
     SET_RENDERED_FILTER_TREE_VALUE,
     SET_RENDERED_TREE_VALUE,
@@ -326,6 +326,77 @@ export function renderTree(data, place) {
     }
 }
 
+export function cutPaste(tree) {
+
+    return async (dispatch, getState) => {
+        const groupId = getState().characteristics.groupId;
+        const subgroup = {...getState().characteristics.subgroup};
+        const buffer = getState().characteristics.buffer;
+        const movingNode = {...buffer};
+        if (groupId === null) {
+            const node = getState().characteristics.node;
+            await dispatch(editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]}))
+            tree.selectNode();
+            tree.removeNode(buffer);
+            movingNode.parent_id = parseInt(node.id)
+            movingNode.sort = 0;
+            tree.addChildNodes(movingNode, 0, node)
+            tree.openNode(node)
+        } else {
+            await dispatch(editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: 0, name: subgroup[`name_${cookie.get("language") || "am"}`]}))
+            tree.selectNode();
+            tree.removeNode(buffer);
+            movingNode.parent_id = 0;
+            movingNode.sort = 0;
+            tree.addChildNodes(movingNode, 0)
+        }
+        dispatch(setCutCopyPaste())
+    }
+}
+
+export function copyPaste(tree) {
+
+    return async (dispatch, getState) => {
+        const groupId = getState().characteristics.groupId;
+        const subgroup = {...getState().characteristics.subgroup};
+        const buffer = getState().characteristics.buffer;
+        const movingNode = {...buffer};
+        if (groupId === null) {
+            const node = getState().characteristics.node;
+            dispatch(addSubgroup({cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]}, "inside", tree, node, buffer))
+        } else {
+            await dispatch(editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: 0, name: subgroup[`name_${cookie.get("language") || "am"}`]}))
+            tree.selectNode();
+            movingNode.parent_id = 0;
+            movingNode.sort = 0;
+            movingNode.children = [];
+            tree.addChildNodes(movingNode, 0)
+        }
+        dispatch(setCutCopyPaste())
+    }
+}
+
+export function setCutCopyPaste() {
+
+    return {
+        type: SET_CUT_PASTE
+    }
+}
+
+export function setMovingStart() {
+
+    return {
+        type: MOVING_START
+    }
+}
+
+export function subgroupCopy(node, act) {
+
+    return {
+        type: SET_BUFFER_COPY, node, act
+    }
+}
+
 export function sortTree(data, ref, catId, node, level) {
 
     return (dispatch, getState) => {
@@ -395,11 +466,10 @@ export function sortTree(data, ref, catId, node, level) {
 
 export function subgroupsSort(object) {
 
-    return async dispatch => {
+    return async () => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios.post(API_URL, {...object}, getHeaders({}, {}));
-                console.log(response.data)
+                await Axios.post(API_URL, {...object}, getHeaders({}, {}));
             } catch (error) {
                 console.log(error)
             }
@@ -461,7 +531,7 @@ export function getOnlySubgroupWithGroupId(id, place = null) {
     }
 }
 
-export function addSubgroup(data, node, ref) {
+export function addSubgroup(data, node, ref, cNode = null, buffer = null) {
 
     return async dispatch => {
         if (cookie.get('access')) {
@@ -472,10 +542,17 @@ export function addSubgroup(data, node, ref) {
                 data.id = +response.data["last_inserted_id"]
                 data.sort = 0;
                 if (ref) {
-                    if (node) {
+                    if (node && node !== "inside") {
                         ref.removeNode(node)
                         ref.appendChildNode(data, node.getParent())
                         ref.openNode(node.getParent())
+                    } if (node === "inside") {
+                        const movingNode = {...buffer};
+                        ref.selectNode();
+                        movingNode.parent_id = parseInt(cNode.id)
+                        movingNode.sort = 0;
+                        ref.addChildNodes(movingNode, 0, cNode)
+                        ref.openNode(cNode)
                     } else {
                         data.children = []
                         ref.addChildNodes(data, 0)

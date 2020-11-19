@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./add-content.module.css";
 import CustomInput from "../../UI/input/customInput/customInput";
-import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
 import Icons from "../../Icons/icons";
+import CoupleButtons from "../../couple-action-buttons/couple-action-buttons";
 
 const AddContent = props => {
 
