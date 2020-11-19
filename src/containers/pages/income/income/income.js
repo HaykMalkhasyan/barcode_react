@@ -13,6 +13,7 @@ export default function Income() {
   const [selectedSubTab, setSelectedSubTab] = useState({});
   const [collapse, setCollapse] = useState(false);
   const [exportStatus, setExportStatus] = useState({ bool: false, type: "" });
+  const [gridApi, setGridApi] = useState(null)
 
   const initialData = [
     {
@@ -52,10 +53,11 @@ export default function Income() {
     setExportStatus({ bool: true, type });
   }
 
-  const [rowData, setRowData] = useState(initialData);
+  const [rowData, setRowData] = useState([]);
   return (
     <div className={style.fullContainer}>
       <AddDocument
+        gridApi={gridApi}
         root={style.backdrop}
         open={openAddDocument}
         setOpen={setOpenAddDocument}
@@ -145,7 +147,7 @@ export default function Income() {
               })}
           </div>
         </Collapse>
-        {!!rowData.length && <Table settings={"settings"} rowData={rowData} exportStatus={exportStatus} />}
+        {!!rowData.length && <Table setGridApi={setGridApi} settings={"settings"} rowData={rowData} exportStatus={exportStatus} />}
       </div>
     </div>
   );

@@ -23,10 +23,9 @@ export default function AlertDialog(props) {
   const [fullData, setFullData] = useState([])
 
   const history = useHistory();
-  useEffect(()=>{
-    setRowData([])
-    setRowData(table)
-    },[perPage])
+  // useEffect(()=>{
+  //   console.log('props', props)
+  //   },[props])
 
   useEffect(()=>{
     let fullDocumentData = localStorage.getItem("Full_Documents")
@@ -93,6 +92,7 @@ export default function AlertDialog(props) {
           "Տոկոս Վաճառքի գին": 0,
           Բարկոդ: "",
         })
+        
       }
       return total
     },[])
@@ -100,6 +100,12 @@ export default function AlertDialog(props) {
 
     if(getAddRows.length){
       props.setParentRowData([...props.parentRowData, ...getAddRows])
+      var newItems = getAddRows;
+              
+                props.gridApi && props.gridApi.applyTransaction({
+                add: newItems,
+                addIndex: props.parentRowData.length,
+              })
     }
     setOpen(false);
    return
@@ -153,6 +159,7 @@ export default function AlertDialog(props) {
           setOpenSulierProductDialog={setOpen}
           setParentRowData={props.setParentRowData}
           parentRowData={props.parentRowData}
+          parentGridApi={props.gridApi}
           fullData={fullData}
           rowData={rowData}
           editabeFields={[
