@@ -12,7 +12,12 @@ export function getPriceTypeRequest() {
         if (cookie.get("access")) {
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Prices/Price", cols: "id, name"}));
-                dispatch(setPriceType(response.data.results))
+                const data = response.data.results;
+                const values = {};
+                for (let item of data) {
+                    values[item.id] = '';
+                }
+                dispatch(setPriceType(data, values))
             } catch (error) {
                 dispatch(setPriceTypeRequestError())
                 console.log("Price error")
@@ -28,10 +33,10 @@ export function startRequest() {
     }
 }
 
-export function setPriceType(data) {
+export function setPriceType(data, values) {
 
     return {
-        type: SET_PRICE_TYPE, data
+        type: SET_PRICE_TYPE, data, values
     }
 }
 

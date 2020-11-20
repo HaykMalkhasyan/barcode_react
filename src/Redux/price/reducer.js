@@ -6,10 +6,7 @@ const initialState = {
     // data
     data: null,
     // data values
-    value_1: "",
-    value_2: "",
-    value_3: "",
-    value_4: "",
+    values: null,
 };
 
 export default function priceReducer(state = initialState, action) {
@@ -21,11 +18,11 @@ export default function priceReducer(state = initialState, action) {
             }
         case SET_PRICE_TYPE_ERROR:
             return {
-                ...state, data: null, error: true, progress: false
+                ...state, data: null, values: null, error: true, progress: false
             }
         case SET_PRICE_TYPE:
             return {
-                ...state, data: action.data, progress: false
+                ...state, data: action.data, values: action.values, progress: false
             }
         case SET_PRICE_VALUE:
             return {

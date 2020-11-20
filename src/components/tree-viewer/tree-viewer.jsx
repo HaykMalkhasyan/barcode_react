@@ -281,10 +281,14 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                     activeAction={props.activeAction}
                                                     buffer={props.buffer}
                                                     own_select={props.own_select}
+                                                    own_move={props.own_move}
+                                                    type={props.type}
                                                     // Methods
                                                     changeSubgroupName={props.changeSubgroupName}
                                                     editSubgroup={props.editSubgroup}
                                                     cancelEditing={props.cancelEditing}
+                                                    copyHandler={props.copyHandler}
+                                                    pasteHandler={props.pasteHandler}
                                                 />
                                             </div>
                                             <div

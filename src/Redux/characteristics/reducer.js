@@ -238,7 +238,7 @@ export default function characteristicsReducer(state = initialState, action) {
             }
         case SELECT_TREE_GROUP_ITEM:
             return {
-                ...state, groupId: action.id === state.groupId ? null : action.id, own_select: null
+                ...state, groupId: action.id === state.groupId ? null : action.id, own_select: null, node: null
             }
         case SELECT_TREE_ITEM:
             return {
