@@ -81,7 +81,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     activeAction={props.activeAction}
                     buffer={props.buffer}
                     own_move={props.own_move}
-                    type={'edit'}
+                    type={!props.own_status}
                     // Methods
                     selectTreeItem={props.selectTreeItem}
                     editSubgroup={props.editSubgroup}
@@ -95,6 +95,8 @@ const SectionContent = React.forwardRef((props, ref) => {
                     //*****************
                     dropInside={props.dropInside}
                     sortInside={props.sortInside}
+                    copyHandler={props.copyHandler}
+                    pasteHandler={props.pasteHandler}
                 />
             </div>
         </section>

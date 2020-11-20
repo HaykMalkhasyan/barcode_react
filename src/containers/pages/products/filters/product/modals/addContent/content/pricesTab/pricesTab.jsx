@@ -64,8 +64,11 @@ class PricesTab extends Component {
     }
 
     valueChangeHandler = (name, value) => {
+
         if (is.number(+value) && !value.startsWith(0)) {
-            this.props.setPriceValue(name, value.trim());
+            const values = {...this.props.values};
+            values[name] = value.trim();
+            this.props.setPriceValue("values", values);
         } else {
             this.setState({error: name})
             setTimeout(() => this.setState({error: null}), 100)
@@ -95,7 +98,7 @@ class PricesTab extends Component {
                                 <b>ՀՀ Դրամ</b>
                             </div>
                             {
-                                this.props.data && this.props.data.length ?
+                                this.props.values && this.props.data && this.props.data.length ?
                                     this.props.data.map((item, index) => {
 
                                         return (
@@ -103,12 +106,12 @@ class PricesTab extends Component {
                                                 <CustomInput
                                                     checkRef={parseInt(this.state.focus) === parseInt(index)}
                                                     id={item.id}
-                                                    name={`value_${item.id}`}
-                                                    classNameLabel={this.props[`value_${item.id}`].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
-                                                    classNameInput={this.state.error === `value_${item.id}` ? `${classes.input} ${classes.error}` : classes.input}
+                                                    name={item.id}
+                                                    classNameLabel={this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
+                                                    classNameInput={this.state.error === item.id ? `${classes.input} ${classes.error}` : classes.input}
                                                     label={item.name}
                                                     placeholder={`[1-9]{1} / [0-9]`}
-                                                    value={this.props[`value_${item.id}`]}
+                                                    value={this.props.values[item.id]}
                                                     // Methods
                                                     onChange={event => {
                                                         this.valueChangeHandler(event.target.name, event.target.value)
@@ -152,10 +155,7 @@ function mapStateToProps(state) {
         progress: state.price.progress,
         error: state.price.error,
         data: state.price.data,
-        value_1: state.price.value_1,
-        value_2: state.price.value_2,
-        value_3: state.price.value_3,
-        value_4: state.price.value_4,
+        values: state.price.values,
     }
 }
 

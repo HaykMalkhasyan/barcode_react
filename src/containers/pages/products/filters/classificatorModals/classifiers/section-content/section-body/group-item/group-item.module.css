@@ -100,3 +100,9 @@
     from {width: 0}
     to {width: 100%}
 }
+
+@media (max-width: 600px) {
+    .classifiersItem p {
+        font-size: 10px;
+    }
+}

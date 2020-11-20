@@ -40,6 +40,8 @@ const BodyContent = React.forwardRef((props, ref) => {
                 //*************
                 dropInside={props.dropInside}
                 sortInside={props.sortInside}
+                copyHandler={props.copyHandler}
+                pasteHandler={props.pasteHandler}
             />
         </div>
     )

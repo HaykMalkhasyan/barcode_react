@@ -49,7 +49,7 @@ const TreeContent = props => {
                    {props.node.name}
                </span>
                {
-                   props.selectNode && props.node.id === props.selectNode.id ?
+                   props.selectNode && props.node.id === props.selectNode.id && props.type ?
                        <div className={classes.copyCutPasteButtons}>
                            {/* subgroup copy */}
                            <CustomButton

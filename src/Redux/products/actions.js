@@ -175,8 +175,8 @@ export function setProduct(gallery, type) {
 
     return (dispatch, getState) => {
         const main = {...getState().products.main};
-        const description = {...getState().products.description};
-        const pictures = {...getState().products.pictures};
+        // const description = {...getState().products.description};
+        // const pictures = {...getState().products.pictures};
         const errorFields = [...getState().products.errorFields];
         const open = getState().products.open;
         const init_classifiers = {...getState().products.classifiers};
@@ -190,6 +190,17 @@ export function setProduct(gallery, type) {
         const data = {};
         const init_supplier = getState().suppliers.selected;
         const supplier = init_supplier ? [...init_supplier] : [];
+        const price = {...getState().price.values};
+
+        // Prices
+        const prices = []
+        for (let [key, item] of Object.entries(price)) {
+            prices.push({
+                sub_shop_id: key,
+                item_price: item
+            })
+        }
+        data.prices = [...prices]
 
         // Details (barcode)
         if (barcode.length > 0) {
@@ -213,11 +224,11 @@ export function setProduct(gallery, type) {
                     data.firms += item.id
                 }
             })
-        } else {
+        }/* else {
             if (errorFields.indexOf("suppliers") === -1) {
                 errorFields.push("suppliers")
             }
-        }
+        }*/
 
         // Classifiers
         if (Object.keys(classifiers).length && classifiers[0]) {
@@ -273,7 +284,6 @@ export function setProduct(gallery, type) {
         data.item_type = "piece";
         data.articul = Math.floor(1000 * Math.random());
         data.details = [];
-        data.prices = [];
         data.images = {};
         data.active = main.active;
 

@@ -251,7 +251,6 @@ export function deleteActionSet(id) {
     return (dispatch, getState) => {
         const groups = [...getState().characteristics.groups];
         for (let [key, value] of Object.entries(groups)) {
-            console.log(value)
             if (value.id === id) {
                 groups.splice(+key, 1);
             }
@@ -360,17 +359,11 @@ export function copyPaste(tree) {
         const groupId = getState().characteristics.groupId;
         const subgroup = {...getState().characteristics.subgroup};
         const buffer = getState().characteristics.buffer;
-        const movingNode = {...buffer};
         if (groupId === null) {
             const node = getState().characteristics.node;
             dispatch(addSubgroup({cat_id: subgroup.cat_id, parent_id: node.id, name: subgroup[`name_${cookie.get("language") || "am"}`]}, "inside", tree, node, buffer))
         } else {
-            await dispatch(editSubgroup({id: subgroup.id, cat_id: subgroup.cat_id, parent_id: 0, name: subgroup[`name_${cookie.get("language") || "am"}`]}))
-            tree.selectNode();
-            movingNode.parent_id = 0;
-            movingNode.sort = 0;
-            movingNode.children = [];
-            tree.addChildNodes(movingNode, 0)
+            dispatch(addSubgroup({cat_id: subgroup.cat_id, parent_id: 0, name: subgroup[`name_${cookie.get("language") || "am"}`]}, "inside", tree, null, buffer))
         }
         dispatch(setCutCopyPaste())
     }
@@ -536,7 +529,7 @@ export function addSubgroup(data, node, ref, cNode = null, buffer = null) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                delete data.parent
+                delete data.parent;
                 const response = await Axios.post(API_URL, {path: "Group/SubGroup", param: {...data}}, getHeaders());
                 const new_data = Object.values(response.data.data)
                 data.id = +response.data["last_inserted_id"]
@@ -546,13 +539,24 @@ export function addSubgroup(data, node, ref, cNode = null, buffer = null) {
                         ref.removeNode(node)
                         ref.appendChildNode(data, node.getParent())
                         ref.openNode(node.getParent())
-                    } if (node === "inside") {
+                    } else if (node === "inside") {
                         const movingNode = {...buffer};
-                        ref.selectNode();
-                        movingNode.parent_id = parseInt(cNode.id)
-                        movingNode.sort = 0;
-                        ref.addChildNodes(movingNode, 0, cNode)
-                        ref.openNode(cNode)
+                        if (cNode) {
+                            ref.selectNode();
+                            movingNode.parent_id = parseInt(cNode.id)
+                            movingNode.sort = 0;
+                            movingNode.id = +response.data["last_inserted_id"];
+                            movingNode.children = [];
+                            ref.addChildNodes(movingNode, 0, cNode)
+                            ref.openNode(cNode)
+                        } else {
+                            ref.selectNode();
+                            movingNode.parent_id = 0;
+                            movingNode.sort = 0;
+                            movingNode.children = [];
+                            movingNode.id = +response.data["last_inserted_id"];
+                            ref.addChildNodes(movingNode, 0)
+                        }
                     } else {
                         data.children = []
                         ref.addChildNodes(data, 0)
