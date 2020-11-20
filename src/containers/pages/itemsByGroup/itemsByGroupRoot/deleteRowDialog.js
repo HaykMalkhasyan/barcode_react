@@ -13,6 +13,18 @@ export default function AlertDialog(props) {
 
   const history = useHistory();
   const handleDelete = () => {
+    if(open.documentId){
+      let doc = localStorage.getItem(`documents`)
+      if(doc){
+        doc=JSON.parse(doc)
+        let index = doc.findIndex(x=>x["#"]==open.documentId)
+        if(index !== -1){
+          doc.splice(index, 1)
+          localStorage.setItem(`documents`, JSON.stringify(doc))
+          history.replace("/income")
+        }
+      }
+    }
     if (open.multiple && open.multiple.length) {
       let clone = JSON.parse(JSON.stringify(props.rowData));
       let deletingIds = open.multiple.map(item=>item["#"])

@@ -52,7 +52,7 @@ export default forwardRef((props, ref) => {
   if (visible) {
     return (
       <div className="container">
-        <div style={{display:"flex", justifyContent:"flex-start", alignItems:"center", width:"2000px"}} >
+        <div style={{display:"flex", justifyContent:"flex-start", alignItems:"center", width:"100%"}} >
             <span>
                 <IconButton size="small" >
                     <DeleteForeverIcon />
