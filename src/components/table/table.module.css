@@ -60,6 +60,48 @@
     box-sizing:border-box
 
 }
+.printContent{
+    display: none !important ;
+    padding:20px;
+}
 
+/* .tableRef{
+    height: 557;
+    width: 100%;
+    margin: 0 auto;
+    transition-duration:0.1s;
+} */
+
+@media print {
+    .printContent { display: block !important ; }
+  }
+/*
+  @media all {
+    .page-break {
+      display: none;
+    }
+  }
+   
+  @media print {
+    html, body {
+      height: initial !important;
+      overflow: initial !important;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+   
+  @media print {
+    .page-break {
+      margin-top: 1rem;
+      display: block;
+      page-break-before: auto;
+    }
+  }
+   
+  @page {
+    size: auto;
+    margin: 20mm;
+  }
+   */
 
 

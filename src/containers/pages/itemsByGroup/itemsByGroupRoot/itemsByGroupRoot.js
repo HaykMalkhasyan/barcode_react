@@ -21,6 +21,7 @@ import FormulateDialog from "./FormulateDocument"
 import SupliersProductsDialog from "./supliersProductsDialog"
 import QuantiesToZeroDialog from "./quantiesToZeroDialog"
 import { add, mult, div, sub, getMissing } from "../../../../services/services"
+import PrintDialog from "./printDialog"
 
 export default function ItemsByGroup() {
   const initialData = [
@@ -65,7 +66,11 @@ export default function ItemsByGroup() {
   const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
   const [openSupliersProductsDialog, setOpenSupliersProductsDialog] = useState(false)
   const [openQuantiesToZeroDialog, setOpenQuantiesToZeroDialog] = useState(false)
+  const [openPrintDialog, setOpenPrintDialog] = useState(false)
   const [gridApi, setGridApi] = useState(null)
+  const [columnApi, setColumnApi] = useState(null)
+  const [exportStatus, setExportStatus] = useState({ bool: false, type: "" });
+
 
 
   const [supliers, setSupliers] = useState([
@@ -394,6 +399,15 @@ export default function ItemsByGroup() {
 
   return (
     <div style={{ padding: "144px 18px 8px" }}>
+      <PrintDialog
+        open={openPrintDialog}
+        setOpen={setOpenPrintDialog}
+        gridApi={gridApi}
+        columnApi={columnApi}
+        id={id}
+        exportStatus={exportStatus}
+        setExportStatus={setExportStatus}
+      />
       <FormulateDialog 
         open={openFormulateDialog}
         setOpen={setOpenFormulateDialog}
@@ -582,7 +596,7 @@ export default function ItemsByGroup() {
                   Մատակարարի Ապրանքներ &nbsp;
                   <ViewComfyIcon />
                 </Button>
-                <Button style={{ marginRight: "20px" }} variant="contained">
+                <Button onClick={()=>{setOpenPrintDialog(true); }} style={{ marginRight: "20px" }} variant="contained">
                   Տպել &nbsp;
                   <PrintIcon />
                 </Button>
@@ -641,9 +655,12 @@ export default function ItemsByGroup() {
           </Grid>
         </Grid>
         {!!rowData.length && <Table
+          exportStatus={exportStatus}
+          setExportStatus={setExportStatus}
           setGridApi={setGridApi}
+          setColumnApi={setColumnApi}
           rowData={rowData}
-          editabeFields={[
+          editabeFields={exportStatus.bool ? [] : [
             "Քանակ",
             "Մատակարարի գին",
             "Զեղչ",
