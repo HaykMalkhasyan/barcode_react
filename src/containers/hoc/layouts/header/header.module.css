@@ -229,6 +229,9 @@
 }
 
 .dropLinks {
+    outline: none !important;
+    border: none;
+    background-color: transparent;
     cursor: pointer;
     transition: 300ms;
     text-decoration: none;

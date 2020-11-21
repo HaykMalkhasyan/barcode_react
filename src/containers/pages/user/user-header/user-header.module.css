@@ -1,0 +1,14 @@
+.header {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 30px 15px;
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 10px 0;
+    }
+}

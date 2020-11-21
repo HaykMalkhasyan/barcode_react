@@ -205,7 +205,6 @@ const ModalContent = props => {
         if (ref.current) {
             const {tree} = ref.current;
             tree.selectNode();
-            console.log(mData, node)
             const nods = parseInt(node.id) !== parseInt(props.node.parent_id) ? [...tree.getChildNodes(node.getParent())] : [...node.children];
             props.sortTree(nods, tree, props.catId, node, node.getParent() || null, true);
             props.setMoveAction();

@@ -285,7 +285,7 @@ export function setProduct(gallery, type) {
         data.articul = Math.floor(1000 * Math.random());
         data.details = [];
         data.images = {};
-        data.active = main.active;
+        data.active = !main.active;
 
         // Unit (unit_id)
         if (main.unit_id !== "") {

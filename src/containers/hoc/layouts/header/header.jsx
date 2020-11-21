@@ -20,6 +20,11 @@ const Header = props => {
     const [confWindow, setConfWindow] = useState(true);
     const [submenu, setSubmenu] = useState(null);
 
+    const routeUserPage = () => {
+        setConfWindow(true)
+        props.history.push(`/user/${cookie.get('user').user_id}`)
+    }
+
     const windowScrolling = () => {
         setScroll(window.pageYOffset);
         if (window.innerWidth > 768) {
@@ -134,6 +139,7 @@ const Header = props => {
                 interlocutorWindow={props.interlocutorWindow}
                 // Methods
                 toggleMenu={toggleMenu}
+                routeUserPage={routeUserPage}
                 setActiveMenu={props.setActiveMenu}
                 logout={props.logout}
                 togglePeople={props.togglePeople}

@@ -1,0 +1,15 @@
+.imageWindow {
+    height: 220px;
+    width: 200px;
+    overflow: hidden;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid rgba(0, 0, 0, .04);
+}
+
+.image {
+    height: 220px;
+    display: block;
+}
