@@ -1,0 +1,66 @@
+.contentWindow {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contentWindowHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userName {
+    margin: 0;
+    color: #024059;
+    font-size: 22px;
+}
+
+.editProfileButton {
+    border: none;
+    outline: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    background-color: transparent;
+    cursor: pointer;
+    border-right: 1px solid transparent;
+    transition: 300ms;
+}
+
+.editProfileButton:hover {
+    border-right-color: #FF8927;
+}
+
+.editProfileButton:active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .4) inset;
+}
+
+.editProfileButton > span {
+    margin-right: 5px;
+    font-size: 12px;
+    letter-spacing: .4pt;
+}
+
+.editIcon {
+    font-size: 16px;
+    color: #FF8927;
+}
+
+@media (max-width: 600px) {
+    .contentWindowHeader {
+        flex-direction: column-reverse;
+        margin-bottom: 20px;
+    }
+    .tabs > ul {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .tabsButton {
+        font-size: 10px;
+        padding: 0 3px;
+    }
+}

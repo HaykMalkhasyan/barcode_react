@@ -112,17 +112,15 @@ const UpPanel = props => {
                             </li>
                             {
                                 props.user && props.user.user_id ?
-                                    <NavLink
-                                        exact
-                                        to={`/user/${props.user.user_id}`}
-                                        className={classes.dropLinks}
-                                        activeClassName={classes.dropActive}
+                                    <CustomButton
+                                        className={props.location.pathname.split("/")[1] === "user" ? `${classes.dropLinks} ${classes.dropActive}` : classes.dropLinks}
+                                        onClick={props.routeUserPage}
                                     >
                                         <li className={classes.myPage}>
                                             <Icons type={'own-page'} className={classes.ownPageIcon}/>
                                             <span className={classes.ownerConf}>Իմ էջը</span>
                                         </li>
-                                    </NavLink>
+                                    </CustomButton>
                                     :
                                     <Redirect to={'/'}/>
                             }
