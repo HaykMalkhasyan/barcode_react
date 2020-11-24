@@ -1374,6 +1374,7 @@ const Icons = props => {
                         <g transform="translate(0 -2.312)">
                             <g transform="translate(0 0)">
                                 <path
+                                    style={{...props.style}}
                                     className={props.className || "tree-arrow-right-empty"}
                                     d="M25.832,12.033l-5.594-5.4a.7.7,0,0,1,0-1.007l5.594-5.4a.7.7,0,0,1,1.182.5v10.8a.7.7,0,0,1-1.182.5Z"
                                     transform="translate(-20.023 -0.033)"

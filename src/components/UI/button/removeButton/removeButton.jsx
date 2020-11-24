@@ -10,7 +10,7 @@ const RemoveButton = props => {
             className={classes.removeButton}
             children={
                 <>
-                    <Icons type={'delete'} className={classes.removeButtonIcon}/>
+                    <Icons type={'group-delete'} opacity={1} className={classes.removeButtonIcon}/>
                     <span className={classes.removeButtonName}>{props.label}</span>
                 </>
             }

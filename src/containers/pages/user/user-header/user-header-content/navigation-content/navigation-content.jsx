@@ -14,11 +14,11 @@ const NavigationContent = props => {
                             return (
                                 <li key={`user-navigation-${item.id}`}>
                                     <CustomButton
-                                        className={props.active === item.id ? `${classes.tabsButton} ${classes.active}` : classes.tabsButton}
+                                        className={props.active.id === item.id ? `${classes.tabsButton} ${classes.active}` : classes.tabsButton}
                                         children={item.name}
                                         // Methods
                                         onClick={() => {
-                                            props.selectTab(item.id)
+                                            props.selectTab(item)
                                         }}
                                     />
                                 </li>

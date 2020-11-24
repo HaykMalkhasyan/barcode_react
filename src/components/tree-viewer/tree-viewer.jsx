@@ -215,6 +215,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                 />
                                             </div>
                                         </TreeNode>
+
                                         :
                                         <TreeNode
                                             draggable={props.own_move}
@@ -233,9 +234,9 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             groupId={props.groupId}
                                             selected={node.state.selected}
                                             depth={node.state.depth}
+                                            onDoubleClick={() => tree.toggleNode(node)}
                                             onClick={() => {
                                                 if (props.nodeStatus) {
-                                                    tree.openNode(node);
                                                     if (!props.own_status) {
                                                         if (props.edit === null && props.moveElement === null) {
                                                             tree.selectNode(node)
@@ -280,6 +281,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                     newSubgroup={props.newSubgroup}
                                                     activeAction={props.activeAction}
                                                     buffer={props.buffer}
+                                                    groupId={props.groupId}
                                                     own_select={props.own_select}
                                                     own_move={props.own_move}
                                                     type={props.type}

@@ -96,9 +96,11 @@ const ModalContent = props => {
     /* Actions */
     const onAddSubgroup = (event, id) => {
         event.stopPropagation();
+        props.setGroupValues("node", null)
         if (ref.current && props.nodeStatus) {
             const { tree } = ref.current;
-
+            tree.openNode(props.node)
+            tree.selectNode()
             tree.appendChildNode({id: "add", name: 'test', sort: 0}, props.node)
             tree.scrollToNode(props.node.getLastChild())
             props.addSubgroupAction(id)
@@ -113,8 +115,10 @@ const ModalContent = props => {
     const cancelAdding = (node, subLevel) => {
         if (ref.current) {
             const {tree} = ref.current;
+            console.log(props.node, subLevel, props.add);
+            console.log(props.node && !subLevel && (props.add !== null));
             tree.selectNode();
-            if (props.node && !subLevel && props.add !== null) {
+            if ((props.node || node) && !subLevel && props.add !== null) {
                 tree.removeNode(node)
                 props.cancelEditing()
             } else {
@@ -312,6 +316,7 @@ const ModalContent = props => {
                 group={props.group}
                 own_status={props.own_status}
                 // Methods
+                deleteHandler={deleteHandler}
                 confirmHandler={confirmHandler}
                 cencel={
                     !props.own_status ?

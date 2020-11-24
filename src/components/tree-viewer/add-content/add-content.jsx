@@ -30,7 +30,7 @@ const AddContent = props => {
                         autoFocus={true}
                         classNameInput={classes.addInput}
                         classNameLabel={classes.addLabel}
-                        label={<Icons type={'tree-arrow-right-empty'}/>}
+                        label={<Icons type={'tree-arrow-right-empty'} style={{stroke: "#ccc"}}/>}
                         placeholder={'Ենթախմբի անվանում'}
                         value={props.subgroupName}
                         name={'subgroupName'}

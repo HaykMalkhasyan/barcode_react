@@ -9,6 +9,20 @@
     justify-content: space-between;
 }
 
+.footer > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.iconButton {
+    margin-right: 10px;
+}
+
+.removeButtonIcon {
+    fill: #FF4B63;
+}
+
 @media (max-width: 600px) {
     .footer {
         position: sticky;

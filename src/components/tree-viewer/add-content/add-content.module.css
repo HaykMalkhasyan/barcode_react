@@ -51,6 +51,11 @@
     /*border-bottom: 2px solid #FF8927;*/
 }
 
+.addInput::placeholder {
+    color: #ccc;
+    font-size: 15px;
+}
+
 .addLabel {
     width: 30px;
     height: 30px;

@@ -34,6 +34,11 @@
     width: 100%;
 }
 
+.copedItem span {
+    user-select: none;
+    cursor: pointer;
+}
+
 .copyIcon {
     display: flex;
     align-items: center;
