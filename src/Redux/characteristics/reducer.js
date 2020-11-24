@@ -298,6 +298,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 own_select: null,
                 moveElement: null,
                 group: null,
+                buffer: null,
                 customSubgroup: null,
                 collapsed: [],
                 movingStatus: false,
@@ -321,6 +322,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 groupActiveId: action.id,
                 modalGroup: 'edit',
                 groupId: null,
+                buffer: null
             };
         case CHECK_GROUP_SET:
             return {

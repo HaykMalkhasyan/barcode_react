@@ -67,6 +67,7 @@ const Data = props => {
             </div>
             <div className={classes.dataItem}>
                 <InputUI
+                    disabled={true}
                     required={true}
                     error={props.errorFields.indexOf('short_name') !== -1}
                     root={classes.textField}

@@ -90,6 +90,7 @@ export default function barcodeReducer(state = initialState, action) {
                 ...state,
                 notification: false,
                 error: null,
+                barcode: [],
                 code: {
                     barcode: '',
                     barcode_type: '',

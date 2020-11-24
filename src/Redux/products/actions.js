@@ -182,7 +182,6 @@ export function setProduct(gallery, type) {
         const init_classifiers = {...getState().products.classifiers};
         const classifiers = {};
         for (let index of Object.keys(init_classifiers)) {
-            console.log("classifiers: ", index, init_classifiers[index])
             classifiers[index] = {value: init_classifiers[index].id, type_id: init_classifiers[index].cat_id};
         }
         const barcode = [...getState().barcode.barcode];
@@ -299,7 +298,6 @@ export function setProduct(gallery, type) {
             }
         }
         dispatch(setProductValues('errorFields', errorFields));
-        console.log(data)
         if (errorFields.length === 0) {
             if (gallery.length > 0) {
                 dispatch(uploadImages(gallery, data, type))
@@ -356,20 +354,18 @@ export function uploadImages(files, data, type) {
 export function productDataRequest(data, type) {
 
     return async (dispatch, getState) => {
-        const products = [...getState().products.products];
         try {
             const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}}, getHeaders({}, {}));
             console.log(response.data)
-            products.push(response.data);
             switch (type) {
                 case 'save': {
                     dispatch(setProductValues('open', 'edit'));
-                    dispatch(addNewProduct(products));
+                    dispatch(addNewProduct([/*products*/]));
                     break;
                 }
                 case 'confirm':
                 default: {
-                    dispatch(addNewProductWithClose(products));
+                    dispatch(addNewProductWithClose([/*products*/]));
                     break;
                 }
             }

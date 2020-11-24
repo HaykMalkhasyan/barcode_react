@@ -10,6 +10,7 @@ const InputUI = props => {
                 root: props.root
             }}
             id={props.id}
+            disabled={props.disabled}
             error={props.error}
             label={props.label}
             value={props.value}

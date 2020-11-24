@@ -34,13 +34,11 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: #666;
-  background-clip: content-box;
-  border: 2px solid transparent;
+  background: #b4b4b4;
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  border-color: #666;
+  background: #6a6a6a;
 }
 
 

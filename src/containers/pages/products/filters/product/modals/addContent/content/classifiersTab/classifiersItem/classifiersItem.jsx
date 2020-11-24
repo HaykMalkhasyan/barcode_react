@@ -17,7 +17,7 @@ const ClassifiersItem = props => {
         <div className={classes.classifiersItem}>
             <div className={classes.classifiersSelectedItem}>
                 <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
-                    {props.data[`title_${cookie.get("language") || "am"}`]}
+                    {`${props.data[`title_${cookie.get("language") || "am"}`]} ${props.data.id === 0 ? "*" : ""}`}
                 </span>
                 {
                     props.subgroup && Object.keys(props.subgroup).length > 0 && props.subgroup[props.data.id] ?

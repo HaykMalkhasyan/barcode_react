@@ -3,9 +3,9 @@ import classes from "./actions.module.css";
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Icons from "../../../../../../../components/Icons/icons";
-import { AiFillCopy } from "react-icons/ai";
-import { BiCut } from "react-icons/bi";
-import { FaPaste } from "react-icons/fa";
+import {AiFillCopy} from "react-icons/ai";
+import {BiCut} from "react-icons/bi";
+import {FaPaste} from "react-icons/fa";
 
 const ModalActions = props => {
 
@@ -35,12 +35,13 @@ const ModalActions = props => {
                 children={
                     <Tooltip title={'Պատճենել'} placement="top">
                         <span className={classes.contentSpan}>
-                            <AiFillCopy className={props.own_select !== null && props.own_move === false ? classes.copy : ''}/>
+                            <AiFillCopy
+                                className={props.own_select !== null && props.own_move === false ? classes.copy : ''}/>
                         </span>
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.node && (props.activeAction === null ||props.activeAction === "copy" || props.activeAction === "cut") && props.own_move === false ? () => props.copyHandler("copy") : null}
+                onClick={props.node && (props.activeAction === null || props.activeAction === "copy" || props.activeAction === "cut") && props.own_move === false ? () => props.copyHandler("copy") : null}
             />
 
             {/* subgroup cut */}
@@ -49,12 +50,13 @@ const ModalActions = props => {
                 children={
                     <Tooltip title={'Կտրել'} placement="top">
                         <span className={classes.contentSpan}>
-                            <BiCut className={props.own_select !== null && props.own_move === false ? classes.cut : ''}/>
+                            <BiCut
+                                className={props.own_select !== null && props.own_move === false ? classes.cut : ''}/>
                         </span>
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.node && (props.activeAction === null ||props.activeAction === "copy" || props.activeAction === "cut") && props.own_move === false ? () => props.copyHandler("cut") : null}
+                onClick={props.node && (props.activeAction === null || props.activeAction === "copy" || props.activeAction === "cut") && props.own_move === false ? () => props.copyHandler("cut") : null}
             />
 
             {/* subgroup paste */}
@@ -68,7 +70,26 @@ const ModalActions = props => {
                     </Tooltip>
                 }
                 // Methods
-                onClick={props.buffer && ((props.node && !props.buffer.contains(props.node) && props.node.id !== props.buffer.id && props.node.id !== parseInt(props.buffer.parent_id) && (props.activeAction === "copy" || props.activeAction === "cut")) || props.groupId !== null) && props.own_move === false ? () => props.pasteHandler(): null}
+                onClick={
+                    props.buffer &&
+                    (
+                        (
+                            props.node &&
+                            !props.buffer.contains(props.node) &&
+                            props.node.id !== props.buffer.id &&
+                            props.node.id !== parseInt(props.buffer.parent_id) &&
+                            (
+                                props.activeAction === "copy" ||
+                                props.activeAction === "cut"
+                            )
+                        ) ||
+                        props.groupId !== null
+                    ) &&
+                    props.own_move === false ?
+                        () => props.pasteHandler()
+                        :
+                        null
+                }
             />
 
             {/* subgroup EDIT */}
@@ -126,25 +147,20 @@ const ModalActions = props => {
                         <span className={classes.contentSpan}>
                             <Icons
                                 type={'group-delete'}
-                                opacity={props.groupId !== 0 && (props.own_select !== null || props.groupId !== null) && props.own_move === false ? 1 : 0.18}
-                                className={props.groupId !== 0 && (props.own_select !== null || props.groupId !== null) && props.own_move === false ? classes.groupDeleteSelected : classes.iconsInactive}
+                                opacity={props.own_select !== null && props.own_move === false ? 1 : 0.18}
+                                className={props.own_select !== null && props.own_move === false ? classes.groupDeleteSelected : classes.iconsInactive}
                             />
                         </span>
                     </Tooltip>
                 }
                 // Methods
                 onClick={
-                    props.groupId !== 0 && props.own_move === false ?
-                        props.activeAction === null ?
-                            props.own_select !== null ?
-                                event => props.deleteHandler(event, 'subgroup', {path: "Group/SubGroup", id: props.catId, param: {get_id: props.own_select}}, props.own_select)
-                                :
-                                props.groupId !== null ?
-                                    event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.groupId})
-                                    :
-                                    null
-                            :
-                            null
+                    props.own_move === false && props.activeAction === null && props.own_select !== null ?
+                        event => props.deleteHandler(event, 'subgroup', {
+                            path: "Group/SubGroup",
+                            id: props.catId,
+                            param: {get_id: props.own_select}
+                        }, props.own_select)
                         :
                         null
                 }

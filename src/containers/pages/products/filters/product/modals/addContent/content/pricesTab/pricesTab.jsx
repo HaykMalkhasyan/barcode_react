@@ -65,10 +65,16 @@ class PricesTab extends Component {
 
     valueChangeHandler = (name, value) => {
 
-        if (is.number(+value) && !value.startsWith(0)) {
-            const values = {...this.props.values};
-            values[name] = value.trim();
-            this.props.setPriceValue("values", values);
+        if (is.number(+value) && !value.startsWith('-') && ((parseInt(value[0]) + parseInt(value[1])) !== 0)) {
+            if (value > 0 && value.startsWith(0) && value[1] !== ".") {
+                this.setState({error: name})
+                setTimeout(() => this.setState({error: null}), 100)
+            } else {
+                const values = {...this.props.values};
+                values[name] = value.trim();
+                this.props.setPriceValue("values", values);
+            }
+
         } else {
             this.setState({error: name})
             setTimeout(() => this.setState({error: null}), 100)
@@ -108,7 +114,7 @@ class PricesTab extends Component {
                                                     id={item.id}
                                                     name={item.id}
                                                     classNameLabel={this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
-                                                    classNameInput={this.state.error === item.id ? `${classes.input} ${classes.error}` : classes.input}
+                                                    classNameInput={parseInt(this.state.error) === item.id ? `${classes.input} ${classes.error}` : classes.input}
                                                     label={item.name}
                                                     placeholder={`[1-9]{1} / [0-9]`}
                                                     value={this.props.values[item.id]}
