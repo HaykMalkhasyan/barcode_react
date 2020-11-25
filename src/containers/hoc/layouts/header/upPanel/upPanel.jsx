@@ -18,7 +18,7 @@ const UpPanel = props => {
     };
 
     return (
-        <div className={props.sticky ? `${classes.hidden} ${classes.upPanel}` : classes.upPanel}>
+        <div className={`background-024059 ${props.sticky ? `${classes.hidden} ${classes.upPanel}` : classes.upPanel}`}>
             {
                 props.notification_modal ?
                     <NotificationModal
@@ -42,12 +42,12 @@ const UpPanel = props => {
             <div className={classes.leftBar}>
                 <CustomButton
                     onClick={props.toggleMenu}
-                    className={props.menu ? `${classes.menuBtnOpen} ${classes.menuBtn}` : classes.menuBtn}
+                    className={`background-transparent color-fff ${props.menu ? `${classes.menuBtnOpen} ${classes.menuBtn}` : classes.menuBtn}`}
                 >
                     {props.menu ? <MenuOpenIcon/> : <MenuIcon/>}
                 </CustomButton>
                 <span
-                    className={classes.projectName}
+                    className={`color-fff font-size-14 ${classes.projectName}`}
                     onClick={
                         () => {
                             props.setActiveMenu(null);
@@ -61,11 +61,11 @@ const UpPanel = props => {
             <div className={classes.toolsPanel}>
                 <div>
                     <CustomButton
-                        className={props.notification_modal ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
+                        className={props.notification_modal ? `background-E6F8FF ${classes.socButtons} ${classes.socButtonsActive}` : `background-transparent ${classes.socButtons}`}
                         children={
                             <>
-                                <span className={classes.notificationsCount}>1</span>
-                                <Icons type={'bell'} className={classes.notificationIcon} width={22} height={22}/>
+                                <span className={`background-03D9D9 color-fff font-size-10 ${classes.notificationsCount}`}>1</span>
+                                <Icons type={'bell'} className={`fill-fff ${classes.notificationIcon}`} width={22} height={22}/>
                             </>
                         }
                         // Methods
@@ -74,11 +74,11 @@ const UpPanel = props => {
                 </div>
                 <div>
                     <CustomButton
-                        className={props.chat_modal ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
+                        className={props.chat_modal ? `background-E6F8FF ${classes.socButtons} ${classes.socButtonsActive}` : `background-transparent ${classes.socButtons}`}
                         children={
                             <>
-                                <span className={classes.messageCount}>2</span>
-                                <Icons type={'chat'} className={classes.chatIcon} width={22} height={22}/>
+                                <span className={`background-ff8927 color-fff font-size-10 ${classes.messageCount}`}>2</span>
+                                <Icons type={'chat'} className={`fill-fff ${classes.chatIcon}`} width={22} height={22}/>
                             </>
                         }
                         // Methods
@@ -87,8 +87,8 @@ const UpPanel = props => {
                 </div>
                 <div className={classes.userWindow}>
                     <CustomButton
-                        className={!props.confWindow ? `${classes.socButtons} ${classes.socButtonsActive}` : classes.socButtons}
-                        children={<Icons type={'person'} className={classes.personIcon} width={26} height={26}/>}
+                        className={!props.confWindow ? `background-E6F8FF ${classes.socButtons} ${classes.socButtonsActive}` : `background-transparent ${classes.socButtons}`}
+                        children={<Icons type={'person'} className={`fill-fff stroke-fff ${classes.personIcon}`} width={26} height={26}/>}
                         // Methods
                         onClick={props.toggleConfigurationWindow}
                     />
@@ -98,26 +98,26 @@ const UpPanel = props => {
                     {
                         !props.confWindow ?
                             <Backdrop
-                                className={classes.backdrop}
+                                className={`background-rgba_00008 ${classes.backdrop}`}
                                 // Methods
                                 onClick={props.toggleConfigurationWindow}
                             />
                             :
                             null
                     }
-                    <div hidden={props.confWindow} className={classes.userContent}>
+                    <div hidden={props.confWindow} className={`background-fff ${classes.userContent}`}>
                         <ul>
                             <li className={classes.userName}>
-                                <span>{props.user ? `${props.user.firstName} ${props.user.lastName}`: ''}</span>
+                                <span className="color-3b3b3b font-size-12">{props.user ? `${props.user.firstName} ${props.user.lastName}`: ''}</span>
                             </li>
                             {
                                 props.user && props.user.user_id ?
                                     <CustomButton
-                                        className={props.location.pathname.split("/")[1] === "user" ? `${classes.dropLinks} ${classes.dropActive}` : classes.dropLinks}
+                                        className={props.location.pathname.split("/")[1] === "user" ? `background-FCFCFC ${classes.dropLinks} ${classes.dropActive}` : `background-transparent ${classes.dropLinks}`}
                                         onClick={props.routeUserPage}
                                     >
-                                        <li className={classes.myPage}>
-                                            <Icons type={'own-page'} className={classes.ownPageIcon}/>
+                                        <li className={`color-3b3b3b font-size-12 ${classes.myPage}`}>
+                                            <Icons type={'own-page'} className="fill-3b3b3b"/>
                                             <span className={classes.ownerConf}>Իմ էջը</span>
                                         </li>
                                     </CustomButton>
@@ -126,21 +126,21 @@ const UpPanel = props => {
                             }
                             <NavLink
                                 to='/configurations'
-                                className={classes.dropLinks}
-                                activeClassName={classes.dropActive}
+                                className={`background-transparent ${classes.dropLinks}`}
+                                activeClassName={`background-FCFCFC ${classes.dropActive}`}
                             >
                                 <li className={classes.configuration}>
-                                    <Icons type={'configuration'} className={classes.configurationIcon}/>
-                                    <span className={classes.ownerConf}>Կարգավորումներ</span>
+                                    <Icons type={'configuration'} className="fill-3b3b3b"/>
+                                    <span className={`font-size-12 color-3b3b3b ${classes.ownerConf}`}>Կարգավորումներ</span>
                                 </li>
                             </NavLink>
                             <span
-                                className={classes.dropLinks}
+                                className={`background-transparent ${classes.dropLinks}`}
                                 onClick={logoutHandler}
                             >
                                 <li className={classes.logout}>
                                     <Icons type={'exit'} className={classes.exitIcon}/>
-                                    <span className={classes.ownerConf}>Ելք</span>
+                                    <span className={`color-3b3b3b font-size-12 ${classes.ownerConf}`}>Ելք</span>
                                 </li>
                             </span>
                         </ul>

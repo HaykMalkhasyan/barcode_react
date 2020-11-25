@@ -11,8 +11,8 @@ import {ADD_NEW_PRODUCT, CLOSE_PRODUCT_MODAL} from "../products/actionTypes";
 const initialState = {
     open: false,
     codeTypes: [
-        {id: 1, name: 'ean13'},
-        {id: 2, name: 'ean8'},
+        {id: 1, name: 'EAN-13'},
+        {id: 2, name: 'EAN-8'},
         // {id: 3, name: 'UPC-A'},
         // {id: 4, name: 'UPC-E'},
     ],

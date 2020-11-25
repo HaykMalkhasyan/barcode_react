@@ -120,15 +120,18 @@
     height: 45px;
     background-color: #fff;
     text-align: center;
-    color: #414141;
+    color: #024059;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 600;
+    letter-spacing: .4pt;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: sticky;
     top: 0;
     z-index: 1;
+    box-shadow: 0 2px 6px rgba(2, 64, 89, 0.15);
+    border-radius: 6px;
 }
 
 .classifiersWindow .controllers > span {
@@ -142,7 +145,12 @@
 }
 
 .classifiersWindow .controllers > span:hover {
-    background-color: #eee;
+    background-color: #024059;
+    color: #fff;
+}
+
+.classifiersWindow .controllers > span:active {
+    box-shadow: 0 2px 6px rgba(2, 64, 89, 0.15), 1px 1px 4px rgba(0, 0, 0, .8) inset;
 }
 
 .nextSlideBtn {
@@ -166,16 +174,20 @@
 
 .nextSlideBtn:hover {
     transform: translateY(-50%);
-    background: #eee;
-    color: #FF5019;
+    background: #FF8927;
+    color: #fff;
+}
+
+.nextSlideBtn:active {
+    box-shadow: -3px 0 4px rgba(0, 0, 0, .3) inset;
 }
 
 .nextSlideIcon {
-    fill: #414141;
+    fill: #fff;
 }
 
 .nextSlideBtn:hover .nextSlideIcon {
-    fill: #FF5019 !important;
+    fill: #fff !important;
 }
 
 .prevSlideBtn {
@@ -199,16 +211,20 @@
 
 .prevSlideBtn:hover {
     transform: translateY(-50%);
-    background: #eee;
-    color: #FF5019;
+    background: #FF8927;
+    color: #fff;
+}
+
+.prevSlideBtn:active {
+    box-shadow: 3px 0 4px rgba(0, 0, 0, .3) inset;
 }
 
 .prevSlideIcon {
-    fill: #414141;
+    fill: #fff;
 }
 
 .prevSlideBtn:hover .prevSlideIcon {
-    fill: #FF5019;
+    fill: #fff;
 }
 
 .controllers:hover .nextSlideBtn,

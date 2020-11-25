@@ -4,7 +4,7 @@ import WorkerItem from "./workers-item/workers-item";
 
 const EmployeesContent = props => {
     return (
-        <div className={classes.workersWindow}>
+        <div className={classes.workersWindow} onClick={props.onClick}>
             {
                 props.selected && props.selected.length ?
                     props.selected.map(
@@ -23,7 +23,7 @@ const EmployeesContent = props => {
                         }
                     )
                     :
-                    <small className={classes.empty}>Դուք չունեք ընտրված մատակարար</small>
+                    null
             }
         </div>
     )

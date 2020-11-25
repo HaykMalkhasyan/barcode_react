@@ -32,10 +32,6 @@
     height: 100%;
 }
 
-.unread {
-    background-color: #f6f6f6;
-}
-
 .unread:after {
     content: '';
     position: absolute;
@@ -62,7 +58,6 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: transparent;
     transition: 300ms;
     cursor: pointer;
 }
@@ -76,8 +71,6 @@
 }
 
 .closeIcon {
-    fill: #4b4b4b;
-    stroke: #4b4b4b;
     opacity:0.5;
     transition: 300ms;
 }
@@ -109,8 +102,6 @@
 }
 
 .notificationItem .contentWindow > h3 {
-    color: #3a3a3a;
-    font-size: 14px;
     font-weight: 600;
     margin: 0;
     letter-spacing: .4pt;
@@ -118,15 +109,11 @@
 
 .notificationItem .contentWindow > p {
     margin: 0;
-    font-size: 12px;
     font-weight: 100;
-    color: #9c9c9c;
     letter-spacing: .1pt;
 }
 
 .unread .contentWindow > h3 {
-    color: #3b3b3b;
-    font-size: 14px;
     font-weight: 600;
     margin: 0;
     letter-spacing: .4pt;
@@ -134,9 +121,7 @@
 
 .unread .contentWindow > p {
     margin: 0;
-    font-size: 12px;
     font-weight: 600;
-    color: #3a3a3a;
     letter-spacing: .1pt;
 }
 

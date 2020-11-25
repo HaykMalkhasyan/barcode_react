@@ -9,14 +9,26 @@ const CoupleButtons = props => {
 
     return (
         <div className={classes.actions}>
-            <Tooltip title="Հաստատել" placement="bottom">
-                <Button
-                    className={classes.successButton}
-                    onClick={props.checkSuccess}
-                >
-                    <CheckIcon style={{fontSize: 16}}/>
-                </Button>
-            </Tooltip>
+            {
+                !props.disabled ?
+                    <Tooltip title="Հաստատել" placement="bottom">
+                        <Button
+                            disabled={props.disabled}
+                            className={classes.successButton}
+                            onClick={props.checkSuccess}
+                        >
+                            <CheckIcon style={{fontSize: 16}}/>
+                        </Button>
+                    </Tooltip>
+                    :
+                    <Button
+                        disabled={props.disabled}
+                        className={classes.successButton}
+                        onClick={props.checkSuccess}
+                    >
+                        <CheckIcon style={{fontSize: 16}}/>
+                    </Button>
+            }
             <Tooltip title="Չեղարկել" placement="bottom">
                 <Button
                     className={classes.cutBtn}

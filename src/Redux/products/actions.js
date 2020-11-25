@@ -76,14 +76,9 @@ export function getAllProducts(page) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios.get(`${API_URL}/product/?page_size=20&page=${page}`, {
-                    headers: {
-                        "lang": "am",
-                        "Content-Type": "application/json",
-                        "Authorization": `JWT ${cookie.get('access')}`
-                    }
-                });
-                dispatch(setProducts(response.data.results, response.data.count))
+                const response = await Axios.get(API_URL, getHeaders({}, {limit: 20, page: page, path: "Products/Product"}));
+                console.log("PRODUCTS: ", response.data)
+                dispatch(setProducts(response.data.data, response.data.page_count))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -234,6 +229,9 @@ export function setProduct(gallery, type) {
             data["catedory_id"] = classifiers[0].value;
             delete classifiers[0];
             data["custom_category"] = {...classifiers};
+            if (errorFields.indexOf("classifiers") !== -1) {
+                errorFields.splice(errorFields.indexOf("classifiers"), 1)
+            }
         } else {
             if (errorFields.indexOf("classifiers") === -1) {
                 errorFields.push("classifiers")

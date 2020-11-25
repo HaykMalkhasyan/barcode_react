@@ -117,9 +117,10 @@ const ModalActions = props => {
                     <Tooltip title={'Ավելացնել'} placement="top">
                         <span className={classes.contentSpan}>
                             <Icons
-                                type={'group-add'}
-                                opacity={(props.own_select !== null || props.groupId !== null) && props.own_move === false ? 1 : 0.18}
-                                className={(props.own_select !== null || props.groupId !== null) && props.own_move === false ? classes.groupAddSelected : classes.iconsInactive}
+                                width={16}
+                                height={16}
+                                type={'add'}
+                                className={(props.own_select !== null || props.groupId !== null) && props.own_move === false ? classes.groupAddSelected : classes.groupAddInactive}
                             />
                         </span>
                     </Tooltip>

@@ -9,7 +9,7 @@ const ModalFooter = props => {
 
     const titleRender = () => {
         let errors = [];
-        if (props.errorFields.indexOf('name') !== -1) {
+        if (props.errorFields.indexOf('item_name') !== -1) {
             errors.push('"Անվանում" դաշտը լրացրած չէ');
         }
         if (props.errorFields.indexOf('short_name') !== -1) {

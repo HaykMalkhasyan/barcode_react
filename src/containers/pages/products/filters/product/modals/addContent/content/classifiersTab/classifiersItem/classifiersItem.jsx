@@ -14,7 +14,11 @@ const ClassifiersItem = props => {
     }
 
     return (
-        <div className={classes.classifiersItem}>
+        <div
+            className={classes.classifiersItem}
+            // Methods
+            onClick={() => props.onClick(props.data, true)}
+        >
             <div className={classes.classifiersSelectedItem}>
                 <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
                     {`${props.data[`title_${cookie.get("language") || "am"}`]} ${props.data.id === 0 ? "*" : ""}`}
@@ -29,12 +33,6 @@ const ClassifiersItem = props => {
                 }
             </div>
             <div className={classes.road}>
-                <CustomButton
-                    className={classes.roadButton}
-                    children={<Icons type={"add"}/>}
-                    // Methods
-                    onClick={() => props.onClick(props.data, true)}
-                />
                 {
                     props.classifiers && Object.keys(props.classifiers).length > 0 && props.classifiers[props.data.id] ?
                         <CustomButton

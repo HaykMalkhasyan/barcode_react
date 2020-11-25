@@ -10,7 +10,6 @@
     z-index: 10;
     width: 260px;
     height: auto;
-    background-color: transparent;
     border-radius: 6px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.42);
 }
@@ -31,7 +30,6 @@
 .pickerButton {
     border: none;
     outline: none !important;
-    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,10 +65,6 @@
     box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
 }
 
-.opened {
-    background-color: #ff6f00;
-}
-
 .opened:focus:after {
     content: '';
     position: absolute;
@@ -84,17 +78,12 @@
     box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
 }
 
-.smileIcon {
-    fill: #fff;
-}
-
 .backdrop {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0);
 }
 
 @media (min-width: 400px) and (max-width: 600px) {

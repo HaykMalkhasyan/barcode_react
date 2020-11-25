@@ -10,20 +10,20 @@ const Footer = props => {
 
     return (
         <footer className={classes.footer}>
-            <div className={classes.contentWindow}>
+            <div className={`background-fff ${classes.contentWindow}`}>
                 <div className={classes.inputWindow}>
                     <CustomTextArea
-                        className={classes.input}
+                        className={`color-2B2B2B font-size-14 ${classes.input}`}
                         placeholder={'Գրել նամակ'}
                     />
-                    <div className={classes.pickerWindow}>
+                    <div className={`background-fff ${classes.pickerWindow}`}>
                         <DropSmiles/>
                         <CustomInput
                             id={'file'}
                             type={'file'}
                             label={<Icons type={'clip'}/>}
                             classNameInput={classes.inputFile}
-                            classNameLabel={classes.pickerButton}
+                            classNameLabel={`background-transparent ${classes.pickerButton}`}
                             multiple={true}
                             accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf"
                         />
@@ -32,15 +32,15 @@ const Footer = props => {
                             type={'file'}
                             label={<Icons type={'picture'}/>}
                             classNameInput={classes.inputFile}
-                            classNameLabel={classes.pickerButton}
+                            classNameLabel={`background-transparent ${classes.pickerButton}`}
                             multiple={true}
                             accept="image/*"
                         />
                     </div>
                 </div>
                 <CustomButton
-                    children={<Icons type ='send' className={classes.sendIcon} width={19} height={19}/>}
-                    className={classes.sendButton}
+                    children={<Icons type ='send' className={`fill-fff ${classes.sendIcon}`} width={19} height={19}/>}
+                    className={`background-FF6F00 ${classes.sendButton}`}
                 />
             </div>
         </footer>

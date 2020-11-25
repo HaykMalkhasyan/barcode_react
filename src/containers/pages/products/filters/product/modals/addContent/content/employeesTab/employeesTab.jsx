@@ -70,14 +70,14 @@ class EmployeesTab extends Component {
                     <div className={classes.textFieldWindow}>
                         <SectionWindow
                             label={'Գործընկերներ'}
-                            withButton={this.props.suppliers}
+                            /*withButton={this.props.suppliers}
                             button={<Icons type={this.state.open ? "close" : "add"}/>}
                             // Methods
                             onClick={() =>{
                                 this.setState({
                                     open: !this.state.open
                                 })
-                            }}
+                            }}*/
                         >
                             <div className={classes.suppliersContent}>
                                 {
@@ -90,6 +90,12 @@ class EmployeesTab extends Component {
                                     selected={this.props.selected}
                                     // Methods
                                     removeItem={this.removeItem}
+                                    onClick={event =>{
+                                        event.stopPropagation();
+                                        this.setState({
+                                            open: !this.state.open
+                                        })
+                                    }}
                                 />
                                 <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                                     <SuppliersAddContent

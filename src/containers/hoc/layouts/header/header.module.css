@@ -29,7 +29,6 @@
     width: 100%;
     height: 48px;
     box-sizing: border-box;
-    background: #024059;
     padding: 0 0 0 21px;
     display: flex;
     justify-content: space-between;
@@ -44,10 +43,7 @@
 }
 
 .projectName {
-    font-size: 14px;
     font-weight: 500;
-    color: #fff;
-    /*font-family: Montserrat, sans-serif;*/
     cursor: pointer;
 }
 
@@ -72,10 +68,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
     border-radius: 50%;
-    background-color: #03D9D9;
-    font-size: 10px;
     font-weight: 400;
 }
 
@@ -89,10 +82,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
     border-radius: 50%;
-    background-color: #FF8927;
-    font-size: 10px;
     font-weight: 400;
 }
 
@@ -105,7 +95,6 @@
     cursor: pointer;
     border: none;
     outline: none !important;
-    background-color: transparent;
     height: 48px;
     width: 48px;
     padding: 0;
@@ -117,24 +106,16 @@
 }
 
 .personIcon {
-    fill: #fff;
-    stroke: #fff;
     stroke-width: 0.1px;
     transition: 300ms;
 }
 
 .chatIcon {
-    fill: #fff;
     transition: 300ms;
 }
 
 .notificationIcon {
-    fill: #fff;
     transition: 300ms;
-}
-
-.socButtonsActive {
-    background-color: #E6F8FF;
 }
 
 .socButtonsActive .personIcon {
@@ -159,7 +140,6 @@
     right: 0;
     bottom: 0;
     z-index: 100;
-    background-color: rgba(0, 0, 0, .67);
 }
 
 .leftBar {
@@ -174,7 +154,6 @@
     right: 0;
     bottom: 0;
     z-index: 10;
-    background-color: rgba(0, 0, 0, .8);
 }
 
 .user span {
@@ -192,7 +171,6 @@
     right: 0;
     width: 180px;
     height: auto;
-    background-color: #fff;
     box-shadow: 0 0 9px rgba(35, 62, 170, 0.33);
     padding: 0;
     box-sizing: border-box;
@@ -231,7 +209,6 @@
 .dropLinks {
     outline: none !important;
     border: none;
-    background-color: transparent;
     cursor: pointer;
     transition: 300ms;
     text-decoration: none;
@@ -254,14 +231,11 @@
     width: 95%;
     overflow: hidden;
     text-align: center;
-    /*font-family: Mardoto-medium;*/
     box-sizing: border-box;
     border-bottom: 1px solid #e4e4e4;
 }
 
 .userName > span {
-    color: #3B3B3B;
-    font-size: 12px;
     padding: 13px 0;
     display: block;
     font-weight: bold;
@@ -269,26 +243,17 @@
 
 .myPage span {
     margin-left: 15.5px;
-    font-size: 12px;
-    /*font-family: Mardoto-medium;*/
     font-weight: bold;
-    color: #3B3B3B;
 }
 
 .configuration span {
     margin-left: 15.5px;
-    font-size: 12px;
-    /*font-family: Mardoto-medium;*/
     font-weight: bold;
-    color: #3B3B3B;
 }
 
 .logout span {
     margin-left: 15.5px;
-    font-size: 12px;
-    /*font-family: Mardoto-medium;*/
     font-weight: bold;
-    color: #3B3B3B;
 }
 
 .dropActive {
@@ -299,7 +264,6 @@
 .menu {
     width: 100%;
     box-sizing: border-box;
-    background-color: #fff;
     position: relative;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
     z-index: 2;
@@ -320,7 +284,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: #8b8b8b;
     cursor: pointer;
     font-weight: bold;
     position: relative;
@@ -329,11 +292,8 @@
 
 .menuListActive {
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
-    color: #ff8927 !important;
-    fill: #ff8927;
     transform: scale(1.02);
     transform-origin: top;
-    background-color: #fff;
 }
 
 .showArrow:after {
@@ -351,8 +311,6 @@
     background-color: #fff;
 }
 
-.icons {fill: #171717;}
-
 .menuListActive .icons {
     fill: #ff8927;
 }
@@ -360,8 +318,6 @@
 .menuBtn {
     border: 1px solid transparent;
     box-sizing: border-box;
-    background-color: transparent;
-    color: #fff;
     margin-right: 10px;
     display: none;
     position: relative;
@@ -386,7 +342,6 @@
     bottom: 0;
     right: 0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, .67);
 }
 
 @media (min-width: 768px) {
@@ -447,11 +402,6 @@
     height: 0;
 }
 
-.menuList span {
-    font-size: 8px;
-    /*font-family: Mardoto-Regular, sans-serif;*/
-}
-
 .menuListActiveProd {
     border-radius: 0 8px 0 0;
     box-shadow: 1px -7px 6px rgba(0, 0, 0, .14), -1px -7px 6px rgba(0, 0, 0, .14);
@@ -465,7 +415,6 @@
     height: 52px;
     padding: 5px 0;
     box-sizing: border-box;
-    background-color: #fff;
     box-shadow: 0 0 3px rgba(162, 186, 248, 0.28);
     position: absolute;
     top: calc(100% + 10px);
@@ -496,9 +445,6 @@
 }
 
 .subMenuLink {
-    font-size: 12px;
-    /*font-family: Mardoto-Regular, sans-serif;*/
-    color: #313131 !important;
     text-decoration: none;
     text-transform: capitalize;
     font-weight: bold;
@@ -511,11 +457,8 @@
 
 .subMenuActive {
     border-bottom: 1px solid #FE5233;
-    /*font-family: Mardoto-medium, sans-serif;*/
 }
 
-.ownPageIcon,
-.configurationIcon,
 .exitIcon {
     fill: #3b3b3b;
 }

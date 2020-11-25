@@ -30,13 +30,9 @@
 
 .messageWindow {
     margin: 5px 0;
-    background-color: #024059;
-    color: #fff;
-    font-size: 12px;
     font-weight: 600;
     padding: 12px 17px;
     box-sizing: border-box;
-    /*display: inline-block;*/
 }
 
 .content > div > article > div {
@@ -53,14 +49,9 @@
 
 .messageWindowOut {
     margin: 5px 0;
-    background-color: #ffffff;
-    color: #959595;
-    font-size: 12px;
     font-weight: 600;
     padding: 12px 17px;
     box-sizing: border-box;
-    /*display: inline-block;*/
-    /*border-radius: 25px 25px 0 25px;*/
     border-radius: 25px 0 25px 25px;
 }
 

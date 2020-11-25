@@ -1,5 +1,6 @@
 .listItem {
     height: 36px;
+    background-color: rgba(131, 212, 113, 0.25);
 }
 
 .empty {

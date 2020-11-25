@@ -6,10 +6,10 @@ import Icons from "../../../../../../../components/Icons/icons";
 const NotificationItem = props => {
 
     return (
-        <div className={`${classes.notificationItem} ${props.unread ? classes.unread : ''}`}>
+        <div className={`${classes.notificationItem} ${props.unread ? `background-f6f6f6 ${classes.unread}` : ''}`}>
             <CustomButton
-                className={classes.closeButton}
-                children={<Icons type={'close'} width={9} height={9} className={classes.closeIcon}/>}
+                className={`background-transparent ${classes.closeButton}`}
+                children={<Icons type={'close'} width={9} height={9} className={`fill-4b4b4b stroke-4b4b4b ${classes.closeIcon}`}/>}
             />
             <div>
                 <div className={classes.imageWindow}>
@@ -19,8 +19,8 @@ const NotificationItem = props => {
             </div>
             <div>
                 <div className={classes.contentWindow}>
-                    <h3>Լորեմ Իպսում</h3>
-                    <p>
+                    <h3 className={props.unread ? "color-3b3b3b font-size-14" : "color-3a3a3a font-size-14"}>Լորեմ Իպսում</h3>
+                    <p className={props.unread ? "color-3a3a3a font-size-12" : "font-size-12 color-9c9c9c"}>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cupiditate illo possimus praesentium
                         quisquam? Ad, aliquam assumenda dicta distinctio eaque explicabo hic, necessitatibus nobis nostrum
                         officia porro repellendus! Dolores, libero!

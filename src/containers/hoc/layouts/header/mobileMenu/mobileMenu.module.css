@@ -9,7 +9,6 @@
     /*flex-direction: column;*/
     overflow-y: auto;
     box-sizing: border-box;
-    background-color: #FCFCFC;
     box-shadow: -1px 0 5px rgba(0, 0, 0, .3);
     transition: 300ms;
 }
@@ -37,8 +36,6 @@
 .menuListActiveProd {
     border-radius: 0 !important;
     box-shadow: none !important;
-    color: #FE5233 !important;
-    fill: #FE5233 !important;
     background-color: #eee !important;
 }
 
@@ -49,8 +46,6 @@
     width: 100% !important;
     height: 48px !important;
     align-items: center;
-    color: #171717;
-    fill: #b6acab;
 }
 
 .listRoot {
@@ -64,8 +59,8 @@
 
 
 .menuList:hover {
-    fill: #FE5233;
-    color: #FE5233;
+    fill: #ff8927;
+    color: #ff8927;
 }
 
 .minimaze {
@@ -100,8 +95,6 @@
     stroke-linejoin: round;
 }
 
-.icons {fill: #171717;}
-
 .menuListActive .icons {
     fill: #ff8927;
 }
@@ -131,15 +124,8 @@
 }
 
 .listText {
-    font-size: 12px !important;
     text-align: left;
     text-indent: 20px;
-}
-
-.subMenuLink {
-    font-size: 12px;
-    /*font-family: Mardoto-Regular;*/
-    color: #313131 !important;
 }
 
 .subMenuList > li:first-child {

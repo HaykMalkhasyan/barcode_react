@@ -22,14 +22,14 @@ const DropSmiles = props => {
             {
                 open ?
                     <>
-                        <div className={classes.smileContainer}>
+                        <div className={`background-transparent ${classes.smileContainer}`}>
                             <div>
                                 <Picker  onEmojiClick={onEmojiClick} disableAutoFocus={true} skinTone={SKIN_TONE_MEDIUM_DARK} groupNames={{smileys_people:"PEOPLE"}}/>
                                 {/*{ chosenEmoji && <EmojiData chosenEmoji={chosenEmoji}/>}*/}
                             </div>
                         </div>
                         <Backdrop
-                            className={classes.backdrop}
+                            className={`background-transparent ${classes.backdrop}`}
                             // Methods
                             onClick={toggleHandler}
                         />
@@ -38,8 +38,8 @@ const DropSmiles = props => {
                     null
             }
             <CustomButton
-                className={open ? `${classes.pickerButton} ${classes.opened}` : classes.pickerButton}
-                children={<Icons type={'smile'} className={open ?classes.smileIcon : ''}/>}
+                className={open ? `background-ff8927 ${classes.pickerButton} ${classes.opened}` : `background-transparent ${classes.pickerButton}`}
+                children={<Icons type={'smile'} className={open ? "fill-fff " : ""}/>}
                 // Methods
                 onClick={toggleHandler}
             />
