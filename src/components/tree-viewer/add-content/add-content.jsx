@@ -43,6 +43,7 @@ const AddContent = props => {
                 <div>
                     <CoupleButtons
                         type={"add"}
+                        disabled={!props.subgroupName.length}
                         // Methods
                         checkSuccess={event => {
                             submitHandler(event)

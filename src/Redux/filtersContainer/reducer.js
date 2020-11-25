@@ -8,7 +8,7 @@ const initialState = {
     tabs: JSON.parse(localStorage.getItem('table_place')) || [
         {id: 1, key_name: 'id', type: 'checkbox', name: 'Նշատուփը', required: true},
         {id: 3, key_name: 'sku', type: 'string', name: 'ապմ', required: false},
-        {id: 4, key_name: 'name', type: 'string', name: 'անվանում', required: true},
+        {id: 4, key_name: 'item_name', type: 'string', name: 'անվանում', required: true}, // worcking
         {id: 5, key_name: 'price', type: 'array', name: 'գին', required: false},
         {id: 6, key_name: 'barcode', type: 'array', key: 'barcode', name: 'բարկոդ', required: false},
         {id: 7, key_name: 'supplier', type: 'object', name: 'մատակարար', required: false}, // poxel array erb vor Arseny dzi

@@ -1,0 +1,58 @@
+/* FONT SIZE */
+.font-size-8 {font-size: 8px;}
+.font-size-9 {font-size: 9px;}
+.font-size-10 {font-size: 10px;}
+.font-size-11 {font-size: 11px;}
+.font-size-12 {font-size: 12px;}
+.font-size-13 {font-size: 13px;}
+.font-size-14 {font-size: 14px;}
+.font-size-15 {font-size: 15px;}
+.font-size-16 {font-size: 16px;}
+.font-size-17 {font-size: 17px;}
+.font-size-18 {font-size: 18px;}
+.font-size-19 {font-size: 19px;}
+.font-size-20 {font-size: 20px;}
+.font-size-21 {font-size: 21px;}
+.font-size-22 {font-size: 22px;}
+.font-size-23 {font-size: 23px;}
+.font-size-24 {font-size: 24px;}
+.font-size-26 {font-size: 26px;}
+
+/* COLOR */
+.color-fff {color: #fff;}
+.color-8b8b8b {color: #8b8b8b;}
+.color-ff8927 {color: #ff8927;}
+.color-313131 {color: #313131;}
+.color-024059 {color: #024059;}
+.color-171717 {color: #171717;}
+.color-3a3a3a {color: #3a3a3a;}
+.color-9c9c9c {color: #9c9c9c;}
+.color-3b3b3b {color: #3b3b3b;}
+.color-6B6B6B {color: #6B6B6B;}
+.color-0A0A0A {color: #0A0A0A;}
+.color-959595 {color: #959595;}
+.color-2B2B2B {color: #2B2B2B;}
+
+/* FILL */
+.fill-fff {fill: #fff;}
+.fill-ff8927 {fill: #ff8927;}
+.fill-171717 {fill: #171717;}
+.fill-b6acab {fill: #b6acab;}
+.fill-4b4b4b {fill: #4b4b4b;}
+.fill-3b3b3b {fill: #3b3b3b;}
+
+/* STROKE */
+.stroke-fff {stroke: #fff;}
+.stroke-4b4b4b {stroke: #4b4b4b;}
+
+/* BACKGROUND */
+.background-fff {background-color: #fff;}
+.background-ff8927 {background-color: #ff8927;}
+.background-FF6F00 {background-color: #FF6F00;}
+.background-FCFCFC {background-color: #FCFCFC;}
+.background-024059 {background-color: #024059;}
+.background-f6f6f6 {background-color: #f6f6f6;}
+.background-E6F8FF {background-color: #E6F8FF;}
+.background-03D9D9 {background-color: #03D9D9;}
+.background-rgba_00008 {background-color: rgba(0, 0, 0, .8);}
+.background-transparent {background-color: transparent;}

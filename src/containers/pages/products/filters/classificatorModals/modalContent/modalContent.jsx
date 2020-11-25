@@ -94,12 +94,12 @@ const ModalContent = props => {
     };
 
     /* Actions */
-    const onAddSubgroup = (event, id) => {
+    const onAddSubgroup = async (event, id) => {
         event.stopPropagation();
         props.setGroupValues("node", null)
         if (ref.current && props.nodeStatus) {
             const { tree } = ref.current;
-            tree.openNode(props.node)
+            await tree.openNode(props.node)
             tree.selectNode()
             tree.appendChildNode({id: "add", name: 'test', sort: 0}, props.node)
             tree.scrollToNode(props.node.getLastChild())

@@ -1,6 +1,6 @@
 .imageWindow {
-    height: 220px;
-    width: 200px;
+    height: 110px;
+    width: 100px;
     overflow: hidden;
     margin: 0 auto;
     display: flex;
@@ -10,6 +10,6 @@
 }
 
 .image {
-    height: 220px;
+    height: 110px;
     display: block;
 }

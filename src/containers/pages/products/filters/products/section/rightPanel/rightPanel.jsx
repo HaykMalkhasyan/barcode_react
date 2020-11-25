@@ -1,8 +1,8 @@
 import React from 'react'
 import classes from './rightPanel.module.css'
 import ResizableDragTable from "../../../../../../../components/resizableDragTable/resizableDragTable"
-import Pagination from "@material-ui/lab/Pagination"
-import PaginationItem from "@material-ui/lab/PaginationItem";
+import { Pagination } from '@material-ui/core';
+import { PaginationItem } from '@material-ui/core';
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../components/Icons/icons";
 import Header from "../../header/header";

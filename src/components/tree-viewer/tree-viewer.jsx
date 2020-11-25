@@ -106,10 +106,21 @@ const TreeViewer = React.forwardRef((props, ref) => {
             <div
                 className={props.group && props.group.id === props.groupId ? classes.active : classes.toggle}
                 onClick={() => {
-                    if (ref.current) {
-                        ref.current["tree"].selectNode()
+                    if (props.nodeStatus) {
+                        if (ref.current) {
+                            ref.current["tree"].selectNode()
+                        }
+                        props.selectTreeGroupItem(props.group.id)
                     }
-                    props.selectTreeGroupItem(props.group.id)
+                }}
+                onDoubleClick={event => {
+                    event.stopPropagation();
+                    if (props.nodeStatus) {
+                        if (open) {
+                            props.setGroupValues('own_select', null)
+                        }
+                        setOpen(!open);
+                    }
                 }}
             >
                 <div
@@ -135,10 +146,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                 // Methods
                                 onClick={event => {
                                     event.stopPropagation();
-                                    if (open) {
-                                        props.setGroupValues('own_select', null)
+                                    if (props.nodeStatus) {
+                                        if (open) {
+                                            props.setGroupValues('own_select', null)
+                                        }
+                                        setOpen(!open);
                                     }
-                                    setOpen(!open);
                                 }}
                             />
                             :
@@ -219,22 +232,57 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                         :
                                         <TreeNode
                                             draggable={props.own_move}
-                                            onDragStart={event => {
-                                                dragStart(event, tree, node)
-                                            }}
-                                            onDragOver={dragOver}
-                                            onDragLeave={dragLeave}
-                                            onDragEnter={event => {
-                                                dragEnter(event, node)
-                                            }}
-                                            onDrop={event => {
-                                                drop(event, tree, node)
-                                            }}
-                                            onDragEnd={dragEnd}
+                                            onDragStart={
+                                                props.own_move ?
+                                                    event => {
+                                                        dragStart(event, tree, node)
+                                                    }
+                                                    :
+                                                    null
+                                            }
+                                            onDragOver={
+                                                props.own_move ?
+                                                    dragOver
+                                                    :
+                                                    null
+                                            }
+                                            onDragLeave={
+                                                props.own_move ?
+                                                    dragLeave
+                                                    :
+                                                    null
+                                            }
+                                            onDragEnter={
+                                                props.own_move ?
+                                                    event => {
+                                                        dragEnter(event, node)
+                                                    }
+                                                    :
+                                                    null
+                                            }
+                                            onDrop={
+                                                props.own_move ?
+                                                    event => {
+                                                        drop(event, tree, node)
+                                                    }
+                                                    :
+                                                    null
+                                            }
+                                            onDragEnd={
+                                                props.own_move ?
+                                                    dragEnd
+                                                    :
+                                                    null
+                                            }
                                             groupId={props.groupId}
                                             selected={node.state.selected}
                                             depth={node.state.depth}
-                                            onDoubleClick={() => tree.toggleNode(node)}
+                                            onDoubleClick={
+                                                props.nodeStatus ?
+                                                    () => tree.toggleNode(node)
+                                                    :
+                                                    null
+                                            }
                                             onClick={() => {
                                                 if (props.nodeStatus) {
                                                     if (!props.own_status) {
@@ -252,20 +300,32 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             <div className={classes.nodeContent}>
                                                 <div>
                                                     <Toggler
-                                                        onDragEnter={event => {
-                                                            onDragTogglerEnter(event, tree, node)
-                                                        }}
-                                                        onDragLeave={onDragTogglerLeave}
+                                                        onDragEnter={
+                                                            props.own_move ?
+                                                                event => {
+                                                                    onDragTogglerEnter(event, tree, node)
+                                                                }
+                                                                :
+                                                                null
+                                                        }
+                                                        onDragLeave={
+                                                            props.own_move ?
+                                                                onDragTogglerLeave
+                                                                :
+                                                                null
+                                                        }
                                                         state={toggleState}
                                                         onClick={event => {
-                                                            event.stopPropagation()
-                                                            if (props.moveElement === null) {
-                                                                props.cancelEditing(node.getLastChild(), false)
-                                                            }
-                                                            if (toggleState === "closed") {
-                                                                tree.openNode(node);
-                                                            } else if (toggleState === "opened") {
-                                                                tree.closeNode(node);
+                                                            event.stopPropagation();
+                                                            if (props.nodeStatus) {
+                                                                if (props.moveElement === null) {
+                                                                    props.cancelEditing(node.getLastChild(), false)
+                                                                }
+                                                                if (toggleState === "closed") {
+                                                                    tree.openNode(node);
+                                                                } else if (toggleState === "opened") {
+                                                                    tree.closeNode(node);
+                                                                }
                                                             }
                                                         }}
                                                     />
@@ -295,15 +355,40 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             </div>
                                             <div
                                                 className={classes.line}
-                                                onDragOver={dragOver}
-                                                onDragLeave={dragLineLeave}
-                                                onDragEnter={event => {
-                                                    dragLineEnter(event, node)
-                                                }}
-                                                onDrop={event => {
-                                                    dropLine(event, tree, node)
-                                                }}
-                                                onDragEnd={dragEnd}
+                                                onDragOver={
+                                                    props.own_move ?
+                                                        dragOver
+                                                        :
+                                                        null
+                                                }
+                                                onDragLeave={
+                                                    props.own_move ?
+                                                        dragLineLeave
+                                                        :
+                                                        null
+                                                }
+                                                onDragEnter={
+                                                    props.own_move ?
+                                                        event => {
+                                                            dragLineEnter(event, node)
+                                                        }
+                                                        :
+                                                        null
+                                                }
+                                                onDrop={
+                                                    props.own_move ?
+                                                        event => {
+                                                            dropLine(event, tree, node)
+                                                        }
+                                                        :
+                                                        null
+                                                }
+                                                onDragEnd={
+                                                    props.own_move ?
+                                                        dragEnd
+                                                        :
+                                                        null
+                                                }
                                             />
                                         </TreeNode>
                                 }}

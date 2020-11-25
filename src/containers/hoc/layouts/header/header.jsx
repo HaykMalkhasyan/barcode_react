@@ -110,7 +110,7 @@ const Header = props => {
                 menu ?
                     window.innerWidth < 768 ?
                         <Backdrop
-                            className={classes.backdropMenu}
+                            className={`background-rgba_00008 ${classes.backdropMenu}`}
                             // Methods
                             onClick={toggleMenu}
                         />
@@ -122,7 +122,7 @@ const Header = props => {
             {
                 submenu !== null ?
                     <Backdrop
-                        className={classes.submenuBackdrop}
+                        className={`background-rgba_00008 ${classes.submenuBackdrop}`}
                         // Methods
                         onClick={() => setSubmenu(null)}
                     />

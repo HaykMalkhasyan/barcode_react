@@ -5,6 +5,7 @@
     border-radius: 6px;
     display: inline-flex;
     flex-wrap: nowrap;
+    background-color: #fff;
     white-space: nowrap;
     align-items: center;
     justify-content: space-between;

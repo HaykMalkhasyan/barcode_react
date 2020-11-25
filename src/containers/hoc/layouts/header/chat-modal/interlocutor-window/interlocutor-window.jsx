@@ -7,7 +7,7 @@ import Interlocutor from "./interlocutor/interlocutor";
 const InterlocutorWindow = props => {
 
     return (
-        <div className={classes.interlocutorWindow}>
+        <div className={`background-fff ${classes.interlocutorWindow}`}>
             <Header/>
             <ChatSearch/>
             <Interlocutor/>

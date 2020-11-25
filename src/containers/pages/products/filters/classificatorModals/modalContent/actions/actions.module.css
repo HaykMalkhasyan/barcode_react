@@ -69,12 +69,19 @@
     stroke-width: 0.2px;
 }
 
+.groupAddInactive {
+    fill: #000;
+    stroke: #000;
+    opacity: .18;
+}
+
 .containedEditSelected {
     fill: #3D6AFF;
 }
 
 .groupAddSelected {
     fill: #70E839;
+    stroke: #70E839;
 }
 
 .groupDeleteSelected {

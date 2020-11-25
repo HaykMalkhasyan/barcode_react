@@ -8,7 +8,7 @@ const MessageOwner = props => {
             <div className={classes.messageOwnerImage}>
                 <img src={props.image} alt="message-owner"/>
             </div>
-            <h6>{props.owner}</h6>
+            <h6 className="font-size-11 color-0A0A0A">{props.owner}</h6>
         </div>
     )
 };

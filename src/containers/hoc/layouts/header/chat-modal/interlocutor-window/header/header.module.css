@@ -17,7 +17,6 @@
     justify-content: center;
     border: none;
     outline: none !important;
-    background-color: transparent;
     transition: 300ms;
     cursor: pointer;
     position: relative;

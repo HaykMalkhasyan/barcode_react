@@ -18,6 +18,7 @@ export default function DialogUI(props) {
 
     return (
         <Dialog
+            disableBackdropClick={props.disableBackdropClick}
             open={!!props.open}
             onClose={props.handleClose}
             scroll={props.scroll}

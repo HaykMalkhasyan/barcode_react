@@ -9,10 +9,10 @@ const UserHeader = props => {
     return (
         <header className={classes.header}>
             <Grid container spacing={1}>
-                <Grid item xs={12} lg={2}>
+                <Grid item xs={12} lg={1}>
                     <UserHeaderImage/>
                 </Grid>
-                <Grid item xs={12} lg={10}>
+                <Grid item xs={12} lg={11}>
                     <UserHeaderContent
                         navigation_data={props.navigation_data}
                         active={props.active}

@@ -22,3 +22,9 @@
 .infoItem > span:last-child {
     color: #333;
 }
+
+@media (max-width: 600px) {
+    .infoItem {
+        font-size: 12px;
+    }
+}

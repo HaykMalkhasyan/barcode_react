@@ -138,7 +138,6 @@ class ResizableDragTable extends Component {
     };
 
     contentRender = (section) => {
-
         if (this.props.products.length) {
             let contentArray = [];
 

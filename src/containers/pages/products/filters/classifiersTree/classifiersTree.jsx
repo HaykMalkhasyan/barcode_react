@@ -104,6 +104,7 @@ class ClassifiersTree extends Component {
                                         group={this.props.groups[this.props.active]}
                                         own_subgroups={this.props.filter_subgroups}
                                         type={'select'}
+                                        own_move={false}
                                         // Methods
                                         setGroupValues={this.props.setGroupValues}
                                     />

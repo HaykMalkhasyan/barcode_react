@@ -79,6 +79,7 @@ const ProductModal = props => {
     return (
         <DialogUI
             root={props.root}
+            disableBackdropClick={true}
             label={
                 <ModalHeader
                     label={labelRender(props.type)}

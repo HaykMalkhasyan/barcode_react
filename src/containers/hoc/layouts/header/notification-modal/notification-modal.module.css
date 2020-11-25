@@ -4,7 +4,6 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background: rgba(0, 0, 0, .6);
     z-index: 119;
 }
 
@@ -16,7 +15,6 @@
     width: 70%;
     height: 100%;
     max-height: calc(100% - 120px);
-    background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 0 9px rgba(162, 186, 248, 0.4);
 }

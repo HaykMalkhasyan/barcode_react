@@ -46,15 +46,11 @@
 
 .ownerWindow > h3 {
     margin: 0 0 3px;
-    font-size: 14px;
-    color: #3B3B3B;
     font-weight: 500;
     transition: 300ms;
 }
 
 .ownerWindow > span {
-    font-size: 11px;
-    color: #6B6B6B;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -63,7 +59,6 @@
 }
 
 .active {
-    background-color: #f6f6f6;
     position: relative;
     border-radius: 0;
 }

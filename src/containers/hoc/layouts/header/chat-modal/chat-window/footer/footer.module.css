@@ -8,7 +8,6 @@
 .contentWindow {
     height: 56px;
     width: 100%;
-    background-color: #fff;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -40,8 +39,6 @@
     border: none;
     outline: none;
     padding:  10px;
-    color: #2B2B2B;
-    font-size: 14px;
     letter-spacing: .2pt;
     transition: 300ms;
 }
@@ -55,7 +52,6 @@
 }
 
 .sendButton {
-    background-color: #FF6F00;
     border: none;
     outline: none !important;
     border-radius: 0 6px 6px 0;
@@ -98,7 +94,6 @@
 }
 
 .sendIcon {
-    fill: #fff;
     opacity: 1;
 }
 
@@ -108,7 +103,6 @@
     right: 0;
     top: 0;
     height: 26px;
-    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -120,7 +114,6 @@
 .pickerButton {
     border: none;
     outline: none !important;
-    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
