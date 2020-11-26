@@ -4,10 +4,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button"
-import SnackbarMessage from "../../outlets/outlets/snackbar"
-import SelectForAll from "../../income/addDocument/select"
-import DatePicker from "../../../../components/datePicker/datePicker"
-import { getFullDate } from '../../../../services/services';
+import SnackbarMessage from "../../../outlets/outlets/snackbar"
+import SelectForAll from "../../../income/addDocument/select"
+import DatePicker from "../../../../../components/datePicker/datePicker"
+import { getFullDate } from '../../../../../services/services';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -66,7 +66,6 @@ export default function AlertDialog(props) {
   
 
   useEffect(() => {
-    columnApi && console.log('props.document', columnApi.getAllColumns())
     columnApi && setColumns(columnApi.getAllColumns())
 }, [columnApi])
 

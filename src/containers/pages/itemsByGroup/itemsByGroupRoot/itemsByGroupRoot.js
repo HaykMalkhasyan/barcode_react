@@ -21,7 +21,7 @@ import FormulateDialog from "./FormulateDocument"
 import SupliersProductsDialog from "./supliersProductsDialog"
 import QuantiesToZeroDialog from "./quantiesToZeroDialog"
 import { add, mult, div, sub, getMissing } from "../../../../services/services"
-import PrintDialog from "./printDialog"
+import Report from "./report/report"
 
 export default function ItemsByGroup() {
   const initialData = [
@@ -66,7 +66,7 @@ export default function ItemsByGroup() {
   const [openFormulateDialog, setOpenFormulateDialog] = useState(false)
   const [openSupliersProductsDialog, setOpenSupliersProductsDialog] = useState(false)
   const [openQuantiesToZeroDialog, setOpenQuantiesToZeroDialog] = useState(false)
-  const [openPrintDialog, setOpenPrintDialog] = useState(false)
+  const [openPrintDialog, setOpenPrintDialog] = useState(true)
   const [gridApi, setGridApi] = useState(null)
   const [columnApi, setColumnApi] = useState(null)
   const [exportStatus, setExportStatus] = useState({ bool: false, type: "" });
@@ -334,9 +334,6 @@ export default function ItemsByGroup() {
     // },1)
   }
 
-  useEffect(()=>{
-    console.log('gridApi', gridApi) 
-  },[gridApi])
 
   function generateSellingPrices(percent, byWhom, fixBy) {
     let clone = JSON.parse(JSON.stringify(rowData));
@@ -399,11 +396,11 @@ export default function ItemsByGroup() {
 
   return (
     <div style={{ padding: "144px 18px 8px" }}>
-      <PrintDialog
+      
+      <Report
         open={openPrintDialog}
         setOpen={setOpenPrintDialog}
-        gridApi={gridApi}
-        columnApi={columnApi}
+        rowData={rowData}
         id={id}
         exportStatus={exportStatus}
         setExportStatus={setExportStatus}
