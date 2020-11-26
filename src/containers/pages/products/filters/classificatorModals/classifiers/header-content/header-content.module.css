@@ -36,9 +36,9 @@
 .header > span {
     display: inline-block;
     margin: 0;
-    font-size: 13pt;
+    /*font-size: 13pt;*/
     font-weight: 600;
-    color: #49525E;
+    /*color: #49525E;*/
 }
 
 @media (max-width: 600px) {

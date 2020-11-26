@@ -7,7 +7,7 @@ import CustomSearch from "../../../../../../../../components/customSearch/custom
 const SectionHeader = props => {
 
     const cls_editMode = [
-        classes.editMode,
+        `background-transparent ${classes.editMode}`,
         props.groupsEditMode ?
             classes.editModeTrue:
             ''
@@ -17,9 +17,9 @@ const SectionHeader = props => {
         <header className={classes.header}>
             <div>
                 <CustomButton
-                    className={classes.newClassifierButton}
+                    className={`background-3EC300 ${classes.newClassifierButton}`}
                     children={
-                        <Icons type={'add'} width={11} height={11} className={classes.newClassifierButtonIcon}/>
+                        <Icons type={'add'} width={11} height={11} className={`fill-fff stroke-fff ${classes.newClassifierButtonIcon}`}/>
                     }
                     // Methods
                     onClick={props.addHandler}
@@ -27,7 +27,7 @@ const SectionHeader = props => {
                 <CustomButton
                     className={cls_editMode.join(' ')}
                     children={
-                        <Icons type={'contained-edit'} opacity={1} className={classes.editModeButtonIcon}/>
+                        <Icons type={'contained-edit'} opacity={1} className={`fill-7b7979 stroke-transparent ${classes.editModeButtonIcon}`}/>
                     }
                     // Methods
                     onClick={() => {

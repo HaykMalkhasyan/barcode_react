@@ -75,6 +75,7 @@ export default function ScrollableTabsButtonAuto(props) {
                     // indicatorColor="primary"
                     textColor="primary"
                     variant="scrollable"
+                    // orientation={"vertical"}
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >

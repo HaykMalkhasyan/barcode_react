@@ -37,7 +37,7 @@
 .customSelect {
     width: 90%;
     box-sizing: border-box;
-    color: #666;
+    /*color: #666;*/
 }
 
 .spaceAround > div:first-child {
@@ -81,8 +81,8 @@
 }
 
 .checkbox {
-    color: #737373;
-    font-size: 12px;
+    /*color: #737373;*/
+    /*font-size: 12px;*/
     font-weight: 600;
 }
 

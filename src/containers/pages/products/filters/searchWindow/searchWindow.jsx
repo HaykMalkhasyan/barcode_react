@@ -40,7 +40,7 @@ const SearchWindow = props => {
             />
             <div className={classes.finishedButtons}>
                 <CustomButton
-                    className={classes.addButton}
+                    className={`background-fff color-024059 font-size-15 ${classes.addButton}`}
                     children={'նոր ապրանք'}
                     // Methods
                     onClick={
@@ -48,7 +48,7 @@ const SearchWindow = props => {
                     }
                 />
                 <CustomButton
-                    className={classes.searchButton}
+                    className={`background-024059 color-fff font-size-15 ${classes.searchButton}`}
                     children={'Փնտրել'}
                     // Methods
                     onClick={productsSearchHandler}

@@ -22,7 +22,7 @@
 
 .newClassifierButton {
     outline: none !important;
-    background: #3EC300;
+    /*background: #3EC300;*/
     text-transform: uppercase;
     height: 41px;
     width: 41px;
@@ -50,14 +50,14 @@
 }
 
 .newClassifierButtonIcon {
-    fill: #fff;
-    stroke: #fff;
+    /*fill: #fff;*/
+    /*stroke: #fff;*/
     stroke-width:2px;
 }
 
 .editMode {
     outline: none !important;
-    background: transparent;
+    /*background: transparent;*/
     height: 41px;
     width: 41px;
     margin-right: 5px;
@@ -84,8 +84,8 @@
 }
 
 .editModeButtonIcon {
-    stroke: transparent;
-    fill: #7b7979;
+    /*stroke: transparent;*/
+    /*fill: #7b7979;*/
     stroke-width: 0.2px;
 }
 

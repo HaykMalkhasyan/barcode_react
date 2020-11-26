@@ -6,7 +6,7 @@ import CustomSearch from "../../../../../../components/customSearch/customSearch
 const CustomSearchWindow = props => {
 
     return (
-        <div className={classes.searchContainer}>
+        <div className={`background-fff ${classes.searchContainer}`}>
             <CustomHeader
                 name={'Որոնել'}
             />

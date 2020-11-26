@@ -19,7 +19,7 @@
 
 .errorIcon {
     margin-right: 20px;
-    color: #f44336;
+    /*color: #f44336;*/
     border-radius: 50%;
     transition: 300ms;
     cursor: help;

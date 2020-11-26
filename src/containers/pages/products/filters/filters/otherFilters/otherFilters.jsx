@@ -12,7 +12,7 @@ const OtherFilters = props => {
     };
 
     return (
-        <div className={classes.otherFilters}>
+        <div className={`background-fff ${classes.otherFilters}`}>
             <CustomHeader
                 type={'collapsed'}
                 name={'Այլ պարամետրեր'}
@@ -31,8 +31,8 @@ const OtherFilters = props => {
                                         <div key={item.id + Math.random()} className={classes.checkboxItem}>
                                             <CustomCheckbox
                                                 className={classes.checkbox}
-                                                checkBoxWindow={classes.checkBoxWindow}
-                                                labelStyle={classes.labelStyle}
+                                                checkBoxWindow={`font-size-14 ${classes.checkBoxWindow}`}
+                                                labelStyle={`font-size-12 color-323232 ${classes.labelStyle}`}
                                                 label={item.name['am']}
                                             />
                                         </div>

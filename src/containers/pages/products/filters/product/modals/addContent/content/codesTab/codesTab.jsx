@@ -59,7 +59,7 @@ class CodesTab extends Component {
                             null
                     }
                     <div className={classes.content}>
-                        <p className={classes.information}>
+                        <p className={`color-888 font-size-12 ${classes.information}`}>
                             Այն ապրանքները, որոնք ունեն գծիկավոր կոդ անհրաժեշտ է կոդ դաշտում լրացնել, որպեսզի տվյալ կոդով
                             հնարավոր լինի վաճառել ապրանքը։ Որոնք կոդեր չունեն կարող եք ծրագրով ստեղծել կոդ՝ սեղմելով
                             "ԳԵՆԵՐԱՑՆԵԼ" կոճակը։

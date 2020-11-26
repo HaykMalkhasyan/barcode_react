@@ -21,11 +21,11 @@ const CustomSearch = props => {
                 props.drop ?
                     <div className={classes.dropDownWindow}>
                         <CustomButton
-                            className={classes.dropDownBtn}
+                            className={`background-F9F9F9 color-5A5A5A font-size-9 ${classes.dropDownBtn}`}
                             children={
                                 <>
                                     <span>Բոլորը</span>
-                                    <Icons type={'bottom-angle'} className={classes.bottomAngle}/>
+                                    <Icons type={'bottom-angle'} className="fill-5A5A5A"/>
                                 </>
                             }
                         />
@@ -35,7 +35,7 @@ const CustomSearch = props => {
             }
             <CustomInput
                 id={props.id}
-                classNameInput={`${props.withButton ? classes.searchInput : `${classes.searchInput} ${classes.fullWidth}`} ${props.drop ? '' : classes.withoutDrop} ${props.withButton && props.drop ? '' : classes.without}`}
+                classNameInput={`${props.withButton ? `background-fff color-483A3A font-size-15 ${classes.searchInput}` : `background-fff color-483A3A font-size-15 ${classes.searchInput} ${classes.fullWidth}`} ${props.drop ? '' : classes.withoutDrop} ${props.withButton && props.drop ? '' : classes.without}`}
                 name={props.name}
                 type={props.type}
                 value={props.value}
@@ -48,8 +48,8 @@ const CustomSearch = props => {
                 props.withButton ?
                     <div className={classes.searchSpecific}>
                         <CustomButton
-                            className={classes.customSearchBtn}
-                            children={<Icons type={'search'} className={classes.customSearchIcon}/>}
+                            className={`background-fff ${classes.customSearchBtn}`}
+                            children={<Icons type={'search'} className={`fill-ff8927 stroke-fff ${classes.customSearchIcon}`}/>}
                         />
                     </div>
                     :

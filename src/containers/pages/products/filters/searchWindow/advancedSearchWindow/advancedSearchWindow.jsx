@@ -38,7 +38,7 @@ const AdvancedSearchWindow = props => {
     };
 
     return (
-        <div className={classes.searchContainer}>
+        <div className={`background-fff ${classes.searchContainer}`}>
             <CustomHeader
                 type={'collapsed'}
                 name={'Լրացուցիչ պարամետրեր'}

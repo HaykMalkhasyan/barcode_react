@@ -83,7 +83,7 @@ const Data = props => {
             <div className={classes.flexLgContainer}>
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
-                        className={classes.customSelect}
+                        className={`fill-666 ${classes.customSelect}`}
                         open={open}
                         focus={focus}
                         inputLabel={'Տեսակ'}
@@ -98,7 +98,7 @@ const Data = props => {
                 </div>
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
-                        className={classes.customSelect}
+                        className={`fill-666 ${classes.customSelect}`}
                         open={open}
                         focus={focus}
                         inputLabel={'Չափման միավոր'}
@@ -117,7 +117,7 @@ const Data = props => {
                     <CustomCheckbox
                         checkBoxWindow={classes.checkBoxWindow}
                         id={'product_active'}
-                        className={classes.checkbox}
+                        className={`color-737373 font-size-12 ${classes.checkbox}`}
                         label={'Ակտիվ'}
                         checked={props.data.active}
                         name={'active'}

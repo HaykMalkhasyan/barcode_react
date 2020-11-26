@@ -69,14 +69,14 @@ const SectionBody = props => {
             if (props.allError === null) {
                 return (
                     <div className={classes.errorWindow}>
-                        <h6>Դասակարգիչների ցանկը դատարկ է</h6>
+                        <h6 className="color-666 font-size-12">Դասակարգիչների ցանկը դատարկ է</h6>
                     </div>
                 )
             } else {
                 return (
                     <div className={classes.errorWindow}>
-                        <SpinnerForContent className={classes.spinner} color={'secondary'}/>
-                        <h6>
+                        <SpinnerForContent className={`background-transparent ${classes.spinner}`} color={'secondary'}/>
+                        <h6 className="color-666 font-size-12">
                             Հարցումը ձախողվեց, ստուգեք ձեր ինտերնետի կապը։ Ցանցի բացակայության դեպքում կարող եք դիմել
                             Ձեր ինտերնետ ծառայության մատակարարին (ISP), իսկ առկայության դեպքում դիմեք մեր սպասարկման
                             կենտրոնին, հայցում ենք Ձեր ներողամտությունը․ Շնորհակալություն,

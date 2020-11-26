@@ -56,7 +56,7 @@ const ModalFooter = props => {
                 {
                     props.errorFields.length ?
                         <Tooltip title={titleRender()} placement="right">
-                            <ErrorIcon className={classes.errorIcon}/>
+                            <ErrorIcon className={`color-f44336 ${classes.errorIcon}`}/>
                         </Tooltip>
                         :
                         null

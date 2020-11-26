@@ -7,9 +7,9 @@ import Grid from "@material-ui/core/Grid";
 const GroupItem = props => {
 
     const cls = [
-        classes.editButton,
+        `background-transparent color-FF9D52 fill-747ad5 ${classes.editButton}`,
         props.selected ?
-            classes.editButtonSelected
+            `fill-fff ${classes.editButtonSelected}`
             :
             '',
         props.groupsEditMode ?
@@ -21,7 +21,7 @@ const GroupItem = props => {
     return (
         <Grid key={'classifiers-search-modal-' + props.item.id} item xs={3}>
             <div
-                className={props.selected ? `${classes.classifiersItem} ${classes.selected}` : classes.classifiersItem}
+                className={props.selected ? `background-024059 color-fff font-size-12 ${classes.classifiersItem} ${classes.selected}` : `background-fff color-656565 font-size-12 ${classes.classifiersItem}`}
                 // Methods
                 onClick={
                     props.groupsEditMode ?
@@ -33,7 +33,7 @@ const GroupItem = props => {
                 {
                     props.type === "edit" ?
                         <span className={cls.join(" ")}>
-                            <Icons type={'edit'} className={props.selected ? classes.activeIcon : classes.icon}/>
+                            <Icons type={'edit'} className={props.selected ? `fill-fff ${classes.activeIcon}` : `fill-024059 ${classes.icon}`}/>
                         </span>
                         :
                         null
@@ -41,7 +41,7 @@ const GroupItem = props => {
                 <p>
                     {props.item[`title_${cookies.get('language') || 'am'}`]}
                 </p>
-                <div className={props.groupLoader === props.item.id ? classes.loading : classes.hide}/>
+                <div className={props.groupLoader === props.item.id ? `background-ff8927 ${classes.loading}` : classes.hide}/>
             </div>
         </Grid>
     )

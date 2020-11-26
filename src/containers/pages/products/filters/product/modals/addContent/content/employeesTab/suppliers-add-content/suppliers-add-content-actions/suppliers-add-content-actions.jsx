@@ -8,7 +8,7 @@ const SuppliersAddContentActions = props => {
     return (
         <footer className={classes.content}>
             <CustomButton
-                className={classes.checkButton}
+                className={`background-0da3e0 ${classes.checkButton}`}
                 children={<Icons type={"check"}/>}
                 // Events
                 onClick={props.onClick}

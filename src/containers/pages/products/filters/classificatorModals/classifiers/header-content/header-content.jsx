@@ -6,7 +6,7 @@ const HeaderContent = props => {
 
     return (
         <header className={classes.header}>
-            <span>{props.label}</span>
+            <span className="color-49525E font-size-13pt">{props.label}</span>
             <CloseButton
                 onClick={() => {
                     props.initialOpen === null ?

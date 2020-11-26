@@ -14,7 +14,7 @@ const CoupleButtons = props => {
                     <Tooltip title="Հաստատել" placement="bottom">
                         <Button
                             disabled={props.disabled}
-                            className={classes.successButton}
+                            className={`background-fff color-67ca51 ${classes.successButton}`}
                             onClick={props.checkSuccess}
                         >
                             <CheckIcon style={{fontSize: 16}}/>
@@ -23,7 +23,7 @@ const CoupleButtons = props => {
                     :
                     <Button
                         disabled={props.disabled}
-                        className={classes.successButton}
+                        className={`background-fff color-67ca51 ${classes.successButton}`}
                         onClick={props.checkSuccess}
                     >
                         <CheckIcon style={{fontSize: 16}}/>
@@ -31,7 +31,7 @@ const CoupleButtons = props => {
             }
             <Tooltip title="Չեղարկել" placement="bottom">
                 <Button
-                    className={classes.cutBtn}
+                    className={`background-fff color-ff4b63 ${classes.cutBtn}`}
                     onClick={props.checkClose}
                 >
                     <CloseIcon style={{fontSize: 16}}/>

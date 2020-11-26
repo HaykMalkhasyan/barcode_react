@@ -8,8 +8,8 @@ import BodyContent from "../body-content/body-content";
 const SectionContent = React.forwardRef((props, ref) => {
 
     return (
-        <section className={classes.section}>
-            <div className={classes.content}>
+        <section className={`background-fff ${classes.section}`}>
+            <div className={`background-fff ${classes.content}`}>
                 {
                     !props.own_status ?
                         <GroupContent

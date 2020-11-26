@@ -88,7 +88,7 @@ const Login = props => {
     };
 
     return (
-        <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
+        <div className={`background-5b86e5-36dadc ${classes.main}`} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
             <LanguagesMenu
                 open={props.open}
                 lang={props.lang}
@@ -99,12 +99,12 @@ const Login = props => {
                 setLanguage={setLanguage}
             />
             <div className={classes.backdrop}>
-                <div className={classes.mainWindow}>
-                    <span className={classes.name}>Barcode.am</span>
-                    <span className={classes.action}>{getLanguage(props.activeLanguage, 'login')}</span>
+                <div className={`background-fff ${classes.mainWindow}`}>
+                    <span className={`color-1B5985 font-size-34 ${classes.name}`}>Barcode.am</span>
+                    <span className={`color-444 font-size-21 ${classes.action}`}>{getLanguage(props.activeLanguage, 'login')}</span>
                     {
                         props.text ?
-                            <Alert className={classes.alertError} severity="error">
+                            <Alert className={`font-size-10 ${classes.alertError}`} severity="error">
                                 {getLanguage(props.activeLanguage, props.text)}
                             </Alert>
                             :
@@ -118,7 +118,7 @@ const Login = props => {
                             id={'email'}
                             // for label
                             classNameLabel={
-                                `${classes.email} ${props.selected === 'email' ? classes.selected : ''} ${props.fail ? classes.error : ''}`
+                                `background-fff ${classes.email} ${props.selected === 'email' ? classes.selected : ''} ${props.fail ? classes.error : ''}`
                             }
                             label={
                                 <span className={classes.forIcon}>
@@ -126,7 +126,7 @@ const Login = props => {
                                 </span>
                             }
                             // for input
-                            classNameInput={classes.input}
+                            classNameInput={`background-transparent ${classes.input}`}
                             type={'email'}
                             required={true}
                             name={'email'}
@@ -151,6 +151,7 @@ const Login = props => {
                             // for label
                             classNameLabel={
                                 `
+                                background-fff
                                 ${classes.password}
                                 ${
                                     props.selected === 'password' 
@@ -178,7 +179,7 @@ const Login = props => {
                                 </span>
                             }
                             // for input
-                            classNameInput={classes.input}
+                            classNameInput={`background-transparent ${classes.input}`}
                             type={
                                 props.showPassword ?
                                     'text'
@@ -214,21 +215,21 @@ const Login = props => {
                                 </span>
                             }
                         />
-                        <NavLink to={'/recover-password'} className={classes.forgetPassword}>
+                        <NavLink to={'/recover-password'} className={`color-578EE4 font-size-12 ${classes.forgetPassword}`}>
                             {getLanguage(props.activeLanguage, 'forget_password')}
                         </NavLink>
                         <CustomButton
-                            className={classes.signIn}
+                            className={`background-F53803-F5D020 color-fff font-size-16 ${classes.signIn}`}
                             children={getLanguage(props.activeLanguage, 'login')}
                             //Methods
                             onClick={onSubmit}
                         />
                     </form>
                     <div className={classes.createAccount}>
-                        <span>
+                        <span className="color-878787 font-size-10">
                             {getLanguage(props.activeLanguage, 'registered')}
                         </span>
-                        <NavLink to={'/registration'} className={classes.signUp}>
+                        <NavLink to={'/registration'} className={`color-1790FF font-size-12 ${classes.signUp}`}>
                             {getLanguage(props.activeLanguage, 'register')}
                         </NavLink>
                     </div>

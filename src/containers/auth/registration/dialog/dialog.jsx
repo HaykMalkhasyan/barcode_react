@@ -58,10 +58,10 @@ export default function AlertDialogSlide(props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <button onClick={handleCloseDisagree} type={'button'} className={cls.disagreeBtn}>
+                    <button onClick={handleCloseDisagree} type={'button'} className={`background-fff color-666 ${cls.disagreeBtn}`}>
                         {props.disagree}
                     </button>
-                    <button onClick={handleCloseAgree} type={'button'} className={cls.agreeBtn}>
+                    <button onClick={handleCloseAgree} type={'button'} className={`background-F53803-F5D020 color-fff ${cls.agreeBtn}`}>
                         {props.agree}
                     </button>
                 </DialogActions>

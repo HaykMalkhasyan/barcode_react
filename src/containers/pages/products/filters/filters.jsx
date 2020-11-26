@@ -96,8 +96,8 @@ class Filters extends Component {
                 {
                     this.props.progress ?
                         <LinearSpinner
-                            progres={classes.progres}
-                            barColorPrimary={classes.barColorPrimary}
+                            progres={`background-transparent ${classes.progres}`}
+                            barColorPrimary="background-ff8927"
                         />
                         :
                         null
@@ -124,7 +124,7 @@ class Filters extends Component {
                 </Grid>
                 <ModalUI
                     open={this.props.classifiersModal}
-                    className={classes.modal}
+                    className={`background-F9F9FF ${classes.modal}`}
                     // Methods
                     // handleClose={this.handleClose}
                     handleOpen={this.props.openModalContent}
@@ -185,7 +185,7 @@ class Filters extends Component {
                 </ModalUI>
                 <ModalUI
                     open={this.props.modalGroup !== null}
-                    className={classes.modalGroup}
+                    className={`background-fff ${classes.modalGroup}`}
                 >
                     <Classifiers
                         type={this.props.modalGroup}

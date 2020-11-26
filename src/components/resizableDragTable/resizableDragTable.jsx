@@ -91,7 +91,7 @@ class ResizableDragTable extends Component {
                         style={{width: JSON.parse(localStorage.getItem(`block_${i}`)) || 'auto'}}
                         key={`header-${item.id}`}
                         ref={this[`ref_${i}`]}
-                        className={classes.productTableTab}
+                        className={`background-fff ${classes.productTableTab}`}
                         onDragOver={event => this.dragEnter(event, i)}
                         onDragLeave={event => this.dragLeave(event, i)}
                         onDrop={event => this.drop(event, i, i)}
@@ -121,7 +121,7 @@ class ResizableDragTable extends Component {
                                         {item.name}
                                     </span>
                                     <div
-                                        className={classes.resizing}
+                                        className={`background-e9eaed ${classes.resizing}`}
                                         // Methods
                                         onMouseDown={
                                             event => this.startHandler(event, this[`ref_${i}`].current, i)
@@ -146,7 +146,7 @@ class ResizableDragTable extends Component {
                     switch (section.type) {
                         case 'checkbox': {
                             contentArray.push(
-                                <div className={classes.tBodyItems} key={`product-checkbox-${item.id}`}>
+                                <div className={`color-414141 font-size-13 ${classes.tBodyItems}`} key={`product-checkbox-${item.id}`}>
                                     <CheckboxesUi
                                         value={item.id}
                                         root={classes.chkRoot}
@@ -163,7 +163,7 @@ class ResizableDragTable extends Component {
                         case 'string': {
                             contentArray.push(
                                 <div
-                                    className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
+                                    className={`color-414141 font-size-13 ${classes.tBodyItems} ${classes.tBodySelectedItems}`}
                                     key={`product-string-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
@@ -183,7 +183,7 @@ class ResizableDragTable extends Component {
                         case 'in_string': {
                             contentArray.push(
                                 <div
-                                    className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
+                                    className={`color-414141 font-size-13 ${classes.tBodyItems} ${classes.tBodySelectedItems}`}
                                     key={`product-in_string-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
@@ -210,7 +210,7 @@ class ResizableDragTable extends Component {
                         case 'array': {
                             contentArray.push(
                                 <div
-                                    className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
+                                    className={`color-414141 font-size-13 ${classes.tBodyItems} ${classes.tBodySelectedItems}`}
                                     key={`product-array-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}
@@ -243,7 +243,7 @@ class ResizableDragTable extends Component {
                         case 'boolean': {
                             contentArray.push(
                                 <div
-                                    className={`${classes.tBodyItems} ${classes.tBodySelectedItems}`}
+                                    className={`color-414141 font-size-13 ${classes.tBodyItems} ${classes.tBodySelectedItems}`}
                                     key={`product-boolean-${item.id}`}
                                     // Methods
                                     onClick={() => this.toggleEditableModal(item.id)}

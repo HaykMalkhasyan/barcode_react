@@ -104,7 +104,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
     return (
         <>
             <div
-                className={props.group && props.group.id === props.groupId ? classes.active : classes.toggle}
+                className={props.group && props.group.id === props.groupId ? `color-024059 background-deecfd ${classes.active}` : `color-024059 ${classes.toggle}`}
                 onClick={() => {
                     if (props.nodeStatus) {
                         if (ref.current) {
@@ -136,7 +136,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                     {
                         props.own_subgroups && props.own_subgroups.length ?
                             <CustomButton
-                                className={classes.collapseButton}
+                                className={`background-transparent ${classes.collapseButton}`}
                                 children={
                                     open ?
                                         <ArrowDropDownIcon/>
@@ -354,7 +354,7 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                 />
                                             </div>
                                             <div
-                                                className={classes.line}
+                                                className={`background-transparent ${classes.line}`}
                                                 onDragOver={
                                                     props.own_move ?
                                                         dragOver

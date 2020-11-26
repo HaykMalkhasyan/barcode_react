@@ -14,13 +14,13 @@ const DescriptionTab = props => {
     return (
         <div className={classes.descriptionTab}>
             <div className={classes.content}>
-                <p className={classes.information}>
+                <p className={`color-888 font-size-12 ${classes.information}`}>
                     Այստեղ կարող եք լրացնել ապրանքին վերաբերող ցանկացած ինֆորմացիա, որը Ձեզ կօգնի հեշտությամբ այն  տարբերակել նմանատիպ այլ ապրանքներից։
                 </p>
                 <div className={classes.textFieldWindow}>
                     <SectionWindow label={'Նկարագրություն'}>
                         <CustomTextArea
-                            className={classes.textArea}
+                            className={`color-666 ${classes.textArea}`}
                             placeholder={'Նկարագրության դաշտ...'}
                             name={'description'}
                             value={props.description.description}

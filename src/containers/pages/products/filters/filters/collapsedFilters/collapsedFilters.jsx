@@ -12,7 +12,7 @@ const CollapsedFilters = props => {
     };
 
     return (
-        <div className={classes.collapsedFilters}>
+        <div className={`background-fff ${classes.collapsedFilters}`}>
             <CustomHeader
                 type={'collapsed'}
                 name={'Չափման միավոր'}
@@ -27,7 +27,7 @@ const CollapsedFilters = props => {
                         empty={'դատարկ է'}
                         data={props.measurementsFilters}
                         color={classes.radioColor}
-                        labelStyle={classes.labelStyle}
+                        labelStyle="font-size-12 color-5D5D5D"
                     />
                 </div>
             </Collapse>
