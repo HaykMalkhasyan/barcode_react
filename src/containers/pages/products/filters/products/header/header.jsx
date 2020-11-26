@@ -8,36 +8,36 @@ import CheckboxList from "../../../../../../components/listItemWithCheckbox/list
 const Header = props => {
 
     return (
-        <div className={classes.header}>
+        <div className={`background-fff ${classes.header}`}>
             <div className={classes.actionsButtonWindow}>
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
-                            <Icons type={'back-page'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Լրացուցիչ ֆիլտրեր</span>
+                            <Icons type={'back-page'} height={14} width={14} className={`fill-3ec300 ${classes.rectangleAddIcon}`}/> <span>Լրացուցիչ ֆիլտրեր</span>
                         </>
                     }
                     // Method
                     onClick={props.backFiltersPage}
                 />
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
-                            <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Ավելացնել</span>
+                            <Icons type={'rectangle-add'} height={14} width={14} className={`fill-3ec300 ${classes.rectangleAddIcon}`}/> <span>Ավելացնել</span>
                         </>
                     }
                 />
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
-                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span>Ջնջել</span>
+                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={`stroke-FF0022 fill-FF0022 ${classes.deleteIcon}`}/> <span>Ջնջել</span>
                         </>
                     }
                 />
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
                             <Icons type={'contained-print'}/> <span>Տպել</span>
@@ -45,7 +45,7 @@ const Header = props => {
                     }
                 />
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
                             <Icons type={'outline-list'}/> <span>Դասակարգել</span>
@@ -53,7 +53,7 @@ const Header = props => {
                     }
                 />
                 <CustomButton
-                    className={`${classes.actionsButton}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     children={
                         <>
                             <Icons type={'contained-export'}/> <span>Արտահանել</span>
@@ -63,15 +63,15 @@ const Header = props => {
             </div>
             <div>
                 <SpringPopper
-                    dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
-                    className={classes.actionsButton}
+                    dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? `background-fff ${classes.dropWindow}` : `background-fff ${classes.dropWindowEmpty}`}
+                    className={`background-transparent color-575757 font-size-12 ${classes.actionsButton}`}
                     open={props.open}
-                    label={<Icons type={'configuration'} className={classes.sendIcon} width={18} height={18}/>}
+                    label={<Icons type={'configuration'} width={18} height={18}/>}
                     // Methods
                     toggleBackdrop={props.toggleBackdrop}
                 >
                     <CheckboxList
-                        emptyStyle={classes.emptyStyle}
+                        emptyStyle={`color-aaa ${classes.emptyStyle}`}
                         empty={'դատարկ է'}
                         data={props.tabs}
                         activeTabs={props.activeTabs}

@@ -30,7 +30,7 @@ const TreeContent = props => {
                    className={`${classes.nodeName} ${props.activeAction === "cut" || props.activeAction === "copy" ? classes.cut : ''} ${props.search && props.search.length > 0 && props.node.name.search(props.search) !== -1 ? classes.hasHave : ''}`}>
                    {props.node.name}
                </span>
-                <span className={classes.copyIcon}>
+                <span className={`color-ff8927 ${classes.copyIcon}`}>
                    {
                        props.activeAction === "copy" ?
                            <AiFillCopy/>
@@ -55,12 +55,12 @@ const TreeContent = props => {
                         <div className={classes.copyCutPasteButtons}>
                             {/* subgroup copy */}
                             <CustomButton
-                                className={props.activeAction === "copy" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}
+                                className={`background-transparent color-ccc font-size-16 ${props.activeAction === "copy" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}`}
                                 children={
                                     <Tooltip title={'Պատճենել'} placement="top">
                                        <span className={classes.contentSpan}>
                                            <AiFillCopy
-                                               className={props.own_select !== null && props.own_move === false ? classes.copy : ''}/>
+                                               className={props.own_select !== null && props.own_move === false ? "color-2eb51f" : ''}/>
                                        </span>
                                     </Tooltip>
                                 }
@@ -83,12 +83,12 @@ const TreeContent = props => {
                             />
                             {/* subgroup cut */}
                             <CustomButton
-                                className={props.activeAction === "cut" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}
+                                className={`background-transparent color-ccc font-size-16 ${props.activeAction === "cut" ? `${classes.actionButtons} ${classes.active}` : classes.actionButtons}`}
                                 children={
                                     <Tooltip title={'Կտրել'} placement="top">
                                        <span className={classes.contentSpan}>
                                            <BiCut
-                                               className={props.own_select !== null && props.own_move === false ? classes.cut : ''}/>
+                                               className={props.own_select !== null && props.own_move === false ? `color-0da3e0 ` : ''}/>
                                        </span>
                                     </Tooltip>
                                 }
@@ -112,12 +112,12 @@ const TreeContent = props => {
 
                             {/* subgroup paste */}
                             <CustomButton
-                                className={props.buffer && ((props.node && !props.buffer.contains(props.node) && props.node.id !== props.buffer.id && props.node.id !== parseInt(props.buffer.parent_id)) || (props.groupId !== null && parseInt(props.buffer.parent_id) !== 0)) ? `${classes.actionButtons} ${classes.activePaste}` : classes.actionButtons}
+                                className={`background-transparent color-ccc font-size-16 ${classes.actionButtons}`}
                                 children={
                                     <Tooltip title={'Կպցնել'} placement="top">
                                        <span className={classes.contentSpan}>
                                            <FaPaste
-                                               className={props.buffer && props.own_move === false ? classes.paste : ''}/>
+                                               className={props.buffer && props.own_move === false ? "color-ce9b5c" : ''}/>
                                        </span>
                                     </Tooltip>
                                 }

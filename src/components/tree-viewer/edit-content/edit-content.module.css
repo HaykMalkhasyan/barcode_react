@@ -21,10 +21,7 @@
     height: 30px;
     border: none;
     outline: none !important;
-    background-color: transparent;
-    color: #024059;
     letter-spacing: .4pt;
-    font-size: 15px;
 }
 
 .subgroupNameLabel {

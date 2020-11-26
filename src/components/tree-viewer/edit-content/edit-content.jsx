@@ -25,7 +25,7 @@ const EditContent = props => {
             <div className={classes.changeControllerWindow}>
                 <CustomInput
                     autoFocus={true}
-                    classNameInput={classes.subgroupNameInput}
+                    classNameInput={`background-transparent color-024059 font-size-15 ${classes.subgroupNameInput}`}
                     classNameLabel={classes.subgroupNameLabel}
                     value={props.subgroupName}
                     name={'subgroupName'}

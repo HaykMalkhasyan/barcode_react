@@ -20,7 +20,7 @@ const ClassifiersItem = props => {
             onClick={() => props.onClick(props.data, true)}
         >
             <div className={classes.classifiersSelectedItem}>
-                <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
+                <span className={props.subgroup[props.data.id] ? `background-transparent color-024059 font-size-13 ${classes.groupButton}` : `background-transparent color-bababa font-size-13 ${classes.groupButtonInactive} ${classes.groupButton}`}>
                     {`${props.data[`title_${cookie.get("language") || "am"}`]} ${props.data.id === 0 ? "*" : ""}`}
                 </span>
                 {
@@ -32,12 +32,12 @@ const ClassifiersItem = props => {
                         null
                 }
             </div>
-            <div className={classes.road}>
+            <div className={`background-transparent color-484848 font-size-13 ${classes.road}`}>
                 {
                     props.classifiers && Object.keys(props.classifiers).length > 0 && props.classifiers[props.data.id] ?
                         <CustomButton
                             className={classes.removeButton}
-                            children={<Icons type={'group-delete'} width={14} height={14} className={classes.removeIcon} opacity={1}/>}
+                            children={<Icons type={'group-delete'} width={14} height={14} className={`stroke-000 ${classes.removeIcon}`} opacity={1}/>}
                             // events
                             onClick={event => {
                                 event.stopPropagation();

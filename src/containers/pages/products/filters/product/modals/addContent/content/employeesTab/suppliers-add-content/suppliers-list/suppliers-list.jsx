@@ -13,7 +13,7 @@ const SuppliersList = props => {
                 return (
                     <ListItem
                         key={`supplier-${item.id}`}
-                        className={classes.listItem}
+                        className={`background-3F83D471 ${classes.listItem}`}
                         button
                     >
                         <ListItemText primary={item.name}/>
@@ -43,7 +43,7 @@ const SuppliersList = props => {
                     props.suppliers.length ?
                         props.suppliers.map(item => listContentRender(item))
                         :
-                        <small className={classes.empty}>Դատարկ է</small>
+                        <small className={`color-ccc ${classes.empty}`}>Դատարկ է</small>
                     :
                     null
             }

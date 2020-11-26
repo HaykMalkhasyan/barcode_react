@@ -8,14 +8,14 @@
 
 .header h2 {
     margin: 0;
-    font-size: 18px;
-    color: #49525E;
+    /*font-size: 18px;*/
+    /*color: #49525E;*/
     font-weight: 400;
 }
 
 .saveButton {
     border: none;
-    background-color: transparent;
+    /*background-color: transparent;*/
     outline: none;
     cursor: pointer;
     padding: 5px;
@@ -32,7 +32,7 @@
 }
 
 .saveButtonIcon {
-    fill: #a4a4a4;
+    /*fill: #a4a4a4;*/
     transition: 300ms;
 }
 

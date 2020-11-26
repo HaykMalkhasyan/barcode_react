@@ -52,7 +52,7 @@ class ClassifiersTab extends Component {
         return (
             <div className={classes.classifiersTab}>
                 <div className={classes.content}>
-                    <p className={classes.information}>
+                    <p className={`color-888 font-size-12 ${classes.information}`}>
                         Հիմնական դասակարգիչ ցանկից կարող եք ընտրել ապրանքին համապատասխան դասակարգիչ կամ ավելացնել նորը և
                         կցել ապրանքին։ Դասակարգիչներն օգնում են հեշտությամբ առանձնացնել նույն կատեգորիային պատկանող
                         ապրանքների ցանկը։

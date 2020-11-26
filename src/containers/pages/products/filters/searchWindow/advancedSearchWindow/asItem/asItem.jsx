@@ -7,7 +7,7 @@ const AsItem = props => {
 
     return (
         <div className={classes.asItem}>
-            <h5>{props.label}</h5>
+            <h5 className="font-size-15 color-484848">{props.label}</h5>
             <div className={classes.filterContainer}>
                 <div>
                     <CustomSelect

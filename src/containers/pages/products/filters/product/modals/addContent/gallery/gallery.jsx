@@ -33,7 +33,7 @@ const Gallery = props => {
     return (
         <div className={classes.galleryWindow}>
             <CustomInput
-                classNameLabel={props.gallery.length === 0 ? classes.addPFirstPhoto : classes.addPhoto}
+                classNameLabel={props.gallery.length === 0 ? `color-rgba_00008 ${classes.addPFirstPhoto}` : `background-rgba_00005 color-fff font-size-12 ${classes.addPhoto}`}
                 inputType={'inner'}
                 id={'addPhoto'}
                 hidden={true}
@@ -59,10 +59,10 @@ const Gallery = props => {
                 subDots={false}
                 vertical={true}
                 verticalSwiping={true}
-                prevClassName={`${classes.prevClassName} ${classes.arrowsBtn}`}
+                prevClassName={`background-59000000 color-fff font-size-30 ${classes.prevClassName} ${classes.arrowsBtn}`}
                 nextIcon={<ChevronRightIcon fontSize='large'/>}
                 prevIcon={<ChevronLeftIcon fontSize='large'/>}
-                nextClassName={`${classes.nextClassName} ${classes.arrowsBtn}`}
+                nextClassName={`background-59000000 color-fff font-size-30 ${classes.nextClassName} ${classes.arrowsBtn}`}
                 mainData={
                     props.gallery.map(
                         (item, index) => {
@@ -70,11 +70,11 @@ const Gallery = props => {
                             return (
                                 <div tabIndex={-1} key={index + Math.random()}>
                                     <div tabIndex={-1} className={classes.mainImage}>
-                                        <div tabIndex={-1} className={checkImage(item, props.product) ? classes.galleryControllers : `${classes.galleryControllers} ${classes.galleryController}`}>
-                                            <div tabIndex={-1} className={classes.setToMainImage}>
+                                        <div tabIndex={-1} className={checkImage(item, props.product) ? `background-rgba_00003 ${classes.galleryControllers}` : `background-rgba_00003 ${classes.galleryControllers} ${classes.galleryController}`}>
+                                            <div tabIndex={-1} className={`background-rgba_00008 ${classes.setToMainImage}`}>
                                                 <CustomButton
                                                     tabIndex={-1}
-                                                    className={`${classes.controllersBtn} ${classes.setToMainBtn}`}
+                                                    className={`color-39ff39 background-transparent ${classes.controllersBtn} ${classes.setToMainBtn}`}
                                                     children={
                                                         <Tooltip title="Ցուցադրել որպես գլխավոր նկար" placement="right">
                                                             <ArrowUpwardIcon style={{fontSize: 20}}/>
@@ -84,10 +84,10 @@ const Gallery = props => {
                                             </div>
                                             {
                                                 checkImage(item, props.product) ?
-                                                    <div className={classes.deleteItemImage}>
+                                                    <div className={`background-rgba_00008 ${classes.deleteItemImage}`}>
                                                         <CustomButton
                                                             tabIndex={-1}
-                                                            className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
+                                                            className={`color-f44336 background-transparent ${classes.controllersBtn} ${classes.deleteItemBtn}`}
                                                             children={
                                                                 <Tooltip title="Ջնջել նկարը" placement="right">
                                                                     <DeleteOutlineIcon style={{fontSize: 20}}/>
@@ -98,10 +98,10 @@ const Gallery = props => {
                                                         />
                                                     </div>
                                                     :
-                                                    <div className={classes.deleteItemImage}>
+                                                    <div className={`background-rgba_00008 ${classes.deleteItemImage}`}>
                                                         <CustomButton
                                                             tabIndex={-1}
-                                                            className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
+                                                            className={`color-f44336 background-transparent ${classes.controllersBtn} ${classes.deleteItemBtn}`}
                                                             children={
                                                                 <Tooltip title="Ջնջել ավելացռած նկարներըը" placement="right">
                                                                     <DeleteForeverIcon style={{fontSize: 20}}/>

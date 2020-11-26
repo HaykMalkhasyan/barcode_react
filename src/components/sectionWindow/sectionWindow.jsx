@@ -6,12 +6,12 @@ const SectionWindow = props => {
 
     return (
         <div className={classes.sectionWindow}>
-            <header>
+            <header className="color-737373 font-size-12">
                 <span>{props.label}</span>
                 {
                     props.withButton ?
                         <CustomButton
-                            className={classes.actionButton}
+                            className={`background-transparent ${classes.actionButton}`}
                             children={props.button}
                             // Events
                             onClick={props.onClick}

@@ -9,12 +9,12 @@ const ModalHeader = props => {
     return (
         <div className={classes.header}>
             <CustomButton
-                className={classes.saveButton}
-                children={<Icons type={'save'} className={classes.saveButtonIcon}/>}
+                className={`background-transparent ${classes.saveButton}`}
+                children={<Icons type={'save'} className={`fill-a4a4a4 ${classes.saveButtonIcon}`}/>}
                 // Methods
                 onClick={() => props.confirmHandler('save')}
             />
-            <h2>{props.label}</h2>
+            <h2 className="color-49525E font-size-18">{props.label}</h2>
             <CloseButton onClick={props.closeHandler}/>
         </div>
     )

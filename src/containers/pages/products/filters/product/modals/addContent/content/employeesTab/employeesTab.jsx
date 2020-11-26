@@ -48,7 +48,7 @@ class EmployeesTab extends Component {
         return (
             <div className={classes.employeesTab}>
                 <div className={classes.content}>
-                    <p className={classes.information}>
+                    <p className={`color-888 font-size-12 ${classes.information}`}>
                         Գործընկերոջ ընտրելու կամ փոփոխելու համար անրաժեշտ է սեղմել "Գործընկերներ" տողի վրա և ընտրել
                         համապատասխան գործընկերոջը։
                     </p>
@@ -82,7 +82,7 @@ class EmployeesTab extends Component {
                             <div className={classes.suppliersContent}>
                                 {
                                     this.props.progress ?
-                                        <LinearSpinner progres={classes.progress} barColorPrimary={classes.progresBgColor}/>
+                                        <LinearSpinner progres={`background-transparent ${classes.progress}`} barColorPrimary={classes.progresBgColor}/>
                                         :
                                         null
                                 }

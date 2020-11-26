@@ -86,7 +86,7 @@ class PricesTab extends Component {
         return (
             <div className={classes.pricesTab}>
                 <div className={classes.content}>
-                    <p className={classes.information}>
+                    <p className={`color-888 font-size-12 ${classes.information}`}>
                         Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։
                     </p>
                     <SectionWindow
@@ -94,14 +94,14 @@ class PricesTab extends Component {
                     >
                         {
                             this.props.progress ?
-                                <LinearSpinner progres={classes.progress} barColorPrimary={classes.progresBgColor}/>
+                                <LinearSpinner progres={`background-transparent ${classes.progress}`} barColorPrimary={classes.progresBgColor}/>
                                 :
                                 null
                         }
                         <div className={classes.priceContent}>
-                            <div className={classes.exchangeWindow}>
+                            <div className={`color-666 font-size-11 ${classes.exchangeWindow}`}>
                                 <span>Փոխարժեք:</span>
-                                <b>ՀՀ Դրամ</b>
+                                <b className="color-fff background-046086">ՀՀ Դրամ</b>
                             </div>
                             {
                                 this.props.values && this.props.data && this.props.data.length ?
@@ -113,8 +113,8 @@ class PricesTab extends Component {
                                                     checkRef={parseInt(this.state.focus) === parseInt(index)}
                                                     id={item.id}
                                                     name={item.id}
-                                                    classNameLabel={this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
-                                                    classNameInput={parseInt(this.state.error) === item.id ? `${classes.input} ${classes.error}` : classes.input}
+                                                    classNameLabel={this.props.values[item.id].length > 0 ? `color-024059 ${classes.label} ${ classes.active}` : `color-aaa ${classes.label}`}
+                                                    classNameInput={parseInt(this.state.error) === item.id ? `background-transparent color-666 font-size-12 ${classes.input} ${classes.error}` : `background-transparent color-666 font-size-12 ${classes.input}`}
                                                     label={item.name}
                                                     placeholder={`[1-9]{1} / [0-9]`}
                                                     value={this.props.values[item.id]}
@@ -137,13 +137,13 @@ class PricesTab extends Component {
                                     })
                                     :
                                     !this.props.error ?
-                                        <div className={classes.request}>
-                                            <AutorenewIcon className={classes.requestIcon}/>
+                                        <div className={`color-ccc font-size-12 ${classes.request}`}>
+                                            <AutorenewIcon className={`font-size-40 color-66FF8927 ${classes.requestIcon}`}/>
                                             <span>Կատարվում է հարցում</span>
                                         </div>
                                         :
-                                        <div className={classes.warning}>
-                                            <WarningIcon className={classes.warningIcon}/>
+                                        <div className={`color-ccc font-size-12 ${classes.warning}`}>
+                                            <WarningIcon className={`font-size-40 color-66FF39397 ${classes.warningIcon}`}/>
                                             <span>Հարցումը չհաջողվեց</span>
                                         </div>
                             }

@@ -80,20 +80,20 @@ class ClassifiersTree extends Component {
                     {
                         this.props.groups && this.props.groups.length ?
                             <>
-                                <div className={classes.controllers}>
+                                <div className={`background-fff color-024059 font-size-13 ${classes.controllers}`}>
                                     <CustomButton
-                                        className={classes.nextSlideBtn}
+                                        className={`background-transparent ${classes.nextSlideBtn}`}
                                         children={
-                                            <Icons type={'right-angle'} className={classes.nextSlideIcon}/>
+                                            <Icons type={'right-angle'} className={`fill-fff ${classes.nextSlideIcon}`}/>
                                         }
                                         // Methods
                                         onClick={this.nextHandler.bind(this, this.props.groups, this.props.active)}
                                     />
                                     <span onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}>{this.props.groups[this.props.active][`title_${cookies.get('language') || 'am'}`]}</span>
                                     <CustomButton
-                                        className={classes.prevSlideBtn}
+                                        className={`background-transparent ${classes.prevSlideBtn}`}
                                         children={
-                                            <Icons type={'left-angle'} className={classes.prevSlideIcon}/>
+                                            <Icons type={'left-angle'} className={`fill-fff ${classes.prevSlideIcon}`}/>
                                         }
                                         // Methods
                                         onClick={this.prevHandler.bind(this, this.props.groups, this.props.active)}

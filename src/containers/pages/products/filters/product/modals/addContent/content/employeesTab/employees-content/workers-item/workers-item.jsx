@@ -6,11 +6,11 @@ import Icons from "../../../../../../../../../../../components/Icons/icons";
 const WorkerItem = props => {
 
     return (
-        <div className={classes.worker}>
-            <span>{props.label}</span>
+        <div className={`background-fff ${classes.worker}`}>
+            <span className="color-024059 font-size-12">{props.label}</span>
             <CustomButton
-                className={classes.removeButton}
-                children={<Icons type={'close'} width={7} height={7} className={classes.closeIcon}/>}
+                className={`background-transparent ${classes.removeButton}`}
+                children={<Icons type={'close'} width={7} height={7} className={`fill-024059 stroke-024059 ${classes.closeIcon}`}/>}
                 // Events
                 onClick={props.onClick}
             />

@@ -41,8 +41,6 @@
     height: 19px;
     border-radius: 0;
     padding: 0;
-    background-color: #fff;
-    color: #67ca51;
 }
 
 .successButton:hover {
@@ -55,8 +53,6 @@
     height: 19px;
     border-radius: 0;
     padding: 0;
-    background-color: #fff;
-    color: #ff4b63;
 }
 
 .cutBtn:hover {

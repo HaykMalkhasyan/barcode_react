@@ -67,7 +67,7 @@ const RecoverPassword = props => {
     };
 
     return (
-        <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
+        <div className={`background-5b86e5-36dadc ${classes.main}`} style={{background: `url(${process.env.PUBLIC_URL}images/pic.jpg) no-repeat center`}}>
             <LanguagesMenu
                 open={props.open}
                 lang={props.lang}
@@ -78,11 +78,12 @@ const RecoverPassword = props => {
                 setLanguage={setLanguage}
             />
             <div className={classes.backdrop}>
-                <div className={classes.mainWindow}>
-                    <span className={classes.name}>Barcode.am</span>
+                <div className={`background-fff ${classes.mainWindow}`}>
+                    <span className={`color-1B5985 font-size-34 ${classes.name}`}>Barcode.am</span>
                     <span
                         className={
                             `
+                            color-444 font-size-21
                             ${classes.action} 
                             ${
                                 props.error ?
@@ -123,6 +124,7 @@ const RecoverPassword = props => {
                                         // for label
                                         classNameLabel={
                                             `
+                                            background-transparent                                            
                                             ${classes.email} 
                                             ${
                                                 props.selected === 'email' ? 
@@ -144,7 +146,7 @@ const RecoverPassword = props => {
                                             </span>
                                         }
                                         // for input
-                                        classNameInput={classes.input}
+                                        classNameInput={`background-transparent ${classes.input}`}
                                         type="emailRecover"
                                         required={true}
                                         name="emailRecover"
@@ -164,20 +166,20 @@ const RecoverPassword = props => {
                                         }
                                     />
                                     <CustomButton
-                                        className={classes.signIn}
+                                        className={`background-F53803-F5D020 color-fff font-size-16 ${classes.signIn}`}
                                         children={getLanguage(props.activeLanguage, 'send')}
                                         // Methods
                                         onClick={onSubmit}
                                     />
                                 </form>
                                 <div className={classes.createAccount}>
-                                    <NavLink className={classes.signUp} to={'/login'}>
+                                    <NavLink className={`color-1790FF font-size-12 ${classes.signUp}`} to={'/login'}>
                                         {getLanguage(props.activeLanguage, 'login_in')}
                                     </NavLink>
-                                    <span>
+                                    <span className="color-878787 font-size-10">
                                         {getLanguage(props.activeLanguage, 'or')}
-                                        </span>
-                                    <NavLink className={classes.signUp} to={'/registration'}>
+                                    </span>
+                                    <NavLink className={`color-1790FF font-size-12 ${classes.signUp}`} to={'/registration'}>
                                         {getLanguage(props.activeLanguage, 'register')}
                                     </NavLink>
                                 </div>

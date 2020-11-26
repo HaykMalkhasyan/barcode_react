@@ -39,19 +39,19 @@ const Registration = props => {
                     case 'username':
 
                         return (
-                            <Alert className={classes.alertError} key={index} severity="error">
+                            <Alert className={`font-size-11 ${classes.alertError}`} key={index} severity="error">
                                 {getLanguage(props.activeLanguage, 'email_exists')}
                             </Alert>
                         );
                     case 'regName':
                         return (
-                            <Alert className={classes.alertError} key={index} severity="error">
+                            <Alert className={`font-size-11 ${classes.alertError}`} key={index} severity="error">
                                 {getLanguage(props.activeLanguage, 'incorrect_value')}
                             </Alert>
                         );
                     case 'regLastName':
                         return (
-                            <Alert className={classes.alertError} key={index} severity="error">
+                            <Alert className={`font-size-11 ${classes.alertError}`} key={index} severity="error">
                                 {getLanguage(props.activeLanguage, 'incorrect_value')}
                             </Alert>
                         );
@@ -147,7 +147,8 @@ const Registration = props => {
                 props.setRegValues('showRegConfPass', true);
                 break;
             }
-            default: break
+            default:
+                break
         }
     };
 
@@ -162,7 +163,8 @@ const Registration = props => {
                 props.setRegValues('showRegConfPass', false);
                 break;
             }
-            default: break
+            default:
+                break
         }
     };
 
@@ -185,7 +187,8 @@ const Registration = props => {
     };
 
     return (
-        <div className={classes.main} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
+        <div className={`background-5b86e5-36dadc ${classes.main}`}
+             style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
             <LanguagesMenu
                 open={props.open}
                 lang={props.lang}
@@ -196,12 +199,13 @@ const Registration = props => {
                 setLanguage={setLanguage}
             />
             <div className={classes.backdrop}>
-                <div className={classes.mainWindow}>
-                    <span className={`${classes.name} ${props.regSuccess ? classes.nameSecond : ''}`}>Barcode.am</span>
+                <div className={`background-fff ${classes.mainWindow}`}>
+                    <span
+                        className={`color-1B5985 font-size-34 ${classes.name} ${props.regSuccess ? classes.nameSecond : ''}`}>Barcode.am</span>
                     <span className={classes.action}>{getLanguage(props.activeLanguage, 'register')}</span>
                     {
                         props.regText ?
-                            <Alert className={classes.alertError} severity="error">
+                            <Alert className={`font-size ${classes.alertError}`} severity="error">
                                 {getLanguage(props.activeLanguage, props.regText)}
                             </Alert>
                             :
@@ -253,7 +257,7 @@ const Registration = props => {
                                             </span>
                                         }
                                         //for input
-                                        classNameInput={classes.emailInput}
+                                        classNameInput={`background-transparent ${classes.emailInput}`}
                                         type="text"
                                         required={true}
                                         name="regName"
@@ -293,7 +297,7 @@ const Registration = props => {
                                             </span>
                                         }
                                         //for input
-                                        classNameInput={classes.emailInput}
+                                        classNameInput={`background-transparent ${classes.emailInput}`}
                                         type="text"
                                         required={true}
                                         name="regLastName"
@@ -309,22 +313,22 @@ const Registration = props => {
                                         inputType={'inner'}
                                         // for label
                                         classNameLabel={
-                                                `
+                                            `
                                                 ${
-                                                    classes.email
-                                                }
+                                                classes.email
+                                            }
                                                 ${
-                                                    props.regSelected === 'regEmail' ?
-                                                        classes.selected
-                                                        :
-                                                        null
-                                                }
+                                                props.regSelected === 'regEmail' ?
+                                                    classes.selected
+                                                    :
+                                                    null
+                                            }
                                                 ${
-                                                    props.isEmpty['regEmail'] ?
-                                                        `${classes.error} ${classes.errorVerify}`
-                                                        :
-                                                        ''
-                                                }
+                                                props.isEmpty['regEmail'] ?
+                                                    `${classes.error} ${classes.errorVerify}`
+                                                    :
+                                                    ''
+                                            }
                                                 `
                                         }
                                         label={
@@ -333,7 +337,7 @@ const Registration = props => {
                                             </span>
                                         }
                                         //for input
-                                        classNameInput={classes.input}
+                                        classNameInput={`background-transparent ${classes.input}`}
                                         type="email"
                                         name="regEmail"
                                         placeholder={getLanguage(props.activeLanguage, 'email')}
@@ -357,32 +361,34 @@ const Registration = props => {
                                         // for label
                                         classNameLabel={
                                             `
-                                                ${
-                                                    classes.password
+                                            background-fff
+                                            ${
+                                                classes.password
                                             }
-                                                ${
-                                                    props.regSelected === 'regPassword' ?
-                                                        classes.selected
-                                                        :
-                                                        null
+                                            ${
+                                                props.regSelected === 'regPassword' ?
+                                                    classes.selected
+                                                    :
+                                                    null
                                             }
-                                                ${
-                                                    props.regPassword !== props.regPassword_confirm ?
-                                                        classes.error
-                                                        :
-                                                        ''
+                                            ${
+                                                props.regPassword !== props.regPassword_confirm ?
+                                                    classes.error
+                                                    :
+                                                    ''
                                             }
-                                                ${
-                                                    props.isEmpty['regPassword'] ?
-                                                        `${classes.error} ${classes.errorVerify}`
-                                                        :
-                                                        ''
+                                            ${
+                                                props.isEmpty['regPassword'] ?
+                                                    `${classes.error} ${classes.errorVerify}`
+                                                    :
+                                                    ''
                                             }
                                             `
                                         }
                                         label={
                                             <span className={classes.forIcon}>
-                                                <Icons type={'key'} className={`${classes.passwordFill} ${props.wrongRegError === 'regPassword' ? classes.passwordFillError : ''} ${props.regPassword && props.regPassword_confirm ? props.regPassword !== props.regPassword_confirm ? classes.passwordFillError : '' : ''}`}/>
+                                                <Icons type={'key'}
+                                                       className={`fill-444 stroke-444 ${classes.passwordFill} ${props.wrongRegError === 'regPassword' ? `fill-ff3939 stroke-ff3939 ${classes.passwordFillError}` : ''} ${props.regPassword && props.regPassword_confirm ? props.regPassword !== props.regPassword_confirm ? `fill-ff3939 stroke-ff3939 ${classes.passwordFillError}` : '' : ''}`}/>
                                             </span>
                                         }
                                         //for input
@@ -429,36 +435,38 @@ const Registration = props => {
                                         // for label
                                         classNameLabel={
                                             `
+                                            background-fff
                                             ${
                                                 classes.confirmPassword
                                             }
                                                 ${
-                                                    props.regSelected === 'regPassword_confirm' ?
-                                                        classes.selected
-                                                        :
-                                                        null
+                                                props.regSelected === 'regPassword_confirm' ?
+                                                    classes.selected
+                                                    :
+                                                    null
                                             }
                                                 ${
-                                                    props.regPassword !== props.regPassword_confirm ?
-                                                        classes.error
-                                                        :
-                                                        ''
+                                                props.regPassword !== props.regPassword_confirm ?
+                                                    classes.error
+                                                    :
+                                                    ''
                                             }
                                                 ${
-                                                    props.isEmpty['regPassword_confirm'] ?
-                                                        `${classes.error} ${classes.errorVerify}`
-                                                        :
-                                                        ''
+                                                props.isEmpty['regPassword_confirm'] ?
+                                                    `${classes.error} ${classes.errorVerify}`
+                                                    :
+                                                    ''
                                             }
                                             `
                                         }
                                         label={
                                             <span className={classes.forIcon}>
-                                                <Icons type={'key'} className={`${classes.passwordFill} ${props.wrongRegError === 'regPassword_confirm' ? classes.passwordFillError : ''} ${props.regPassword && props.regPassword_confirm ? props.regPassword !== props.regPassword_confirm ? classes.passwordFillError : '' : ''}`}/>
+                                                <Icons type={'key'}
+                                                       className={`fill-444 stroke-444 ${classes.passwordFill} ${props.wrongRegError === 'regPassword_confirm' ? `fill-ff3939 stroke-ff3939 ${classes.passwordFillError}` : ''} ${props.regPassword && props.regPassword_confirm ? props.regPassword !== props.regPassword_confirm ? `fill-ff3939 stroke-ff3939 ${classes.passwordFillError}` : '' : ''}`}/>
                                             </span>
                                         }
                                         //for input
-                                        classNameInput={classes.input}
+                                        classNameInput={`background-transparent ${classes.input}`}
                                         placeholder={getLanguage(props.activeLanguage, 'confirm_password')}
                                         type={
                                             props.showRegConfPass ?
@@ -486,9 +494,11 @@ const Registration = props => {
                                             >
                                                 {
                                                     props.showRegConfPass ?
-                                                        <VisibilityOffOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
+                                                        <VisibilityOffOutlinedIcon fontSize='small'
+                                                                                   style={{color: '#4198bf'}}/>
                                                         :
-                                                        <VisibilityOutlinedIcon fontSize='small' style={{color: '#4198bf'}}/>
+                                                        <VisibilityOutlinedIcon fontSize='small'
+                                                                                style={{color: '#4198bf'}}/>
                                                 }
                                             </span>
                                         }
@@ -497,13 +507,13 @@ const Registration = props => {
                                         className={
                                             `
                                                 ${
-                                                    classes.checkWindow
+                                                classes.checkWindow
                                             }
                                                 ${
-                                                    props.isEmpty['usagerules'] ?
-                                                        `${classes.error} ${classes.errorVerify}`
-                                                        :
-                                                        ''
+                                                props.isEmpty['usagerules'] ?
+                                                    `${classes.error} ${classes.errorVerify}`
+                                                    :
+                                                    ''
                                             }
                                             `
                                         }
@@ -520,13 +530,13 @@ const Registration = props => {
                                             onChange={usagerulesHandler}
                                         />
                                         <label htmlFor="check" className={classes.checkLabel}>
-                                            <span className={classes.check}>
+                                            <span className={`font-size-11 ${classes.check}`}>
                                                 {getLanguage(props.activeLanguage, 'agree')}
                                             </span>
                                             <AlertDialogSlide
                                                 dialogTitle={getLanguage(props.activeLanguage, 'terms_use')}
                                                 type={'button'}
-                                                className={classes.checkLink}
+                                                className={`background-transparent color-5B86E5 font-size-11 ${classes.checkLink}`}
                                                 text={getLanguage(props.activeLanguage, 'terms_of_use')}
                                                 agree={getLanguage(props.activeLanguage, 'agree')}
                                                 disagree={getLanguage(props.activeLanguage, 'not_agree')}
@@ -536,15 +546,15 @@ const Registration = props => {
                                         </label>
                                     </div>
                                     <CustomButton
-                                        className={classes.signIn}
+                                        className={`background-F53803 color-fff font-size-16 ${classes.signIn}`}
                                         children={getLanguage(props.activeLanguage, 'register')}
                                         // Methods
                                         onClick={onSubmit}
                                     />
                                 </form>
                                 <div className={classes.createAccount}>
-                                    <span>{getLanguage(props.activeLanguage, 'registered')}</span>
-                                    <NavLink to='/login' className={classes.signUp}>
+                                    <span className="color-878787 font-size-10">{getLanguage(props.activeLanguage, 'registered')}</span>
+                                    <NavLink to='/login' className={`color-1790FF font-size-12 ${classes.signUp}`}>
                                         {getLanguage(props.activeLanguage, 'login')}
                                     </NavLink>
                                 </div>

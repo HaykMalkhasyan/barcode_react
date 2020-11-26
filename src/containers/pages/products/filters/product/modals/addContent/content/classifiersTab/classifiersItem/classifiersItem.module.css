@@ -36,9 +36,9 @@
     border: none;
     font-family: "DejaVu Sans", sans-serif;
     font-weight: bold;
-    color: #024059;
-    font-size: 13px;
-    background-color: transparent;
+    /*color: #024059;*/
+    /*font-size: 13px;*/
+    /*background-color: transparent;*/
     position: relative;
     transition: 300ms;
     z-index: 1;
@@ -47,19 +47,19 @@
 }
 
 .groupButtonInactive {
-    color: #bababa;
+    /*color: #bababa;*/
 }
 
 .road {
     max-width: 50px;
     /*max-width: 470px;*/
-    font-size: 13px;
+    /*font-size: 13px;*/
     padding: 0;
-    color: #484848;
+    /*color: #484848;*/
     letter-spacing: .25pt;
     border: none;
     outline: none !important;
-    background-color: transparent;
+    /*background-color: transparent;*/
     box-sizing: border-box;
     font-family: "DejaVu Sans", sans-serif;
     display: flex;

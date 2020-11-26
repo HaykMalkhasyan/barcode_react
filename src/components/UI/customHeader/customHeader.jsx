@@ -7,18 +7,18 @@ const CustomHeader = props => {
 
     return (
         <header className={classes.customHeader}>
-            <h3 className={props.type === "collapsed" ? classes.flexed : ''} onDoubleClick={props.type === "collapsed" ? props.onClick : null}>
+            <h3 className={`color-333 ${props.type === "collapsed" ? classes.flexed : ''}`} onDoubleClick={props.type === "collapsed" ? props.onClick : null}>
                 {
                     props.type === "collapsed" ?
                         <>
                             <span>{props.name}</span>
                             <CustomButton
-                                className={classes.collapseButton}
+                                className={`background-transparent ${classes.collapseButton}`}
                                 children={
                                     props.open ?
-                                        <Icons type={'top-angle'} className={classes.topAngle}/>
+                                        <Icons type={'top-angle'} className="fill-434343"/>
                                         :
-                                        <Icons type={'bottom-angle'} className={classes.angle}/>
+                                        <Icons type={'bottom-angle'} className={`fill-434343 stroke-434343 ${classes.angle}`}/>
                                 }
                                 // Methods
                                 onClick={props.onClick}

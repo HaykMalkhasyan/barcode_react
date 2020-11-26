@@ -3,11 +3,11 @@
     height: 34px;
     padding: 0 5px 0 0;
     outline: none !important;
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid #dfe3e4;
-    color: #024059;
+    /*color: #024059;*/
     margin: 5px 10px;
     display: flex;
     justify-content: flex-start;
@@ -33,7 +33,7 @@
     min-width: 34px;
     height: 34px;
     border-radius: 6px;
-    background: #fff;
+    /*background: #fff;*/
     position: relative;
     left: -1px;
     display: flex;
@@ -44,7 +44,7 @@
 
 .dataItem > div:last-child {
     /*width: calc(100% - 34px);*/
-    font-size: 12px;
+    /*font-size: 12px;*/
     font-weight: 600;
     text-align: center;
 }
@@ -59,11 +59,11 @@
     text-align: center;
     line-height: 34px;
     border-radius: 6px;
-    background: #fff;
-    color: #024059;
+    /*background: #fff;*/
+    /*color: #024059;*/
     box-sizing: border-box;
     /*padding: 0 5px;*/
-    font-size: 12px;
+    /*font-size: 12px;*/
     font-weight: 600;
 }
 

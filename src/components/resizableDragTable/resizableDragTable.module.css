@@ -103,8 +103,8 @@
     box-sizing: border-box;
     padding: 5px 10px;
     text-align: left;
-    font-size: 13px;
-    color: #414141;
+    /*font-size: 13px;*/
+    /*color: #414141;*/
     border-bottom: .1pt solid #e9eaed;
 }
 
@@ -161,7 +161,7 @@
 .productTableTab {
     min-width: 30px !important;
     position: relative;
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-right: 2px solid #e9eaed;
     box-sizing: border-box;
     user-select: none;
@@ -205,7 +205,7 @@
     height: 100%;
     transform: translateY(-50%);
     width: 2px;
-    background-color: #e9eaed;
+    /*background-color: #e9eaed;*/
     cursor: col-resize;
     user-select: none;
     transition: 300ms;

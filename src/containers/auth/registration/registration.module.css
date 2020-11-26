@@ -1,5 +1,5 @@
 .main {
-    background: linear-gradient(-30deg, #5b86e5, #36dadc);
+    /*background: linear-gradient(-30deg, #5b86e5, #36dadc);*/
     background-size: cover !important;
     position: fixed;
     top: 0;
@@ -70,7 +70,7 @@
     height: auto;
     padding:  43px 38px;
     box-sizing: border-box;
-    background-color: #fff;
+    /*background-color: #fff;*/
     box-shadow: 0 0 20px 3px rgba(0, 0, 0, .16);
     border: none;
     overflow-y: auto;
@@ -81,7 +81,7 @@
 
 .alertError {
     margin: 10px auto;
-    font-size: 11px;
+    /*font-size: 11px;*/
 }
 
 .errorField {
@@ -121,10 +121,9 @@
 
 .name {
     margin: 0 0 24px;
-    font-size: 34px;
-    color: #1B5985;
+    /*font-size: 34px;*/
+    /*color: #1B5985;*/
     font-weight: 600;
-    /*font-family: Montserrat, sans-serif;*/
     text-align: center;
     display: block;
     padding: 10px 0;
@@ -174,7 +173,7 @@
 }
 
 .password {
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-bottom: 1px solid #888;
     height: 46px;
     margin-bottom: 33.5px;
@@ -199,7 +198,7 @@
 }
 
 .confirmPassword {
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-bottom: 1px solid #888;
     height: 46px;
     margin-bottom: 0;
@@ -231,14 +230,14 @@
 
 .input {
     border: none;
-    background: transparent;
+    /*background: transparent;*/
     outline: none !important;
     width: 80%;
 }
 
 .emailInput {
     border: none;
-    background: transparent;
+    /*background: transparent;*/
     outline: none !important;
     width: 90%;
 }
@@ -260,17 +259,16 @@
 }
 
 .signIn {
-    background: linear-gradient(to right, #F53803, #F5D020);
+    /*background: linear-gradient(to right, #F53803, #F5D020);*/
     width: 242px;
     height: 43px;
     border: none;
     outline: none;
-    /*font-family: 'Mardoto', sans-serif;*/
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    /*font-size: 16px;*/
     line-height: 21px;
-    color: #fff;
+    /*color: #fff;*/
     transition: 300ms;
     margin-bottom: 5px;
     text-transform: uppercase;
@@ -294,7 +292,6 @@
 }
 
 .regSuccess {
-    /*font-family: 'Mardoto', sans-serif;*/
     font-weight: 400;
 }
 
@@ -303,18 +300,16 @@
 }
 
 .createAccount > span {
-    color: #878787;
-    font-size: 10px;
-    /*font-family: 'Mardoto', sans-serif;*/
+    /*color: #878787;*/
+    /*font-size: 10px;*/
     margin-right: 5px;
 }
 
 .signUp {
     outline: none !important;
-    /*font-family: 'Mardoto', sans-serif;*/
-    font-size: 12px;
+    /*font-size: 12px;*/
     text-transform: uppercase;
-    color: #1790FF;
+    /*color: #1790FF;*/
     transition: 300ms;
     font-weight: 500;
 }
@@ -352,8 +347,7 @@
 
 .check {
     display: block;
-    font-size: 11px;
-    /*font-family: 'Mardoto', sans-serif;*/
+    /*font-size: 11px;*/
     letter-spacing: 1px;
     text-transform: none;
     margin-right: 5px;
@@ -362,12 +356,11 @@
 .checkLink {
     border: none;
     outline: none !important;
-    background-color: transparent;
+    /*background-color: transparent;*/
     padding: 0;
-    color: #5B86E5;
+    /*color: #5B86E5;*/
     display: block;
-    font-size: 11px;
-    /*font-family: 'Mardoto', sans-serif;*/
+    /*font-size: 11px;*/
     letter-spacing: 1px;
     text-transform: none;
     transition: 300ms;
@@ -382,14 +375,14 @@
 }
 
 .passwordFill {
-    fill: #444;
-    stroke:#444;
+    /*fill: #444;*/
+    /*stroke: #444;*/
     stroke-width: 0.2px;
 }
 
 .passwordFillError {
-    fill: #ff3939;
-    stroke:#ff3939;
+    /*fill: #ff3939;*/
+    /*stroke: #ff3939;*/
     stroke-width: 0.2px;
 }
 
