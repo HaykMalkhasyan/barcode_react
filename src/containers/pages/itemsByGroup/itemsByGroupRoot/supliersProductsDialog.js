@@ -38,6 +38,7 @@ export default function AlertDialog(props) {
     
 
     let fullData = fullDocumentData.find(x=>x["#"]==props.id)
+    try{
     let suplierId = fullData["Մատակարար"] && Object.keys(fullData["Մատակարար"])[0]
     Axios.get(`${process.env.REACT_APP_API_URL}?path=Products/Search&param={"firms":"${suplierId}"}`,{
       headers: {
@@ -47,7 +48,6 @@ export default function AlertDialog(props) {
       },
     })
     .then((res)=>{
-      console.log('res', res)
       let tableData = res.data.data
       setFullData(tableData)
       tableData = tableData.map(item=>{
@@ -68,6 +68,9 @@ export default function AlertDialog(props) {
     .catch(err=>{
       console.log('err', err)
     })
+  }catch{
+    
+  }
   },[props.document])
 
   const handleConfirm = () => {

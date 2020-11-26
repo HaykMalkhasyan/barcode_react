@@ -143,6 +143,146 @@ const App = (props) => {
     this.cancelBeforeStart = charPressIsNotANumber;
   };
 
+
+  let columnDefinition = [
+    ...Object.keys(rowData[0]).map((item) => {
+      if (item === "Ամսաթիվ") {
+        return {
+          field: "Ամսաթիվ",
+          width: 150,
+          filter: "agDateColumnFilter",
+          sortable: true,
+          resizable: true,
+          floatingFilter: floatingFilter,
+        };
+      } else if (item === "#") {
+        return {
+          field: "#",
+          checkboxSelection: true,
+          pinned: "left",
+          width: 90,
+          filter: "agNumberColumnFilter",
+          sortable: true,
+          resizable: true,
+          editable:
+            !!props.editabeFields &&
+            !!Array.isArray(props.editabeFields) &&
+            !!props.editabeFields.includes(item),
+        };
+      } else if (item === "Զեղչ") {
+        return {
+          field: "Զեղչ",
+          width: 115,
+          filter: "agNumberColumnFilter",
+          sortable: true,
+          resizable: true,
+          cellEditorSelector: function (params) {
+            return {
+              component: "numericCellEditor",
+            };
+          },
+          floatingFilter: floatingFilter,
+          valueFormatter: function (params) {
+            return params.value + "%";
+          },
+          enableCellChangeFlash: true,
+          cellRenderer:
+            !!props.editabeFields &&
+            !!Array.isArray(props.editabeFields) &&
+            !!props.editabeFields.includes(item)
+              ? "editableRender"
+              : null,
+          editable:
+            !!props.editabeFields &&
+            !!Array.isArray(props.editabeFields) &&
+            !!props.editabeFields.includes(item),
+        };
+      } else {
+        return {
+          field: item,
+          flex: 1,
+          maxWidth:
+            item === "Անվանում"
+              ? 306
+              : window.innerWidth / rowData[0].length,
+          minWidth: 140,
+          filter:
+            typeof rowData[0][item] === "number"
+              ? "agNumberColumnFilter"
+              : "agTextColumnFilter",
+          sortable: true,
+          resizable: true,
+          enableCellChangeFlash: true,
+          floatingFilter: floatingFilter,
+          cellRenderer:
+            !!props.editabeFields &&
+            !!Array.isArray(props.editabeFields) &&
+            !!props.editabeFields.includes(item)
+              ? "editableRender"
+              : null,
+          cellEditorSelector: function (params) {
+            return {
+              component: "numericCellEditor",
+            };
+          },
+          editable:
+            !!props.editabeFields &&
+            !!Array.isArray(props.editabeFields) &&
+            !!props.editabeFields.includes(item),
+        };
+      }
+    }),
+    props.settings === "delete"
+      ? {
+          field: "",
+          width: 63,
+          sortable: false,
+          resizable: false,
+          // floatingFilter: floatingFilter,
+          cellRenderer: "deleteButton",
+        }
+      : props.settings === "settings"
+      ? {
+          field: "settings",
+          width: 150,
+          pinned: "right",
+          sortable: false,
+          resizable: false,
+          // floatingFilter: floatingFilter,
+          cellRenderer: "btnCellRenderer",
+          minWidth: 100,
+        }
+      : props.settings === "print"
+      ? {
+          field: "",
+          width: 63,
+          pinned: "right",
+          sortable: false,
+          resizable: false,
+          // floatingFilter: floatingFilter,
+          cellRenderer: "printButton",
+        }
+      : props.settings === "add"
+      ? {
+          field: "",
+          width: 63,
+          pinned: "right",
+          sortable: false,
+          resizable: false,
+          // floatingFilter: floatingFilter,
+          cellRenderer: "addButton",
+
+          cellRendererParams: {
+            clicked: function (field) {
+              console.log("field", field);
+            },
+          },
+        }
+      : null,
+  ]
+
+  columnDefinition = columnDefinition.filter(item=>!!item)
+
   NumericCellEditor.prototype.isKeyPressedNavigation = function (event) {
     return event.keyCode === 39 || event.keyCode === 37;
   };
@@ -348,106 +488,30 @@ const App = (props) => {
 
   return (
     <div ref={tableRef}>
-    <div ref={(e)=>tableAddRef.current[0]=e} className={style.printContent} >
-        <div style={{width:"100%", display:"flex", justifyContent:"center", fontSize:"32px"}} >
-          <span>Գնման Փաստաթուղթ՝ #{location.pathname.split("/")[2]} {getFullDate(null, false)}</span>
-        </div>
-        <div style={{ display: "flex", margin:"20px 0px", justifyContent: "space-around" }}>
-        <table>
-          <tr>
-            <th
-              colspan="2"
-              style={{ width: "200px", border: "1px solid black" }}
-            >
-              Մատակարարի Տվյալներ
-            </th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Անվանում
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>Հասցե</th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Էլ․ Փոստ
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>Հեռ․</th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Կոնտ․ Անձ
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <th
-              colspan="2"
-              style={{ width: "200px", border: "1px solid black" }}
-            >
-              Խանութի Տվյալներ
-            </th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Անվանում
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>Հասցե</th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Էլ․ Փոստ
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>Հեռ․</th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-          <tr>
-            <th style={{ width: "200px", border: "1px solid black" }}>
-              Կոնտ․ Անձ
-            </th>
-            <th style={{ width: "800px", border: "1px solid black" }}></th>
-          </tr>
-        </table>
-        </div>
-      </div>
+    
     <div
       className="ag-theme-alpine"
       
       style={{
-        height: 557,
-        width: "100%",
+        height: props.mode ? "unset" : props.height ? props.height : 557,
+        width: props.width ? props.width : "100%",
         opacity: `${opacity}`,
         transitionDuration: "0.1s",
       }}
     >
       
       <AgGridReact
-        // immutableData={true}
+      
+        headerHeight={props.headerHeight}
+        groupHeaderHeight={props.groupHeaderHeight}
         immutableData={true}
         suppressRowClickSelection={true}
         rowData={rowData}
         onCellEditingStopped={handleCellChange}
         animateRows
         rowSelection="multiple"
-        pagination={true}
-        paginationAutoPageSize={true}
+        pagination={props.pagination==="false" ? false : true}
+        paginationAutoPageSize={props.pagination ? !!props.pagination : true}
         enableRangeSelection={true}
         rowMultiSelectWithClick={true}
         onGridReady={(params) => {
@@ -455,6 +519,7 @@ const App = (props) => {
           setColumnApi(params.columnApi);
           props.setGridApi && props.setGridApi(params.api);
           props.setColumnApi && props.setColumnApi(params.columnApi);
+          props.mode && params.api.setDomLayout(props.mode);
           setTimeout(() => {
             setOpacity(1);
           }, 10);
@@ -486,143 +551,7 @@ const App = (props) => {
             checkbox: true,
           },
         }}
-        columnDefs={[
-          ...Object.keys(rowData[0]).map((item) => {
-            if (item === "Ամսաթիվ") {
-              return {
-                field: "Ամսաթիվ",
-                width: 150,
-                filter: "agDateColumnFilter",
-                sortable: true,
-                resizable: true,
-                floatingFilter: floatingFilter,
-              };
-            } else if (item === "#") {
-              return {
-                field: "#",
-                checkboxSelection: true,
-                pinned: "left",
-                width: 90,
-                filter: "agNumberColumnFilter",
-                sortable: true,
-                resizable: true,
-                editable:
-                  !!props.editabeFields &&
-                  !!Array.isArray(props.editabeFields) &&
-                  !!props.editabeFields.includes(item),
-              };
-            } else if (item === "Զեղչ") {
-              return {
-                field: "Զեղչ",
-                width: 115,
-                filter: "agNumberColumnFilter",
-                sortable: true,
-                resizable: true,
-                cellEditorSelector: function (params) {
-                  return {
-                    component: "numericCellEditor",
-                  };
-                },
-                floatingFilter: floatingFilter,
-                valueFormatter: function (params) {
-                  return params.value + "%";
-                },
-                enableCellChangeFlash: true,
-                cellRenderer:
-                  !!props.editabeFields &&
-                  !!Array.isArray(props.editabeFields) &&
-                  !!props.editabeFields.includes(item)
-                    ? "editableRender"
-                    : null,
-                editable:
-                  !!props.editabeFields &&
-                  !!Array.isArray(props.editabeFields) &&
-                  !!props.editabeFields.includes(item),
-              };
-            } else {
-              return {
-                field: item,
-                flex: 1,
-                maxWidth:
-                  item === "Անվանում"
-                    ? 306
-                    : window.innerWidth / rowData[0].length,
-                minWidth: 140,
-                filter:
-                  typeof rowData[0][item] === "number"
-                    ? "agNumberColumnFilter"
-                    : "agTextColumnFilter",
-                sortable: true,
-                resizable: true,
-                enableCellChangeFlash: true,
-                floatingFilter: floatingFilter,
-                cellRenderer:
-                  !!props.editabeFields &&
-                  !!Array.isArray(props.editabeFields) &&
-                  !!props.editabeFields.includes(item)
-                    ? "editableRender"
-                    : null,
-                cellEditorSelector: function (params) {
-                  return {
-                    component: "numericCellEditor",
-                  };
-                },
-                editable:
-                  !!props.editabeFields &&
-                  !!Array.isArray(props.editabeFields) &&
-                  !!props.editabeFields.includes(item),
-              };
-            }
-          }),
-
-          props.settings === "delete"
-            ? {
-                field: "",
-                width: 63,
-                sortable: false,
-                resizable: false,
-                // floatingFilter: floatingFilter,
-                cellRenderer: "deleteButton",
-              }
-            : props.settings === "settings"
-            ? {
-                field: "settings",
-                width: 150,
-                pinned: "right",
-                sortable: false,
-                resizable: false,
-                // floatingFilter: floatingFilter,
-                cellRenderer: "btnCellRenderer",
-                minWidth: 100,
-              }
-            : props.settings === "print"
-            ? {
-                field: "",
-                width: 63,
-                pinned: "right",
-                sortable: false,
-                resizable: false,
-                // floatingFilter: floatingFilter,
-                cellRenderer: "printButton",
-              }
-            : props.settings === "add"
-            ? {
-                field: "",
-                width: 63,
-                pinned: "right",
-                sortable: false,
-                resizable: false,
-                // floatingFilter: floatingFilter,
-                cellRenderer: "addButton",
-
-                cellRendererParams: {
-                  clicked: function (field) {
-                    console.log("field", field);
-                  },
-                },
-              }
-            : {},
-        ]}
+        columnDefs={props.columnDefinition ? props.columnDefinition : columnDefinition}
         components={{
           numericCellEditor: NumericCellEditor,
         }}
@@ -653,48 +582,7 @@ const App = (props) => {
       ></AgGridReact>
     
     </div>
-      <div ref={(e)=>tableAddRef.current[1]=e} className={style.printContent} style={{ display: "flex", justifyContent: "space-between" }} >
-      <table style={{borderSpacing: "2px 20px"}} >
-        <tr style={{lineHeight:"20px"}} >
-          <th style={{ width: "200px" }}>Հանձնեց՝</th>
-          <th style={{ width: "400px", position:"relative", borderBottom: "1px solid black" }}><span style={{
-                position: "absolute",
-                left: "35%",
-                top: "100%",
-                fontSize: "10px"
-          }} > Ստորագրություն </span></th>
-          <th style={{width:"20px"}}>/</th>
-          <th style={{ width: "800px",position:"relative", borderBottom: "1px solid black" }}>
-          <span style={{
-                position: "absolute",
-                left: "46%",
-                top: "100%",
-                fontSize: "10px"
-          }} > Անուն/Ազգանուն </span>
-          </th>
-        </tr>
-        <tr>
-          <th style={{ width: "200px" }}>Ընդունեց՝</th>
-          <th style={{ width: "400px", position:"relative", borderBottom: "1px solid black" }}>
-          <span style={{
-                position: "absolute",
-                left: "35%",
-                top: "100%",
-                fontSize: "10px"
-          }} > Ստորագրություն </span>
-          </th>
-          <th style={{width:"20px"}}>/</th>
-          <th style={{ width: "800px",position:"relative", borderBottom: "1px solid black" }}>
-          <span style={{
-                position: "absolute",
-                left: "46%",
-                top: "100%",
-                fontSize: "10px"
-          }} > Անուն/Ազգանուն </span>
-          </th>
-        </tr>
-      </table>
-    </div>
+    
     </div>
   );
 };
