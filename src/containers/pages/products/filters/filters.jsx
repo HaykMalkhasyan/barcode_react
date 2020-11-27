@@ -50,6 +50,7 @@ import CustomSearchWindow from "./searchWindow/customSearchWindow/customSearchWi
 import LinearSpinner from "../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Products from "./products/products";
 import ProductModal from "./product/modals/productModal";
+import ProductsModal from "./product-modal/product-modal";
 
 class Filters extends Component {
     constructor(props) {
@@ -205,20 +206,28 @@ class Filters extends Component {
                         addGroup={this.props.addGroup}
                     />
                 </ModalUI>
-                <ProductModal
-                    root={classes.root}
-                    type={this.props.open}
-                    scroll={this.props.scrollB}
+                <ProductsModal
                     open={this.props.open}
-                    paper={classes.paper}
                     modalTabs={this.props.modalTabs}
                     // Methods
-                    handleClose={
-                        () => {
-                            this.props.closeProductActionModal()
-                        }
-                    }
+                    handleClose={() => {
+                        this.props.closeProductActionModal()
+                    }}
                 />
+                {/*<ProductModal*/}
+                {/*    root={classes.root}*/}
+                {/*    type={this.props.open}*/}
+                {/*    scroll={this.props.scrollB}*/}
+                {/*    open={this.props.open}*/}
+                {/*    paper={classes.paper}*/}
+                {/*    modalTabs={this.props.modalTabs}*/}
+                {/*    // Methods*/}
+                {/*    handleClose={*/}
+                {/*        () => {*/}
+                {/*            this.props.closeProductActionModal()*/}
+                {/*        }*/}
+                {/*    }*/}
+                {/*/>*/}
             </div>
         )
     }

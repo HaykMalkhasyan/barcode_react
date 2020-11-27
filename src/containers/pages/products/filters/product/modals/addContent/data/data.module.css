@@ -37,7 +37,7 @@
 .customSelect {
     width: 90%;
     box-sizing: border-box;
-    /*color: #666;*/
+    color: #666;
 }
 
 .spaceAround > div:first-child {

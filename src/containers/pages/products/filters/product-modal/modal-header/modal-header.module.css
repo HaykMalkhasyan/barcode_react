@@ -1,0 +1,49 @@
+.modalHeader {
+    box-sizing: border-box;
+    padding: 8px;
+    height: 59px;
+}
+
+.modalName {
+    margin: 0;
+    font-weight: 500;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.line {
+    border: solid #FF8927;
+    border-width: 0 0 1px;
+}
+
+.saveButton {
+    border: none;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: 300ms;
+}
+
+.saveButton:active {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .4) inset;
+}
+
+.saveButton:focus {
+    background-color: rgba(164, 164, 164, 0.1);
+}
+
+.saveButtonIcon {
+    /*fill: #a4a4a4;*/
+    transition: 300ms;
+}
+
+.saveButton:hover .saveButtonIcon {
+    fill: #2abc2b;
+}

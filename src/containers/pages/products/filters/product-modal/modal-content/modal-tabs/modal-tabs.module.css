@@ -1,0 +1,62 @@
+.modalTabs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 220px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.modalTabs::-webkit-scrollbar {
+    height: 2px;
+    width: 2px;
+}
+
+.listItem {
+    border-left: 3px solid transparent;
+}
+
+.listItem:hover {
+    color: #024059;
+    border-color: #024059;
+}
+
+.active {
+    background-color: rgba(2, 64, 89, 0.2) !important;
+    border-left: 3px solid #024059;
+}
+
+.active .listItemText {
+    color: #024059;
+}
+
+.active .listItemIcon {
+    color: #024059;
+}
+
+.listItemText {
+    text-transform: capitalize;
+    color: #666;
+}
+
+.listItem:hover .listItemText,
+.listItem:hover .listItemIcon {
+    color: #024059;
+}
+
+@media (max-width: 600px) {
+    .modalTabs {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+        width: 100%;
+        height: 40px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+}

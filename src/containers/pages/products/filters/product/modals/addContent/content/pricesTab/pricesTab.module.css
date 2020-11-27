@@ -1,19 +1,11 @@
 .pricesTab {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 5px;
+    padding: 0 10px;
 }
 
 .content {
     width: 100%;
-}
-
-.information {
-    /*color: #888888;*/
-    /*font-size: 12px;*/
-    font-weight: 100;
-    letter-spacing: .6pt;
-    margin-bottom: 30px;
 }
 
 .progress {

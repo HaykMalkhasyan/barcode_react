@@ -19,6 +19,7 @@ import PrintComponent from "../../../../../../../../../components/print-componen
 import IconButton from "@material-ui/core/IconButton";
 import PrintIcon from "@material-ui/icons/Print";
 import ReactToPrint from "react-to-print";
+import PageSpecifications from "../../../../../product-modal/page-specifications/page-specifications";
 
 class CodesTab extends Component {
 
@@ -59,11 +60,13 @@ class CodesTab extends Component {
                             null
                     }
                     <div className={classes.content}>
-                        <p className={`color-888 font-size-12 ${classes.information}`}>
+                        <PageSpecifications
+                            text={`
                             Այն ապրանքները, որոնք ունեն գծիկավոր կոդ անհրաժեշտ է կոդ դաշտում լրացնել, որպեսզի տվյալ կոդով
                             հնարավոր լինի վաճառել ապրանքը։ Որոնք կոդեր չունեն կարող եք ծրագրով ստեղծել կոդ՝ սեղմելով
                             "ԳԵՆԵՐԱՑՆԵԼ" կոճակը։
-                        </p>
+                            `}
+                        />
                         {
                             this.props.eFields.length ?
                                 this.props.eFields.indexOf('barcode') !== -1 ?

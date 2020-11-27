@@ -1,0 +1,11 @@
+.modalContent {
+    width: 100%;
+    height: calc(100% - 120px);
+    display: flex;
+}
+
+@media (max-width: 600px) {
+    .modalContent {
+        flex-direction: column;
+    }
+}

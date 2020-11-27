@@ -43,4 +43,8 @@ export const en = {
     income_outcome:"income / outcome",
     income:"income",
     outcome:"outcome",
+    main: "Main",
+    classifiers: "Classifiers",
+    codes: "Codes",
+    description: "Description",
 };
