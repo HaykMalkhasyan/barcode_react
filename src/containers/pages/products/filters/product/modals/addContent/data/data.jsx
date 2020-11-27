@@ -50,7 +50,7 @@ const Data = props => {
             {/*<div className={classes.apm}>*/}
             {/*    <span>Հերթական համար (ԱՊՄ) <span>0054151</span></span>*/}
             {/*</div>*/}
-            <div className={classes.dataItem}>
+            <div className={classes.dataItem}>{console.log(props.errorFields)}
                 <InputUI
                     required={true}
                     error={props.errorFields.indexOf('item_name') !== -1}
@@ -83,6 +83,7 @@ const Data = props => {
             <div className={classes.flexLgContainer}>
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
+                        error={props.errorFields.indexOf('product_type') !== -1}
                         className={`fill-666 ${classes.customSelect}`}
                         open={open}
                         focus={focus}
@@ -98,7 +99,8 @@ const Data = props => {
                 </div>
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
-                        className={`fill-666 ${classes.customSelect}`}
+                        error={props.errorFields.indexOf('unit_id') !== -1}
+                        className={`${classes.customSelect}`}
                         open={open}
                         focus={focus}
                         inputLabel={'Չափման միավոր'}

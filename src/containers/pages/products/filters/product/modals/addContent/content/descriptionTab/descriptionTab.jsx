@@ -4,6 +4,7 @@ import CustomTextArea from "../../../../../../../../../components/UI/input/custo
 import {connect} from "react-redux";
 import {setDescriptionData} from "../../../../../../../../../Redux/products/actions";
 import SectionWindow from "../../../../../../../../../components/sectionWindow/sectionWindow";
+import PageSpecifications from "../../../../../product-modal/page-specifications/page-specifications";
 
 const DescriptionTab = props => {
 
@@ -14,9 +15,9 @@ const DescriptionTab = props => {
     return (
         <div className={classes.descriptionTab}>
             <div className={classes.content}>
-                <p className={`color-888 font-size-12 ${classes.information}`}>
-                    Այստեղ կարող եք լրացնել ապրանքին վերաբերող ցանկացած ինֆորմացիա, որը Ձեզ կօգնի հեշտությամբ այն  տարբերակել նմանատիպ այլ ապրանքներից։
-                </p>
+                <PageSpecifications
+                    text={`Այստեղ կարող եք լրացնել ապրանքին վերաբերող ցանկացած ինֆորմացիա, որը Ձեզ կօգնի հեշտությամբ այն  տարբերակել նմանատիպ այլ ապրանքներից։`}
+                />
                 <div className={classes.textFieldWindow}>
                     <SectionWindow label={'Նկարագրություն'}>
                         <CustomTextArea

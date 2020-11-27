@@ -33,7 +33,7 @@ const Gallery = props => {
     return (
         <div className={classes.galleryWindow}>
             <CustomInput
-                classNameLabel={props.gallery.length === 0 ? `color-rgba_00008 ${classes.addPFirstPhoto}` : `background-rgba_00005 color-fff font-size-12 ${classes.addPhoto}`}
+                classNameLabel={props.gallery && props.gallery.length === 0 ? `color-rgba_00008 ${classes.addPFirstPhoto}` : `background-rgba_00005 color-fff font-size-12 ${classes.addPhoto}`}
                 inputType={'inner'}
                 id={'addPhoto'}
                 hidden={true}

@@ -8,10 +8,6 @@ import Icons from "../../../../../../../../../../components/Icons/icons";
 const SuppliersAddContent = props => {
     const [checked, setChecked] = React.useState([]);
     const [search, setSearch] = useState('');
-    const cls = [
-        classes.listContent,
-        checked.length ? classes.withAction : classes.withoutAction
-    ];
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -51,7 +47,7 @@ const SuppliersAddContent = props => {
                     }}
                 />
             </div>
-            <div className={cls.join(" ")}>
+            <div className={classes.listContent}>
                 <SuppliersList
                     suppliers={props.suppliers}
                     selected={props.selected}

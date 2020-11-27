@@ -9,6 +9,13 @@ import ListItem from "@material-ui/core/ListItem";
 const CustomSelect = props => {
     const inputRef = useRef();
     const [value, setValue] = useState('');
+    const cls = [
+        classes.select,
+        props.focus === props.name ? classes.focused : '',
+        value.length ? classes.active : '',
+        props.open === props.name ? classes.top : '',
+        props.error ? classes.error : ''
+    ]
 
     useEffect(
         () => {
@@ -50,7 +57,8 @@ const CustomSelect = props => {
                     null
             }
             <div
-                className={`${props.focus === props.name ? `${classes.select} ${classes.focused}` : classes.select} ${value.length ? classes.active : ''} ${props.open === props.name ? classes.top : ''}`}>
+                className={cls.join(" ")}
+            >
                 <div
                     className={props.open && props.open === props.name ? `${classes.content} ${classes.contentOpened}` : classes.content}>
                     {
@@ -80,7 +88,25 @@ const CustomSelect = props => {
                     // Label
                     label={
                         <div
-                            className={value.length ? `${classes.labelWindow} ${classes.labelWindowOpened}` : classes.labelWindow}>{props.inputLabel}</div>
+                            className={
+                                `
+                                ${
+                                    value.length ?
+                                        `${classes.labelWindow} ${classes.labelWindowOpened}`
+                                        :
+                                        classes.labelWindow
+                                }
+                                ${
+                                    props.error ?
+                                        `${classes.errorLabel} ${classes.labelWindow}`
+                                        :
+                                        ''
+                                }
+                                `
+                            }
+                        >
+                            {props.inputLabel}
+                        </div>
                     }
                     classNameLabel={classes.label}
                     name={props.name}

@@ -1,7 +1,7 @@
 .codesTab {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 5px;
+    padding: 0 10px;
 }
 
 .errorWindow {
@@ -28,7 +28,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
 }
 
 .gridContainer > .codActions {

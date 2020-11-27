@@ -15,6 +15,7 @@ import {
 } from "../../../../../../../../../Redux/products/actions";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 import ClassifiersItem from "./classifiersItem/classifiersItem";
+import PageSpecifications from "../../../../../product-modal/page-specifications/page-specifications";
 
 class ClassifiersTab extends Component {
     constructor(props) {
@@ -52,11 +53,13 @@ class ClassifiersTab extends Component {
         return (
             <div className={classes.classifiersTab}>
                 <div className={classes.content}>
-                    <p className={`color-888 font-size-12 ${classes.information}`}>
+                    <PageSpecifications
+                        text={`
                         Հիմնական դասակարգիչ ցանկից կարող եք ընտրել ապրանքին համապատասխան դասակարգիչ կամ ավելացնել նորը և
                         կցել ապրանքին։ Դասակարգիչներն օգնում են հեշտությամբ առանձնացնել նույն կատեգորիային պատկանող
                         ապրանքների ցանկը։
-                    </p>
+                        `}
+                    />
                     <div className={classes.classifiersControlWindow}>
                         {
                             this.props.errorFields.length ?

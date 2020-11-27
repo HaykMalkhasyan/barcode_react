@@ -8,6 +8,7 @@ import LinearSpinner from "../../../../../../../../../components/UI/spinners/lin
 import WarningIcon from '@material-ui/icons/Warning';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import is  from "is_js"
+import PageSpecifications from "../../../../../product-modal/page-specifications/page-specifications";
 
 class PricesTab extends Component {
     constructor(props) {
@@ -86,9 +87,9 @@ class PricesTab extends Component {
         return (
             <div className={classes.pricesTab}>
                 <div className={classes.content}>
-                    <p className={`color-888 font-size-12 ${classes.information}`}>
-                        Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։
-                    </p>
+                    <PageSpecifications
+                        text={`Այս բաժնում կարող եք փոփոխել ապրանքի գները և տեսնել գների պատմությունը։`}
+                    />
                     <SectionWindow
                         label={'Գներ'}
                     >

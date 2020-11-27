@@ -43,4 +43,8 @@ export const ru = {
     income_outcome:"доход / результат",
     income:"доход",
     outcome:"результат",
+    main: "Основные",
+    classifiers: "Классификаторы",
+    codes: "Коды",
+    description: "Описание",
 };

@@ -9,12 +9,19 @@ import {
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
-    SET_SELECT_GROUP_ITEM, SET_SUBGROUP,
+    SET_SELECT_GROUP_ITEM,
+    SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
 import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
 import {PROD_GROUP_SET} from "../characteristics/actionTypes";
 import {BACK_FILTERS} from "../filtersContainer/actionTypes";
+import AppsIcon from '@material-ui/icons/Apps';
+import LayersIcon from '@material-ui/icons/Layers';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import DescriptionIcon from '@material-ui/icons/Description';
+import {FaBarcode} from "react-icons/fa";
 
 const initialState = {
     product: null,
@@ -45,10 +52,10 @@ const initialState = {
             minName: 'warehouse-min',
             maxName: 'warehouse-max',
             data: [
-                {id: 1,name: 'one', value: 1},
-                {id: 2,name: 'two', value: 2},
-                {id: 3,name: 'three', value: 3},
-                {id: 4,name: 'four', value: 4},
+                {id: 1, name: 'one', value: 1},
+                {id: 2, name: 'two', value: 2},
+                {id: 3, name: 'three', value: 3},
+                {id: 4, name: 'four', value: 4},
             ]
         },
         {
@@ -61,10 +68,10 @@ const initialState = {
             minName: 'price-min',
             maxName: 'price-max',
             data: [
-                {id: 1,name: 'one', value: 1},
-                {id: 2,name: 'two', value: 2},
-                {id: 3,name: 'three', value: 3},
-                {id: 4,name: 'four', value: 4},
+                {id: 1, name: 'one', value: 1},
+                {id: 2, name: 'two', value: 2},
+                {id: 3, name: 'three', value: 3},
+                {id: 4, name: 'four', value: 4},
             ]
         },
         {
@@ -77,10 +84,10 @@ const initialState = {
             minName: 'supplier-min',
             maxName: 'supplier-max',
             data: [
-                {id: 1,name: 'one', value: 1},
-                {id: 2,name: 'two', value: 2},
-                {id: 3,name: 'three', value: 3},
-                {id: 4,name: 'four', value: 4},
+                {id: 1, name: 'one', value: 1},
+                {id: 2, name: 'two', value: 2},
+                {id: 3, name: 'three', value: 3},
+                {id: 4, name: 'four', value: 4},
             ]
         }
     ],
@@ -89,40 +96,48 @@ const initialState = {
         {id: 2, name: {am: 'Ցուցադրել կայքում', ru: 'Показать на сайте', eng: 'Show on site'}},
         {id: 2, name: {am: 'Ակտիվ', ru: 'Активный', eng: 'Active'}},
     ],
-    modalTabs: {
-        tabs: [
-            'MainTab',
-            'ClassifiersTab',
-            'CodesTab',
-            'PricesTab',
-            'EmployeesTab',
-            'DescriptionTab',
-        ],
-        am: [
-            {name: 'Հիմնական'},
-            {name: 'Դասակարգիչներ'},
-            {name: 'Կոդեր'},
-            {name: 'Գներ'},
-            {name: 'Գործընկերներ'},
-            {name: 'Նկարագրություն'},
-        ],
-        ru: [
-            {name: 'Основные'},
-            {name: 'Классификаторы'},
-            {name: 'Коды'},
-            {name: 'Цены'},
-            {name: 'Сотрудники'},
-            {name: 'Описание'},
-        ],
-        en: [
-            {name: 'Main'},
-            {name: 'Classifiers'},
-            {name: 'Codes'},
-            {name: 'Prices'},
-            {name: 'Employees'},
-            {name: 'Description'},
-        ]
-    },
+    modalTabs: [
+        {id: 1, index: 0, icon: AppsIcon, name: 'main'},
+        {id: 2, index: 1, icon: LayersIcon, name: 'classifiers'},
+        {id: 3, index: 2, icon: FaBarcode, name: 'codes'},
+        {id: 4, index: 3, icon: AttachMoneyIcon, name: 'prices'},
+        {id: 5, index: 4, icon: SupervisorAccountIcon, name: 'suppliers'},
+        {id: 6, index: 5, icon: DescriptionIcon, name: 'description'},
+    ],
+    // modalTabs: {
+    //     tabs: [
+    //         'MainTab',
+    //         'ClassifiersTab',
+    //         'CodesTab',
+    //         'PricesTab',
+    //         'EmployeesTab',
+    //         'DescriptionTab',
+    //     ],
+    //     am: [
+    //         {name: 'Հիմնական'},
+    //         {name: 'Դասակարգիչներ'},
+    //         {name: 'Կոդեր'},
+    //         {name: 'Գներ'},
+    //         {name: 'Գործընկերներ'},
+    //         {name: 'Նկարագրություն'},
+    //     ],
+    //     ru: [
+    //         {name: 'Основные'},
+    //         {name: 'Классификаторы'},
+    //         {name: 'Коды'},
+    //         {name: 'Цены'},
+    //         {name: 'Сотрудники'},
+    //         {name: 'Описание'},
+    //     ],
+    //     en: [
+    //         {name: 'Main'},
+    //         {name: 'Classifiers'},
+    //         {name: 'Codes'},
+    //         {name: 'Prices'},
+    //         {name: 'Suppliers'},
+    //         {name: 'Description'},
+    //     ]
+    // },
     errorFields: [],
     types: [
         {id: 0, name: 'Ապրանք', value: 0},
@@ -325,6 +340,7 @@ export default function productsReducer(state = initialState, action) {
                 ...state,
                 products: action.products,
             };
-        default: return {...state}
+        default:
+            return {...state}
     }
 }

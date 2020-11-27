@@ -1,15 +1,19 @@
 .content {
     width: 100%;
-    height: 200px;
+    height: 300px;
     /*background-color: #fff;*/
     border-radius: 0 0 6px 6px;
     box-shadow: 0 4px 6px rgba(0, 110, 194, 0.18);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .searchWindow {
     width: 100%;
     height: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
     box-sizing: border-box;
     padding: 0 10px;
     border: none;
@@ -48,12 +52,4 @@
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.withAction {
-    height: 130px;
-}
-
-.withoutAction {
-    height: 170px;
 }

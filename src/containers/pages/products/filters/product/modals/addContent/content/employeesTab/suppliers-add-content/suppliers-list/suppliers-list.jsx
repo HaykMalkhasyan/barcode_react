@@ -17,9 +17,6 @@ const SuppliersList = props => {
                         button
                     >
                         <ListItemText primary={item.name}/>
-                        <ListItemSecondaryAction>
-                            <DoneIcon fontSize="small" style={{color: "#67CA51"}}/>
-                        </ListItemSecondaryAction>
                     </ListItem>
                 )
             }

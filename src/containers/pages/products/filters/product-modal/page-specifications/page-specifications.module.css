@@ -1,0 +1,12 @@
+.pageSpecifications {
+    color: #fff;
+    background-color: #024059;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .6) inset;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 12px;
+    letter-spacing: .4pt;
+    font-weight: 600;
+    margin: 0 0 30px;
+    min-height: 54px;
+}

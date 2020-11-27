@@ -12,7 +12,7 @@ const MainTab = props => {
         <div className={classes.mainTab}>
             <div className={classes.content}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={5} lg={5}>
+                    <Grid item xs={12} md={5} lg={4}>
                         <div className={`font-size-12 ${classes.imagesWindow}`}>
                             <Gallery
                                 gallery={props.gallery}
@@ -26,7 +26,7 @@ const MainTab = props => {
                             />
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={7} lg={7}>
+                    <Grid item xs={12} md={7} lg={8}>
                         <div className={`font-size ${classes.dataWindow}`}>
                             <Data
                                 data={props.main}

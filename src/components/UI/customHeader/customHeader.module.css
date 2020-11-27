@@ -8,7 +8,7 @@
 
 .customHeader > h3 {
     margin: 0 0 7px;
-    font-size: 18px;
+    /*font-size: 18px;*/
     font-weight: 500;
     cursor: pointer;
     user-select: none;

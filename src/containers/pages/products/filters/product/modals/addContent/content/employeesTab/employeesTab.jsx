@@ -5,10 +5,10 @@ import {connect} from "react-redux";
 import {getSuppliers, setSelected} from "../../../../../../../../../Redux/suppliers/action";
 import LinearSpinner from "../../../../../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import EmployeesContent from "./employees-content/employees-content";
-import Icons from "../../../../../../../../../components/Icons/icons";
 import SuppliersAddContent from "./suppliers-add-content/suppliers-add-content";
 import AlertUI from "../../../../../../../../../components/UI/alert/alertUI/alertUI";
 import Collapse from "@material-ui/core/Collapse";
+import PageSpecifications from "../../../../../product-modal/page-specifications/page-specifications";
 
 class EmployeesTab extends Component {
     constructor(props) {
@@ -20,12 +20,15 @@ class EmployeesTab extends Component {
     }
 
     setSelectSupplier = (supplier) => {
-        const selected = [...this.props.selected];
-        if (selected.indexOf(supplier) === -1) {
-            this.setState({open: false})
-            selected.push(supplier);
-            this.props.setSelected(selected)
+        if (this.props.selected) {
+            const selected = [...this.props.selected];
+            if (selected.indexOf(supplier) === -1) {
+                this.setState({open: false})
+                selected.push(supplier);
+                this.props.setSelected(selected)
+            }
         }
+
     }
 
     setSelectCheckedSupplier = suppliers => {
@@ -48,10 +51,12 @@ class EmployeesTab extends Component {
         return (
             <div className={classes.employeesTab}>
                 <div className={classes.content}>
-                    <p className={`color-888 font-size-12 ${classes.information}`}>
+                    <PageSpecifications
+                        text={`
                         Գործընկերոջ ընտրելու կամ փոփոխելու համար անրաժեշտ է սեղմել "Գործընկերներ" տողի վրա և ընտրել
                         համապատասխան գործընկերոջը։
-                    </p>
+                        `}
+                    />
                     {
                         this.props.errorFields.length ?
                             this.props.errorFields.indexOf('suppliers') !== -1 ?

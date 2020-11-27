@@ -44,4 +44,8 @@ export const am = {
     income_outcome:"մուտքեր / ելքեր",
     income:"մուտքեր",
     outcome:"ելքեր",
+    main: "Հիմնական",
+    classifiers: "Դասակարգիչներ",
+    codes: "Կոդեր",
+    description: "Նկարագրություն",
 };

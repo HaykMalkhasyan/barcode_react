@@ -1,7 +1,7 @@
 .employeesTab {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 5px;
+    padding: 0 10px;
 }
 
 .content {
@@ -17,7 +17,6 @@
 
 .textFieldWindow {
     width: 100%;
-    margin-top: 30px;
     border-radius: 8px 8px 0 0;
 }
 
