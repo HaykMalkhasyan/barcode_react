@@ -80,20 +80,24 @@ class ClassifiersTree extends Component {
                     {
                         this.props.groups && this.props.groups.length ?
                             <>
-                                <div className={`background-fff color-024059 font-size-13 ${classes.controllers}`}>
+                                <div className={classes.controllers}>
                                     <CustomButton
-                                        className={`background-transparent ${classes.nextSlideBtn}`}
+                                        className={classes.nextSlideBtn}
                                         children={
-                                            <Icons type={'right-angle'} className={`fill-fff ${classes.nextSlideIcon}`}/>
+                                            <Icons type={'right-angle'} className={classes.nextSlideIcon}/>
                                         }
                                         // Methods
                                         onClick={this.nextHandler.bind(this, this.props.groups, this.props.active)}
                                     />
-                                    <span onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}>{this.props.groups[this.props.active][`title_${cookies.get('language') || 'am'}`]}</span>
+                                    <span
+                                        onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}
+                                    >
+                                        {this.props.groups[this.props.active][`title_${cookies.get('language') || 'am'}`]}
+                                    </span>
                                     <CustomButton
-                                        className={`background-transparent ${classes.prevSlideBtn}`}
+                                        className={classes.prevSlideBtn}
                                         children={
-                                            <Icons type={'left-angle'} className={`fill-fff ${classes.prevSlideIcon}`}/>
+                                            <Icons type={'left-angle'} className={classes.prevSlideIcon}/>
                                         }
                                         // Methods
                                         onClick={this.prevHandler.bind(this, this.props.groups, this.props.active)}
@@ -103,7 +107,7 @@ class ClassifiersTree extends Component {
                                     <TreeViewer
                                         group={this.props.groups[this.props.active]}
                                         own_subgroups={this.props.filter_subgroups}
-                                        type={'select'}
+                                        treeType={'select'}
                                         own_move={false}
                                         // Methods
                                         setGroupValues={this.props.setGroupValues}

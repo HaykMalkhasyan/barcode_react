@@ -50,7 +50,7 @@ class Products extends Component{
                 {
                     this.state.open ?
                         <Backdrop
-                            className={`background-transparent ${classes.backDrop}`}
+                            className={classes.backDrop}
                             // Methods
                             onClick={() => this.setState({open: false})}
                         />
@@ -61,8 +61,8 @@ class Products extends Component{
                     this.props.productLoadingStatus ?
                         <LinearSpinner
                             progres={classes.progress}
-                            barColorPrimary={`background-FF6F00 ${classes.barColorPrimary}`}
-                            progresBgColor={`background-transparent ${classes.progressBgColor}`}
+                            barColorPrimary={classes.barColorPrimary}
+                            progresBgColor={classes.progressBgColor}
                         />
                         :
                         null
@@ -89,7 +89,7 @@ class Products extends Component{
                     backFiltersPage={this.props.backFiltersPage}
                 />
                 <CustomButton
-                    className={`background-d7d7d7 color-024059 ${classes.filtersButton}`}
+                    className={classes.filtersButton}
                     children={<TuneIcon/>}
                     // Methods
                     onClick={this.toggleFilters}

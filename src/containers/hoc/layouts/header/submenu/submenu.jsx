@@ -6,7 +6,7 @@ import {getLanguage} from "../../../../../controllers/languages/languages";
 const Submenu = props => {
 
     return (
-        <div className={`background-fff ${classes.subMenu}`}>
+        <div className={classes.subMenu}>
             <ul className={classes.subMenuList}>
                 {
                     props.activeMenu ?
@@ -19,7 +19,7 @@ const Submenu = props => {
                                             onClick={props.closeSubMenu}
                                             exact
                                             to={submenu.url}
-                                            className={`${classes.subMenuLink} font-size-12 color-313131 background-transparent`}
+                                            className={classes.subMenuLink}
                                             activeClassName={classes.subMenuActive}>
                                             <span>{getLanguage('am', submenu.name)}</span>
                                         </NavLink>

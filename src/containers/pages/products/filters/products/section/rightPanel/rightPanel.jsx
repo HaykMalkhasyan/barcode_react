@@ -52,11 +52,11 @@ const RightPanel = props => {
                         {
                             props.count ?
                                 props.count > 20 ?
-                                    <p className={`color-505050 font-size-12 ${classes.showCount}`}>
+                                    <p className={classes.showCount}>
                                         Ցուցադրված է {props.products.length}-ը {props.count} տողից
                                     </p>
                                     :
-                                    <p className={`color-505050 font-size-12 ${classes.showCount}`}>
+                                    <p className={classes.showCount}>
                                         Ցուցադրված է {props.count}-ը {props.count} տողից
                                     </p>
                                 :
@@ -71,7 +71,7 @@ const RightPanel = props => {
                                         hideNextButton
                                         renderItem={
                                             item => <PaginationItem
-                                                classes={{selected: `color-fff ${classes.colorSecondary}`}}  {...item}/>
+                                                classes={{selected: classes.colorSecondary}}  {...item}/>
                                         }
                                         onChange={changeHandler}
                                     />
@@ -85,12 +85,12 @@ const RightPanel = props => {
                         <div>
                             <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}
                                  alt={'product-empty'}/>
-                            <h3 className="color-ccc font-size-14">"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>
+                            <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>
                             <CustomButton
-                                className={`background-fff color-FE8A69 font-size-15 ${classes.addProductButton}`}
+                                className={classes.addProductButton}
                                 children={
                                     <>
-                                        <Icons type={'plus'} className={`fill-FE8A69 FE8A69 ${classes.addBtnIcon}`}/>
+                                        <Icons type={'plus'} className={classes.addBtnIcon}/>
                                         <span>Ավելացնել</span>
                                     </>
                                 }

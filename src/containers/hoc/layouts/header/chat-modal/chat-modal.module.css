@@ -8,6 +8,7 @@
     z-index: 130;
     border-radius: 6px;
     box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+    background-color: #fff;
 }
 
 .flexContainer {
@@ -48,6 +49,7 @@
     bottom: 0;
     right: 0;
     z-index: 119;
+    background-color: rgba(0, 0, 0, .8);
 }
 
 .peopleBackdrop {
@@ -58,6 +60,7 @@
     bottom: 0;
     right: 0;
     z-index: 119;
+    background-color: rgba(0, 0, 0, .8);
 }
 
 @media (max-width: 600px) {

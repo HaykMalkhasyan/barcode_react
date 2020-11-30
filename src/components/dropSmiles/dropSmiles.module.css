@@ -3,6 +3,7 @@
 }
 
 .smileContainer {
+    background-color: transparent;
     position: absolute;
     bottom: calc(100% + 25px);
     left: 50%;
@@ -28,6 +29,7 @@
 }
 
 .pickerButton {
+    background-color: transparent;
     border: none;
     outline: none !important;
     display: flex;
@@ -65,6 +67,14 @@
     box-shadow: 0 0 0 2px rgba(255, 111, 0, 0.4);
 }
 
+.open {
+    background-color: #ff8927;
+}
+
+.smileIcon {
+    fill: #fff;
+}
+
 .opened:focus:after {
     content: '';
     position: absolute;
@@ -84,6 +94,7 @@
     left: 0;
     bottom: 0;
     right: 0;
+    background-color: transparent;
 }
 
 @media (min-width: 400px) and (max-width: 600px) {

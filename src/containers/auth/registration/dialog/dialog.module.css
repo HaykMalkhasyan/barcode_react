@@ -2,8 +2,8 @@
     border: none !important;
     outline: none !important;
     height: 40px;
-    /*background: linear-gradient(to left, #F53803, #F5D020);*/
-    /*color: #fff;*/
+    background: linear-gradient(to left, #F53803, #F5D020);
+    color: #fff;
     font-weight: 500;
     overflow: hidden;
     box-sizing: border-box;
@@ -24,8 +24,8 @@
     outline: none !important;
     height: 40px;
     line-height: 40px;
-    /*color: #666;*/
-    /*background-color: #fff;*/
+    color: #666;
+    background-color: #fff;
     overflow: hidden;
     box-sizing: border-box;
     padding: 0 10px;

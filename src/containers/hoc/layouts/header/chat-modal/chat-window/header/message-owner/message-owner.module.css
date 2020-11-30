@@ -24,5 +24,7 @@
     text-transform: capitalize;
     font-weight: 600;
     letter-spacing: .2pt;
+    font-size: 11px;
+    color: #0A0A0A;
 }
 

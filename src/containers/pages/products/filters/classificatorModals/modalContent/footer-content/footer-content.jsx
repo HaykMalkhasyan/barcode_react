@@ -8,7 +8,7 @@ import Icons from "../../../../../../../components/Icons/icons";
 const FooterContent = props => {
 
     return (
-        <footer className={`background-fff ${classes.footer}`}>
+        <footer className={classes.footer}>
             <CancelButton
                 onClick={props.cencel}
             />
@@ -17,7 +17,7 @@ const FooterContent = props => {
                     size={"medium"}
                     className={classes.iconButton}
                     title={"Ջնջել դասակարգիչը"}
-                    icon={<Icons opacity={1} type={"group-delete"} className={`fill-FF4B63 ${classes.removeButtonIcon}`}/>}
+                    icon={<Icons opacity={1} type={"group-delete"} className={classes.removeButtonIcon}/>}
                     // Methods
                     onClick={event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.group.id})}
                 />

@@ -36,6 +36,8 @@
 }
 
 .successButton {
+    background-color: #fff;
+    color: #67ca51;
     width: 19px;
     min-width: auto;
     height: 19px;
@@ -48,6 +50,8 @@
 }
 
 .cutBtn {
+    background-color: #fff;
+    color: #ff4b63;
     width: 19px;
     min-width: auto;
     height: 19px;

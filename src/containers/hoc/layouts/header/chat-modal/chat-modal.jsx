@@ -9,15 +9,15 @@ const ChatModal = props => {
     return (
         <>
             <Backdrop
-                className={`background-rgba_00008 ${classes.backdrop}`}
+                className={classes.backdrop}
                 // Methods
                 onClick={() => props.toggleChat(false)}
             />
-            <div className={`background-fff ${classes.chatModalWindow}`}>
+            <div className={classes.chatModalWindow}>
                 {
                     props.interlocutorWindow ?
                         <Backdrop
-                            className={`background-rgba_00008 ${classes.peopleBackdrop}`}
+                            className={classes.peopleBackdrop}
                             // Methods
                             onClick={() => props.togglePeople(false)}
                         />

@@ -35,7 +35,7 @@ const DeleteContent = props => {
             {
                 props.delete ?
                     <Backdrop
-                        className={`background-rgba_00008 ${classes.backdrop}`}
+                        className={classes.backdrop}
                         // Methods
                         onClick={props.deleteModalCloseHandler}
                     />

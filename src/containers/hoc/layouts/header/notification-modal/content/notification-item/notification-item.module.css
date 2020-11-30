@@ -32,6 +32,10 @@
     height: 100%;
 }
 
+.unread {
+    background-color: #f6f6f6;
+}
+
 .unread:after {
     content: '';
     position: absolute;
@@ -52,6 +56,7 @@
     width: 20px;
     height: 20px;
     padding: 0;
+    background-color: transparent;
     border: none;
     outline: none !important;
     display: flex;
@@ -73,6 +78,8 @@
 .closeIcon {
     opacity:0.5;
     transition: 300ms;
+    fill: #4b4b4b;
+    stroke: #4b4b4b;
 }
 
 .closeButton:hover .closeIcon {
@@ -105,24 +112,32 @@
     font-weight: 600;
     margin: 0;
     letter-spacing: .4pt;
+    color: #3a3a3a;
+    font-size: 14px;
 }
 
 .notificationItem .contentWindow > p {
     margin: 0;
     font-weight: 100;
     letter-spacing: .1pt;
+    font-size: 12px;
+    color: #9c9c9c;
 }
 
 .unread .contentWindow > h3 {
     font-weight: 600;
     margin: 0;
     letter-spacing: .4pt;
+    color: #3b3b3b;
+    font-size: 14px;
 }
 
 .unread .contentWindow > p {
     margin: 0;
     font-weight: 600;
     letter-spacing: .1pt;
+    color: #3a3a3a;
+    font-size: 12px;
 }
 
 @media (max-width: 600px) {

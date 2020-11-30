@@ -4,7 +4,7 @@
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 400px;
-    /*background-color: #fff;*/
+    background-color: #fff;
     z-index: 6;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, .35);
@@ -27,8 +27,8 @@
 .deleteModal > header {
     padding: 0 10px;
     text-align: left;
-    /*font-size: 15px;*/
-    /*color: #444;*/
+    font-size: 15px;
+    color: #444;
     font-weight: 600;
     box-sizing: border-box;
     height: 30px;
@@ -42,14 +42,14 @@
 }
 
 .deleteModal > section > p {
-    /*color: #666;*/
+    color: #666;
     font-weight: 100;
-    /*font-size: 12px;*/
+    font-size: 12px;
     margin: 0 0 5px;
 }
 
 .deleteModal > section > h5 {
-    /*color: #F97F42;*/
+    color: #F97F42;
     text-align: center;
 }
 
@@ -63,14 +63,14 @@
 
 .deleteModal > footer > .cancelButton {
     margin: 0 5px;
-    /*background-color: transparent;*/
+    background-color: transparent;
     padding: 5px 15px;
     box-sizing: border-box;
-    /*font-size: 12px;*/
+    font-size: 12px;
     border: 1px solid #ff4a4a;
     border-radius: 5px;
     font-weight: 600;
-    /*color: #ff4a4a;*/
+    color: #ff4a4a;
     cursor: pointer;
     transition: 300ms;
 }
@@ -89,14 +89,14 @@
 
 .deleteModal > footer > .confirmButton {
     margin: 0 5px;
-    /*background-color: transparent;*/
+    background-color: transparent;
     padding: 5px 15px;
     box-sizing: border-box;
-    /*font-size: 12px;*/
+    font-size: 12px;
     border: 1px solid #54a94a;
     border-radius: 5px;
     font-weight: 600;
-    /*color: #54a94a;*/
+    color: #54a94a;
     cursor: pointer;
     transition: 300ms;
 }

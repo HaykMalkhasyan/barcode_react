@@ -197,6 +197,7 @@ export default function characteristicsReducer(state = initialState, action) {
                 ...state,
                 activeAction: "edit",
                 edit: action.newSubgroup.id,
+                nodeStatus: false,
                 add: null,
                 moveElement: null,
                 subgroupName: action.subgroupName,

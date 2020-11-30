@@ -1,10 +1,10 @@
 .listItem {
     height: 36px;
-    /*background-color: rgba(131, 212, 113, 0.25);*/
+    background-color: rgba(131, 212, 113, 0.25);
 }
 
 .empty {
-    /*color: #ccc;*/
+    color: #ccc;
     display: flex;
     justify-content: center;
     align-items: center;

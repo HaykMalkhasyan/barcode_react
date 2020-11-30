@@ -11,6 +11,7 @@
     border-radius: 50%;
     display: flex;
     align-items: center;
+    background-color: #fff;
     justify-content: center;
 }
 
@@ -29,12 +30,16 @@
 .ownerWindow > h3 {
     margin: 0 0 6px;
     font-weight: 500;
+    color: #3b3b3b;
+    font-size: 18px;
 }
 
 .ownerWindow > span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 11px;
+    color: #6B6B6B;
 }
 
 @media (max-width: 600px) {

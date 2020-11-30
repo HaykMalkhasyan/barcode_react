@@ -95,14 +95,14 @@ class PricesTab extends Component {
                     >
                         {
                             this.props.progress ?
-                                <LinearSpinner progres={`background-transparent ${classes.progress}`} barColorPrimary={classes.progresBgColor}/>
+                                <LinearSpinner progres={classes.progress} barColorPrimary={classes.progresBgColor}/>
                                 :
                                 null
                         }
                         <div className={classes.priceContent}>
-                            <div className={`color-666 font-size-11 ${classes.exchangeWindow}`}>
+                            <div className={classes.exchangeWindow}>
                                 <span>Փոխարժեք:</span>
-                                <b className="color-fff background-046086">ՀՀ Դրամ</b>
+                                <b>ՀՀ Դրամ</b>
                             </div>
                             {
                                 this.props.values && this.props.data && this.props.data.length ?
@@ -114,8 +114,8 @@ class PricesTab extends Component {
                                                     checkRef={parseInt(this.state.focus) === parseInt(index)}
                                                     id={item.id}
                                                     name={item.id}
-                                                    classNameLabel={this.props.values[item.id].length > 0 ? `color-024059 ${classes.label} ${ classes.active}` : `color-aaa ${classes.label}`}
-                                                    classNameInput={parseInt(this.state.error) === item.id ? `background-transparent color-666 font-size-12 ${classes.input} ${classes.error}` : `background-transparent color-666 font-size-12 ${classes.input}`}
+                                                    classNameLabel={this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
+                                                    classNameInput={parseInt(this.state.error) === item.id ? `${classes.input} ${classes.error}` : classes.input}
                                                     label={item.name}
                                                     placeholder={`[1-9]{1} / [0-9]`}
                                                     value={this.props.values[item.id]}
@@ -138,13 +138,13 @@ class PricesTab extends Component {
                                     })
                                     :
                                     !this.props.error ?
-                                        <div className={`color-ccc font-size-12 ${classes.request}`}>
-                                            <AutorenewIcon className={`font-size-40 color-66FF8927 ${classes.requestIcon}`}/>
+                                        <div className={classes.request}>
+                                            <AutorenewIcon className={classes.requestIcon}/>
                                             <span>Կատարվում է հարցում</span>
                                         </div>
                                         :
-                                        <div className={`color-ccc font-size-12 ${classes.warning}`}>
-                                            <WarningIcon className={`font-size-40 color-66FF39397 ${classes.warningIcon}`}/>
+                                        <div className={classes.warning}>
+                                            <WarningIcon className={classes.warningIcon}/>
                                             <span>Հարցումը չհաջողվեց</span>
                                         </div>
                             }

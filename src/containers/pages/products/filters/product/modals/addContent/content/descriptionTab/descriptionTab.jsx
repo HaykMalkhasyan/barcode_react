@@ -21,7 +21,7 @@ const DescriptionTab = props => {
                 <div className={classes.textFieldWindow}>
                     <SectionWindow label={'Նկարագրություն'}>
                         <CustomTextArea
-                            className={`color-666 ${classes.textArea}`}
+                            className={classes.textArea}
                             placeholder={'Նկարագրության դաշտ...'}
                             name={'description'}
                             value={props.description.description}

@@ -194,7 +194,7 @@ class ResetPassword extends Component {
     render() {
 
         return (
-            <div className={`background-5b86e5-36dadc ${cls.main}`} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
+            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
                 <LanguagesMenu
                     open={this.props.open}
                     lang={this.props.lang}
@@ -205,9 +205,9 @@ class ResetPassword extends Component {
                     setLanguage={this.setLanguage}
                 />
                 <div className={cls.backdrop}>
-                    <div className={`text-center background-fff ${cls.mainWindow}`}>
-                        <span className={`color-1B5985 font-size-34 ${cls.name} ${this.props.success ? cls.nameSecond : ''}`}>Barcode.am</span>
-                        <span className={`color-444 font-size-21 ${cls.action} ${this.props.error ? cls.actionError : ''} ${this.props.success ? cls.actionSuccess : ''}`}>
+                    <div className={`text-center ${cls.mainWindow}`}>
+                        <span className={`${cls.name} ${this.props.success ? cls.nameSecond : ''}`}>Barcode.am</span>
+                        <span className={`${cls.action} ${this.props.error ? cls.actionError : ''} ${this.props.success ? cls.actionSuccess : ''}`}>
                             {getLanguage(this.props.activeLanguage, 'reset_password')}
                             </span>
                         {
@@ -234,7 +234,6 @@ class ResetPassword extends Component {
                                             // for label
                                             classNameLabel={
                                                 `
-                                                background-fff
                                                 ${cls.password}
                                                 ${this.state.selected === 'password' ? cls.selected : null}
                                                 ${this.state.password !== this.state.password_confirm ? cls.error : ''}
@@ -243,7 +242,27 @@ class ResetPassword extends Component {
                                             }
                                             label={
                                                 <span className={cls.forIcon}>
-                                                    <Icons type={'key'} className={`fill-444 stroke-444 ${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? `fill-ff3939 stroke-ff3939 ${cls.passwordFillError}` : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? `fill-ff3939 stroke-ff3939 ${cls.passwordFillError}` : '' : ''}`}/>
+                                                    <Icons
+                                                        type={'key'}
+                                                        className={
+                                                            `
+                                                            ${cls.passwordFill}
+                                                             ${this.state.error === 'password' || this.state.error === 'password_confirm' ?
+                                                                cls.passwordFillError 
+                                                                :
+                                                                ''
+                                                            } 
+                                                            ${this.state.password && this.state.password_confirm ?
+                                                                this.state.password !== this.state.password_confirm ?
+                                                                    cls.passwordFillError 
+                                                                    :
+                                                                    ''
+                                                                :
+                                                                ''
+                                                            }
+                                                            `
+                                                        }
+                                                    />
                                                 </span>
                                             }
                                             // for input
@@ -287,38 +306,52 @@ class ResetPassword extends Component {
                                             // for label
                                             classNameLabel={
                                                 `
-                                                background-fff
-                                                ${
-                                                    cls.confirmPassword
+                                                ${cls.confirmPassword}
+                                                ${this.state.selected === 'password_confirm' ?
+                                                    cls.selected
+                                                    :
+                                                    null
                                                 }
-                                                ${
-                                                    this.state.selected === 'password_confirm' ?
-                                                        cls.selected
-                                                        :
-                                                        null
+                                                ${this.state.password !== this.state.password_confirm ?
+                                                    cls.error
+                                                    :
+                                                    ''
                                                 }
-                                                ${
-                                                    this.state.password !== this.state.password_confirm ?
-                                                        cls.error
-                                                        :
-                                                        ''
-                                                }
-                                                ${
-                                                    this.state.isEmpty['password_confirm'] ?
-                                                        `${cls.error} ${cls.errorVerify}`
-                                                        :
-                                                        ''
+                                                ${this.state.isEmpty['password_confirm'] ?
+                                                    `${cls.error} ${cls.errorVerify}`
+                                                    :
+                                                    ''
                                                 }
                                                 `
                                             }
                                             label={
                                                 <span className={cls.forIcon}>
-                                                    <Icons type={'key'} className={`fill-444 stroke-444 ${cls.passwordFill} ${this.state.error === 'password' || this.state.error === 'password_confirm' ? `fill-ff3939 stroke-ff3939 ${cls.passwordFillError}` : ''} ${this.state.password && this.state.password_confirm ? this.state.password !== this.state.password_confirm ? `fill-ff3939 stroke-ff3939 ${cls.passwordFillError}` : '' : ''}`}/>
+                                                    <Icons
+                                                        type={'key'}
+                                                        className={
+                                                            `
+                                                            ${cls.passwordFill}
+                                                             ${this.state.error === 'password' || this.state.error === 'password_confirm' ?
+                                                                cls.passwordFillError 
+                                                                :
+                                                                ''
+                                                            }
+                                                            ${this.state.password && this.state.password_confirm ? 
+                                                                this.state.password !== this.state.password_confirm ?
+                                                                    cls.passwordFillError 
+                                                                    :
+                                                                    ''
+                                                                :
+                                                                ''
+                                                            }
+                                                            `
+                                                        }
+                                                    />
                                                 </span>
                                             }
                                             // for input
                                             placeholder={getLanguage(this.props.activeLanguage, 'confirm_password')}
-                                            classNameInput={`background-transparent ${cls.input}`}
+                                            classNameInput={cls.input}
                                             type={
                                                 this.state.showConfPass ?
                                                     'text'
@@ -345,29 +378,33 @@ class ResetPassword extends Component {
                                                 >
                                             {
                                                 this.state.showConfPass ?
-                                                    <VisibilityOffOutlinedIcon fontSize='small'
-                                                                               style={{color: '#4198bf'}}/>
+                                                    <VisibilityOffOutlinedIcon
+                                                        fontSize='small'
+                                                        style={{color: '#4198bf'}}
+                                                    />
                                                     :
-                                                    <VisibilityOutlinedIcon fontSize='small'
-                                                                            style={{color: '#4198bf'}}/>
+                                                    <VisibilityOutlinedIcon
+                                                        fontSize='small'
+                                                        style={{color: '#4198bf'}}
+                                                    />
                                             }
                                             </span>
                                             }
                                         />
                                         <CustomButton
-                                            className={`background-F53803-F5D020 color-fff font-size-16 ${cls.signIn}`}
+                                            className={cls.signIn}
                                             onClick={event => this.onSubmit(event)}
                                             children={getLanguage(this.props.activeLanguage, 'confirm')}
                                         />
                                     </form>
                                     <div className={cls.createAccount}>
-                                        <NavLink className={`color-1790FF font-size-12 ${classes.signUp}`} to={'/login'}>
+                                        <NavLink className={classes.signUp} to={'/login'}>
                                             {getLanguage(this.props.activeLanguage, 'login_in')} &nbsp;
                                         </NavLink>
-                                        <span className="color-878787 font-size-10">
+                                        <span>
                                             {getLanguage(this.props.activeLanguage, 'or')} &nbsp;
                                         </span>
-                                        <NavLink className={`color-1790FF font-size-12 ${classes.signUp}`} to={'/registration'}>
+                                        <NavLink className={classes.signUp} to={'/registration'}>
                                             {getLanguage(this.props.activeLanguage, 'register')}
                                         </NavLink>
                                     </div>

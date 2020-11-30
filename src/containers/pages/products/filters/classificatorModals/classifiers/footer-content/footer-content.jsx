@@ -7,7 +7,7 @@ const FooterContent = props => {
     return (
         <footer className={classes.footer}>
             <CustomButton
-                className={`background-F7F7F7 color-024059 font-size-15 ${classes.footerButton}`}
+                className={classes.footerButton}
                 children={'Փակել'}
                 // Methods
                 onClick={() => {

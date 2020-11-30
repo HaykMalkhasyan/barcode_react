@@ -3,6 +3,7 @@
     height: 62px;
     padding: 10px 20px;
     box-sizing: border-box;
+    background-color: transparent;
 }
 
 .labelStyle {

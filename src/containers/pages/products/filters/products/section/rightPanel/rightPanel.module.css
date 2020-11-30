@@ -4,8 +4,8 @@
 }
 
 .showCount {
-    /*font-size: 12px;*/
-    /*color: #505050;*/
+    font-size: 12px;
+    color: #505050;
     font-weight: 900;
 }
 
@@ -20,7 +20,7 @@
 
 .colorSecondary {
     background: #F28705 !important;
-    /*color: #fff;*/
+    color: #fff;
 }
 
 .emptyWindow {
@@ -45,8 +45,8 @@
 }
 
 .emptyWindow > div > h3 {
-    /*color: #ccc;*/
-    /*font-size: 14px;*/
+    color: #ccc;
+    font-size: 14px;
     margin: 0 0 10px 0;
     transform: translateY(-15px);
 }
@@ -55,13 +55,13 @@
     outline: none !important;
     height: 42px;
     width: 170px;
-    /*background-color: #fff;*/
+    background-color: #fff;
     border: 1px solid #FE8A69;
     border-radius: 3px;
     margin-left: 23px;
-    /*font-size: 15px;*/
+    font-size: 15px;
     font-weight: 400;
-    /*color: #FE8A69;*/
+    color: #FE8A69;
     transition: 100ms;
     display: flex;
     align-items: center;
@@ -87,8 +87,8 @@
 }
 
 .addBtnIcon {
-    /*fill: #FE8A69;*/
-    /*stroke: #FE8A69;*/
+    fill: #FE8A69;
+    stroke: #FE8A69;
 }
 
 @media (max-width: 600px) {

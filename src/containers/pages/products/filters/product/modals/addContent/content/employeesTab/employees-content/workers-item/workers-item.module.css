@@ -5,7 +5,7 @@
     border-radius: 6px;
     display: inline-flex;
     flex-wrap: nowrap;
-    /*background-color: #fff;*/
+    background-color: #fff;
     white-space: nowrap;
     align-items: center;
     justify-content: space-between;
@@ -15,21 +15,21 @@
 }
 
 .worker > span {
-    /*color: #024059;*/
-    /*font-size: 12px;*/
+    color: #024059;
+    font-size: 12px;
     font-weight: bold;
     letter-spacing: .25pt;
 }
 
 .closeIcon {
-    /*fill: #024059;*/
-    /*stroke: #024059;*/
+    fill: #024059;
+    stroke: #024059;
 }
 
 .removeButton {
     border: none;
     outline: none !important;
-    /*background-color: transparent;*/
+    background-color: transparent;
     padding: 0;
     width: 20px;
     height: 20px;

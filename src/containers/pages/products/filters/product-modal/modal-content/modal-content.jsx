@@ -17,7 +17,7 @@ const ModalContent = props => {
 
     return (
         <section className={classes.modalContent}>
-            <ModalTabs activeTab={active} modalTabs={props.modalTabs} onClick={selectTab}/>
+            <ModalTabs tabErrors={props.tabErrors} activeTab={active} modalTabs={props.modalTabs} onClick={selectTab}/>
             <ModalTabPages gallery={props.gallery} component={pages[active]}/>
         </section>
     )

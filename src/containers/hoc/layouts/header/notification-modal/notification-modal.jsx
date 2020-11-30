@@ -9,11 +9,11 @@ const NotificationModal = props => {
     return (
         <>
             <Backdrop
-                className={`background-rgba_00008 ${classes.backdrop}`}
+                className={classes.backdrop}
                 // Methods
                 onClick={() => props.toggleNotification(false)}
             />
-            <div className={`background-fff ${classes.notificationModal}`}>
+            <div className={classes.notificationModal}>
                 <Header count={1}/>
                 <Content/>
             </div>

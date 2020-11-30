@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    background-color: #fff;
 }
 
 .inputWindow {
@@ -41,6 +42,8 @@
     padding:  10px;
     letter-spacing: .2pt;
     transition: 300ms;
+    font-size: 14px;
+    color: #2B2B2B;
 }
 
 .input:hover {
@@ -52,6 +55,7 @@
 }
 
 .sendButton {
+    background-color: #FF6F00;
     border: none;
     outline: none !important;
     border-radius: 0 6px 6px 0;
@@ -95,6 +99,7 @@
 
 .sendIcon {
     opacity: 1;
+    fill: #fff;
 }
 
 .pickerWindow {
@@ -102,6 +107,7 @@
     z-index: 1;
     right: 0;
     top: 0;
+    background-color: #fff;
     height: 26px;
     display: flex;
     align-items: center;
@@ -112,6 +118,7 @@
 }
 
 .pickerButton {
+    background-color: transparent;
     border: none;
     outline: none !important;
     display: flex;

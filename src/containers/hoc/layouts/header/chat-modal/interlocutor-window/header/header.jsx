@@ -16,7 +16,7 @@ const Header = props => {
             </div>
             <div>
                 <CustomButton
-                    className={`background-transparent ${classes.dropButton}`}
+                    className={classes.dropButton}
                     children={<Icons type={'drop-list'}/>}
                 />
             </div>

@@ -1,0 +1,36 @@
+.copedItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.copedItem span {
+    user-select: none;
+    cursor: pointer;
+}
+
+.nodeName {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cut {
+    opacity: .18;
+}
+
+.hasHave {
+    border-bottom: 1px solid #024059;
+}
+
+.copyIcon {
+    color: #ff8927;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 5px;
+}
