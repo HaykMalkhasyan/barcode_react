@@ -5,6 +5,7 @@
 }
 
 .addWindow {
+    background-color: rgba(13, 163, 224, 0.2);
     width: 100%;
     height: 30px;
     display: flex;
@@ -33,6 +34,9 @@
 }
 
 .addInput {
+    background-color: transparent;
+    color: #024059;
+    font-size: 15px;
     width: 100%;
     display: flex;
     justify-content: center;

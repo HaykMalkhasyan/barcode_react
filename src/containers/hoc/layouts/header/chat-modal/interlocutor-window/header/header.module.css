@@ -19,6 +19,7 @@
     outline: none !important;
     transition: 300ms;
     cursor: pointer;
+    background-color: transparent;
     position: relative;
     z-index: 1;
 }

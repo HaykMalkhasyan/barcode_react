@@ -1,6 +1,6 @@
 .main {
     background-size: cover !important;
-    /*background: linear-gradient(to top, #5b86e5, #36dadc);*/
+    background: linear-gradient(to top, #5b86e5, #36dadc);
     position: fixed;
     top: 0;
     left: 0;
@@ -70,7 +70,7 @@
     height: auto;
     padding:  43px 38px;
     box-sizing: border-box;
-    /*background-color: #fff;*/
+    background-color: #fff;
     box-shadow: 0 0 20px 3px rgba(0, 0, 0, .16);
     border: none;
     overflow-y: auto;
@@ -100,8 +100,8 @@
 
 .name {
     margin: 0 0 24px;
-    /*font-size: 34px;*/
-    /*color: #1B5985;*/
+    font-size: 34px;
+    color: #1B5985;
     font-weight: 600;
     text-align: center;
     display: block;
@@ -112,9 +112,9 @@
     text-transform: capitalize;
     display: block;
     margin-bottom: 50px;
-    /*font-size: 21px;*/
+    font-size: 21px;
     font-weight: 400;
-    /*color: #444;*/
+    color: #444;
     padding: 10px 0;
 }
 

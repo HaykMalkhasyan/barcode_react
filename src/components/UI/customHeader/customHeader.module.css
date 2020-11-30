@@ -8,8 +8,9 @@
 
 .customHeader > h3 {
     margin: 0 0 7px;
-    /*font-size: 18px;*/
+    font-size: 18px;
     font-weight: 500;
+    color: #333;
     cursor: pointer;
     user-select: none;
 }
@@ -29,8 +30,14 @@
     border-width: 0 0 1px;
 }
 
+.topAngle {
+    fill: #434343;
+}
+
 .angle {
     stroke-width: 0.6px;
+    fill: #434343;
+    stroke: #434343;
 }
 
 .collapseButton {
@@ -45,6 +52,7 @@
     align-items: center;
     border-radius: 6px;
     cursor: pointer;
+    background-color: transparent;
 }
 
 .collapseButton:hover {

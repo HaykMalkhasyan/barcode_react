@@ -11,6 +11,7 @@
     box-sizing: border-box;
     box-shadow: -1px 0 5px rgba(0, 0, 0, .3);
     transition: 300ms;
+    background-color: #FCFCFC;
 }
 
 .openMenu {
@@ -37,6 +38,8 @@
     border-radius: 0 !important;
     box-shadow: none !important;
     background-color: #eee !important;
+    color: #ff8927;
+    fill: #ff8927;
 }
 
 .menuList {
@@ -46,6 +49,8 @@
     width: 100% !important;
     height: 48px !important;
     align-items: center;
+    color: #171717;
+    fill: #b6acab;
 }
 
 .listRoot {
@@ -95,6 +100,10 @@
     stroke-linejoin: round;
 }
 
+.icons {
+    fill: #171717;
+}
+
 .menuListActive .icons {
     fill: #ff8927;
 }
@@ -126,6 +135,7 @@
 .listText {
     text-align: left;
     text-indent: 20px;
+    font-size: 12px;
 }
 
 .subMenuList > li:first-child {

@@ -1,0 +1,31 @@
+.copedItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.copedItem span {
+    user-select: none;
+    cursor: pointer;
+}
+
+.nodeName {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hasHave {
+    border-bottom: 1px solid #024059;
+}
+
+.copyCutPasteButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+

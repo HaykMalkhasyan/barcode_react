@@ -5,6 +5,8 @@
 }
 
 .modalName {
+    color: #333;
+    font-size: 18px;
     margin: 0;
     font-weight: 500;
     user-select: none;
@@ -19,6 +21,7 @@
 }
 
 .saveButton {
+    background-color: transparent;
     border: none;
     width: 30px;
     height: 30px;
@@ -40,7 +43,7 @@
 }
 
 .saveButtonIcon {
-    /*fill: #a4a4a4;*/
+    fill: #a4a4a4;
     transition: 300ms;
 }
 

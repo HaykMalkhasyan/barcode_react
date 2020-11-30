@@ -11,7 +11,7 @@ const GroupContent = props => {
                 type={'text'}
                 id={'group-title_am'}
                 disabled={(props.group && props.group.id === 0) || props.own_status}
-                classNameInput={`color-8F8F8F font-size-13 ${props.error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}`}
+                classNameInput={props.error ? `${classes.nameInput} ${classes.errorField}` : classes.nameInput}
                 classNameLabel={classes.nameLabel}
                 name={'title'}
                 placeholder={'Դասակագիչի անվանում'}

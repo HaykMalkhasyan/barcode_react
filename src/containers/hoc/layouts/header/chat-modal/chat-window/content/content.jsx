@@ -31,7 +31,7 @@ const Content = props => {
                 return (
                     <div key={'chat-' + item.id}>
                         <MessageIn
-                            className={`background-024059 color-fff font-size-12 ${classes.messageWindow}`}
+                            className={classes.messageWindow}
                             time={item.time}
                             message={item.message}
                         />
@@ -41,7 +41,7 @@ const Content = props => {
                 return (
                     <div key={'chat-' + item.id}>
                         <MessageOut
-                            className={`background-fff color-959595 font-size-12 ${classes.messageWindowOut}`}
+                            className={classes.messageWindowOut}
                             time={item.time}
                             message={item.message}
                         />

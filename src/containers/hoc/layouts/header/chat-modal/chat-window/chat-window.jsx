@@ -7,7 +7,7 @@ import Content from "./content/content";
 const ChatWindow = props => {
 
     return (
-        <div className={`background-f6f6f6 ${classes.chatWindow}`}>
+        <div className={classes.chatWindow}>
             <Header
                 interlocutorWindow={props.interlocutorWindow}
                 owner={props.owner}

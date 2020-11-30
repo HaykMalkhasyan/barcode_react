@@ -6,7 +6,7 @@ import Icons from "../../../../../../../components/Icons/icons";
 const ChatSearch = props => {
 
     return (
-        <div className={`background-transparent ${classes.chatSearch}`}>
+        <div className={classes.chatSearch}>
             <CustomInput
                 inputType={'inner'}
                 classNameLabel={classes.labelStyle}

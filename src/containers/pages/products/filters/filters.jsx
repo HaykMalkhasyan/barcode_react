@@ -13,7 +13,9 @@ import {
     changeSubgroupName,
     checkGroup,
     closeAction,
-    closeClassifiers, copyPaste, cutPaste,
+    closeClassifiers,
+    copyPaste,
+    cutPaste,
     deleteAction,
     deleteClassifiersAction,
     deleteModalClose,
@@ -31,9 +33,11 @@ import {
     selectTreeGroupItem,
     selectTreeItem,
     setGroupValues,
-    setMoveAction, setMovingStart,
+    setMoveAction,
+    setMovingStart,
     sortTree,
-    startMoveAction, subgroupCopy
+    startMoveAction,
+    subgroupCopy
 } from "../../../../Redux/characteristics/actions";
 import ModalUI from "../../../../components/modalUI/modalUI";
 import {
@@ -49,7 +53,6 @@ import OtherFilters from "./filters/otherFilters/otherFilters";
 import CustomSearchWindow from "./searchWindow/customSearchWindow/customSearchWindow";
 import LinearSpinner from "../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Products from "./products/products";
-import ProductModal from "./product/modals/productModal";
 import ProductsModal from "./product-modal/product-modal";
 
 class Filters extends Component {
@@ -97,8 +100,8 @@ class Filters extends Component {
                 {
                     this.props.progress ?
                         <LinearSpinner
-                            progres={`background-transparent ${classes.progres}`}
-                            barColorPrimary="background-ff8927"
+                            progres={classes.progres}
+                            barColorPrimary={classes.progresColor}
                         />
                         :
                         null
@@ -125,13 +128,14 @@ class Filters extends Component {
                 </Grid>
                 <ModalUI
                     open={this.props.classifiersModal}
-                    className={`background-F9F9FF ${classes.modal}`}
+                    className={classes.modal}
                     // Methods
                     // handleClose={this.handleClose}
                     handleOpen={this.props.openModalContent}
                 >
                     <ModalContent
                         // Data
+                        treeType={"edit"}
                         group={this.props.group}
                         subgroup={this.props.subgroup}
                         classifierName={this.props.classifierName}
@@ -186,7 +190,7 @@ class Filters extends Component {
                 </ModalUI>
                 <ModalUI
                     open={this.props.modalGroup !== null}
-                    className={`background-fff ${classes.modalGroup}`}
+                    className={classes.modalGroup}
                 >
                     <Classifiers
                         type={this.props.modalGroup}

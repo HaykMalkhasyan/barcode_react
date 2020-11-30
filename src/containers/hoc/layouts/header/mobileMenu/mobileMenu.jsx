@@ -25,23 +25,23 @@ const MobileMenu = props => {
         switch (staticName) {
             case 'products':
                 return (
-                    <Icons type={'product'} className={`${classes.icons} fill-171717`}/>
+                    <Icons type={'product'} className={classes.icons}/>
                 );
             case 'documents':
                 return (
-                    <Icons type={'document'} className={`${classes.icons} fill-171717`}/>
+                    <Icons type={'document'} className={classes.icons}/>
                 );
             case 'sales':
                 return (
-                    <Icons type={'sell'} className={`${classes.icons} fill-171717`}/>
+                    <Icons type={'sell'} className={classes.icons}/>
                 );
             case 'suppliers':
                 return (
-                    <Icons type={'suppliers'} className={`${classes.icons} fill-171717`}/>
+                    <Icons type={'suppliers'} className={classes.icons}/>
                 );
             case 'workers':
                 return (
-                    <Icons type={'workers'} className={`${classes.icons} fill-171717`}/>
+                    <Icons type={'workers'} className={classes.icons}/>
                 );
             default:
                 return null;
@@ -63,9 +63,9 @@ const MobileMenu = props => {
                             onClick={handleClick.bind(this, menu.id)}
                             className={
                                 open === menu.id ?
-                                    `color-ff8927 fill-ff8927 ${classes.menuList} ${classes.menuListActive}`
+                                    `${classes.menuList} ${classes.menuListActive}`
                                     :
-                                    `color-171717 fill-b6acab ${classes.menuList}`
+                                    classes.menuList
                             }
                         >
                             <div>
@@ -100,7 +100,7 @@ const MobileMenu = props => {
                                                             }
                                                         }
                                                     >
-                                                        <ListItemText classes={{primary: `font-size-12 ${classes.listText}`}}  primary={getLanguage('am', subMenu.name)}/>
+                                                        <ListItemText classes={{primary: classes.listText}}  primary={getLanguage('am', subMenu.name)}/>
                                                     </ListItem>
                                                 )
                                             }
@@ -117,7 +117,7 @@ const MobileMenu = props => {
     };
 
     return (
-        <div className={`background-FCFCFC ${props.menu ? `${classes.menu} ${classes.openMenu}` : classes.menu}`}>
+        <div className={props.menu ? `${classes.menu} ${classes.openMenu}` : classes.menu}>
             <div>
                 {
                     props.menus ?

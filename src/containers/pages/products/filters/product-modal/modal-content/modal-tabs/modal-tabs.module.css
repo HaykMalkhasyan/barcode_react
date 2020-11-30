@@ -17,6 +17,7 @@
 
 .listItem {
     border-left: 3px solid transparent;
+    position: relative;
 }
 
 .listItem:hover {
@@ -45,6 +46,24 @@
 .listItem:hover .listItemText,
 .listItem:hover .listItemIcon {
     color: #024059;
+}
+
+.errorIcon {
+    color: #f44336;
+    border-radius: 50%;
+    transition: 300ms;
+    cursor: help;
+    animation: show 200ms linear;
+}
+
+.errorIcon:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes show {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
 }
 
 @media (max-width: 600px) {

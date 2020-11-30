@@ -5,7 +5,7 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT,
+    ONLY_ADD_PRODUCT, SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
@@ -104,41 +104,8 @@ const initialState = {
         {id: 5, index: 4, icon: SupervisorAccountIcon, name: 'suppliers'},
         {id: 6, index: 5, icon: DescriptionIcon, name: 'description'},
     ],
-    // modalTabs: {
-    //     tabs: [
-    //         'MainTab',
-    //         'ClassifiersTab',
-    //         'CodesTab',
-    //         'PricesTab',
-    //         'EmployeesTab',
-    //         'DescriptionTab',
-    //     ],
-    //     am: [
-    //         {name: 'Հիմնական'},
-    //         {name: 'Դասակարգիչներ'},
-    //         {name: 'Կոդեր'},
-    //         {name: 'Գներ'},
-    //         {name: 'Գործընկերներ'},
-    //         {name: 'Նկարագրություն'},
-    //     ],
-    //     ru: [
-    //         {name: 'Основные'},
-    //         {name: 'Классификаторы'},
-    //         {name: 'Коды'},
-    //         {name: 'Цены'},
-    //         {name: 'Сотрудники'},
-    //         {name: 'Описание'},
-    //     ],
-    //     en: [
-    //         {name: 'Main'},
-    //         {name: 'Classifiers'},
-    //         {name: 'Codes'},
-    //         {name: 'Prices'},
-    //         {name: 'Suppliers'},
-    //         {name: 'Description'},
-    //     ]
-    // },
     errorFields: [],
+    tabErrors: [],
     types: [
         {id: 0, name: 'Ապրանք', value: 0},
         {id: 1, name: 'Ծառայություն', value: 1},
@@ -185,6 +152,10 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_PRODUCT_ERRORS:
+            return {
+                ...state, errorFields: action.errorFields, tabErrors: action.tabErrors
+            }
         case BACK_FILTERS:
             return {
                 ...state,
@@ -241,6 +212,7 @@ export default function productsReducer(state = initialState, action) {
                     pictures: []
                 },
                 errorFields: [],
+                tabErrors: [],
             };
         case BACK_TO_PRODUCT:
             return {
@@ -286,6 +258,7 @@ export default function productsReducer(state = initialState, action) {
                 ...state,
                 initialOpen: null,
                 errorFields: [],
+                tabErrors: [],
                 main: {
                     item_name: '',
                     short_name: '',
@@ -330,6 +303,7 @@ export default function productsReducer(state = initialState, action) {
                 },
                 images: [],
                 errorFields: [],
+                tabErrors: [],
                 open: false,
                 pictures: {
                     pictures: []

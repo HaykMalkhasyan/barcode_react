@@ -30,14 +30,14 @@ const ProductsModal = props => {
 
     return props.open ?
         <>
-            <Backdrop className={`background-rgba_00008 ${classes.backdrop}`}/>
+            <Backdrop className={classes.backdrop}/>
             <div className={classes.productModal}>
-                <div className={`background-fff ${classes.modal}`}>
+                <div className={classes.modal}>
                     <ModalHeader type={props.open} closeHandler={() => {
                         setGallery([]);
                         props.handleClose();
                     }}/>
-                    <ModalContent gallery={gallery} modalTabs={props.modalTabs}/>
+                    <ModalContent tabErrors={props.tabErrors} gallery={gallery} modalTabs={props.modalTabs}/>
                     <ModalFooter type={props.open} errorFields={props.errorFields} confirmHandler={confirmHandler}/>
                 </div>
             </div>
@@ -50,6 +50,7 @@ function mapStateToProps(state) {
 
     return {
         errorFields: state.products.errorFields,
+        tabErrors: state.products.tabErrors,
         activeTab: state.products.activeTab,
         images: state.products.images,
         pictures: state.products.pictures,

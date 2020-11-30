@@ -115,8 +115,6 @@ const ModalContent = props => {
     const cancelAdding = (node, subLevel) => {
         if (ref.current) {
             const {tree} = ref.current;
-            console.log(props.node, subLevel, props.add);
-            console.log(props.node && !subLevel && (props.add !== null));
             tree.selectNode();
             if ((props.node || node) && !subLevel && props.add !== null) {
                 tree.removeNode(node)
@@ -269,6 +267,7 @@ const ModalContent = props => {
             <SectionContent
                 ref={ref}
                 error={error}
+                treeType={props.treeType}
                 group={props.group}
                 groupId={props.groupId}
                 catId={props.catId}

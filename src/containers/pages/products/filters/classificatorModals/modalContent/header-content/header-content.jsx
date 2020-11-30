@@ -7,15 +7,15 @@ import CloseButton from "../../../../../../../components/UI/button/closeButton/c
 const HeaderContent = props => {
 
     return (
-        <header className={`background-fff ${classes.header}`}>
+        <header className={classes.header}>
             <CustomButton
-                className={`background-F8FAFF ${classes.backButton}`}
-                children={<Icons type={'back-page'} className={`fill-666 ${classes.backButtonIcon}`}/>}
+                className={classes.backButton}
+                children={<Icons type={'back-page'} className={classes.backButtonIcon}/>}
                 // Methods
                 onClick={props.backPageHandler}
             />
             <div className={classes.forOf}>
-                <h3 className="color-49525E font-size-18">Դասակարգչի խմբագրում</h3>
+                <h3>Դասակարգչի խմբագրում</h3>
             </div>
             <div>
                 <CloseButton onClick={props.handleClose}/>

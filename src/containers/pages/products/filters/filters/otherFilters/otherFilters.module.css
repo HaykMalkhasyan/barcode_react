@@ -1,6 +1,6 @@
 .otherFilters {
     margin: 25px 0;
-    /*background-color: #fff;*/
+    background-color: #fff;
     border-radius: 6px;
     padding: 15px;
     box-sizing: border-box;
@@ -23,11 +23,11 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    /*font-size: 14px;*/
+    font-size: 14px;
 }
 
 .labelStyle {
     width: 100%;
-    /*font-size: 12px;*/
-    /*color: #323232;*/
+    font-size: 12px;
+    color: #323232;
 }

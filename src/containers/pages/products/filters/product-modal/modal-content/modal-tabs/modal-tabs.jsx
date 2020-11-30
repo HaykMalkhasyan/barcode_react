@@ -3,9 +3,24 @@ import classes from "./modal-tabs.module.css";
 import {ListItem, ListItemText, ListItemIcon} from "@material-ui/core";
 import {getLanguage} from "../../../../../../../controllers/languages/languages";
 import cookie from "../../../../../../../services/cookies";
+import ErrorIcon from "@material-ui/icons/Error";
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 const ModalTabs = props => {
+
+    const errorRender = (tab, Icon) => {
+        const error = [...props.tabErrors];
+
+        if (tab && error.indexOf(tab.name) !== -1) {
+            return (
+                <Tooltip title={'Ունեք չլրացված դաշտեր'} placement="right">
+                    <ErrorIcon className={classes.errorIcon}/>
+                </Tooltip>
+            )
+        }
+        return <Icon />
+    }
 
     return (
         <div className={classes.modalTabs}>
@@ -16,7 +31,7 @@ const ModalTabs = props => {
                         return (
                             <ListItem className={props.activeTab === item.index ? `${classes.listItem} ${classes.active}` : classes.listItem} button key={`tabs-item-${item.id}`} onClick={() => props.onClick(item.index)}>
                                 <ListItemIcon className={classes.listItemIcon}>
-                                    <Icon />
+                                    {errorRender(item, Icon)}
                                 </ListItemIcon>
                                 <ListItemText className={classes.listItemText} primary={getLanguage(cookie.get("language") || "am", item.name)} />
                             </ListItem>

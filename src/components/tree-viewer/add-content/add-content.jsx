@@ -24,11 +24,11 @@ const AddContent = props => {
                 submitHandler(event)
             }}
         >
-            <div className={`background-330DA3E0 ${classes.addWindow} ${props.type === "first" ? classes.first : ''}`}>
+            <div className={`${classes.addWindow} ${props.type === "first" ? classes.first : ''}`}>
                 <div>
                     <CustomInput
                         autoFocus={true}
-                        classNameInput={`background-transparent color-024059 font-size-15 ${classes.addInput}`}
+                        classNameInput={classes.addInput}
                         classNameLabel={classes.addLabel}
                         label={<Icons type={'tree-arrow-right-empty'} style={{stroke: "#ccc"}}/>}
                         placeholder={'Ենթախմբի անվանում'}

@@ -12,9 +12,9 @@
     width: 350px;
     border: none;
     border-bottom: .5pt solid #cacaca;
-    /*font-size: 13px;*/
+    font-size: 13px;
     font-family: 'DejaVu Sans', sans-serif;
-    /*color: #8F8F8F;*/
+    color: #8F8F8F;
     padding: 0 3px;
     box-sizing: border-box;
     display: block;

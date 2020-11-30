@@ -1,6 +1,6 @@
 .actionButtons {
     outline: none !important;
-    /*background-color: transparent;*/
+    background-color: transparent;
     margin-right: 10px;
     width: 30px;
     height: 30px;
@@ -13,8 +13,8 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    /*font-size: 20px;*/
-    /*color: #ccc;*/
+    font-size: 20px;
+    color: #ccc;
 }
 
 .active:after {
@@ -36,7 +36,7 @@
 }
 
 .activePaste {
-    /*background-color: rgba(206, 155, 92, 0.15);*/
+    background-color: rgba(206, 155, 92, 0.15);
 }
 
 .changePositionTooltipContent {
@@ -53,37 +53,37 @@
     align-items: center;
 }
 
-.copy {/*color: #2eb51f;*/}
+.copy {color: #2eb51f;}
 
-.cut {/*color: #0da3e0;*/}
+.cut {color: #0da3e0;}
 
-.paste {/*color: #ce9b5c;*/}
+.paste {color: #ce9b5c;}
 
 .groupArrowSelected {
-    /*stroke: #44B1FF;*/
+    stroke: #44B1FF;
     stroke-width: 0.2px;
 }
 
 .iconsInactive {
-    /*stroke: #000;*/
+    stroke: #000;
     stroke-width: 0.2px;
 }
 
 .groupAddInactive {
-    /*fill: #000;*/
-    /*stroke: #000;*/
+    fill: #000;
+    stroke: #000;
     opacity: .18;
 }
 
 .containedEditSelected {
-    /*fill: #3D6AFF;*/
+    fill: #3D6AFF;
 }
 
 .groupAddSelected {
-    /*fill: #70E839;*/
-    /*stroke: #70E839;*/
+    fill: #70E839;
+    stroke: #70E839;
 }
 
 .groupDeleteSelected {
-    /*fill: #FF4B63;*/
+    fill: #FF4B63;
 }

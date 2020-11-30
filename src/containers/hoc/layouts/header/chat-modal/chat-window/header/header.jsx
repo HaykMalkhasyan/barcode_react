@@ -9,10 +9,10 @@ import PeopleIcon from '@material-ui/icons/People';
 const Header = props => {
 
     return (
-        <header className={`background-fff ${classes.header}`}>
+        <header className={classes.header}>
             <div className={classes.headerFirst}>
                 <CustomButton
-                    className={`color-024059 background-transparent ${props.interlocutorWindow ? `${classes.peopleWindow} ${classes.interlocutorWindowOpen}` : classes.peopleWindow}`}
+                    className={props.interlocutorWindow ? `${classes.peopleWindow} ${classes.interlocutorWindowOpen}` : classes.peopleWindow}
                     children={
                         props.interlocutorWindow ?
                             <PeopleIcon/>

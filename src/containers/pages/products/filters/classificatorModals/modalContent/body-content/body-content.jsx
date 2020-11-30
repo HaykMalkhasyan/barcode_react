@@ -9,6 +9,7 @@ const BodyContent = React.forwardRef((props, ref) => {
         <div className={classes.treeWindow}>
             <TreeViewer
                 ref={ref}
+                treeType={props.treeType}
                 type={props.type}
                 search={props.search}
                 group={props.group}

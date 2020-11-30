@@ -27,6 +27,9 @@
 }
 
 .dropDownBtn {
+    background-color: #F9F9F9;
+    color: #5A5A5A;
+    font-size: 9px;
     width: 100%;
     height: 41px;
     text-transform: uppercase;
@@ -36,6 +39,10 @@
     outline: none !important;
     cursor: pointer;
     transition: 300ms;
+}
+
+.bottomAngle {
+    fill: #5A5A5A;
 }
 
 .dropDownBtn:hover {
@@ -51,6 +58,9 @@
 }
 
 .searchInput {
+    background-color: #fff;
+    color: #483A3A;
+    font-size: 15px;
     height: 41px;
     width: calc(100% - 130px);
     border-radius: 0;
@@ -67,6 +77,7 @@
 .fullWidth {
     width: calc(100% - 90px);
     border-radius: 0 6px 6px 0;
+    color: #483A3A;
 }
 
 .withoutDrop {
@@ -95,6 +106,7 @@
 }
 
 .customSearchBtn {
+    background-color: #fff;
     width: 40px;
     height: 41px;
     display: flex;
@@ -118,4 +130,6 @@
 
 .customSearchIcon {
     stroke-width: 0;
+    fill: #ff8927;
+    stroke: #fff;
 }

@@ -21,10 +21,10 @@ const ModalHeader = props => {
 
     return (
         <header className={classes.modalHeader}>
-            <h3 className={`color-333 font-size-18 ${classes.modalName}`}>
+            <h3 className={classes.modalName}>
                 <CustomButton
-                    className={`background-transparent ${classes.saveButton}`}
-                    children={<Icons type={'save'} className={`fill-a4a4a4 ${classes.saveButtonIcon}`}/>}
+                    className={classes.saveButton}
+                    children={<Icons type={'save'} className={classes.saveButtonIcon}/>}
                     // Methods
                     onClick={() => props.confirmHandler('save')}
                 />

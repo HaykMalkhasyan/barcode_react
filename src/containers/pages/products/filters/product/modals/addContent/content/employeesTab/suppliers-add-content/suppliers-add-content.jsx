@@ -31,12 +31,12 @@ const SuppliersAddContent = props => {
     }
 
     return (
-        <div className={`background-fff ${classes.content}`}>
-            <div className={`background-f6f6f6 ${classes.searchWindow}`}>
+        <div className={classes.content}>
+            <div className={classes.searchWindow}>
                 <CustomInput
                     id={'supplier-search'}
                     type={"search"}
-                    classNameInput={`background-transparent color-666 font-size-12 ${classes.search}`}
+                    classNameInput={classes.search}
                     classNameLabel={classes.searchLabel}
                     label={<Icons type={"search"} width={14} height={17}/>}
                     placeholder={"Որոնել․․․"}

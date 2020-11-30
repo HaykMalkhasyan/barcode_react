@@ -50,7 +50,7 @@ const Data = props => {
             {/*<div className={classes.apm}>*/}
             {/*    <span>Հերթական համար (ԱՊՄ) <span>0054151</span></span>*/}
             {/*</div>*/}
-            <div className={classes.dataItem}>{console.log(props.errorFields)}
+            <div className={classes.dataItem}>
                 <InputUI
                     required={true}
                     error={props.errorFields.indexOf('item_name') !== -1}
@@ -84,7 +84,7 @@ const Data = props => {
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
                         error={props.errorFields.indexOf('product_type') !== -1}
-                        className={`fill-666 ${classes.customSelect}`}
+                        className={classes.customSelect}
                         open={open}
                         focus={focus}
                         inputLabel={'Տեսակ'}
@@ -100,7 +100,7 @@ const Data = props => {
                 <div className={`${classes.dataItem} ${classes.spaceAround}`}>
                     <CustomSelect
                         error={props.errorFields.indexOf('unit_id') !== -1}
-                        className={`${classes.customSelect}`}
+                        className={classes.customSelect}
                         open={open}
                         focus={focus}
                         inputLabel={'Չափման միավոր'}
@@ -119,7 +119,7 @@ const Data = props => {
                     <CustomCheckbox
                         checkBoxWindow={classes.checkBoxWindow}
                         id={'product_active'}
-                        className={`color-737373 font-size-12 ${classes.checkbox}`}
+                        className={classes.checkbox}
                         label={'Ակտիվ'}
                         checked={props.data.active}
                         name={'active'}

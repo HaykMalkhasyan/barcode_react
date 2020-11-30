@@ -39,7 +39,7 @@ class CodeData extends Component{
                             }
                         )
                         :
-                        <small className={`color-ccc ${classes.isEmpty}`}>Դատարկ է</small>
+                        <small className={classes.isEmpty}>Դատարկ է</small>
                 }
                 {
                     this.props.code_item ?
@@ -49,7 +49,7 @@ class CodeData extends Component{
                                 <PrintIcon/>
                             </IconButton>
                             <IconButton aria-label="delete" className={classes.deleteButton} onClick={() => this.props.deleteBarcodeItem(Object.keys(this.props.code_item)[0])}>
-                                    <Icons width={18} height={18} type={'group-delete'} className={`fill-FF4B63 ${classes.groupDelete}`} opacity={1}/>
+                                    <Icons width={18} height={18} type={'group-delete'} className={classes.groupDelete} opacity={1}/>
                             </IconButton>
                         </div>
                         :

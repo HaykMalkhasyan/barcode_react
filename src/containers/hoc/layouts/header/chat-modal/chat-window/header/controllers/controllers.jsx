@@ -8,7 +8,7 @@ const Controllers = props => {
     return (
         <div className={classes.controllers}>
             <CustomButton
-                className={`background-transparent ${classes.controllersButton}`}
+                className={classes.controllersButton}
                 children={<Icons type={'chat-export'} width={16} height={16}/>}
             />
             <CustomButton

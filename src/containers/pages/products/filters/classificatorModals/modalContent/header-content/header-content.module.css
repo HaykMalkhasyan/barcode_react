@@ -5,14 +5,14 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    /*background-color: #fff;*/
+    background-color: #fff;
     position: relative;
 }
 
 .header > .backButton {
     border: none;
     padding: 5px;
-    /*background-color: #F8FAFF;*/
+    background-color: #F8FAFF;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -48,13 +48,13 @@
 }
 
 .backButtonIcon {
-    /*fill: #666;*/
+    fill: #666;
 }
 
 .forOf > h3 {
     margin: 0 0 5px 0;
-    /*font-size: 18px;*/
-    /*color: #49525E;*/
+    font-size: 18px;
+    color: #49525E;
     text-transform: uppercase;
     font-weight: 500;
     text-align: center;

@@ -8,8 +8,8 @@ import BodyContent from "../body-content/body-content";
 const SectionContent = React.forwardRef((props, ref) => {
 
     return (
-        <section className={`background-fff ${classes.section}`}>
-            <div className={`background-fff ${classes.content}`}>
+        <section className={classes.section}>
+            <div className={classes.content}>
                 {
                     !props.own_status ?
                         <GroupContent
@@ -82,6 +82,7 @@ const SectionContent = React.forwardRef((props, ref) => {
                     buffer={props.buffer}
                     own_move={props.own_move}
                     type={!props.own_status}
+                    treeType={props.treeType}
                     // Methods
                     selectTreeItem={props.selectTreeItem}
                     editSubgroup={props.editSubgroup}

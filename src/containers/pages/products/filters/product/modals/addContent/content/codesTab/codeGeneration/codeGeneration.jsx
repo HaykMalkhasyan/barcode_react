@@ -78,7 +78,7 @@ const CodeGeneration = props => {
         <div className={classes.codeGeneration}>
             {
                 props.open ?
-                    <Backdrop onClick={handleClose} className={`background-transparent ${classes.backDrop}`}/>
+                    <Backdrop onClick={handleClose} className={classes.backDrop}/>
                     :
                     null
             }
@@ -88,8 +88,8 @@ const CodeGeneration = props => {
                         <CustomInput
                             readOnly={true}
                             label={'Կոդ'}
-                            classNameLabel={`color-8F8F8F font-size-12 ${classes.codLabel}`}
-                            classNameInput={props.errorFields.indexOf('barcode') === -1 ? `color-373737 font-size-14 ${classes.codInput}` : `color-373737 font-size-14 ${classes.codInput} ${classes.errorFields}`}
+                            classNameLabel={classes.codLabel}
+                            classNameInput={props.errorFields.indexOf('barcode') === -1 ? classes.codInput : `${classes.codInput} ${classes.errorFields}`}
                             name={'barcode'}
                             value={props.code.barcode}
                             // Methods
@@ -99,7 +99,7 @@ const CodeGeneration = props => {
                     <div className={classes.dropWindow}>
                         <CustomDropDown
                             open={props.open}
-                                className={`background-024059 color-fff font-size-12 ${classes.buttonRoot}`}
+                                className={classes.buttonRoot}
                             label={
                                 <>
                                 <span className={classes.buttonRootName}>
@@ -107,7 +107,7 @@ const CodeGeneration = props => {
                                         checkCodeType(props.code, props.codeTypes) || 'Գեներացնել'
                                     }
                                 </span>
-                                    <Icons type={'bottom-angle'} className={`fill-fff stroke-fff{classes.buttonRootIcon}`}/>
+                                    <Icons type={'bottom-angle'} className={classes.buttonRootIcon}/>
                                 </>
                             }
                             // Methods

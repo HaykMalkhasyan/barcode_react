@@ -87,7 +87,7 @@ class EmployeesTab extends Component {
                             <div className={classes.suppliersContent}>
                                 {
                                     this.props.progress ?
-                                        <LinearSpinner progres={`background-transparent ${classes.progress}`} barColorPrimary={classes.progresBgColor}/>
+                                        <LinearSpinner progres={classes.progress} barColorPrimary={classes.progresBgColor}/>
                                         :
                                         null
                                 }

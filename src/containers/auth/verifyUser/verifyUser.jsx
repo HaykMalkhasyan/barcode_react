@@ -51,11 +51,11 @@ class VerifyUser extends Component {
 
     render() {
         return (
-            <div className={`background-5b86e5-36dadc ${cls.main}`} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
+            <div className={cls.main} style={{background: `url(${process.env.PUBLIC_URL}/images/pic.jpg) no-repeat center`}}>
                 <div className={cls.backdrop}>
-                    <div className={`background-fff ${cls.mainWindow}`}>
-                        <span className={`color-1B5985 font-size-34 ${cls.name}`}>Barcode.am</span>
-                        <span className={`color-444 font-size-21 ${cls.action}`}>
+                    <div className={cls.mainWindow}>
+                        <span className={cls.name}>Barcode.am</span>
+                        <span className={cls.action}>
                             {getLanguage(this.props.activeLanguage, 'user_check')}
                         </span>
                         <div className={cls.statusView}>

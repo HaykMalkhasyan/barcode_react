@@ -9,8 +9,8 @@
 }
 
 .information {
-    /*color: #888888;*/
-    /*font-size: 12px;*/
+    color: #888888;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: .6pt;
 }
@@ -32,7 +32,7 @@
 
 .progress {
     height: 1px;
-    /*background-color: transparent;*/
+    background-color: transparent;
 }
 
 .progresBgColor {

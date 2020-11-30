@@ -14,23 +14,23 @@ const Menu = props => {
         switch (staticName) {
             case 'products':
                 return (
-                    <Icons type={'product'} className={`fill-171717 ${classes.icons}`}/>
+                    <Icons type={'product'} className={classes.icons}/>
                 );
             case 'documents':
                 return (
-                    <Icons type={'document'} className={`fill-171717 ${classes.icons}`}/>
+                    <Icons type={'document'} className={classes.icons}/>
                 );
             case 'sales':
                 return (
-                    <Icons type={'sell'} className={`fill-171717 ${classes.icons}`}/>
+                    <Icons type={'sell'} className={classes.icons}/>
                 );
             case 'suppliers':
                 return (
-                    <Icons type={'suppliers'} className={`fill-171717 ${classes.icons}`}/>
+                    <Icons type={'suppliers'} className={classes.icons}/>
                 );
             case 'workers':
                 return (
-                    <Icons type={'workers'} className={`fill-171717 ${classes.icons}`}/>
+                    <Icons type={'workers'} className={classes.icons}/>
                 );
             case 'sale':
                 return (
@@ -57,13 +57,12 @@ const Menu = props => {
                         key={menu.id}
                         className={
                             `
-                            color-8b8b8b
                             ${
                                 props.location.pathname.split('/')[1] === menu.staticName ?
                                     props.submenu === menu.id ?
-                                        `${classes.menuList} ${classes.menuListActive} ${classes.showArrow} color-ff8927 fill-ff8927 background-fff`
+                                        `${classes.menuList} ${classes.menuListActive} ${classes.showArrow}`
                                         :
-                                        `${classes.menuList} ${classes.menuListActive} color-ff8927 fill-ff8927 background-fff`
+                                        `${classes.menuList} ${classes.menuListActive}`
                                     :
                                     (activeMenu && activeMenu.id === menu.id) ?
                                         props.submenu === menu.id ?
@@ -83,8 +82,14 @@ const Menu = props => {
                             }
                         </div>
                         <div
-                            className={props.minimize ? `${classes.hiddenElem} ${classes.textElem}` : classes.textElem}>
-                            <span className="font-size-8">{getLanguage('am',menu.staticName)}</span>
+                            className={
+                                props.minimize ?
+                                    `${classes.hiddenElem} ${classes.textElem}`
+                                    :
+                                    classes.textElem
+                            }
+                        >
+                            <span>{getLanguage('am',menu.staticName)}</span>
                         </div>
                     </div>
                 )
@@ -93,7 +98,7 @@ const Menu = props => {
     };
 
     return (
-        <div className={`${classes.menu} background-fff`}>
+        <div className={classes.menu}>
             <div>
                 {
                     props.menus ?

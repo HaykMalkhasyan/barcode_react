@@ -5,7 +5,7 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT,
+    ONLY_ADD_PRODUCT, SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
@@ -173,6 +173,7 @@ export function setProduct(gallery, type) {
         // const description = {...getState().products.description};
         // const pictures = {...getState().products.pictures};
         const errorFields = [...getState().products.errorFields];
+        const tabErrors = [...getState().products.tabErrors];
         const open = getState().products.open;
         const init_classifiers = {...getState().products.classifiers};
         const classifiers = {};
@@ -202,9 +203,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("barcode") !== -1) {
                 errorFields.splice(errorFields.indexOf("barcode"), 1)
             }
+            if (tabErrors.indexOf("codes") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("codes"), 1)
+            }
         } else {
             if (errorFields.indexOf("barcode") === -1) {
                 errorFields.push("barcode")
+            }
+            if (tabErrors.indexOf("codes") === -1) {
+                tabErrors.push("codes")
             }
         }
 
@@ -232,9 +239,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("classifiers") !== -1) {
                 errorFields.splice(errorFields.indexOf("classifiers"), 1)
             }
+            if (tabErrors.indexOf("classifiers") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("classifiers"), 1)
+            }
         } else {
             if (errorFields.indexOf("classifiers") === -1) {
                 errorFields.push("classifiers")
+            }
+            if (tabErrors.indexOf("classifiers") === -1) {
+                tabErrors.push("classifiers")
             }
         }
 
@@ -250,9 +263,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("item_name") !== -1) {
                 errorFields.splice(errorFields.indexOf("item_name"), 1)
             }
+            if (tabErrors.indexOf("main") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            }
         } else {
             if (errorFields.indexOf("item_name") === -1) {
                 errorFields.push("item_name")
+            }
+            if (tabErrors.indexOf("main") === -1) {
+                tabErrors.push("main")
             }
         }
         // Short name, don't used
@@ -272,9 +291,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("product_type") !== -1) {
                 errorFields.splice(errorFields.indexOf("product_type"), 1)
             }
+            if (tabErrors.indexOf("main") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            }
         } else {
             if (errorFields.indexOf("product_type") === -1) {
                 errorFields.push("product_type")
+            }
+            if (tabErrors.indexOf("main") === -1) {
+                tabErrors.push("main")
             }
         }
 
@@ -290,12 +315,18 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("unit_id") !== -1) {
                 errorFields.splice(errorFields.indexOf("unit_id"), 1)
             }
+            if (tabErrors.indexOf("main") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            }
         } else {
             if (errorFields.indexOf("unit_id") === -1) {
                 errorFields.push("unit_id")
             }
+            if (tabErrors.indexOf("main") === -1) {
+                tabErrors.push("main")
+            }
         }
-        dispatch(setProductValues('errorFields', errorFields));
+        dispatch(setAddingProductErrors(tabErrors, errorFields));
         if (errorFields.length === 0) {
             if (gallery.length > 0) {
                 dispatch(uploadImages(gallery, data, type))
@@ -307,6 +338,13 @@ export function setProduct(gallery, type) {
                 }
             }
         }
+    }
+}
+
+export function setAddingProductErrors(tabErrors, errorFields) {
+
+    return {
+        type : SET_PRODUCT_ERRORS, tabErrors, errorFields
     }
 }
 

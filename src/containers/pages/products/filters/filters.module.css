@@ -5,6 +5,11 @@
     width: 100%;
     height: 2px;
     z-index: 200;
+    background-color: transparent;
+}
+
+.progresColor {
+    background-color: #ff8927;
 }
 
 .filters {
@@ -112,6 +117,9 @@
 /****************************************************************************************/
 
 .classifiersWindow .controllers {
+    background-color: #fff;
+    color: #024059;
+    font-size: 13px;
     height: 45px;
     text-align: center;
     font-weight: 600;
@@ -146,6 +154,7 @@
 }
 
 .nextSlideBtn {
+    background-color: transparent;
     outline: none !important;
     position: absolute;
     right: 0;
@@ -178,6 +187,7 @@
 }
 
 .prevSlideBtn {
+    background-color: transparent;
     outline: none;
     position: absolute;
     left: 0;
@@ -301,7 +311,7 @@
 }
 
 .modal {
-    /*background-color: #F9F9FF;*/
+    background-color: #F9F9FF;
     width: 600px;
     overflow: hidden;
     border-radius: 5px;
@@ -330,7 +340,7 @@
 }
 
 .modalGroup {
-    /*background-color: #fff;*/
+    background-color: #fff;
     overflow: hidden;
     border-radius: 5px;
     width: 600px;
@@ -406,12 +416,12 @@
     text-transform: capitalize;
     height: 42px;
     width: 170px;
-    /*background-color: #fff;*/
+    background-color: #fff;
     border: none;
     box-shadow: 0 0 6px rgba(2, 64, 89, 0.15);
     border-radius: 6px;
-    /*font-size: 15px;*/
-    /*color: #024059;*/
+    font-size: 15px;
+    color: #024059;
     transition: 100ms;
     display: flex;
     align-items: center;
@@ -438,13 +448,13 @@
     text-transform: capitalize;
     height: 42px;
     width: 170px;
-    /*background-color: #024059;*/
+    background-color: #024059;
     border: none;
     box-shadow: 0 0 6px rgba(2, 64, 89, 0.15);
     border-radius: 6px;
     margin-left: 23px;
-    /*font-size: 15px;*/
-    /*color: #fff;*/
+    font-size: 15px;
+    color: #fff;
     transition: 100ms;
     display: flex;
     align-items: center;

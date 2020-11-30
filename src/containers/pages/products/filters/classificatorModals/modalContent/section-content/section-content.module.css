@@ -2,11 +2,11 @@
     padding: 0;
     width: 100%;
     box-sizing: border-box;
-    /*background-color: #fff;*/
+    background-color: #fff;
 }
 
 .section > div.content {
-    /*background-color: #fff;*/
+    background-color: #fff;
     overflow: hidden;
     padding: 30px 10px 3px;
     box-sizing: border-box;
@@ -19,7 +19,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*padding: 15px 17px;*/
+    padding: 15px 17px;
     box-sizing: border-box;
     transition: 300ms;
 }
