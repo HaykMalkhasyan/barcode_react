@@ -1,28 +1,33 @@
 import React, { useEffect } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 const options = [
-  {name:"Arial", value:"Arial, Helvetica, sans-serif"}, 
-  {name:"Comic Sans MS", value:'"Comic Sans MS", cursive, sans-serif'}, 
-  {name:"Impact", value:"Impact, Charcoal, sans-serif"}, 
-  {name:"Lucida Sans Unicode", value:'"Lucida Sans Unicode", "Lucida Grande", sans-serif'}, 
-  {name:"Tahoma", value:"Tahoma, Geneva, sans-serif"}, 
-  ];
+  "sans-serif",   
+  "Arial", 
+  "Comic Sans MS", 
+  "Impact", 
+  "Lucida Sans Unicode", 
+  "Tahoma",
+  'Segoe UI',
+];
 
 export default function ControllableStates(props) {
-  const [value, setValue] = React.useState(options[0]);
+  const [value, setValue] = React.useState(options[2]);
+
 
   useEffect(()=>{
     setValue(props.fontFamily)
+    console.log('props.fontFamily', props.fontFamily)
   },[props.fontFamily])
 
   const handleChange = (event) => {
-        props.setReadFromParent(false)
         setValue(event.target.value);
         props.setFontFamily(event.target.value)
+        props.handleChangeStyle(undefined, undefined, undefined, undefined, undefined, event.target.value)
   };
 
   return (
@@ -36,7 +41,7 @@ export default function ControllableStates(props) {
           onChange={handleChange}
           label="Font Style"
         >
-            {options.map(item=><MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)}
+            {options.map(item=><MenuItem key={item} style={{fontFamily:item}} value={item}>{item}</MenuItem>)}
         </Select>
       </FormControl>
   );

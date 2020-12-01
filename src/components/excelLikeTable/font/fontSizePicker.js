@@ -15,9 +15,9 @@ export default function ControllableStates(props) {
   },[props.fontSize])
 
   const handleChange = (event) => {
-        props.setReadFromParent(false)
         setValue(event.target.value);
         props.setFontSize(event.target.value)
+        props.handleChangeStyle(undefined, undefined, undefined, undefined, event.target.value, undefined)
   };
 
   return (

@@ -68,6 +68,7 @@ export default function AlertDialog(props) {
   const {open, setOpen } = props
   const classes = useStyles();
   const [checkeds, setCheckeds] = React.useState({});
+  const [exportStatus, setExportStatus] = useState({bool:false, type:null})
 
   const handleChange = (event) => {
     setCheckeds({ ...checkeds, [event.target.name]: event.target.checked });
@@ -85,7 +86,6 @@ export default function AlertDialog(props) {
   const [rowData, setRowData] = useState([]);
   const [gridApi, setGridApi] = useState(null)
   const [columnApi, setColumnApi] = useState(null)
-  const [exportStatus, setExportStatus] = useState({ bool: false, type: "" });
 
   let columnDefinition=[
     {
@@ -106,14 +106,17 @@ export default function AlertDialog(props) {
 
 
   const handleConfirm = () => {
-      console.log('checkeds', checkeds)
-      console.log('columns', columns)
-      let columnsToHide = columns.filter(item=>!checkeds[item.colDef.field] )
-      console.log('columnsToHide', columnsToHide)
-      setOpen(false)
-      columnApi.setColumnsVisible(columnsToHide, false)
-          props.setExportStatus && props.setExportStatus({bool:true, type:"print"});
-          console.log('printing')
+    setExportStatus({
+      bool:true, type:"print"
+    })
+      // console.log('checkeds', checkeds)
+      // console.log('columns', columns)
+      // let columnsToHide = columns.filter(item=>!checkeds[item.colDef.field] )
+      // console.log('columnsToHide', columnsToHide)
+      // setOpen(false)
+      // columnApi.setColumnsVisible(columnsToHide, false)
+      //     props.setExportStatus && props.setExportStatus({bool:true, type:"print"});
+      //     console.log('printing')
       return
   }
 
@@ -229,7 +232,15 @@ export default function AlertDialog(props) {
         </DialogTitle>
         <DialogContent>
       <div>
-        <ExcelLikeTable height={"68.5vh"} mode={null} rowData={rowData} pagination={"true"} />
+        <ExcelLikeTable 
+        exportStatus={exportStatus}
+        setExportStatus={setExportStatus}
+          height={"68.5vh"} 
+          mode={null} 
+          rowData={rowData} 
+          pagination={"true"} 
+          id={props.id}
+        />
       {/* { !!rowData && !!rowData.length && <Table
             width="602px"
             height={450}
