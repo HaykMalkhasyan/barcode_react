@@ -9,7 +9,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
-
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 import { SketchPicker } from 'react-color'
 
@@ -24,11 +24,26 @@ export default function PopoverPopupState(props) {
   setState({ color: props.color ? props.color : undefined })
  },[props.color])
 
+ useEffect(()=>{
+  if(props.type==="border" && !props.color){
+    props.setColor("#000000")
+    setState({color:"#000000"})
+  }
+ },[props.type])
+
+
 
     const handleChange = (color) => {
-        props.setReadFromParent(false)
-        setState({ color: color.hex })
-        props.setColor && props.setColor(color.hex)
+      if(props.type==="border"){
+          props.handleBorderColor(null, color.hex)
+          return
+      }
+      setState({ color: color.hex })
+      props.setColor && props.setColor(color.hex)
+      if(props.type!=="border"){
+          let args = props.type==="font" ? [undefined, undefined, undefined, color.hex , undefined, undefined] : [undefined, undefined, color.hex, undefined, undefined, undefined]
+          props.handleChangeStyle(...args)
+        }
     };
 
   return (
@@ -36,8 +51,8 @@ export default function PopoverPopupState(props) {
       {(popupState) => (
         <div>
              <ToggleButton {...bindTrigger(popupState)} style={{backgroundColor: state.color && state.color.includes("#fffff") ? "#9B9B9B" : "inherit"}} value="color" aria-label="color" >
-            {props.type === "font" ? <FormatColorTextIcon htmlColor={state.color} /> : <FormatColorFillIcon htmlColor={state.color} />}
-            <ArrowDropDownIcon htmlColor={state.color} />
+            {props.type === "font" ? <FormatColorTextIcon htmlColor={state.color} /> : props.type==="border" ? <BorderColorIcon htmlColor={state.color} /> : <FormatColorFillIcon htmlColor={state.color} />}
+            <ArrowDropDownIcon htmlColor={state.color} style={popupState.isOpen ? {transform: "rotate(180deg)"} : {}} />
           </ToggleButton>
           
           <Popover

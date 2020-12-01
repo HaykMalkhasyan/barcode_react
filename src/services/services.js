@@ -114,7 +114,7 @@ export function sub(x, y){
 
 
 
-export const getFullDate = (milliseconds, addMonth=true) => {
+export const getFullDate = (milliseconds, addMonth=true, withTime=true) => {
     let strDate = new Date(Date.now())
     if(milliseconds){
         strDate = new Date(milliseconds)
@@ -129,8 +129,11 @@ export const getFullDate = (milliseconds, addMonth=true) => {
     hour = hour < 10 ? "0" + hour : hour
     minutes = minutes < 10 ? "0" + minutes : minutes
     seconds = seconds < 10 ? "0" + seconds : seconds
-
-    return `${year}-${month+addMonth}-${day} ${hour}:${minutes}:${seconds}`
+    if(withTime){
+        return `${year}-${month+addMonth}-${day} ${hour}:${minutes}:${seconds}`
+    }else{
+        return `${year}-${month+addMonth}-${day}`
+    }
 }
 
 export function findItem(data, itemId) {
