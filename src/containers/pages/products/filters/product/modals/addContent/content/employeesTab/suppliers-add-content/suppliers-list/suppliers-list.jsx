@@ -7,9 +7,19 @@ import DoneIcon from '@material-ui/icons/Done';
 
 const SuppliersList = props => {
 
+    const hasHaveItem = (array, item) => {
+
+        for (let itemArray of array) {
+            if (itemArray.id === item.id) {
+                return true
+            }
+        }
+        return false
+    }
+
     const listContentRender = item => {
         if (item.name.search(props.search) !== -1) {
-            if (props.selected && props.selected.length && props.selected.indexOf(item) !== -1) {
+            if (props.selected && props.selected.length && hasHaveItem(props.selected, item)) {
                 return (
                     <ListItem
                         key={`supplier-${item.id}`}

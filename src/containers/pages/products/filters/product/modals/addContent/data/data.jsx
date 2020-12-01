@@ -58,7 +58,7 @@ const Data = props => {
                     id={'long-name'}
                     label={'Անվանում'}
                     name={'item_name'}
-                    value={props.data.name}
+                    value={props.data['item_name']}
                     helperText={props.errorFields.indexOf('item_name') === -1 ? '' : '"Անվանում" դաշտը լրացրած չէ'}
                     // Methods
                     onChange={changeHandler}

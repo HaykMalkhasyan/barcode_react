@@ -67,6 +67,8 @@
 }
 
 .roadContent {
+    font-size: 12px;
+    color: #666;
     margin-right: 5px;
     display: flex;
     align-items: flex-start;
