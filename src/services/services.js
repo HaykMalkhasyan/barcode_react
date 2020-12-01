@@ -286,11 +286,13 @@ export class deleteInArray {
 }
 
 export function createRoad(data, road) {
-
-    if (data.parent.id === null) {
-        return road ? `/ ${data.name} / ${road}` : `/ ${data.name}`;
+    if (data && data.parent) {
+        if (data.parent.id === null) {
+            return road ? `/ ${data.name} / ${road}` : `/ ${data.name}`;
+        }
+        return road ?`${createRoad(data.parent, `${data.name} `)} / ${road}` : createRoad(data.parent, `${data.name} `)
     }
-    return road ?`${createRoad(data.parent, `${data.name} `)} / ${road}` : createRoad(data.parent, `${data.name} `)
+    return data[`name_${cookie.get("language") || "am"}`]
 }
 
 export class Barcode {

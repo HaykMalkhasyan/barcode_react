@@ -13,14 +13,20 @@ const FooterContent = props => {
                 onClick={props.cencel}
             />
             <div>
-                <IconButtonUI
-                    size={"medium"}
-                    className={classes.iconButton}
-                    title={"Ջնջել դասակարգիչը"}
-                    icon={<Icons opacity={1} type={"group-delete"} className={classes.removeButtonIcon}/>}
-                    // Methods
-                    onClick={event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.group.id})}
-                />
+                {console.log(props.treeType)}
+                {
+                    !props.own_status ?
+                        <IconButtonUI
+                            size={"medium"}
+                            className={classes.iconButton}
+                            title={"Ջնջել դասակարգիչը"}
+                            icon={<Icons opacity={1} type={"group-delete"} className={classes.removeButtonIcon}/>}
+                            // Methods
+                            onClick={event => props.deleteHandler(event, 'group', {path: "Group/Group", id: props.group.id})}
+                        />
+                        :
+                        null
+                }
                 <ConfirmButton
                     // Methods
                     onClick={

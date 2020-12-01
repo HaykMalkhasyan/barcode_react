@@ -173,10 +173,6 @@ export default function productsReducer(state = initialState, action) {
                 ...state,
                 classifiers: action.classifiers
             }
-        case SET_DELETE_BARCODE:
-            return {
-                ...state, [action.name]: action.products_barcode
-            };
         case SET_PRODUCTS_BARCODE_VALUE:
             return {
                 ...state, [action.name]: action.value
@@ -239,11 +235,9 @@ export default function productsReducer(state = initialState, action) {
                 ...state,
                 product: action.data,
                 main: action.main,
-                description: action.description,
-                pictures: action.pictures,
+                classifiers: action.classifiers,
                 open: 'edit',
                 productLoadingStatus: false,
-                images: action.images
             };
         case SET_PRODUCTS:
             return {

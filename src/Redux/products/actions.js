@@ -16,44 +16,45 @@ import {
 import Axios from "axios";
 import {getHeaders, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
+import {getActionById} from "../characteristics/actions";
+import {getSuppliers} from "../suppliers/action";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 export function getProduct(id) {
 
     return async (dispatch, getState) => {
-        const main = {...getState().products.main};
-        // const classifiers = {...getState().products.classifiers};
-        const description = {...getState().products.description};
-        // const workers = {...getState().products.workers};
-        const pictures = {...getState().products.pictures};
-        const images = [...getState().products.images];
-        if (cookie.get('access')) {
-            try {
-                const response = await Axios.get(`${API_URL}/product/${id}`, {
-                    headers: {
-                        "lang": "am",
-                        "Content-Type": "application/json",
-                        "Authorization": `JWT ${cookie.get('access')}`
-                    }
-                });
-                const data = response.data;
-                main.name = data.name;
-                main.short_name = data.short_name;
-                main.product_type = data.product_type;
-                main.unit_id = data['unit_id'];
-                main.active = data.active;
-                main.can_in = data.can_in;
-                main.can_sale = data.can_sale;
-                description['description'] = data['description'];
-                data['pictures'].forEach(
-                    image => {
-                        images.push(image['image'])
-                    }
-                );
-                pictures['pictures'] = data['pictures'];
 
-                dispatch(setProductModalValues(data, main, description, pictures, images))
+        if (cookie.get('access')) {
+            const main = {...getState().products.main}
+            const classifiers = {...getState().products.classifiers}
+            try {
+                const response = await Axios.get(API_URL, getHeaders({}, {path: "Products/Product", param: {id: id}}));
+                const data = response.data.data[0];
+                await dispatch(getActionById("get", null, {path: "Group/SubGroup", id: 0, param: {get_id: data.catedory_id}}, data.catedory_id))
+                await dispatch(getSuppliers())
+                console.log("RESPONSE: ", response.data.data[0])
+                main.item_name = data.item_name;
+                main.product_type = data.service;
+                main.unit_id = data.unit;
+                main.active = data.active;
+                const subgroup = {...getState().characteristics.subgroup}
+                classifiers[0] = {...subgroup}
+                const suppliers = [...getState().suppliers.suppliers];
+                const firms = data.firms.split(",");
+                const selected = [];
+                for (let item of suppliers) {
+                    if (firms.indexOf(item.id.toString()) !== -1) {
+                        selected.push(item)
+                    }
+                }
+                // data['pictures'].forEach(
+                //     image => {
+                //         images.push(image['image'])
+                //     }
+                // );
+
+                dispatch(setProductModalValues(data, main, classifiers, selected))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -569,11 +570,11 @@ export function setSelectGroupItem(open) {
     }
 }
 
-export function setProductModalValues(data, main, description, pictures, images) {
+export function setProductModalValues(data, main, classifiers, selected) {
 
     return {
         type: SET_PRODUCT_MODAL_VALUES,
-        data, main, description, pictures, images
+        data, main, classifiers, selected
     }
 }
 

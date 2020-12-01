@@ -6,6 +6,8 @@ import { PaginationItem } from '@material-ui/core';
 import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
 import Icons from "../../../../../../../components/Icons/icons";
 import Header from "../../header/header";
+import {AgGridReact} from "ag-grid-react";
+import ProductTable from "../../../../../../../components/table/product-table/product-table";
 
 const RightPanel = props => {
 
@@ -32,76 +34,99 @@ const RightPanel = props => {
                 toggleBackdrop={props.toggleBackdrop}
                 backFiltersPage={props.backFiltersPage}
             />
-            {
-                props.products && props.products.length ?
-                    <>
-                        <ResizableDragTable
-                            activeTabs={props.activeTabs}
-                            tabs={props.tabs}
-                            products={props.products}
-                            types={props.types}
-                            selected_products={props.selected_products}
-                            in_data_1={props.types}
-                            in_data_2={props.measurements}
-                            // Methods
-                            selectData={props.selectProducts}
-                            setValues={props.setProductValues}
-                            getData={props.getProduct}
-                            sortTableTabs={props.sortTableTabs}
-                        />
-                        {
-                            props.count ?
-                                props.count > 20 ?
-                                    <p className={classes.showCount}>
-                                        Ցուցադրված է {props.products.length}-ը {props.count} տողից
-                                    </p>
-                                    :
-                                    <p className={classes.showCount}>
-                                        Ցուցադրված է {props.count}-ը {props.count} տողից
-                                    </p>
-                                :
-                                null
-                        }
-                        <div className={classes.paginationWindow}>
-                            {
-                                props.count ?
-                                    <Pagination
-                                        count={Math.ceil(props.count / 20)}
-                                        hidePrevButton
-                                        hideNextButton
-                                        renderItem={
-                                            item => <PaginationItem
-                                                classes={{selected: classes.colorSecondary}}  {...item}/>
-                                        }
-                                        onChange={changeHandler}
-                                    />
-                                    :
-                                    null
+            {/*{*/}
+            {/*    props.products && props.products.length ?*/}
+            {/*        <>*/}
+            {/*            */}
+            {/*            <ResizableDragTable*/}
+            {/*                activeTabs={props.activeTabs}*/}
+            {/*                tabs={props.tabs}*/}
+            {/*                products={props.products}*/}
+            {/*                types={props.types}*/}
+            {/*                selected_products={props.selected_products}*/}
+            {/*                in_data_1={props.types}*/}
+            {/*                in_data_2={props.measurements}*/}
+            {/*                // Methods*/}
+            {/*                selectData={props.selectProducts}*/}
+            {/*                setValues={props.setProductValues}*/}
+            {/*                getData={props.getProduct}*/}
+            {/*                sortTableTabs={props.sortTableTabs}*/}
+            {/*            />*/}
+            {/*            {*/}
+            {/*                props.count ?*/}
+            {/*                    props.count > 20 ?*/}
+            {/*                        <p className={classes.showCount}>*/}
+            {/*                            Ցուցադրված է {props.products.length}-ը {props.count} տողից*/}
+            {/*                        </p>*/}
+            {/*                        :*/}
+            {/*                        <p className={classes.showCount}>*/}
+            {/*                            Ցուցադրված է {props.count}-ը {props.count} տողից*/}
+            {/*                        </p>*/}
+            {/*                    :*/}
+            {/*                    null*/}
+            {/*            }*/}
+            {/*            <div className={classes.paginationWindow}>*/}
+            {/*                {*/}
+            {/*                    props.count ?*/}
+            {/*                        <Pagination*/}
+            {/*                            count={Math.ceil(props.count / 20)}*/}
+            {/*                            hidePrevButton*/}
+            {/*                            hideNextButton*/}
+            {/*                            renderItem={*/}
+            {/*                                item => <PaginationItem*/}
+            {/*                                    classes={{selected: classes.colorSecondary}}  {...item}/>*/}
+            {/*                            }*/}
+            {/*                            onChange={changeHandler}*/}
+            {/*                        />*/}
+            {/*                        :*/}
+            {/*                        null*/}
+            {/*                }*/}
+            {/*            </div>*/}
+            {/*        </>*/}
+            {/*        :*/}
+            {/*        <div className={classes.emptyWindow}>*/}
+            {/*            <div>*/}
+            {/*                <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}*/}
+            {/*                     alt={'product-empty'}/>*/}
+            {/*                <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>*/}
+            {/*                <CustomButton*/}
+            {/*                    className={classes.addProductButton}*/}
+            {/*                    children={*/}
+            {/*                        <>*/}
+            {/*                            <Icons type={'plus'} className={classes.addBtnIcon}/>*/}
+            {/*                            <span>Ավելացնել</span>*/}
+            {/*                        </>*/}
+            {/*                    }*/}
+            {/*                    // Methods*/}
+            {/*                    onClick={*/}
+            {/*                        () => toggleAddModalHandler('open', 'add', 'body')*/}
+            {/*                    }*/}
+            {/*                />*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*}*/}
+            <ProductTable
+                tabs={props.tabs}
+                data={props.products}
+                rowSelection="single"
+            />
+            <div className={classes.paginationWindow}>
+                {
+                    props.count ?
+                        <Pagination
+                            count={Math.ceil(props.count / 20)}
+                            // hidePrevButton
+                            // hideNextButton
+                            renderItem={
+                                item => <PaginationItem
+                                    classes={{selected: classes.colorSecondary}}  {...item}/>
                             }
-                        </div>
-                    </>
-                    :
-                    <div className={classes.emptyWindow}>
-                        <div>
-                            <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}
-                                 alt={'product-empty'}/>
-                            <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>
-                            <CustomButton
-                                className={classes.addProductButton}
-                                children={
-                                    <>
-                                        <Icons type={'plus'} className={classes.addBtnIcon}/>
-                                        <span>Ավելացնել</span>
-                                    </>
-                                }
-                                // Methods
-                                onClick={
-                                    () => toggleAddModalHandler('open', 'add', 'body')
-                                }
-                            />
-                        </div>
-                    </div>
-            }
+                            onChange={changeHandler}
+                        />
+                        :
+                        null
+                }
+            </div>
         </div>
     )
 };
