@@ -1000,7 +1000,8 @@
   .ag-theme-alpine .ag-cell-range-selected-1:not(.ag-cell-focus),
   .ag-theme-alpine .ag-body-viewport:not(.ag-has-focus) .ag-cell-range-selected-1:not(.ag-cell-inline-editing) {
     background-color: #d1e8fb;
-    background-color:  #d1e8fb}
+/* background-color: var(--ag-range-selection-background-color-1, var(--ag-range-selection-background-color, rgba(33, 150, 243, 0.2)));  */
+}
   .ag-theme-alpine .ag-cell-range-selected-2:not(.ag-cell-focus),
   .ag-theme-alpine .ag-body-viewport:not(.ag-has-focus) .ag-cell-range-selected-2 {
     background-color: rgba(33, 150, 243, 0.36);
@@ -2314,3 +2315,17 @@
     background-color: #2196f3;
     background-color: var(--ag-alpine-active-color, #2196f3); }
 
+    /* @media print {
+      @page { size: A4; }
+    } */
+    /* @page {
+      size: auto;
+      margin: 20mm;
+    }
+    @media print {
+      html, body {
+        height: initial !important;
+        overflow: initial !important;
+        -webkit-print-color-adjust: exact;
+      }
+    } */

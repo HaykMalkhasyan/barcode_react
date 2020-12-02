@@ -24,6 +24,7 @@ import "./report.css"
 import ExcelLikeTable from "../../../../../components/excelLikeTable/excelLikeTable"
 import { IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +87,7 @@ export default function AlertDialog(props) {
   const [rowData, setRowData] = useState([]);
   const [gridApi, setGridApi] = useState(null)
   const [columnApi, setColumnApi] = useState(null)
+  const [pending, setPending] = useState(false)
 
   let columnDefinition=[
     {
@@ -106,6 +108,7 @@ export default function AlertDialog(props) {
 
 
   const handleConfirm = () => {
+    setPending(true)
     setExportStatus({
       bool:true, type:"print"
     })
@@ -233,8 +236,9 @@ export default function AlertDialog(props) {
         <DialogContent>
       <div>
         <ExcelLikeTable 
-        exportStatus={exportStatus}
-        setExportStatus={setExportStatus}
+        setPending={setPending}
+          exportStatus={exportStatus}
+          setExportStatus={setExportStatus}
           height={"68.5vh"} 
           mode={null} 
           rowData={rowData} 
@@ -312,14 +316,27 @@ export default function AlertDialog(props) {
     </div> */}
         </DialogContent>
         <DialogActions>
-          <Button
-            color="primary"
-            variant="contained"
-            style={{backgroundColor:"#95b75d", color:"#fff"}}
-            onClick={handleConfirm}
+          <LoadingButton
+                pending={pending}
+                pendingPosition="center"
+                disabled={pending}
+                // color="primary"
+                variant="contained"
+                style={{backgroundColor:"#95b75d", color:"#fff"}}
+                // color="primary"
+                // variant="outlined"
+                onClick={handleConfirm}
             >
-            Հաստատել
-          </Button>
+                {pending ? 
+                <span style={{width:"78px", height:"24px"}} >
+                  
+                </span>
+                 : 
+                <span style={{width:"78px", height:"24px"}} >
+                Հաստատել
+                </span>
+                }
+            </LoadingButton>
         </DialogActions>
       </Dialog>
     </div>
