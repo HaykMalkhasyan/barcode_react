@@ -1,6 +1,7 @@
 .flexContainer {
     display: flex;
     justify-content: space-around;
+    align-items: stretch;
 }
 
 @media (max-width: 600px) {

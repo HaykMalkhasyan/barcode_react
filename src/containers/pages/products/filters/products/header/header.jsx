@@ -4,6 +4,8 @@ import CustomButton from "../../../../../../components/UI/button/customButton/cu
 import Icons from "../../../../../../components/Icons/icons"
 import SpringPopper from "../../../../../../components/popperUI/popperUI"
 import CheckboxList from "../../../../../../components/listItemWithCheckbox/listItemWithCheckbox";
+import CallMergeIcon from '@material-ui/icons/CallMerge';
+import CallSplitIcon from '@material-ui/icons/CallSplit';
 
 const Header = props => {
 
@@ -27,6 +29,22 @@ const Header = props => {
                             <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Ավելացնել</span>
                         </>
                     }
+                />
+                <CustomButton
+                    className={props.filters ? `${classes.actionsButton} ${classes.active}` : classes.actionsButton}
+                    children={
+                        <>
+                            {
+                                props.filters ?
+                                    <CallSplitIcon className={classes.filters} fontSize="small"/>
+                                    :
+                                    <CallMergeIcon className={classes.filters} fontSize="small"/>
+                            }
+                            <span>Ֆիլտրեր</span>
+                        </>
+                    }
+                    // Events
+                    onClick={() => props.setFilters(!props.filters)}
                 />
                 <CustomButton
                     className={classes.actionsButton}
@@ -73,7 +91,6 @@ const Header = props => {
                     <CheckboxList
                         emptyStyle={classes.emptyStyle}
                         empty={'դատարկ է'}
-                        data={props.tabs}
                         activeTabs={props.activeTabs}
                         products={props.products}
                         colorSecondary={classes.colorSecondary}

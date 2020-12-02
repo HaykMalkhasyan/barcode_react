@@ -46,6 +46,14 @@
     display: block;
 }
 
+.active {
+    background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.filters {
+    color: #0da3e0;
+}
+
 .rectangleAddIcon {
     fill: #3ec300;
 }

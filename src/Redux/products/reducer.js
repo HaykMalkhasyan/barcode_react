@@ -233,10 +233,10 @@ export default function productsReducer(state = initialState, action) {
         case SET_PRODUCT_MODAL_VALUES:
             return {
                 ...state,
+                open: 'edit',
                 product: action.data,
                 main: action.main,
                 classifiers: action.classifiers,
-                open: 'edit',
                 productLoadingStatus: false,
             };
         case SET_PRODUCTS:
