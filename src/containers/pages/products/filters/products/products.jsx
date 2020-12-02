@@ -8,6 +8,7 @@ import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/li
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import CustomButton from "../../../../../components/UI/button/customButton/customButton";
 import TuneIcon from '@material-ui/icons/Tune';
+import {getSuppliers} from "../../../../../Redux/suppliers/action";
 
 class Products extends Component{
     constructor(props) {
@@ -17,6 +18,7 @@ class Products extends Component{
             filter_open: false
         };
         this.props.getAllProducts(1)
+        props.getSuppliers()
     }
 
     toggleBackdrop = anchor => {
@@ -25,14 +27,14 @@ class Products extends Component{
         })
     };
 
-    changeTabsHandler = (id) => {
+    changeTabsHandler = (item) => {
         const activeTabs = [...this.props.activeTabs];
 
-        if (id !== 1 && id !== 4) {
-            if (activeTabs.indexOf(id) === -1) {
-                activeTabs.push(id)
+        if (item !== "item_name" && item !== "id") {
+            if (activeTabs.indexOf(item) === -1) {
+                activeTabs.push(item)
             } else {
-                activeTabs.splice(activeTabs.indexOf(id), 1)
+                activeTabs.splice(activeTabs.indexOf(item), 1)
             }
             localStorage.setItem('activeTabs', JSON.stringify(activeTabs));
             this.props.setFiltersValue('activeTabs', activeTabs)
@@ -123,6 +125,7 @@ function mapDispatchToProps(dispatch) {
         getProduct: id => dispatch(getProduct(id)),
         sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
         backFiltersPage: () => dispatch(backFiltersPage()),
+        getSuppliers: () => dispatch(getSuppliers())
     }
 }
 

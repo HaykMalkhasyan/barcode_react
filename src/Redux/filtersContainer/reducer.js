@@ -4,7 +4,7 @@ const initialState = {
     type: 'filters',
     selectedIndex: 0,
     toggleClassifier: false,
-    activeTabs: JSON.parse(localStorage.getItem('activeTabs')) || [1, 2, 3, 4, 5, 6, 7, 8],
+    activeTabs: JSON.parse(localStorage.getItem('activeTabs')) || [],
     tabs: JSON.parse(localStorage.getItem('table_place')) || [
         {id: 1, key_name: 'id', type: 'checkbox', name: 'Նշատուփը', required: true},
         {id: 3, key_name: 'sku', type: 'string', name: 'ապմ', required: false},

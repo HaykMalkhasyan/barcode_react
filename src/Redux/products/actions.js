@@ -26,21 +26,21 @@ export function getProduct(id) {
     return async (dispatch, getState) => {
 
         if (cookie.get('access')) {
+            dispatch(setProductValues("productLoadingStatus", true))
             const main = {...getState().products.main}
             const classifiers = {...getState().products.classifiers}
+            const suppliers = [...getState().suppliers.suppliers];
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Products/Product", param: {id: id}}));
                 const data = response.data.data[0];
                 await dispatch(getActionById("get", null, {path: "Group/SubGroup", id: 0, param: {get_id: data.catedory_id}}, data.catedory_id))
-                await dispatch(getSuppliers())
-                console.log("RESPONSE: ", response.data.data[0])
+                // console.log("RESPONSE: ", response.data.data[0])
                 main.item_name = data.item_name;
                 main.product_type = data.service;
                 main.unit_id = data.unit;
                 main.active = data.active;
                 const subgroup = {...getState().characteristics.subgroup}
                 classifiers[0] = {...subgroup}
-                const suppliers = [...getState().suppliers.suppliers];
                 const firms = data.firms.split(",");
                 const selected = [];
                 for (let item of suppliers) {
@@ -77,7 +77,18 @@ export function getAllProducts(page) {
     return async dispatch => {
         if (cookie.get('access')) {
             try {
-                const response = await Axios.get(API_URL, getHeaders({}, {limit: 20, page: page, path: "Products/Product"}));
+                const response = await Axios.get(
+                    API_URL,
+                    getHeaders(
+                        {},
+                        {
+                            limit: 20,
+                            page: page,
+                            path: "Products/Product",
+                            cols: "id, articul, item_name, image_path, item_type, unit, service, create_date, del_date, firms, active, deleted, sort"
+                        }
+                        )
+                );
                 console.log("PRODUCTS: ", response.data)
                 dispatch(setProducts(response.data.data, response.data.page_count))
             } catch (error) {

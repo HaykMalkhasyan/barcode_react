@@ -20,7 +20,7 @@ export default function suppliersReducer(state = initialState, action) {
             }
         case CLOSE_PRODUCT_MODAL:
             return {
-                ...state, suppliers: null, selected: []
+                ...state, selected: []
             }
         case SET_SELECTED:
             return {
