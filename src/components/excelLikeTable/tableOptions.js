@@ -388,19 +388,24 @@ export default function CustomizedDividers(props) {
         let columns = itemN.columns.map((x) => x.colDef.field);
         columns.forEach((col) => {
           Object.assign(selectedFormateds, {
-            [col]: getObjects(selecteds[col], startRowIndex, endRowIndex, {
-              ...align,
-              fontStyle: formatsC.includes("italic") ? "italic" : "normal",
-              fontWeight: formatsC.includes("bold") ? "bold" : "normal",
-              textDecoration: formatsC.includes("underlined")
-                ? "underline"
-                : "none",
-              backgroundColor: `${backgroundColorC} !important`,
-              color: `${colorC} !important`,
-              fontSize: fontSizeC,
-              fontFamily: fontFamilyC,
-              ...borderStyle,
-            }),
+            [col]: getObjects(selecteds[col], startRowIndex, endRowIndex, 
+              Object.assign({
+                border: "1px solid rgba(211, 211, 211, 0.3)",
+              },
+              {
+                ...align,
+                fontStyle: formatsC.includes("italic") ? "italic" : "normal",
+                fontWeight: formatsC.includes("bold") ? "bold" : "normal",
+                textDecoration: formatsC.includes("underlined")
+                  ? "underline"
+                  : "none",
+                backgroundColor: `${backgroundColorC} !important`,
+                color: `${colorC} !important`,
+                fontSize: fontSizeC,
+                fontFamily: fontFamilyC,
+                ...borderStyle,
+                zIndex:"1 !important"
+              })),
           });
         });
       });
@@ -418,7 +423,7 @@ export default function CustomizedDividers(props) {
 
   useEffect(() => {
     if (props.gridApi && Object.keys(selecteds).length ) {
-      console.log('selecteds', selecteds)
+      // console.log('selecteds', selecteds)
       let colDefs = props.gridApi.getColumnDefs();
       let selected = Object.assign({}, props.gridApi.getCellRanges());
       if (!selected[0]) {
@@ -427,10 +432,16 @@ export default function CustomizedDividers(props) {
       props.gridApi.setColumnDefs([]);
       colDefs.forEach((item) => {
         if (selecteds.hasOwnProperty(item.field)) {
+          let def = item.cellStyle
           item.cellStyle = function (params) {
             if (selecteds[item.field].hasOwnProperty(params.data["/"])) {
+              // console.log('return selecteds[item.field][params.data["/"]];', selecteds[item.field][params.data["/"]])
+              
               return selecteds[item.field][params.data["/"]];
             }
+            // else{
+            //   return {border: "1px solid rgba(211, 211, 211, 0.3)"}
+            // }
           };
         }
       });

@@ -17,6 +17,7 @@ import { getMissing, mult, add, div, getFullDate } from "../../services/services
 import TableOptins from "./tableOptions";
 import {defExpandedsF, selectedsF} from "./exampleForm/exampleForm"
 // import ClickableStatusBarComponent from './tableStatusBar';
+import printStyles from "./printStyle.module.css"
 
 const App = (props) => {
   const history = useHistory();
@@ -66,6 +67,28 @@ const App = (props) => {
   // },[rowData])
 
 
+  // useEffect(()=>{
+  //   let a=[]
+  //   for (let i=0; i<10000; i++){
+  //       a.push({
+  //           "#": i,
+  //           "ԱՊՄ": "000035",
+  //           'ԱՏԳ': "4015",
+  //           'Անվանում': "Ձեռնոց մեկանգամյա 100հ",
+  //           'Առքի գին': Math.floor(Math.random() * 100),
+  //           'Առքի գումար': Math.floor(Math.random() * 10000),
+  //           'Բարկոդ': "",
+  //           'Զեղչ': 0,
+  //           'Մատակարարի գին': Math.floor(Math.random() * 100),
+  //           'Մնացորդ': 0,
+  //           'Վաճ գին Վաճառքի գին': Math.floor(Math.random() * 100),
+  //           'Վաճ գումար Վաճառքի գին': Math.floor(Math.random() * 10000),
+  //           'Տոկոս Վաճառքի գին': "871%",
+  //           'Քանակ': Math.floor(Math.random() * 100),
+  //           })
+  //   }
+  //   localStorage.setItem("document_buy_1", JSON.stringify(a))
+  // },[])
 
 
   function getHeaderName(charcode, add = 0) {
@@ -156,14 +179,20 @@ const App = (props) => {
   }, [rowData]);
 
   const handlePrint = useReactToPrint({
+    onBeforeGetContent: ()=>{gridApi.clearRangeSelection(); gridApi.deselectAll(); gridApi.setDomLayout("print"); },
     content: () => tableRef.current,
+    pageStyle:`body { width:2086px }`,
+    // bodyClass:`${printStyles.body}`,
     onAfterPrint: () => {
-      columnApi.setColumnsVisible(columnApi.getAllColumns(), true);
+      // columnApi.setColumnsVisible(columnApi.getAllColumns(), true);
       props.setExportStatus({ bool: false });
+      gridApi.setDomLayout(null)
+      props.setPending(false)
       // tableAddRef.current[0].style.display="none"; tableAddRef.current[1].style.display="none";
     },
     // onBeforePrint:()=>{ console.log('tableAddRef', tableAddRef.current[0].style); tableAddRef.current[0].style.display="flex"; tableAddRef.current[1].style.display="flex";},
   });
+  
 
   function btnClickedHandler(props) {
     if (allFormulateds.map((item) => item["#"]).includes(+props.data["#"])) {
@@ -254,7 +283,7 @@ const App = (props) => {
           //   item === "Անվանում"
           //     ? 306
           //     : window.innerWidth / rowData[0].length,
-          width: 60,
+          width: props.rowData.length<100 ? 60 : 75,
           // filter:
           //   typeof rowData[0][item] === "number"
           //     ? "agNumberColumnFilter"
@@ -618,6 +647,7 @@ const App = (props) => {
         />
       </div>
       <div
+      ref={tableRef}
         className="ag-theme-alpine"
         style={{
           height: props.mode ? "unset" : props.height ? props.height : 500,
@@ -625,9 +655,10 @@ const App = (props) => {
           opacity: `${opacity}`,
           transitionDuration: "0.1s",
         }}
-        ref={tableRef}
+        
       >
         <AgGridReact
+        
           onCellEditingStopped={(params) => {
             console.log("params", params);
             console.log("functionalCells", functionalCells);
@@ -719,11 +750,16 @@ const App = (props) => {
             setTimeout(() => {
               setOpacity(1);
               let colDefs = params.api.getColumnDefs();
-
-              let headers = Object.keys(props.rowData[0])
+              
+              let headers;
+              if(props.rowData[0]){
+                headers = Object.keys(props.rowData[0])
+              }else{
+                headers = new Array(26).fill("")
+              }
               let len = headers.length;
               let header = String.fromCharCode(65+len-5) 
-              let heightLen = props.rowData.length + 21
+              let heightLen = props.rowData.length ? props.rowData.length + 21 : 51
 
               let selecteds = selectedsF(heightLen, header, len)
 
