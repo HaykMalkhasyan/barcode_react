@@ -5,7 +5,9 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT, SET_PRODUCT_ERRORS,
+    ONLY_ADD_PRODUCT,
+    SET_ALL_IMAGES, SET_MAIN_IMAGE,
+    SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
@@ -17,7 +19,6 @@ import Axios from "axios";
 import {getHeaders, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
 import {getActionById} from "../characteristics/actions";
-import {getSuppliers} from "../suppliers/action";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -316,7 +317,7 @@ export function setProduct(gallery, type) {
         }
 
         data.item_type = "piece";
-        data.articul = Math.floor(1000 * Math.random());
+        // data.articul = Math.floor(1000 * Math.random());
         data.details = [];
         data.images = {};
         data.active = !main.active;
@@ -364,17 +365,26 @@ export function uploadImages(files, data, type) {
 
     return async (dispatch, getState) => {
         const open = getState().products.open;
+        const pictures = {...getState().products.pictures};
+        const mainIMage = {...getState().products.image_path};
+        data.image_path = Object.keys(mainIMage).length ? mainIMage.name : "";
         let form_data = new FormData();
         for (let [key] of Object.entries(files)) {
-            form_data.append('file', files[key]);
-            form_data.append('filename', data.pictures[key].name)
+            console.log(files[key])
+            form_data.append('ax_file_input', files[key])
+            form_data.append("ax-file-path", "../items_images/thumb/2000/")
+            form_data.append('ax-thumbPostfix', '_thumb')
+            form_data.append('ax-file-size', files[key].size)
+            form_data.append('ax-max-file-size', '10M')
+            form_data.append('ax-last-chunk', 'true')
+            form_data.append('ax-start-byte', '0')
+            form_data.append('ax-file-name', pictures.pictures[key].name)
+            data.images[key] = pictures.pictures[key].name;
+            break
         }
+        console.log(data)
         try {
-            const response = await Axios.post(`${API_URL}/product/upload/`, form_data, {
-                headers: {
-                    "Authorization": `JWT ${cookie.get('access')}`
-                }
-            });
+            const response = await Axios.post(`http://new.haysell.com/images/upload/config/upload_image_items.php`, form_data);
             if (response.status === 201) {
                 if (open === "add") {
                     dispatch(productDataRequest(data, type))
@@ -383,18 +393,7 @@ export function uploadImages(files, data, type) {
                 }
             }
         } catch (error) {
-            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = cookie.get('refresh');
-                const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                if ((await new_token_data) === null) {
-                    dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                    dispatch(uploadImages(files, data))
-                }
-            } else {
-                dispatch(setProductValues('error', error.message))
-            }
+            console.log("Image upload error !")
         }
     }
 }
@@ -404,7 +403,7 @@ export function productDataRequest(data, type) {
     return async (dispatch, getState) => {
         try {
             const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}}, getHeaders({}, {}));
-            console.log(response.data)
+            console.log("DATA", response.data)
             switch (type) {
                 case 'save': {
                     dispatch(setProductValues('open', 'edit'));
@@ -429,20 +428,13 @@ export function productDataEditRequest(data, type) {
         const products = [...getState().products.products];
         const product = getState().products.product;
         data.id = product.id;
-        for (let item of data.pictures) {
-            if (item.image) {
-                delete item.image
-            }
-        }
         try {
-            const response = await Axios.put(`${API_URL}/product/${data.id}`, data, {
-                headers: {
-                    "Authorization": `JWT ${cookie.get('access')}`
-                }
-            });
+            const response = await Axios.put(API_URL, {param: {...data}, path: "Products/Product"}, getHeaders({}, {}));
+            console.log("EDIT", response.data.data[0])
+            const responseData = response.data.data[0];
             for (let [key, value] of Object.entries(products)) {
-                if (value.id === response.data.id) {
-                    products[key] = response.data
+                if (value.id === responseData.id) {
+                    products[key] = responseData
                 }
             }
             switch (type) {
@@ -457,18 +449,7 @@ export function productDataEditRequest(data, type) {
                 }
             }
         } catch (error) {
-            if (error.response.status === 401 && error.response.statusText === "Unauthorized") {
-                const refresh_token = cookie.get('refresh');
-                const new_token_data = getToken(API_URL, error, {refresh: refresh_token});
-
-                if ((await new_token_data) === null) {
-                    dispatch(setProductValues('error', error.message))
-                } else if ((await new_token_data).access === cookie.get('access') && (await new_token_data).refresh === cookie.get('refresh')) {
-                    dispatch(productDataEditRequest(data))
-                }
-            } else {
-                dispatch(setProductValues('error', error.message))
-            }
+            console.log("Product edit error !")
         }
     }
 }
@@ -627,5 +608,19 @@ export function setProducts(products, count) {
         type: SET_PRODUCTS,
         products,
         count
+    }
+}
+
+export function setMainImage(image_path) {
+
+    return {
+        type: SET_MAIN_IMAGE, image_path
+    }
+}
+
+export function setAllImages(images, pictures) {
+
+    return {
+        type: SET_ALL_IMAGES, images, pictures
     }
 }

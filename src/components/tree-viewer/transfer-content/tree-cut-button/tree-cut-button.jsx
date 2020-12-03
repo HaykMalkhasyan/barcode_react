@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./tree-cut-button.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
-import CustomButton from "../../../UI/button/customButton/customButton";
+import CustomButton from "../../../UI/button/customButton/custom-button";
 import {BiCut} from "react-icons/bi";
 
 const TreeCutButton = props => {

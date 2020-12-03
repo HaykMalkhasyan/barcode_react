@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './header.module.css'
 import ChatOwner from "./chat-owner/chat-owner";
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import Icons from "../../../../../../../components/Icons/icons";
 
 const Header = props => {

@@ -1,0 +1,13 @@
+.disabled {
+    outline: none !important;
+    filter: grayscale(100%);
+    cursor: no-drop !important;
+}
+
+.disabled:active {
+    box-shadow: none !important;
+}
+
+.default {
+    outline: none !important;
+}

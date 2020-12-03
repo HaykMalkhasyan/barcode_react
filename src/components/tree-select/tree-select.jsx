@@ -3,7 +3,7 @@ import classes from "./tree-select.module.css";
 import Icons from "../Icons/icons";
 import TreeSelectContent from "./tree-select-content/tree-select-content";
 import {createRoad} from "../../services/services";
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 
 const TreeSelect = props => {
 

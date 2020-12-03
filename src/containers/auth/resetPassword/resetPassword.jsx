@@ -15,7 +15,7 @@ import {
     userInformation
 } from "../../../Redux/recoverPassword/action"
 import CustomInput from "../../../components/UI/input/customInput/customInput"
-import CustomButton from "../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../components/UI/button/customButton/custom-button"
 import Icons from "../../../components/Icons/icons";
 import LanguagesMenu from "../../../controllers/languagesMenu/languagesMenu";
 import {changeLanguage, setLanguageValue} from "../../../Redux/language/actions";

@@ -6,7 +6,7 @@ import {backFiltersPage, setFiltersValue, sortTableTabs} from "../../../../../Re
 import {getAllProducts, getProduct, selectProducts, setProductValues} from "../../../../../Redux/products/actions";
 import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
-import CustomButton from "../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import TuneIcon from '@material-ui/icons/Tune';
 import {getSuppliers} from "../../../../../Redux/suppliers/action";
 
@@ -79,6 +79,7 @@ class Products extends Component{
                     types={this.props.types}
                     selected_products={this.props.selected_products}
                     measurements={this.props.measurements}
+                    suppliers={this.props.suppliers}
                     // Methods
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
@@ -112,6 +113,7 @@ function mapStateToProps(state) {
         selected_products: state.products.selected_products,
         tabs: state.filters.tabs,
         activeTabs: state.filters.activeTabs,
+        suppliers: state.suppliers.suppliers,
     }
 }
 

@@ -15,6 +15,7 @@ const Section = props => {
                 types={props.types}
                 selected_products={props.selected_products}
                 measurements={props.measurements}
+                suppliers={props.suppliers}
                 // Methods
                 getAllProducts={props.getAllProducts}
                 selectProducts={props.selectProducts}

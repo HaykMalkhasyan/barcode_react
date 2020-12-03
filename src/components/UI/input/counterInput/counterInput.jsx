@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './counterInput.module.css'
-import CustomButton from "../../button/customButton/customButton";
+import CustomButton from "../../button/customButton/custom-button";
 import Icons from "../../../Icons/icons";
 
 const CounterInput = props => {

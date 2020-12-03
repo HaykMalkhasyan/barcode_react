@@ -3,7 +3,7 @@ import classes from '../filters.module.css'
 import {connect} from "react-redux"
 import {advanceSearchHandler, clearSearchClassifiers, toggleCheckBoxValue} from "../../../../../Redux/products/actions"
 import Icons from "../../../../../components/Icons/icons";
-import CustomButton from "../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import {
     getOnlySubgroupWithGroupId,
     getSubgroupWithGroupId,

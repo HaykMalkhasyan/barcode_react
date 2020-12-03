@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./user-header-content.module.css";
-import CustomButton from "../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import EditIcon from '@material-ui/icons/Edit';
 import NavigationContent from "./navigation-content/navigation-content";
 import cookie from "../../../../../services/cookies";

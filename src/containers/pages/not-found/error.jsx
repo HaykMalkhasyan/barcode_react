@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import classes from './error.module.css'
 import NotFoundHeader from "./not-found-header/not-found-header";
-import CustomButton from "../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../components/UI/button/customButton/custom-button";
 import CachedIcon from '@material-ui/icons/Cached';
 import CloseIcon from '@material-ui/icons/Close';
 

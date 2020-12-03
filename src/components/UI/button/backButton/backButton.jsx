@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './backButton.module.css'
-import CustomButton from "../customButton/customButton";
+import CustomButton from "../customButton/custom-button";
 import Icons from "../../../Icons/icons";
 
 const BackButton = props => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './customSearch.module.css'
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 import Icons from "../Icons/icons";
 import CustomInput from "../UI/input/customInput/customInput";
 

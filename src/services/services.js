@@ -162,19 +162,30 @@ export function checkItem(array, elem) {
     return true
 }
 
-export function getHeaders(headers, params) {
+export function getHeaders(headers, params, type = true) {
 
+    if (type) {
+        return {
+            params: {
+                ...params
+            },
+            headers: {
+                "Content-Type": "application/json",
+                "lang": cookie.get('language') || "am",
+                "Authorization": `JWT ${cookie.get('access')}`,
+                ...headers,
+            }
+        }
+    }
     return {
         params: {
             ...params
         },
         headers: {
-            "Content-Type": "application/json",
-            "lang": cookie.get('language') || "am",
-            "Authorization": `JWT ${cookie.get('access')}`,
-            ...headers,
+            "Authorization": `JWT ${cookie.get('access')}`
         }
     }
+
 }
 
 export async function updateToken(API_URL, error, first_error_place, first_error_value, second_error_place, second_error_value, setCallback, requestCallback, dispatch, data = null, catId = null, place = null) {

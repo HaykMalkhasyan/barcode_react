@@ -23,6 +23,7 @@ const MainTab = props => {
                                 deleteImageHandler={props.deleteImageHandler}
                                 deleteUploadImagesHandler={props.deleteUploadImagesHandler}
                                 setProductValues={props.setProductValues}
+                                setDefaultImage={props.setDefaultImage}
                             />
                         </div>
                     </Grid>

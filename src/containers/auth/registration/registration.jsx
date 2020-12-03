@@ -9,7 +9,7 @@ import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined"
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined"
 import Checkbox from '@material-ui/core/Checkbox'
 import AlertDialogSlide from "./dialog/dialog"
-import CustomButton from "../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../components/UI/button/customButton/custom-button"
 import {NavLink} from "react-router-dom"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import {registrationHandler, setRegValues} from "../../../Redux/registration/action"

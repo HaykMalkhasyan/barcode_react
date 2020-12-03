@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './header.module.css'
 import MessageOwner from "./message-owner/message-owner";
 import Controllers from "./controllers/controllers";
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import PeopleIcon from '@material-ui/icons/People';
 

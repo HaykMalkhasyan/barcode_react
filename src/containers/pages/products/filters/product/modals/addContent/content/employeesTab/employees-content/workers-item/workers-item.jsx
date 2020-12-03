@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './workers-item.module.css'
-import CustomButton from "../../../../../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../../../../../components/UI/button/customButton/custom-button";
 import Icons from "../../../../../../../../../../../components/Icons/icons";
 
 const WorkerItem = props => {

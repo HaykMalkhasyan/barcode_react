@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './footer.module.css'
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import Icons from "../../../../../../../components/Icons/icons";
 import CustomInput from "../../../../../../../components/UI/input/customInput/customInput";
 import DropSmiles from "../../../../../../../components/dropSmiles/dropSmiles";

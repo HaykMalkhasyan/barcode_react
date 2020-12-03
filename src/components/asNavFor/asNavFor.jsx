@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 import Icons from "../Icons/icons";
 
 function SampleNextArrow(props) {

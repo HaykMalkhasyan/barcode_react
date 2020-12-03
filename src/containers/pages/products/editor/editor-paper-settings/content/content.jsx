@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import classes from './content.module.css'
 import CustomInput from "../../../../../../components/UI/input/customInput/customInput";
 import ToolsSelect from "../../../../../../components/UI/input/tools-select/tools-select";
-import CustomButton from "../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../components/UI/button/customButton/custom-button";
 import CropPortraitIcon from '@material-ui/icons/CropPortrait';
 import CropLandscapeIcon from '@material-ui/icons/CropLandscape';
 

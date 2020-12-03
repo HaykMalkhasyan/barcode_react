@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './closeButton.module.css'
 import Icons from "../../../Icons/icons";
-import CustomButton from "../customButton/customButton";
+import CustomButton from "../customButton/custom-button";
 
 const CloseButton = props => {
 

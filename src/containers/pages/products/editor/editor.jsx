@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './editor.module.css'
 import {connect} from "react-redux";
 import CustomHeader from "../../../../components/UI/customHeader/customHeader";
-import CustomButton from "../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../components/UI/button/customButton/custom-button";
 import EditorTool from "./editor-tool/editor-tool";
 import ModalUI from "../../../../components/modalUI/modalUI";
 import EditorPaperSettings from "./editor-paper-settings/editor-paper-settings";

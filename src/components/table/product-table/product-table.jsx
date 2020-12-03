@@ -16,7 +16,7 @@ const onColumnEvent = params => {
 }
 
     return (
-        <div className="ag-theme-alpine" style={{background: 'cyan', height: 897, width: "100%", overflow: "hidden"}} >
+        <div className="ag-theme-alpine" style={{height: 897, width: "100%", overflow: "hidden"}} >
             <AgGridReact
                 onGridReady={params => {setGridApi(params.api);setGridColumnApi(params.columnApi)}}
                 rowData={props.data || []}
@@ -30,6 +30,7 @@ const onColumnEvent = params => {
                 frameworkComponents={props.frameworkComponents}
                 enableRangeSelection={props.enableRangeSelection}
                 enableFillHandle={props.enableFillHandle}
+                columnTypes={props.columnTypes}
             />
         </div>
     )

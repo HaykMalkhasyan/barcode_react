@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './inpurWithChangeArrows.module.css'
 import CustomInput from "../customInput/customInput"
-import CustomButton from "../../button/customButton/customButton"
+import CustomButton from "../../button/customButton/custom-button"
 import Icons from "../../../Icons/icons"
 
 

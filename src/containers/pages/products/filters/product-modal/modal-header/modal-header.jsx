@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./modal-header.module.css";
 import CloseButton from "../../../../../../components/UI/button/closeButton/closeButton";
 import Icons from "../../../../../../components/Icons/icons";
-import CustomButton from "../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../components/UI/button/customButton/custom-button";
 
 const ModalHeader = props => {
 

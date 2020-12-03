@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./footer-content.module.css";
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 
 const FooterContent = props => {
 

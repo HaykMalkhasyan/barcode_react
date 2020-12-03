@@ -6,7 +6,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import Tooltip from "@material-ui/core/Tooltip"
 import CustomInput from "../../../../../../../../components/UI/input/customInput/customInput"
 import AsNavFor from "../../../../../../../../components/asNavFor/asNavFor"
-import CustomButton from "../../../../../../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../../../../../../components/UI/button/customButton/custom-button"
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import WallpaperIcon from '@material-ui/icons/Wallpaper';
@@ -76,10 +76,14 @@ const Gallery = props => {
                                                     tabIndex={-1}
                                                     className={`${classes.controllersBtn} ${classes.setToMainBtn}`}
                                                     children={
-                                                        <Tooltip title="Ցուցադրել որպես գլխավոր նկար" placement="right">
+                                                        <Tooltip title="Ցուցադրել որպես գլխավոր նկար" placement="top">
                                                             <ArrowUpwardIcon style={{fontSize: 20}}/>
                                                         </Tooltip>
                                                     }
+                                                    // EVENTS
+                                                    onClick={() => {
+                                                        props.setDefaultImage(index)
+                                                    }}
                                                 />
                                             </div>
                                             {
@@ -89,7 +93,7 @@ const Gallery = props => {
                                                             tabIndex={-1}
                                                             className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
                                                             children={
-                                                                <Tooltip title="Ջնջել նկարը" placement="right">
+                                                                <Tooltip title="Ջնջել նկարը" placement="top">
                                                                     <DeleteOutlineIcon style={{fontSize: 20}}/>
                                                                 </Tooltip>
                                                             }
@@ -103,7 +107,7 @@ const Gallery = props => {
                                                             tabIndex={-1}
                                                             className={`${classes.controllersBtn} ${classes.deleteItemBtn}`}
                                                             children={
-                                                                <Tooltip title="Ջնջել ավելացռած նկարներըը" placement="right">
+                                                                <Tooltip title="Ջնջել ավելացռած նկարներըը" placement="top">
                                                                     <DeleteForeverIcon style={{fontSize: 20}}/>
                                                                 </Tooltip>
                                                             }

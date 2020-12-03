@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './cancelButton.module.css'
-import CustomButton from "../customButton/customButton";
+import CustomButton from "../customButton/custom-button";
 
 const CancelButton = props => {
 

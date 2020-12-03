@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './removeButton.module.css'
 import Icons from "../../../Icons/icons";
-import CustomButton from "../customButton/customButton";
+import CustomButton from "../customButton/custom-button";
 
 const RemoveButton = props => {
 
