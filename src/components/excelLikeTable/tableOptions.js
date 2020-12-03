@@ -22,6 +22,7 @@ import TableFunctions from "./tableFunctions/tableFunctions";
 import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";
 import VerticalAlignCenterIcon from "@material-ui/icons/VerticalAlignCenter";
 import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
+import SizePicker from "./setSize/setSize"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,7 +49,7 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
 }))(ToggleButtonGroup);
 
 export default function CustomizedDividers(props) {
-  const { selectedRangeCellsHeader, functionalCells, setFunctionalCells, selecteds, setSelecteds } = props;
+  const { selectedRangeCellsHeader, functionalCells, setFunctionalCells, selecteds, setSelecteds, allExpandedCells } = props;
 
 
   const [alignment, setAlignment] = React.useState(null);
@@ -66,6 +67,7 @@ export default function CustomizedDividers(props) {
   const [openColor, setOpenColor] = useState(false);
   const [openColorFont, setOpenColorFont] = useState(false);
   const [openBorder, setOpenBorder] = useState(false);
+  const [size, setSize] = useState("work")
 
   const [selectedCells, setSelectedCells] = useState();
 
@@ -295,7 +297,7 @@ export default function CustomizedDividers(props) {
         ? verticalAlignmentC
         : verticalAlignment
         ? verticalAlignment
-        : "top";
+        : "center";
       alignmentC = alignmentC ? alignmentC : alignment ? alignment : "left";
       formatsC = formatsC ? formatsC : formats;
       backgroundColorC = backgroundColorC ? backgroundColorC : backgroundColor;
@@ -362,7 +364,7 @@ export default function CustomizedDividers(props) {
 
       switch (verticalAlignmentC) {
         case "top":
-          align = { ...align, alignItems: `flex-start` };
+          align = { ...align, alignItems: `flex-start`};
           break;
         case "center":
           align = { ...align, alignItems: `center` };
@@ -390,7 +392,11 @@ export default function CustomizedDividers(props) {
           Object.assign(selectedFormateds, {
             [col]: getObjects(selecteds[col], startRowIndex, endRowIndex, 
               Object.assign({
-                border: "1px solid rgba(211, 211, 211, 0.3)",
+                border: "1px solid #d3d3d34d",
+                display:"flex",
+                justifyContent:"flex-start",
+                alignItems:"center",
+                lineHeight:"14px !important"
               },
               {
                 ...align,
@@ -404,7 +410,8 @@ export default function CustomizedDividers(props) {
                 fontSize: fontSizeC,
                 fontFamily: fontFamilyC,
                 ...borderStyle,
-                zIndex:"1 !important"
+                zIndex:"1 !important",
+                lineHeight:"14px !important"
               })),
           });
         });
@@ -423,7 +430,7 @@ export default function CustomizedDividers(props) {
 
   useEffect(() => {
     if (props.gridApi && Object.keys(selecteds).length ) {
-      // console.log('selecteds', selecteds)
+      console.log('selecteds', selecteds)
       let colDefs = props.gridApi.getColumnDefs();
       let selected = Object.assign({}, props.gridApi.getCellRanges());
       if (!selected[0]) {
@@ -439,9 +446,16 @@ export default function CustomizedDividers(props) {
               
               return selecteds[item.field][params.data["/"]];
             }
-            // else{
-            //   return {border: "1px solid rgba(211, 211, 211, 0.3)"}
-            // }
+            else {
+              let expandedIndex = allExpandedCells.findIndex(
+                (x) => x.col === params.colDef.field && x.row === params.data["/"]
+              );
+              if (expandedIndex !== -1) {
+                return {border: "1px solid #d3d3d34d", backgroundColor:"#fff", lineHeight:"14px !important"}
+              }else{
+                return {border: "1px solid #d3d3d34d", lineHeight:"14px !important"}
+              }
+            }
           };
         }
       });
@@ -477,6 +491,10 @@ export default function CustomizedDividers(props) {
   return (
     <div>
       <Paper elevation={0} className={classes.paper}>
+        <SizePicker
+        setPrintSize={props.setPrintSize}
+          gridApi={props.gridApi}
+        />
         <TableFunctions
           selectedFunction={selectedFunction}
           setSelectedFunction={setSelectedFunction}

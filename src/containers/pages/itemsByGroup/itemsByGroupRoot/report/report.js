@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -70,6 +70,8 @@ export default function AlertDialog(props) {
   const classes = useStyles();
   const [checkeds, setCheckeds] = React.useState({});
   const [exportStatus, setExportStatus] = useState({bool:false, type:null})
+  const [printSize, setPrintSize] = useState({width:null, height:null})
+
 
   const handleChange = (event) => {
     setCheckeds({ ...checkeds, [event.target.name]: event.target.checked });
@@ -88,6 +90,7 @@ export default function AlertDialog(props) {
   const [gridApi, setGridApi] = useState(null)
   const [columnApi, setColumnApi] = useState(null)
   const [pending, setPending] = useState(false)
+  const dpiRef = useRef()
 
   let columnDefinition=[
     {
@@ -108,10 +111,18 @@ export default function AlertDialog(props) {
 
 
   const handleConfirm = () => {
+    
+    // let promise = new Promise(function(res, rej) {
+    //   gridApi.sizeColumnsToFit()
+    //   res();
+    // })
+    
     setPending(true)
-    setExportStatus({
-      bool:true, type:"print"
-    })
+    setTimeout(()=>{
+      setExportStatus({
+        bool:true, type:"print"
+      })
+    },100)
       // console.log('checkeds', checkeds)
       // console.log('columns', columns)
       // let columnsToHide = columns.filter(item=>!checkeds[item.colDef.field] )
@@ -123,6 +134,10 @@ export default function AlertDialog(props) {
       return
   }
 
+
+  // useEffect(()=>{
+  //   dpiRef.current &&  console.log('dpiRef.current.offsetHeight', dpiRef.current.offsetHeight)
+  // },[dpiRef.current])
 
   
 
@@ -148,7 +163,9 @@ export default function AlertDialog(props) {
         }}
         fullScreen
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title"
+          style={{padding:"0"}}
+        >
          <div className={classes.title}>
             <span style={{whiteSpace:"nowrap"}} >Հաշվետվություն</span>
          <IconButton onClick={()=>{setOpen(false)}} className={classes.closeButton} >
@@ -234,17 +251,61 @@ export default function AlertDialog(props) {
             </div> */}
         </DialogTitle>
         <DialogContent>
-      <div>
+          
+      <div style={{position:"relative"}}>
+      <div style={{ position:"absolute", top:"82px", zIndex:"100", color:"blue", left:"210mm"}} >
+            |
+          </div>
+          <div style={{ position:"absolute", top:"297mm", zIndex:"100", color:"blue", left:"53px"}} >
+            _
+          </div>
+          {/* <div ref={dpiRef} style={{
+            position:"absolute",
+            height:"1in",
+            top:"100px",
+            backgroundColor:"red",
+            // height:"100px",
+            width:"1in",
+            zIndex:"100"
+          }} >
+            asd
+          </div> */}
         <ExcelLikeTable 
-        setPending={setPending}
+          setPrintSize={setPrintSize}
+          setPending={setPending}
           exportStatus={exportStatus}
           setExportStatus={setExportStatus}
-          height={"68.5vh"} 
+          height={printSize.height ? printSize.height : "86.1vh"} 
+          // height={"210mm"} 
+          setGridApi={setGridApi}
+          width={printSize.width}
           mode={null} 
           rowData={rowData} 
           pagination={"true"} 
           id={props.id}
         />
+
+            <LoadingButton  
+                pending={pending}
+                pendingPosition="center"
+                disabled={pending}
+                // color="primary"
+                variant="contained"
+                style={{backgroundColor:"#95b75d", color:"#fff", position:"fixed", bottom:"15px", right:"15px"}}
+                // color="primary"
+                // variant="outlined"
+                onClick={handleConfirm}
+            >
+                {pending ? 
+                <span style={{width:"78px", height:"24px"}} >
+                  
+                </span>
+                 : 
+                <span style={{width:"78px", height:"24px"}} >
+                Հաստատել
+                </span>
+                }
+            </LoadingButton>
       {/* { !!rowData && !!rowData.length && <Table
             width="602px"
             height={450}
@@ -315,29 +376,9 @@ export default function AlertDialog(props) {
       </table>
     </div> */}
         </DialogContent>
-        <DialogActions>
-          <LoadingButton
-                pending={pending}
-                pendingPosition="center"
-                disabled={pending}
-                // color="primary"
-                variant="contained"
-                style={{backgroundColor:"#95b75d", color:"#fff"}}
-                // color="primary"
-                // variant="outlined"
-                onClick={handleConfirm}
-            >
-                {pending ? 
-                <span style={{width:"78px", height:"24px"}} >
-                  
-                </span>
-                 : 
-                <span style={{width:"78px", height:"24px"}} >
-                Հաստատել
-                </span>
-                }
-            </LoadingButton>
-        </DialogActions>
+        {/* <DialogActions>
+          
+        </DialogActions> */}
       </Dialog>
     </div>
   );

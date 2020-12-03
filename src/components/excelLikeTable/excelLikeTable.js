@@ -51,6 +51,7 @@ const App = (props) => {
 
   const [functionalCells, setFunctionalCells] = useState([]);
 
+
   // useEffect(() => {
   //   console.log('props.rowData', props.rowData)
   //   gridApi && gridApi.refreshCells();
@@ -152,11 +153,14 @@ const App = (props) => {
         let start = 10;
         let keysprops = Object.keys(props.rowData[0]);
         let keysLocale = Object.keys(rowData[0]);
-        let colsSize = keysprops.length - 1;
         // > 26 ? keysprops.length + 10 : 24;
-        let rowsSize = props.rowData.length + 20;
+        let fullScreenCount = Math.ceil(tableRef.current.offsetWidth/69)
+        
+        let colsSize = fullScreenCount;
+        let rowsSize = props.rowData.length + 20; 
+        // 
         // props.rowData.length+2
-        let clone = createData(rowsSize, colsSize);
+        let clone = createData(300, 100);
         for (let j = 0, i = 0; i < keysprops.length; i++, j++) {
           if (keysprops[i] === "#") {
             i++;
@@ -178,16 +182,26 @@ const App = (props) => {
     gridApi && gridApi.refreshCells();
   }, [rowData]);
 
+  let width = "2086px"
+  console.log('window.innerWidth', window.innerWidth)
+
   const handlePrint = useReactToPrint({
     onBeforeGetContent: ()=>{gridApi.clearRangeSelection(); gridApi.deselectAll(); gridApi.setDomLayout("print"); },
     content: () => tableRef.current,
-    pageStyle:`body { width:2086px }`,
+    pageStyle:`@page { 297mm 210mm;
+      margin: 25mm;
+      margin-right: 45mm; }`,
+      // calc(${window.innerWidth}px - 48px);  
     // bodyClass:`${printStyles.body}`,
     onAfterPrint: () => {
       // columnApi.setColumnsVisible(columnApi.getAllColumns(), true);
+      // props.setPrintSize({height:null, width:null})
       props.setExportStatus({ bool: false });
       gridApi.setDomLayout(null)
       props.setPending(false)
+      // setTimeout(()=>{
+      //   gridApi.sizeColumnsToFit()
+      // },100)
       // tableAddRef.current[0].style.display="none"; tableAddRef.current[1].style.display="none";
     },
     // onBeforePrint:()=>{ console.log('tableAddRef', tableAddRef.current[0].style); tableAddRef.current[0].style.display="flex"; tableAddRef.current[1].style.display="flex";},
@@ -273,6 +287,7 @@ const App = (props) => {
         return {
           field: item,
           cellStyle: {
+            lineHeight:"14px !important",
             border: "none",
             backgroundColor: "#f8f8f8",
             color: "black",
@@ -283,7 +298,7 @@ const App = (props) => {
           //   item === "Անվանում"
           //     ? 306
           //     : window.innerWidth / rowData[0].length,
-          width: props.rowData.length<100 ? 60 : 75,
+          width: props.rowData.length<1000 ? 60 : 75,
           // filter:
           //   typeof rowData[0][item] === "number"
           //     ? "agNumberColumnFilter"
@@ -382,19 +397,23 @@ const App = (props) => {
           }
         },
         cellStyle: {
-          border: "1px solid rgba(211, 211, 211, 0.2)",
+          border: "1px solid #d3d3d34d",
           boxSizing: "border-box",
+          // display:"flex",
+          // justifyContent:"center",
+          // alignItems:"center",
+          lineHeight:"14px !important"
         },
         // flex: 1,
         // maxWidth:
         //   item === "Անվանում"
         //     ? 306
         //     : window.innerWidth / rowData[0].length,
-        flex:
-          props.rowData[0] && Object.keys(props.rowData[0]) > 26
-            ? undefined
-            : 1,
-        width: 80,
+        // flex:
+        //   props.rowData[0] && Object.keys(props.rowData[0]) > 26
+        //     ? undefined
+        //     : 1,
+        width: "69.12px",
         // filter:
         //   typeof rowData[0][item] === "number"
         //     ? "agNumberColumnFilter"
@@ -463,16 +482,20 @@ const App = (props) => {
           return 1;
         }
       };
-      // console.log('clone[index]', clone[index])
+      console.log('clone[index]', clone[index])
       clone[index].cellStyle = function (params) {
         let expandedIndex = allExpandedCells.findIndex(
           (x) => x.col === params.colDef.field && x.row === params.data["/"]
         );
         if (expandedIndex !== -1) {
-          return { zIndex: "2 !important" };
-        } else {
-          return {};
-        }
+          return { zIndex: "2 !important", backgroundColor:"#fff", border: "1px solid #d3d3d34d", lineHeight:"14px !important"};
+        } 
+        else if(selecteds[clone[index].field] && selecteds[clone[index].field].hasOwnProperty(params.data["/"])){
+            return selecteds[clone[index].field][params.data["/"]]
+          }else{
+            return {border: "1px solid #d3d3d34d",  lineHeight:"14px !important" 
+          };
+          }
       };
       gridApi.suppressRowTransform = true;
       clone[index].rowSpan = function (params) {
@@ -487,7 +510,9 @@ const App = (props) => {
           return 1;
         }
       };
-      gridApi.setColumnDefs(clone);
+      // setTimeout(()=>{
+        gridApi.setColumnDefs(clone);
+      // })
       // gridApi.refreshCells()
     }
   }
@@ -637,6 +662,7 @@ const App = (props) => {
         style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
       >
         <TableOptins
+          setPrintSize={props.setPrintSize}
           gridApi={gridApi}
           columnApi={columnApi}
           selectedRangeCellsHeader={selectedRangeCellsHeader}
@@ -644,13 +670,15 @@ const App = (props) => {
           setFunctionalCells={setFunctionalCells}
           selecteds={selecteds}
           setSelecteds={setSelecteds}
+          allExpandedCells={allExpandedCells}
         />
       </div>
       <div
       ref={tableRef}
         className="ag-theme-alpine"
         style={{
-          height: props.mode ? "unset" : props.height ? props.height : 500,
+          margin:"0 auto",
+          height: props.height ? props.height : 500,
           width: props.width ? props.width : "100%",
           opacity: `${opacity}`,
           transitionDuration: "0.1s",
@@ -727,8 +755,10 @@ const App = (props) => {
           // setSelectedRangeCellsHeader(obj)
           // }
           // }}
+          suppressRowHoverHighlight={true}
           suppressRowTransform={true}
           headerHeight={props.headerHeight}
+          rowHeight={20.16}
           // domLayout="print"
           columnDefs={
             props.columnDefinition ? props.columnDefinition : columnDefinition
@@ -745,7 +775,7 @@ const App = (props) => {
           onGridReady={(params) => {
             setGridApi(params.api);
             setColumnApi(params.columnApi);
-            
+            props.setGridApi(params.api)
             // params.api.setDomLayout("print")
             setTimeout(() => {
               setOpacity(1);
@@ -779,6 +809,8 @@ const App = (props) => {
                       selecteds[item.field].hasOwnProperty(params.data["/"])
                     ) {
                       return selecteds[item.field][params.data["/"]];
+                    }else{
+                      return {border: "1px solid #d3d3d34d", lineHeight:"14px !important" };
                     }
                   };
                 }
