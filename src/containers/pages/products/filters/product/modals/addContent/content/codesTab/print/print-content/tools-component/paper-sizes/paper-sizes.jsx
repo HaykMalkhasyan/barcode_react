@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './paper-sizes.module.css'
-import CustomButton from "../../../../../../../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../../../../../../../components/UI/button/customButton/custom-button";
 
 const PaperSizes = props => {
 

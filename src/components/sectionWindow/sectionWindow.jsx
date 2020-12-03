@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './sectionWindow.module.css'
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 
 const SectionWindow = props => {
 

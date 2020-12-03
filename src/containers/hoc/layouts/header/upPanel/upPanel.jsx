@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from '../header.module.css'
-import CustomButton from "../../../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../../../components/UI/button/customButton/custom-button"
 import MenuIcon from '@material-ui/icons/Menu'
 import MenuOpenIcon from '@material-ui/icons/MenuOpen'
 import {NavLink, Redirect, withRouter} from "react-router-dom";

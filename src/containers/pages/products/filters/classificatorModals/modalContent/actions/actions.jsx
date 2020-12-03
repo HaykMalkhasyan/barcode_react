@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./actions.module.css";
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import Tooltip from "@material-ui/core/Tooltip";
 import Icons from "../../../../../../../components/Icons/icons";
 import {AiFillCopy} from "react-icons/ai";

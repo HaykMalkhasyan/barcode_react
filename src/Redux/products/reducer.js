@@ -5,7 +5,8 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT, SET_PRODUCT_ERRORS,
+    ONLY_ADD_PRODUCT, SET_ALL_IMAGES, SET_MAIN_IMAGE,
+    SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
@@ -13,7 +14,7 @@ import {
     SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
-import {SET_DELETE_BARCODE, SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
+import {SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
 import {PROD_GROUP_SET} from "../characteristics/actionTypes";
 import {BACK_FILTERS} from "../filtersContainer/actionTypes";
 import AppsIcon from '@material-ui/icons/Apps';
@@ -121,8 +122,8 @@ const initialState = {
     main: {
         item_name: '',
         short_name: '',
-        product_type: '',
-        unit_id: '',
+        product_type: 0,
+        unit_id: 0,
         active: false,
         can_in: false,
         can_sale: false
@@ -139,6 +140,7 @@ const initialState = {
     workers: {
         workers: ''
     },
+    image_path: {},
     images: [],
     pictures: {
         pictures: []
@@ -152,6 +154,14 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_ALL_IMAGES:
+            return {
+                ...state, images: action.images, pictures: action.pictures
+            }
+        case SET_MAIN_IMAGE:
+            return {
+                ...state, image_path: action.image_path
+            }
         case SET_PRODUCT_ERRORS:
             return {
                 ...state, errorFields: action.errorFields, tabErrors: action.tabErrors

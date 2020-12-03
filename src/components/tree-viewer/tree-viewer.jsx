@@ -4,7 +4,7 @@ import InfiniteTree from "react-infinite-tree";
 import TreeNode from "./tree-node/tree-node";
 import Toggler from "./trigger/toggler";
 import Collapse from "@material-ui/core/Collapse";
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import AddContent from "./add-content/add-content";

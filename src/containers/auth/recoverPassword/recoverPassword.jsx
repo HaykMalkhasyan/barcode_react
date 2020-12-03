@@ -5,7 +5,7 @@ import CustomInput from "../../../components/UI/input/customInput/customInput"
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
 import CheckIcon from '@material-ui/icons/Check'
 import {NavLink} from "react-router-dom"
-import CustomButton from "../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../components/UI/button/customButton/custom-button"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import {connect} from "react-redux"
 import {recover, setRecoverValues} from "../../../Redux/recoverPassword/action"

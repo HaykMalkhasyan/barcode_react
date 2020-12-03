@@ -12,3 +12,5 @@ export const BACK_TO_PRODUCT = 'BACK_TO_PRODUCT';
 export const CLOSE_MODALS = 'CLOSE_MODALS';
 export const SET_SUBGROUP = 'SET_SUBGROUP';
 export const SET_PRODUCT_ERRORS = 'SET_PRODUCT_ERRORS';
+export const SET_MAIN_IMAGE = "SEY_MAIN_IMAGE";
+export const SET_ALL_IMAGES = "SET_ALL_IMAGES";

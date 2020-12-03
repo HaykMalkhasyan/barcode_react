@@ -3,7 +3,7 @@ import classes from './rightPanel.module.css'
 import ResizableDragTable from "../../../../../../../components/resizableDragTable/resizableDragTable"
 import { Pagination } from '@material-ui/core';
 import { PaginationItem } from '@material-ui/core';
-import CustomButton from "../../../../../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import Icons from "../../../../../../../components/Icons/icons";
 import Header from "../../header/header";
 import {AgGridReact} from "ag-grid-react";
@@ -30,7 +30,7 @@ const RightPanel = props => {
         for (let key of Object.keys(products[0])) {
             if (key === "id") {
                 array.push({
-                    field: "id",
+                    // field: "id",
                     headerCheckboxSelection: true,
                     checkboxSelection: true,
                     pinned: "left",
@@ -64,7 +64,22 @@ const RightPanel = props => {
                     filter: 'agTextColumnFilter',
                     floatingFilter: filters,
                 })
-            } else if (key !== "profile_id") {
+            } else if (key === "create_date" || key === "del_date") {
+                array.push({
+                    suppressMenu: true,
+                    headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
+                    field: key,
+                    sortable: true,
+                    resizable: true,
+                    lockVisible: true,
+                    type: "dateColumn",
+                    hide: props.activeTabs.indexOf(key) !== -1,
+                    minWidth: 90,
+                    floatingFilter: filters,
+                })
+            } /*else if (key === "firms") {
+
+            }*/ else if (key !== "profile_id") {
                 array.push({
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
@@ -82,12 +97,66 @@ const RightPanel = props => {
         return array;
     }
 
+    const columnTypes = {
+        dateColumn: {
+            filter: "agDateColumnFilter",
+            filterParams: {
+                comparator: function (filterLocalDateAtMidnight, cellValue) {
+                    let dateParts = cellValue.split('-');
+                    let day = Number(dateParts[2].split(" ")[0]);
+                    let month = Number(dateParts[1])-1;
+                    let year = Number(dateParts[0]);
+                    let cellDate = new Date(year, month, day);
+                    if (cellDate < filterLocalDateAtMidnight) {
+                        return -1;
+                    } else if (cellDate > filterLocalDateAtMidnight) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
     const columnDefinition = props.products && props.products.length ? columnsRender(props.products) : [];
 
     const rowClassRules = {
         'red-row': 'data.id % 2 === 0',
         'green-row': 'data.id % 2 === 1',
     };
+
+    const dataRender = products => {
+        const data = JSON.parse(JSON.stringify(products));
+
+        for (let item of data) {
+            item.deleted = item.deleted ? "ջնջված է" : "առկա է"
+            item.active = item.active === 0 ? "ակտիվ չէ" : "ակտիվ է";
+            for (let type of props.types) {
+                if (item.service === type.id) {
+                    item.service = type.name
+                }
+            }
+            for (let measurement of props.measurements) {
+                if (item.unit === measurement.id) {
+                    item.unit = measurement.name
+                }
+            }
+            if (props.suppliers && props.suppliers.length) {
+                const suppliers = [];
+                let all_id = item["firms"] && item["firms"].length ? item["firms"].split(",").map(id => Number(id)) : null;
+                if (all_id && all_id.length) {
+                    for (let sItem of props.suppliers) {
+                        if (all_id.indexOf(sItem.id) !== -1) {
+                            suppliers.push(sItem.name)
+                        }
+                    }
+                }
+                item.firms = suppliers;
+            }
+        }
+        return data
+    }
 
     return (
         <div className={classes.rightPanel}>
@@ -100,6 +169,7 @@ const RightPanel = props => {
                 setFilters={setFilters}
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
+                toggleAddModalHandler={toggleAddModalHandler}
                 backFiltersPage={props.backFiltersPage}
             />
             {/*{*/}
@@ -152,64 +222,71 @@ const RightPanel = props => {
             {/*            </div>*/}
             {/*        </>*/}
             {/*        :*/}
-            {/*        <div className={classes.emptyWindow}>*/}
-            {/*            <div>*/}
-            {/*                <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}*/}
-            {/*                     alt={'product-empty'}/>*/}
-            {/*                <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>*/}
-            {/*                <CustomButton*/}
-            {/*                    className={classes.addProductButton}*/}
-            {/*                    children={*/}
-            {/*                        <>*/}
-            {/*                            <Icons type={'plus'} className={classes.addBtnIcon}/>*/}
-            {/*                            <span>Ավելացնել</span>*/}
-            {/*                        </>*/}
-            {/*                    }*/}
-            {/*                    // Methods*/}
-            {/*                    onClick={*/}
-            {/*                        () => toggleAddModalHandler('open', 'add', 'body')*/}
-            {/*                    }*/}
-            {/*                />*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
             {/*}*/}
             <div className={classes.tableInformation}>
                 <span>Դաշտը փոփոխման ենթակա է</span>
                 <span>Դաշտը հեռացման ենթակա չէ</span>
                 <span>Դաշտը փոփոխման ենթակա չէ</span>
             </div>
-            <ProductTable
-                tableType={"product"}
-                tabs={props.tabs}
-                data={props.products}
-                columnDefinition={columnDefinition}
-                rowSelection="multiple"
-                rowClassRules={rowClassRules}
-                animateRows={true}
-                rowDragManaged={true}
-                enableMultiRowDragging={true}
-                enableRangeSelection={true}
-                enableFillHandle={true}
-                // Methods
-                clickHandler={props.getProduct}
-            />
-            <div className={classes.paginationWindow}>
-                {
-                    props.count ?
-                        <Pagination
-                            count={Math.ceil(props.count / 20)}
-                            // hidePrevButton
-                            // hideNextButton
-                            renderItem={
-                                item => <PaginationItem
-                                    classes={{selected: classes.colorSecondary}}  {...item}/>
-                            }
-                            onChange={changeHandler}
+            {
+                props.products && props.products.length ?
+                    <>
+                        <ProductTable
+                            tableType={"product"}
+                            tabs={props.tabs}
+                            data={dataRender(props.products)}
+                            columnDefinition={columnDefinition}
+                            rowSelection="multiple"
+                            rowClassRules={rowClassRules}
+                            animateRows={true}
+                            rowDragManaged={true}
+                            enableMultiRowDragging={true}
+                            enableRangeSelection={true}
+                            enableFillHandle={true}
+                            columnTypes={columnTypes}
+                            // Methods
+                            clickHandler={props.getProduct}
                         />
-                        :
-                        null
-                }
-            </div>
+                        <div className={classes.paginationWindow}>
+                            {
+                                props.count ?
+                                    <Pagination
+                                        count={Math.ceil(props.count / 20)}
+                                        // hidePrevButton
+                                        // hideNextButton
+                                        renderItem={
+                                            item => <PaginationItem
+                                                classes={{selected: classes.colorSecondary}}  {...item}/>
+                                        }
+                                        onChange={changeHandler}
+                                    />
+                                    :
+                                    null
+                            }
+                        </div>
+                    </>
+                    :
+                    <div className={classes.emptyWindow}>
+                        <div>
+                            <img src={'https://cdn4.iconfinder.com/data/icons/refresh_cl/256/System/Box_Empty.png'}
+                                 alt={'product-empty'}/>
+                            <h3>"Որոնումը" արդյունք չտվեց, ապրանքացանկը դատարկ է</h3>
+                            <CustomButton
+                                className={classes.addProductButton}
+                                children={
+                                    <>
+                                        <Icons type={'plus'} className={classes.addBtnIcon}/>
+                                        <span>Ավելացնել</span>
+                                    </>
+                                }
+                                // Methods
+                                onClick={
+                                    () => toggleAddModalHandler('open', 'add', 'body')
+                                }
+                            />
+                        </div>
+                    </div>
+            }
         </div>
     )
 };

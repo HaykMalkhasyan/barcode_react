@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./tree-paste-button.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
-import CustomButton from "../../../UI/button/customButton/customButton";
+import CustomButton from "../../../UI/button/customButton/custom-button";
 import {FaPaste} from "react-icons/fa";
 
 const TreePasteButton = props => {

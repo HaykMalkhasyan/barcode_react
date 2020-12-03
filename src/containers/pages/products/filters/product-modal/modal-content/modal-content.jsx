@@ -18,7 +18,15 @@ const ModalContent = props => {
     return (
         <section className={classes.modalContent}>
             <ModalTabs tabErrors={props.tabErrors} activeTab={active} modalTabs={props.modalTabs} onClick={selectTab}/>
-            <ModalTabPages gallery={props.gallery} component={pages[active]}/>
+            <ModalTabPages
+                gallery={props.gallery}
+                component={pages[active]}
+                images={props.images}
+                pictures={props.pictures}
+                // Methods
+                addPhotoHandler={props.addPhotoHandler}
+                setDefaultImage={props.setDefaultImage}
+            />
         </section>
     )
 }

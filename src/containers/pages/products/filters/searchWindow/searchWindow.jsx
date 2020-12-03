@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from '../filters.module.css'
-import CustomButton from "../../../../../components/UI/button/customButton/customButton"
+import CustomButton from "../../../../../components/UI/button/customButton/custom-button"
 import {connect} from "react-redux"
 import {setProductValues} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";

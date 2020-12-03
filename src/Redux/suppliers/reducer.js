@@ -16,7 +16,7 @@ export default function suppliersReducer(state = initialState, action) {
             }
         case ADD_NEW_PRODUCT:
             return {
-                ...state, selected: [], suppliers: null
+                ...state, selected: []
             }
         case CLOSE_PRODUCT_MODAL:
             return {

@@ -7,7 +7,7 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
 import CheckIcon from '@material-ui/icons/Check';
 import {NavLink} from "react-router-dom";
-import CustomButton from "../../../components/UI/button/customButton/customButton";
+import CustomButton from "../../../components/UI/button/customButton/custom-button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {login, setValues} from "../../../Redux/auth/actions";
 import is from 'is_js'

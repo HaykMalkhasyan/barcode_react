@@ -1,6 +1,11 @@
 import React from 'react'
+import classes from "./custom-button.module.css"
 
 const CustomButton = props => {
+    const defaultClasses = [
+        props.className,
+        props.disabled ? classes.disabled : classes.default
+    ]
 
     return (
         <button
@@ -10,7 +15,7 @@ const CustomButton = props => {
             type={props.type}
             name={props.name}
             style={props.style}
-            className={props.className}
+            className={defaultClasses.join(" ")}
             disabled={props.disabled}
             onDragOver={props.onDragOver}
             onDragEnter={props.onDragEnter}

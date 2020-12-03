@@ -28,21 +28,21 @@ const ProductModal = props => {
 
     const deleteImageHandler = (image, index) => {
 
-        const pictures = {...props.pictures};
-        const picturesArr = [...pictures.pictures];
-        const images = [...props.images];
-        images.splice(index, 1);
-        for (let [key, item] of Object.entries(picturesArr)) {
-            if (item.image === image) {
-                picturesArr.splice(+key, 1)
-            }
-        }
-        props.setProductValues('images', images);
-        props.setProductValues('pictures', {pictures: picturesArr})
+        // const pictures = {...props.pictures};
+        // const picturesArr = [...pictures.pictures];
+        // const images = [...props.images];
+        // images.splice(index, 1);
+        // for (let [key, item] of Object.entries(picturesArr)) {
+        //     if (item.image === image) {
+        //         picturesArr.splice(+key, 1)
+        //     }
+        // }
+        // props.setProductValues('images', images);
+        // props.setProductValues('pictures', {pictures: picturesArr})
     };
 
     const addPhotoHandler = event => {
-        setGallery([...event.target.files]);
+        // setGallery([...event.target.files]);
         const pictures = {...props.pictures};
         const picturesArr = [...pictures.pictures];
         const images = [...props.images];

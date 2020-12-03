@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './customDropDown.module.css'
-import CustomButton from "../button/customButton/customButton";
+import CustomButton from "../button/customButton/custom-button";
 
 const CustomDropDown = props => {
 

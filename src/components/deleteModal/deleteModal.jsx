@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './deleteModal.module.css'
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 import AlertUI from "../UI/alert/alertUI/alertUI";
 
 const DeleteModal = props => {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import classes from './dropSmiles.module.css'
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 import Icons from "../Icons/icons";
 import Backdrop from "../UI/backdrop/backdrop";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';

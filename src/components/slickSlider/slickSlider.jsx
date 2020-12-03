@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import CustomButton from "../UI/button/customButton/customButton";
+import CustomButton from "../UI/button/customButton/custom-button";
 
 function SampleNextArrow(props) {
     const {onClick} = props;

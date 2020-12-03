@@ -1,6 +1,6 @@
 import React from 'react'
 import Popper from '@material-ui/core/Popper'
-import CustomButton from "../UI/button/customButton/customButton"
+import CustomButton from "../UI/button/customButton/custom-button"
 
 
 export default function SpringPopper(props) {
