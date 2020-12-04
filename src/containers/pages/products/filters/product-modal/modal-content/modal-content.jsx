@@ -23,6 +23,7 @@ const ModalContent = props => {
                 component={pages[active]}
                 images={props.images}
                 pictures={props.pictures}
+                main={props.main}
                 // Methods
                 addPhotoHandler={props.addPhotoHandler}
                 setDefaultImage={props.setDefaultImage}

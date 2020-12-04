@@ -79,7 +79,7 @@ const RightPanel = props => {
                 })
             } /*else if (key === "firms") {
 
-            }*/ else if (key !== "profile_id") {
+            }*/ else {
                 array.push({
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
