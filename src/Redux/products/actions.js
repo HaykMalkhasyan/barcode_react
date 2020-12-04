@@ -401,18 +401,19 @@ export function uploadImages(files, data, type) {
 export function productDataRequest(data, type) {
 
     return async (dispatch, getState) => {
+        const products = [...getState().products.products];
         try {
-            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}}, getHeaders({}, {}));
-            console.log("DATA", response.data)
+            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
+            products.push(response.data.data[0])
             switch (type) {
                 case 'save': {
                     dispatch(setProductValues('open', 'edit'));
-                    dispatch(addNewProduct([/*products*/]));
+                    dispatch(addNewProduct(products));
                     break;
                 }
                 case 'confirm':
                 default: {
-                    dispatch(addNewProductWithClose([/*products*/]));
+                    dispatch(addNewProductWithClose(products));
                     break;
                 }
             }

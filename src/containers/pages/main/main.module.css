@@ -5,10 +5,42 @@
 .header {
     width: 100%;
     height: 700px;
-    padding: 30px;
+    padding: 0 30px 30px;
     box-sizing: border-box;
     clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 85% 90%, 80% 100%, 75% 90%, 0 90%);
     background-size: cover !important;
+}
+
+.waterWaveControlWindow {
+    padding: 10px;
+    box-shadow: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconButtons {
+    color: #fff;
+    cursor: pointer;
+}
+
+.active {
+    color: #FF8927;
+}
+
+.name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    color: #fff;
+    text-shadow: -5px -5px 5px #aaa;
+    font-size: 60px;
+    cursor: none;
+    font-family: cursive;
 }
 
 .info {

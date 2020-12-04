@@ -198,8 +198,8 @@ export default function productsReducer(state = initialState, action) {
                 main: {
                     item_name: '',
                     short_name: '',
-                    product_type: '',
-                    unit_id: '',
+                    product_type: 0,
+                    unit_id: 0,
                     active: false,
                     can_in: false,
                     can_sale: false
@@ -266,8 +266,8 @@ export default function productsReducer(state = initialState, action) {
                 main: {
                     item_name: '',
                     short_name: '',
-                    product_type: '',
-                    unit_id: '',
+                    product_type: 0,
+                    unit_id: 0,
                     active: false,
                     can_in: false,
                     can_sale: false
@@ -292,8 +292,8 @@ export default function productsReducer(state = initialState, action) {
                 main: {
                     item_name: '',
                     short_name: '',
-                    product_type: '',
-                    unit_id: '',
+                    product_type: 0,
+                    unit_id: 0,
                     active: false,
                     can_in: false,
                     can_sale: false

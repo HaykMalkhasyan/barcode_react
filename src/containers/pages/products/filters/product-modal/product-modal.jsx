@@ -74,6 +74,7 @@ const ProductsModal = props => {
                         images={props.images}
                         pictures={props.pictures}
                         modalTabs={props.modalTabs}
+                        main={props.main}
                         // Methods
                         addPhotoHandler={addPhotoHandler}
                         setDefaultImage={setDefaultImage}
@@ -96,6 +97,7 @@ function mapStateToProps(state) {
         pictures: state.products.pictures,
         product: state.products.product,
         open: state.products.open,
+        main : state.products.main,
     }
 }
 
