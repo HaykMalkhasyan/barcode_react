@@ -4,6 +4,7 @@ import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import ModalHeader from "./modal-header/modal-header";
 import ModalFooter from "./modal-footer/modal-footer";
 import {
+    deleteProduct,
     setAllImages,
     setMainImage,
     setProduct,
@@ -64,10 +65,15 @@ const ProductsModal = props => {
             <Backdrop className={classes.backdrop}/>
             <div className={classes.productModal}>
                 <div className={classes.modal}>
-                    <ModalHeader type={props.open} closeHandler={() => {
-                        setGallery([]);
-                        props.handleClose();
-                    }}/>
+                    <ModalHeader
+                        type={props.open}
+                        // Methods
+                        closeHandler={() => {
+                            setGallery([]);
+                            props.handleClose();
+                        }}
+                        confirmHandler={confirmHandler}
+                    />
                     <ModalContent
                         tabErrors={props.tabErrors}
                         gallery={props.images}
@@ -79,7 +85,7 @@ const ProductsModal = props => {
                         addPhotoHandler={addPhotoHandler}
                         setDefaultImage={setDefaultImage}
                     />
-                    <ModalFooter type={props.open} errorFields={props.errorFields} confirmHandler={confirmHandler}/>
+                    <ModalFooter type={props.open} errorFields={props.errorFields} confirmHandler={confirmHandler} deleteProduct={props.deleteProduct}/>
                 </div>
             </div>
         </>
@@ -109,6 +115,7 @@ function mapDispatchToProps(dispatch) {
         setTabValue: (value) => dispatch(setTabValue(value)),
         setMainImage: image_path => dispatch(setMainImage(image_path)),
         setAllImages: (images, pictures) => dispatch(setAllImages(images, pictures)),
+        deleteProduct: () => dispatch(deleteProduct()),
     }
 }
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import classes from '../filters.module.css'
 import {connect} from "react-redux"
-import {advanceSearchHandler, clearSearchClassifiers, toggleCheckBoxValue} from "../../../../../Redux/products/actions"
+import {clearSearchClassifiers, toggleCheckBoxValue} from "../../../../../Redux/products/actions"
 import Icons from "../../../../../components/Icons/icons";
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import {
@@ -28,10 +28,6 @@ class ClassifiersTree extends Component {
       this.setState({
           collapseStatus: !this.state.collapseStatus
       })
-    };
-
-    classifiersSelectHandler = (value) => {
-        this.props.advanceSearchHandler(value)
     };
 
     prevHandler = (groups, active) => {
@@ -148,7 +144,6 @@ function mapDispatchToProps(dispatch) {
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         getSubgroupWithGroupId: (id, place) => dispatch(getSubgroupWithGroupId(id, place)),
-        advanceSearchHandler: item => dispatch(advanceSearchHandler(item)),
     }
 }
 
