@@ -48,6 +48,8 @@ const ModalFooter = props => {
                     <RemoveButton
                         name={'remove'}
                         label={'Ջնջել'}
+                        // Methods
+                        onClick={props.deleteProduct}
                     />
                     :
                     null

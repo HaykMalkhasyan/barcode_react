@@ -20,8 +20,10 @@ const SearchWindow = props => {
     };
 
     const productsSearchHandler = () => {
-        if (Object.keys(props.advancedSearchConfig).length === 1 && props.advancedSearchConfig.classifiers === null) {
+        if (Object.keys(props.advancedSearchConfig).length === 0) {
             props.setFiltersValue('type', 'products')
+        } else {
+            console.log(props.advancedSearchConfig)
         }
     };
 

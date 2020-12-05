@@ -42,7 +42,7 @@ import {
 import ModalUI from "../../../../components/modalUI/modalUI";
 import {
     closeProductActionModal,
-    importGroupInProduct,
+    importGroupInProduct, measurementFiltered,
     selectSubgroup,
     setProductValues
 } from "../../../../Redux/products/actions";
@@ -116,7 +116,9 @@ class Filters extends Component {
                             classifierOpenHandler={this.classifierOpenHandler}
                         />
                         <CollapsedFilters
-                            measurementsFilters={this.props.measurementsFilters}
+                            measurements={this.props.measurements}
+                            // Methods
+                            measurementFiltered={this.props.measurementFiltered}
                         />
                         <OtherFilters
                             otherFilters={this.props.otherFilters}
@@ -249,7 +251,7 @@ function mapStateToProps(state) {
         groupName: state.characteristics.groupName,
         classifiers: state.products.classifiers,
         classifiersModal: state.characteristics.classifiersModal,
-        measurementsFilters: state.products.measurementsFilters,
+        measurements: state.products.measurements,
         otherFilters: state.products.otherFilters,
         progress: state.characteristics.progress,
         allError: state.characteristics.allError,
@@ -338,6 +340,7 @@ function mapDispatchToProps(dispatch) {
         cutPaste: tree => dispatch(cutPaste(tree)),
         copyPaste: tree => dispatch(copyPaste(tree)),
         setMovingStart: () => dispatch(setMovingStart()),
+        measurementFiltered: id => dispatch(measurementFiltered(id)),
     }
 }
 
