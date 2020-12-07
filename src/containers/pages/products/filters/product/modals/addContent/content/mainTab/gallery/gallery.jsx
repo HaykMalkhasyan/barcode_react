@@ -4,9 +4,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import Tooltip from "@material-ui/core/Tooltip"
-import CustomInput from "../../../../../../../../components/UI/input/customInput/customInput"
-import AsNavFor from "../../../../../../../../components/asNavFor/asNavFor"
-import CustomButton from "../../../../../../../../components/UI/button/customButton/custom-button"
+import CustomInput from "../../../../../../../../../../components/UI/input/customInput/customInput"
+import AsNavFor from "../../../../../../../../../../components/asNavFor/asNavFor"
+import CustomButton from "../../../../../../../../../../components/UI/button/customButton/custom-button"
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import WallpaperIcon from '@material-ui/icons/Wallpaper';

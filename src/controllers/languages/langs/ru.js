@@ -47,7 +47,7 @@ export const ru = {
     classifiers: "Классификаторы",
     codes: "Коды",
     description: "Описание",
-    articul: "код продавца",
+    articul: "артикул",
     item_name: "название",
     image_path: "изображение",
     item_type: "тип",
@@ -59,4 +59,5 @@ export const ru = {
     active: "статус",
     deleted: "удалено",
     sort: "сортировка",
+    show_in_site: "отображаемые на сайте:"
 };

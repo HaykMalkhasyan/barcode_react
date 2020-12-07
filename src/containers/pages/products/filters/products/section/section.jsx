@@ -11,11 +11,13 @@ const Section = props => {
                 activeTabs={props.activeTabs}
                 tabs={props.tabs}
                 count={props.count}
+                page_count={props.page_count}
                 products={props.products}
                 types={props.types}
                 selected_products={props.selected_products}
                 measurements={props.measurements}
                 suppliers={props.suppliers}
+                advancedSearchConfig={props.advancedSearchConfig}
                 // Methods
                 getAllProducts={props.getAllProducts}
                 selectProducts={props.selectProducts}

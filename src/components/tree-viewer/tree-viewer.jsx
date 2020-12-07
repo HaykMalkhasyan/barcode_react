@@ -274,7 +274,12 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                                 null
                                             }
                                             groupId={props.groupId}
-                                            selected={node.state.selected}
+                                            selected={
+                                                props.treeType === "select" ?
+                                                    props.filtred.indexOf(node.id) !== -1
+                                                    :
+                                                    node.state.selected
+                                            }
                                             depth={node.state.depth}
                                             onDoubleClick={props.treeType === "edit" && props.nodeStatus ? () => tree.toggleNode(node)
                                                 :
@@ -284,7 +289,8 @@ const TreeViewer = React.forwardRef((props, ref) => {
                                             }
                                             onClick={() => {
                                                 if (props.treeType === "select") {
-                                                    console.log(node)
+                                                    tree.selectNode(node)
+                                                    props.filteredNode(node)
                                                 } else {
                                                     if (props.nodeStatus) {
                                                         if (!props.own_status) {

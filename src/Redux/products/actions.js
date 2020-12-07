@@ -3,12 +3,12 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    SET_ALL_IMAGES, SET_FILTERS_CONFIG,
+    SET_ALL_IMAGES, SET_FILTERS_CONFIG, SET_FILTERS_CONFIG_WITH_TEXT,
     SET_MAIN_IMAGE,
     SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
-    SET_PRODUCTS,
+    SET_PRODUCTS, SET_SAVE_PRODUCT,
     SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
@@ -71,7 +71,8 @@ export function getProduct(id) {
     }
 }
 
-export function getAllProducts(page) {
+export function getAllProducts(page, param = {}) {
+
     return async dispatch => {
         if (cookie.get('access')) {
             try {
@@ -79,16 +80,24 @@ export function getAllProducts(page) {
                     API_URL,
                     getHeaders(
                         {},
-                        {
-                            limit: 20,
-                            page: page,
-                            path: "Products/Product",
-                            cols: "id, articul, item_name, image_path, item_type, unit, service, create_date, del_date, firms, active, deleted, sort"
-                        }
+                        Object.keys(param).length ?
+                            {
+                                limit: 20,
+                                param: param,
+                                page: page,
+                                path: "Products/Product",
+                                cols: "id, articul, show_in_site, item_name, image_path, unit, service, create_date, del_date, firms, active, deleted, sort"
+                            }
+                            :
+                            {
+                                limit: 20,
+                                page: page,
+                                path: "Products/Product",
+                                cols: "id, articul, show_in_site, item_name, image_path, unit, service, create_date, del_date, firms, active, deleted, sort"
+                            }
                         )
                 );
-                console.log("PRODUCTS: ", response.data)
-                dispatch(setProducts(response.data.data, response.data.page_count))
+                dispatch(setProducts(response.data.data, response.data.page_count, response.data.count))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -107,65 +116,94 @@ export function getAllProducts(page) {
     }
 }
 
-// Measurements filter
-export function measurementFiltered(id) {
+
+// Name filter
+export function nameFiltered(name) {
 
     return (dispatch, getState) => {
-        const measurementsFilters = [...getState().products.measurementsFilters];
         const advancedSearchConfig = {...getState().products.advancedSearchConfig};
-        if (id !== 0) {
-            for (let item of measurementsFilters) {
-                if (id === item.id) {
-                    advancedSearchConfig["item_type"] = item.value;
-                    break;
-                }
+        if (name.length) {
+            advancedSearchConfig["item_name"] = {
+                value: name,
+                type: "like"
             }
         } else {
-            delete advancedSearchConfig["item_type"];
+            delete advancedSearchConfig["item_name"]
+        }
+        dispatch(setFilterConfigs(advancedSearchConfig, name))
+    }
+}
+// Classifiers filter
+export function classifiersFiltered(classifier) {
+    return (dispatch, getState) => {
+        const type = getState().filters.type;
+        const advancedSearchConfig = {...getState().products.advancedSearchConfig};
+        if (classifier.id.length) {
+            advancedSearchConfig["catedory_id"] = {
+                value: classifier.id.join(","),
+                type: "in"
+            }
+        } else {
+            delete advancedSearchConfig["catedory_id"]
         }
         dispatch(setFilterConfigs(advancedSearchConfig))
+        if (type === "products") {
+            dispatch(getAllProducts(1, {...advancedSearchConfig}))
+        }
     }
 }
-
-export function setFilterConfigs(data) {
-
-    return {
-        type: SET_FILTERS_CONFIG, data
-    }
-}
-
-// stugel ,, erevi petq e jnjel kam poxel
-export function toggleCheckBoxValue(name, check, value = false, classifier) {
+// Measurements filter
+export function measurementFiltered(selected) {
 
     return (dispatch, getState) => {
-        let advancedSearchConfig = {...getState().products.advancedSearchConfig};
-
-        if (value === false) {
-            if (check) {
-                advancedSearchConfig[name] = check
-            } else {
-                delete advancedSearchConfig[name]
+        const type = getState().filters.type;
+        const advancedSearchConfig = {...getState().products.advancedSearchConfig};
+        if (selected.length) {
+            advancedSearchConfig["unit"] = {
+                value: selected.join(","),
+                type: "in"
             }
         } else {
-            if (check) {
-                advancedSearchConfig[name] = classifier
-            } else {
-                delete advancedSearchConfig[name]
-            }
+            delete advancedSearchConfig["unit"];
         }
-        localStorage.setItem('advancedSearchConfig', JSON.stringify(advancedSearchConfig));
-        dispatch(setProductValues('advancedSearchConfig', advancedSearchConfig))
+        dispatch(setFilterConfigs(advancedSearchConfig))
+        if (type === "products") {
+            dispatch(getAllProducts(1, {...advancedSearchConfig}))
+        }
     }
 }
-
-export function clearSearchClassifiers() {
+// Other filter
+export function otherFiltered(name, value) {
 
     return (dispatch, getState) => {
-        let advancedSearchConfig = {...getState().products.advancedSearchConfig};
-        delete advancedSearchConfig['classifier'];
-        localStorage.setItem('advancedSearchConfig', JSON.stringify(advancedSearchConfig));
-        dispatch(setProductValues('advancedSearchConfig', advancedSearchConfig))
+        const type = getState().filters.type;
+        const advancedSearchConfig = {...getState().products.advancedSearchConfig};
+        if (advancedSearchConfig[name]) {
+            delete advancedSearchConfig[name]
+        } else {
+            advancedSearchConfig[name] = {
+                value: value,
+                type: "in"
+            }
+        }
+        dispatch(setFilterConfigs(advancedSearchConfig))
+        if (type === "products") {
+            dispatch(getAllProducts(1, {...advancedSearchConfig}))
+        }
     }
+}
+// Set filters
+export function setFilterConfigs(data, text = null) {
+
+    return text !== null ?
+        {
+            type: SET_FILTERS_CONFIG_WITH_TEXT, data, text
+        }
+        :
+        {
+            type: SET_FILTERS_CONFIG, data
+        }
+
 }
 
 export function setMainData(name, value) {
@@ -201,6 +239,16 @@ export function setProduct(gallery, type) {
         const price = {...getState().price.values};
         const classifiers = {};
         for (let index of Object.keys(init_classifiers)) {classifiers[index] = {value: init_classifiers[index].id, type_id: init_classifiers[index].cat_id};}
+
+        data.item_type = "piece";
+        data.details = [];
+        data.images = {};
+        data.active = !main.active;
+        data.show_in_site = +main.show_in_site
+        if (main.articul) {
+            data.articul = main.articul
+        }
+
         // Prices
         const prices = []
         for (let [key, item] of Object.entries(price)) {
@@ -275,14 +323,6 @@ export function setProduct(gallery, type) {
             }
         }
 
-        data.item_type = "piece";
-        data.details = [];
-        data.images = {};
-        data.active = !main.active;
-        if (main.articul) {
-            data.articul = main.articul
-        }
-
         // Unit (unit_id)
         if (main.unit_id !== "") {
             data.unit = main["unit_id"]
@@ -333,7 +373,6 @@ export function uploadImages(files, data, type) {
         data.image_path = Object.keys(mainIMage).length ? mainIMage.name : "";
         let form_data = new FormData();
         for (let [key] of Object.entries(files)) {
-            console.log(files[key])
             form_data.append('ax_file_input', files[key])
             form_data.append("ax-file-path", "../items_images/thumb/2000/")
             form_data.append('ax-thumbPostfix', '_thumb')
@@ -344,7 +383,6 @@ export function uploadImages(files, data, type) {
             form_data.append('ax-file-name', pictures.pictures[key].name)
             data.images[key] = pictures.pictures[key].name;
         }
-        console.log(data)
         try {
             const response = await Axios.post(`http://new.haysell.com/images/upload/config/upload_image_items.php`, form_data);
             if (response.status === 201) {
@@ -365,7 +403,7 @@ export function productDataRequest(data) {
     return async (dispatch, getState) => {
         const products = [...getState().products.products];
         try {
-            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
+            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
             products.push(response.data.data[0])
             dispatch(addNewProductWithClose(products));
         } catch (error) {
@@ -383,7 +421,7 @@ export function productDataEditRequest(data) {
             data.id = product.id;
         }
         try {
-            const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+            const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
             const responseData = response.data.data[0];
             for (let [key, value] of Object.entries(products)) {
                 if (value.id === responseData.id) {
@@ -402,6 +440,7 @@ export function productDataSaveRequest(data) {
     return async (dispatch, getState) => {
         const init_data = {...data};
         if (cookie.get("access")) {
+            const products = [...getState().products.products];
             const open = getState().products.open;
             const product = {...getState().products.product};
             if (open === "edit") {
@@ -409,17 +448,29 @@ export function productDataSaveRequest(data) {
             }
             try {
                 const response = open === "add" ?
-                    await Axios.post(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
+                    await Axios.post(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
                     :
-                    await Axios.put(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+                    await Axios.put(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
 
-                dispatch(setProductValues("open", "edit"))
                 const responseData = response.data.data[0];
+                if (open === "add") {
+                    products.push(responseData)
+                    dispatch(setSavedProduct(products))
+                } else {
+                    dispatch(setProductValues("open", "edit"))
+                }
                 dispatch(getProduct(responseData.id))
             } catch (error) {
                 console.log("Product save error")
             }
         }
+    }
+}
+
+export function setSavedProduct(data) {
+
+    return {
+        type: SET_SAVE_PRODUCT, data
     }
 }
 
@@ -542,11 +593,12 @@ export function setProductValues(name, value) {
     }
 }
 
-export function setProducts(products, count) {
+export function setProducts(products, page_count, count) {
 
     return {
         type: SET_PRODUCTS,
         products,
+        page_count,
         count
     }
 }

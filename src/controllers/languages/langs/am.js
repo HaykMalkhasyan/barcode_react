@@ -48,7 +48,7 @@ export const am = {
     classifiers: "Դասակարգիչներ",
     codes: "Կոդեր",
     description: "Նկարագրություն",
-    articul: "վաճառողի կոդ",
+    articul: "Ապմ",
     item_name: "անվանում",
     image_path: "նկար",
     item_type: "տիպ",
@@ -60,4 +60,5 @@ export const am = {
     active: "կարգավիճակ",
     deleted: "ջնջված է",
     sort: "տեսակավորում",
+    show_in_site: "Ցուցադրված է կայքում"
 };

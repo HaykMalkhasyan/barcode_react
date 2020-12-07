@@ -135,7 +135,10 @@
 }
 
 .classifiersWindow .controllers > span {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #024059;
     cursor: pointer;
     width: 100%;
     height: 45px;

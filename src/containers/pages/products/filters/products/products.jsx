@@ -17,7 +17,7 @@ class Products extends Component{
             open : false,
             filter_open: false
         };
-        this.props.getAllProducts(1)
+        // this.props.getAllProducts(1)
         props.getSuppliers()
     }
 
@@ -75,11 +75,13 @@ class Products extends Component{
                     activeTabs={this.props.activeTabs}
                     tabs={this.props.tabs}
                     count={this.props.count}
+                    page_count={this.props.page_count}
                     products={this.props.products}
                     types={this.props.types}
                     selected_products={this.props.selected_products}
                     measurements={this.props.measurements}
                     suppliers={this.props.suppliers}
+                    advancedSearchConfig={this.props.advancedSearchConfig}
                     // Methods
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
@@ -106,6 +108,7 @@ function mapStateToProps(state) {
 
     return {
         count: state.products.count,
+        page_count: state.products.page_count,
         products: state.products.products,
         types: state.products.types,
         measurements: state.products.measurements,
@@ -114,13 +117,14 @@ function mapStateToProps(state) {
         tabs: state.filters.tabs,
         activeTabs: state.filters.activeTabs,
         suppliers: state.suppliers.suppliers,
+        advancedSearchConfig: state.products.advancedSearchConfig,
     }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
-        getAllProducts: page => dispatch(getAllProducts(page)),
+        getAllProducts: (page, param) => dispatch(getAllProducts(page, param)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
         selectProducts: (id, type) => dispatch(selectProducts(id, type)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),

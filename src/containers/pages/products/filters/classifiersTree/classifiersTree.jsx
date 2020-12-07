@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import classes from '../filters.module.css'
 import {connect} from "react-redux"
-import {clearSearchClassifiers, toggleCheckBoxValue} from "../../../../../Redux/products/actions"
 import Icons from "../../../../../components/Icons/icons";
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import {
@@ -13,6 +12,7 @@ import CustomHeader from "../../../../../components/UI/customHeader/customHeader
 import Collapse from "@material-ui/core/Collapse";
 import cookies from "../../../../../services/cookies";
 import TreeViewer from "../../../../../components/tree-viewer/tree-viewer";
+import {FiFilter} from "react-icons/fi";
 
 class ClassifiersTree extends Component {
     constructor(props) {
@@ -20,14 +20,16 @@ class ClassifiersTree extends Component {
         this.state = {
             open: false,
             isOpen: false,
-            collapseStatus: true
+            collapseStatus: true,
+            selected: [],
+            selected_cat_id: null,
         };
     }
 
     collapsed = () => {
-      this.setState({
-          collapseStatus: !this.state.collapseStatus
-      })
+        this.setState({
+            collapseStatus: !this.state.collapseStatus
+        })
     };
 
     prevHandler = (groups, active) => {
@@ -51,7 +53,7 @@ class ClassifiersTree extends Component {
 
         this.props.setGroupValues('progress', true);
         this.props.setGroupValues('own_subgroups', []);
-        if (active !== length -1) {
+        if (active !== length - 1) {
             this.props.setGroupValues('open', `collapse-${groups[active + 1].id}`);
             this.props.setGroupValues('active', active + 1);
             this.props.getSubgroupWithGroupId(groups[active + 1].id, "filter_subgroups")
@@ -61,6 +63,26 @@ class ClassifiersTree extends Component {
             this.props.getSubgroupWithGroupId(groups[0].id, "filter_subgroups")
         }
     };
+
+    selectNodeHandler = node => {
+        if (node.cat_id === 0) {
+            let selected;
+            const selected_cat_id = this.state.selected_cat_id;
+            if (+node.cat_id === selected_cat_id) {
+                selected = [...this.state.selected];
+            } else {
+                selected = []
+            }
+            const index = selected.indexOf(node.id);
+            if (index === -1) {
+                selected.push(node.id)
+            } else {
+                selected.splice(index, 1)
+            }
+            this.setState({selected, selected_cat_id: +node.cat_id})
+            this.props.classifiersFiltered({cat_id: node.cat_id, id: [...selected]})
+        }
+    }
 
     render() {
         return (
@@ -88,7 +110,13 @@ class ClassifiersTree extends Component {
                                     <span
                                         onClick={() => this.props.classifierOpenHandler(this.props.groups[this.props.active].id)}
                                     >
-                                        {this.props.groups[this.props.active][`title_${cookies.get('language') || 'am'}`]}
+                                        <span>{this.props.groups[this.props.active][`title_${cookies.get('language') || 'am'}`]}</span>
+                                        {
+                                            this.state.selected_cat_id === this.props.groups[this.props.active].id && this.state.selected.length ?
+                                                <FiFilter style={{fontSize: 16, marginLeft: 10, color: "#FF8927"}}/>
+                                                :
+                                                null
+                                        }
                                     </span>
                                     <CustomButton
                                         className={classes.prevSlideBtn}
@@ -105,8 +133,10 @@ class ClassifiersTree extends Component {
                                         own_subgroups={this.props.filter_subgroups}
                                         treeType={'select'}
                                         own_move={false}
+                                        filtred={this.state.selected}
                                         // Methods
                                         setGroupValues={this.props.setGroupValues}
+                                        filteredNode={this.selectNodeHandler}
                                     />
                                 </div>
                             </>
@@ -139,8 +169,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
-        toggleCheckBoxValue: (name, check, value, classifier) => dispatch(toggleCheckBoxValue(name, check, value, classifier)),
-        clearSearchClassifiers: () => dispatch(clearSearchClassifiers()),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
         getSubgroupWithGroupId: (id, place) => dispatch(getSubgroupWithGroupId(id, place)),

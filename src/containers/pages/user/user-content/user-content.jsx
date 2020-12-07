@@ -5,7 +5,7 @@ import CustomHeader from "../../../../components/UI/customHeader/customHeader";
 const UserContent = ({component: Component, ...props}) => {
 
     return (
-        <section className={classes.userContent}>{console.log(props)}
+        <section className={classes.userContent}>
             <CustomHeader
                 name={props.active.name}
             />
