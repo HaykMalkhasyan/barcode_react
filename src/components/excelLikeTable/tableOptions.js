@@ -23,6 +23,7 @@ import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";
 import VerticalAlignCenterIcon from "@material-ui/icons/VerticalAlignCenter";
 import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
 import SizePicker from "./setSize/setSize"
+import MarginsControl from "./margins/marginsControl"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,7 +50,17 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
 }))(ToggleButtonGroup);
 
 export default function CustomizedDividers(props) {
-  const { selectedRangeCellsHeader, functionalCells, setFunctionalCells, selecteds, setSelecteds, allExpandedCells } = props;
+  const { 
+    selectedRangeCellsHeader, 
+    functionalCells, 
+    setFunctionalCells, 
+    selecteds, 
+    setSelecteds, 
+    allExpandedCells, 
+    paperHeight, 
+    setPaperHeight, 
+    paperWidth, 
+    setPaperWidth } = props;
 
 
   const [alignment, setAlignment] = React.useState(null);
@@ -388,7 +399,7 @@ export default function CustomizedDividers(props) {
         let startRowIndex = itemN.startRow.rowIndex + 1;
         let endRowIndex = itemN.endRow.rowIndex + 1;
         let columns = itemN.columns.map((x) => x.colDef.field);
-        columns.forEach((col) => {
+        columns.forEach((col, i) => {
           Object.assign(selectedFormateds, {
             [col]: getObjects(selecteds[col], startRowIndex, endRowIndex, 
               Object.assign({
@@ -396,7 +407,8 @@ export default function CustomizedDividers(props) {
                 display:"flex",
                 justifyContent:"flex-start",
                 alignItems:"center",
-                lineHeight:"14px !important"
+                lineHeight:"14px !important",
+                zindex: 2
               },
               {
                 ...align,
@@ -410,7 +422,7 @@ export default function CustomizedDividers(props) {
                 fontSize: fontSizeC,
                 fontFamily: fontFamilyC,
                 ...borderStyle,
-                zIndex:"1 !important",
+                zIndex:"2 !important",
                 lineHeight:"14px !important"
               })),
           });
@@ -437,13 +449,13 @@ export default function CustomizedDividers(props) {
         return;
       }
       props.gridApi.setColumnDefs([]);
-      colDefs.forEach((item) => {
+      colDefs.forEach((item, i) => {
         if (selecteds.hasOwnProperty(item.field)) {
           let def = item.cellStyle
+          
           item.cellStyle = function (params) {
             if (selecteds[item.field].hasOwnProperty(params.data["/"])) {
               // console.log('return selecteds[item.field][params.data["/"]];', selecteds[item.field][params.data["/"]])
-              
               return selecteds[item.field][params.data["/"]];
             }
             else {
@@ -458,6 +470,7 @@ export default function CustomizedDividers(props) {
             }
           };
         }
+         
       });
       props.gridApi.setColumnDefs(colDefs);
       let obj = {
@@ -491,9 +504,15 @@ export default function CustomizedDividers(props) {
   return (
     <div>
       <Paper elevation={0} className={classes.paper}>
+        <MarginsControl
+        gridApi={props.gridApi}
+        />
         <SizePicker
-        setPrintSize={props.setPrintSize}
+          setPrintSize={props.setPrintSize}
           gridApi={props.gridApi}
+          setPaperHeight={setPaperHeight}
+          setPaperWidth={setPaperWidth}
+
         />
         <TableFunctions
           selectedFunction={selectedFunction}
