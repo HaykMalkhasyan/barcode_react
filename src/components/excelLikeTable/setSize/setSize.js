@@ -21,13 +21,18 @@ export default function ControllableStates(props) {
         setValue(event.target.value);
         switch (event.target.value) {
             case "A4":
-                props.setPrintSize({width:"297mm", height:"210mm"})
-                break;
-            case "Work Mode":
-                props.setPrintSize({width:null, height:null})
+                props.setPaperWidth(9);
+                props.setPaperHeight(50);
                 break;
             case "B4":
-                props.setPrintSize({width:"353mm", height:"250mm"})
+                props.setPaperWidth(6);
+                props.setPaperHeight(6);
+                props.gridApi.redrawRows()
+                let coldef = props.gridApi.getColumnDefs()
+                props.gridApi.setColumnDefs([])
+                setTimeout(()=>{
+                  props.gridApi.setColumnDefs(coldef)
+                },100)
                 break;
         
             default:

@@ -21,7 +21,7 @@ import { useLocation } from 'react-router-dom';
 import style from "./report.module.css"
 import "./report.css"
 // import StyleSheet from "../../../../../components/styleSheet/StyleSheet"
-import ExcelLikeTable from "../../../../../components/excelLikeTable/excelLikeTable"
+import ExcelLikeTable from "../../../../../components/excelLikeTable/excelLikeTableA4"
 import { IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import LoadingButton from '@material-ui/lab/LoadingButton';
@@ -253,12 +253,12 @@ export default function AlertDialog(props) {
         <DialogContent>
           
       <div style={{position:"relative"}}>
-      <div style={{ position:"absolute", top:"82px", zIndex:"100", color:"blue", left:"210mm"}} >
+      {/* <div style={{ position:"absolute", top:"82px", zIndex:"100", color:"blue", left:"210mm"}} >
             |
           </div>
           <div style={{ position:"absolute", top:"297mm", zIndex:"100", color:"blue", left:"53px"}} >
             _
-          </div>
+          </div> */}
           {/* <div ref={dpiRef} style={{
             position:"absolute",
             height:"1in",
@@ -270,17 +270,31 @@ export default function AlertDialog(props) {
           }} >
             asd
           </div> */}
+          {/* {console.log('rowData', rowData)} */}
         <ExcelLikeTable 
           setPrintSize={setPrintSize}
           setPending={setPending}
           exportStatus={exportStatus}
           setExportStatus={setExportStatus}
-          height={printSize.height ? printSize.height : "86.1vh"} 
+          height={printSize.height ? printSize.height : "100%"} 
           // height={"210mm"} 
           setGridApi={setGridApi}
-          width={printSize.width}
+          width={printSize.width }
           mode={null} 
-          rowData={rowData} 
+          rowData={[{
+            "#": 1,
+            "ԱՊՄ": "000035",
+            "ԱՏԳ": "4015",
+            "Անվանում": "Ձեռնոց մեկանգամյա 100հ",
+            "Առքի գին": 4545,
+            "Առքի գումար": 2072520,
+            "Բարկոդ": "",
+            "Զեղչ": 0,
+            "Մատակարարի գին": 4545,
+            "Մնացորդ": 0,
+            "Մատակարարի գին": 4545,
+            "Մնացորդ": 0,
+          }]} 
           pagination={"true"} 
           id={props.id}
         />

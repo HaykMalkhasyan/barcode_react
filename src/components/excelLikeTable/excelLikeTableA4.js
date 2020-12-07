@@ -3,7 +3,7 @@ import { AgGridReact, AgGridColumn } from "ag-grid-react";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "./excelLikeTable.css";
-// import "./table.css"
+
 import "ag-grid-enterprise";
 import { useReactToPrint } from "react-to-print";
 import { useHistory, useLocation } from "react-router-dom";
@@ -16,8 +16,9 @@ import AddIcon from "@material-ui/icons/Add";
 import { getMissing, mult, add, div, getFullDate } from "../../services/services";
 import TableOptins from "./tableOptions";
 import {defExpandedsF, selectedsF} from "./exampleForm/exampleForm"
-// import ClickableStatusBarComponent from './tableStatusBar';
+
 import printStyles from "./printStyle.module.css"
+
 
 const App = (props) => {
   const history = useHistory();
@@ -51,49 +52,9 @@ const App = (props) => {
 
   const [functionalCells, setFunctionalCells] = useState([]);
     const gridRef=useRef()
-    // const [seperators, setSeperators] = useState({gridWidth: null, gridHeight: null, seperatrorsSize:{width:"210mm", height:"297mm"}, allSeperatrors:[]})
+    
     const [paperHeight, setPaperHeight] = useState(50)
-    const [paperWidth, setPaperWidth] = useState(9)
-
-  // useEffect(() => {
-  //   console.log('props.rowData', props.rowData)
-  //   gridApi && gridApi.refreshCells();
-  // }, [props.rowData]);
-
-  // useEffect(()=>{
-  //   if(rowData){
-  //     // setTimeout(()=>{
-  //       setAllExpandedCell(
-  //         { row: 5, col: "A", colSize: rowData.length, rowSize: 1 },
-  //       )
-  //     // },1000)
-  //   }
-  // },[rowData])
-
-
-  // useEffect(()=>{
-  //   let a=[]
-  //   for (let i=0; i<10000; i++){
-  //       a.push({
-  //           "#": i,
-  //           "ԱՊՄ": "000035",
-  //           'ԱՏԳ': "4015",
-  //           'Անվանում': "Ձեռնոց մեկանգամյա 100հ",
-  //           'Առքի գին': Math.floor(Math.random() * 100),
-  //           'Առքի գումար': Math.floor(Math.random() * 10000),
-  //           'Բարկոդ': "",
-  //           'Զեղչ': 0,
-  //           'Մատակարարի գին': Math.floor(Math.random() * 100),
-  //           'Մնացորդ': 0,
-  //           'Վաճ գին Վաճառքի գին': Math.floor(Math.random() * 100),
-  //           'Վաճ գումար Վաճառքի գին': Math.floor(Math.random() * 10000),
-  //           'Տոկոս Վաճառքի գին': "871%",
-  //           'Քանակ': Math.floor(Math.random() * 100),
-  //           })
-  //   }
-  //   localStorage.setItem("document_buy_1", JSON.stringify(a))
-  // },[])
-
+    const [paperWidth, setPaperWidth] = useState(12)
 
   function getHeaderName(charcode, add = 0) {
     if (charcode >= 65 && charcode <= 90) {
@@ -159,15 +120,15 @@ if(initialData && initialData.length){
         let start = 10;
         let keysprops = Object.keys(props.rowData[0]);
         let keysLocale = Object.keys(rowData[0]);
-        // > 26 ? keysprops.length + 10 : 24;
+        
         let fullScreenCount = Math.ceil(tableRef.current.offsetWidth/69)
         
         let colsSize = fullScreenCount;
         let rowsSize = props.rowData.length + 20; 
-        // 
-        // props.rowData.length+2
+        
+        
         console.log('props.rowData', props.rowData)
-        let clone = createData(300, keysprops.length-1, props.rowData, start);
+        let clone = createData(50, keysprops.length-1, props.rowData, start);
         for (let j = 0, i = 0; i < keysprops.length; i++, j++) {
           if (keysprops[i] === "#") {
             i++;
@@ -190,25 +151,26 @@ if(initialData && initialData.length){
   }, [rowData]);
 
   const handlePrint = useReactToPrint({
-    onBeforeGetContent: ()=>{gridApi.clearRangeSelection(); gridApi.deselectAll(); gridApi.setDomLayout("print"); },
+    onBeforeGetContent: ()=>{gridApi.clearRangeSelection(); gridApi.deselectAll();  },
     content: () => tableRef.current,
-    pageStyle:`@page { 297mm 210mm;
-      margin: 25mm;
-      margin-right: 45mm; }`,
-      // calc(${window.innerWidth}px - 48px);  
-    // bodyClass:`${printStyles.body}`,
+    
+    
+    
+
+      
+    
     onAfterPrint: () => {
-      // columnApi.setColumnsVisible(columnApi.getAllColumns(), true);
-      // props.setPrintSize({height:null, width:null})
+      
+      
       props.setExportStatus({ bool: false });
       gridApi.setDomLayout(null)
       props.setPending(false)
-      // setTimeout(()=>{
-      //   gridApi.sizeColumnsToFit()
-      // },100)
-      // tableAddRef.current[0].style.display="none"; tableAddRef.current[1].style.display="none";
+      
+      
+      
+      
     },
-    // onBeforePrint:()=>{ console.log('tableAddRef', tableAddRef.current[0].style); tableAddRef.current[0].style.display="flex"; tableAddRef.current[1].style.display="flex";},
+    
   });
   
 
@@ -251,88 +213,39 @@ if(initialData && initialData.length){
     return isCharNumeric(event.target.value, charStr);
   }
 
-  // function NumericCellEditor() {}
+  
 
-  // NumericCellEditor.prototype.init = function (params) {
-  //   this.eInput = document.createElement("input");
-  //   this.eInput.className = style.editableInput;
-  //   // this.eInput.focus();
-  //   // this.eInput.select();
-  //   if (isCharNumeric(params.charPress)) {
-  //     this.eInput.value = params.charPress;
-  //   } else {
-  //     if (params.value !== undefined && params.value !== null) {
-  //       this.eInput.value = params.value;
-  //     }
-  //   }
-
-  //   var that = this;
-  //   this.eInput.addEventListener("keypress", function (event) {
-  //     if (!isKeyPressedNumeric(event)) {
-  //       if (event.preventDefault) event.preventDefault();
-  //     } else if (that.isKeyPressedNavigation(event)) {
-  //       event.stopPropagation();
-  //     }
-  //   });
-  //   this.eInput.addEventListener("keyup", (e) => {
-  //     handleKeyPress(e, params);
-  //   });
-  //   var charPressIsNotANumber =
-  //     params.charPress && "1234567890.".indexOf(params.charPress) < 0;
-  //   if (!charPressIsNotANumber) {
-  //     this.eInput.value = params.charPress ? params.charPress : params.value;
-  //   }
-  //   this.cancelBeforeStart = charPressIsNotANumber;
-  // };
+  
 
   const columnDefinition = [
     ...Object.keys(rowData[0]).map((item) => {
       if (item === "/") {
         return {
           field: item,
+          headerName:"",
           cellStyle: {
             lineHeight:"14px !important",
             border: "none",
-            backgroundColor: "#f8f8f8",
+            backgroundColor: "#f8f8f8 !important",
             color: "black",
             boxSizing: "border-box",
+            marginRight:"50px",
           },
+          pinned: 'left',
           suppressMenu:true,
-          // flex: 1,
-          // maxWidth:
-          //   item === "Անվանում"
-          //     ? 306
-          //     : window.innerWidth / rowData[0].length,
           width: props.rowData.length < 1000 ? 60 : 75,
-          // filter:
-          //   typeof rowData[0][item] === "number"
-          //     ? "agNumberColumnFilter"
-          //     : "agTextColumnFilter",
           sortable: false,
-          resizable: false,
+          resizable: true,
           enableCellChangeFlash: false,
-          // floatingFilter: floatingFilter,
+          
           editable: false,
         };
       }
       return {
         field: item,
         suppressMenu:true,
-        // colSpan: function (params) {
-        //   if (params.data["/"] === 1 && item === "A") {
-        //     return 4;
-        //   } else if (
-        //     (params.data["/"] === 1 ||
-        //       params.data["/"] === 2 ||
-        //       params.data["/"] === 3 ||
-        //       params.data["/"] === 4) &&
-        //     item === "B"
-        //   ) {
-        //     return 3;
-        //   } else {
-        //     return 1;
-        //   }
-        // },
+        
+         
         valueFormatter: function (params) {
           if (params.value && params.value[0] === "=") {
             try {
@@ -404,41 +317,22 @@ if(initialData && initialData.length){
         cellStyle: {
           border: "1px solid #d3d3d34d",
           boxSizing: "border-box",
-          // display:"flex",
-          // justifyContent:"center",
-          // alignItems:"center",
-          lineHeight:"14px !important"
+          
+          
+          
+          lineHeight:"14px !important",
+          zIndex:"1 !important",
         },
-        // flex: 1,
-        // maxWidth:
-        //   item === "Անվանում"
-        //     ? 306
-        //     : window.innerWidth / rowData[0].length,
-        // flex:
-        //   props.rowData[0] && Object.keys(props.rowData[0]) > 26
-        //     ? undefined
-        //     : 1,
         width: "69.12px",
-        // filter:
-        //   typeof rowData[0][item] === "number"
-        //     ? "agNumberColumnFilter"
-        //     : "agTextColumnFilter",
         sortable: false,
         resizable: true,
         enableCellChangeFlash: true,
-        // floatingFilter: floatingFilter,
-        // cellRenderer:
-        //   !!props.editabeFields &&
-        //   !!Array.isArray(props.editabeFields) &&
-        //   !!props.editabeFields.includes(item)
-        //     ? "editableRender"
-        //     : null,
         editable: true,
       };
     }),
   ];
 
-  // columnDefinition = columnDefinition.filter(item=>!!item)
+  
 
   useEffect(() => {
     if (props.exportStatus && props.exportStatus.bool) {
@@ -449,19 +343,9 @@ if(initialData && initialData.length){
         gridApi.exportDataAsCsv({});
       } else if (props.exportStatus.type === "print") {
         var api = gridApi;
-        // api.setDomLayout("print");
-        // setFloatingFilter(false);
-        // setTimeout(() => {
-        //   gridApi.refreshHeader();
-        // }, 0);
         setTimeout(function () {
           handlePrint();
           props.setExportStatus({ bool: false, type: "" });
-          // api.setDomLayout(null);
-          // setFloatingFilter(true);
-          // setTimeout(() => {
-          //   gridApi.refreshHeader();
-          // }, 0);
         }, 100);
       }
     }
@@ -487,21 +371,18 @@ if(initialData && initialData.length){
           return 1;
         }
       };
-      // if(clone[index] && clone[index].cellStyle && typeof(clone[index].cellStyle)==="function" ){
-      //   console.log('clone[index].cellStyle()', clone[index].cellStyle())
-      // }else{
-      //   console.log('clone[index].cellStyle() nott', clone[index].cellStyle)
-      // }
+      
+      
+      
+      
+      
       clone[index].cellStyle = function (params) {
         if(selecteds[clone[index].field] && selecteds[clone[index].field].hasOwnProperty(params.data["/"])){
-          // if(index%11===0){
-          //   return {backgroundColor:"#fff", ...selecteds[clone[index].field][params.data["/"]], borderRight: "1px dashed black"}
-          // }
+          
+          
+          
             return {backgroundColor:"#fff", ...selecteds[clone[index].field][params.data["/"]]}
           }else{
-            if(index%11===0){
-              return {border: "1px solid #d3d3d34d",  lineHeight:"14px !important", backgroundColor:"#fff", borderRight: "1px dashed black"}
-            }
             return {border: "1px solid #d3d3d34d",  lineHeight:"14px !important", backgroundColor:"#fff" };
           }
       };
@@ -518,41 +399,13 @@ if(initialData && initialData.length){
           return 1;
         }
       };
-      // setTimeout(()=>{
+      
         gridApi.setColumnDefs(clone);
-      // })
-      // gridApi.refreshCells()
+      
+      
     }
   }
   }, [allExpandedCells, gridApi]);
-
-  // function handleKeyPress(e, params) {
-  //   e.preventDefault();
-  //   let currentFocused = params.api.getFocusedCell();
-  //   if (e.keyCode === 40) {
-  //     params.api.setFocusedCell(
-  //       currentFocused.rowIndex + 1,
-  //       currentFocused.column,
-  //       null
-  //     );
-  //     params.api.startEditingCell(
-  //       currentFocused.rowIndex + 1,
-  //       currentFocused.column
-  //     );
-  //   } else if (e.keyCode === 38) {
-  //     params.api.setFocusedCell(
-  //       currentFocused.rowIndex - 1,
-  //       currentFocused.column,
-  //       null
-  //     );
-  //     params.api.startEditingCell(
-  //       currentFocused.rowIndex - 1,
-  //       currentFocused.column
-  //     );
-  //   } else {
-  //     return;
-  //   }
-  // }
 
   function handleCellChange(params) {
     const { rowIndex, data } = params;
@@ -560,11 +413,11 @@ if(initialData && initialData.length){
   }
 
   function handleExpand(parentParams, size, action) {
-    // console.log('params', params)
-    // console.log('columnDefinition', columnDefinition)
-    // let clone = JSON.parse(JSON.stringify(allExpandedCells))
-    // clone.push({[params.column.colDef.field]: params.node.data["/"]})
-    // console.log('parentParams', parentParams)
+    
+    
+    
+    
+    
     if (size === 1) {
       let clone = JSON.parse(JSON.stringify(allExpandedCells));
       let index = clone.findIndex(
@@ -595,12 +448,12 @@ if(initialData && initialData.length){
           1,
       };
     }
-    // expandedCellObj.__proto__.toJSON = extendedCellObjtoJSON.bind(expandedCellObj)
+    
     console.log("expandedCellObj", expandedCellObj);
     setAllExpandedCell(expandedCellObj);
 
-    // console.log('clone', clone)
-    // setColumnDefinition(columnDefinition)
+    
+    
   }
 
   function isCellExpanded(col, row) {
@@ -636,20 +489,20 @@ if(initialData && initialData.length){
               handleExpand(params, 1);
             },
             disabled: false,
-            // (!params.node.columnApi.columnController.colSpanActive),
+            
           },
         ],
-        // cssClasses: ['redFont', 'bold'],
+        
       },
       {
         name: "Color",
         action: function () {
-          // console.log('params', params)
-          // clone = params.api.getColumnDefs()
-          // let index = col
-          // clone[index].cellStyle=function(paramss){
-          //   return {...clone[index].cellStyle, border:"1px solid red"}
-          // }
+          
+          
+          
+          
+          
+          
         },
       },
       "separator",
@@ -666,7 +519,7 @@ if(initialData && initialData.length){
 
   return (
     <div >
-      {/* <div
+      <div
         style={{ position:"relative", width: "100%", display: "flex", justifyContent: "flex-end" }}
       >
         
@@ -685,23 +538,22 @@ if(initialData && initialData.length){
           paperWidth={paperWidth}
           setPaperWidth={setPaperWidth}
         />
-      </div> */}
+      </div>
       <div
       ref={tableRef}
         className="ag-theme-alpine"
         style={{
           margin:"0 auto",
           height: props.height ? props.height : 500,
-          width: props.width ? props.width : "50%",
+          width: props.width ? props.width : "750px",
           opacity: `${opacity}`,
           transitionDuration: "0.1s",
-          backgroundColor:"#80808033",
-          overflow:"auto"
+          
         }}
         
       >
-        {/* {console.log('gridRef.current', gridRef.current)}
-        <div style={{
+        {console.log('props', props)}
+        {/* <div style={{
           height: props.height ? props.height : 500,
           position:"relative",
           width:`${gridRef.current ? gridRef.current.offsetWidth : 2000}px`
@@ -712,6 +564,7 @@ if(initialData && initialData.length){
         
         <AgGridReact
           ref={gridRef}
+          rowStyle={{backgroundColor:"#fff", border:"none"}}
           onCellEditingStopped={(params) => {
             console.log("params", params);
             console.log("functionalCells", functionalCells);
@@ -760,9 +613,9 @@ if(initialData && initialData.length){
             params.api.redrawRows();
           }}
           onCellFocused={(params) => {
-            // if(params.finished && !params.started){
+            
             let range = params.api.getCellRanges();
-            // console.log('range', range)
+            
             if (range[0]) {
               let obj = {
                 col: range[0].startColumn.colDef.field,
@@ -770,44 +623,44 @@ if(initialData && initialData.length){
               };
               setSelectedRangeCellsHeader(obj);
             }
-            // }
+            
           }}
-          // onRangeSelectionChanged={(params)=>{
-          //   if(params.finished && !params.started){
-          //     console.log('params', params.api.getCellRanges())
-          // let range = params.api.getCellRanges()
-          // let obj = {col:range[0].startColumn.colDef.field, row:range[0].startRow.rowIndex}
-          // setSelectedRangeCellsHeader(obj)
-          // }
-          // }}
+          
+          
+          
+          
+          
+          
+          
+          
           suppressRowHoverHighlight={true}
           suppressRowTransform={true}
-          headerHeight={props.headerHeight}
+          headerHeight={props.headerHeight ? props.headerHeight : 15}
           
           colResizeDefault='shift'
           rowHeight={20.16}
-          // domLayout="print"
+          
           columnDefs={
             props.columnDefinition ? props.columnDefinition : columnDefinition
           }
-          // rowBuffer={10}
-          // debounceVerticalScrollbar={true}
+          
+          
           getContextMenuItems={getContextMenuItems}
           groupHeaderHeight={props.groupHeaderHeight}
           suppressRowClickSelection={true}
           rowData={rowData}
-          // pagination={props.pagination === "false" ? false : true}
-          // paginationPageSize={15}
+          
+          
           enableRangeSelection={true}
           onGridReady={(params) => {
             setGridApi(params.api);
             setColumnApi(params.columnApi);
             props.setGridApi(params.api)
-            // params.api.setDomLayout("print")
+            
             setTimeout(() => {
               setOpacity(1);
               let colDefs = params.api.getColumnDefs();
-              // console.log('colDefs.length', colDefs.length)
+              
               let headers;
               if(props.rowData[0]){
                 headers = Object.keys(props.rowData[0])
@@ -832,42 +685,28 @@ if(initialData && initialData.length){
               colDefs.forEach((item, i) => {
                 item.cellStyle=function (params){
                   let obj={};
-                  if(i>paperWidth){
-                    Object.assign(obj,{backgroundColor:"#80808033"})
+                  if(i===0){
+                    return Object.assign(obj, {
+                      
+                      backgroundColor: "#fff", 
+                      lineHeight:"14px !important", 
+                      left:"-10px", 
+                      textAlign:"right", 
+                      padding:"0",
+                      borderRight:"1px solid gray",
+                      borderBottom:"1px solid gray",
+                    })
                   }
-                  if(+params.data["/"]%paperHeight===0){
-                    Object.assign(obj, {border: "1px solid #d3d3d34d", borderBottom: "1px dashed black", lineHeight:"14px !important"})
-                  }
-                  return Object.assign(obj, {border: "1px solid #d3d3d34d", lineHeight:"14px !important"})
-                }
-                if(i%paperWidth===0){
-                  item.cellStyle=function (params){
-                    if(+params.data["/"]%paperHeight===0){
-                      return {border: "1px solid #d3d3d34d", borderRight: "1px dashed black", borderBottom: "1px dashed black", lineHeight:"14px !important"}
-                    }
-                    return {border: "1px solid #d3d3d34d", borderRight: "1px dashed black", lineHeight:"14px !important"}
-                  }
+                  return Object.assign(obj, {border: "1px solid #d3d3d34d", lineHeight:"14px !important",zIndex:"2 !important",})
                 }
                 if (selecteds.hasOwnProperty(item.field)) {
                   item.cellStyle = function (params) {
                     if (
                       selecteds[item.field].hasOwnProperty(params.data["/"])
                     ) {
-                      if(i%paperWidth===0){
-                          return {...selecteds[item.field][params.data["/"]], borderRight: "1px dashed black",}
-                      }
-                       if(+params.data["/"]%paperHeight===0){
-                        return {...selecteds[item.field][params.data["/"]], borderRight: "1px dashed black"}
-                      }
-                      return selecteds[item.field][params.data["/"]];
+                      return {...selecteds[item.field][params.data["/"]], zIndex:"2 !important"};
                     }else{
-                      if(+params.data["/"]%paperHeight===0){
-                        return {border: "1px solid #d3d3d34d", lineHeight:"14px !important", ...selecteds[item.field][params.data["/"]], borderBottom: "1px dashed black"}
-                      }
-                      if(i%paperWidth===0){
-                          return {border: "1px solid #d3d3d34d", lineHeight:"14px !important", ...selecteds[item.field][params.data["/"]], borderRight: "1px dashed black"}
-                      }
-                      return {border: "1px solid #d3d3d34d", lineHeight:"14px !important" };
+                      return {border: "1px solid #d3d3d34d", lineHeight:"14px !important", zIndex:"2 !important",};
                     }
                   };
                 }
@@ -887,74 +726,33 @@ if(initialData && initialData.length){
                         return 1
                       }
                     }
-
               });
               params.api.setColumnDefs(colDefs);
+              const allCells = document.getElementsByClassName("ag-center-cols-container")[1]
+              allCells.style.left="-35px"
+              let el = document.getElementsByClassName("ag-header ag-focus-managed ag-pivot-off")[1]
+              el.style.margin="0px 0px 10px -35px"
+              el.style.backgroundColor="#fff"
+              let root = document.getElementsByClassName("ag-root-wrapper")[1]
+              root.style.border="none"
+              root.style.overflow="initial"
+              params.api.setDomLayout("print")
+              let bg = document.getElementsByClassName("ag-root ag-unselectable ag-layout-print")[0]
+              console.log('bg', bg)
+              let A4 = document.createElement("div")
+              A4.setAttribute("id", "paperRef")
+              A4.style.position="absolute"
+              A4.style.top="25px"
+              A4.style.left="25px"
+              A4.style.width="210mm"
+              A4.style.height="277mm"
+              A4.style.boxShadow="0px 0px 12px 2px gray"
+              bg.appendChild(A4)
             }, 10);
           }}
-          // immutableData={true}
-          // onCellEditingStopped={handleCellChange}
-          // rowSelection="multiple"
-          // paginationAutoPageSize={props.pagination ? !!props.pagination : true}
-          // rowMultiSelectWithClick={true}
-          // props.setGridApi && props.setGridApi(params.api);
-          // props.setColumnApi && props.setColumnApi(params.columnApi);
-          // props.mode && params.api.setDomLayout(props.mode);
-          // onCellFocused={(params)=>{
-          //   let selectedCell = params.api.getFocusedCell()
-          //   console.log('selectedCell', selectedCell)
-          //   selectedCell.column.colDef.cellStyle = {border:"none"}
-          //   params.api.refreshCells()
-          // }}
-
           
-          // rowClassRules={{
-          //   [style.formulatedRow]: function (params) {
-          //     return (
-          //       allFormulateds
-          //         .map((item) => item["#"])
-          //         .includes(params.data["#"]) &&
-          //       window.location.pathname === "/income"
-          //     );
-          //   },
-          //   [style.unformulatedRow]: function (params) {
-          //     return (
-          //       !allFormulateds
-          //         .map((item) => item["#"])
-          //         .includes(params.data["#"]) &&
-          //       window.location.pathname === "/income"
-          //     );
-          //   },
-          // }}
-          // groupSelectsChildren={true}
-          // autoGroupColumnDef={{
-          //   headerName: "Model",
-          //   field: "model",
-          //   cellRenderer: "agGroupCellRenderer",
-          //   cellRendererParams: {
-          //     checkbox: true,
-          //   },
-          // }}
-
-          // pinnedBottomRowData={createData(1, 'Bottom')}
-          // statusBar={{
-          //   statusPanels: [
-          //     {
-          //       statusPanel: 'statusBarComponent',
-          //       key: 'statusBarCompKey',
-          //     },
-          //     {
-          //       statusPanel: 'agAggregationComponent',
-          //       statusPanelParams: {
-          //           aggFuncs: ['min', 'max', 'sum']
-          //       }
-          //   }
-          //   ],
-          // }}
         >
-          {/* {columnDefinition.map(column => (<AgGridColumn {...column} key={column.field}/>))} */}
         </AgGridReact>
-        {/* </div> */}
       </div>
     </div>
   );

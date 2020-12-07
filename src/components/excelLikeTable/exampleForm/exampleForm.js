@@ -479,7 +479,7 @@ export function selectedsF(heightLen, header, len){
     {
       row: 1,
       col: "A",
-      colSize: len,
+      colSize: len-1,
       rowSize: 1,
     },
     {
