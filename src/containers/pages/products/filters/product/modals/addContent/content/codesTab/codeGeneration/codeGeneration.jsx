@@ -44,21 +44,14 @@ const CodeGeneration = props => {
     };
 
     const checkStatus = (code, errorFields) => {
-        for (let key in code) {
-            if (code.hasOwnProperty(key)) {
-                if (code[key] === "" || errorFields.length > 0) {
-                    return true
-                }
-            }
-        }
-        return false
+        return code.barcode === "" || errorFields.length > 0;
+
     };
 
     const addBarcodeHandler = () => {
         const barcode = [...props.barcode];
         let index = true;
         for (let item of barcode) {
-            console.log(item)
             if (item.barcode === props.code.barcode) {
                 index = false;
                 break
@@ -86,7 +79,7 @@ const CodeGeneration = props => {
                 <div className={classes.codArea}>
                     <div className={classes.codeWindow}>
                         <CustomInput
-                            readOnly={true}
+                            // readOnly={true}
                             label={'Կոդ'}
                             classNameLabel={classes.codLabel}
                             classNameInput={props.errorFields.indexOf('barcode') === -1 ? classes.codInput : `${classes.codInput} ${classes.errorFields}`}

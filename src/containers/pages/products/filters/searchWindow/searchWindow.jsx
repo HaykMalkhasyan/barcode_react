@@ -2,7 +2,7 @@ import React from 'react'
 import classes from '../filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button"
 import {connect} from "react-redux"
-import {setProductValues} from "../../../../../Redux/products/actions"
+import {getAllProducts, nameFiltered, setProductValues} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
@@ -19,8 +19,12 @@ const SearchWindow = props => {
         props.setGroupValues('advancedSearch', !props.advancedSearch);
     };
 
-    const productsSearchHandler = () => {
-        if (Object.keys(props.advancedSearchConfig).length === 1 && props.advancedSearchConfig.classifiers === null) {
+    const productsSearchHandler =  async () => {
+        if (Object.keys(props.advancedSearchConfig).length === 0) {
+            await props.getAllProducts(1);
+            props.setFiltersValue('type', 'products')
+        } else {
+            await props.getAllProducts(1, {...props.advancedSearchConfig});
             props.setFiltersValue('type', 'products')
         }
     };
@@ -29,7 +33,11 @@ const SearchWindow = props => {
         <div className={classes.searchWindow}>
             {/* CUSTOM SEARCH */}
             <div className={classes.desktopSearch}>
-                <CustomSearchWindow/>
+                <CustomSearchWindow
+                    search={props.product_search}
+                    // Methods
+                    nameFiltered={props.nameFiltered}
+                />
             </div>
             {/* ADVANCED SEARCH */}
             <AdvancedSearchWindow
@@ -66,6 +74,7 @@ function mapStateToProps(state) {
         group: state.characteristics.group,
         customSubgroup: state.characteristics.customSubgroup,
         subgroupsOpen: state.products.subgroupsOpen,
+        product_search: state.products.product_search,
         mainFilters: state.products.mainFilters,
         initialSub: state.products.initialSub,
         advancedSearch: state.characteristics.advancedSearch,
@@ -77,10 +86,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
+        getAllProducts: (page, param) => dispatch(getAllProducts(page, param)),
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
+        nameFiltered: name => dispatch(nameFiltered(name)),
     }
 }
 

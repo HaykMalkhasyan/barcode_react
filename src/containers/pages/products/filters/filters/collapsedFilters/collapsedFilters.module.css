@@ -12,15 +12,44 @@
     margin: 0;
 }
 
-.empty {
-    color: #ccc;
+.measurementFilterWindow {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding: 0 10px 0 0;
 }
 
-.radioColor {
-    color: #3EC300 !important;
+.checkboxItem {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
-.radioLabels {
+.checkbox {
+    display: block !important;
+    float: none !important;
+}
+
+.checkBoxWindow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+}
+
+.labelStyle {
+    width: 100%;
     font-size: 12px;
-    color: #5D5D5D;
+    color: #323232;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    font-size: 12px;
 }

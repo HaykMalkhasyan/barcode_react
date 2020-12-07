@@ -1,8 +1,8 @@
 import React from 'react'
 import classes from './mainTab.module.css'
 import Grid from "@material-ui/core/Grid";
-import Gallery from "../../gallery/gallery";
-import Data from "../../data/data";
+import Gallery from "./gallery/gallery";
+import Data from "./data/data";
 import {connect} from "react-redux";
 import {setMainData, setProductValues} from "../../../../../../../../../Redux/products/actions";
 

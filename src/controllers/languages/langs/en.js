@@ -47,7 +47,7 @@ export const en = {
     classifiers: "Classifiers",
     codes: "Codes",
     description: "Description",
-    articul: "seller code",
+    articul: "SKU",
     item_name: "name",
     image_path: "image",
     item_type: "type",
@@ -59,4 +59,5 @@ export const en = {
     active: "status",
     deleted: "deleted",
     sort: "sorting",
+    show_in_site: "displayed on the site"
 };

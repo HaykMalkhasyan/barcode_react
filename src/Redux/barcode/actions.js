@@ -17,6 +17,7 @@ export function setDataValues(name, value) {
         switch (name) {
             case 'barcode': {
                 code[name] = value;
+                code.barcode_type = "";
                 if (is.alphaNumeric(value)) {
                     if (errorFields.indexOf(name) !== -1) {
                         errorFields.splice(errorFields.indexOf(name), 1);

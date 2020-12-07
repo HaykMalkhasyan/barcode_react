@@ -1,12 +1,9 @@
 import React, {useState} from 'react'
 import classes from './rightPanel.module.css'
-import ResizableDragTable from "../../../../../../../components/resizableDragTable/resizableDragTable"
-import { Pagination } from '@material-ui/core';
-import { PaginationItem } from '@material-ui/core';
+import {Pagination, PaginationItem} from '@material-ui/core';
 import CustomButton from "../../../../../../../components/UI/button/customButton/custom-button";
 import Icons from "../../../../../../../components/Icons/icons";
 import Header from "../../header/header";
-import {AgGridReact} from "ag-grid-react";
 import ProductTable from "../../../../../../../components/table/product-table/product-table";
 import {getLanguage} from "../../../../../../../controllers/languages/languages";
 import cookie from "../../../../../../../services/cookies";
@@ -17,7 +14,7 @@ const RightPanel = props => {
     const changeHandler = (event, page) => {
         props.setProductValues('productLoadingStatus', true);
         props.setProductValues('selected_products', []);
-        props.getAllProducts(page)
+        props.getAllProducts(page, {...props.advancedSearchConfig})
     };
 
     const toggleAddModalHandler = (name, value, scrollType) => {
@@ -44,7 +41,7 @@ const RightPanel = props => {
                     rowDrag: false,
                     filter: "agTextColumnFilter",
                     suppressMenu: true,
-                    rowDragText: function(params, dragItemCount) {
+                    "rowDragText": function(params, dragItemCount) {
                         if (dragItemCount > 1) {
                             return dragItemCount + ' products';
                         }
@@ -77,9 +74,7 @@ const RightPanel = props => {
                     minWidth: 90,
                     floatingFilter: filters,
                 })
-            } /*else if (key === "firms") {
-
-            }*/ else if (key !== "profile_id") {
+            } else {
                 array.push({
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
@@ -101,7 +96,7 @@ const RightPanel = props => {
         dateColumn: {
             filter: "agDateColumnFilter",
             filterParams: {
-                comparator: function (filterLocalDateAtMidnight, cellValue) {
+                "comparator": function (filterLocalDateAtMidnight, cellValue) {
                     let dateParts = cellValue.split('-');
                     let day = Number(dateParts[2].split(" ")[0]);
                     let month = Number(dateParts[1])-1;
@@ -130,8 +125,9 @@ const RightPanel = props => {
         const data = JSON.parse(JSON.stringify(products));
 
         for (let item of data) {
+            item.show_in_site = item.show_in_site === 1 ? "Ցուցադրված է" : "Ցուցադրված չէ";
             item.deleted = item.deleted ? "ջնջված է" : "առկա է"
-            item.active = item.active === 0 ? "ակտիվ չէ" : "ակտիվ է";
+            item.active = item.active === 1 ? "ակտիվ չէ" : "ակտիվ է";
             for (let type of props.types) {
                 if (item.service === type.id) {
                     item.service = type.name
@@ -172,60 +168,9 @@ const RightPanel = props => {
                 toggleAddModalHandler={toggleAddModalHandler}
                 backFiltersPage={props.backFiltersPage}
             />
-            {/*{*/}
-            {/*    props.products && props.products.length ?*/}
-            {/*        <>*/}
-            {/*            */}
-            {/*            <ResizableDragTable*/}
-            {/*                activeTabs={props.activeTabs}*/}
-            {/*                tabs={props.tabs}*/}
-            {/*                products={props.products}*/}
-            {/*                types={props.types}*/}
-            {/*                selected_products={props.selected_products}*/}
-            {/*                in_data_1={props.types}*/}
-            {/*                in_data_2={props.measurements}*/}
-            {/*                // Methods*/}
-            {/*                selectData={props.selectProducts}*/}
-            {/*                setValues={props.setProductValues}*/}
-            {/*                getData={props.getProduct}*/}
-            {/*                sortTableTabs={props.sortTableTabs}*/}
-            {/*            />*/}
-            {/*            {*/}
-            {/*                props.count ?*/}
-            {/*                    props.count > 20 ?*/}
-            {/*                        <p className={classes.showCount}>*/}
-            {/*                            Ցուցադրված է {props.products.length}-ը {props.count} տողից*/}
-            {/*                        </p>*/}
-            {/*                        :*/}
-            {/*                        <p className={classes.showCount}>*/}
-            {/*                            Ցուցադրված է {props.count}-ը {props.count} տողից*/}
-            {/*                        </p>*/}
-            {/*                    :*/}
-            {/*                    null*/}
-            {/*            }*/}
-            {/*            <div className={classes.paginationWindow}>*/}
-            {/*                {*/}
-            {/*                    props.count ?*/}
-            {/*                        <Pagination*/}
-            {/*                            count={Math.ceil(props.count / 20)}*/}
-            {/*                            hidePrevButton*/}
-            {/*                            hideNextButton*/}
-            {/*                            renderItem={*/}
-            {/*                                item => <PaginationItem*/}
-            {/*                                    classes={{selected: classes.colorSecondary}}  {...item}/>*/}
-            {/*                            }*/}
-            {/*                            onChange={changeHandler}*/}
-            {/*                        />*/}
-            {/*                        :*/}
-            {/*                        null*/}
-            {/*                }*/}
-            {/*            </div>*/}
-            {/*        </>*/}
-            {/*        :*/}
-            {/*}*/}
             <div className={classes.tableInformation}>
                 <span>Դաշտը փոփոխման ենթակա է</span>
-                <span>Դաշտը հեռացման ենթակա չէ</span>
+                <span>Դաշտը հեռացման ենթակա չէ ( ապրանք փոփոխելու դաշը )</span>
                 <span>Դաշտը փոփոխման ենթակա չէ</span>
             </div>
             {
@@ -247,11 +192,14 @@ const RightPanel = props => {
                             // Methods
                             clickHandler={props.getProduct}
                         />
+                        <p className={classes.showCount}>
+                            Ցուցադրված է 20 հատ ապրանք {props.count}-ից
+                        </p>
                         <div className={classes.paginationWindow}>
                             {
                                 props.count ?
                                     <Pagination
-                                        count={Math.ceil(props.count / 20)}
+                                        count={props.page_count}
                                         // hidePrevButton
                                         // hideNextButton
                                         renderItem={
