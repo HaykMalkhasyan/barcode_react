@@ -14,7 +14,7 @@ const RightPanel = props => {
     const changeHandler = (event, page) => {
         props.setProductValues('productLoadingStatus', true);
         props.setProductValues('selected_products', []);
-        props.getAllProducts(page)
+        props.getAllProducts(page, {...props.advancedSearchConfig})
     };
 
     const toggleAddModalHandler = (name, value, scrollType) => {
@@ -74,9 +74,7 @@ const RightPanel = props => {
                     minWidth: 90,
                     floatingFilter: filters,
                 })
-            } /*else if (key === "firms") {
-
-            }*/ else {
+            } else {
                 array.push({
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
@@ -127,8 +125,9 @@ const RightPanel = props => {
         const data = JSON.parse(JSON.stringify(products));
 
         for (let item of data) {
+            item.show_in_site = item.show_in_site === 1 ? "Ցուցադրված է" : "Ցուցադրված չէ";
             item.deleted = item.deleted ? "ջնջված է" : "առկա է"
-            item.active = item.active === 0 ? "ակտիվ չէ" : "ակտիվ է";
+            item.active = item.active === 1 ? "ակտիվ չէ" : "ակտիվ է";
             for (let type of props.types) {
                 if (item.service === type.id) {
                     item.service = type.name
@@ -171,7 +170,7 @@ const RightPanel = props => {
             />
             <div className={classes.tableInformation}>
                 <span>Դաշտը փոփոխման ենթակա է</span>
-                <span>Դաշտը հեռացման ենթակա չէ</span>
+                <span>Դաշտը հեռացման ենթակա չէ ( ապրանք փոփոխելու դաշը )</span>
                 <span>Դաշտը փոփոխման ենթակա չէ</span>
             </div>
             {
@@ -193,11 +192,14 @@ const RightPanel = props => {
                             // Methods
                             clickHandler={props.getProduct}
                         />
+                        <p className={classes.showCount}>
+                            Ցուցադրված է 20 հատ ապրանք {props.count}-ից
+                        </p>
                         <div className={classes.paginationWindow}>
                             {
                                 props.count ?
                                     <Pagination
-                                        count={Math.ceil(props.count / 20)}
+                                        count={props.page_count}
                                         // hidePrevButton
                                         // hideNextButton
                                         renderItem={

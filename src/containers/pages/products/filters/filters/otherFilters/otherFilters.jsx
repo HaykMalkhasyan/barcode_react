@@ -6,10 +6,22 @@ import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox
 
 const OtherFilters = props => {
     const [open, setOpen] = useState(true);
+    const [selected, setSelected] = useState([]);
 
     const collapsed = () => {
         setOpen(!open)
     };
+
+    const changeHandler = (event, id) => {
+        const initial_selected = [...selected];
+        if (initial_selected.indexOf(id) === -1) {
+            initial_selected.push(id)
+        } else {
+            initial_selected.splice(initial_selected.indexOf(id), 1)
+        }
+        setSelected(initial_selected)
+        props.otherFiltered(event.target.name, +event.target.value)
+    }
 
     return (
         <div className={classes.otherFilters}>
@@ -28,12 +40,19 @@ const OtherFilters = props => {
                                 item => {
 
                                     return (
-                                        <div key={item.id + Math.random()} className={classes.checkboxItem}>
+                                        <div key={`other-filter-item-${item.id}`} className={classes.checkboxItem}>
                                             <CustomCheckbox
+                                                checked={selected.indexOf(item.id) !== -1}
                                                 className={classes.checkbox}
                                                 checkBoxWindow={classes.checkBoxWindow}
                                                 labelStyle={classes.labelStyle}
-                                                label={item.name['am']}
+                                                name={item.name}
+                                                value={item.value}
+                                                label={item.label}
+                                                // EVENTS
+                                                onChange={event => {
+                                                    changeHandler(event, item.id)
+                                                }}
                                             />
                                         </div>
                                     )

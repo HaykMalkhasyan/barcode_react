@@ -13,7 +13,6 @@ const FooterContent = props => {
                 onClick={props.cencel}
             />
             <div>
-                {console.log(props.treeType)}
                 {
                     !props.own_status ?
                         <IconButtonUI

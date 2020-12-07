@@ -8,7 +8,7 @@ import cookie from "../../../../services/cookies";
 import Spinner from "../../../../components/UI/spinners/spinerForContent/spinnerForContent"
 import Button from "@material-ui/core/Button"
 import {useSelector, useDispatch} from "react-redux"
-import ProductModal from "../../products/filters/product/modals/productModal"
+import ProductModal from "../../products/filters/product-modal/product-modal"
 import {setProductValues, closeProductActionModal} from "../../../../Redux/products/actions"
 
 
@@ -55,9 +55,9 @@ useEffect(()=>{
 
     <div className={style.container} >
       <ProductModal 
-        modalTabs={product.modalTabs} 
-        paper={style.modal}
-        type={'add'}
+        modalTabs={product.modalTabs}
+        /*paper={style.modal}
+        type={'add'}*/
         handleClose={
           () => {
               dispatch(closeProductActionModal())

@@ -1,19 +1,22 @@
 import React, {useState} from 'react'
 import classes from './collapsedFilters.module.css'
 import CustomHeader from "../../../../../../components/UI/customHeader/customHeader";
-import RadioUI from "../../../../../../components/UI/input/radioUI/radioUI";
 import Collapse from "@material-ui/core/Collapse";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
 import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox/customCheckbox";
 
 const CollapsedFilters = props => {
     const [open, setOpen] = useState(true);
-    const [value, setValue] = React.useState(null);
+    const [value, setValue] = React.useState([]);
 
     const handleChange = (event) => {
-        setValue(+event.target.value);
-        props.measurementFiltered(+event.target.value)
+        const selected = [...value];
+        if (selected.indexOf(+event.target.value) === -1) {
+            selected.push(+event.target.value)
+        } else {
+            selected.splice(selected.indexOf(+event.target.value), 1)
+        }
+        setValue(selected);
+        props.measurementFiltered(selected)
     };
 
     const collapsed = () => {
@@ -38,10 +41,14 @@ const CollapsedFilters = props => {
                                 return (
                                     <div className={classes.checkboxItem} key={`measurements-filter-${item.id}`}>
                                         <CustomCheckbox
+                                            checked={value.indexOf(item.id) !== -1}
                                             className={classes.checkbox}
                                             checkBoxWindow={classes.checkBoxWindow}
                                             labelStyle={classes.labelStyle}
                                             label={item.name}
+                                            value={item.value}
+                                            // EVENTS
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 )

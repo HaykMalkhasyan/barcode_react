@@ -8,8 +8,8 @@ import cookie from "../../../../services/cookies";
 import Spinner from "../../../../components/UI/spinners/spinerForContent/spinnerForContent"
 import Button from "@material-ui/core/Button"
 import {useSelector, useDispatch} from "react-redux"
-import ProductModal from "../../products/filters/product/modals/productModal"
 import {setProductValues, closeProductActionModal} from "../../../../Redux/products/actions"
+import ProductsModal from "../../containers/pages/products/filters/product-modal/product-modal";
 
 
 export default function ComboBox(props) {
@@ -54,7 +54,7 @@ useEffect(()=>{
   return (
 
     <div className={style.container} >
-      <ProductModal 
+      <ProductsModal
         modalTabs={product.modalTabs} 
         paper={style.modal}
         type={'add'}

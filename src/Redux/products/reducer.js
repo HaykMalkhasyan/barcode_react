@@ -5,18 +5,21 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT, SET_ALL_IMAGES, SET_FILTERS_CONFIG, SET_MAIN_IMAGE,
+    ONLY_ADD_PRODUCT,
+    SET_ALL_IMAGES,
+    SET_FILTERS_CONFIG, SET_FILTERS_CONFIG_WITH_TEXT,
+    SET_MAIN_IMAGE,
     SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
     SET_PRODUCTS,
+    SET_SAVE_PRODUCT,
     SET_SELECT_GROUP_ITEM,
     SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
 import {SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
 import {PROD_GROUP_SET} from "../characteristics/actionTypes";
-import {BACK_FILTERS} from "../filtersContainer/actionTypes";
 import AppsIcon from '@material-ui/icons/Apps';
 import LayersIcon from '@material-ui/icons/Layers';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -28,6 +31,8 @@ const initialState = {
     product: null,
     products: [],
     count: null,
+    page_count: null,
+    product_search: '',
     advancedSearchConfig: {},
     collapsedStatus: [],
     open: false,
@@ -86,9 +91,9 @@ const initialState = {
         }
     ],
     otherFilters: [
-        {id: 1, name: {am: 'Մուտքը թույլատրված է', ru: 'Доступ разрешен', eng: 'Access is allowed'}},
-        {id: 2, name: {am: 'Ցուցադրել կայքում', ru: 'Показать на сайте', eng: 'Show on site'}},
-        {id: 2, name: {am: 'Ակտիվ', ru: 'Активный', eng: 'Active'}},
+        // {id: 1, name: "", label: 'Մուտքը թույլատրված է', value: 1},
+        {id: 1, name: "show_in_site", label: 'Ցուցադրել կայքում', value: 1},
+        {id: 2, name: "active", label: 'Ակտիվ', value: 0},
     ],
     modalTabs: [
         {id: 1, index: 0, icon: AppsIcon, name: 'main'},
@@ -112,7 +117,7 @@ const initialState = {
         {id: 20, name: 'քառ.մ', value: 20},
         {id: 21, name: 'գծ.մ', value: 21},
         {id: 22, name: 'միլիգրամ', value: 22},
-        {id: 23, name: 'գրամ', value: 22},
+        {id: 23, name: 'գրամ', value: 23},
         {id: 25, name: 'ց', value: 25},
         {id: 26, name: 'տ', value: 26},
         {id: 27, name: 'միլիլիտր', value: 27},
@@ -143,9 +148,10 @@ const initialState = {
         short_name: '',
         product_type: 0,
         unit_id: 1,
+        show_in_site: false,
         active: false,
         can_in: false,
-        can_sale: false
+        can_sale: false,
     },
     initialSub: null,
     classifiers: {},
@@ -173,6 +179,14 @@ const initialState = {
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_SAVE_PRODUCT:
+            return {
+                ...state, products: action.data, open: "edit"
+            }
+        case SET_FILTERS_CONFIG_WITH_TEXT:
+            return {
+                ...state, advancedSearchConfig: action.data, product_search: action.text
+            }
         case SET_FILTERS_CONFIG:
             return {
                 ...state, advancedSearchConfig: action.data
@@ -188,11 +202,6 @@ export default function productsReducer(state = initialState, action) {
         case SET_PRODUCT_ERRORS:
             return {
                 ...state, errorFields: action.errorFields, tabErrors: action.tabErrors
-            }
-        case BACK_FILTERS:
-            return {
-                ...state,
-                advancedSearchConfig: {},
             }
         case SET_SUBGROUP:
             return {
@@ -221,6 +230,7 @@ export default function productsReducer(state = initialState, action) {
                     short_name: '',
                     product_type: 0,
                     unit_id: 1,
+                    show_in_site: false,
                     active: false,
                     can_in: false,
                     can_sale: false
@@ -272,7 +282,11 @@ export default function productsReducer(state = initialState, action) {
             };
         case SET_PRODUCTS:
             return {
-                ...state, products: action.products, count: action.count, productLoadingStatus: false
+                ...state,
+                products: action.products,
+                page_count: action.page_count,
+                count: action.count,
+                productLoadingStatus: false
             };
         case SET_PRODUCT_VALUES:
             return {
@@ -289,6 +303,7 @@ export default function productsReducer(state = initialState, action) {
                     short_name: '',
                     product_type: 0,
                     unit_id: 1,
+                    show_in_site: false,
                     active: false,
                     can_in: false,
                     can_sale: false
@@ -316,6 +331,7 @@ export default function productsReducer(state = initialState, action) {
                     short_name: '',
                     product_type: 0,
                     unit_id: 1,
+                    show_in_site: false,
                     active: false,
                     can_in: false,
                     can_sale: false

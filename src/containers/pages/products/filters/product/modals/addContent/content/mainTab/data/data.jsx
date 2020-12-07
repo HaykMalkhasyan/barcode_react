@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import classes from './data.module.css'
-import InputUI from "../../../../../../../../components/UI/input/inputUI/inputUI";
-import CustomCheckbox from "../../../../../../../../components/UI/input/customCheckbox/customCheckbox";
-import CustomSelect from "../../../../../../../../components/UI/input/customSelect/customSelect";
+import InputUI from "../../../../../../../../../../components/UI/input/inputUI/inputUI";
+import CustomCheckbox from "../../../../../../../../../../components/UI/input/customCheckbox/customCheckbox";
+import CustomSelect from "../../../../../../../../../../components/UI/input/customSelect/customSelect";
 
 const Data = props => {
     const [open, setOpen] = useState(null);
@@ -126,17 +126,17 @@ const Data = props => {
                         onChange={event => props.setMainData(event.target.name, event.target.checked)}
                     />
                 </div>
-                {/*<div>*/}
-                {/*    <CustomCheckbox*/}
-                {/*        checkBoxWindow={classes.checkBoxWindow}*/}
-                {/*        id={'can_in'}*/}
-                {/*        className={classes.checkbox}*/}
-                {/*        label={'Մուտքը թույլատրելի է'}*/}
-                {/*        checked={props.data.can_in}*/}
-                {/*        name={'can_in'}*/}
-                {/*        onChange={event => props.setMainData(event.target.name, event.target.checked)}*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div>
+                    <CustomCheckbox
+                        checkBoxWindow={classes.checkBoxWindow}
+                        id={'show_in_site'}
+                        className={classes.checkbox}
+                        label={'Ցուցադրել կայքում'}
+                        checked={props.data.show_in_site}
+                        name={'show_in_site'}
+                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
+                    />
+                </div>
                 {/*<div>*/}
                 {/*    <CustomCheckbox*/}
                 {/*        checkBoxWindow={classes.checkBoxWindow}*/}
