@@ -68,6 +68,7 @@ const CustomSearch = props => {
                         <CustomButton
                             className={classes.customSearchBtn}
                             children={<Icons type={'search'} className={classes.customSearchIcon}/>}
+                            onClick={props.onClick}
                         />
                     </div>
                     :

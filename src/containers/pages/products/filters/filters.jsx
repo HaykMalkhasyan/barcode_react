@@ -20,7 +20,7 @@ import {
     classifiersFiltered,
     closeProductActionModal,
     importGroupInProduct,
-    measurementFiltered,
+    measurementFiltered, nameButtonSearch, nameFiltered,
     otherFiltered,
     setProductValues
 } from "../../../../Redux/products/actions";
@@ -80,23 +80,37 @@ class Filters extends Component {
                 </div>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4} lg={3} xl={3}>
+                        {/* CUSTOM SEARCH */}
                         <ClassifiersTree
+                            advancedSearchConfig={this.props.advancedSearchConfig}
                             // Methods
                             classifierOpenHandler={this.classifierOpenHandler}
                             classifiersFiltered={this.props.classifiersFiltered}
                         />
                         <CollapsedFilters
                             measurements={this.props.measurements}
+                            advancedSearchConfig={this.props.advancedSearchConfig}
                             // Methods
                             measurementFiltered={this.props.measurementFiltered}
                         />
                         <OtherFilters
                             otherFilters={this.props.otherFilters}
+                            advancedSearchConfig={this.props.advancedSearchConfig}
                             // Methods
                             otherFiltered={this.props.otherFiltered}
                         />
                     </Grid>
                     <Grid item xs={12} md={8} lg={9} xl={9}>
+                        <div className={classes.desktopSearch}>
+                            <CustomSearchWindow
+                                search={this.props.product_search}
+                                type={this.props.type}
+                                // Methods
+                                nameFiltered={this.props.nameFiltered}
+                                // EVENTS
+                                onClick={this.props.nameButtonSearch}
+                            />
+                        </div>
                         {this.contentRender()}
                     </Grid>
                 </Grid>
@@ -139,7 +153,7 @@ function mapStateToProps(state) {
 
     return {
         type: state.filters.type,
-
+        product_search: state.products.product_search,
         initialOpen: state.products.initialOpen,
         initialModalGroup: state.characteristics.initialModalGroup,
         initialStatus: state.characteristics.initialStatus,
@@ -165,6 +179,7 @@ function mapStateToProps(state) {
         classifiersSearch: state.characteristics.classifiersSearch,
         groupLoader: state.characteristics.groupLoader,
         groupsEditMode: state.characteristics.groupsEditMode,
+        advancedSearchConfig: state.products.advancedSearchConfig,
         // Products modal
         modalTabs: state.products.modalTabs,
         open: state.products.open,
@@ -176,7 +191,7 @@ function mapDispatchToProps(dispatch) {
 
     return {
         closeProductActionModal: () => dispatch(closeProductActionModal()),
-
+        nameFiltered: name => dispatch(nameFiltered(name)),
         getAllGroup: () => dispatch(getAllGroup()),
         addGroup: (data) => dispatch(addGroup(data)),
         getOnlySubgroupWithGroupId: (id, place) => dispatch(getOnlySubgroupWithGroupId(id, place)),
@@ -191,6 +206,7 @@ function mapDispatchToProps(dispatch) {
         measurementFiltered: selected => dispatch(measurementFiltered(selected)),
         otherFiltered: (name, value) => dispatch(otherFiltered(name, value)),
         classifiersFiltered: classifier => dispatch(classifiersFiltered(classifier)),
+        nameButtonSearch: () => dispatch(nameButtonSearch()),
     }
 }
 

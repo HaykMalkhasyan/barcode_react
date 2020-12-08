@@ -2,7 +2,7 @@ import React from 'react'
 import classes from '../filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button"
 import {connect} from "react-redux"
-import {getAllProducts, nameFiltered, setProductValues} from "../../../../../Redux/products/actions"
+import {getAllProducts, setProductValues} from "../../../../../Redux/products/actions"
 import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
@@ -31,14 +31,6 @@ const SearchWindow = props => {
 
     return (
         <div className={classes.searchWindow}>
-            {/* CUSTOM SEARCH */}
-            <div className={classes.desktopSearch}>
-                <CustomSearchWindow
-                    search={props.product_search}
-                    // Methods
-                    nameFiltered={props.nameFiltered}
-                />
-            </div>
             {/* ADVANCED SEARCH */}
             <AdvancedSearchWindow
                 mainFilters={props.mainFilters}
@@ -74,7 +66,6 @@ function mapStateToProps(state) {
         group: state.characteristics.group,
         customSubgroup: state.characteristics.customSubgroup,
         subgroupsOpen: state.products.subgroupsOpen,
-        product_search: state.products.product_search,
         mainFilters: state.products.mainFilters,
         initialSub: state.products.initialSub,
         advancedSearch: state.characteristics.advancedSearch,
@@ -91,7 +82,6 @@ function mapDispatchToProps(dispatch) {
         searchHandler: (name, value) => dispatch(searchHandler(name, value)),
         setGroupValues: (name, value) => dispatch(setGroupValues(name, value)),
         setFiltersValue: (name, value) => dispatch(setFiltersValue(name, value)),
-        nameFiltered: name => dispatch(nameFiltered(name)),
     }
 }
 

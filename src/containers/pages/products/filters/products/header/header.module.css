@@ -50,6 +50,10 @@
     background-color: rgba(0, 0, 0, 0.08) !important;
 }
 
+.filterStatus {
+    color: #024059;
+}
+
 .filters {
     color: #0da3e0;
 }

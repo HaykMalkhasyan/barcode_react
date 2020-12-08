@@ -86,7 +86,6 @@ class ClassifiersTab extends Component {
                                                 <ClassifiersItem
                                                     key={`classifiers-item-${item.id}`}
                                                     data={item}
-                                                    subgroup={this.props.classifiers}
                                                     classifiers={this.props.classifiers}
                                                     // Methods
                                                     onClick={this.props.openModalContent}

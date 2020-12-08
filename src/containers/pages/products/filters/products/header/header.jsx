@@ -6,6 +6,7 @@ import SpringPopper from "../../../../../../components/popperUI/popperUI"
 import CheckboxList from "../../../../../../components/listItemWithCheckbox/listItemWithCheckbox";
 import CallMergeIcon from '@material-ui/icons/CallMerge';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
+import {FiFilter} from "react-icons/fi";
 
 const Header = props => {
 
@@ -53,16 +54,6 @@ const Header = props => {
                     // Events
                     onClick={() => props.setFilters(!props.filters)}
                 />
-                {/* delete products group */}
-                <CustomButton
-                    className={classes.actionsButton}
-                    disabled={true}
-                    children={
-                        <>
-                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span>Ջնջել</span>
-                        </>
-                    }
-                />
                 {/* print products */}
                 <CustomButton
                     className={classes.actionsButton}
@@ -90,6 +81,32 @@ const Header = props => {
                     children={
                         <>
                             <Icons type={'contained-export'}/> <span>Արտահանել</span>
+                        </>
+                    }
+                />
+                {/* filter status */}
+                {
+                    Object.keys(props.advancedSearchConfig).length ?
+                        <CustomButton
+                            className={classes.actionsButton}
+                            children={
+                                <>
+                                    <FiFilter className={classes.filterStatus}/> <span>Չեղարկել</span>
+                                </>
+                            }
+                            // EVENTS
+                            onClick={props.unfaltering}
+                        />
+                        :
+                        null
+                }
+                {/* delete products group */}
+                <CustomButton
+                    className={classes.actionsButton}
+                    disabled={true}
+                    children={
+                        <>
+                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span>Ջնջել</span>
                         </>
                     }
                 />

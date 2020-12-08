@@ -8,9 +8,26 @@ import {createRoad} from "../../../../../../../../../../services/services";
 const ClassifiersItem = props => {
 
     const removeSelectedClassifiersHandler = (classifiers, id) => {
-        const initialClassifier = {...classifiers};
-        delete initialClassifier[id];
+        const initialClassifier = [...classifiers];
+        for (let [index, item] of Object.entries(initialClassifier)) {
+
+            if (parseInt(item.cat_id) === id) {
+                initialClassifier.splice(parseInt(index), 1)
+            }
+        }
         props.setProductValues("classifiers", initialClassifier);
+    }
+
+    const checkRoadRender = (classifiers, data) => {
+        for (let item of classifiers) {
+            if (parseInt(item.cat_id) === data.id) {
+                return (
+                    <div className={classes.roadContent}>
+                        {createRoad(item)}
+                    </div>
+                )
+            }
+        }
     }
 
     return (
@@ -20,21 +37,19 @@ const ClassifiersItem = props => {
             onClick={() => props.onClick(props.data, true)}
         >
             <div className={classes.classifiersSelectedItem}>
-                <span className={props.subgroup[props.data.id] ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
+                <span className={checkRoadRender(props.classifiers, props.data) ? classes.groupButton : `${classes.groupButtonInactive} ${classes.groupButton}`}>
                     {`${props.data[`title_${cookie.get("language") || "am"}`]} ${props.data.id === 0 ? "*" : ""}`}
                 </span>
                 {
-                    props.subgroup && Object.keys(props.subgroup).length > 0 && props.subgroup[props.data.id] ?
-                        <div className={classes.roadContent}>
-                            {createRoad(props.subgroup[props.data.id])}
-                        </div>
+                    props.classifiers && props.classifiers.length ?
+                        checkRoadRender(props.classifiers, props.data)
                         :
                         null
                 }
             </div>
             <div className={classes.road}>
                 {
-                    props.classifiers && Object.keys(props.classifiers).length > 0 && props.classifiers[props.data.id] ?
+                    props.classifiers && props.classifiers.length > 0 && checkRoadRender(props.classifiers, props.data) ?
                         <CustomButton
                             className={classes.removeButton}
                             children={<Icons type={'group-delete'} width={14} height={14} className={classes.removeIcon} opacity={1}/>}

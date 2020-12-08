@@ -26,6 +26,7 @@ const Section = props => {
                 sortTableTabs={props.sortTableTabs}
                 onClick={props.changeTabsHandler}
                 toggleBackdrop={props.toggleBackdrop}
+                unfaltering={props.unfaltering}
                 backFiltersPage={props.backFiltersPage}
             />
         </div>

@@ -26,6 +26,14 @@ class ClassifiersTree extends Component {
         };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (Object.keys(prevProps.advancedSearchConfig).length !== Object.keys(this.props.advancedSearchConfig).length && Object.keys(this.props.advancedSearchConfig).length === 0) {
+            this.setState({
+                selected: []
+            })
+        }
+    }
+
     collapsed = () => {
         this.setState({
             collapseStatus: !this.state.collapseStatus

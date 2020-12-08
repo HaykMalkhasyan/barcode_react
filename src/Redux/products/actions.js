@@ -3,21 +3,54 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    SET_ALL_IMAGES, SET_FILTERS_CONFIG, SET_FILTERS_CONFIG_WITH_TEXT,
+    SET_ALL_IMAGES,
+    SET_FILTERS_CONFIG,
+    SET_FILTERS_CONFIG_WITH_TEXT,
     SET_MAIN_IMAGE,
     SET_PRODUCT_ERRORS,
     SET_PRODUCT_MODAL_VALUES,
     SET_PRODUCT_VALUES,
-    SET_PRODUCTS, SET_SAVE_PRODUCT,
+    SET_PRODUCTS,
+    SET_SAVE_PRODUCT,
     SET_SUBGROUP,
     SET_TAB_VALUE
 } from "./actionTypes";
 import Axios from "axios";
 import {getHeaders, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
-import {getActionById} from "../characteristics/actions";
+import {getActionById, setGroupValues} from "../characteristics/actions";
 
 const API_URL = process.env.REACT_APP_API_URL;
+
+export function getSubsWithCatId(data) {
+
+    return async (dispatch, getState) => {
+        const subgroups = [...getState().characteristics.subgroups];
+        const group_array = [];
+        for (let item of data) {
+            group_array.push(
+                Axios({
+                    method: "get",
+                    url: API_URL,
+                    ...getHeaders({}, {path: "Group/SubGroup", id: item.cat_id, param: {get_id: item.value}})
+                })
+            )
+        }
+        try {
+            const response = await Axios.all([...group_array]);
+            const init_data = []
+            for (let item of response) {
+                if (Object.values(item.data.data).length) {
+                    init_data.push(Object.values(item.data.data)[0])
+                }
+            }
+            subgroups.push(...init_data)
+            dispatch(setGroupValues('subgroups', subgroups))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
 
 export function getProduct(id) {
 
@@ -26,19 +59,25 @@ export function getProduct(id) {
         if (cookie.get('access')) {
             dispatch(setProductValues("productLoadingStatus", true))
             const main = {...getState().products.main}
-            const classifiers = {...getState().products.classifiers}
+            const classifiers = [...getState().products.classifiers]
             const suppliers = getState().suppliers.suppliers ? [...getState().suppliers.suppliers] : [];
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Products/Product", param: {id: id}}));
                 const data = response.data.data[0];
                 await dispatch(getActionById("get", null, {path: "Group/SubGroup", id: 0, param: {get_id: data.catedory_id}}, data.catedory_id))
+                await dispatch(getSubsWithCatId(data.custom_category))
+
                 main.item_name = data.item_name;
                 main.product_type = data.service;
                 main.unit_id = data.unit;
                 main.active = data.active;
                 main.articul = data.articul;
-                const subgroup = {...getState().characteristics.subgroup}
-                classifiers[0] = {...subgroup}
+                const subgroup = {...getState().characteristics.subgroup};
+                classifiers.push(subgroup);
+                const subgroups = [...getState().characteristics.subgroups];
+                for (let item of subgroups) {
+                    classifiers.push(item)
+                }
                 const firms = data.firms.split(",");
                 const selected = [];
                 for (let item of suppliers) {
@@ -115,8 +154,22 @@ export function getAllProducts(page, param = {}) {
         }
     }
 }
+// Unfaltering
+export function unfaltering() {
 
+    return dispatch => {
+        dispatch(setFilterConfigs({}, ""))
+        dispatch(getAllProducts(1, {}))
+    }
+}
+// Name filter by search button
+export function nameButtonSearch() {
 
+    return (dispatch, getState) => {
+        const advancedSearchConfig = {...getState().products.advancedSearchConfig};
+        dispatch(getAllProducts(1, {...advancedSearchConfig}))
+    }
+}
 // Name filter
 export function nameFiltered(name) {
 
@@ -232,16 +285,22 @@ export function setProduct(gallery, type) {
         const errorFields = [...getState().products.errorFields];
         const tabErrors = [...getState().products.tabErrors];
         const open = getState().products.open;
-        const init_classifiers = {...getState().products.classifiers};
+        const init_classifiers = [...getState().products.classifiers];
         const barcode = [...getState().barcode.barcode];
         const init_supplier = getState().suppliers.selected;
         const supplier = init_supplier ? [...init_supplier] : [];
         const price = {...getState().price.values};
-        const classifiers = {};
-        for (let index of Object.keys(init_classifiers)) {classifiers[index] = {value: init_classifiers[index].id, type_id: init_classifiers[index].cat_id};}
+        const classifiers = [];
+        for (let item of init_classifiers) {
+            if (parseInt(item.cat_id) === 0) {
+                data["catedory_id"] = item.id;
+            } else {
+                classifiers.push({value: item.id, cat_id: item.cat_id});
+            }
+        }
 
-        data.item_type = "piece";
         data.details = [];
+        data["custom_category"] = [...classifiers];
         data.images = {};
         data.active = !main.active;
         data.show_in_site = +main.show_in_site
@@ -256,7 +315,7 @@ export function setProduct(gallery, type) {
         }
         data.prices = [...prices]
         // Details (barcode)
-        data.details = [...barcode];
+        // data.barcodes = [...barcode]; Պատրաստ չէ դեռ
         // Suppliers
         if (Object.keys(supplier).length) {
             data.firms = ""
@@ -268,11 +327,10 @@ export function setProduct(gallery, type) {
                 }
             })
         }
+        console.log(classifiers.length && data["catedory_id"])
+        console.log(classifiers.length, data["catedory_id"])
         // Classifiers
-        if (Object.keys(classifiers).length && classifiers[0]) {
-            data["catedory_id"] = classifiers[0].value;
-            delete classifiers[0];
-            data["custom_category"] = {...classifiers};
+        if (data["catedory_id"]) {
             if (errorFields.indexOf("classifiers") !== -1) {
                 errorFields.splice(errorFields.indexOf("classifiers"), 1)
             }
@@ -403,7 +461,7 @@ export function productDataRequest(data) {
     return async (dispatch, getState) => {
         const products = [...getState().products.products];
         try {
-            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
+            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
             products.push(response.data.data[0])
             dispatch(addNewProductWithClose(products));
         } catch (error) {
@@ -421,7 +479,7 @@ export function productDataEditRequest(data) {
             data.id = product.id;
         }
         try {
-            const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+            const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
             const responseData = response.data.data[0];
             for (let [key, value] of Object.entries(products)) {
                 if (value.id === responseData.id) {
@@ -448,9 +506,9 @@ export function productDataSaveRequest(data) {
             }
             try {
                 const response = open === "add" ?
-                    await Axios.post(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
+                    await Axios.post(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
                     :
-                    await Axios.put(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+                    await Axios.put(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
 
                 const responseData = response.data.data[0];
                 if (open === "add") {
@@ -482,7 +540,7 @@ export function deleteProduct() {
                 const data = {...getState().products.product};
                 data.image_path = ""
                 data.deleted = 1;
-                const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,item_type,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
+                const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
                 console.log("DELETE", response.data)
             } catch (error) {
                 console.log("Producte delete error!")
@@ -545,11 +603,11 @@ export function setTabValue(value) {
 export function selectSubgroup(subgroup) {
 
     return (dispatch, getState) => {
-        const classifiers = {...getState().products.classifiers}
+        const classifiers = [...getState().products.classifiers]
         const data = {...subgroup};
         delete data.state;
         delete data.children;
-        classifiers[data.cat_id] = data;
+        classifiers.push(data);
         dispatch(setSubgroup(classifiers));
     }
 }

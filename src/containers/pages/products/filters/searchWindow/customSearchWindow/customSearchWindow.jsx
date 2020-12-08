@@ -12,12 +12,13 @@ const CustomSearchWindow = props => {
             />
             <CustomSearch
                 drop={true}
-                withButton={true}
+                withButton={props.type === "products"}
                 name={"item_name"}
                 value={props.search}
                 onChange={event => {
                     props.nameFiltered(event.target.value)
                 }}
+                onClick={props.onClick}
             />
         </div>
     )

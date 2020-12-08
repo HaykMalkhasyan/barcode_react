@@ -300,6 +300,7 @@ export class deleteInArray {
 }
 
 export function createRoad(data, road) {
+
     if (data && data.parent) {
         if (data.parent.id === null) {
             return road ? `/ ${data.name} / ${road}` : `/ ${data.name}`;

@@ -154,7 +154,7 @@ const initialState = {
         can_sale: false,
     },
     initialSub: null,
-    classifiers: {},
+    classifiers: [],
     roads: [],
     groups: {
         groups: []
@@ -238,9 +238,7 @@ export default function productsReducer(state = initialState, action) {
                 description: {
                     description: '',
                 },
-                classifiers: {
-                    classifiers: []
-                },
+                classifiers: [],
                 workers: {
                     workers: ''
                 },
@@ -311,7 +309,7 @@ export default function productsReducer(state = initialState, action) {
                 description: {
                     description: '',
                 },
-                classifiers: {},
+                classifiers: [],
                 workers: {
                     workers: ''
                 },
@@ -339,7 +337,7 @@ export default function productsReducer(state = initialState, action) {
                 description: {
                     description: '',
                 },
-                classifiers: {},
+                classifiers: [],
                 workers: {
                     workers: ''
                 },
