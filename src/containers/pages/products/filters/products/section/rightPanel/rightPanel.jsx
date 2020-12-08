@@ -160,12 +160,14 @@ const RightPanel = props => {
                 open={props.open}
                 activeTabs={props.activeTabs}
                 products={props.products}
+                advancedSearchConfig={props.advancedSearchConfig}
                 filters={filters}
                 // Methods
                 setFilters={setFilters}
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
                 toggleAddModalHandler={toggleAddModalHandler}
+                unfaltering={props.unfaltering}
                 backFiltersPage={props.backFiltersPage}
             />
             <div className={classes.tableInformation}>

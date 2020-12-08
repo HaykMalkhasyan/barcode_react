@@ -9,7 +9,6 @@ const ProductTable = props => {
     const [gridColumnApi, setGridColumnApi] = useState(null);
 
 const onColumnEvent = params => {
-    console.log("params (>colDef>field):", params.colDef.field)
     if (props.tableType === "product" && params.colDef.field === "item_name") {
         props.clickHandler(params.data.id)
     }

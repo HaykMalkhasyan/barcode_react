@@ -111,7 +111,7 @@ export default function characteristicsReducer(state = initialState, action) {
             }
         case CLOSE_PRODUCT_MODAL:
             return {
-                ...state, own_subgroups: null
+                ...state, own_subgroups: null, subgroup:  null, subgroups: []
             }
         case SET_SUBGROUP:
             return {

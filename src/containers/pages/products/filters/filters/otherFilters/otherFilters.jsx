@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './otherFilters.module.css'
 import CustomHeader from "../../../../../../components/UI/customHeader/customHeader";
 import Collapse from "@material-ui/core/Collapse";
@@ -7,6 +7,12 @@ import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox
 const OtherFilters = props => {
     const [open, setOpen] = useState(true);
     const [selected, setSelected] = useState([]);
+
+    useEffect(() => {
+        if (props.advancedSearchConfig && Object.keys(props.advancedSearchConfig).length === 0) {
+            setSelected([])
+        }
+    }, [props.advancedSearchConfig])
 
     const collapsed = () => {
         setOpen(!open)

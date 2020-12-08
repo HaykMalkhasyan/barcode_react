@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './collapsedFilters.module.css'
 import CustomHeader from "../../../../../../components/UI/customHeader/customHeader";
 import Collapse from "@material-ui/core/Collapse";
@@ -7,6 +7,12 @@ import CustomCheckbox from "../../../../../../components/UI/input/customCheckbox
 const CollapsedFilters = props => {
     const [open, setOpen] = useState(true);
     const [value, setValue] = React.useState([]);
+
+    useEffect(() => {
+        if (props.advancedSearchConfig && Object.keys(props.advancedSearchConfig).length === 0) {
+            setValue([])
+        }
+    }, [props.advancedSearchConfig])
 
     const handleChange = (event) => {
         const selected = [...value];

@@ -13,7 +13,7 @@
 }
 
 .measurementFilterWindow {
-    max-height: 200px;
+    max-height: 385px;
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
