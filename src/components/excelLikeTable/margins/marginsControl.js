@@ -27,20 +27,15 @@ const useStyles = makeStyles({
   });
 
 export default function PopoverPopupState(props) {
-  const [top, setTop] = useState(0);
-  const [left, setLeft] = useState(0);
-  const [right, setRight] = useState(0);
-  const [bottom, setBottom] = useState(0);
+const {
+  top, setTop ,left, setLeft ,right, setRight ,bottom, setBottom
+} = props
   const [mode, setMode] = useState("inputs")
   const classes = useStyles();
 
 
-  //  useEffect(()=>{
-  //     setTop(props.margins.top)
-  //     setLeft(props.margins.left)
-  //     setRight(props.margins.light)
-  //     setBottom(props.margins.bottom)
-  //  },[props.margins])
+   
+  
 
   const handleChange = (val, newVal, side) => {
     if(+val!==+val){
@@ -53,17 +48,24 @@ export default function PopoverPopupState(props) {
     const allCells = document.getElementsByClassName(
       "ag-center-cols-container"
     )[1];
+    console.log('allCells', allCells)
+    // const right = document.getElementById("printMarginRight")
+    // const left = document.getElementById("printMarginLeft")
+    // const top = document.getElementById("printMarginTop")
+    // const bottom = document.getElementById("printMarginBottom")
+    // console.log('right left top bottom', right, left, top, bottom)
     let colDefs = props.gridApi.getColumnDefs();
-    console.log("allCells", allCells);
 
     switch (side) {
       case "top":
         setTop(val);
         allCells.style.margin = `${val}px ${right}px ${bottom}px ${left}px`;
+        document.getElementById("printMarginTop").style.height = `${val}px`
         break;
       case "bottom":
         setBottom(val);
         allCells.style.margin = `${top}px ${right}px ${val}px ${left}px`;
+        document.getElementById("printMarginBottom").style.height = `${val}px`
         break;
       case "left":
         let el = document.getElementsByClassName(
@@ -95,10 +97,12 @@ export default function PopoverPopupState(props) {
         });
         setLeft(val);
         allCells.style.margin = `${top}px ${right}px ${bottom}px ${val}px`;
+        document.getElementById("printMarginLeft").style.width = `${val}px`
         el.style.margin = `0px 0px 13px ${+val - 35}px`;
         break;
       case "right":
         setRight(val);
+        document.getElementById("printMarginRight").style.width = `${val}px`
         allCells.style.margin = `${top}px ${val}px ${bottom}px ${left}px`;
         break;
 

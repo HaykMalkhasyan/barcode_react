@@ -55,6 +55,10 @@ const App = (props) => {
     
     const [paperHeight, setPaperHeight] = useState(50)
     const [paperWidth, setPaperWidth] = useState(12)
+    const [top, setTop] = useState(0);
+    const [left, setLeft] = useState(0);
+    const [right, setRight] = useState(0);
+    const [bottom, setBottom] = useState(0);
 
   function getHeaderName(charcode, add = 0) {
     if (charcode >= 65 && charcode <= 90) {
@@ -127,8 +131,7 @@ if(initialData && initialData.length){
         let rowsSize = props.rowData.length + 20; 
         
         
-        console.log('props.rowData', props.rowData)
-        let clone = createData(50, keysprops.length-1, props.rowData, start);
+        let clone = createData(55, keysprops.length-1, props.rowData, start);
         for (let j = 0, i = 0; i < keysprops.length; i++, j++) {
           if (keysprops[i] === "#") {
             i++;
@@ -146,29 +149,145 @@ if(initialData && initialData.length){
     }
   }, [props.rowData, gridApi]);
 
+
+
+  useEffect(()=>{
+let isDown = {bool:false};
+let val
+    function controll(e){
+      e.stopPropagation();
+      if(e.target.id==="rightControll"||e.target.id==="leftControll" || e.target.id === "topControll" || e.target.id === "bottomControll"){
+        isDown = {bool:true, id:e.target.id}
+      }
+    }
+
+    function mmtopx(mm){
+      return mult(mm, 3.77)
+    }
+
+    function controlMove(e){
+      if(isDown.bool){
+        
+        
+        let fullWidth = mmtopx(parseInt(document.getElementById("paperRef").style.width)) + document.getElementById("paperRef").getBoundingClientRect().left + window.scrollX
+        let fullHeight = mmtopx(parseInt(document.getElementById("paperRef").style.height)) + document.getElementById("paperRef").getBoundingClientRect().top + window.scrollY
+        switch (isDown.id) {
+          case "rightControll":
+            val = document.getElementById("printMarginRight").style.width
+            val= fullWidth-e.clientX
+            document.getElementById("printMarginRight").style.width = `${val}px`
+            break;
+            case "leftControll":
+            val = document.getElementById("printMarginLeft").style.width
+            val= e.clientX - document.getElementById("paperRef").getBoundingClientRect().left + window.scrollX
+            document.getElementById("printMarginLeft").style.width = `${val}px`
+            break;
+            case "topControll":
+            val = document.getElementById("printMarginTop").style.width
+            val= e.clientY - document.getElementById("paperRef").getBoundingClientRect().top + window.scrollY
+            document.getElementById("printMarginTop").style.height = `${val}px`
+            break;
+            case "bottomControll":
+            val = document.getElementById("printMarginBottom").style.width
+            val=  fullHeight - e.clientY
+            document.getElementById("printMarginBottom").style.height = `${val}px`
+            break;
+        
+          default:
+            break;
+        }
+      }
+    }
+
+    function controlEnd(e){
+
+      let colDefs = gridApi ? gridApi.getColumnDefs() : [];
+      const el = document.getElementById("paperRef");
+    const allCells = document.getElementsByClassName(
+      "ag-center-cols-container"
+    )[1];
+
+
+
+      switch (isDown.id) {
+        case "rightControll":
+          setRight(Math.ceil(val))
+          break;
+          case "leftControll":
+            let el = document.getElementsByClassName(
+              "ag-header ag-focus-managed ag-pivot-off"
+            )[1];
+            colDefs.forEach((item, i) => {
+              if (i === 0) {
+                item.cellStyle = function (params) {
+                  let obj = {};
+                  if (i === 0) {
+                    return Object.assign(obj, {
+                      backgroundColor: "#fff",
+                      lineHeight: "14px !important",
+                      left: `-${+val + 10}px`,
+                      textAlign: "right",
+                      padding: "0",
+                      borderRight: "1px solid gray",
+                      borderBottom: "1px solid gray",
+                    });
+                  }
+                  return Object.assign(obj, {
+                    border: "1px solid #d3d3d34d",
+                    lineHeight: "14px !important",
+                    zIndex: "2 !important",
+                  });
+                };
+                props.gridApi.setColumnDefs(colDefs);
+              }
+            });
+            allCells.style.margin = `${top}px ${right}px ${bottom}px ${val}px`;
+            document.getElementById("printMarginLeft").style.width = `${val}px`
+            el.style.margin = `0px 0px 13px ${+val - 35}px`;
+            setLeft(Math.ceil(val))
+            console.log('allCells.style.margin', allCells.style.margin)
+          break;
+          case "topControll":
+            allCells.style.margin = `${val}px ${right}px ${bottom}px ${left}px`;
+            console.log('allCells.style.margin', allCells.style.margin)
+            document.getElementById("printMarginTop").style.height = `${val}px`
+            setTop(Math.ceil(val))
+          break;
+          case "bottomControll":
+            setBottom(Math.ceil(val))
+          break;
+      
+        default:
+          break;
+      }
+      isDown={bool:false}
+    }
+
+    window.addEventListener("mousedown",controll)
+    window.addEventListener("mousemove", controlMove)
+    window.addEventListener("mouseup",controlEnd)
+    return ()=>{
+      window.removeEventListener("mousedown", controll)
+    }
+  },[])
+
+
   useEffect(() => {
     gridApi && gridApi.refreshCells();
   }, [rowData]);
 
   const handlePrint = useReactToPrint({
-    onBeforeGetContent: ()=>{gridApi.clearRangeSelection(); gridApi.deselectAll();  },
+    onBeforeGetContent: ()=>{
+      gridApi.clearRangeSelection(); 
+      gridApi.deselectAll();  
+      // gridApi.setHeaderHeight(0)
+    },
     content: () => tableRef.current,
-    
-    
-    
-
-      
-    
     onAfterPrint: () => {
-      
-      
       props.setExportStatus({ bool: false });
-      gridApi.setDomLayout(null)
+      // gridApi.setDomLayout(null)
       props.setPending(false)
-      
-      
-      
-      
+      // gridApi.setHeaderHeight(16)
     },
     
   });
@@ -524,6 +643,14 @@ if(initialData && initialData.length){
       >
         
         <TableOptins
+          top={top}
+          setTop={setTop} 
+          left={left}
+          setLeft={setLeft} 
+          right={right}
+          setRight={setRight} 
+          bottom={bottom}
+          setBottom={setBottom}
           setPrintSize={props.setPrintSize}
           gridApi={gridApi}
           columnApi={columnApi}
@@ -541,6 +668,7 @@ if(initialData && initialData.length){
       </div>
       <div
       ref={tableRef}
+      id="tableRef"
         className="ag-theme-alpine"
         style={{
           margin:"0 auto",
@@ -739,14 +867,70 @@ if(initialData && initialData.length){
               params.api.setDomLayout("print")
               let bg = document.getElementsByClassName("ag-root ag-unselectable ag-layout-print")[0]
               console.log('bg', bg)
+              bg.setAttribute("id","printable")
               let A4 = document.createElement("div")
+              let marginTop = document.createElement("div")
+              marginTop.setAttribute("id", "printMarginTop")
+              let topMarginControl = document.createElement("span")
+              topMarginControl.classList.add("marginControllerTop")
+              topMarginControl.setAttribute("id", "topControll")
+              marginTop.appendChild(topMarginControl)
+              marginTop.style.position="absolute"
+              marginTop.style.top="0"
+              marginTop.style.left="0"
+              marginTop.style.width="100%"
+              marginTop.style.height="0px"
+              // marginTop.style.borderBottom="1px solid gray"
+              marginTop.style.backgroundColor="rgb(232 232 232)"
+              // marginTop.style.zIndex="400"
+              let marginLeft = document.createElement("div")
+              marginLeft.setAttribute("id", "printMarginLeft")
+              let leftMarginControl = document.createElement("span")
+              leftMarginControl.classList.add("marginControllerLeft")
+              leftMarginControl.setAttribute("id", "leftControll")
+              marginLeft.appendChild(leftMarginControl)
+              marginLeft.style.position="absolute"
+              marginLeft.style.top="0"
+              marginLeft.style.left="0"
+              marginLeft.style.width="0px"
+              marginLeft.style.height="100%"
+              marginLeft.style.backgroundColor="rgb(232 232 232)"
+              let marginBottom = document.createElement("div")
+              marginBottom.setAttribute("id", "printMarginBottom")
+              let bottomMarginControl = document.createElement("span")
+              bottomMarginControl.classList.add("marginControllerBottom")
+              bottomMarginControl.setAttribute("id", "bottomControll")
+              marginBottom.appendChild(bottomMarginControl)
+              marginBottom.style.position="absolute"
+              marginBottom.style.bottom="0"
+              marginBottom.style.left="0"
+              marginBottom.style.width="100%"
+              marginBottom.style.height="0px"
+              marginBottom.style.backgroundColor="rgb(232 232 232)"
+              let marginRight = document.createElement("div")
+              marginRight.setAttribute("id", "printMarginRight")
+              let rightMarginControl = document.createElement("span")
+              rightMarginControl.classList.add("marginControllerRight")
+              rightMarginControl.setAttribute("id", "rightControll")
+              marginRight.appendChild(rightMarginControl)
+              marginRight.style.position="absolute"
+              marginRight.style.top="0"
+              marginRight.style.right="0"
+              marginRight.style.width="0px"
+              marginRight.style.height="100%"
+              marginRight.style.backgroundColor="rgb(232 232 232)"
+              
               A4.setAttribute("id", "paperRef")
               A4.style.position="absolute"
               A4.style.top="25px"
               A4.style.left="25px"
               A4.style.width="210mm"
-              A4.style.height="277mm"
+              A4.style.height="297mm"
               A4.style.boxShadow="0px 0px 12px 2px gray"
+              A4.appendChild(marginTop)
+              A4.appendChild(marginLeft)
+              A4.appendChild(marginRight)
+              A4.appendChild(marginBottom)
               bg.appendChild(A4)
             }, 10);
           }}

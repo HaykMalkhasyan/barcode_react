@@ -24,7 +24,7 @@ import VerticalAlignCenterIcon from "@material-ui/icons/VerticalAlignCenter";
 import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
 import SizePicker from "./setSize/setSize"
 import MarginsControl from "./margins/marginsControl"
-
+import OrientationPicker from "./setSize/setOrientation"
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
@@ -505,8 +505,17 @@ export default function CustomizedDividers(props) {
     <div>
       <Paper elevation={0} className={classes.paper}>
         <MarginsControl
-        gridApi={props.gridApi}
+          top={props.top}
+          setTop={props.setTop} 
+          left={props.left}
+          setLeft={props.setLeft} 
+          right={props.right}
+          setRight={props.setRight} 
+          bottom={props.bottom}
+          setBottom={props.setBottom}
+          gridApi={props.gridApi}
         />
+        <OrientationPicker />
         <SizePicker
           setPrintSize={props.setPrintSize}
           gridApi={props.gridApi}
