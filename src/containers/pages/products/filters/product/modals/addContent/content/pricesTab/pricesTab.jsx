@@ -109,7 +109,7 @@ class PricesTab extends Component {
                                     this.props.data.map((item, index) => {
 
                                         return (
-                                            <p key={`price-item-${item.id}`}>
+                                            <p key={`price-item-${item.id}`}>{console.log(this.props.values[item.id])}
                                                 <CustomInput
                                                     checkRef={parseInt(this.state.focus) === parseInt(index)}
                                                     id={item.id}

@@ -121,9 +121,9 @@ const Data = props => {
                         id={'product_active'}
                         className={classes.checkbox}
                         label={'Ակտիվ'}
-                        checked={props.data.active}
+                        checked={props.data.active !== 1}
                         name={'active'}
-                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
+                        onChange={event => props.setMainData(event.target.name, props.data.active === 1 ? 0 : 1)}
                     />
                 </div>
                 <div>
@@ -132,7 +132,7 @@ const Data = props => {
                         id={'show_in_site'}
                         className={classes.checkbox}
                         label={'Ցուցադրել կայքում'}
-                        checked={props.data.show_in_site}
+                        checked={props.data.show_in_site || props.data.show_in_site === 1}
                         name={'show_in_site'}
                         onChange={event => props.setMainData(event.target.name, event.target.checked)}
                     />

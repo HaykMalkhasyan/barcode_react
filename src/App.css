@@ -1,4 +1,15 @@
 .locked-col {background: #ddd;border: none !important}
 .locked-visible {background-color: #5dbfe2;color: #fff}
-.green-row {border: none !important;}
-.red-row {border: none !important;}
+/*.green-row {border: none !important;}*/
+/*.red-row {border: none !important;}*/
+
+.ag-header-cell-label {
+    text-transform: capitalize;
+    color: #ED842B;
+    background-color: transparent;
+}
+
+.ag-pivot-off {
+    background-color: #f5f5f5 !important;
+    /*border: none !important;*/
+}

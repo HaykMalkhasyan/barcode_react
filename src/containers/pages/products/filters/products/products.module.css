@@ -14,24 +14,6 @@
     cursor: pointer;
 }
 
-
-.progress {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    z-index: 5000;
-    width: 100% !important;
-    height: 2px !important;
-}
-
-.barColorPrimary {
-    background-color: #F28705;
-}
-
-.progressBgColor {
-    background-color: transparent;
-}
-
 .filtersButton {
     position: fixed;
     bottom: 10px;
