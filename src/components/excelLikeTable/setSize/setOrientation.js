@@ -18,11 +18,35 @@ export default function ControllableStates(props) {
 
   const handleChange = (event) => {
         setValue(event.target.value);
-        let paper = document.getElementById("paperRef")
-        let width = paper.style.width
-        let height = paper.style.height
-        paper.style.width = height
-        paper.style.height = width
+        let paper = document.getElementsByClassName("paperRef")
+        let cont = document.getElementById("tableRef")
+        let width = paper[0].style.width
+        let height = paper[0].style.height
+        
+        switch (event.target.value) {
+          case "Landscape":
+            if(width<height){
+              Array.from(paper).forEach(item=>{
+                item.style.width = height
+                item.style.height = width
+              })
+              
+              cont.style.width=height
+            }
+            break;
+            case "Potrait":
+              if(width>height){
+                Array.from(paper).forEach(item=>{
+                  item.style.width = height
+                  item.style.height = width
+                })
+                cont.style.width=height
+              }
+              break;
+          default:
+            break;
+        }
+        
   };
 
   return (

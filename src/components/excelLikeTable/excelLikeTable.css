@@ -2365,22 +2365,23 @@
       #tableRef{
         background-color: #fff;
         margin: 0 !important;
-        width: calc(100% + 24px) !important;
+        width: calc(100% + 35px) !important;
         height: calc(100% + 25px) !important;
         margin-top: -25px !important;
-        margin-left: -24px !important;
+        margin-left: -34px !important;
         /* margin-right: 100px !important; */
         /* margin-top: -21px !important; margin-right: -100px !important;   */
       }
+      .pagebreak { page-break-before: always; } 
 
-      #paperRef{
+      .paperRef{
         background-color: #fff !important;
         /* margin-top: -21px !important;  */
         /* margin-left: -21px !important; */
         /* width: 100% !important; */
         box-shadow: none !important;
         /* height: 100% !important; */
-        width: calc(100% - 24px) !important;
+        width: calc(100% - 35px) !important;
         height: calc(100%) !important;
       }
 
@@ -2392,19 +2393,19 @@
       /* @page { 
         size:210mm 227mm !important;
       } */
-      #printMarginRight{
+      .printMarginRight{
         z-index: 100 !important;
         background-color: #fff !important;
       }
-      #printMarginLeft{
+      .printMarginLeft{
         z-index: 100 !important;
         background-color: #fff !important;
       }
-      #printMarginTop{
+      .printMarginTop{
         z-index: 100 !important;
         background-color: #fff !important;
       }
-      #printMarginBottom{
+      .printMarginBottom{
         z-index: 100 !important;
         background-color:#fff !important;
       }

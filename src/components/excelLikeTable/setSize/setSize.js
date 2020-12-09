@@ -18,16 +18,44 @@ export default function ControllableStates(props) {
 
   const handleChange = (event) => {
         setValue(event.target.value);
-        let paper = document.getElementById("paperRef")
+        let paper = document.getElementsByClassName("paperRef")
+        let cont = document.getElementById("tableRef")
+        let width = paper[0].style.width
+        let height = paper[0].style.height
         switch (event.target.value) {
             case "A4":
-              paper.style.width="210mm"
-              paper.style.height="297mm"
-              props.setPaperHeight(50);
+              if(width>height){
+                Array.from(paper).forEach(item=>{
+                  item.style.width="297mm"
+                  item.style.height="210mm"
+                })
+                props.setPaperHeight(39);
+                cont.style.width="297mm"
+                break;
+              }
+              Array.from(paper).forEach(item=>{
+                item.style.width="210mm"
+                item.style.height="297mm"
+              })
+              props.setPaperHeight(55);
+              cont.style.width="210mm"
                 break;
             case "B4":
-              paper.style.width="250mm"
-              paper.style.height="353mm"
+              if(width>height){
+                Array.from(paper).forEach(item=>{
+                  item.style.width="353mm"
+                  item.style.height="250mm"
+                })
+              cont.style.width="353mm"
+                
+                props.setPaperHeight(50);
+                break;
+              }
+              Array.from(paper).forEach(item=>{
+                item.style.width="250mm"
+                item.style.height="353mm"
+              })
+              cont.style.width="250mm"
                 props.setPaperWidth(6);
                 props.setPaperHeight(6);
                 // props.gridApi.redrawRows()

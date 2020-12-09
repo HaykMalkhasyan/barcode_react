@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -33,8 +33,35 @@ const {
   const [mode, setMode] = useState("inputs")
   const classes = useStyles();
 
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+  const topPrevious = usePrevious(top)
+  const leftPrevious = usePrevious(left)
+  const rightPrevious = usePrevious(right)
+  const bottomPrevious = usePrevious(bottom)
 
-   
+
+   useEffect(()=>{
+     if(props.gridApi){
+      if(topPrevious!==top){
+        console.log('top Changed', top)
+        handleChange(top, null,"top");
+      } else if(leftPrevious!==left){
+        console.log('left Changed', left)
+        handleChange(left, null,"left");
+      }else if(rightPrevious!==right){
+        handleChange(right, null,"right");
+      }else if(bottomPrevious!==bottom){
+        console.log('bottom Changed', bottom)
+        handleChange(bottom, null,"bottom");
+      }
+}
+   },[top, left, right, bottom, props.gridApi])
   
 
   const handleChange = (val, newVal, side) => {
@@ -60,20 +87,26 @@ const {
       case "top":
         setTop(val);
         allCells.style.margin = `${val}px ${right}px ${bottom}px ${left}px`;
-        document.getElementById("printMarginTop").style.height = `${val}px`
+        Array.from(document.getElementsByClassName("printMarginTop")).forEach(item=>{
+          item.style.height = `${val}px`
+        })
         break;
       case "bottom":
         setBottom(val);
         allCells.style.margin = `${top}px ${right}px ${val}px ${left}px`;
-        document.getElementById("printMarginBottom").style.height = `${val}px`
+        Array.from(document.getElementsByClassName("printMarginBottom")).forEach(item=>{
+          item.style.height = `${val}px`
+        })
         break;
       case "left":
         let el = document.getElementsByClassName(
           "ag-header ag-focus-managed ag-pivot-off"
         )[1];
+        
         colDefs.forEach((item, i) => {
           if (i === 0) {
             item.cellStyle = function (params) {
+              console.log('val', val)
               let obj = {};
               if (i === 0) {
                 return Object.assign(obj, {
@@ -92,17 +125,21 @@ const {
                 zIndex: "2 !important",
               });
             };
-            props.gridApi.setColumnDefs(colDefs);
           }
         });
+        props.gridApi.setColumnDefs(colDefs);
         setLeft(val);
         allCells.style.margin = `${top}px ${right}px ${bottom}px ${val}px`;
-        document.getElementById("printMarginLeft").style.width = `${val}px`
-        el.style.margin = `0px 0px 13px ${+val - 35}px`;
+        Array.from(document.getElementsByClassName("printMarginLeft")).forEach(item=>{
+          item.style.width = `${val}px`
+        })
+        el.style.margin = `0px 0px 13px ${+val - 25}px`;
         break;
       case "right":
         setRight(val);
-        document.getElementById("printMarginRight").style.width = `${val}px`
+        Array.from(document.getElementsByClassName("printMarginRight")).forEach(item=>{
+          item.style.width = `${val}px`
+        })
         allCells.style.margin = `${top}px ${val}px ${bottom}px ${left}px`;
         break;
 

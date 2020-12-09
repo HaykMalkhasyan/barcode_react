@@ -52,7 +52,6 @@ const App = (props) => {
 
   const [functionalCells, setFunctionalCells] = useState([]);
     const gridRef=useRef()
-    
     const [paperHeight, setPaperHeight] = useState(50)
     const [paperWidth, setPaperWidth] = useState(12)
     const [top, setTop] = useState(0);
@@ -93,7 +92,6 @@ const App = (props) => {
     arr[4].A = "Էլ. Փոստ՝";
     arr[5].A = "Հեռ.՝";
     arr[6].A = "Կոնտ. Անձ՝";
-    console.log('initialData', initialData)
     let headers = Object.keys(arr[0])
     let len = Object.keys(initialData  && initialData.length ? initialData[0] : arr[0]).length;
     let header = headers[6]
@@ -106,15 +104,14 @@ const App = (props) => {
     arr[5][header] = "Հեռ.՝";
     arr[6][header] = "Կոնտ. Անձ՝";
 
-if(initialData && initialData.length){
-  console.log('arr[initialDataLen+3]', arr[initialDataLen+3])
-    arr[initialDataLen+2+start].A = "Հանձնեց՝";
-    arr[initialDataLen+3+start].A = "Անուն Ազգանուն";
-    arr[initialDataLen+4+start].A = "Ստորագրություն";
-    arr[initialDataLen+6+start].A = "Ընդունեց՝";
-    arr[initialDataLen+7+start].A = "Անուն Ազգանուն";
-    arr[initialDataLen+8+start].A = "Ստորագրություն";
-}
+// if(initialData && initialData.length){
+//     arr[initialDataLen+2+start].A = "Հանձնեց՝";
+//     arr[initialDataLen+3+start].A = "Անուն Ազգանուն";
+//     arr[initialDataLen+4+start].A = "Ստորագրություն";
+//     arr[initialDataLen+6+start].A = "Ընդունեց՝";
+//     arr[initialDataLen+7+start].A = "Անուն Ազգանուն";
+//     arr[initialDataLen+8+start].A = "Ստորագրություն";
+// }
     return arr;
   }
 
@@ -127,11 +124,12 @@ if(initialData && initialData.length){
         
         let fullScreenCount = Math.ceil(tableRef.current.offsetWidth/69)
         
-        let colsSize = fullScreenCount;
+        let colsSize = keysprops.length;
         let rowsSize = props.rowData.length + 20; 
-        
-        
-        let clone = createData(55, keysprops.length-1, props.rowData, start);
+        console.log('colsSize', colsSize)
+        console.log('rowsSize', rowsSize)
+        let clone = createData(rowsSize, colsSize, props.rowData, start);
+        console.log('clone', clone)
         for (let j = 0, i = 0; i < keysprops.length; i++, j++) {
           if (keysprops[i] === "#") {
             i++;
@@ -156,8 +154,9 @@ let isDown = {bool:false};
 let val
     function controll(e){
       e.stopPropagation();
-      if(e.target.id==="rightControll"||e.target.id==="leftControll" || e.target.id === "topControll" || e.target.id === "bottomControll"){
-        isDown = {bool:true, id:e.target.id}
+      console.log('e.target.classList', e.target.className)
+      if(e.target.className.includes && (e.target.className.includes("rightControll")||e.target.className.includes("leftControll") || e.target.className.includes("topControll") || e.target.className.includes("bottomControll"))){
+        isDown = {bool:true, id: e.target.className.split(" ")[1]}
       }
     }
 
@@ -169,28 +168,36 @@ let val
       if(isDown.bool){
         
         
-        let fullWidth = mmtopx(parseInt(document.getElementById("paperRef").style.width)) + document.getElementById("paperRef").getBoundingClientRect().left + window.scrollX
-        let fullHeight = mmtopx(parseInt(document.getElementById("paperRef").style.height)) + document.getElementById("paperRef").getBoundingClientRect().top + window.scrollY
+        let fullWidth = mmtopx(parseInt(document.getElementsByClassName("paperRef")[0].style.width)) + document.getElementsByClassName("paperRef")[0].getBoundingClientRect().left + window.scrollX
+        let fullHeight = mmtopx(parseInt(document.getElementsByClassName("paperRef")[0].style.height)) + document.getElementsByClassName("paperRef")[0].getBoundingClientRect().top + window.scrollY
         switch (isDown.id) {
           case "rightControll":
-            val = document.getElementById("printMarginRight").style.width
             val= fullWidth-e.clientX
-            document.getElementById("printMarginRight").style.width = `${val}px`
+            val = val<0 ? 1 : val
+            Array.from(document.getElementsByClassName("printMarginRight")).forEach(item=>{
+              item.style.width = `${val}px`
+            })
             break;
             case "leftControll":
-            val = document.getElementById("printMarginLeft").style.width
-            val= e.clientX - document.getElementById("paperRef").getBoundingClientRect().left + window.scrollX
-            document.getElementById("printMarginLeft").style.width = `${val}px`
+            val= e.clientX - document.getElementsByClassName("paperRef")[0].getBoundingClientRect().left + window.scrollX
+            val = val<0 ? 1 : val
+            Array.from(document.getElementsByClassName("printMarginLeft")).forEach(item=>{
+              item.style.width = `${val}px`
+            })
             break;
             case "topControll":
-            val = document.getElementById("printMarginTop").style.width
-            val= e.clientY - document.getElementById("paperRef").getBoundingClientRect().top + window.scrollY
-            document.getElementById("printMarginTop").style.height = `${val}px`
+            val = e.clientY - document.getElementsByClassName("paperRef")[0].getBoundingClientRect().top + window.scrollY
+            val = val<0 ? 1 : val
+            Array.from(document.getElementsByClassName("printMarginTop")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
             break;
             case "bottomControll":
-            val = document.getElementById("printMarginBottom").style.width
             val=  fullHeight - e.clientY
-            document.getElementById("printMarginBottom").style.height = `${val}px`
+            val = val<0 ? 1 : val
+            Array.from(document.getElementsByClassName("printMarginBottom")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
             break;
         
           default:
@@ -200,76 +207,37 @@ let val
     }
 
     function controlEnd(e){
-
-      let colDefs = gridApi ? gridApi.getColumnDefs() : [];
-      const el = document.getElementById("paperRef");
-    const allCells = document.getElementsByClassName(
-      "ag-center-cols-container"
-    )[1];
-
-
-
       switch (isDown.id) {
+        case "topControll":
+          setTop(Math.ceil(val))
+        break;
         case "rightControll":
           setRight(Math.ceil(val))
           break;
-          case "leftControll":
-            let el = document.getElementsByClassName(
-              "ag-header ag-focus-managed ag-pivot-off"
-            )[1];
-            colDefs.forEach((item, i) => {
-              if (i === 0) {
-                item.cellStyle = function (params) {
-                  let obj = {};
-                  if (i === 0) {
-                    return Object.assign(obj, {
-                      backgroundColor: "#fff",
-                      lineHeight: "14px !important",
-                      left: `-${+val + 10}px`,
-                      textAlign: "right",
-                      padding: "0",
-                      borderRight: "1px solid gray",
-                      borderBottom: "1px solid gray",
-                    });
-                  }
-                  return Object.assign(obj, {
-                    border: "1px solid #d3d3d34d",
-                    lineHeight: "14px !important",
-                    zIndex: "2 !important",
-                  });
-                };
-                props.gridApi.setColumnDefs(colDefs);
-              }
-            });
-            allCells.style.margin = `${top}px ${right}px ${bottom}px ${val}px`;
-            document.getElementById("printMarginLeft").style.width = `${val}px`
-            el.style.margin = `0px 0px 13px ${+val - 35}px`;
-            setLeft(Math.ceil(val))
-            console.log('allCells.style.margin', allCells.style.margin)
-          break;
-          case "topControll":
-            allCells.style.margin = `${val}px ${right}px ${bottom}px ${left}px`;
-            console.log('allCells.style.margin', allCells.style.margin)
-            document.getElementById("printMarginTop").style.height = `${val}px`
-            setTop(Math.ceil(val))
-          break;
-          case "bottomControll":
-            setBottom(Math.ceil(val))
-          break;
+        case "leftControll":
+          setLeft(val)
+        break;
+        case "bottomControll":
+          setBottom(Math.ceil(val))
+        break;
       
         default:
           break;
       }
       isDown={bool:false}
     }
-
+  if(gridApi){
     window.addEventListener("mousedown",controll)
     window.addEventListener("mousemove", controlMove)
     window.addEventListener("mouseup",controlEnd)
+  }
     return ()=>{
       window.removeEventListener("mousedown", controll)
+      window.removeEventListener("mousemove", controlMove)
+      window.removeEventListener("mouseup",controlEnd)
     }
-  },[])
+  },[gridApi])
+
 
 
   useEffect(() => {
@@ -354,7 +322,7 @@ let val
           suppressMenu:true,
           width: props.rowData.length < 1000 ? 60 : 75,
           sortable: false,
-          resizable: true,
+          resizable: false,
           enableCellChangeFlash: false,
           
           editable: false,
@@ -666,6 +634,10 @@ let val
           setPaperWidth={setPaperWidth}
         />
       </div>
+      <div 
+      // style={{backgroundColor:"#e8e8e8"}}
+      
+      >
       <div
       ref={tableRef}
       id="tableRef"
@@ -680,7 +652,7 @@ let val
         }}
         
       >
-        {console.log('props', props)}
+        {/* {console.log('props', props)} */}
         {/* <div style={{
           height: props.height ? props.height : 500,
           position:"relative",
@@ -693,6 +665,15 @@ let val
         <AgGridReact
           ref={gridRef}
           rowStyle={{backgroundColor:"#fff", border:"none"}}
+          getRowClass={function(params){
+            let paperWidth = document.getElementsByClassName("paperRef")
+            let paperHeight1 = document.getElementsByClassName("paperRef")
+            console.log('paperWidth, paperHeight', paperWidth, paperHeight1)
+            if(params.data["/"]===paperHeight){
+              console.log('paperHeight)', paperHeight)
+              return "pagebreak"
+            }
+          }}
           onCellEditingStopped={(params) => {
             console.log("params", params);
             console.log("functionalCells", functionalCells);
@@ -811,8 +792,10 @@ let val
               params.api.setColumnDefs([]);
 
               colDefs.forEach((item, i) => {
+               
                 item.cellStyle=function (params){
                   let obj={};
+                   
                   if(i===0){
                     return Object.assign(obj, {
                       
@@ -825,6 +808,14 @@ let val
                       borderBottom:"1px solid gray",
                     })
                   }
+                  // if(params.data["/"]>55){
+                  //   return {
+                  //     marginTop:"15px !important",
+                  //     border: "1px solid #d3d3d34d", 
+                  //     lineHeight:"14px !important",
+                  //     zIndex:"2 !important",
+                  //   }
+                  // } 
                   return Object.assign(obj, {border: "1px solid #d3d3d34d", lineHeight:"14px !important",zIndex:"2 !important",})
                 }
                 if (selecteds.hasOwnProperty(item.field)) {
@@ -857,23 +848,25 @@ let val
               });
               params.api.setColumnDefs(colDefs);
               const allCells = document.getElementsByClassName("ag-center-cols-container")[1]
-              allCells.style.left="-35px"
+              if(!allCells){
+                return
+              }
+               allCells.style.left="-25px"
               let el = document.getElementsByClassName("ag-header ag-focus-managed ag-pivot-off")[1]
-              el.style.margin="0px 0px 10px -35px"
+              el.style.margin="0px 0px 10px -25px"
               el.style.backgroundColor="#fff"
               let root = document.getElementsByClassName("ag-root-wrapper")[1]
               root.style.border="none"
               root.style.overflow="initial"
               params.api.setDomLayout("print")
               let bg = document.getElementsByClassName("ag-root ag-unselectable ag-layout-print")[0]
-              console.log('bg', bg)
               bg.setAttribute("id","printable")
               let A4 = document.createElement("div")
               let marginTop = document.createElement("div")
-              marginTop.setAttribute("id", "printMarginTop")
+              marginTop.classList.add("printMarginTop")
               let topMarginControl = document.createElement("span")
               topMarginControl.classList.add("marginControllerTop")
-              topMarginControl.setAttribute("id", "topControll")
+              topMarginControl.classList.add("topControll")
               marginTop.appendChild(topMarginControl)
               marginTop.style.position="absolute"
               marginTop.style.top="0"
@@ -881,62 +874,81 @@ let val
               marginTop.style.width="100%"
               marginTop.style.height="0px"
               // marginTop.style.borderBottom="1px solid gray"
-              marginTop.style.backgroundColor="rgb(232 232 232)"
+              marginTop.style.backgroundColor="#f9ebeb"
               // marginTop.style.zIndex="400"
               let marginLeft = document.createElement("div")
-              marginLeft.setAttribute("id", "printMarginLeft")
+              marginLeft.classList.add("printMarginLeft")
               let leftMarginControl = document.createElement("span")
               leftMarginControl.classList.add("marginControllerLeft")
-              leftMarginControl.setAttribute("id", "leftControll")
+              leftMarginControl.classList.add("leftControll")
               marginLeft.appendChild(leftMarginControl)
               marginLeft.style.position="absolute"
               marginLeft.style.top="0"
               marginLeft.style.left="0"
               marginLeft.style.width="0px"
               marginLeft.style.height="100%"
-              marginLeft.style.backgroundColor="rgb(232 232 232)"
+              marginLeft.style.backgroundColor="#f9ebeb"
               let marginBottom = document.createElement("div")
-              marginBottom.setAttribute("id", "printMarginBottom")
+              marginBottom.classList.add("printMarginBottom")
               let bottomMarginControl = document.createElement("span")
               bottomMarginControl.classList.add("marginControllerBottom")
-              bottomMarginControl.setAttribute("id", "bottomControll")
+              bottomMarginControl.classList.add("bottomControll")
               marginBottom.appendChild(bottomMarginControl)
               marginBottom.style.position="absolute"
               marginBottom.style.bottom="0"
               marginBottom.style.left="0"
               marginBottom.style.width="100%"
               marginBottom.style.height="0px"
-              marginBottom.style.backgroundColor="rgb(232 232 232)"
+              marginBottom.style.backgroundColor="#f9ebeb"
               let marginRight = document.createElement("div")
-              marginRight.setAttribute("id", "printMarginRight")
+              marginRight.classList.add("printMarginRight")
               let rightMarginControl = document.createElement("span")
               rightMarginControl.classList.add("marginControllerRight")
-              rightMarginControl.setAttribute("id", "rightControll")
+              rightMarginControl.classList.add("rightControll")
               marginRight.appendChild(rightMarginControl)
               marginRight.style.position="absolute"
               marginRight.style.top="0"
               marginRight.style.right="0"
               marginRight.style.width="0px"
               marginRight.style.height="100%"
-              marginRight.style.backgroundColor="rgb(232 232 232)"
+              marginRight.style.backgroundColor="#f9ebeb"
               
-              A4.setAttribute("id", "paperRef")
+              A4.classList.add("paperRef")
               A4.style.position="absolute"
               A4.style.top="25px"
-              A4.style.left="25px"
+              A4.style.left="35px"
               A4.style.width="210mm"
               A4.style.height="297mm"
-              A4.style.boxShadow="0px 0px 12px 2px gray"
+              A4.style.boxShadow="rgba(0, 0, 0, .1) 0px 0px 35px 10000px"
+              A4.style.backgroundColor="#fff"
               A4.appendChild(marginTop)
               A4.appendChild(marginLeft)
               A4.appendChild(marginRight)
               A4.appendChild(marginBottom)
               bg.appendChild(A4)
+              // let pageBreak = document.createElement("div")
+              // pageBreak.classList.add("pagebreak")
+              // bg.appendChild(pageBreak)
+              let A4new = document.createElement("div")
+              A4new.classList.add("paperRef")
+              A4new.style.position="absolute"
+              A4new.style.top="calc(50px + 293mm)"
+              A4new.style.left="35px"
+              A4new.style.width="210mm"
+              A4new.style.height="297mm"
+              A4new.appendChild(marginTop.cloneNode(true))
+              A4new.appendChild(marginLeft.cloneNode(true))
+              A4new.appendChild(marginRight.cloneNode(true))
+              A4new.appendChild(marginBottom.cloneNode(true))
+              // A4new.style.boxShadow="rgba(0, 0, 0, .1) 0px 0px 35px 10000px"
+              A4new.style.backgroundColor="#fff"
+              bg.appendChild(A4new)
             }, 10);
           }}
           
         >
         </AgGridReact>
+        </div>
       </div>
     </div>
   );
