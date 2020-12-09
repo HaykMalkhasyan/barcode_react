@@ -12,7 +12,7 @@ const ModalTabs = props => {
     const errorRender = (tab, Icon) => {
         const error = [...props.tabErrors];
 
-        if (tab && error.indexOf(tab.name) !== -1) {
+        if (tab && (error.indexOf(tab.name) !== -1 ||error.indexOf(`${tab.name}_name`) !== -1 || error.indexOf(`${tab.name}_service`) !== -1 || error.indexOf(`${tab.name}_unit`) !== -1)) {
             return (
                 <Tooltip title={'Ունեք չլրացված դաշտեր'} placement="right">
                     <ErrorIcon className={classes.errorIcon}/>
@@ -29,7 +29,12 @@ const ModalTabs = props => {
                     props.modalTabs.map(({icon:Icon, ...item}) => {
 
                         return (
-                            <ListItem className={props.activeTab === item.index ? `${classes.listItem} ${classes.active}` : classes.listItem} button key={`tabs-item-${item.id}`} onClick={() => props.onClick(item.index)}>
+                            <ListItem
+                                key={`tabs-item-${item.id}`}
+                                button
+                                className={props.activeTab === item.index ? `${classes.listItem} ${classes.active}` : classes.listItem}
+                                onClick={() => props.onClick(item.index)}
+                            >
                                 <ListItemIcon className={classes.listItemIcon}>
                                     {errorRender(item, Icon)}
                                 </ListItemIcon>

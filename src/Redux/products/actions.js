@@ -4,6 +4,7 @@ import {
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
     SET_ALL_IMAGES,
+    SET_DELETE,
     SET_FILTERS_CONFIG,
     SET_FILTERS_CONFIG_WITH_TEXT,
     SET_MAIN_IMAGE,
@@ -19,24 +20,26 @@ import Axios from "axios";
 import {getHeaders, getToken} from "../../services/services";
 import cookie from "../../services/cookies";
 import {getActionById, setGroupValues} from "../characteristics/actions";
+import {getProductPricePrice} from "../price/actions";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 export function getSubsWithCatId(data) {
 
-    return async (dispatch, getState) => {
-        const subgroups = [...getState().characteristics.subgroups];
-        const group_array = [];
-        for (let item of data) {
-            group_array.push(
-                Axios({
-                    method: "get",
-                    url: API_URL,
-                    ...getHeaders({}, {path: "Group/SubGroup", id: item.cat_id, param: {get_id: item.value}})
-                })
-            )
-        }
+    return async dispatch => {
+
         try {
+            const subgroups = [];
+            const group_array = [];
+            for (let item of data) {
+                group_array.push(
+                    Axios({
+                        method: "get",
+                        url: API_URL,
+                        ...getHeaders({}, {path: "Group/SubGroup", id: item.cat_id, param: {get_id: item.value}})
+                    })
+                )
+            }
             const response = await Axios.all([...group_array]);
             const init_data = []
             for (let item of response) {
@@ -58,19 +61,24 @@ export function getProduct(id) {
 
         if (cookie.get('access')) {
             dispatch(setProductValues("productLoadingStatus", true))
-            const main = {...getState().products.main}
-            const classifiers = [...getState().products.classifiers]
+            const main = {...getState().products.main};
+            const classifiers = [];
             const suppliers = getState().suppliers.suppliers ? [...getState().suppliers.suppliers] : [];
             try {
                 const response = await Axios.get(API_URL, getHeaders({}, {path: "Products/Product", param: {id: id}}));
                 const data = response.data.data[0];
-                await dispatch(getActionById("get", null, {path: "Group/SubGroup", id: 0, param: {get_id: data.catedory_id}}, data.catedory_id))
+                await dispatch(getActionById("get", null, {
+                    path: "Group/SubGroup",
+                    id: 0,
+                    param: {get_id: data.catedory_id}
+                }, data.catedory_id))
                 await dispatch(getSubsWithCatId(data.custom_category))
-
+                dispatch(getProductPricePrice(data.prices))
                 main.item_name = data.item_name;
                 main.product_type = data.service;
                 main.unit_id = data.unit;
                 main.active = data.active;
+                main.show_in_site = data.show_in_site;
                 main.articul = data.articul;
                 const subgroup = {...getState().characteristics.subgroup};
                 classifiers.push(subgroup);
@@ -134,7 +142,7 @@ export function getAllProducts(page, param = {}) {
                                 path: "Products/Product",
                                 cols: "id, articul, show_in_site, item_name, image_path, unit, service, create_date, del_date, firms, active, deleted, sort"
                             }
-                        )
+                    )
                 );
                 dispatch(setProducts(response.data.data, response.data.page_count, response.data.count))
             } catch (error) {
@@ -154,6 +162,7 @@ export function getAllProducts(page, param = {}) {
         }
     }
 }
+
 // Unfaltering
 export function unfaltering() {
 
@@ -162,6 +171,7 @@ export function unfaltering() {
         dispatch(getAllProducts(1, {}))
     }
 }
+
 // Name filter by search button
 export function nameButtonSearch() {
 
@@ -170,6 +180,7 @@ export function nameButtonSearch() {
         dispatch(getAllProducts(1, {...advancedSearchConfig}))
     }
 }
+
 // Name filter
 export function nameFiltered(name) {
 
@@ -186,6 +197,7 @@ export function nameFiltered(name) {
         dispatch(setFilterConfigs(advancedSearchConfig, name))
     }
 }
+
 // Classifiers filter
 export function classifiersFiltered(classifier) {
     return (dispatch, getState) => {
@@ -205,6 +217,7 @@ export function classifiersFiltered(classifier) {
         }
     }
 }
+
 // Measurements filter
 export function measurementFiltered(selected) {
 
@@ -225,6 +238,7 @@ export function measurementFiltered(selected) {
         }
     }
 }
+
 // Other filter
 export function otherFiltered(name, value) {
 
@@ -245,6 +259,7 @@ export function otherFiltered(name, value) {
         }
     }
 }
+
 // Set filters
 export function setFilterConfigs(data, text = null) {
 
@@ -302,7 +317,7 @@ export function setProduct(gallery, type) {
         data.details = [];
         data["custom_category"] = [...classifiers];
         data.images = {};
-        data.active = !main.active;
+        data.active = main.active;
         data.show_in_site = +main.show_in_site
         if (main.articul) {
             data.articul = main.articul
@@ -327,8 +342,6 @@ export function setProduct(gallery, type) {
                 }
             })
         }
-        console.log(classifiers.length && data["catedory_id"])
-        console.log(classifiers.length, data["catedory_id"])
         // Classifiers
         if (data["catedory_id"]) {
             if (errorFields.indexOf("classifiers") !== -1) {
@@ -351,15 +364,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("item_name") !== -1) {
                 errorFields.splice(errorFields.indexOf("item_name"), 1)
             }
-            if (tabErrors.indexOf("main") !== -1) {
-                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            if (tabErrors.indexOf("main_name") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main_name"), 1)
             }
         } else {
             if (errorFields.indexOf("item_name") === -1) {
                 errorFields.push("item_name")
             }
-            if (tabErrors.indexOf("main") === -1) {
-                tabErrors.push("main")
+            if (tabErrors.indexOf("main_name") === -1) {
+                tabErrors.push("main_name")
             }
         }
 
@@ -369,15 +382,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("product_type") !== -1) {
                 errorFields.splice(errorFields.indexOf("product_type"), 1)
             }
-            if (tabErrors.indexOf("main") !== -1) {
-                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            if (tabErrors.indexOf("main_service") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main_service"), 1)
             }
         } else {
             if (errorFields.indexOf("product_type") === -1) {
                 errorFields.push("product_type")
             }
-            if (tabErrors.indexOf("main") === -1) {
-                tabErrors.push("main")
+            if (tabErrors.indexOf("main_service") === -1) {
+                tabErrors.push("main_service")
             }
         }
 
@@ -387,15 +400,15 @@ export function setProduct(gallery, type) {
             if (errorFields.indexOf("unit_id") !== -1) {
                 errorFields.splice(errorFields.indexOf("unit_id"), 1)
             }
-            if (tabErrors.indexOf("main") !== -1) {
-                tabErrors.splice(tabErrors.indexOf("main"), 1)
+            if (tabErrors.indexOf("main_unit") !== -1) {
+                tabErrors.splice(tabErrors.indexOf("main_unit"), 1)
             }
         } else {
             if (errorFields.indexOf("unit_id") === -1) {
                 errorFields.push("unit_id")
             }
-            if (tabErrors.indexOf("main") === -1) {
-                tabErrors.push("main")
+            if (tabErrors.indexOf("main_unit") === -1) {
+                tabErrors.push("main_unit")
             }
         }
         dispatch(setAddingProductErrors(tabErrors, errorFields));
@@ -405,7 +418,7 @@ export function setProduct(gallery, type) {
             } else {
                 if (open === "add" && type === "confirm") {
                     dispatch(productDataRequest(data))
-                } else if (open === "edit"  && type === "confirm") {
+                } else if (open === "edit" && type === "confirm") {
                     dispatch(productDataEditRequest(data))
                 } else if (type === "save") {
                     dispatch(productDataSaveRequest(data))
@@ -418,7 +431,7 @@ export function setProduct(gallery, type) {
 export function setAddingProductErrors(tabErrors, errorFields) {
 
     return {
-        type : SET_PRODUCT_ERRORS, tabErrors, errorFields
+        type: SET_PRODUCT_ERRORS, tabErrors, errorFields
     }
 }
 
@@ -461,7 +474,11 @@ export function productDataRequest(data) {
     return async (dispatch, getState) => {
         const products = [...getState().products.products];
         try {
-            const response = await Axios.post(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, ));
+            const response = await Axios.post(API_URL, {
+                path: "Products/Product",
+                param: {...data},
+                cols: "id,articul, show_in_site,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
+            }, getHeaders({},));
             products.push(response.data.data[0])
             dispatch(addNewProductWithClose(products));
         } catch (error) {
@@ -479,7 +496,11 @@ export function productDataEditRequest(data) {
             data.id = product.id;
         }
         try {
-            const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+            const response = await Axios.put(API_URL, {
+                path: "Products/Product",
+                param: {...data},
+                cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
+            }, getHeaders({}, {}));
             const responseData = response.data.data[0];
             for (let [key, value] of Object.entries(products)) {
                 if (value.id === responseData.id) {
@@ -506,9 +527,17 @@ export function productDataSaveRequest(data) {
             }
             try {
                 const response = open === "add" ?
-                    await Axios.post(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
+                    await Axios.post(API_URL, {
+                        path: "Products/Product",
+                        param: {...init_data},
+                        cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
+                    }, getHeaders({}, {}))
                     :
-                    await Axios.put(API_URL, {path: "Products/Product", param: {...init_data}, cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}));
+                    await Axios.put(API_URL, {
+                        path: "Products/Product",
+                        param: {...init_data},
+                        cols: "id,articul, show_in_site, item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
+                    }, getHeaders({}, {}));
 
                 const responseData = response.data.data[0];
                 if (open === "add") {
@@ -538,14 +567,33 @@ export function deleteProduct() {
         if (cookie.get("access")) {
             try {
                 const data = {...getState().products.product};
+                const products = [...getState().products.products];
                 data.image_path = ""
                 data.deleted = 1;
-                const response = await Axios.put(API_URL, {path: "Products/Product", param: {...data}, cols: "id,articul,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"}, getHeaders({}, {}))
-                console.log("DELETE", response.data)
+                delete data.barcodes // patrast chi dra hamar
+                const response = await Axios.put(API_URL, {
+                    path: "Products/Product",
+                    param: {...data},
+                    cols: "id,articul,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
+                }, getHeaders({}, {}))
+                for (let [index, item] of Object.entries(products)) {
+                    if (item.id === data.id) {
+                        products.splice(index, 1);
+                        break
+                    }
+                }
+                dispatch(setDelete(products))
             } catch (error) {
                 console.log("Producte delete error!")
             }
         }
+    }
+}
+
+export function setDelete(products) {
+
+    return {
+        type: SET_DELETE, products
     }
 }
 
@@ -603,11 +651,22 @@ export function setTabValue(value) {
 export function selectSubgroup(subgroup) {
 
     return (dispatch, getState) => {
-        const classifiers = [...getState().products.classifiers]
+        const classifiers = [...getState().products.classifiers];
         const data = {...subgroup};
-        delete data.state;
-        delete data.children;
-        classifiers.push(data);
+        let status = false;
+        for (let [index, item] of Object.entries(classifiers)) {
+            if (parseInt(item.cat_id) === parseInt(data.cat_id)) {
+                delete data.state;
+                delete data.children;
+                classifiers[index] = data
+                status = true
+            }
+        }
+        if (!status) {
+            delete data.state;
+            delete data.children;
+            classifiers.push(data);
+        }
         dispatch(setSubgroup(classifiers));
     }
 }

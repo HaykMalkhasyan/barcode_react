@@ -6,7 +6,7 @@ import {
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
     ONLY_ADD_PRODUCT,
-    SET_ALL_IMAGES,
+    SET_ALL_IMAGES, SET_DELETE,
     SET_FILTERS_CONFIG, SET_FILTERS_CONFIG_WITH_TEXT,
     SET_MAIN_IMAGE,
     SET_PRODUCT_ERRORS,
@@ -149,7 +149,7 @@ const initialState = {
         product_type: 0,
         unit_id: 1,
         show_in_site: false,
-        active: false,
+        active: 1,
         can_in: false,
         can_sale: false,
     },
@@ -172,13 +172,43 @@ const initialState = {
     },
     error: null,
     selected_products: [],
-    productLoadingStatus: true,
+    productLoadingStatus: false,
     activeTab: 0,
 };
 
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_DELETE:
+            return {
+                ...state,
+                products: action.products,
+                initialOpen: null,
+                errorFields: [],
+                tabErrors: [],
+                main: {
+                    item_name: '',
+                    short_name: '',
+                    product_type: 0,
+                    unit_id: 1,
+                    show_in_site: false,
+                    active: 1,
+                    can_in: false,
+                    can_sale: false
+                },
+                description: {
+                    description: '',
+                },
+                classifiers: [],
+                workers: {
+                    workers: ''
+                },
+                images: [],
+                pictures: {
+                    pictures: []
+                },
+                open: false
+            }
         case SET_SAVE_PRODUCT:
             return {
                 ...state, products: action.data, open: "edit"
@@ -231,7 +261,7 @@ export default function productsReducer(state = initialState, action) {
                     product_type: 0,
                     unit_id: 1,
                     show_in_site: false,
-                    active: false,
+                    active: 1,
                     can_in: false,
                     can_sale: false
                 },
@@ -302,7 +332,7 @@ export default function productsReducer(state = initialState, action) {
                     product_type: 0,
                     unit_id: 1,
                     show_in_site: false,
-                    active: false,
+                    active: 1,
                     can_in: false,
                     can_sale: false
                 },
@@ -330,7 +360,7 @@ export default function productsReducer(state = initialState, action) {
                     product_type: 0,
                     unit_id: 1,
                     show_in_site: false,
-                    active: false,
+                    active: 1,
                     can_in: false,
                     can_sale: false
                 },

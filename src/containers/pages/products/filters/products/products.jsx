@@ -10,7 +10,6 @@ import {
     setProductValues,
     unfaltering
 } from "../../../../../Redux/products/actions";
-import LinearSpinner from "../../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import TuneIcon from '@material-ui/icons/Tune';
@@ -65,16 +64,6 @@ class Products extends Component{
                         :
                         null
                 }
-                {
-                    this.props.productLoadingStatus ?
-                        <LinearSpinner
-                            progres={classes.progress}
-                            barColorPrimary={classes.barColorPrimary}
-                            progresBgColor={classes.progressBgColor}
-                        />
-                        :
-                        null
-                }
                 <Section
                     filterOpen={this.state.filter_open}
                     open={this.state.open}
@@ -119,7 +108,6 @@ function mapStateToProps(state) {
         products: state.products.products,
         types: state.products.types,
         measurements: state.products.measurements,
-        productLoadingStatus: state.products.productLoadingStatus,
         selected_products: state.products.selected_products,
         tabs: state.filters.tabs,
         activeTabs: state.filters.activeTabs,

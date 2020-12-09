@@ -50,7 +50,7 @@ const RightPanel = props => {
                 })
             } else if (key === "item_name") {
                 array.push({
-                    headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
+                    headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
                     sortable: true,
                     resizable: true,
@@ -64,7 +64,7 @@ const RightPanel = props => {
             } else if (key === "create_date" || key === "del_date") {
                 array.push({
                     suppressMenu: true,
-                    headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
+                    headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
                     sortable: true,
                     resizable: true,
@@ -77,7 +77,7 @@ const RightPanel = props => {
             } else {
                 array.push({
                     suppressMenu: true,
-                    headerName: getLanguage(cookie.get("language") || "am", key).toUpperCase() || key,
+                    headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
                     sortable: true,
                     resizable: true,

@@ -25,11 +25,22 @@ import {
     setGroupValues, setMoveAction, setMovingStart, sortTree, startMoveAction, subgroupCopy
 } from "../../../Redux/characteristics/actions";
 import {selectSubgroup} from "../../../Redux/products/actions";
+import LinearSpinner from "../../../components/UI/spinners/linearSpiner/linearSpinner";
 
 const MainLayout = props => {
 
     return (
         <>
+            {
+                props.productLoadingStatus ?
+                    <LinearSpinner
+                        progres={classes.progress}
+                        barColorPrimary={classes.barColorPrimary}
+                        progresBgColor={classes.progressBgColor}
+                    />
+                    :
+                    null
+            }
             <div>
                 <Header/>
                 <main>
@@ -108,6 +119,7 @@ const MainLayout = props => {
 function mapStateToProps(state) {
 
     return {
+        productLoadingStatus: state.products.productLoadingStatus,
         classifiersModal: state.characteristics.classifiersModal,
         group: state.characteristics.group,
         subgroup: state.characteristics.subgroup,
