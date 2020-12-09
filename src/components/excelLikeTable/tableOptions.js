@@ -442,7 +442,6 @@ export default function CustomizedDividers(props) {
 
   useEffect(() => {
     if (props.gridApi && Object.keys(selecteds).length ) {
-      console.log('selecteds', selecteds)
       let colDefs = props.gridApi.getColumnDefs();
       let selected = Object.assign({}, props.gridApi.getCellRanges());
       if (!selected[0]) {

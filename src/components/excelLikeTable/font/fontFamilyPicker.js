@@ -28,7 +28,6 @@ export default function ControllableStates(props) {
 
   useEffect(()=>{
     setValue(props.fontFamily)
-    console.log('props.fontFamily', props.fontFamily)
   },[props.fontFamily])
 
   const handleChange = (event) => {

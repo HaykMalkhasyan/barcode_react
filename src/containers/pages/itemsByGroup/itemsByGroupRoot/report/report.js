@@ -164,7 +164,7 @@ export default function AlertDialog(props) {
         fullScreen
       >
         <DialogTitle id="alert-dialog-title"
-          style={{padding:"0"}}
+          style={{padding:"0", background:"linear-gradient(180deg, #fff, rgba(0, 0, 0, 0.1) 106%)"}}
         >
          <div className={classes.title}>
             <span style={{whiteSpace:"nowrap"}} >Հաշվետվություն</span>
@@ -250,7 +250,7 @@ export default function AlertDialog(props) {
                 </div>
             </div> */}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent >
           
       <div style={{position:"relative"}}>
       {/* <div style={{ position:"absolute", top:"82px", zIndex:"100", color:"blue", left:"210mm"}} >
@@ -271,6 +271,7 @@ export default function AlertDialog(props) {
             asd
           </div> */}
           {/* {console.log('rowData', rowData)} */}
+          
         <ExcelLikeTable 
           setPrintSize={setPrintSize}
           setPending={setPending}
@@ -281,24 +282,10 @@ export default function AlertDialog(props) {
           setGridApi={setGridApi}
           width={printSize.width }
           mode={null} 
-          rowData={[{
-            "#": 1,
-            "ԱՊՄ": "000035",
-            "ԱՏԳ": "4015",
-            "Անվանում": "Ձեռնոց մեկանգամյա 100հ",
-            "Առքի գին": 4545,
-            "Առքի գումար": 2072520,
-            "Բարկոդ": "",
-            "Զեղչ": 0,
-            "Մատակարարի գին": 4545,
-            "Մնացորդ": 0,
-            "Մատակարարի գին": 4545,
-            "Մնացորդ": 0,
-          }]} 
+          rowData={props.rowData} 
           pagination={"true"} 
           id={props.id}
         />
-
             <LoadingButton  
                 pending={pending}
                 pendingPosition="center"
