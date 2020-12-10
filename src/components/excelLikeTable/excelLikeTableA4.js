@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AgGridReact, AgGridColumn } from "ag-grid-react";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -52,7 +52,7 @@ const App = (props) => {
 
   const [functionalCells, setFunctionalCells] = useState([]);
     const gridRef=useRef()
-    const [paperHeight, setPaperHeight] = useState(50)
+    const [paperHeight, setPaperHeight] = useState(null)
     const [paperWidth, setPaperWidth] = useState(12)
     const [top, setTop] = useState(0);
     const [left, setLeft] = useState(0);
@@ -131,9 +131,9 @@ const App = (props) => {
         let clone = createData(rowsSize, colsSize, props.rowData, start);
         console.log('clone', clone)
         for (let j = 0, i = 0; i < keysprops.length; i++, j++) {
-          if (keysprops[i] === "#") {
-            i++;
-          }
+          // if (keysprops[i] === "#") {  //skip index of product
+          //   i++;
+          // }
           clone[start - 1][keysLocale[j + 1]] = keysprops[i];
           for (let k = 0; k < props.rowData.length; k++) {
             clone[start + k][keysLocale[j + 1]] =
@@ -154,7 +154,6 @@ let isDown = {bool:false};
 let val
     function controll(e){
       e.stopPropagation();
-      console.log('e.target.classList', e.target.className)
       if(e.target.className.includes && (e.target.className.includes("rightControll")||e.target.className.includes("leftControll") || e.target.className.includes("topControll") || e.target.className.includes("bottomControll"))){
         isDown = {bool:true, id: e.target.className.split(" ")[1]}
       }
@@ -240,18 +239,28 @@ let val
 
 
 
-  useEffect(() => {
-    gridApi && gridApi.refreshCells();
-  }, [rowData]);
+  // useEffect(() => {
+  //   gridApi && gridApi.refreshCells();
+  // }, [rowData]);
 
   const handlePrint = useReactToPrint({
     onBeforeGetContent: ()=>{
-      gridApi.clearRangeSelection(); 
+      gridApi.redrawRows(); 
       gridApi.deselectAll();  
+      let papers = document.getElementsByClassName("paperRef")
+      let paperHeight = papers[0].style.height
+      Array.from(papers).forEach((item, i)=>{
+        item.style.top = `calc(${parseInt(paperHeight)*i}mm + ${25}px)`
+      })
       // gridApi.setHeaderHeight(0)
     },
     content: () => tableRef.current,
     onAfterPrint: () => {
+      let papers = document.getElementsByClassName("paperRef")
+      let paperHeight = papers[0].style.height
+      Array.from(papers).forEach((item, i)=>{
+        item.style.top = `calc(${parseInt(paperHeight)*i}mm + ${25}px + ${65 * i}px)`
+      })
       props.setExportStatus({ bool: false });
       // gridApi.setDomLayout(null)
       props.setPending(false)
@@ -458,11 +467,6 @@ let val
           return 1;
         }
       };
-      
-      
-      
-      
-      
       clone[index].cellStyle = function (params) {
         if(selecteds[clone[index].field] && selecteds[clone[index].field].hasOwnProperty(params.data["/"])){
           
@@ -486,10 +490,7 @@ let val
           return 1;
         }
       };
-      
         gridApi.setColumnDefs(clone);
-      
-      
     }
   }
   }, [allExpandedCells, gridApi]);
@@ -500,10 +501,6 @@ let val
   }
 
   function handleExpand(parentParams, size, action) {
-    
-    
-    
-    
     
     if (size === 1) {
       let clone = JSON.parse(JSON.stringify(allExpandedCells));
@@ -538,9 +535,6 @@ let val
     
     console.log("expandedCellObj", expandedCellObj);
     setAllExpandedCell(expandedCellObj);
-
-    
-    
   }
 
   function isCellExpanded(col, row) {
@@ -579,17 +573,10 @@ let val
             
           },
         ],
-        
       },
       {
         name: "Color",
         action: function () {
-          
-          
-          
-          
-          
-          
         },
       },
       "separator",
@@ -603,6 +590,165 @@ let val
   const allFormulateds = localStorage.getItem("formulated_documents")
     ? JSON.parse(localStorage.getItem("formulated_documents"))
     : [];
+
+    let papers = document.getElementsByClassName("paperRef")
+    let topMargin = document.getElementsByClassName("printMarginTop")
+    let bottomMargin = document.getElementsByClassName("printMarginBottom")
+    let rightMargin = document.getElementsByClassName("printMarginRight")
+    let leftMargin = document.getElementsByClassName("printMarginLeft")
+
+    function getNeededPapers(possibleCellsInPaper, allCellsLength, paperHeight, paperWidth, initialTop="calc(210mm + 25px)"){
+      
+      console.log('PossibleCellsInPaper', possibleCellsInPaper)
+      console.log('allCellsLength', allCellsLength)
+      console.log('papersCount', Math.ceil(allCellsLength/possibleCellsInPaper))
+      console.log('paperHeight', paperHeight)
+      console.log('paperWidth', paperWidth)
+      let papersCount = Math.ceil(allCellsLength/possibleCellsInPaper)
+      let bg = document.getElementById("printable")
+      let marginTopHeight = topMargin && topMargin[0] && topMargin[0].style && topMargin[0].style.height;
+      let marginBottomHeight = bottomMargin && bottomMargin[0] && bottomMargin[0].style && bottomMargin[0].style.height;
+      let marginLeftWidth = leftMargin && leftMargin[0] && leftMargin[0].style && leftMargin[0].style.width;
+      let marginRightWidth = rightMargin && rightMargin[0] && rightMargin[0].style && rightMargin[0].style.width;
+      Array.from(papers).forEach((item)=>{
+        item.remove()
+      })
+      // bg.innerHTML = '';
+      // console.log('bg', bg)
+      // bg.setAttribute("id","printable")
+      for(let i=0; i<papersCount; i++){
+        let A4 = document.createElement("div")
+        let marginTop = document.createElement("div")
+        marginTop.classList.add("printMarginTop")
+        let topMarginControl = document.createElement("span")
+        topMarginControl.classList.add("marginControllerTop")
+        topMarginControl.classList.add("topControll")
+        marginTop.appendChild(topMarginControl)
+        marginTop.style.position="absolute"
+        marginTop.style.top="0"
+        marginTop.style.left="0"
+        marginTop.style.width="100%"
+        marginTop.style.height=marginTopHeight
+        // marginTop.style.borderBottom="1px solid gray"
+        marginTop.style.backgroundColor="#f9ebeb"
+        // marginTop.style.zIndex="400"
+        let marginLeft = document.createElement("div")
+        marginLeft.classList.add("printMarginLeft")
+        let leftMarginControl = document.createElement("span")
+        leftMarginControl.classList.add("marginControllerLeft")
+        leftMarginControl.classList.add("leftControll")
+        marginLeft.appendChild(leftMarginControl)
+        marginLeft.style.position="absolute"
+        marginLeft.style.top="0"
+        marginLeft.style.left="0"
+        marginLeft.style.width=marginLeftWidth
+        marginLeft.style.height="100%"
+        marginLeft.style.backgroundColor="#f9ebeb"
+        let marginBottom = document.createElement("div")
+        marginBottom.classList.add("printMarginBottom")
+        let bottomMarginControl = document.createElement("span")
+        bottomMarginControl.classList.add("marginControllerBottom")
+        bottomMarginControl.classList.add("bottomControll")
+        marginBottom.appendChild(bottomMarginControl)
+        marginBottom.style.position="absolute"
+        marginBottom.style.bottom="0"
+        marginBottom.style.left="0"
+        marginBottom.style.width="100%"
+        marginBottom.style.height=marginBottomHeight
+        marginBottom.style.backgroundColor="#f9ebeb"
+        let marginRight = document.createElement("div")
+        marginRight.classList.add("printMarginRight")
+        let rightMarginControl = document.createElement("span")
+        rightMarginControl.classList.add("marginControllerRight")
+        rightMarginControl.classList.add("rightControll")
+        marginRight.appendChild(rightMarginControl)
+        marginRight.style.position="absolute"
+        marginRight.style.top="0"
+        marginRight.style.right="0"
+        marginRight.style.width=marginRightWidth
+        marginRight.style.height="100%"
+        marginRight.style.backgroundColor="#f9ebeb"
+        
+        A4.classList.add("paperRef")
+        A4.style.position="absolute"
+        A4.style.top=`calc(${parseInt(paperHeight)*i}mm + ${25}px + ${65 * (i)}px)`
+         console.log(`calc(${parseInt(paperHeight)*i}mm + 65px + 45px * ${(i-1)}`)
+        A4.style.left="35px"
+        A4.style.width=paperWidth
+        A4.style.height=paperHeight
+        A4.style.boxShadow = i===0 ? "rgba(0, 0, 0, .1) 0px 0px 35px 10000px" : ""
+        A4.style.backgroundColor="#fff"
+        A4.appendChild(marginTop)
+        A4.appendChild(marginLeft)
+        A4.appendChild(marginRight)
+        A4.appendChild(marginBottom)
+        bg.appendChild(A4)
+      }
+    }
+
+
+
+    useEffect(()=>{
+      if(gridApi){
+        let node = gridApi.getDisplayedRowAtIndex(paperHeight-1)
+        console.log('paperHeight', paperHeight)
+        setTimeout(()=>{
+          gridApi.redrawRows()
+        })
+        let papers = document.getElementsByClassName("paperRef")
+        let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
+        let width = papers && papers[0] && papers[0].style && papers[0].style.width ? papers[0].style.width : "210mm"
+        let cellsInPaper = Math.round(parseInt(height)/5.4) 
+        console.log('height', height)
+        getNeededPapers(cellsInPaper, rowData.length, height, width)
+      }
+    },[paperHeight])
+
+
+    useEffect(()=>{
+      if(gridApi){
+        console.log('top', top)
+        console.log('bottom', bottom)
+        setTimeout(()=>{
+          gridApi.redrawRows()
+        })
+        let papers = document.getElementsByClassName("paperRef")
+        let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
+        let width = papers && papers[0] && papers[0].style && papers[0].style.width ? papers[0].style.width : "210mm"
+        let cellsInPaper = Math.floor((parseInt(height) * 3.77  - top - bottom)/20.19)
+        getNeededPapers(cellsInPaper, rowData.length, height, width)
+      }
+    },[top, bottom])
+    
+
+    function  rowClasses(params){ 
+      let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
+      let marginTop = topMargin && topMargin[0] && topMargin[0].style && topMargin[0].style.height;
+      let marginBottom = bottomMargin && bottomMargin[0] && bottomMargin[0].style && bottomMargin[0].style.height;
+      marginTop = marginTop ? parseInt(marginTop) : 0
+      marginBottom = marginBottom ? parseInt(marginBottom) : 0
+      let breakCellIndex = Math.floor((parseInt(height) * 3.77  - marginTop - marginBottom)/20.19)
+      console.log('breakCellIndex', breakCellIndex)
+      return params.data["/"]%(breakCellIndex)===0
+    }
+
+    function rowMargin(params){
+      let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
+      let marginTop = topMargin && topMargin[0] && topMargin[0].style && topMargin[0].style.height;
+      let marginBottom = bottomMargin && bottomMargin[0] && bottomMargin[0].style && bottomMargin[0].style.height;
+      marginTop = marginTop ? parseInt(marginTop) : 0
+      marginBottom = marginBottom ? parseInt(marginBottom) : 0
+      let cellsInPaper = Math.floor((parseInt(height) * 3.77  - marginTop - marginBottom)/20.19)
+      let singleCellHeight = 20.19
+      let count = Math.floor(params.data["/"] / cellsInPaper)
+      if(params.data["/"]%cellsInPaper===0){
+        if(props.exportStatus.type){
+          console.log('props.exportStatus', props.exportStatus)
+          return {marginTop: `calc(${height} - ${cellsInPaper*singleCellHeight}px + ${100 * count}px)`}
+        }
+        return {marginBottom: `calc(${height} - ${cellsInPaper*singleCellHeight}px + 66px)`}
+      }
+    }
 
   return (
     <div >
@@ -665,15 +811,10 @@ let val
         <AgGridReact
           ref={gridRef}
           rowStyle={{backgroundColor:"#fff", border:"none"}}
-          getRowClass={function(params){
-            let paperWidth = document.getElementsByClassName("paperRef")
-            let paperHeight1 = document.getElementsByClassName("paperRef")
-            console.log('paperWidth, paperHeight', paperWidth, paperHeight1)
-            if(params.data["/"]===paperHeight){
-              console.log('paperHeight)', paperHeight)
-              return "pagebreak"
-            }
+          rowClassRules={{
+            "pagebreak": rowClasses,
           }}
+          getRowStyle = {rowMargin}
           onCellEditingStopped={(params) => {
             console.log("params", params);
             console.log("functionalCells", functionalCells);
@@ -861,88 +1002,10 @@ let val
               params.api.setDomLayout("print")
               let bg = document.getElementsByClassName("ag-root ag-unselectable ag-layout-print")[0]
               bg.setAttribute("id","printable")
-              let A4 = document.createElement("div")
-              let marginTop = document.createElement("div")
-              marginTop.classList.add("printMarginTop")
-              let topMarginControl = document.createElement("span")
-              topMarginControl.classList.add("marginControllerTop")
-              topMarginControl.classList.add("topControll")
-              marginTop.appendChild(topMarginControl)
-              marginTop.style.position="absolute"
-              marginTop.style.top="0"
-              marginTop.style.left="0"
-              marginTop.style.width="100%"
-              marginTop.style.height="0px"
-              // marginTop.style.borderBottom="1px solid gray"
-              marginTop.style.backgroundColor="#f9ebeb"
-              // marginTop.style.zIndex="400"
-              let marginLeft = document.createElement("div")
-              marginLeft.classList.add("printMarginLeft")
-              let leftMarginControl = document.createElement("span")
-              leftMarginControl.classList.add("marginControllerLeft")
-              leftMarginControl.classList.add("leftControll")
-              marginLeft.appendChild(leftMarginControl)
-              marginLeft.style.position="absolute"
-              marginLeft.style.top="0"
-              marginLeft.style.left="0"
-              marginLeft.style.width="0px"
-              marginLeft.style.height="100%"
-              marginLeft.style.backgroundColor="#f9ebeb"
-              let marginBottom = document.createElement("div")
-              marginBottom.classList.add("printMarginBottom")
-              let bottomMarginControl = document.createElement("span")
-              bottomMarginControl.classList.add("marginControllerBottom")
-              bottomMarginControl.classList.add("bottomControll")
-              marginBottom.appendChild(bottomMarginControl)
-              marginBottom.style.position="absolute"
-              marginBottom.style.bottom="0"
-              marginBottom.style.left="0"
-              marginBottom.style.width="100%"
-              marginBottom.style.height="0px"
-              marginBottom.style.backgroundColor="#f9ebeb"
-              let marginRight = document.createElement("div")
-              marginRight.classList.add("printMarginRight")
-              let rightMarginControl = document.createElement("span")
-              rightMarginControl.classList.add("marginControllerRight")
-              rightMarginControl.classList.add("rightControll")
-              marginRight.appendChild(rightMarginControl)
-              marginRight.style.position="absolute"
-              marginRight.style.top="0"
-              marginRight.style.right="0"
-              marginRight.style.width="0px"
-              marginRight.style.height="100%"
-              marginRight.style.backgroundColor="#f9ebeb"
-              
-              A4.classList.add("paperRef")
-              A4.style.position="absolute"
-              A4.style.top="25px"
-              A4.style.left="35px"
-              A4.style.width="210mm"
-              A4.style.height="297mm"
-              A4.style.boxShadow="rgba(0, 0, 0, .1) 0px 0px 35px 10000px"
-              A4.style.backgroundColor="#fff"
-              A4.appendChild(marginTop)
-              A4.appendChild(marginLeft)
-              A4.appendChild(marginRight)
-              A4.appendChild(marginBottom)
-              bg.appendChild(A4)
-              // let pageBreak = document.createElement("div")
-              // pageBreak.classList.add("pagebreak")
-              // bg.appendChild(pageBreak)
-              let A4new = document.createElement("div")
-              A4new.classList.add("paperRef")
-              A4new.style.position="absolute"
-              A4new.style.top="calc(50px + 293mm)"
-              A4new.style.left="35px"
-              A4new.style.width="210mm"
-              A4new.style.height="297mm"
-              A4new.appendChild(marginTop.cloneNode(true))
-              A4new.appendChild(marginLeft.cloneNode(true))
-              A4new.appendChild(marginRight.cloneNode(true))
-              A4new.appendChild(marginBottom.cloneNode(true))
-              // A4new.style.boxShadow="rgba(0, 0, 0, .1) 0px 0px 35px 10000px"
-              A4new.style.backgroundColor="#fff"
-              bg.appendChild(A4new)
+              let containerHeightFix = document.getElementsByClassName("ag-center-cols-clipper")[1]
+              containerHeightFix.style.height="100%"
+              console.log('containerHeightFix', containerHeightFix)
+              getNeededPapers(55, props.rowData.length+20, "297mm", "210mm")
             }, 10);
           }}
           
