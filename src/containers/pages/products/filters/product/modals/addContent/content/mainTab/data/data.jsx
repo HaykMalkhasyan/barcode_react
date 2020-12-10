@@ -134,7 +134,7 @@ const Data = props => {
                         label={'Ցուցադրել կայքում'}
                         checked={props.data.show_in_site || props.data.show_in_site === 1}
                         name={'show_in_site'}
-                        onChange={event => props.setMainData(event.target.name, event.target.checked)}
+                        onChange={event => props.setMainData(event.target.name, props.data.show_in_site === 1 ? 0 : 1)}
                     />
                 </div>
                 {/*<div>*/}

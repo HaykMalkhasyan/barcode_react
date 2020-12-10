@@ -4,7 +4,7 @@ import {IconButton, Tooltip} from "@material-ui/core";
 const IconButtonUI = props => {
 
     return (
-        <Tooltip title={props.title}>
+        <Tooltip title={props.title} placement={props.placement}>
             <IconButton
                 aria-label={props.ariaLabel || "delete"}
                 className={props.className}

@@ -20,7 +20,9 @@ import {
     classifiersFiltered,
     closeProductActionModal,
     importGroupInProduct,
-    measurementFiltered, nameButtonSearch, nameFiltered,
+    measurementFiltered,
+    nameButtonSearch,
+    nameFiltered,
     otherFiltered,
     setProductValues
 } from "../../../../Redux/products/actions";
@@ -79,7 +81,7 @@ class Filters extends Component {
                     <CustomSearchWindow/>
                 </div>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={4} lg={3} xl={3}>
+                    <Grid hidden={!this.props.screen} item xs={12} md={4} lg={3} xl={3}>
                         {/* CUSTOM SEARCH */}
                         <ClassifiersTree
                             advancedSearchConfig={this.props.advancedSearchConfig}
@@ -100,7 +102,7 @@ class Filters extends Component {
                             otherFiltered={this.props.otherFiltered}
                         />
                     </Grid>
-                    <Grid item xs={12} md={8} lg={9} xl={9}>
+                    <Grid item xs={12} md={this.props.screen ? 8 : 12} lg={this.props.screen ? 9 : 12} xl={this.props.screen ? 9 : 12}>
                         <div className={classes.desktopSearch}>
                             <CustomSearchWindow
                                 search={this.props.product_search}
@@ -153,6 +155,7 @@ function mapStateToProps(state) {
 
     return {
         type: state.filters.type,
+        screen: state.products.screen,
         product_search: state.products.product_search,
         initialOpen: state.products.initialOpen,
         initialModalGroup: state.characteristics.initialModalGroup,

@@ -1,0 +1,15 @@
+.imageWindow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    min-width: 150px;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .02);
+}
+
+.imageWindow > img {
+    display: block;
+    height: 150px;
+}

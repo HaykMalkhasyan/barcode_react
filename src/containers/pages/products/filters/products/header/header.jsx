@@ -7,8 +7,17 @@ import CheckboxList from "../../../../../../components/listItemWithCheckbox/list
 import CallMergeIcon from '@material-ui/icons/CallMerge';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import {FiFilter} from "react-icons/fi";
+import AppsIcon from '@material-ui/icons/Apps';
+import TableChartIcon from '@material-ui/icons/TableChart';
+import ListIcon from '@material-ui/icons/List';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import RemoveFromQueueIcon from '@material-ui/icons/RemoveFromQueue';
 
 const Header = props => {
+
+    const changeView = windowNumber => {
+        props.setActive(windowNumber)
+    }
 
     return (
         <div className={classes.header}>
@@ -18,7 +27,7 @@ const Header = props => {
                     className={classes.actionsButton}
                     children={
                         <>
-                            <Icons type={'back-page'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Լրացուցիչ ֆիլտրեր</span>
+                            <Icons type={'back-page'} height={14} width={14} className={classes.rectangleAddIcon}/> <span className={classes.text}>Լրացուցիչ ֆիլտրեր</span>
                         </>
                     }
                     // EVENTS
@@ -29,7 +38,7 @@ const Header = props => {
                     className={classes.actionsButton}
                     children={
                         <>
-                            <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span>Ավելացնել</span>
+                            <Icons type={'rectangle-add'} height={14} width={14} className={classes.rectangleAddIcon}/> <span className={classes.text}>Ավելացնել</span>
                         </>
                     }
                     // EVENTS
@@ -38,29 +47,34 @@ const Header = props => {
                     }}
                 />
                 {/* open table filters */}
-                <CustomButton
-                    className={props.filters ? `${classes.actionsButton} ${classes.active}` : classes.actionsButton}
-                    children={
-                        <>
-                            {
-                                props.filters ?
-                                    <CallSplitIcon className={classes.filters} fontSize="small"/>
-                                    :
-                                    <CallMergeIcon className={classes.filters} fontSize="small"/>
+                {
+                    props.active === 3 ?
+                        <CustomButton
+                            className={props.filters ? `${classes.actionsButton} ${classes.active}` : classes.actionsButton}
+                            children={
+                                <>
+                                    {
+                                        props.filters ?
+                                            <CallSplitIcon className={classes.filters} fontSize="small"/>
+                                            :
+                                            <CallMergeIcon className={classes.filters} fontSize="small"/>
+                                    }
+                                    <span className={classes.text}>Ֆիլտրեր</span>
+                                </>
                             }
-                            <span>Ֆիլտրեր</span>
-                        </>
-                    }
-                    // Events
-                    onClick={() => props.setFilters(!props.filters)}
-                />
+                            // Events
+                            onClick={() => props.setFilters(!props.filters)}
+                        />
+                        :
+                        null
+                }
                 {/* print products */}
                 <CustomButton
                     className={classes.actionsButton}
                     disabled={true}
                     children={
                         <>
-                            <Icons type={'contained-print'}/> <span>Տպել</span>
+                            <Icons type={'contained-print'}/> <span className={classes.text}>Տպել</span>
                         </>
                     }
                 />
@@ -70,7 +84,7 @@ const Header = props => {
                     disabled={true}
                     children={
                         <>
-                            <Icons type={'outline-list'}/> <span>Դասակարգել</span>
+                            <Icons type={'outline-list'}/> <span className={classes.text}>Դասակարգել</span>
                         </>
                     }
                 />
@@ -80,7 +94,7 @@ const Header = props => {
                     disabled={true}
                     children={
                         <>
-                            <Icons type={'contained-export'}/> <span>Արտահանել</span>
+                            <Icons type={'contained-export'}/> <span className={classes.text}>Արտահանել</span>
                         </>
                     }
                 />
@@ -91,7 +105,7 @@ const Header = props => {
                             className={classes.actionsButton}
                             children={
                                 <>
-                                    <FiFilter className={classes.filterStatus}/> <span>Չեղարկել</span>
+                                    <FiFilter className={classes.filterStatus}/> <span className={classes.text}>Չեղարկել</span>
                                 </>
                             }
                             // EVENTS
@@ -100,18 +114,54 @@ const Header = props => {
                         :
                         null
                 }
+                {/* Full screen*/}
+                <CustomButton
+                    className={classes.actionsButton}
+                    children={
+                        props.screen ?
+                            <>
+                                <AspectRatioIcon className={classes.screenIcon} fontSize="small"/> <span className={classes.text}>Մեծացնել պատուհանը</span>
+                            </>
+                            :
+                            <>
+                                <RemoveFromQueueIcon className={classes.screenIcon} fontSize="small"/> <span className={classes.text}>Փոքրացնել պատուհանը</span>
+                            </>
+                    }
+                    // EVENTS
+                    onClick={() => {
+                        props.setProductValues("screen", !props.screen)
+                    }}
+                />
                 {/* delete products group */}
                 <CustomButton
                     className={classes.actionsButton}
                     disabled={true}
                     children={
                         <>
-                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span>Ջնջել</span>
+                            <Icons type={'group-delete'} height={14} width={14} opacity={1} className={classes.deleteIcon}/> <span className={classes.text}>Ջնջել</span>
                         </>
                     }
                 />
             </div>
-            <div>
+            <div className={classes.viewWindow}>
+                <CustomButton
+                    className={props.active === 1 ? `${classes.viewButton} ${classes.viewButtonActive}` : classes.viewButton}
+                    children={<ListIcon/>}
+                    // EVENTS
+                    onClick={() => changeView(1)}
+                />
+                <CustomButton
+                    className={props.active === 2 ? `${classes.viewButton} ${classes.viewButtonActive}` : classes.viewButton}
+                    children={<AppsIcon/>}
+                    // EVENTS
+                    onClick={() => changeView(2)}
+                />
+                <CustomButton
+                    className={props.active === 3 ? `${classes.viewButton} ${classes.viewButtonActive}` : classes.viewButton}
+                    children={<TableChartIcon fontSize="small"/>}
+                    // EVENTS
+                    onClick={() => changeView(3)}
+                />
                 <SpringPopper
                     dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
                     className={classes.actionsButton}

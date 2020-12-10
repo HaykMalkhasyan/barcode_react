@@ -20,6 +20,11 @@
     overflow: hidden;
 }
 
+.hideButton:hover {
+    background-color: #FF8927;
+    color: #fff;
+}
+
 .mobileMainSearch {
     display: none;
     width: 100%;

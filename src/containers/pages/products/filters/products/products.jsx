@@ -67,6 +67,7 @@ class Products extends Component{
                 <Section
                     filterOpen={this.state.filter_open}
                     open={this.state.open}
+                    screen={this.props.screen}
                     activeTabs={this.props.activeTabs}
                     tabs={this.props.tabs}
                     count={this.props.count}
@@ -103,6 +104,7 @@ class Products extends Component{
 function mapStateToProps(state) {
 
     return {
+        screen: state.products.screen,
         count: state.products.count,
         page_count: state.products.page_count,
         products: state.products.products,
