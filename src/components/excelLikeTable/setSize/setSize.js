@@ -22,42 +22,50 @@ export default function ControllableStates(props) {
         let cont = document.getElementById("tableRef")
         let width = paper[0].style.width
         let height = paper[0].style.height
+        console.log('size', event.target.value)
         switch (event.target.value) {
             case "A4":
+              props.setPaperHeight(39);
+              
               if(width>height){
-                Array.from(paper).forEach(item=>{
-                  item.style.width="297mm"
-                  item.style.height="210mm"
-                })
-                props.setPaperHeight(39);
-                cont.style.width="297mm"
+                // setTimeout(()=>{
+                  Array.from(paper).forEach(item=>{
+                    item.style.width="297mm"
+                    item.style.height="210mm"
+                  })
+                  cont.style.width="297mm"
+                // },50)
                 break;
               }
-              Array.from(paper).forEach(item=>{
-                item.style.width="210mm"
-                item.style.height="297mm"
-              })
               props.setPaperHeight(55);
-              cont.style.width="210mm"
+              // setTimeout(()=>{
+                Array.from(paper).forEach(item=>{
+                  item.style.width="210mm"
+                  item.style.height="297mm"
+                })
+                cont.style.width="210mm"
+              // },50)
                 break;
             case "B4":
               if(width>height){
-                Array.from(paper).forEach(item=>{
-                  item.style.width="353mm"
-                  item.style.height="250mm"
-                })
-              cont.style.width="353mm"
-                
                 props.setPaperHeight(50);
+                // setTimeout(()=>{
+                    Array.from(paper).forEach(item=>{
+                      item.style.width="353mm"
+                      item.style.height="250mm"
+                    })
+                  cont.style.width="353mm"
+                // },50)
                 break;
               }
-              Array.from(paper).forEach(item=>{
-                item.style.width="250mm"
-                item.style.height="353mm"
-              })
-              cont.style.width="250mm"
-                props.setPaperWidth(6);
-                props.setPaperHeight(6);
+              props.setPaperHeight(6);
+              // setTimeout(()=>{
+                Array.from(paper).forEach(item=>{
+                  item.style.width="250mm"
+                  item.style.height="353mm"
+                })
+                cont.style.width="250mm"
+              // },50)
                 // props.gridApi.redrawRows()
                 // let coldef = props.gridApi.getColumnDefs()
                 // props.gridApi.setColumnDefs([])

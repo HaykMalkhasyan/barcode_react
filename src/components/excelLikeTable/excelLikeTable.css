@@ -2372,7 +2372,7 @@
         /* margin-right: 100px !important; */
         /* margin-top: -21px !important; margin-right: -100px !important;   */
       }
-      .pagebreak { page-break-before: always; } 
+      .pagebreak { page-break-after: always; } 
 
       .paperRef{
         background-color: #fff !important;
@@ -2403,7 +2403,7 @@
       }
       .printMarginTop{
         z-index: 100 !important;
-        background-color: #fff !important;
+        background-color: rgba(255, 255, 255, 0.5) !important;
       }
       .printMarginBottom{
         z-index: 100 !important;

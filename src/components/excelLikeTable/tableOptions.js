@@ -408,7 +408,7 @@ export default function CustomizedDividers(props) {
                 justifyContent:"flex-start",
                 alignItems:"center",
                 lineHeight:"14px !important",
-                zindex: 2
+                zindex: 2,
               },
               {
                 ...align,
@@ -455,17 +455,17 @@ export default function CustomizedDividers(props) {
           item.cellStyle = function (params) {
             if (selecteds[item.field].hasOwnProperty(params.data["/"])) {
               // console.log('return selecteds[item.field][params.data["/"]];', selecteds[item.field][params.data["/"]])
-              return selecteds[item.field][params.data["/"]];
+              return {...selecteds[item.field][params.data["/"]], marginTop: params.data["/"]>55 ? "150px !important" : "0px"};
             }
             else {
-              let expandedIndex = allExpandedCells.findIndex(
-                (x) => x.col === params.colDef.field && x.row === params.data["/"]
-              );
-              if (expandedIndex !== -1) {
-                return {border: "1px solid #d3d3d34d", backgroundColor:"#fff", lineHeight:"14px !important"}
-              }else{
-                return {border: "1px solid #d3d3d34d", lineHeight:"14px !important"}
-              }
+              // let expandedIndex = allExpandedCells.findIndex(
+              //   (x) => x.col === params.colDef.field && x.row === params.data["/"]
+              // );
+              // if (expandedIndex !== -1) {
+                return {border: "1px solid #d3d3d34d", backgroundColor:"#fff", lineHeight:"14px !important", marginTop: params.data["/"]>55 ? "150px !important" : "0px" }
+              // }else{
+              //   return {border: "1px solid #d3d3d34d", lineHeight:"14px !important"}
+              // }
             }
           };
         }
@@ -514,7 +514,11 @@ export default function CustomizedDividers(props) {
           setBottom={props.setBottom}
           gridApi={props.gridApi}
         />
-        <OrientationPicker />
+        <OrientationPicker
+        gridApi={props.gridApi}
+        setPaperHeight={setPaperHeight}
+        setPaperWidth={setPaperWidth}
+        />
         <SizePicker
           setPrintSize={props.setPrintSize}
           gridApi={props.gridApi}
