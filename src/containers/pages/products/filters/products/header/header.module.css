@@ -129,8 +129,55 @@
     background-color: rgba(34, 139, 34, 0.04) !important;
 }
 
+.viewWindow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.viewButton {
+    padding: 5px;
+    border: none;
+    outline: none !important;
+    background-color: transparent;
+    margin: 0 5px;
+    color: #024059;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.viewButton:hover {
+    color: #FF8927;
+}
+
+.viewButton:active {
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, .4) inset;
+}
+
+.viewButtonActive {
+    color: #FF8927;
+    border-bottom: 2px solid #FF8927;
+}
+
+.screenIcon {
+    color: #1fb5ad;
+}
+
 @media (max-width: 600px) {
+    .header {
+        padding: 0;
+    }
     .actionsButton span {
         display: none;
+    }
+}
+
+@media (max-width: 1540px) {
+    .text {
+        display: none !important;
     }
 }

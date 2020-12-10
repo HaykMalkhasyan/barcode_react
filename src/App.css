@@ -3,7 +3,7 @@
 /*.green-row {border: none !important;}*/
 /*.red-row {border: none !important;}*/
 
-.ag-header-cell-label {
+.tableHeader {
     text-transform: capitalize;
     color: #ED842B;
     background-color: transparent;

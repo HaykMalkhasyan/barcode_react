@@ -8,6 +8,7 @@ const Section = props => {
         <div className={classes.flexContainer}>
             <RightPanel
                 open={props.open}
+                screen={props.screen}
                 activeTabs={props.activeTabs}
                 tabs={props.tabs}
                 count={props.count}

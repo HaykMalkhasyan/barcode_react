@@ -28,6 +28,7 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import {FaBarcode} from "react-icons/fa";
 
 const initialState = {
+    screen: true,
     product: null,
     products: [],
     count: null,

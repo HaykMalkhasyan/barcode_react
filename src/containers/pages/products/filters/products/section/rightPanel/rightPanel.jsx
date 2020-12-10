@@ -7,9 +7,11 @@ import Header from "../../header/header";
 import ProductTable from "../../../../../../../components/table/product-table/product-table";
 import {getLanguage} from "../../../../../../../controllers/languages/languages";
 import cookie from "../../../../../../../services/cookies";
+import ProductType from "./product-type/product-type";
 
 const RightPanel = props => {
     const [filters, setFilters] = useState(false);
+    const [active, setActive] = useState(3)
 
     const changeHandler = (event, page) => {
         props.setProductValues('productLoadingStatus', true);
@@ -28,6 +30,7 @@ const RightPanel = props => {
             if (key === "id") {
                 array.push({
                     // field: "id",
+                    headerClass: "tableHeader",
                     headerCheckboxSelection: true,
                     checkboxSelection: true,
                     pinned: "left",
@@ -50,6 +53,7 @@ const RightPanel = props => {
                 })
             } else if (key === "item_name") {
                 array.push({
+                    headerClass: "tableHeader",
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
                     sortable: true,
@@ -63,6 +67,7 @@ const RightPanel = props => {
                 })
             } else if (key === "create_date" || key === "del_date") {
                 array.push({
+                    headerClass: "tableHeader",
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
@@ -76,6 +81,7 @@ const RightPanel = props => {
                 })
             } else {
                 array.push({
+                    headerClass: "tableHeader",
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
@@ -125,7 +131,7 @@ const RightPanel = props => {
         const data = JSON.parse(JSON.stringify(products));
 
         for (let item of data) {
-            item.show_in_site = item.show_in_site === 1 ? "Ցուցադրված է" : "Ցուցադրված չէ";
+            item.show_in_site = item.show_in_site === 1 ? "Այո" : "Ոչ";
             item.deleted = item.deleted ? "ջնջված է" : "առկա է"
             item.active = item.active === 1 ? "ակտիվ չէ" : "ակտիվ է";
             for (let type of props.types) {
@@ -154,46 +160,69 @@ const RightPanel = props => {
         return data
     }
 
+    const contentRender = type => {
+
+        switch (type) {
+            case 1:
+                return (
+                    <div>Type list</div>
+                );
+            case 2:
+                return (
+                    <ProductType
+                        products={props.products}
+                        screen={props.screen}
+                        // Methods
+                        onClick={props.getProduct}
+                    />
+                )
+            case 3:
+            default:
+                return (
+                    <ProductTable
+                        tableType={"product"}
+                        tabs={props.tabs}
+                        data={dataRender(props.products)}
+                        columnDefinition={columnDefinition}
+                        rowSelection="multiple"
+                        rowClassRules={rowClassRules}
+                        animateRows={true}
+                        rowDragManaged={true}
+                        enableMultiRowDragging={true}
+                        enableRangeSelection={true}
+                        enableFillHandle={true}
+                        columnTypes={columnTypes}
+                        // Methods
+                        clickHandler={props.getProduct}
+                    />
+                )
+        }
+    }
+
     return (
         <div className={classes.rightPanel}>
             <Header
+                active={active}
+                screen={props.screen}
                 open={props.open}
                 activeTabs={props.activeTabs}
                 products={props.products}
                 advancedSearchConfig={props.advancedSearchConfig}
                 filters={filters}
                 // Methods
+                setActive={setActive}
                 setFilters={setFilters}
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
                 toggleAddModalHandler={toggleAddModalHandler}
                 unfaltering={props.unfaltering}
                 backFiltersPage={props.backFiltersPage}
+                setProductValues={props.setProductValues}
             />
-            <div className={classes.tableInformation}>
-                <span>Դաշտը փոփոխման ենթակա է</span>
-                <span>Դաշտը հեռացման ենթակա չէ ( ապրանք փոփոխելու դաշը )</span>
-                <span>Դաշտը փոփոխման ենթակա չէ</span>
-            </div>
             {
                 props.products && props.products.length ?
                     <>
-                        <ProductTable
-                            tableType={"product"}
-                            tabs={props.tabs}
-                            data={dataRender(props.products)}
-                            columnDefinition={columnDefinition}
-                            rowSelection="multiple"
-                            rowClassRules={rowClassRules}
-                            animateRows={true}
-                            rowDragManaged={true}
-                            enableMultiRowDragging={true}
-                            enableRangeSelection={true}
-                            enableFillHandle={true}
-                            columnTypes={columnTypes}
-                            // Methods
-                            clickHandler={props.getProduct}
-                        />
+                        {contentRender(active)}
                         <p className={classes.showCount}>
                             Ցուցադրված է 20 հատ ապրանք {props.count}-ից
                         </p>

@@ -133,14 +133,14 @@ export function getAllProducts(page, param = {}) {
                                 param: param,
                                 page: page,
                                 path: "Products/Product",
-                                cols: "id, articul, show_in_site, item_name, image_path, unit, service, create_date, del_date, firms, active, deleted, sort"
+                                cols: "id, articul, show_in_site, item_name, unit, service, create_date, firms, active"
                             }
                             :
                             {
                                 limit: 20,
                                 page: page,
                                 path: "Products/Product",
-                                cols: "id, articul, show_in_site, item_name, image_path, unit, service, create_date, del_date, firms, active, deleted, sort"
+                                cols: "id, articul, show_in_site, item_name, unit, service, create_date, firms, active"
                             }
                     )
                 );

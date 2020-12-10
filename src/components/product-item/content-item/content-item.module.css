@@ -1,0 +1,43 @@
+.content {
+    width: 100%;
+}
+
+.content h1 {
+    color: #024059;
+    height: 70px;
+    margin: 0;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px 5px 0 5px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.content h1:hover {
+    text-decoration: underline;
+}
+
+.line {
+    width: 60%;
+    margin: 0 auto 0 0;
+    border-width: 2px 0 0 0;
+    border-color: #FF8927;
+    border-style: solid;
+}
+
+.smallInformation {
+    margin: 10px 0 0;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #ccc;
+}
+
+.smallInformation b {
+    color: #666;
+}
