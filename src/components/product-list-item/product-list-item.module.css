@@ -1,0 +1,21 @@
+.product {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-left: 4px solid transparent;
+    box-sizing: border-box;
+    padding: 5px 5px 5px 0;
+    cursor: grab;
+    transition: 300ms;
+}
+
+.product:hover {
+    border-left: 4px solid #024059;
+}
+.selected {
+    border-left: 4px solid #024059 !important;
+    background-color: rgba(0, 0, 0, .04);
+    box-shadow: 1px 1px 2px rgba(2, 64, 89, 0.3) inset;
+    transition: 300ms;
+}

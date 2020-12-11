@@ -1,0 +1,21 @@
+.imageWindow {
+    flex-basis: 200px;
+    width: 200px;
+    height: 116px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.imageWindow > img {
+    height: 116px;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .imageWindow {
+        width: 100px;
+    }
+}

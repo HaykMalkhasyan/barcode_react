@@ -16,7 +16,9 @@ import RemoveFromQueueIcon from '@material-ui/icons/RemoveFromQueue';
 const Header = props => {
 
     const changeView = windowNumber => {
+        localStorage.setItem("page_type", windowNumber);
         props.setActive(windowNumber)
+        // props.setSelected([])
     }
 
     return (
@@ -79,15 +81,20 @@ const Header = props => {
                     }
                 />
                 {/* sort products */}
-                <CustomButton
-                    className={classes.actionsButton}
-                    disabled={true}
-                    children={
-                        <>
-                            <Icons type={'outline-list'}/> <span className={classes.text}>Դասակարգել</span>
-                        </>
-                    }
-                />
+                {
+                    props.active !== 3 ?
+                        <CustomButton
+                            className={classes.actionsButton}
+                            disabled={true}
+                            children={
+                                <>
+                                    <Icons type={'outline-list'}/> <span className={classes.text}>Դասակարգել</span>
+                                </>
+                            }
+                        />
+                        :
+                    null
+                }
                 {/* product export */}
                 <CustomButton
                     className={classes.actionsButton}
@@ -162,24 +169,29 @@ const Header = props => {
                     // EVENTS
                     onClick={() => changeView(3)}
                 />
-                <SpringPopper
-                    dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
-                    className={classes.actionsButton}
-                    open={props.open}
-                    label={<Icons type={'configuration'} width={18} height={18}/>}
-                    // Methods
-                    toggleBackdrop={props.toggleBackdrop}
-                >
-                    <CheckboxList
-                        emptyStyle={classes.emptyStyle}
-                        empty={'դատարկ է'}
-                        activeTabs={props.activeTabs}
-                        products={props.products}
-                        colorSecondary={classes.colorSecondary}
-                        // Methods
-                        onClick={props.onClick}
-                    />
-                </SpringPopper>
+                {
+                    props.active === 3 ?
+                        <SpringPopper
+                            dropWindow={props.products && props.products.length && props.tabs && props.tabs.length ? classes.dropWindow : classes.dropWindowEmpty}
+                            className={classes.actionsButton}
+                            open={props.open}
+                            label={<Icons type={'configuration'} width={18} height={18}/>}
+                            // Methods
+                            toggleBackdrop={props.toggleBackdrop}
+                        >
+                            <CheckboxList
+                                emptyStyle={classes.emptyStyle}
+                                empty={'դատարկ է'}
+                                activeTabs={props.activeTabs}
+                                products={props.products}
+                                colorSecondary={classes.colorSecondary}
+                                // Methods
+                                onClick={props.onClick}
+                            />
+                        </SpringPopper>
+                        :
+                        null
+                }
             </div>
         </div>
     )

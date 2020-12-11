@@ -1,0 +1,10 @@
+.list {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 0;
+    overflow: hidden;
+}
+
+.list > div {
+    margin-bottom: 5px;
+}

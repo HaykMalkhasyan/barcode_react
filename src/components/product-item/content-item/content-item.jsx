@@ -6,7 +6,7 @@ const ItemContent = props => {
     return (
         <div className={classes.content}>
             <header>
-                <h1 onClick={() => props.onClick(props.id)}>{props.name}</h1>
+                <h1 onClick={event => {event.stopPropagation();props.onClick(props.id);}}>{props.name}</h1>
                 <hr className={classes.line}/>
                 <p className={classes.smallInformation}>
                 <span>

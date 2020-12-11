@@ -5,6 +5,17 @@ import ProductItem from "../../../../../../../../components/product-item/product
 
 const ProductType = props => {
 
+    const setProduct = id => {
+        const selected = [...props.selected];
+        const index = selected.indexOf(id);
+        if (index === -1) {
+            selected.push(id)
+        } else {
+            selected.splice(index, 1)
+        }
+        props.setSelected(selected)
+    }
+
     return (
         <div className={classes.productType}>
             <Grid container spacing={2}>
@@ -15,9 +26,10 @@ const ProductType = props => {
                             return (
                                 <div key={`product-item-${item.id}`} className={props.screen ? classes.item : classes.fullscreenItem}>
                                     <ProductItem
-                                        key={`product-item-${item.id}`}
                                         data={item}
+                                        selected={props.selected}
                                         // Methods
+                                        setProduct={setProduct}
                                         onClick={props.onClick}
                                     />
                                 </div>
