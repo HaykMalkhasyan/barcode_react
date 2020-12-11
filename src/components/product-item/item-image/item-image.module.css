@@ -12,4 +12,5 @@
 .imageWindow > img {
     display: block;
     height: 150px;
+    user-select: none;
 }

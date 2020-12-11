@@ -8,10 +8,12 @@ import ProductTable from "../../../../../../../components/table/product-table/pr
 import {getLanguage} from "../../../../../../../controllers/languages/languages";
 import cookie from "../../../../../../../services/cookies";
 import ProductType from "./product-type/product-type";
+import ListType from "./list-type/list-type";
 
 const RightPanel = props => {
     const [filters, setFilters] = useState(false);
-    const [active, setActive] = useState(3)
+    const [active, setActive] = useState(+localStorage.getItem("page_type") ||3)
+    const [selected, setSelected] = useState([]);
 
     const changeHandler = (event, page) => {
         props.setProductValues('productLoadingStatus', true);
@@ -53,6 +55,7 @@ const RightPanel = props => {
                 })
             } else if (key === "item_name") {
                 array.push({
+                    sortingOrder: ['asc', 'desc'],
                     headerClass: "tableHeader",
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
                     field: key,
@@ -67,6 +70,7 @@ const RightPanel = props => {
                 })
             } else if (key === "create_date" || key === "del_date") {
                 array.push({
+                    sortingOrder: ['asc', 'desc'],
                     headerClass: "tableHeader",
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
@@ -81,6 +85,7 @@ const RightPanel = props => {
                 })
             } else {
                 array.push({
+                    sortingOrder: ['asc', 'desc'],
                     headerClass: "tableHeader",
                     suppressMenu: true,
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
@@ -165,14 +170,25 @@ const RightPanel = props => {
         switch (type) {
             case 1:
                 return (
-                    <div>Type list</div>
+                    <ListType
+                        products={props.products}
+                        screen={props.screen}
+                        selected={selected}
+                        measurements={props.measurements}
+                        suppliers={props.suppliers}
+                        // Methods
+                        setSelected={setSelected}
+                        onClick={props.getProduct}
+                    />
                 );
             case 2:
                 return (
                     <ProductType
                         products={props.products}
                         screen={props.screen}
+                        selected={selected}
                         // Methods
+                        setSelected={setSelected}
                         onClick={props.getProduct}
                     />
                 )
@@ -186,7 +202,7 @@ const RightPanel = props => {
                         columnDefinition={columnDefinition}
                         rowSelection="multiple"
                         rowClassRules={rowClassRules}
-                        animateRows={true}
+                        animateRows={false}
                         rowDragManaged={true}
                         enableMultiRowDragging={true}
                         enableRangeSelection={true}
@@ -212,6 +228,7 @@ const RightPanel = props => {
                 // Methods
                 setActive={setActive}
                 setFilters={setFilters}
+                setSelected={setSelected}
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
                 toggleAddModalHandler={toggleAddModalHandler}

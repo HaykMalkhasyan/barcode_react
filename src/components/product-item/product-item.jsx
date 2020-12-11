@@ -7,9 +7,16 @@ import {Tooltip} from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 const ProductItem = props => {
+    const cls = [
+        classes.product,
+        props.selected.indexOf(props.data.id) !== -1 ?
+            classes.selected
+            :
+            ""
+    ]
 
     return (
-        <div className={classes.product}>
+        <div className={cls.join(" ")} onClick={() => props.setProduct(props.data.id)}>
             {
                 props.data.show_in_site ?
                     <Tooltip title="Ցուցադրված է կայքում" placement="left">
