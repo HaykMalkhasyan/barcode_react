@@ -151,8 +151,11 @@ const App = (props) => {
 
   useEffect(()=>{
 let isDown = {bool:false};
-let val
+let val;
+let index;
     function controll(e){
+      console.log('e.target', {a:e.target.id})
+      index=e.target.id
       e.stopPropagation();
       if(e.target.className.includes && (e.target.className.includes("rightControll")||e.target.className.includes("leftControll") || e.target.className.includes("topControll") || e.target.className.includes("bottomControll"))){
         isDown = {bool:true, id: e.target.className.split(" ")[1]}
@@ -165,10 +168,9 @@ let val
 
     function controlMove(e){
       if(isDown.bool){
-        
-        
-        let fullWidth = mmtopx(parseInt(document.getElementsByClassName("paperRef")[0].style.width)) + document.getElementsByClassName("paperRef")[0].getBoundingClientRect().left + window.scrollX
-        let fullHeight = mmtopx(parseInt(document.getElementsByClassName("paperRef")[0].style.height)) + document.getElementsByClassName("paperRef")[0].getBoundingClientRect().top + window.scrollY
+        let currentPaper = document.getElementsByClassName("paperRef")[index]
+        let fullWidth = mmtopx(parseInt(currentPaper.style.width)) + currentPaper.getBoundingClientRect().left + window.scrollX
+        let fullHeight = mmtopx(parseInt(currentPaper.style.height)) + currentPaper.getBoundingClientRect().top + window.scrollY
         switch (isDown.id) {
           case "rightControll":
             val= fullWidth-e.clientX
@@ -176,18 +178,28 @@ let val
             Array.from(document.getElementsByClassName("printMarginRight")).forEach(item=>{
               item.style.width = `${val}px`
             })
+           
+            Array.from(document.getElementsByClassName("topRulerMarginRight")).forEach(item=>{
+              item.style.width = `${val}px`
+            }) 
             break;
             case "leftControll":
-            val= e.clientX - document.getElementsByClassName("paperRef")[0].getBoundingClientRect().left + window.scrollX
+            val= e.clientX - currentPaper.getBoundingClientRect().left + window.scrollX
             val = val<0 ? 1 : val
             Array.from(document.getElementsByClassName("printMarginLeft")).forEach(item=>{
               item.style.width = `${val}px`
             })
+            Array.from(document.getElementsByClassName("topRulerMarginLeft")).forEach(item=>{
+              item.style.width = `${val}px`
+            })
             break;
             case "topControll":
-            val = e.clientY - document.getElementsByClassName("paperRef")[0].getBoundingClientRect().top + window.scrollY
+            val = e.clientY - currentPaper.getBoundingClientRect().top + window.scrollY
             val = val<0 ? 1 : val
             Array.from(document.getElementsByClassName("printMarginTop")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
+            Array.from(document.getElementsByClassName("LeftRulerMarginTop")).forEach(item=>{
               item.style.height = `${val}px`
             })
             break;
@@ -195,6 +207,9 @@ let val
             val=  fullHeight - e.clientY
             val = val<0 ? 1 : val
             Array.from(document.getElementsByClassName("printMarginBottom")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
+            Array.from(document.getElementsByClassName("LeftRulerMarginBottom")).forEach(item=>{
               item.style.height = `${val}px`
             })
             break;
@@ -214,7 +229,7 @@ let val
           setRight(Math.ceil(val))
           break;
         case "leftControll":
-          setLeft(val)
+          setLeft(Math.ceil(val))
         break;
         case "bottomControll":
           setBottom(Math.ceil(val))
@@ -247,20 +262,70 @@ let val
     onBeforeGetContent: ()=>{
       gridApi.redrawRows(); 
       gridApi.deselectAll();  
-      let papers = document.getElementsByClassName("paperRef")
-      let paperHeight = papers[0].style.height
-      Array.from(papers).forEach((item, i)=>{
-        item.style.top = `calc(${parseInt(paperHeight)*i}mm + ${25}px)`
+      Array.from(document.getElementsByClassName("rulerTop")).forEach(item=>{
+        item.style.display = "none"
       })
+      Array.from(document.getElementsByClassName("rulerLeft")).forEach(item=>{
+        item.style.display = "none"
+      })
+      // let papers = document.getElementsByClassName("paperRef")
+      // let paperHeight = papers[0].style.height
+      // Array.from(papers).forEach((item, i)=>{
+      //   item.style.top = `calc(${parseInt(paperHeight)*i}mm)`
+      // })
       // gridApi.setHeaderHeight(0)
+      let el = document.getElementsByClassName("ag-header ag-focus-managed ag-pivot-off")[1]
+              el.style.margin="0px 0px 10px -25px"
+              el.style.backgroundColor="#fff"
+              el.style.position = "relative"
+              el.style.top="unset"
+              el.style.zIndex = 20
+      const allCells = document.getElementsByClassName(
+        "ag-center-cols-container"
+      )[1];
+  allCells.style.margin = `${0}px ${right}px ${bottom}px ${left}px`;
+    },
+    onBeforePrint:()=>{
+      gridApi.redrawRows(); 
+      gridApi.deselectAll();  
     },
     content: () => tableRef.current,
+    pageStyle:()=>{
+      let marginTop = document.getElementsByClassName("printMarginTop")[0]
+      let paper = document.getElementsByClassName("paperRef")[0]
+      let paperHeight = paper.style.height
+      let paperWidth = paper.style.width
+      let orientation = paperWidth > paperHeight ? "landscape" : "portrait"
+      console.log('marginTop.style', marginTop.style.height)
+      let marginInPx = marginTop.style.height ? marginTop.style.height : "0px"
+      return `@page {size: ${ orientation };  margin:${marginInPx} 0px 0px 0px !important}`
+    },
     onAfterPrint: () => {
-      let papers = document.getElementsByClassName("paperRef")
-      let paperHeight = papers[0].style.height
-      Array.from(papers).forEach((item, i)=>{
-        item.style.top = `calc(${parseInt(paperHeight)*i}mm + ${25}px + ${65 * i}px)`
+      Array.from(document.getElementsByClassName("rulerTop")).forEach(item=>{
+        item.style.display = "flex"
       })
+      Array.from(document.getElementsByClassName("rulerLeft")).forEach(item=>{
+        item.style.display = "flex"
+      })
+      let el = document.getElementsByClassName("ag-header ag-focus-managed ag-pivot-off")[1]
+              el.style.margin="0px 0px 10px -25px"
+              el.style.backgroundColor="#fff"
+              el.style.position = "sticky"
+              el.style.top="40px"
+              el.style.zIndex = 20
+      console.log('top', top)
+      const allCells = document.getElementsByClassName(
+        "ag-center-cols-container"
+      )[1];
+      gridApi.setHeaderHeight(15)
+
+  allCells.style.margin = `${top}px ${right}px ${bottom}px ${left}px`;
+    
+      // let papers = document.getElementsByClassName("paperRef")
+      // let paperHeight = papers[0].style.height
+      // Array.from(papers).forEach((item, i)=>{
+      //   item.style.top = `calc(${parseInt(paperHeight)*i}mm + ${25}px + ${65 * i}px)`
+      // })
       props.setExportStatus({ bool: false });
       // gridApi.setDomLayout(null)
       props.setPending(false)
@@ -317,6 +382,7 @@ let val
     ...Object.keys(rowData[0]).map((item) => {
       if (item === "/") {
         return {
+          headerClass:"excelHeaderFirst",
           field: item,
           headerName:"",
           cellStyle: {
@@ -340,7 +406,7 @@ let val
       return {
         field: item,
         suppressMenu:true,
-        
+        headerClass:"excelHeader",
          
         valueFormatter: function (params) {
           if (params.value && params.value[0] === "=") {
@@ -597,13 +663,13 @@ let val
     let rightMargin = document.getElementsByClassName("printMarginRight")
     let leftMargin = document.getElementsByClassName("printMarginLeft")
 
-    function getNeededPapers(possibleCellsInPaper, allCellsLength, paperHeight, paperWidth, initialTop="calc(210mm + 25px)"){
+    function getNeededPapers(possibleCellsInPaper, allCellsLength, paperHeight, paperWidth){
       
-      console.log('PossibleCellsInPaper', possibleCellsInPaper)
-      console.log('allCellsLength', allCellsLength)
-      console.log('papersCount', Math.ceil(allCellsLength/possibleCellsInPaper))
-      console.log('paperHeight', paperHeight)
-      console.log('paperWidth', paperWidth)
+      // console.log('PossibleCellsInPaper', possibleCellsInPaper)
+      // console.log('allCellsLength', allCellsLength)
+      // console.log('papersCount', Math.ceil(allCellsLength/possibleCellsInPaper))
+      // console.log('paperHeight', paperHeight)
+      // console.log('paperWidth', paperWidth)
       let papersCount = Math.ceil(allCellsLength/possibleCellsInPaper)
       let bg = document.getElementById("printable")
       let marginTopHeight = topMargin && topMargin[0] && topMargin[0].style && topMargin[0].style.height;
@@ -623,6 +689,56 @@ let val
         let topMarginControl = document.createElement("span")
         topMarginControl.classList.add("marginControllerTop")
         topMarginControl.classList.add("topControll")
+        topMarginControl.setAttribute("id", i)
+
+        let topRuler = document.createElement("div")
+        topRuler.style.display="flex"
+        topRuler.style.justifyContent="flex-start"
+        let topRulerMarginLeft = document.createElement("div")
+        let topRulerMarginRight = document.createElement("div")
+        topRulerMarginLeft.classList.add("topRulerMarginLeft")
+        topRulerMarginRight.classList.add("topRulerMarginRight")
+        topRuler.appendChild(topRulerMarginLeft)
+        topRuler.appendChild(topRulerMarginRight)
+        let topMMCount = Math.floor(parseInt(paperWidth)/20)
+        for(let j=0; j<topMMCount; j++){
+          let mm20 = document.createElement("span")
+          mm20.style.width=`20mm`
+          mm20.style.height="15px"
+          mm20.style.fontSize="10px"
+          mm20.style.textAlign="right"
+          mm20.style.borderRight="1px solid black"
+          mm20.style.position="relative"
+          let unit = document.createElement("span")
+          unit.style.position="absolute";
+          unit.style.bottom="-5px";
+          unit.style.right="0px";
+          unit.innerHTML = `${(j+1)*20}mm`
+          mm20.appendChild(unit)
+          // mm20.style.display = "flex"
+          // mm20.style.justifyContent="flex-end"
+          // mm20.style.alignItems="flex-end"
+          let mm10 = document.createElement("span")
+          mm10.style.width=`10mm`
+          mm10.style.height="10px"
+          mm10.style.position="absolute"
+          mm10.style.left="0px"
+          mm10.style.borderRight="1px solid black"
+          let mm5 = document.createElement("span")
+          mm5.style.width=`5mm`
+          mm5.style.height="5px"
+          mm5.style.position="absolute"
+          mm5.style.left="0px"
+          mm5.style.borderRight="1px solid black"
+          mm10.appendChild(mm5)
+          let mm5_2 = mm5.cloneNode(true)
+          mm5_2.style.left="10mm"
+          mm20.appendChild(mm5_2)
+          mm20.appendChild(mm10)
+          topRuler.appendChild(mm20)
+        }
+        topRuler.classList.add("rulerTop")
+        marginTop.appendChild(topRuler)
         marginTop.appendChild(topMarginControl)
         marginTop.style.position="absolute"
         marginTop.style.top="0"
@@ -637,18 +753,79 @@ let val
         let leftMarginControl = document.createElement("span")
         leftMarginControl.classList.add("marginControllerLeft")
         leftMarginControl.classList.add("leftControll")
+        leftMarginControl.setAttribute("id", i)
         marginLeft.appendChild(leftMarginControl)
         marginLeft.style.position="absolute"
-        marginLeft.style.top="0"
+        marginLeft.style.top="10"
         marginLeft.style.left="0"
         marginLeft.style.width=marginLeftWidth
         marginLeft.style.height="100%"
         marginLeft.style.backgroundColor="#f9ebeb"
+
+
+
+        let LeftRuler = document.createElement("div")
+        LeftRuler.style.display="flex"
+        LeftRuler.style.justifyContent="flex-start"
+        LeftRuler.style.flexDirection="column"
+        let LeftRulerMarginLeft = document.createElement("div")
+        let LeftRulerMarginRight = document.createElement("div")
+        LeftRulerMarginLeft.classList.add("LeftRulerMarginTop")
+        LeftRulerMarginRight.classList.add("LeftRulerMarginBottom")
+        LeftRuler.appendChild(LeftRulerMarginLeft)
+        LeftRuler.appendChild(LeftRulerMarginRight)
+        let LeftMMCount = Math.floor(parseInt(paperHeight)/20)
+        for(let j=0; j<LeftMMCount; j++){
+          let mm20 = document.createElement("span")
+          mm20.style.height=`20mm`
+          mm20.style.width="16px"
+          mm20.style.fontSize="10px"
+          mm20.style.textAlign="right"
+          mm20.style.borderBottom="1px solid black"
+          mm20.style.position="relative"
+          let unit = document.createElement("span")
+          unit.style.position="absolute";
+          unit.style.bottom="0px";
+          unit.style.fontSize="9px"
+          unit.style.left="0px";
+          unit.innerHTML = `${(j+1)*20}mm`
+          mm20.appendChild(unit)
+          // mm20.style.display = "flex"
+          // mm20.style.justifyContent="flex-end"
+          // mm20.style.alignItems="flex-end"
+          let mm10 = document.createElement("span")
+          mm10.style.height=`10mm`
+          mm10.style.width="10px"
+          mm10.style.position="absolute"
+          mm10.style.left="0px"
+          mm10.style.borderBottom="1px solid black"
+          let mm5 = document.createElement("span")
+          mm5.style.height=`5mm`
+          mm5.style.width="5px"
+          mm5.style.position="absolute"
+          mm5.style.left="0px"
+          mm5.style.borderBottom="1px solid black"
+          mm10.appendChild(mm5)
+          let mm5_2 = mm5.cloneNode(true)
+          mm5_2.style.top="10mm"
+          mm20.appendChild(mm5_2)
+          mm20.appendChild(mm10)
+          LeftRuler.appendChild(mm20)
+        }
+        LeftRuler.classList.add("rulerLeft")
+        marginLeft.appendChild(LeftRuler)
+
+
+
+
+
+
         let marginBottom = document.createElement("div")
         marginBottom.classList.add("printMarginBottom")
         let bottomMarginControl = document.createElement("span")
         bottomMarginControl.classList.add("marginControllerBottom")
         bottomMarginControl.classList.add("bottomControll")
+        bottomMarginControl.setAttribute("id", i)
         marginBottom.appendChild(bottomMarginControl)
         marginBottom.style.position="absolute"
         marginBottom.style.bottom="0"
@@ -661,6 +838,8 @@ let val
         let rightMarginControl = document.createElement("span")
         rightMarginControl.classList.add("marginControllerRight")
         rightMarginControl.classList.add("rightControll")
+        rightMarginControl.setAttribute("id", i)
+
         marginRight.appendChild(rightMarginControl)
         marginRight.style.position="absolute"
         marginRight.style.top="0"
@@ -670,9 +849,9 @@ let val
         marginRight.style.backgroundColor="#f9ebeb"
         
         A4.classList.add("paperRef")
+        A4.setAttribute("index", i)
         A4.style.position="absolute"
         A4.style.top=`calc(${parseInt(paperHeight)*i}mm + ${25}px + ${65 * (i)}px)`
-         console.log(`calc(${parseInt(paperHeight)*i}mm + 65px + 45px * ${(i-1)}`)
         A4.style.left="35px"
         A4.style.width=paperWidth
         A4.style.height=paperHeight
@@ -693,14 +872,20 @@ let val
         let node = gridApi.getDisplayedRowAtIndex(paperHeight-1)
         console.log('paperHeight', paperHeight)
         setTimeout(()=>{
+          let papers = document.getElementsByClassName("paperRef")
+          let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
+          let width = papers && papers[0] && papers[0].style && papers[0].style.width ? papers[0].style.width : "210mm"
+          let cellsInPaper = Math.round(parseInt(height)/5.4) 
+          console.log('height', height)
+          getNeededPapers(cellsInPaper, rowData.length, height, width)
           gridApi.redrawRows()
         })
-        let papers = document.getElementsByClassName("paperRef")
-        let height = papers && papers[0] && papers[0].style && papers[0].style.height ? papers[0].style.height : "297mm"
-        let width = papers && papers[0] && papers[0].style && papers[0].style.width ? papers[0].style.width : "210mm"
-        let cellsInPaper = Math.round(parseInt(height)/5.4) 
-        console.log('height', height)
-        getNeededPapers(cellsInPaper, rowData.length, height, width)
+            Array.from(document.getElementsByClassName("LeftRulerMarginTop")).forEach(item=>{
+              item.style.height = `${top}px`
+            })
+            Array.from(document.getElementsByClassName("LeftRulerMarginBottom")).forEach(item=>{
+              item.style.height = `${bottom}px`
+            })
       }
     },[paperHeight])
 
@@ -717,6 +902,12 @@ let val
         let width = papers && papers[0] && papers[0].style && papers[0].style.width ? papers[0].style.width : "210mm"
         let cellsInPaper = Math.floor((parseInt(height) * 3.77  - top - bottom)/20.19)
         getNeededPapers(cellsInPaper, rowData.length, height, width)
+        Array.from(document.getElementsByClassName("LeftRulerMarginTop")).forEach(item=>{
+          item.style.height = `${top}px`
+        })
+        Array.from(document.getElementsByClassName("LeftRulerMarginBottom")).forEach(item=>{
+          item.style.height = `${bottom}px`
+        })
       }
     },[top, bottom])
     
@@ -728,8 +919,7 @@ let val
       marginTop = marginTop ? parseInt(marginTop) : 0
       marginBottom = marginBottom ? parseInt(marginBottom) : 0
       let breakCellIndex = Math.floor((parseInt(height) * 3.77  - marginTop - marginBottom)/20.19)
-      console.log('breakCellIndex', breakCellIndex)
-      return params.data["/"]%(breakCellIndex)===0
+      return params.data["/"]%(breakCellIndex+1)===0
     }
 
     function rowMargin(params){
@@ -741,19 +931,22 @@ let val
       let cellsInPaper = Math.floor((parseInt(height) * 3.77  - marginTop - marginBottom)/20.19)
       let singleCellHeight = 20.19
       let count = Math.floor(params.data["/"] / cellsInPaper)
+      // if(props.exportStatus.type){
+      //   if(params.data["/"]%cellsInPaper===0){
+      //     console.log('props.exportStatus', props.exportStatus, params.data["/"])
+      //   }
+      //   // return {marginTop: `calc(${height} - ${(cellsInPaper-1)*singleCellHeight}px + ${100 * count}px)`}
+      // }
       if(params.data["/"]%cellsInPaper===0){
-        if(props.exportStatus.type){
-          console.log('props.exportStatus', props.exportStatus)
-          return {marginTop: `calc(${height} - ${cellsInPaper*singleCellHeight}px + ${100 * count}px)`}
-        }
-        return {marginBottom: `calc(${height} - ${cellsInPaper*singleCellHeight}px + 66px)`}
+        // console.log('cellsInPaper', cellsInPaper)
+        return {marginBottom: `calc(${height} - ${cellsInPaper*singleCellHeight}px + 66px) !important`}
       }
     }
 
   return (
     <div >
       <div
-        style={{ position:"relative", width: "100%", display: "flex", justifyContent: "flex-end" }}
+        style={{ position:"sticky", top:"-10px", zIndex:100, width: "100%", display: "flex", justifyContent: "flex-end" }}
       >
         
         <TableOptins
@@ -780,16 +973,16 @@ let val
           setPaperWidth={setPaperWidth}
         />
       </div>
-      <div 
+      {/* <div 
       // style={{backgroundColor:"#e8e8e8"}}
       
-      >
+      > */}
       <div
       ref={tableRef}
       id="tableRef"
         className="ag-theme-alpine"
         style={{
-          margin:"0 auto",
+          margin:"20px auto",
           height: props.height ? props.height : 500,
           width: props.width ? props.width : "750px",
           opacity: `${opacity}`,
@@ -995,7 +1188,11 @@ let val
                allCells.style.left="-25px"
               let el = document.getElementsByClassName("ag-header ag-focus-managed ag-pivot-off")[1]
               el.style.margin="0px 0px 10px -25px"
-              el.style.backgroundColor="#fff"
+              el.style.backgroundColor="#e5e5e5"
+              el.style.border="none"
+              el.style.position = "sticky"
+              el.style.top="40px"
+              el.style.zIndex = 20
               let root = document.getElementsByClassName("ag-root-wrapper")[1]
               root.style.border="none"
               root.style.overflow="initial"
@@ -1011,7 +1208,6 @@ let val
           
         >
         </AgGridReact>
-        </div>
       </div>
     </div>
   );

@@ -90,6 +90,9 @@ const {
         Array.from(document.getElementsByClassName("printMarginTop")).forEach(item=>{
           item.style.height = `${val}px`
         })
+        Array.from(document.getElementsByClassName("LeftRulerMarginTop")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
         break;
       case "bottom":
         setBottom(val);
@@ -97,6 +100,9 @@ const {
         Array.from(document.getElementsByClassName("printMarginBottom")).forEach(item=>{
           item.style.height = `${val}px`
         })
+        Array.from(document.getElementsByClassName("LeftRulerMarginBottom")).forEach(item=>{
+              item.style.height = `${val}px`
+            })
         break;
       case "left":
         let el = document.getElementsByClassName(
@@ -106,7 +112,7 @@ const {
         colDefs.forEach((item, i) => {
           if (i === 0) {
             item.cellStyle = function (params) {
-              console.log('val', val)
+              // console.log('val', val)
               let obj = {};
               if (i === 0) {
                 return Object.assign(obj, {
