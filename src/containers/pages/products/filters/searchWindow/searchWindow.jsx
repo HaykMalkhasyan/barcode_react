@@ -3,10 +3,10 @@ import classes from '../filters.module.css'
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button"
 import {connect} from "react-redux"
 import {getAllProducts, setProductValues} from "../../../../../Redux/products/actions"
-import CustomSearchWindow from "./customSearchWindow/customSearchWindow";
 import AdvancedSearchWindow from "./advancedSearchWindow/advancedSearchWindow";
 import {searchHandler, setGroupValues} from "../../../../../Redux/characteristics/actions";
 import {setFiltersValue} from "../../../../../Redux/filtersContainer/actions";
+import {withRouter} from "react-router-dom";
 
 const SearchWindow = props => {
 
@@ -20,12 +20,11 @@ const SearchWindow = props => {
     };
 
     const productsSearchHandler =  async () => {
+        props.history.push("/products/search")
         if (Object.keys(props.advancedSearchConfig).length === 0) {
-            await props.getAllProducts(1);
-            props.setFiltersValue('type', 'products')
+            await props.getAllProducts(1, {});
         } else {
             await props.getAllProducts(1, {...props.advancedSearchConfig});
-            props.setFiltersValue('type', 'products')
         }
     };
 
@@ -85,4 +84,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchWindow)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchWindow))

@@ -83,6 +83,14 @@ const Router = props => {
                 path='/products/filters'
                 auth={props.auth}
                 component={LazyFiltersContainer}
+                type={"filters"}
+            />
+            <PrivateRoute
+                exact
+                path='/products/search'
+                auth={props.auth}
+                component={LazyFiltersContainer}
+                type={"products"}
             />
             {/* Prices */}
             <PrivateRoute

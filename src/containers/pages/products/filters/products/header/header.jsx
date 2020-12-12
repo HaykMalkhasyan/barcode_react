@@ -18,7 +18,6 @@ const Header = props => {
     const changeView = windowNumber => {
         localStorage.setItem("page_type", windowNumber);
         props.setActive(windowNumber)
-        // props.setSelected([])
     }
 
     return (

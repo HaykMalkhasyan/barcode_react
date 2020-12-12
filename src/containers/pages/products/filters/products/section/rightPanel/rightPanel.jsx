@@ -16,6 +16,7 @@ const RightPanel = props => {
     const [selected, setSelected] = useState([]);
 
     const changeHandler = (event, page) => {
+        setSelected([])
         props.setProductValues('productLoadingStatus', true);
         props.setProductValues('selected_products', []);
         props.getAllProducts(page, {...props.advancedSearchConfig})
@@ -30,29 +31,30 @@ const RightPanel = props => {
         const array = [];
         for (let key of Object.keys(products[0])) {
             if (key === "id") {
-                array.push({
-                    // field: "id",
-                    headerClass: "tableHeader",
-                    headerCheckboxSelection: true,
-                    checkboxSelection: true,
-                    pinned: "left",
-                    colId: "checkbox",
-                    sortable: false,
-                    resizable: false,
-                    lockPosition: true,
-                    cellClass: 'locked-col',
-                    width: 50,
-                    floatingFilter: false,
-                    rowDrag: false,
-                    filter: "agTextColumnFilter",
-                    suppressMenu: true,
-                    "rowDragText": function(params, dragItemCount) {
-                        if (dragItemCount > 1) {
-                            return dragItemCount + ' products';
-                        }
-                        return params.rowNode.data["item_name"];
-                    },
-                })
+                // continue;
+                // array.push({
+                //     // field: "id",
+                //     headerClass: "tableHeader",
+                //     headerCheckboxSelection: true,
+                //     checkboxSelection: true,
+                //     pinned: "left",
+                //     colId: "checkbox",
+                //     sortable: false,
+                //     resizable: false,
+                //     lockPosition: true,
+                //     cellClass: 'locked-col',
+                //     width: 50,
+                //     floatingFilter: false,
+                //     rowDrag: false,
+                //     filter: "agTextColumnFilter",
+                //     suppressMenu: true,
+                //     "rowDragText": function(params, dragItemCount) {
+                //         if (dragItemCount > 1) {
+                //             return dragItemCount + ' products';
+                //         }
+                //         return params.rowNode.data["item_name"];
+                //     },
+                // })
             } else if (key === "item_name") {
                 array.push({
                     sortingOrder: ['asc', 'desc'],
@@ -208,7 +210,9 @@ const RightPanel = props => {
                         enableRangeSelection={true}
                         enableFillHandle={true}
                         columnTypes={columnTypes}
+                        selected={selected}
                         // Methods
+                        setSelected={setSelected}
                         clickHandler={props.getProduct}
                     />
                 )

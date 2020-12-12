@@ -1,7 +1,6 @@
-import {BACK_FILTERS, CLOSE_CLASSIFIERS_WINDOW, SET_FILTERS_VALUE} from "./actionTypes";
+import {CLOSE_CLASSIFIERS_WINDOW, SET_FILTERS_VALUE} from "./actionTypes";
 
 const initialState = {
-    type: 'filters',
     selectedIndex: 0,
     toggleClassifier: false,
     activeTabs: JSON.parse(localStorage.getItem('activeTabs')) || [],
@@ -27,10 +26,6 @@ const initialState = {
 export default function filtersReducer(state = initialState, action) {
 
     switch (action.type) {
-        case BACK_FILTERS:
-            return {
-                ...state, type: "filters"
-            }
         case CLOSE_CLASSIFIERS_WINDOW:
             return {
                 ...state, selectedIndex: action.index, toggleClassifier: false

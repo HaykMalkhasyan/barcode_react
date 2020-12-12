@@ -167,6 +167,7 @@ export function getAllProducts(page, param = {}) {
 export function unfaltering() {
 
     return dispatch => {
+        localStorage.removeItem("searchConfig")
         dispatch(setFilterConfigs({}, ""))
         dispatch(getAllProducts(1, {}))
     }
@@ -194,14 +195,14 @@ export function nameFiltered(name) {
         } else {
             delete advancedSearchConfig["item_name"]
         }
+        localStorage.setItem("searchConfig", JSON.stringify(advancedSearchConfig))
         dispatch(setFilterConfigs(advancedSearchConfig, name))
     }
 }
 
 // Classifiers filter
-export function classifiersFiltered(classifier) {
+export function classifiersFiltered(classifier, productType) {
     return (dispatch, getState) => {
-        const type = getState().filters.type;
         const advancedSearchConfig = {...getState().products.advancedSearchConfig};
         if (classifier.id.length) {
             advancedSearchConfig["catedory_id"] = {
@@ -211,18 +212,19 @@ export function classifiersFiltered(classifier) {
         } else {
             delete advancedSearchConfig["catedory_id"]
         }
+        localStorage.setItem("activeWind", classifier.cat_id)
+        localStorage.setItem("searchConfig", JSON.stringify(advancedSearchConfig))
         dispatch(setFilterConfigs(advancedSearchConfig))
-        if (type === "products") {
+        if (productType === "products") {
             dispatch(getAllProducts(1, {...advancedSearchConfig}))
         }
     }
 }
 
 // Measurements filter
-export function measurementFiltered(selected) {
+export function measurementFiltered(selected, productType) {
 
     return (dispatch, getState) => {
-        const type = getState().filters.type;
         const advancedSearchConfig = {...getState().products.advancedSearchConfig};
         if (selected.length) {
             advancedSearchConfig["unit"] = {
@@ -232,18 +234,18 @@ export function measurementFiltered(selected) {
         } else {
             delete advancedSearchConfig["unit"];
         }
+        localStorage.setItem("searchConfig", JSON.stringify(advancedSearchConfig))
         dispatch(setFilterConfigs(advancedSearchConfig))
-        if (type === "products") {
+        if (productType === "products") {
             dispatch(getAllProducts(1, {...advancedSearchConfig}))
         }
     }
 }
 
 // Other filter
-export function otherFiltered(name, value) {
+export function otherFiltered(name, value, productType) {
 
     return (dispatch, getState) => {
-        const type = getState().filters.type;
         const advancedSearchConfig = {...getState().products.advancedSearchConfig};
         if (advancedSearchConfig[name]) {
             delete advancedSearchConfig[name]
@@ -253,8 +255,9 @@ export function otherFiltered(name, value) {
                 type: "in"
             }
         }
+        localStorage.setItem("searchConfig", JSON.stringify(advancedSearchConfig))
         dispatch(setFilterConfigs(advancedSearchConfig))
-        if (type === "products") {
+        if (productType === "products") {
             dispatch(getAllProducts(1, {...advancedSearchConfig}))
         }
     }

@@ -34,7 +34,7 @@ const initialState = {
     count: null,
     page_count: null,
     product_search: '',
-    advancedSearchConfig: {},
+    advancedSearchConfig: JSON.parse(localStorage.getItem("searchConfig")) || {},
     collapsedStatus: [],
     open: false,
     initialOpen: null,

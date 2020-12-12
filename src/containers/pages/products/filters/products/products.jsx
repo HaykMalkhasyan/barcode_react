@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import classes from './products.module.css'
 import Section from "./section/section";
 import {connect} from "react-redux";
-import {backFiltersPage, setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
+import {setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {
     getAllProducts,
     getProduct,
@@ -14,6 +14,7 @@ import Backdrop from "../../../../../components/UI/backdrop/backdrop";
 import CustomButton from "../../../../../components/UI/button/customButton/custom-button";
 import TuneIcon from '@material-ui/icons/Tune';
 import {getSuppliers} from "../../../../../Redux/suppliers/action";
+import {withRouter} from "react-router-dom";
 
 class Products extends Component{
     constructor(props) {
@@ -22,7 +23,7 @@ class Products extends Component{
             open : false,
             filter_open: false
         };
-        // this.props.getAllProducts(1)
+        this.props.getAllProducts(1, {...props.advancedSearchConfig})
         props.getSuppliers()
     }
 
@@ -49,6 +50,10 @@ class Products extends Component{
     toggleFilters = () => {
         this.setState({filter_open: !this.state.filter_open})
     };
+
+    backFiltersPage = () => {
+        this.props.history.push("/products/filters")
+    }
 
     render() {
 
@@ -88,7 +93,7 @@ class Products extends Component{
                     toggleBackdrop={this.toggleBackdrop}
                     toggleFilters={this.toggleFilters}
                     unfaltering={this.props.unfaltering}
-                    backFiltersPage={this.props.backFiltersPage}
+                    backFiltersPage={this.backFiltersPage}
                 />
                 <CustomButton
                     className={classes.filtersButton}
@@ -127,10 +132,9 @@ function mapDispatchToProps(dispatch) {
         setProductValues: (name, value) => dispatch(setProductValues(name, value)),
         getProduct: id => dispatch(getProduct(id)),
         sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
-        backFiltersPage: () => dispatch(backFiltersPage()),
         getSuppliers: () => dispatch(getSuppliers()),
         unfaltering: () => dispatch(unfaltering()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Products));
