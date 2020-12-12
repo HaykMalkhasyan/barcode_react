@@ -9,6 +9,16 @@ const OtherFilters = props => {
     const [selected, setSelected] = useState([]);
 
     useEffect(() => {
+        if (localStorage.getItem("searchConfig") && selected.length === 0) {
+            const search_config = []
+            if (JSON.parse(localStorage.getItem("searchConfig")).active) {
+                search_config.push(2)
+            }
+            if (JSON.parse(localStorage.getItem("searchConfig")).show_in_site) {
+                search_config.push(1)
+            }
+            setSelected(search_config);
+        }
         if (props.advancedSearchConfig && Object.keys(props.advancedSearchConfig).length === 0) {
             setSelected([])
         }
@@ -26,7 +36,7 @@ const OtherFilters = props => {
             initial_selected.splice(initial_selected.indexOf(id), 1)
         }
         setSelected(initial_selected)
-        props.otherFiltered(event.target.name, +event.target.value)
+        props.otherFiltered(event.target.name, +event.target.value, props.productSearchType)
     }
 
     return (

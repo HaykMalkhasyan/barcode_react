@@ -26,7 +26,18 @@ class ClassifiersTree extends Component {
         };
     }
 
+    componentDidMount() {
+        if (localStorage.getItem("searchConfig") && JSON.parse(localStorage.getItem("searchConfig")).catedory_id) {
+            const search_config = JSON.parse(localStorage.getItem("searchConfig")).catedory_id.value.split(",");
+            const selected = search_config.map(item => Number(item));
+            this.setState({
+                selected: selected,
+            })
+        }
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if (Object.keys(prevProps.advancedSearchConfig).length !== Object.keys(this.props.advancedSearchConfig).length && Object.keys(this.props.advancedSearchConfig).length === 0) {
             this.setState({
                 selected: []
@@ -76,7 +87,7 @@ class ClassifiersTree extends Component {
         if (node.cat_id === 0) {
             let selected;
             const selected_cat_id = this.state.selected_cat_id;
-            if (+node.cat_id === selected_cat_id) {
+            if (+node.cat_id === selected_cat_id || +node.cat_id === +localStorage.getItem("activeWind")) {
                 selected = [...this.state.selected];
             } else {
                 selected = []
@@ -88,7 +99,7 @@ class ClassifiersTree extends Component {
                 selected.splice(index, 1)
             }
             this.setState({selected, selected_cat_id: +node.cat_id})
-            this.props.classifiersFiltered({cat_id: node.cat_id, id: [...selected]})
+            this.props.classifiersFiltered({cat_id: node.cat_id, id: [...selected]}, this.props.productSearchType)
         }
     }
 
@@ -161,7 +172,6 @@ function mapStateToProps(state) {
 
     return {
         filter_subgroups: state.characteristics.filter_subgroups,
-
         groups: state.characteristics.groups,
         group: state.characteristics.group,
         active: state.characteristics.active,

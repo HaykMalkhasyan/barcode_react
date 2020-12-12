@@ -31,8 +31,12 @@ import CollapsedFilters from "./filters/collapsedFilters/collapsedFilters";
 import OtherFilters from "./filters/otherFilters/otherFilters";
 import CustomSearchWindow from "./searchWindow/customSearchWindow/customSearchWindow";
 import LinearSpinner from "../../../../components/UI/spinners/linearSpiner/linearSpinner";
-import Products from "./products/products";
 import ProductsModal from "./product-modal/product-modal";
+import {Route, Switch} from "react-router-dom";
+// const LazyProducts = React.lazy(() => {
+//     return import("./products/products");
+// });
+import Products from "./products/products";
 
 class Filters extends Component {
     constructor(props) {
@@ -51,7 +55,7 @@ class Filters extends Component {
     }
 
     contentRender = () => {
-        switch (this.props.type) {
+        switch (this.props.productSearchType) {
             case 'filters':
                 return (
                     <SearchWindow/>
@@ -85,6 +89,7 @@ class Filters extends Component {
                         {/* CUSTOM SEARCH */}
                         <ClassifiersTree
                             advancedSearchConfig={this.props.advancedSearchConfig}
+                            productSearchType={this.props.productSearchType}
                             // Methods
                             classifierOpenHandler={this.classifierOpenHandler}
                             classifiersFiltered={this.props.classifiersFiltered}
@@ -92,12 +97,14 @@ class Filters extends Component {
                         <CollapsedFilters
                             measurements={this.props.measurements}
                             advancedSearchConfig={this.props.advancedSearchConfig}
+                            productSearchType={this.props.productSearchType}
                             // Methods
                             measurementFiltered={this.props.measurementFiltered}
                         />
                         <OtherFilters
                             otherFilters={this.props.otherFilters}
                             advancedSearchConfig={this.props.advancedSearchConfig}
+                            productSearchType={this.props.productSearchType}
                             // Methods
                             otherFiltered={this.props.otherFiltered}
                         />
@@ -106,7 +113,7 @@ class Filters extends Component {
                         <div className={classes.desktopSearch}>
                             <CustomSearchWindow
                                 search={this.props.product_search}
-                                type={this.props.type}
+                                type={this.props.productSearchType}
                                 // Methods
                                 nameFiltered={this.props.nameFiltered}
                                 // EVENTS
@@ -154,7 +161,7 @@ class Filters extends Component {
 function mapStateToProps(state) {
 
     return {
-        type: state.filters.type,
+        auth: state.auth.auth,
         screen: state.products.screen,
         product_search: state.products.product_search,
         initialOpen: state.products.initialOpen,
@@ -206,9 +213,9 @@ function mapDispatchToProps(dispatch) {
         openClassifiers: id => dispatch(openClassifiers(id)),
         openModalContent: item => dispatch(openModalContent(item)),
         checkGroup: (type, item, id, place, index) => dispatch(checkGroup(type, item, id, place, index)),
-        measurementFiltered: selected => dispatch(measurementFiltered(selected)),
-        otherFiltered: (name, value) => dispatch(otherFiltered(name, value)),
-        classifiersFiltered: classifier => dispatch(classifiersFiltered(classifier)),
+        measurementFiltered: (selected, type) => dispatch(measurementFiltered(selected, type)),
+        otherFiltered: (name, value, type) => dispatch(otherFiltered(name, value, type)),
+        classifiersFiltered: (classifier, type) => dispatch(classifiersFiltered(classifier, type)),
         nameButtonSearch: () => dispatch(nameButtonSearch()),
     }
 }

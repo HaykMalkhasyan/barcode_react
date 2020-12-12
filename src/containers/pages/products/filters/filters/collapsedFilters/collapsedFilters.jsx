@@ -9,6 +9,11 @@ const CollapsedFilters = props => {
     const [value, setValue] = React.useState([]);
 
     useEffect(() => {
+        if (localStorage.getItem("searchConfig") && JSON.parse(localStorage.getItem("searchConfig")).unit) {
+            const search_config = JSON.parse(localStorage.getItem("searchConfig")).unit.value.split(",");
+            const selected = search_config.map(item => Number(item));
+            setValue(selected);
+        }
         if (props.advancedSearchConfig && Object.keys(props.advancedSearchConfig).length === 0) {
             setValue([])
         }
@@ -22,7 +27,7 @@ const CollapsedFilters = props => {
             selected.splice(selected.indexOf(+event.target.value), 1)
         }
         setValue(selected);
-        props.measurementFiltered(selected)
+        props.measurementFiltered(selected, props.productSearchType)
     };
 
     const collapsed = () => {

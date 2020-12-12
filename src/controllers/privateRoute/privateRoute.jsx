@@ -4,7 +4,7 @@ import Spinner from "../../components/UI/spinners/spinner/spinner";
 import MainLayoutRoute from "../../containers/hoc/layouts/routs/mainRoutes";
 import FullPageLayoutRoute from "../../containers/hoc/layouts/routs/fullPageRoutes";
 
-const PrivateRoute = ({auth,component: Component, ...rest}) => {
+const PrivateRoute = ({auth,component: Component, type: productSearchType,  ...rest}) => {
     if (auth) {
         return (
             <MainLayoutRoute
@@ -12,7 +12,7 @@ const PrivateRoute = ({auth,component: Component, ...rest}) => {
                 render={
                     matchprops => (
                         <Suspense fallback={<Spinner color='secondary'/>}>
-                            <Component {...matchprops}/>
+                            <Component productSearchType={productSearchType} {...matchprops}/>
                         </Suspense>
                     )
                 }
