@@ -314,8 +314,8 @@ export class Barcode {
 
     static random(code) {
 
-        switch (code.toLowerCase()) {
-            case 'ean13': {
+        switch (code) {
+            case 'EAN-13': {
                 let initial_barcode_13 = (Math.floor(100000000000 + Math.random() * 900000000000)).toString();
                 let sum_13 = 0;
                 let check_digit_13 = 0;
@@ -332,7 +332,7 @@ export class Barcode {
                 initial_barcode_13 += check_digit_13;
                 return initial_barcode_13;
             }
-            case 'ean8': {
+            case 'EAN-8': {
                 let initial_barcode_8 = (Math.floor(1000000 + Math.random() * 9000000)).toString();
                 let sum_8 = 0;
                 let check_digit_8 = 0;

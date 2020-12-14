@@ -17,15 +17,105 @@ const RightPanel = props => {
 
     const changeHandler = (event, page) => {
         setSelected([])
-        props.setProductValues('productLoadingStatus', true);
-        props.setProductValues('selected_products', []);
+        props.productChange(true, [], page);
         props.getAllProducts(page, {...props.advancedSearchConfig})
     };
 
-    const toggleAddModalHandler = (name, value, scrollType) => {
-        props.setProductValues(name, value);
-        props.setProductValues('scroll', scrollType)
+    const dataRender = products => {
+        const data = JSON.parse(JSON.stringify(products));
+
+        for (let item of data) {
+            item.show_in_site = item.show_in_site === 1 ? "Այո" : "Ոչ";
+            item.deleted = item.deleted ? "ջնջված է" : "առկա է"
+            item.active = item.active === 1 ? "ակտիվ չէ" : "ակտիվ է";
+            for (let type of props.types) {
+                if (item.service === type.id) {
+                    item.service = type.name
+                }
+            }
+            for (let measurement of props.measurements) {
+                if (item.unit === measurement.id) {
+                    item.unit = measurement.name
+                }
+            }
+            if (props.suppliers && props.suppliers.length) {
+                const suppliers = [];
+                let all_id = item["firms"] && item["firms"].length ? item["firms"].split(",").map(id => Number(id)) : null;
+                if (all_id && all_id.length) {
+                    for (let sItem of props.suppliers) {
+                        if (all_id.indexOf(sItem.id) !== -1) {
+                            suppliers.push(sItem.name)
+                        }
+                    }
+                }
+                item.firms = suppliers;
+            }
+        }
+        return data
+    }
+
+    // PRODUCT TABLE METHODS AND EVENTS
+    const onGridReady = params => {
+
+        if (selected && selected.length) {
+            if (params.api) {
+                params.api.forEachNode(node => {
+                    if (selected.indexOf(node.data.id) !== -1) {
+                        node.setSelected(true)
+                    }
+                });
+            }
+        }
+    }
+
+    const onColumnEvent = params => {
+        if (params.colDef.field === "item_name") {
+            if (selected.indexOf(params.data.id) === -1) {
+                params.node.setSelected(false)
+            } else {
+                params.node.setSelected(true)
+            }
+            props.getProduct(params.data.id)
+        } else {
+            const init_selected = [...selected];
+            const id = params.data.id;
+            const index = selected.indexOf(id);
+            if (index === -1) {
+                init_selected.push(id)
+                // params.api.setSelected(true)
+            } else {
+                init_selected.splice(index, 1)
+            }
+            setSelected(init_selected)
+        }
+    }
+
+    const rowClassRules = {
+        'red-row': 'data.id % 2 === 0',
+        'green-row': 'data.id % 2 === 1',
     };
+
+    const columnTypes = {
+        dateColumn: {
+            filter: "agDateColumnFilter",
+            filterParams: {
+                "comparator": function (filterLocalDateAtMidnight, cellValue) {
+                    let dateParts = cellValue.split('-');
+                    let day = Number(dateParts[2].split(" ")[0]);
+                    let month = Number(dateParts[1])-1;
+                    let year = Number(dateParts[0]);
+                    let cellDate = new Date(year, month, day);
+                    if (cellDate < filterLocalDateAtMidnight) {
+                        return -1;
+                    } else if (cellDate > filterLocalDateAtMidnight) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
 
     const columnsRender = (products) => {
         const array = [];
@@ -57,6 +147,7 @@ const RightPanel = props => {
                 // })
             } else if (key === "item_name") {
                 array.push({
+                    pinned: "left",
                     sortingOrder: ['asc', 'desc'],
                     headerClass: "tableHeader",
                     headerName: getLanguage(cookie.get("language") || "am", key)/*.toUpperCase()*/ || key,
@@ -105,67 +196,8 @@ const RightPanel = props => {
         return array;
     }
 
-    const columnTypes = {
-        dateColumn: {
-            filter: "agDateColumnFilter",
-            filterParams: {
-                "comparator": function (filterLocalDateAtMidnight, cellValue) {
-                    let dateParts = cellValue.split('-');
-                    let day = Number(dateParts[2].split(" ")[0]);
-                    let month = Number(dateParts[1])-1;
-                    let year = Number(dateParts[0]);
-                    let cellDate = new Date(year, month, day);
-                    if (cellDate < filterLocalDateAtMidnight) {
-                        return -1;
-                    } else if (cellDate > filterLocalDateAtMidnight) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
-
     const columnDefinition = props.products && props.products.length ? columnsRender(props.products) : [];
-
-    const rowClassRules = {
-        'red-row': 'data.id % 2 === 0',
-        'green-row': 'data.id % 2 === 1',
-    };
-
-    const dataRender = products => {
-        const data = JSON.parse(JSON.stringify(products));
-
-        for (let item of data) {
-            item.show_in_site = item.show_in_site === 1 ? "Այո" : "Ոչ";
-            item.deleted = item.deleted ? "ջնջված է" : "առկա է"
-            item.active = item.active === 1 ? "ակտիվ չէ" : "ակտիվ է";
-            for (let type of props.types) {
-                if (item.service === type.id) {
-                    item.service = type.name
-                }
-            }
-            for (let measurement of props.measurements) {
-                if (item.unit === measurement.id) {
-                    item.unit = measurement.name
-                }
-            }
-            if (props.suppliers && props.suppliers.length) {
-                const suppliers = [];
-                let all_id = item["firms"] && item["firms"].length ? item["firms"].split(",").map(id => Number(id)) : null;
-                if (all_id && all_id.length) {
-                    for (let sItem of props.suppliers) {
-                        if (all_id.indexOf(sItem.id) !== -1) {
-                            suppliers.push(sItem.name)
-                        }
-                    }
-                }
-                item.firms = suppliers;
-            }
-        }
-        return data
-    }
+    // ---------------------------------------------------------------------------------------------------
 
     const contentRender = type => {
 
@@ -198,7 +230,6 @@ const RightPanel = props => {
             default:
                 return (
                     <ProductTable
-                        tableType={"product"}
                         tabs={props.tabs}
                         data={dataRender(props.products)}
                         columnDefinition={columnDefinition}
@@ -210,10 +241,9 @@ const RightPanel = props => {
                         enableRangeSelection={true}
                         enableFillHandle={true}
                         columnTypes={columnTypes}
-                        selected={selected}
                         // Methods
-                        setSelected={setSelected}
-                        clickHandler={props.getProduct}
+                        onColumnEvent={onColumnEvent}
+                        onGridReady={onGridReady}
                     />
                 )
         }
@@ -235,7 +265,7 @@ const RightPanel = props => {
                 setSelected={setSelected}
                 onClick={props.onClick}
                 toggleBackdrop={props.toggleBackdrop}
-                toggleAddModalHandler={toggleAddModalHandler}
+                toggleAddModalHandler={props.toggleAddModal}
                 unfaltering={props.unfaltering}
                 backFiltersPage={props.backFiltersPage}
                 setProductValues={props.setProductValues}
@@ -245,12 +275,13 @@ const RightPanel = props => {
                     <>
                         {contentRender(active)}
                         <p className={classes.showCount}>
-                            Ցուցադրված է 20 հատ ապրանք {props.count}-ից
+                            Ցուցադրված է {props.products.length} հատ ապրանք {props.count}-ից
                         </p>
                         <div className={classes.paginationWindow}>
                             {
-                                props.count ?
+                                props.products && props.products.length && props.count ?
                                     <Pagination
+                                        page={props.activePage}
                                         count={props.page_count}
                                         // hidePrevButton
                                         // hideNextButton
@@ -281,7 +312,7 @@ const RightPanel = props => {
                                 }
                                 // Methods
                                 onClick={
-                                    () => toggleAddModalHandler('open', 'add', 'body')
+                                    () => props.toggleAddModal('open', 'add', 'body')
                                 }
                             />
                         </div>

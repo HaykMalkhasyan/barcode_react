@@ -12,6 +12,7 @@ const Section = props => {
                 activeTabs={props.activeTabs}
                 tabs={props.tabs}
                 count={props.count}
+                activePage={props.activePage}
                 page_count={props.page_count}
                 products={props.products}
                 types={props.types}
@@ -29,6 +30,8 @@ const Section = props => {
                 toggleBackdrop={props.toggleBackdrop}
                 unfaltering={props.unfaltering}
                 backFiltersPage={props.backFiltersPage}
+                toggleAddModal={props.toggleAddModal}
+                productChange={props.productChange}
             />
         </div>
     )

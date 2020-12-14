@@ -5,7 +5,7 @@ import {
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
     IMPORT_GROUP_IN_PRODUCT_CLOSE,
-    ONLY_ADD_PRODUCT,
+    ONLY_ADD_PRODUCT, PRODUCT_CHANGE,
     SET_ALL_IMAGES, SET_DELETE,
     SET_FILTERS_CONFIG, SET_FILTERS_CONFIG_WITH_TEXT,
     SET_MAIN_IMAGE,
@@ -16,7 +16,7 @@ import {
     SET_SAVE_PRODUCT,
     SET_SELECT_GROUP_ITEM,
     SET_SUBGROUP,
-    SET_TAB_VALUE
+    SET_TAB_VALUE, TOGGLE_ADD_MODAL
 } from "./actionTypes";
 import {SET_PRODUCTS_BARCODE_VALUE} from "../barcode/actionTypes";
 import {PROD_GROUP_SET} from "../characteristics/actionTypes";
@@ -28,12 +28,12 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import {FaBarcode} from "react-icons/fa";
 
 const initialState = {
-    screen: true,
+    screen: false,
     product: null,
     products: [],
     count: null,
     page_count: null,
-    product_search: '',
+    product_search:  localStorage.getItem("searchConfig") && JSON.parse(localStorage.getItem("searchConfig"))["item_name"] ? JSON.parse(localStorage.getItem("searchConfig"))["item_name"].value : '',
     advancedSearchConfig: JSON.parse(localStorage.getItem("searchConfig")) || {},
     collapsedStatus: [],
     open: false,
@@ -175,11 +175,20 @@ const initialState = {
     selected_products: [],
     productLoadingStatus: false,
     activeTab: 0,
+    activePage: 1
 };
 
 export default function productsReducer(state = initialState, action) {
 
     switch (action.type) {
+        case PRODUCT_CHANGE:
+            return {
+                ...state, productLoadingStatus: action.progressStatus, selected_products: action.selectedProducts, activePage: action.activePage
+            }
+        case TOGGLE_ADD_MODAL:
+            return {
+                ...state, [action.name]: action.value, scroll: action.scrollType
+            }
         case SET_DELETE:
             return {
                 ...state,
@@ -315,7 +324,8 @@ export default function productsReducer(state = initialState, action) {
                 products: action.products,
                 page_count: action.page_count,
                 count: action.count,
-                productLoadingStatus: false
+                productLoadingStatus: false,
+                activePage: action.activePage
             };
         case SET_PRODUCT_VALUES:
             return {

@@ -114,7 +114,7 @@ class PricesTab extends Component {
                                                     checkRef={parseInt(this.state.focus) === parseInt(index)}
                                                     id={item.id}
                                                     name={item.id}
-                                                    classNameLabel={this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
+                                                    classNameLabel={this.props.values && this.props.values[item.id] && this.props.values[item.id].length > 0 ? `${classes.label} ${ classes.active}` : classes.label}
                                                     classNameInput={parseInt(this.state.error) === item.id ? `${classes.input} ${classes.error}` : classes.input}
                                                     label={item.name}
                                                     placeholder={`[1-9]{1} / [0-9]`}
