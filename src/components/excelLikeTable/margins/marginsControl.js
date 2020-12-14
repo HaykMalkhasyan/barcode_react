@@ -49,15 +49,12 @@ const {
    useEffect(()=>{
      if(props.gridApi){
       if(topPrevious!==top){
-        console.log('top Changed', top)
         handleChange(top, null,"top");
       } else if(leftPrevious!==left){
-        console.log('left Changed', left)
         handleChange(left, null,"left");
       }else if(rightPrevious!==right){
         handleChange(right, null,"right");
       }else if(bottomPrevious!==bottom){
-        console.log('bottom Changed', bottom)
         handleChange(bottom, null,"bottom");
       }
 }
@@ -75,12 +72,6 @@ const {
     const allCells = document.getElementsByClassName(
       "ag-center-cols-container"
     )[1];
-    console.log('allCells', allCells)
-    // const right = document.getElementById("printMarginRight")
-    // const left = document.getElementById("printMarginLeft")
-    // const top = document.getElementById("printMarginTop")
-    // const bottom = document.getElementById("printMarginBottom")
-    // console.log('right left top bottom', right, left, top, bottom)
     let colDefs = props.gridApi.getColumnDefs();
 
     switch (side) {
@@ -112,7 +103,6 @@ const {
         colDefs.forEach((item, i) => {
           if (i === 0) {
             item.cellStyle = function (params) {
-              // console.log('val', val)
               let obj = {};
               if (i === 0) {
                 return Object.assign(obj, {
@@ -153,7 +143,6 @@ const {
         break;
     }
 
-    console.log("el", el);
   };
 
   return (
@@ -196,7 +185,7 @@ const {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">px</InputAdornment>
+                        <InputAdornment position="end">mm</InputAdornment>
                       ),
                     }}
                   />
@@ -212,7 +201,7 @@ const {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">px</InputAdornment>
+                        <InputAdornment position="end">mm</InputAdornment>
                       ),
                     }}
                   />
@@ -228,7 +217,7 @@ const {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">px</InputAdornment>
+                        <InputAdornment position="end">mm</InputAdornment>
                       ),
                     }}
                   />
@@ -244,7 +233,7 @@ const {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">px</InputAdornment>
+                        <InputAdornment position="end">mm</InputAdornment>
                       ),
                     }}
                   />

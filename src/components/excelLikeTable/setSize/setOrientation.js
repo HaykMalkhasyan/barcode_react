@@ -25,33 +25,26 @@ export default function ControllableStates(props) {
         let cont = document.getElementById("tableRef")
         let width = paper[0].style.width
         let height = paper[0].style.height
-        // console.log('orientation', event.target.value)
-        // console.log('height', height)
-        height==="210mm" ? props.setPaperHeight(39) : height==="250mm" ? props.setPaperHeight(46) : height==="297mm" ? props.setPaperHeight(55) : height==="353mm" ? props.setPaperHeight(65) : props.setPaperHeight(50);
+        console.log('height before', height)
+        height==="210mm" ? props.setPaperHeight(55) : height==="250mm" ? props.setPaperHeight(65) : height==="297mm" ? props.setPaperHeight(39) : height==="353mm" ? props.setPaperHeight(46) : props.setPaperHeight(50);
+        console.log('height==="210mm" ? props.setPaperHeight(39) : height==="250mm" ? props.setPaperHeight(46) : height==="297mm" ? props.setPaperHeight(55) : height==="353mm" ? props.setPaperHeight(65) : props.setPaperHeight(50);', height==="210mm" ? 39 : height==="250mm" ? 46 : height==="297mm" ? 55 : height==="353mm" ? 65 : 50)
         switch (event.target.value) {
           case "Landscape":
-            if(width<height){
-              // props.setPaperHeight(Math.random())
-              // setTimeout(()=>{
+            if(width < height){
                 Array.from(paper).forEach(item=>{
                     item.style.width = height
                     item.style.height = width
                   })
                   cont.style.width=height
-              // },50)  
             }
             break;
             case "Potrait":
-              if(width>height){
-                // props.setPaperHeight(Math.random())
-              
-                // setTimeout(()=>{
+              if(width > height){
                   Array.from(paper).forEach(item=>{
                     item.style.width = height
                     item.style.height = width
                   })
                   cont.style.width=height
-                // },50)
               }
               break;
           default:

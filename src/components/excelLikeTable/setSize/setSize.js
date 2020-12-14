@@ -22,7 +22,6 @@ export default function ControllableStates(props) {
         let cont = document.getElementById("tableRef")
         let width = paper[0].style.width
         let height = paper[0].style.height
-        console.log('size', event.target.value)
         switch (event.target.value) {
             case "A4":
               props.setPaperHeight(39);

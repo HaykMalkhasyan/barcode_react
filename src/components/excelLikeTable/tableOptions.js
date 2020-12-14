@@ -401,7 +401,7 @@ export default function CustomizedDividers(props) {
         let columns = itemN.columns.map((x) => x.colDef.field);
         columns.forEach((col, i) => {
           Object.assign(selectedFormateds, {
-            [col]: getObjects(selecteds[col], startRowIndex, endRowIndex, 
+            [col]: getObjects(selecteds[col], startRowIndex, endRowIndex,
               Object.assign({
                 border: "1px solid #d3d3d34d",
                 display:"flex",
@@ -441,37 +441,50 @@ export default function CustomizedDividers(props) {
   }
 
   useEffect(() => {
+    console.log('selecteds', selecteds)
     if (props.gridApi && Object.keys(selecteds).length ) {
       let colDefs = props.gridApi.getColumnDefs();
       let selected = Object.assign({}, props.gridApi.getCellRanges());
       if (!selected[0]) {
         return;
       }
-      props.gridApi.setColumnDefs([]);
+      // props.gridApi.setColumnDefs([]);
       colDefs.forEach((item, i) => {
         if (selecteds.hasOwnProperty(item.field)) {
           let def = item.cellStyle
           
           item.cellStyle = function (params) {
             if (selecteds[item.field].hasOwnProperty(params.data["/"])) {
+              let expandedIndex = allExpandedCells.findIndex(
+                (x) => x.col === item.field && x.row === params.data["/"]
+              );
+              if (expandedIndex !== -1) {
+                return { ...selecteds[item.field][params.data["/"]], backgroundColor:"#fff !important", zIndex:"7 !important",}
+              }else{
+                return {...selecteds[item.field][params.data["/"]], };
+              }
               // console.log('return selecteds[item.field][params.data["/"]];', selecteds[item.field][params.data["/"]])
-              return {...selecteds[item.field][params.data["/"]], marginTop: params.data["/"]>55 ? "150px !important" : "0px"};
+              
             }
             else {
-              // let expandedIndex = allExpandedCells.findIndex(
-              //   (x) => x.col === params.colDef.field && x.row === params.data["/"]
-              // );
-              // if (expandedIndex !== -1) {
-                return {border: "1px solid #d3d3d34d", backgroundColor:"#fff", lineHeight:"14px !important", marginTop: params.data["/"]>55 ? "150px !important" : "0px" }
-              // }else{
-              //   return {border: "1px solid #d3d3d34d", lineHeight:"14px !important"}
-              // }
+              let expandedIndex = allExpandedCells.findIndex(
+                (x) => x.col === params.colDef.field && x.row === params.data["/"]
+              );
+              if (expandedIndex !== -1) {
+                return {border: "1px solid #d3d3d34d", backgroundColor:"#fff", lineHeight:"14px !important", zIndex:"7 !important" }
+              }else{
+                return {border: "1px solid #d3d3d34d", lineHeight:"14px !important", zIndex:"1" }
+              }
             }
           };
         }
          
       });
       props.gridApi.setColumnDefs(colDefs);
+      props.gridApi.refreshCells()
+
+
+      
       let obj = {
         rowStartIndex: selected[0].startRow.rowIndex,
         rowEndIndex: selected[0].endRow.rowIndex,
@@ -479,22 +492,12 @@ export default function CustomizedDividers(props) {
         columnEnd:
           selected[0].columns[selected[0].columns.length - 1].colDef.field,
       };
+
+
       props.gridApi.addCellRange(obj);
-      console.log("selected[0]", selected[0]);
-      // props.gridApi.getRowNode(selected[0].endRow.rowIndex)
-      console.log(
-        "props.gridApi.getRowNode(selected[0].endRow.rowIndex)",
-        props.gridApi.getRowNode(selected[0].endRow.rowIndex)
-      );
       props.gridApi.ensureNodeVisible(
         props.gridApi.getRowNode(selected[0].endRow.rowIndex)
       );
-
-      // props.gridApi.setColumnDefs(colDefs)
-      // console.log('selectedCells', selectedCells)
-      // console.log('selected', selected)
-      // setTimeout(() => {
-      // }, 1);
     }
   }, [selecteds, props.gridApi]);
 
@@ -524,7 +527,6 @@ export default function CustomizedDividers(props) {
           gridApi={props.gridApi}
           setPaperHeight={setPaperHeight}
           setPaperWidth={setPaperWidth}
-
         />
         <TableFunctions
           selectedFunction={selectedFunction}
