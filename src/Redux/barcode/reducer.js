@@ -6,7 +6,7 @@ import {
     SET_DELETE_BARCODE,
     SET_PAPER_SIZE
 } from "./actionTypes";
-import {ADD_NEW_PRODUCT, CLOSE_PRODUCT_MODAL} from "../products/actionTypes";
+import {ADD_NEW_PRODUCT, CLOSE_PRODUCT_MODAL, SET_PRODUCT_MODAL_VALUES} from "../products/actionTypes";
 
 const initialState = {
     open: false,
@@ -72,6 +72,10 @@ const initialState = {
 export default function barcodeReducer(state = initialState, action) {
 
     switch (action.type) {
+        case SET_PRODUCT_MODAL_VALUES:
+            return {
+                ...state, barcode: action.barcode
+            }
         case ADD_NEW_PRODUCT:
             return {
                 ...state,

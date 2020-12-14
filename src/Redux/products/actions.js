@@ -2,7 +2,7 @@ import {
     ADD_NEW_PRODUCT,
     CLOSE_PRODUCT_MODAL,
     IMPORT_GROUP_IN_PRODUCT,
-    IMPORT_GROUP_IN_PRODUCT_CLOSE,
+    IMPORT_GROUP_IN_PRODUCT_CLOSE, PRODUCT_CHANGE,
     SET_ALL_IMAGES,
     SET_DELETE,
     SET_FILTERS_CONFIG,
@@ -14,7 +14,7 @@ import {
     SET_PRODUCTS,
     SET_SAVE_PRODUCT,
     SET_SUBGROUP,
-    SET_TAB_VALUE
+    SET_TAB_VALUE, TOGGLE_ADD_MODAL
 } from "./actionTypes";
 import Axios from "axios";
 import {getHeaders, getToken} from "../../services/services";
@@ -62,6 +62,7 @@ export function getProduct(id) {
         if (cookie.get('access')) {
             dispatch(setProductValues("productLoadingStatus", true))
             const main = {...getState().products.main};
+            const barcode = [];
             const classifiers = [];
             const suppliers = getState().suppliers.suppliers ? [...getState().suppliers.suppliers] : [];
             try {
@@ -80,6 +81,7 @@ export function getProduct(id) {
                 main.active = data.active;
                 main.show_in_site = data.show_in_site;
                 main.articul = data.articul;
+                barcode.push(...data["barcodes"]);
                 const subgroup = {...getState().characteristics.subgroup};
                 classifiers.push(subgroup);
                 const subgroups = [...getState().characteristics.subgroups];
@@ -99,7 +101,7 @@ export function getProduct(id) {
                 //     }
                 // );
 
-                dispatch(setProductModalValues(data, main, classifiers, selected))
+                dispatch(setProductModalValues(data, barcode, main, classifiers, selected))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -144,7 +146,7 @@ export function getAllProducts(page, param = {}) {
                             }
                     )
                 );
-                dispatch(setProducts(response.data.data, response.data.page_count, response.data.count))
+                dispatch(setProducts(response.data.data, response.data.page_count, response.data.count, page))
             } catch (error) {
                 if (error.response && error.response.status === 401 && error.response.statusText === "Unauthorized") {
                     const refresh_token = cookie.get('refresh');
@@ -333,7 +335,7 @@ export function setProduct(gallery, type) {
         }
         data.prices = [...prices]
         // Details (barcode)
-        // data.barcodes = [...barcode]; Պատրաստ չէ դեռ
+        data.barcodes = [...barcode]; // Պատրաստ չէ դեռ
         // Suppliers
         if (Object.keys(supplier).length) {
             data.firms = ""
@@ -574,15 +576,15 @@ export function deleteProduct() {
                 data.image_path = ""
                 data.deleted = 1;
                 delete data.barcodes // patrast chi dra hamar
-                const response = await Axios.put(API_URL, {
+                /*const response =*/ await Axios.put(API_URL, {
                     path: "Products/Product",
                     param: {...data},
                     cols: "id,articul,item_name,image_path,unit,service,create_date,del_date,firms,active,deleted,sort"
                 }, getHeaders({}, {}))
                 for (let [index, item] of Object.entries(products)) {
                     if (item.id === data.id) {
-                        products.splice(index, 1);
-                        break
+                        products.splice(+index, 1);
+                        break;
                     }
                 }
                 dispatch(setDelete(products))
@@ -681,11 +683,11 @@ export function setSubgroup(classifiers) {
     }
 }
 
-export function setProductModalValues(data, main, classifiers, selected) {
+export function setProductModalValues(data, barcode, main, classifiers, selected) {
 
     return {
         type: SET_PRODUCT_MODAL_VALUES,
-        data, main, classifiers, selected
+        data, barcode, main, classifiers, selected
     }
 }
 
@@ -713,13 +715,14 @@ export function setProductValues(name, value) {
     }
 }
 
-export function setProducts(products, page_count, count) {
+export function setProducts(products, page_count, count, activePage) {
 
     return {
         type: SET_PRODUCTS,
         products,
         page_count,
-        count
+        count,
+        activePage
     }
 }
 
@@ -734,5 +737,19 @@ export function setAllImages(images, pictures) {
 
     return {
         type: SET_ALL_IMAGES, images, pictures
+    }
+}
+
+export function toggleAddModal(name, value, scrollType) {
+
+    return {
+        type: TOGGLE_ADD_MODAL, name, value, scrollType
+    }
+}
+
+export function productChange(progressStatus, selectedProducts, activePage) {
+
+    return {
+        type: PRODUCT_CHANGE, progressStatus, selectedProducts, activePage
     }
 }

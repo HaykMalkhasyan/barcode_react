@@ -16,7 +16,7 @@ const CodeGeneration = props => {
     };
 
     const changeHandler = event => {
-       props.setDataValues(event.target.name, event.target.value)
+       props.setDataValues(event.target.name, event.target.value.toString())
     };
 
     const selectCodeType = (code) => {

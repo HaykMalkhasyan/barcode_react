@@ -32,10 +32,6 @@ import OtherFilters from "./filters/otherFilters/otherFilters";
 import CustomSearchWindow from "./searchWindow/customSearchWindow/customSearchWindow";
 import LinearSpinner from "../../../../components/UI/spinners/linearSpiner/linearSpinner";
 import ProductsModal from "./product-modal/product-modal";
-import {Route, Switch} from "react-router-dom";
-// const LazyProducts = React.lazy(() => {
-//     return import("./products/products");
-// });
 import Products from "./products/products";
 
 class Filters extends Component {
@@ -114,8 +110,10 @@ class Filters extends Component {
                             <CustomSearchWindow
                                 search={this.props.product_search}
                                 type={this.props.productSearchType}
+                                screen={this.props.screen}
                                 // Methods
                                 nameFiltered={this.props.nameFiltered}
+                                setProductValues={this.props.setProductValues}
                                 // EVENTS
                                 onClick={this.props.nameButtonSearch}
                             />

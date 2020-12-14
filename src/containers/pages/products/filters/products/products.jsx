@@ -5,9 +5,9 @@ import {connect} from "react-redux";
 import {setFiltersValue, sortTableTabs} from "../../../../../Redux/filtersContainer/actions";
 import {
     getAllProducts,
-    getProduct,
+    getProduct, productChange,
     selectProducts,
-    setProductValues,
+    setProductValues, toggleAddModal,
     unfaltering
 } from "../../../../../Redux/products/actions";
 import Backdrop from "../../../../../components/UI/backdrop/backdrop";
@@ -76,6 +76,7 @@ class Products extends Component{
                     activeTabs={this.props.activeTabs}
                     tabs={this.props.tabs}
                     count={this.props.count}
+                    activePage={this.props.activePage}
                     page_count={this.props.page_count}
                     products={this.props.products}
                     types={this.props.types}
@@ -84,16 +85,18 @@ class Products extends Component{
                     suppliers={this.props.suppliers}
                     advancedSearchConfig={this.props.advancedSearchConfig}
                     // Methods
+                    backFiltersPage={this.backFiltersPage}
+                    changeTabsHandler={this.changeTabsHandler}
+                    toggleBackdrop={this.toggleBackdrop}
+                    toggleFilters={this.toggleFilters}
                     getAllProducts={this.props.getAllProducts}
                     selectProducts={this.props.selectProducts}
                     setProductValues={this.props.setProductValues}
                     getProduct={this.props.getProduct}
                     sortTableTabs={this.props.sortTableTabs}
-                    changeTabsHandler={this.changeTabsHandler}
-                    toggleBackdrop={this.toggleBackdrop}
-                    toggleFilters={this.toggleFilters}
                     unfaltering={this.props.unfaltering}
-                    backFiltersPage={this.backFiltersPage}
+                    toggleAddModal={this.props.toggleAddModal}
+                    productChange={this.props.productChange}
                 />
                 <CustomButton
                     className={classes.filtersButton}
@@ -111,6 +114,7 @@ function mapStateToProps(state) {
     return {
         screen: state.products.screen,
         count: state.products.count,
+        activePage: state.products.activePage,
         page_count: state.products.page_count,
         products: state.products.products,
         types: state.products.types,
@@ -134,6 +138,8 @@ function mapDispatchToProps(dispatch) {
         sortTableTabs: (in_index, out_index) => dispatch(sortTableTabs(in_index, out_index)),
         getSuppliers: () => dispatch(getSuppliers()),
         unfaltering: () => dispatch(unfaltering()),
+        toggleAddModal: (name, value, scrollType) => dispatch(toggleAddModal(name, value, scrollType)),
+        productChange: (progressStatus, selectedProducts, activePage) => dispatch(productChange(progressStatus, selectedProducts, activePage)),
     }
 }
 
